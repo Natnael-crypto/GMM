@@ -43,7 +43,7 @@ export default function LanguageSelector({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            'w-[250px] justify-end bg-transparent font-bold flex gap-3',
+            'sm:w-[250px] justify-end bg-transparent font-bold flex gap-3',
             className
           )}
         >
@@ -62,7 +62,7 @@ export default function LanguageSelector({
             <FontAwesomeIcon
               icon={faChevronDown}
               className={cn(
-                'ml-2 h-3 w-3 shrink-0 opacity-80 transition-transform duration-200 ease-in-out',
+                'ml-2 h-2 w-2 shrink-0 opacity-80 transition-transform duration-200 ease-in-out',
                 open ? 'rotate-180' : 'transform rotate-0'
               )}
             />
@@ -71,7 +71,7 @@ export default function LanguageSelector({
       </PopoverTrigger>
 
       {/* Content */}
-      <PopoverContent className="w-[250px] p-2 border-none rounded-xl">
+      <PopoverContent className="w-full sm:w-[250px] p-2 border-none rounded-xl">
         <div className="relative">
           <Input
             value={value}
