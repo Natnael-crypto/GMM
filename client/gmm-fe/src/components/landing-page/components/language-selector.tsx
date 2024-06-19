@@ -16,22 +16,30 @@ import { faChevronDown, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { languages } from '@/config';
 import { flagMap } from '@/components/icons';
 import Image from 'next/image';
+import { LanguageSelectorProps } from '@/types';
 
-export default function LanguageSelector() {
+export default function LanguageSelector({
+  className,
+  text,
+}: LanguageSelectorProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
   const [selected, setSelected] = React.useState('sq');
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
+      {/* Header */}
       <PopoverTrigger asChild>
         <Button
           variant="default"
           role="combobox"
           aria-expanded={open}
-          className="w-[250px] justify-end bg-tertiary font-bold flex gap-3"
+          className={cn(
+            'w-[250px] justify-end bg-transparent font-bold flex gap-3',
+            className
+          )}
         >
-          <span>Language</span>
+          <span>{text}</span>
           <span className="flex items-center">
             <div className="w-6 h-6 rounded-full overflow-clip">
               <Image
@@ -53,7 +61,9 @@ export default function LanguageSelector() {
           </span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[250px] p-2 border-none">
+
+      {/* Content */}
+      <PopoverContent className="w-[250px] p-2 border-none rounded-xl">
         <div className="relative">
           <Input
             value={value}

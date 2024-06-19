@@ -3,3 +3,8 @@ export interface LocaleProps {
     locale: string;
   };
 }
+
+export interface LanguageSelectorProps {
+  text: string;
+  className?: string;
+}
