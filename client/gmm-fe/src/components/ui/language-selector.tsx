@@ -16,7 +16,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { faChevronDown, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { languages } from '@/config';
-import { flagMap } from '@/components/icons';
 import { LanguageSelectorProps } from '@/types';
 import { usePathname, useRouter } from '@/lib/navigation';
 
@@ -55,7 +54,7 @@ export default function LanguageSelector({
                 className="w-full h-full object-cover"
                 width={512}
                 height={512}
-                src={flagMap[locale]}
+                src={`/icons/lang/${locale}.svg`}
                 alt="Language Flag"
               />
             </div>
@@ -107,7 +106,7 @@ export default function LanguageSelector({
                         className="w-full h-full object-cover"
                         width={512}
                         height={512}
-                        src={flagMap[locale]}
+                        src={`/icons/lang/${locale}.svg`}
                         alt="Language Flag"
                       />
                     </div>

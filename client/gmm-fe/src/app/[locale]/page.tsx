@@ -1,4 +1,4 @@
-import LanguageSelector from '@/components/landing-page/components/language-selector';
+import LanguageSelector from '@/components/ui/language-selector';
 import { LocaleProps } from '@/types';
 import { useTranslations } from 'next-intl';
 
