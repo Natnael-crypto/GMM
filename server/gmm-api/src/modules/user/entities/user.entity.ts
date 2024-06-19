@@ -21,7 +21,7 @@ export class User {
   password: string;
 
   @Column({ nullable: true })
-  iDCard: string;
+  idCard: string;
 
   @Column({ nullable: true })
   guadianId: string;
