@@ -13,14 +13,14 @@ import {
 } from '@/components/ui/popover';
 import { Input } from '@/components/ui/input';
 import { faChevronDown, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Avatar } from '@/components/ui/avatar';
-import { AvatarImage } from '@radix-ui/react-avatar';
 import { languages } from '@/config';
+import { flagMap } from '@/components/icons';
+import Image from 'next/image';
 
 export default function LanguageSelector() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
-  const [selected, setSelected] = React.useState('en');
+  const [selected, setSelected] = React.useState('sq');
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -33,9 +33,16 @@ export default function LanguageSelector() {
         >
           <span>Language</span>
           <span className="flex items-center">
-            <Avatar className="w-5 h-5">
-              <AvatarImage src={`/locale-flags/${selected}.png`} />
-            </Avatar>
+            <div className="w-6 h-6 rounded-full overflow-clip">
+              <Image
+                className="w-full h-full object-cover"
+                width={512}
+                height={512}
+                src={flagMap[selected]}
+                alt="Language Flag"
+              />
+            </div>
+
             <FontAwesomeIcon
               icon={faChevronDown}
               className={cn(
@@ -76,11 +83,15 @@ export default function LanguageSelector() {
               >
                 <span className="col-span-1">
                   {selected === language.value && (
-                    <Avatar className="w-6 h-6">
-                      <AvatarImage
-                        src={`/locale-flags/${language.value}.png`}
+                    <div className="w-6 h-6 rounded-full overflow-clip">
+                      <Image
+                        className="w-full h-full object-cover"
+                        width={512}
+                        height={512}
+                        src={flagMap[selected]}
+                        alt="Language Flag"
                       />
-                    </Avatar>
+                    </div>
                   )}
                 </span>
                 <span className="col-span-3 text-start">{language.label}</span>
