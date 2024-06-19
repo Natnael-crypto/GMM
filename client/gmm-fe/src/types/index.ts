@@ -5,6 +5,6 @@ export interface LocaleProps {
 }
 
 export interface LanguageSelectorProps {
-  text: string;
+  text?: string;
   className?: string;
 }
