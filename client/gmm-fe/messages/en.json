@@ -1,6 +1,8 @@
 {
-  "home": {
-    "heroDescription": "Premium Guided Matchmaking",
-    "heroSubDescription": "For Sunni Muslims with Revert Care"
+  "Landing": {
+    "hero": {
+      "title": "Premium Guided Matchmaking",
+      "subTitle": "For Sunni Muslims with Revert Care"
+    }
   }
 }
