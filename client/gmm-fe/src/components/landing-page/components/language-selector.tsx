@@ -1,8 +1,10 @@
 'use client';
 
 import * as React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
+import { useLocale } from 'next-intl';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -15,16 +17,23 @@ import { Input } from '@/components/ui/input';
 import { faChevronDown, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { languages } from '@/config';
 import { flagMap } from '@/components/icons';
-import Image from 'next/image';
 import { LanguageSelectorProps } from '@/types';
+import { usePathname, useRouter } from '@/lib/navigation';
 
 export default function LanguageSelector({
   className,
-  text,
+  text = '',
 }: LanguageSelectorProps) {
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
-  const [selected, setSelected] = React.useState('sq');
+
+  const switchLocale = (newLocale: string) => {
+    router.replace(pathname, { locale: newLocale });
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -46,7 +55,7 @@ export default function LanguageSelector({
                 className="w-full h-full object-cover"
                 width={512}
                 height={512}
-                src={flagMap[selected]}
+                src={flagMap[locale]}
                 alt="Language Flag"
               />
             </div>
@@ -69,7 +78,7 @@ export default function LanguageSelector({
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="Select Your Language"
-            className="placeholder:text-muted-foreground/50 placeholder:font-light pr-8"
+            className="placeholder:text-muted-foreground placeholder:font-light pr-8"
           />
           <FontAwesomeIcon
             icon={faSearch}
@@ -86,19 +95,19 @@ export default function LanguageSelector({
               <Button
                 key={language.value}
                 onClick={() => {
-                  setSelected(language.value);
+                  switchLocale(language.value);
                   setOpen(false);
                 }}
-                className="w-full justify-start bg-background text-muted-foreground font-light grid grid-cols-5"
+                className="w-full justify-start bg-background hover:bg-muted text-muted-foreground font-normal grid grid-cols-5"
               >
                 <span className="col-span-1">
-                  {selected === language.value && (
+                  {locale === language.value && (
                     <div className="w-6 h-6 rounded-full overflow-clip">
                       <Image
                         className="w-full h-full object-cover"
                         width={512}
                         height={512}
-                        src={flagMap[selected]}
+                        src={flagMap[locale]}
                         alt="Language Flag"
                       />
                     </div>
