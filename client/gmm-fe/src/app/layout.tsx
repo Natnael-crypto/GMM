@@ -1,11 +1,8 @@
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
 import './globals.css';
-
-const poppins = Poppins({
-  weight: ['400', '500', '600', '700'],
-  subsets: ['latin'],
-});
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+config.autoAddCss = false;
 
 export const metadata: Metadata = {
   title: 'Guardian Muslim Marriage',
@@ -17,9 +14,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={poppins.className}>{children}</body>
-    </html>
-  );
+  return children;
 }
