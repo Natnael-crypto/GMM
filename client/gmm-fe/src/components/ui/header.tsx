@@ -1,8 +1,9 @@
 import React from 'react';
-import LanguageSelector from './language-selector';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
+import LanguageSelector from './language-selector';
+import Profile from './profile';
 
 export default function Header() {
   return (
@@ -24,6 +25,9 @@ export default function Header() {
       <div className="flex gap-2 items-center">
         <LanguageSelector />
         <FontAwesomeIcon icon={faBell} />
+        <div className="px-2">
+          <Profile />
+        </div>
       </div>
     </div>
   );
