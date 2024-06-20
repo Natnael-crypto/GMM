@@ -2,7 +2,8 @@
   "Landing": {
     "hero": {
       "title": "Premium Guided Matchmaking",
-      "subTitle": "For Sunni Muslims with Revert Care"
+      "subtitle": "For Sunni Muslims with Revert Care",
+      "cta": "Sign Up / Login"
     }
   }
 }
