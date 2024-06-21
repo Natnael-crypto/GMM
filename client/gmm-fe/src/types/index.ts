@@ -55,3 +55,11 @@ export interface OtherPlatformSlideProps {
   next: () => void;
   prev: () => void;
 }
+
+export interface HowItWorksCardProps {
+  imageClassName?: string;
+  imageSrc: string;
+  number: number;
+  children: React.ReactNode;
+  onClick?: () => void;
+}

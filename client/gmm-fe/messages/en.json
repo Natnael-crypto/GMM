@@ -94,6 +94,13 @@
           "description": "To Compete with Other Members for Visibility and to Direct Message."
         }
       }
+    },
+    "howItWorks": {
+      "title": "How it Works",
+      "step1": "Sign Up For An Account",
+      "step2": "Complete Basic Profile, Guardian Info & Verification",
+      "step3": "Match & Follow Guided Match Making Process",
+      "step4": "Insha'Allah Get Married"
     }
   }
 }

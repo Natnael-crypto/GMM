@@ -1,6 +1,7 @@
 import OurApproach from '@/components/landing-page/components/approach/approach';
 import HeroCarousel from '@/components/landing-page/components/carousel/hero-carousel';
 import CreateAccount from '@/components/landing-page/components/create-account/create-account';
+import HowItWorks from '@/components/landing-page/components/how-it-works/how-it-works';
 import OtherPlatforms from '@/components/landing-page/components/other-platforms/other-platforms';
 
 import Footer from '@/components/ui/footer';
@@ -20,6 +21,7 @@ export default function Home({ params: { locale } }: LocaleProps) {
       <OurApproach />
       <CreateAccount />
       <OtherPlatforms />
+      <HowItWorks />
       <Footer />
     </main>
   );
