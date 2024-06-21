@@ -13,3 +13,18 @@ export interface HeroCarouselProps {
   children: React.ReactNode;
   itemCount: number;
 }
+
+export interface OurApproachCardProps {
+  imageClassName?: string;
+  imageSrc: string;
+  children: React.ReactNode;
+}
+
+export interface OurApproachSlideContentProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+export interface OurApproachSlideProps {
+  children: React.ReactNode;
+}
