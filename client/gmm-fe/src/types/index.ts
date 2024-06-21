@@ -17,7 +17,9 @@ export interface HeroCarouselProps {
 export interface OurApproachCardProps {
   imageClassName?: string;
   imageSrc: string;
+  isActive: boolean;
   children: React.ReactNode;
+  onClick?: () => void;
 }
 
 export interface OurApproachSlideContentProps {
@@ -27,4 +29,8 @@ export interface OurApproachSlideContentProps {
 
 export interface OurApproachSlideProps {
   children: React.ReactNode;
+  selected: number;
+  setSelected: (index: number) => void;
+  next: () => void;
+  prev: () => void;
 }
