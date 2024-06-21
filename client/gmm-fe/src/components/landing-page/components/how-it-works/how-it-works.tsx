@@ -5,7 +5,7 @@ import Card from './card';
 export default function HowItWorks() {
   const t = useTranslations('Landing.howItWorks');
   return (
-    <div className="mx-6 sm:mx-16 md:mx-24 lg:mx-52 my-8 py-8 border-t  text-center ">
+    <div className="mx-6 sm:mx-16 md:mx-24 lg:mx-52 mt-8 pt-8 border-t text-center ">
       <h2 className="text-2xl ">{t('title')}</h2>
 
       <div className="flex gap-5 my-8 justify-center">

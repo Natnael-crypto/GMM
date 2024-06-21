@@ -63,3 +63,8 @@ export interface HowItWorksCardProps {
   children: React.ReactNode;
   onClick?: () => void;
 }
+
+export interface CreateAccountProps {
+  variant?: 'default' | 'filled';
+  margin?: 'default' | 'wide';
+}

@@ -22,6 +22,7 @@ export default function Home({ params: { locale } }: LocaleProps) {
       <CreateAccount />
       <OtherPlatforms />
       <HowItWorks />
+      <CreateAccount variant="filled" margin="wide" />
       <Footer />
     </main>
   );
