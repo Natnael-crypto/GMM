@@ -32,9 +32,12 @@
     --destructive: #ef4444;
     --destructive-foreground: #f8fafc;
 
+    /* --shadow: #72696966; */
     --shadow: #bbb9bb;
 
+    /* --border: #7269694c; */
     --border: #bbc7c9;
+    --border: #c6c6c6;
     --input: #cbd3d4;
     --ring: #00000000;
 
