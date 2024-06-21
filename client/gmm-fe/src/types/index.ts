@@ -34,3 +34,24 @@ export interface OurApproachSlideProps {
   next: () => void;
   prev: () => void;
 }
+
+export interface OtherPlatformCardProps {
+  imageClassName?: string;
+  imageSrc: string;
+  isActive: boolean;
+  children: React.ReactNode;
+  onClick?: () => void;
+}
+
+export interface OtherPlatformSlideContentProps {
+  title: string;
+  children: React.ReactNode;
+}
+
+export interface OtherPlatformSlideProps {
+  children: React.ReactNode;
+  selected: number;
+  setSelected: (index: number) => void;
+  next: () => void;
+  prev: () => void;
+}
