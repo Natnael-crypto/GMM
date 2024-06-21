@@ -45,6 +45,10 @@
           "description": "Unlike a Casual Dating App/Site Targeting Muslim Under the branding of \"<bold>Halal Marriages</bold>\". Guardian Muslim Marriage requires \"<bold>Verification and Family Involvement</bold>\" from the Start for all Our Members. Ensuring Family Awareness and Participation in the Marriage Process."
         }
       }
+    },
+    "createAccount": {
+      "title": "Create Your Account to Find Your Potential Spouse",
+      "cta": "Sign Up For An Account"
     }
   }
 }
