@@ -16,12 +16,23 @@ export default function OurApproachSlide({
   const count = Children.count(children);
 
   return (
-    <div className="absolute right-0 top-0 bg-muted w-1/2 h-96 rounded-bl-[3rem] pt-[4.3rem] pb-3 px-44 flex flex-col justify-between">
+    <div
+      className="
+    flex flex-col justify-between bg-muted 
+    mt-5
+    px-8
+    py-8 lg:py-0
+    lg:absolute 
+    lg:right-0 lg:top-0 
+    h-80 lg:h-96
+    lg:w-1/2 lg:rounded-bl-[3rem] 
+    lg:pt-[4.3rem] lg:pb-3 lg:px-44"
+    >
       {Children.map(children, (child: any, index: number) => {
         if (index === selected) return child;
       })}
 
-      <div className="flex items-center gap-2 text-gray-400 text-sm">
+      <div className="flex items-center gap-2 text-gray-400 text-sm mt-5 md:mt-0">
         <FontAwesomeIcon
           icon={faChevronLeft}
           className="cursor-pointer"
