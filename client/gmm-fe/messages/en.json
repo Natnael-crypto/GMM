@@ -109,5 +109,31 @@
       "becomeGuardianServiceProvider": "Become a Guardian Service Provider",
       "exploreGuardianBlog": "Explore Guardian Blog"
     }
+  },
+
+  "Auth": {
+    "common": {
+      "title": "<bold>Premium</bold> Guided Matchmaking",
+      "subtitle": "For Sunni Muslims with Revert Care"
+    },
+    "login": {
+      "title": "Login",
+      "email": "Email Address",
+      "password": "Password",
+      "forgotPassword": "Forgot Password?",
+      "dontHaveAccount": "Don't have an account?",
+      "cta": "Login"
+    },
+    "signup": {
+      "title": "Sign Up",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "termsAndConditions": "I agree to the Terms & Conditions",
+      "alreadyHaveAccount": "Already have an account?",
+      "cta": "Sign Up"
+    }
   }
 }

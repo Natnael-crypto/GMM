@@ -15,6 +15,7 @@ export interface HeroCarouselProps {
 }
 
 export interface OurApproachCardProps {
+  className?: string;
   imageClassName?: string;
   imageSrc: string;
   isActive: boolean;
