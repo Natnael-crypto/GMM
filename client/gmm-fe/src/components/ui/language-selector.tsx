@@ -43,7 +43,7 @@ export default function LanguageSelector({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            'sm:w-[250px] justify-end bg-transparent font-bold flex gap-3 text-foreground hover:text-foreground',
+            'sm:w-[250px] justify-end bg-transparent font-bold flex gap-3 text-foreground hover:text-foreground hover:bg-transparent',
             className
           )}
         >
