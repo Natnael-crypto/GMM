@@ -16,7 +16,18 @@ export default function OtherPlatformSlide({
   const count = Children.count(children);
 
   return (
-    <div className="absolute left-0 top-0 bg-muted w-[48%] h-96 rounded-tr-[3rem] pt-[4.3rem] pb-3 pl-36 pr-44 flex flex-col justify-between">
+    <div
+      className="
+      flex flex-col justify-between
+    lg:absolute lg:left-0 lg:top-0
+    mt-5
+    px-8 lg:pr-44 lg:pl-36
+    py-8 lg:py-0 lg:pb-3 lg:pt-[4.3rem]
+    bg-muted 
+    w-full lg:w-[48%] 
+    h-80 lg:h-96 
+    rounded-tr-[3rem]"
+    >
       {Children.map(children, (child: any, index: number) => {
         if (index === selected) return child;
       })}
