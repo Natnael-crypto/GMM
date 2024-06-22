@@ -6,7 +6,11 @@ export default function GuardianServiceCard({
   children,
 }: GuardianServiceCardProps) {
   return (
-    <Card className="col bg-background text-secondary shadow-none border-secondary border-2 cursor-pointer hover:text-primary hover:border-primary flex items-center justify-center">
+    <Card
+      className="w-[12rem] col text-sm      
+    bg-background text-secondary hover:text-primary hover:border-primary     
+    shadow-none border-secondary border-2 cursor-pointer flex items-center justify-center"
+    >
       {children}
     </Card>
   );
