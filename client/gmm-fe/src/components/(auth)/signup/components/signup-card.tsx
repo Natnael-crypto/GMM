@@ -1,0 +1,31 @@
+import { Card } from '@/components/ui/card';
+import Link from 'next/link';
+import React from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { cn } from '@/lib/utils';
+import { SignUpForm } from './signup-form';
+
+export default function SignUpCard() {
+  const t = useTranslations('Auth');
+  const locale = useLocale();
+
+  return (
+    <Card className="w-[22rem] bg-background px-8 py-6 mt-2 h-fit">
+      <div className="flex gap-5 justify-between px-8 mb-6 text-muted-foreground">
+        <Link
+          href={`/${locale}/login`}
+          className={cn('border-primary px-5 pb-1')}
+        >
+          {t('login.title')}
+        </Link>
+        <Link
+          href={`/${locale}/signup`}
+          className={cn('border-primary px-5 pb-1', 'border-b-[3px]')}
+        >
+          {t('signup.title')}
+        </Link>
+      </div>
+      <SignUpForm />
+    </Card>
+  );
+}
