@@ -13,7 +13,7 @@ const createAccountVariants = cva('py-8 text-center', {
     },
     margin: {
       default: 'mx-6 sm:mx-16 md:mx-24 lg:mx-52 my-8',
-      wide: 'my-8 py-8',
+      wide: 'my-8 py-8 px-8',
     },
   },
   defaultVariants: {
@@ -27,7 +27,7 @@ export default function CreateAccount({ variant, margin }: CreateAccountProps) {
 
   return (
     <div className={cn(createAccountVariants({ variant, margin }))}>
-      <h2 className="text-2xl">{t('title')}</h2>
+      <h2 className="text-xl lg:text-2xl">{t('title')}</h2>
       <Button
         variant="default"
         className={cn(

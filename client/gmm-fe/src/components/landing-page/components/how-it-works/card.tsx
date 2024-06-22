@@ -14,7 +14,7 @@ export default function HowItWorksCard({
   return (
     <Card
       className={cn(
-        'z-10 flex flex-col justify-between items-center w-[13rem] h-[10rem] bg-background relative'
+        'z-10 flex flex-col justify-between items-center w-[12rem] h-[10rem] bg-background relative'
       )}
       onClick={onClick}
     >

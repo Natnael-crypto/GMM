@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import OurApproachCard from './card';
+import OtherPlatformCard from './card';
 import { useTranslations } from 'next-intl';
 import OtherPlatformContent from './slide-content';
 import OtherPlatform from './other-platform-slide';
@@ -22,10 +22,10 @@ export default function OtherPlatforms() {
   };
 
   return (
-    <div className="pr-6 sm:pr-12 md:pr-20 lg:pr-32 my-5 relative">
-      <div className="flex flex-col items-end z-10 ">
+    <div className="sm:pl-12 md:pl-20 lg:pr-32 my-5 relative">
+      <div className="flex flex-col lg:items-end z-10">
         {/* Title */}
-        <h1 className="max-w-[30rem] mr-10 flex flex-col z-10 text-secondary">
+        <h1 className="px-8 md:pl-0 lg:max-w-[30rem] md:mr-10 flex flex-col z-10 text-secondary">
           <span className="uppercase font-bold text-primary">{t('title')}</span>
           <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
             {t.rich('subtitle', {
@@ -37,79 +37,90 @@ export default function OtherPlatforms() {
         </h1>
 
         {/* Cards */}
-        <div className="grid grid-cols-4 gap-x-2 gap-y-5 mt-6 w-fit z-10">
-          <OurApproachCard
-            imageSrc="/assets/puzzle-piece-solid.svg"
-            imageClassName="w-12"
-            isActive={current === 0}
-            onClick={() => setCurrent(0)}
+        <div className="overflow-auto no-scrollbar">
+          <div
+            className="
+          grid  
+          grid-cols-7 lg:grid-cols-4 
+          w-[84rem] lg:w-fit    
+          px-6 md:px-0 lg:px-0 
+          py-2 md:py-0   
+          mt-6 z-10            
+          gap-x-2 gap-y-5"
           >
-            {t.rich('card.endlessSearching', {
-              br: () => <br />,
-            })}
-          </OurApproachCard>
-          <OurApproachCard
-            imageSrc="/assets/comment-slash-solid.svg"
-            imageClassName="w-14"
-            isActive={current === 1}
-            onClick={() => setCurrent(1)}
-          >
-            {t.rich('card.noOneOnOneChats', {
-              br: () => <br />,
-            })}
-          </OurApproachCard>
-          <OurApproachCard
-            imageSrc="/assets/ban-solid.svg"
-            imageClassName="w-14"
-            isActive={current === 2}
-            onClick={() => setCurrent(2)}
-          >
-            {t.rich('card.noFamilyInvolvement', {
-              br: () => <br />,
-            })}
-          </OurApproachCard>
-          <OurApproachCard
-            imageSrc="/assets/repeat-solid.svg"
-            imageClassName="w-14"
-            isActive={current === 3}
-            onClick={() => setCurrent(3)}
-          >
-            {t.rich('card.noMatchGuarantee', {
-              br: () => <br />,
-            })}
-          </OurApproachCard>
-          <div className="col-start-2">
-            <OurApproachCard
-              imageSrc="/assets/user-large-slash-solid.svg"
-              imageClassName="w-14"
-              isActive={current === 4}
-              onClick={() => setCurrent(4)}
+            <OtherPlatformCard
+              imageSrc="/assets/puzzle-piece-solid.svg"
+              imageClassName="w-12"
+              isActive={current === 0}
+              onClick={() => setCurrent(0)}
             >
-              {t.rich('card.noTrueHalalApproach', {
+              {t.rich('card.endlessSearching', {
                 br: () => <br />,
               })}
-            </OurApproachCard>
+            </OtherPlatformCard>
+            <OtherPlatformCard
+              imageSrc="/assets/comment-slash-solid.svg"
+              imageClassName="w-14"
+              isActive={current === 1}
+              onClick={() => setCurrent(1)}
+            >
+              {t.rich('card.noOneOnOneChats', {
+                br: () => <br />,
+              })}
+            </OtherPlatformCard>
+            <OtherPlatformCard
+              imageSrc="/assets/ban-solid.svg"
+              imageClassName="w-14"
+              isActive={current === 2}
+              onClick={() => setCurrent(2)}
+            >
+              {t.rich('card.noFamilyInvolvement', {
+                br: () => <br />,
+              })}
+            </OtherPlatformCard>
+            <OtherPlatformCard
+              imageSrc="/assets/repeat-solid.svg"
+              imageClassName="w-14"
+              isActive={current === 3}
+              onClick={() => setCurrent(3)}
+            >
+              {t.rich('card.noMatchGuarantee', {
+                br: () => <br />,
+              })}
+            </OtherPlatformCard>
+            <div className="lg:col-start-2">
+              <OtherPlatformCard
+                imageSrc="/assets/user-large-slash-solid.svg"
+                imageClassName="w-14"
+                isActive={current === 4}
+                onClick={() => setCurrent(4)}
+              >
+                {t.rich('card.noTrueHalalApproach', {
+                  br: () => <br />,
+                })}
+              </OtherPlatformCard>
+            </div>
+            <OtherPlatformCard
+              imageSrc="/assets/heart-crack-solid.svg"
+              imageClassName="w-14"
+              isActive={current === 5}
+              onClick={() => setCurrent(5)}
+            >
+              {t.rich('card.terribleHealth', {
+                br: () => <br />,
+              })}
+            </OtherPlatformCard>
+            <OtherPlatformCard
+              imageSrc="/assets/comments-dollar-solid.svg"
+              imageClassName="w-14"
+              isActive={current === 6}
+              onClick={() => setCurrent(6)}
+            >
+              {t.rich('card.payment', {
+                br: () => <br />,
+              })}
+            </OtherPlatformCard>
           </div>
-          <OurApproachCard
-            imageSrc="/assets/heart-crack-solid.svg"
-            imageClassName="w-14"
-            isActive={current === 5}
-            onClick={() => setCurrent(5)}
-          >
-            {t.rich('card.terribleHealth', {
-              br: () => <br />,
-            })}
-          </OurApproachCard>
-          <OurApproachCard
-            imageSrc="/assets/comments-dollar-solid.svg"
-            imageClassName="w-14"
-            isActive={current === 6}
-            onClick={() => setCurrent(6)}
-          >
-            {t.rich('card.payment', {
-              br: () => <br />,
-            })}
-          </OurApproachCard>
         </div>
       </div>
 
