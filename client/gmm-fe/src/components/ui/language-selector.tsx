@@ -43,7 +43,7 @@ export default function LanguageSelector({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            'sm:w-[250px] justify-end bg-transparent font-bold flex gap-3',
+            'sm:w-[250px] justify-end bg-transparent font-bold flex gap-3 text-foreground hover:text-foreground',
             className
           )}
         >
@@ -97,7 +97,7 @@ export default function LanguageSelector({
                   switchLocale(language.value);
                   setOpen(false);
                 }}
-                className="w-full justify-start bg-background hover:bg-muted text-muted-foreground font-normal grid grid-cols-5"
+                className="w-full justify-start bg-background hover:bg-muted text-muted-foreground hover:text-muted-foreground font-normal grid grid-cols-5"
               >
                 <span className="col-span-1">
                   {locale === language.value && (

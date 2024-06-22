@@ -1,15 +1,30 @@
+import OurApproach from '@/components/landing-page/components/approach/approach';
+import HeroCarousel from '@/components/landing-page/components/carousel/hero-carousel';
+import CreateAccount from '@/components/landing-page/components/create-account/create-account';
+import HowItWorks from '@/components/landing-page/components/how-it-works/how-it-works';
+import OtherPlatforms from '@/components/landing-page/components/other-platforms/other-platforms';
+import GuardianServices from '@/components/landing-page/components/services/guardian-services';
+
 import Footer from '@/components/ui/footer';
-import Header from '@/components/ui/header';
+import LanguageSelector from '@/components/ui/language-selector';
 import { LocaleProps } from '@/types';
-import { useTranslations } from 'next-intl';
 
 export default function Home({ params: { locale } }: LocaleProps) {
-  const t = useTranslations();
-
   return (
-    <main className="flex flex-col justify-between">
-      <Header />
-      <div className="h-screen "></div>
+    <main className="flex flex-col">
+      <div className="px-6 sm:px-16 md:px-24 lg:px-52 bg-tertiary text-tertiary-foreground flex justify-end">
+        <LanguageSelector
+          text="Language"
+          className="text-tertiary-foreground hover:text-tertiary-foreground"
+        />
+      </div>
+      <HeroCarousel />
+      <OurApproach />
+      <CreateAccount />
+      <OtherPlatforms />
+      <HowItWorks />
+      <CreateAccount variant="filled" margin="wide" />
+      <GuardianServices />
       <Footer />
     </main>
   );

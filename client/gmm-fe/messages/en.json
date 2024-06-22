@@ -2,7 +2,112 @@
   "Landing": {
     "hero": {
       "title": "Premium Guided Matchmaking",
-      "subTitle": "For Sunni Muslims with Revert Care"
+      "subtitle": "For Sunni Muslims with Revert Care",
+      "cta": "Sign Up / Login"
+    },
+    "ourApproach": {
+      "title": "Our approach for",
+      "subtitle": "<bold>Guardian</bold> Muslim Marriage",
+
+      "card": {
+        "guidedMatching": "Guided<br></br>Matchmaking",
+        "matchGuarantee": "Match<br></br>Guarantee",
+        "oneOnOneChats": "1-On-1<br></br>Chats",
+        "neverPayToCompete": "Never Pay<br></br>to Compete",
+        "guardianFamilyInvolvement": "Guardian/Family<br></br>Involvement"
+      },
+
+      "slide": {
+        "guidedMatching": {
+          "title": "Guided Matchmaking",
+          "description": "Never run out of things to talk about! Our step-by-step matchmaking process is designed around the fundamentals of compatibility. Ensuring meaningful conversations take place that move you and your potential spouse towards the <bold>goal of marriage</bold> Insha'Allah"
+        },
+        "matchGuarantee": {
+          "title": "Match Guarantee",
+          "description": {
+            "p1": "Complete Your Profile. Set your Match preferences, hit \"Match Me\" and start Talking to your Potential Spouse.",
+            "p2": "<bold>No Money Wasted</bold> for Uncertain Message Attempts Hoping He/She Accepts. No Money Lost. Just Real Connections."
+          }
+        },
+        "oneOnOneChats": {
+          "title": "1-On-1 Chats",
+          "description": {
+            "p1": "No Distractions! Match and Talk to One Potential Spouse at a Time.",
+            "p2": "Having Meaningful Conversations via the <bold>Guardian Guided Match-Making Process.</bold>"
+          }
+        },
+        "neverPayToCompete": {
+          "title": "Never Pay to Compete",
+          "description": "No Competing with Other Members using your Money to Stand Out! We won't Entice you (by giving you the option) to <bold>Pay for Visibility of your profile or the Direct Message a Potential Spouse</bold>"
+        },
+        "guardianFamilyInvolvement": {
+          "title": "Guardian/Family Involvement",
+          "description": "Unlike a Casual Dating App/Site Targeting Muslim Under the branding of \"<bold>Halal Marriages</bold>\". Guardian Muslim Marriage requires \"<bold>Verification and Family Involvement</bold>\" from the Start for all Our Members. Ensuring Family Awareness and Participation in the Marriage Process."
+        }
+      }
+    },
+    "createAccount": {
+      "title": "Create Your Account to Find Your Potential Spouse",
+      "cta": "Sign Up For An Account"
+    },
+    "otherPlatforms": {
+      "title": "Other platforms",
+      "subtitle": "Most <bold>\"Marriage\"</bold> Dating Options For Muslims",
+
+      "card": {
+        "endlessSearching": "Endless Searching<br></br>& Swiping",
+        "noOneOnOneChats": "No 1-On-1<br></br>Chats",
+        "noFamilyInvolvement": "No Family<br></br>Involvement",
+        "noMatchGuarantee": "No Match Guarantee<br></br>or Guidance",
+        "noTrueHalalApproach": "No True Halal<br></br>Marriage Approach",
+        "terribleHealth": "Terrible Mental<br></br>Health",
+        "payment": "You Have to<br></br>PAY! PAY! & PAY!"
+      },
+
+      "slide": {
+        "endlessSearching": {
+          "title": "Endless Searching & Swiping",
+          "description": "The Guys are Hitting Yes! The Girls are Hitting No! Seeking a Spouse Should Not be a Randomized, Shallow Game of Yes or No. Both Men & Woman Must be Understood and Seen for their True Value."
+        },
+        "noOneOnOneChats": {
+          "title": "No 1-On-1 Chats",
+          "description": "While You're Seriously Making an Effort Talking to Someone. He/She is Talking to or Getting Messages from Everyone else that's Paid More Than You to Direct Message them."
+        },
+        "noFamilyInvolvement": {
+          "title": "No Family Involvement",
+          "description": "Marketed as \"Halal & Muslim\" but Failing without Family Involvement. Real Islamic Marriage Involve Family awareness from the Very Start! The Core of What Makes Marriages Happen and are Truly Halal!"
+        },
+        "noMatchGuarantee": {
+          "title": "No Match Guarantee or Guidance",
+          "description": "Selling you \"Possibilities and Hopes\" Keeping You Hooked Profile After Profile."
+        },
+        "noTrueHalalApproach": {
+          "title": "No True Halal Marriage Approach",
+          "description": "Just Casual Dating. Empty Conversations. No Lifelong Commitments."
+        },
+        "terribleHealth": {
+          "title": "Terrible Mental Health",
+          "description": "Useless Interactions that Get No Where Overtime, Create a Cycle of Loss in Money, Time, Effort, Rejections & Ghosting. Leading to Feelings of Stress, Loneliness, Depression and Mental Exhaustion."
+        },
+        "payment": {
+          "title": "PAY!!! PAY!!! PAY!!!",
+          "description": "To Compete with Other Members for Visibility and to Direct Message."
+        }
+      }
+    },
+    "howItWorks": {
+      "title": "How it Works",
+      "step1": "Sign Up For An Account",
+      "step2": "Complete Basic Profile, Guardian Info & Verification",
+      "step3": "Match & Follow Guided Match Making Process",
+      "step4": "Insha'Allah Get Married"
+    },
+    "guardianServices": {
+      "title": "Guardian Services",
+      "bookConsultation": "Book Consult With Imam/Mufti",
+      "becomeImamOrMufti": "Become a Registered Imam/Mufti",
+      "becomeGuardianServiceProvider": "Become a Guardian Service Provider",
+      "exploreGuardianBlog": "Explore Guardian Blog"
     }
   }
 }

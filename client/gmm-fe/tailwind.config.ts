@@ -57,6 +57,17 @@ const config = {
           foreground: 'var(--card-foreground)',
         },
       },
+      borderColor: {
+        DEFAULT: 'var(--border)',
+        primary: 'var(--primary)',
+        secondary: 'var(--secondary)',
+        tertiary: 'var(--tertiary)',
+        destructive: 'var(--destructive)',
+        muted: 'var(--muted)',
+        accent: 'var(--accent)',
+        popover: 'var(--popover)',
+        card: 'var(--card)',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
