@@ -68,3 +68,7 @@ export interface CreateAccountProps {
   variant?: 'default' | 'filled';
   margin?: 'default' | 'wide';
 }
+
+export interface GuardianServiceCardProps {
+  children: React.ReactNode;
+}

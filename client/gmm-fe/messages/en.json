@@ -101,6 +101,13 @@
       "step2": "Complete Basic Profile, Guardian Info & Verification",
       "step3": "Match & Follow Guided Match Making Process",
       "step4": "Insha'Allah Get Married"
+    },
+    "guardianServices": {
+      "title": "Guardian Services",
+      "bookConsultation": "Book Consult With Imam/Mufti",
+      "becomeImamOrMufti": "Become a Registered Imam/Mufti",
+      "becomeGuardianServiceProvider": "Become a Guardian Service Provider",
+      "exploreGuardianBlog": "Explore Guardian Blog"
     }
   }
 }
