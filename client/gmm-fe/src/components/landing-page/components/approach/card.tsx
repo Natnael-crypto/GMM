@@ -5,6 +5,7 @@ import Image from 'next/image';
 import React from 'react';
 
 export default function OurApproachCard({
+  className,
   imageClassName,
   imageSrc,
   isActive,
@@ -15,7 +16,8 @@ export default function OurApproachCard({
     <Card
       className={cn(
         'z-10 flex flex-col justify-between items-center w-40 h-40 lg:w-[13rem] lg:h-[12rem] cursor-pointer',
-        isActive ? 'bg-primary' : 'bg-background'
+        isActive ? 'bg-primary' : 'bg-background',
+        className
       )}
       onClick={onClick}
     >
