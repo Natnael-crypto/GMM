@@ -8,18 +8,26 @@ export default function GMMHero() {
 
   return (
     <div className="relative">
-      <div className="flex w-full h-full">
+      <div className="absolute -z-10 lg:z-0 lg:static lg:flex lg:w-full h-[85vh]">
         <Image
           src="/assets/hero-image-1.jpg"
+          className="hidden sm:block object-cover w-full h-[85vh]"
+          width={1920}
+          height={670}
+          alt="Hero image"
+        />
+        <Image
+          src="/assets/hero-image-green.jpg"
+          className="sm:hidden object-cover w-full h-[85vh]"
           width={1920}
           height={670}
           alt="Hero image"
         />
       </div>
 
-      <div className="absolute top-0 left-0 w-full h-full">
+      <div className="lg:absolute lg:top-0 lg:left-0 w-full h-full">
         {/* Hero content */}
-        <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-16 lg:w-9/12 gap-10 flex flex-col h-full">
+        <div className="px-12 sm:px-16 md:px-24 lg:px-52 py-16 lg:w-9/12 gap-10 flex flex-col h-full">
           {/* Hero image */}
           <div className="w-40 md:w-60 lg:w-80">
             <Image
