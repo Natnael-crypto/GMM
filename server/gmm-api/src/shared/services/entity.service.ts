@@ -1,35 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { PathDef } from '@shared/types/service-options';
-import { Repository } from 'typeorm';
+import { Repository, ObjectLiteral, FindOptionsWhere } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IEntityService } from '@shared/types/service';
 
-export const EntityService = <T>(entityClass: new () => T, populateFields: string[] | PathDef = []) => {
+export const EntityService = <T extends ObjectLiteral>(
+  entityClass: new () => T, 
+  populateFields: string[] | PathDef = []
+) => {
   @Injectable()
   class EntityServiceHost implements IEntityService<T> {
     constructor(
       @InjectRepository(entityClass)
       public readonly entityRepository: Repository<T>,
     ) {}
-    findAll(): Promise<T[]> {
+
+    async findAll(): Promise<T[]> {
       try {
-        return this.entityRepository.find();
+        return await this.entityRepository.find();
       } catch (e) {
         console.log(e);
         throw new Error('Error fetching entities');
       }
     }
 
-
     async findOne(id: string): Promise<T | null> {
       try {
-        return await this.entityRepository.findOne({ relations: populateFields as string[] });
+        const where: FindOptionsWhere<T> = { id } as unknown as FindOptionsWhere<T>;
+        return await this.entityRepository.findOne({
+          where,
+          relations: populateFields as string[],
+        });
       } catch (e) {
         console.log(e);
         throw new Error('Error fetching entity');
       }
     }
-    
 
     async create(data: any): Promise<T> {
       try {
@@ -62,5 +68,3 @@ export const EntityService = <T>(entityClass: new () => T, populateFields: strin
 
   return EntityServiceHost;
 };
-
-
