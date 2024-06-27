@@ -16,7 +16,7 @@ export class UserController {
   @Get('me')
   async getMe(@Req() req: Request & { user: any }) {
 
-    // const userId = req.user.id;
+    const userId = req.user.id;
     return await this.userRepository.find();
   }
 
