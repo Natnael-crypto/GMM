@@ -36,10 +36,11 @@ export class AuthController {
     @Get('google/callback')
     @UseGuards(GoogleOauthGuard)
     async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
-        const token = await this.authService.signIn(req['user'] as unknown as User);
-
-        const clientSuccessUrl = this.configService.get<ClientConfig>('client')!.authSuccessUrl;
-
+        
+        const token = await this.authService.signIn(req.user as unknown as User);
+        
+        const clientSuccessUrl = this.configService.get<string>('CLIENTAUTHSUCCESSURL')!;
+        
         res.cookie('access_token', token, {
             httpOnly: true,
         });

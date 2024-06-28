@@ -12,8 +12,6 @@ export type JwtPayload = {
   sub: string;
   name: string;
   email: string;
-  role: string;
-  picture: string;
 };
 
 @Injectable()
@@ -33,7 +31,8 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
 
     super({
       ignoreExpiration: false,
-      secretOrKey: configService.get<JwtConfig>('jwt')?.secret,
+      secretOrKey: configService.get<string>('jwtsecret'),
+    //   secretOrKey: configService.get<JwtConfig>('jwt')?.secret,
       jwtFromRequest: extractJwtFromCookie,
     });
   }

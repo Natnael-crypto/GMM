@@ -1,12 +1,13 @@
 
 import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
 import { Repository } from 'typeorm';
 
 import { User } from '../entities/user.entity';
 
+@ApiTags('User')
 @ApiBearerAuth()
 @Controller('users')
 
@@ -38,7 +39,10 @@ export class UserController {
   }
 
   @Post()
-  async createUser() {
-    return await this.userRepository.create();
+  async createUser(@Req() req: Request & {user: User}) {
+
+    return await this.userRepository.create(
+      
+    );
   }
 }

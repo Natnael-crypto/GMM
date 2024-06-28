@@ -13,7 +13,7 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Guardian Match Making')
+    .setTitle('Guardian Match Making Documentation')
     .setDescription('Guided Match Making API')
     .setVersion('1.0')
     .addTag('GMM')

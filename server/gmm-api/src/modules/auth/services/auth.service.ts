@@ -6,16 +6,19 @@ import { User } from '@modules/user/entities/user.entity';
 
 
 import { RegisterUserDto } from '../dtos/requests.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private configService: ConfigService,
     private jwtService: JwtService,
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
   generateJwt(payload: any) {
-    return this.jwtService.sign(payload);
+    const secret = this.configService.get<string>('JWTSECRET');
+    return this.jwtService.sign(payload, { secret });
   }
 
   async signIn(user: User) {
@@ -32,6 +35,7 @@ export class AuthService {
     return this.generateJwt({
         sub: userExists.email,
         email: userExists.email,
+        name: userExists.firstName + ' ' + userExists.lastName,
       });
   }
 
@@ -40,9 +44,8 @@ export class AuthService {
       const newUser = this.userRepository.create({
         ...user,
       });
-
       await this.userRepository.save(newUser);
-
+      
       return this.generateJwt({
         sub: newUser.email,
         email: newUser.email,
