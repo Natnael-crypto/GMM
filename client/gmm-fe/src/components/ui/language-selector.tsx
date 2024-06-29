@@ -62,7 +62,7 @@ export default function LanguageSelector({
             <FontAwesomeIcon
               icon={faChevronDown}
               className={cn(
-                'ml-2 h-2 w-2 shrink-0 opacity-80 transition-transform duration-200 ease-in-out',
+                'ms-2 h-2 w-2 shrink-0 opacity-80 transition-transform duration-200 ease-in-out',
                 open ? 'rotate-180' : 'transform rotate-0'
               )}
             />
@@ -72,20 +72,23 @@ export default function LanguageSelector({
 
       {/* Content */}
       <PopoverContent className="w-full sm:w-[250px] p-2 border-none rounded-xl">
-        <div className="relative">
+        <div className="relative" dir="ltr">
           <Input
             value={value}
             onChange={(e) => setValue(e.target.value)}
             placeholder="Select Your Language"
-            className="placeholder:text-muted-foreground placeholder:font-light pr-8"
+            className="placeholder:text-muted-foreground placeholder:font-light pe-8"
           />
           <FontAwesomeIcon
             icon={faSearch}
-            className="absolute top-[50%] right-2 -translate-y-[50%]"
+            className="absolute top-[50%] end-2 -translate-y-[50%]"
           />
         </div>
 
-        <div className="mt-1 flex flex-col h-60 overflow-auto no-scrollbar">
+        <div
+          className="mt-1 flex flex-col h-60 overflow-auto no-scrollbar"
+          dir="ltr"
+        >
           {languages
             .filter((language) =>
               language.label.toLowerCase().includes(value.toLowerCase())

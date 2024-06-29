@@ -1,9 +1,12 @@
+import { localeDirection } from '@/config';
+import { cn } from '@/lib/utils';
 import { OtherPlatformSlideProps } from '@/types';
 import {
   faChevronLeft,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useLocale } from 'next-intl';
 import React, { Children } from 'react';
 
 export default function OtherPlatformSlide({
@@ -14,14 +17,16 @@ export default function OtherPlatformSlide({
   setSelected,
 }: OtherPlatformSlideProps) {
   const count = Children.count(children);
+  const locale = useLocale();
+  const dir = localeDirection[locale];
 
   return (
     <div
       className="
       flex flex-col justify-between
-    lg:absolute lg:left-0 lg:top-0
+    lg:absolute lg:start-0 lg:top-0
     mt-5
-    px-8 lg:pr-44 lg:pl-36
+    px-8 lg:pe-44 lg:ps-36
     py-8 lg:py-0 lg:pb-3 lg:pt-[4.3rem]
     bg-muted 
     w-full lg:w-[48%] 
@@ -32,11 +37,16 @@ export default function OtherPlatformSlide({
         if (index === selected) return child;
       })}
 
-      <div className="flex items-center gap-2 text-gray-400 text-sm">
+      <div
+        className={cn(
+          'flex items-center gap-2 text-gray-400 text-sm',
+          dir === 'rtl' ? 'flex-row-reverse' : ''
+        )}
+      >
         <FontAwesomeIcon
           icon={faChevronLeft}
           className="cursor-pointer"
-          onClick={prev}
+          onClick={dir === 'ltr' ? prev : next}
         />
         <div className="flex gap-1">
           {Array.from({ length: count }).map((_, index) => {
@@ -54,7 +64,7 @@ export default function OtherPlatformSlide({
         <FontAwesomeIcon
           icon={faChevronRight}
           className="cursor-pointer"
-          onClick={next}
+          onClick={dir === 'ltr' ? next : prev}
         />
       </div>
     </div>

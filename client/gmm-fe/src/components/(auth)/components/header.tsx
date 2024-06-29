@@ -1,14 +1,18 @@
 import React from 'react';
 import Image from 'next/image';
 import LanguageSelector from '@/components/ui/language-selector';
+import { useLocale } from 'next-intl';
+import { localeDirection } from '@/config';
 
 export default function Header() {
+  const locale = useLocale();
   return (
     <div className="relative">
       <div
         className="absolute w-full h-72 -z-10"
         style={{
           backgroundImage: 'url("/assets/hero-image-green.jpg")',
+          transform: localeDirection[locale] === 'rtl' ? 'scaleX(-1)' : '',
         }}
       ></div>
 
