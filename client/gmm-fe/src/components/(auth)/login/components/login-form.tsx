@@ -15,8 +15,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { loginFormSchema } from '@/types/forms';
 import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import OrSeparator from '../../components/or-separator';
 import ExternalAuthenticator from '../../components/external-authenticator';
 

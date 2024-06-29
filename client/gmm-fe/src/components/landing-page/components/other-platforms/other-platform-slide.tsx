@@ -22,7 +22,8 @@ export default function OtherPlatformSlide({
 
   return (
     <div
-      className="
+      className={cn(
+        `
       flex flex-col justify-between
     lg:absolute lg:start-0 lg:top-0
     mt-5
@@ -30,8 +31,9 @@ export default function OtherPlatformSlide({
     py-8 lg:py-0 lg:pb-3 lg:pt-[4.3rem]
     bg-muted 
     w-full lg:w-[48%] 
-    h-80 lg:h-96 
-    rounded-tr-[3rem]"
+    h-80 lg:h-96`,
+        dir === 'rtl' ? `rounded-tl-[3rem]` : `rounded-tr-[3rem]`
+      )}
     >
       {Children.map(children, (child: any, index: number) => {
         if (index === selected) return child;

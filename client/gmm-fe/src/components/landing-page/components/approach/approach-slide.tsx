@@ -22,7 +22,8 @@ export default function OurApproachSlide({
 
   return (
     <div
-      className="
+      className={cn(
+        `
     flex flex-col justify-between bg-muted 
     mt-5
     px-8
@@ -30,8 +31,10 @@ export default function OurApproachSlide({
     lg:absolute 
     lg:end-0 lg:top-0 
     h-80 lg:h-96
-    lg:w-1/2 lg:rounded-l-[3rem] 
-    lg:pt-[4.3rem] lg:pb-3 lg:px-44"
+    lg:w-1/2
+    lg:pt-[4.3rem] lg:pb-3 lg:px-44`,
+        dir === 'ltr' ? 'lg:rounded-bl-[3rem]' : 'lg:rounded-br-[3rem] '
+      )}
     >
       {Children.map(children, (child: any, index: number) => {
         if (index === selected) return child;
