@@ -17,8 +17,12 @@ import { loginFormSchema } from '@/types/forms';
 import Link from 'next/link';
 import OrSeparator from '../../components/or-separator';
 import ExternalAuthenticator from '../../components/external-authenticator';
+import { useLocale, useTranslations } from 'next-intl';
 
 export function LoginForm() {
+  const t = useTranslations('Auth.login');
+  const locale = useLocale();
+
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -50,7 +54,7 @@ export function LoginForm() {
                 <FormControl>
                   <Input
                     className="text-sm placeholder:text-xs"
-                    placeholder="Email Address"
+                    placeholder={t('email')}
                     {...field}
                   />
                 </FormControl>
@@ -66,7 +70,7 @@ export function LoginForm() {
                 <FormControl>
                   <Input
                     className="text-sm placeholder:text-xs"
-                    placeholder="Password"
+                    placeholder={t('password')}
                     type="password"
                     {...field}
                   />
@@ -81,13 +85,13 @@ export function LoginForm() {
             type="submit"
             className="w-52 h-9 bg-primary text-primary-foreground font-bold"
           >
-            Login
+            {t('cta')}
           </Button>
           <Link
-            href="/auth/signup"
+            href={`/${locale}/signup`}
             className="text-xs text-primary font-semibold"
           >
-            Forget password
+            {t('forgotPassword')}
           </Link>
 
           <OrSeparator />
@@ -95,12 +99,12 @@ export function LoginForm() {
           <ExternalAuthenticator />
 
           <div className="text-xs">
-            Don&apos;t have an account?{' '}
+            {t('dontHaveAccount')}{' '}
             <Link
-              href="/en/signup"
+              href={`/${locale}/signup`}
               className="text-xs text-primary font-semibold"
             >
-              Sign Up
+              {t('signup')}
             </Link>
           </div>
         </div>

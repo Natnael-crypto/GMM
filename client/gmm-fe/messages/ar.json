@@ -122,7 +122,8 @@
       "password": "كلمة المرور",
       "forgotPassword": "هل نسيت كلمة المرور؟",
       "dontHaveAccount": "ليس لديك حساب؟",
-      "cta": "تسجيل الدخول"
+      "cta": "تسجيل الدخول",
+      "signup": "اشترك"
     },
     "signup": {
       "title": "اشترك",

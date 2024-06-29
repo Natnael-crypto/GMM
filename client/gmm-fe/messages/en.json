@@ -122,7 +122,8 @@
       "password": "Password",
       "forgotPassword": "Forgot Password?",
       "dontHaveAccount": "Don't have an account?",
-      "cta": "Login"
+      "cta": "Login",
+      "signup": "Sign Up"
     },
     "signup": {
       "title": "Sign Up",
