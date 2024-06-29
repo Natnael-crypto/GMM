@@ -1,24 +1,33 @@
 import { Button } from '@/components/ui/button';
-import { useTranslations } from 'next-intl';
+import { localeDirection } from '@/config';
+import { cn } from '@/lib/utils';
+import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
 import React from 'react';
 
 export default function GMMHero() {
   const t = useTranslations('Landing');
+  const locale = useLocale();
 
   return (
     <div className="relative">
       <div className="absolute -z-10 lg:z-0 lg:static lg:flex lg:w-full h-[85vh]">
         <Image
           src="/assets/hero-image-1.jpg"
-          className="hidden sm:block object-cover w-full h-[85vh]"
+          className={cn(
+            'hidden sm:block object-cover w-full h-[85vh]',
+            localeDirection[locale] === 'rtl' ? '-scale-x-100' : ''
+          )}
           width={1920}
           height={670}
           alt="Hero image"
         />
         <Image
           src="/assets/hero-image-green.jpg"
-          className="sm:hidden object-cover w-full h-[85vh]"
+          className={cn(
+            'sm:hidden object-cover w-full h-[85vh]',
+            localeDirection[locale] === 'rtl' ? '-scale-x-100' : ''
+          )}
           width={1920}
           height={670}
           alt="Hero image"

@@ -22,10 +22,10 @@ export default function OurApproach() {
   };
 
   return (
-    <div className="sm:pl-12 md:pl-20 lg:pl-40 my-5 relative">
+    <div className="sm:ps-12 md:ps-20 lg:ps-40 my-5 relative">
       <div>
         {/* Title */}
-        <h1 className="flex flex-col px-8 md:pl-0">
+        <h1 className="flex flex-col px-8 md:ps-0">
           <span className="uppercase font-bold text-primary">{t('title')}</span>
           <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
             {t.rich('subtitle', {

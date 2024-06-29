@@ -21,7 +21,7 @@ export default function RegistrationOverview() {
       </div>
 
       <div className="mt-20 overflow-auto no-scrollbar">
-        <div className="flex gap-8 justify-between pr-16">
+        <div className="flex gap-8 justify-between pe-16">
           <OurApproachCard
             className="border-none shadow-none lg:w-32"
             imageSrc="/assets/icon_guided-matchmaking.svg"

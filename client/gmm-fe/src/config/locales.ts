@@ -73,5 +73,26 @@ export const languages = [
   },
 ];
 
+export const localeDirection: Record<string, string> = {
+  en: 'ltr',
+  sq: 'ltr',
+  ar: 'rtl',
+  bs: 'ltr',
+  'zh-yue': 'ltr',
+  'zh-guoyu': 'ltr',
+  nl: 'ltr',
+  tl: 'ltr',
+  fr: 'ltr',
+  de: 'ltr',
+  id: 'ltr',
+  it: 'ltr',
+  'ms-MY': 'ltr',
+  pt: 'ltr',
+  ru: 'ltr',
+  so: 'ltr',
+  es: 'ltr',
+  tr: 'ltr',
+};
+
 export const defaultLocale = 'en' as const;
 export const locales = languages.map((l) => l.value);

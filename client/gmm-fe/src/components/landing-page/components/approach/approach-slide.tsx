@@ -1,9 +1,12 @@
+import { localeDirection } from '@/config';
+import { cn } from '@/lib/utils';
 import { OurApproachSlideProps } from '@/types';
 import {
   faChevronLeft,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useLocale } from 'next-intl';
 import React, { Children } from 'react';
 
 export default function OurApproachSlide({
@@ -14,6 +17,8 @@ export default function OurApproachSlide({
   setSelected,
 }: OurApproachSlideProps) {
   const count = Children.count(children);
+  const locale = useLocale();
+  const dir = localeDirection[locale];
 
   return (
     <div
@@ -23,20 +28,25 @@ export default function OurApproachSlide({
     px-8
     py-8 lg:py-0
     lg:absolute 
-    lg:right-0 lg:top-0 
+    lg:end-0 lg:top-0 
     h-80 lg:h-96
-    lg:w-1/2 lg:rounded-bl-[3rem] 
+    lg:w-1/2 lg:rounded-l-[3rem] 
     lg:pt-[4.3rem] lg:pb-3 lg:px-44"
     >
       {Children.map(children, (child: any, index: number) => {
         if (index === selected) return child;
       })}
 
-      <div className="flex items-center gap-2 text-gray-400 text-sm mt-5 md:mt-0">
+      <div
+        className={cn(
+          'flex items-center gap-2 text-gray-400 text-sm mt-5 md:mt-0',
+          dir === 'rtl' ? 'flex-row-reverse' : ''
+        )}
+      >
         <FontAwesomeIcon
           icon={faChevronLeft}
           className="cursor-pointer"
-          onClick={prev}
+          onClick={dir === 'ltr' ? prev : next}
         />
         <div className="flex gap-1">
           {Array.from({ length: count }).map((_, index) => {
@@ -54,7 +64,7 @@ export default function OurApproachSlide({
         <FontAwesomeIcon
           icon={faChevronRight}
           className="cursor-pointer"
-          onClick={next}
+          onClick={dir === 'ltr' ? next : prev}
         />
       </div>
     </div>

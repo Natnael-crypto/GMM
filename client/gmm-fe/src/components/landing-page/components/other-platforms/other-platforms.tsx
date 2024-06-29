@@ -22,10 +22,10 @@ export default function OtherPlatforms() {
   };
 
   return (
-    <div className="sm:pl-12 md:pl-20 lg:pr-32 my-5 relative">
+    <div className="sm:ps-12 md:ps-20 lg:pe-32 my-5 relative">
       <div className="flex flex-col lg:items-end z-10">
         {/* Title */}
-        <h1 className="px-8 md:pl-0 lg:max-w-[30rem] md:mr-10 flex flex-col z-10 text-secondary">
+        <h1 className="px-8 md:ps-0 lg:max-w-[30rem] md:me-10 flex flex-col z-10 text-secondary">
           <span className="uppercase font-bold text-primary">{t('title')}</span>
           <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
             {t.rich('subtitle', {
