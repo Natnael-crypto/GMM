@@ -1,8 +1,9 @@
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { localeDirection } from '@/config';
 import { cn } from '@/lib/utils';
 import { useLocale, useTranslations } from 'next-intl';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 export default function GMMHero() {
@@ -60,9 +61,15 @@ export default function GMMHero() {
 
           {/* Call to action */}
           <div className="flex gap-4 ">
-            <Button variant="default" className="font-bold px-14">
+            <Link
+              href={`/${locale}/login`}
+              className={cn(
+                buttonVariants({ variant: 'default' }),
+                'font-bold px-14'
+              )}
+            >
               {t('hero.cta')}
-            </Button>
+            </Link>
           </div>
         </div>
       </div>
