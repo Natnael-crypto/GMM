@@ -13,3 +13,7 @@ export const signUpFormSchema = z.object({
   confirmPassword: z.string().min(8),
   agreeToTerms: z.boolean(),
 });
+
+export const otpFormSchema = z.object({
+  otp: z.string().length(6),
+});

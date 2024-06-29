@@ -135,6 +135,12 @@
       "termsAndConditions": "I agree to the Terms & Conditions",
       "alreadyHaveAccount": "Already have an account?",
       "cta": "Sign Up"
+    },
+    "otp": {
+      "title": "Enter 6 Digit Code sent to your email",
+      "submit": "Submit",
+      "resend": "Resend Code",
+      "resendDescription": "Resend code to Email {email}"
     }
   }
 }
