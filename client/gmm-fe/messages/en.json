@@ -114,7 +114,8 @@
   "Auth": {
     "common": {
       "title": "<bold>Premium</bold> Guided Matchmaking",
-      "subtitle": "For Sunni Muslims with Revert Care"
+      "subtitle": "For Sunni Muslims with Revert Care",
+      "howItWorks": "How it Works"
     },
     "login": {
       "title": "Login",
@@ -141,6 +142,50 @@
       "submit": "Submit",
       "resend": "Resend Code",
       "resendDescription": "Resend code to Email {email}"
+    },
+    "checkout": {
+      "title": "Account Registration",
+      "email": "Email",
+      "selectMembership": "Select Membership",
+      "membershipPackageCard": {
+        "monthlyPackage": {
+          "title": "Monthly Package",
+          "price": "<bold>$249</bold> /month",
+          "description": "Min <bold>7</bold> Matches"
+        },
+        "threeMonthsPackage": {
+          "title": "3 Months Package",
+          "price": "<bold>$459</bold> /month",
+          "description": "Min <bold>18</bold> Matches",
+          "discount": "<bold>Save 89%</bold><br></br>Compared to Leading Premium Matchmaking Services."
+        },
+        "sixMonthsPackage": {
+          "title": "6 Months Package",
+          "price": "<bold>$799</bold> /month",
+          "description": "Min <bold>36</bold> Matches",
+          "discount": "<bold>Save 91%</bold><br></br>Compared to Leading Premium Matchmaking Services."
+        },
+        "twelveMonthsPackage": {
+          "title": "12 Months Package",
+          "price": "$<bold>1449</bold> /month",
+          "description": "Min <bold>73</bold> Matches",
+          "discount": "<bold>Save 92%</bold><br></br>Compared to Leading Premium Matchmaking Services."
+        }
+      },
+      "billingInfo": {
+        "title": "Billing Information",
+        "name": "Name",
+        "addressOne": "Address line 1",
+        "addressTwo": "Address line 2",
+        "city": "City",
+        "postcode": "Postcode",
+        "region": "County/Region",
+        "country": "Country"
+      },
+      "cardInfo": {
+        "title": "Card Information"
+      },
+      "processPayment": "Process Payment"
     }
   }
 }
