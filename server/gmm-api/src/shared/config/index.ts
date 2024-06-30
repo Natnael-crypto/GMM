@@ -18,3 +18,7 @@ export interface ClientConfig {
   url: string;
   authSuccessUrl: string;
 }
+
+export interface EmailLists {
+  getList(id: string);
+}

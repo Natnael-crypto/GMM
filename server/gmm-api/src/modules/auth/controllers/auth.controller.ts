@@ -6,18 +6,20 @@ import { User } from '@modules/user/entities/user.entity';
 import {
     Controller,
     Get,
+    Post,
     HttpStatus,
     Req,
     Res,
-    UseGuards
+    UseGuards,
+    Body
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ApiTags } from '@nestjs/swagger';
-import { ClientConfig } from '@shared/config';
+import { ApiQuery, ApiTags, ApiBody } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 import { Request, Response } from 'express';
 import { GoogleOauthGuard } from '../guards/google-oauth.guard';
 import { AuthService } from '../services/auth.service';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 
 
@@ -26,7 +28,7 @@ import { AuthService } from '../services/auth.service';
 export class AuthController {
     constructor(
         private authService: AuthService,
-        private configService: ConfigService
+        private configService: ConfigService,
     ) { }
 
     @Get('google')
@@ -46,5 +48,22 @@ export class AuthController {
         });
 
         return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
+    }
+
+    @Post('send-otp')
+    @ApiBody({
+        schema: {
+        type: 'object',
+        properties: {
+            email: { type: 'string' },
+            password: { type: 'string' },
+            firstname: { type: 'string' },
+            lastname: { type: 'string' },
+            confirmPassword: { type: 'string' }
+        },
+        },
+    })
+    async sendOtp(@Body() createUserDto: CreateUserDto): Promise<void> {
+        await this.authService.sendOtpForSignIn(createUserDto);
     }
 }

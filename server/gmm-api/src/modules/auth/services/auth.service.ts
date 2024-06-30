@@ -3,16 +3,17 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '@modules/user/entities/user.entity';
-
-
 import { RegisterUserDto } from '../dtos/requests.dto';
 import { ConfigService } from '@nestjs/config';
+import { NoticeService } from '@modules/notice/services/notice.service';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     private configService: ConfigService,
     private jwtService: JwtService,
+    private noticeService: NoticeService,
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
@@ -53,6 +54,27 @@ export class AuthService {
     } catch (e) {
       throw new InternalServerErrorException();
     }
+  }
+
+  async sendOtpForSignIn(createUserDto: CreateUserDto): Promise<void> {
+    try {
+      const otp = this.generateOTP();
+
+      await this.noticeService.sendOtpEmail(createUserDto.email, otp);
+      
+    } catch (error) {
+      console.log('Failed to send OTP:', error);
+      throw new InternalServerErrorException('Failed to send OTP');
+    }
+  }
+
+  generateOTP(): string {
+    const digits = '0123456789';
+    let otp = '';
+    for (let i = 0; i < 6; i++) {
+      otp += digits[Math.floor(Math.random() * 10)];
+    }
+    return otp;
   }
 
   async findUserByEmail(email: string): Promise<User | null> {
