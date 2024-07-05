@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import OurApproachCard from './card';
 import { useTranslations } from 'next-intl';
 import OurApproachSlideContent from './slide-content';
@@ -10,6 +10,9 @@ export default function OurApproach() {
   const t = useTranslations('Landing.ourApproach');
 
   const [current, setCurrent] = useState(0);
+  const [animation, setAnimationInterval] = useState<NodeJS.Timeout | null>(
+    null
+  );
 
   const count = 5;
 
@@ -19,6 +22,27 @@ export default function OurApproach() {
 
   const prev = () => {
     setCurrent((prev) => (prev - 1 + count) % count);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      next();
+    }, 5000);
+
+    setAnimationInterval(interval);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleCardClick = (index: number) => {
+    setCurrent(index);
+    if (animation) {
+      clearInterval(animation);
+    }
+    const interval = setInterval(() => {
+      next();
+    }, 5000);
+    setAnimationInterval(interval);
   };
 
   return (
@@ -50,7 +74,7 @@ export default function OurApproach() {
               imageSrc="/assets/icon_guided-matchmaking.svg"
               imageClassName="w-24 lg:w-36"
               isActive={current === 0}
-              onClick={() => setCurrent(0)}
+              onClick={() => handleCardClick(0)}
             >
               {t.rich('card.guidedMatching', {
                 br: () => <br />,
@@ -60,7 +84,7 @@ export default function OurApproach() {
               imageSrc="/assets/icon_match-guarantee.svg"
               imageClassName="w-24 lg:w-28"
               isActive={current === 1}
-              onClick={() => setCurrent(1)}
+              onClick={() => handleCardClick(1)}
             >
               {t.rich('card.matchGuarantee', {
                 br: () => <br />,
@@ -70,7 +94,7 @@ export default function OurApproach() {
               imageSrc="/assets/icon_1-on-1-chats.svg"
               imageClassName="w-24"
               isActive={current === 2}
-              onClick={() => setCurrent(2)}
+              onClick={() => handleCardClick(2)}
             >
               {t.rich('card.oneOnOneChats', {
                 br: () => <br />,
@@ -80,7 +104,7 @@ export default function OurApproach() {
               imageSrc="/assets/icon_never-pay-to-compete.svg"
               imageClassName="w-24 lg:w-36"
               isActive={current === 3}
-              onClick={() => setCurrent(3)}
+              onClick={() => handleCardClick(3)}
             >
               {t.rich('card.neverPayToCompete', {
                 br: () => <br />,
@@ -90,7 +114,7 @@ export default function OurApproach() {
               imageSrc="/assets/icon_guardian-family-involvement.svg"
               imageClassName="w-20 lg:w-24"
               isActive={current === 4}
-              onClick={() => setCurrent(4)}
+              onClick={() => handleCardClick(4)}
             >
               {t.rich('card.guardianFamilyInvolvement', {
                 br: () => <br />,

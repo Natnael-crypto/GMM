@@ -15,7 +15,7 @@ export default function OurApproachCard({
   return (
     <Card
       className={cn(
-        'z-10 flex flex-col justify-between items-center w-40 h-40 lg:w-[13rem] lg:h-[12rem] cursor-pointer',
+        'z-10 flex flex-col justify-between items-center w-40 h-40 lg:w-[13rem] lg:h-[12rem] cursor-pointer transition-colors duration-300 hover:bg-primary group',
         isActive ? 'bg-primary' : 'bg-background',
         className
       )}
@@ -23,8 +23,22 @@ export default function OurApproachCard({
     >
       <div className={cn('w-36 lg:mt-5', imageClassName)}>
         <Image
-          className="w-full overflow-hidden"
-          src={isActive ? imageSrc.replace('.svg', '-inverted.svg') : imageSrc}
+          className={cn(
+            'w-full overflow-hidden group-hover:hidden',
+            isActive ? 'hidden' : ''
+          )}
+          src={imageSrc}
+          width={200}
+          height={104}
+          alt=""
+        />
+
+        <Image
+          className={cn(
+            'w-full overflow-hidden group-hover:block',
+            isActive ? '' : 'hidden'
+          )}
+          src={imageSrc.replace('.svg', '-inverted.svg')}
           width={200}
           height={104}
           alt=""
@@ -33,7 +47,7 @@ export default function OurApproachCard({
 
       <span
         className={cn(
-          'text-sm font-bold mt-5 text-center',
+          'text-sm font-bold mt-5 text-center transition-colors duration-300 group-hover:text-white',
           isActive ? 'text-white' : 'text-secondary'
         )}
       >
