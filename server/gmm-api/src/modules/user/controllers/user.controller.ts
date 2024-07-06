@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, Req, UseGuards, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
@@ -10,7 +10,7 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 
 @ApiTags('User')
 @ApiBearerAuth()
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
 
@@ -33,22 +33,25 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getUserById(@Param('id') id: string) {
-    return await this.userRepository.findOne({ where: { id: parseInt(id, 10) } });
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post()
-  async createUser(@Body() createUserDto: CreateUserDto) {
-    const newUser = this.userRepository.create(createUserDto);
-    await this.userRepository.save(newUser);
-    return newUser;
+    const userExists = await this.userRepository.findOne({ where: { id: parseInt(id, 10) } });
+    if (!userExists) {
+      throw new NotFoundException('User not found');
+    }
+    return userExists;
   }
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    await this.userRepository.update(id, updateUserDto);
-    return await this.userRepository.findOne({ where: { id: parseInt(id, 10) } });
+    const user = await this.userRepository.findOne({ where: { id: parseInt(id, 10) } });
+    if (!user) {
+      throw new NotFoundException(`User with ID ${id} not found`);
+    }
+  
+    this.userRepository.merge(user, updateUserDto);
+    await this.userRepository.save(user);
+  
+    return user;
   }
 
   @UseGuards(JwtAuthGuard)

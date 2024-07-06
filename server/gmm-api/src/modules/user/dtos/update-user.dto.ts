@@ -19,10 +19,6 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsString()
-  password?: string;
-
-  @IsOptional()
-  @IsString()
   idCard?: string;
 
   @IsOptional()
@@ -118,4 +114,8 @@ export class UpdateUserDto {
   @IsOptional()
   @IsString()
   video?: string;
+
+  constructor(partial: Partial<UpdateUserDto>) {
+    Object.assign(this, partial);
+  }
 }
