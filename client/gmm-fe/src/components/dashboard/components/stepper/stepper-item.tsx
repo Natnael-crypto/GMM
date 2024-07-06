@@ -1,11 +1,14 @@
 import { cn } from '@/lib/utils';
+import Link from 'next/link';
 import React from 'react';
 
 export default function StepperItem({
+  href,
   icon,
   text,
   className,
 }: {
+  href: string;
   icon: React.ReactNode;
   text: React.ReactNode;
   className?: string;
@@ -18,7 +21,7 @@ export default function StepperItem({
           className
         )}
       >
-        {icon}
+        <Link href={href}>{icon}</Link>
       </div>
       <div
         className="absolute bottom-0 text-nowrap
@@ -26,7 +29,7 @@ export default function StepperItem({
       -translate-x-1/2 left-1/2
       text-xs font-semibold text-secondary "
       >
-        {text}
+        <Link href={href}>{text}</Link>
       </div>
     </div>
   );
