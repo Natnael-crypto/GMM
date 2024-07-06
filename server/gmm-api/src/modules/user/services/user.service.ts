@@ -4,7 +4,7 @@ import { EMAIL_LISTS_ID } from '../user.module';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm/repository/Repository';
-
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 
 @Injectable()
@@ -22,4 +22,11 @@ export class UserService implements EmailLists {
          }
          return [];
      }
+
+     async create(createUserDto: CreateUserDto) {
+        return this.userRepository.save({
+            ...createUserDto,
+            createdAt: new Date(),
+        });
+      }
 }
