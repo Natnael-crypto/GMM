@@ -14,7 +14,7 @@ export default function OtherPlatformCard({
   return (
     <Card
       className={cn(
-        'z-10 flex flex-col justify-between items-center w-[10rem] h-[9rem] cursor-pointer',
+        'z-10 flex flex-col justify-between items-center w-[10rem] h-[9rem] cursor-pointer  transition-colors duration-300 hover:bg-primary group',
         isActive ? 'bg-primary' : 'bg-background'
       )}
       onClick={onClick}
@@ -22,7 +22,7 @@ export default function OtherPlatformCard({
       <div className={cn('w-20 mt-3', imageClassName)}>
         <Image
           className={cn(
-            'w-full overflow-hidden',
+            'w-full overflow-hidden transition-colors duration-300 group-hover:saturate-0 group-hover:brightness-0 group-hover:invert-[100%]',
             isActive ? 'saturate-0 brightness-0 invert-[100%]' : ''
           )}
           src={imageSrc}
@@ -34,8 +34,8 @@ export default function OtherPlatformCard({
 
       <span
         className={cn(
-          'text-xs font-bold text-center',
-          isActive ? 'text-white' : 'text-secondary'
+          'text-xs font-bold text-center transition-colors duration-300 group-hover:text-primary-foreground',
+          isActive ? 'text-primary-foreground' : 'text-secondary'
         )}
       >
         {children}

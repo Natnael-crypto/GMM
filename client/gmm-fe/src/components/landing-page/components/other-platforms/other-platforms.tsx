@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import OtherPlatformCard from './card';
 import { useTranslations } from 'next-intl';
 import OtherPlatformContent from './slide-content';
@@ -10,6 +10,9 @@ export default function OtherPlatforms() {
   const t = useTranslations('Landing.otherPlatforms');
 
   const [current, setCurrent] = useState(0);
+  const [animation, setAnimationInterval] = useState<NodeJS.Timeout | null>(
+    null
+  );
 
   const count = 7;
 
@@ -19,6 +22,27 @@ export default function OtherPlatforms() {
 
   const prev = () => {
     setCurrent((prev) => (prev - 1 + count) % count);
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      next();
+    }, 5000);
+
+    setAnimationInterval(interval);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleCardClick = (index: number) => {
+    setCurrent(index);
+    if (animation) {
+      clearInterval(animation);
+    }
+    const interval = setInterval(() => {
+      next();
+    }, 5000);
+    setAnimationInterval(interval);
   };
 
   return (
@@ -52,7 +76,7 @@ export default function OtherPlatforms() {
               imageSrc="/assets/puzzle-piece-solid.svg"
               imageClassName="w-12"
               isActive={current === 0}
-              onClick={() => setCurrent(0)}
+              onClick={() => handleCardClick(0)}
             >
               {t.rich('card.endlessSearching', {
                 br: () => <br />,
@@ -62,7 +86,7 @@ export default function OtherPlatforms() {
               imageSrc="/assets/comment-slash-solid.svg"
               imageClassName="w-14"
               isActive={current === 1}
-              onClick={() => setCurrent(1)}
+              onClick={() => handleCardClick(1)}
             >
               {t.rich('card.noOneOnOneChats', {
                 br: () => <br />,
@@ -72,7 +96,7 @@ export default function OtherPlatforms() {
               imageSrc="/assets/ban-solid.svg"
               imageClassName="w-14"
               isActive={current === 2}
-              onClick={() => setCurrent(2)}
+              onClick={() => handleCardClick(2)}
             >
               {t.rich('card.noFamilyInvolvement', {
                 br: () => <br />,
@@ -82,7 +106,7 @@ export default function OtherPlatforms() {
               imageSrc="/assets/repeat-solid.svg"
               imageClassName="w-14"
               isActive={current === 3}
-              onClick={() => setCurrent(3)}
+              onClick={() => handleCardClick(3)}
             >
               {t.rich('card.noMatchGuarantee', {
                 br: () => <br />,
@@ -93,7 +117,7 @@ export default function OtherPlatforms() {
                 imageSrc="/assets/user-large-slash-solid.svg"
                 imageClassName="w-14"
                 isActive={current === 4}
-                onClick={() => setCurrent(4)}
+                onClick={() => handleCardClick(4)}
               >
                 {t.rich('card.noTrueHalalApproach', {
                   br: () => <br />,
@@ -104,7 +128,7 @@ export default function OtherPlatforms() {
               imageSrc="/assets/heart-crack-solid.svg"
               imageClassName="w-14"
               isActive={current === 5}
-              onClick={() => setCurrent(5)}
+              onClick={() => handleCardClick(5)}
             >
               {t.rich('card.terribleHealth', {
                 br: () => <br />,
@@ -114,7 +138,7 @@ export default function OtherPlatforms() {
               imageSrc="/assets/comments-dollar-solid.svg"
               imageClassName="w-14"
               isActive={current === 6}
-              onClick={() => setCurrent(6)}
+              onClick={() => handleCardClick(6)}
             >
               {t.rich('card.payment', {
                 br: () => <br />,
