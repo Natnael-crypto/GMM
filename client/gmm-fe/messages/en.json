@@ -187,5 +187,35 @@
       },
       "processPayment": "Process Payment"
     }
+  },
+
+  "Dashboard": {
+    "common": {
+      "title": "Dashboard",
+      "stepper": {
+        "basicInformation": "Basic Information",
+        "worldlyLifestyle": "Worldly Lifestyle",
+        "islamicLifestyle": "Islamic Lifestyle",
+        "marriageDiscussion": "Marriage Discussion",
+        "familyIntroduction": "Family Introduction"
+      }
+    },
+    "profile": {
+      "basicInformation": {
+        "title": "Basic Information"
+      },
+      "worldlyLifestyle": {
+        "title": "Worldly Lifestyle"
+      },
+      "islamicLifestyle": {
+        "title": "Islamic Lifestyle"
+      },
+      "marriageDiscussion": {
+        "title": "Marriage Discussion"
+      },
+      "familyIntroduction": {
+        "title": "Family Introduction"
+      }
+    }
   }
 }
