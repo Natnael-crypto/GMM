@@ -17,6 +17,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Guardian / Wali Documentation')
     .setDescription('Guardian / Wali API')
+    .addBearerAuth()
     .setVersion('1.0')
     .addTag('GMM')
     .build();

@@ -3,10 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '@modules/user/entities/user.entity';
-import { RegisterUserDto } from '../dtos/requests.dto';
 import { ConfigService } from '@nestjs/config';
 import { NoticeService } from '@modules/notice/services/notice.service';
-import { CreateUserDto } from '../dtos/create-user.dto';
 import { UserService } from '@modules/user/services/user.service';
 import { LoginUserDto } from '../dtos/login.dto';
 import * as bcrypt from 'bcrypt';
@@ -36,7 +34,6 @@ export class AuthService {
     if (!userExists) {
       throw new BadRequestException('Email does not exist');
     }
-    console.log(userExists);
 
     const isPasswordValid = await bcrypt.compare(user.password, userExists.password);
     if (!isPasswordValid) {
