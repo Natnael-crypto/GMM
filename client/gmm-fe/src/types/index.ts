@@ -73,3 +73,8 @@ export interface CreateAccountProps {
 export interface GuardianServiceCardProps {
   children: React.ReactNode;
 }
+
+export interface ProfileHeaderProps {
+  pageName: string;
+  editLink: string;
+}
