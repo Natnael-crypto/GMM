@@ -27,7 +27,10 @@ export default function ProfileLayout({
     <div>
       <Header />
       <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
-        <ProfileHeader editLink="" pageName={pageNames[pathname]} />
+        <ProfileHeader
+          editLink={`${pathname}/edit`}
+          pageName={pageNames[pathname]}
+        />
         <Stepper />
 
         <div className="grid grid-cols-3 gap-5 py-8">
