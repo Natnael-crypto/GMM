@@ -1,5 +1,6 @@
 import Header from '@/components/dashboard/components/header';
 import ProfileHeader from '@/components/dashboard/components/profile-header';
+import ProfileImages from '@/components/dashboard/components/profile-image-card';
 import Stepper from '@/components/dashboard/components/stepper/stepper';
 import Footer from '@/components/ui/footer';
 import React from 'react';
@@ -16,8 +17,10 @@ export default function ProfileLayout({
         <ProfileHeader editLink="" pageName="Basic Information" />
         <Stepper />
 
-        <div className="grid grid-cols-3 gap-5">
-          <div className="col-span-1"></div>
+        <div className="grid grid-cols-3 gap-5 py-8">
+          <div className="col-span-1">
+            <ProfileImages />
+          </div>
           <div className="col-span-2">{children}</div>
         </div>
       </div>
