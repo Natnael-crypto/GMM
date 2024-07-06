@@ -1,8 +1,3 @@
-
-
-
-
-import { User } from '@modules/user/entities/user.entity';
 import {
     Controller,
     Get,
@@ -19,8 +14,7 @@ import { ApiVersion } from '@shared/types/version';
 import { Request, Response } from 'express';
 import { GoogleOauthGuard } from '../guards/google-oauth.guard';
 import { AuthService } from '../services/auth.service';
-import { CreateUserDto } from '../dtos/create-user.dto';
-
+import { LoginUserDto } from '../dtos/login.dto';
 
 
 @ApiTags('auth')
@@ -39,7 +33,7 @@ export class AuthController {
     @UseGuards(GoogleOauthGuard)
     async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
         
-        const token = await this.authService.signIn(req.user as unknown as User);
+        const token = await this.authService.signIn(req.user as unknown as LoginUserDto);
         
         const clientSuccessUrl = this.configService.get<string>('CLIENTAUTHSUCCESSURL')!;
         
@@ -48,5 +42,27 @@ export class AuthController {
         });
 
         return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
+    }
+
+    @Post('login')
+    async login(@Body() body, @Res() res) {
+        const { user } = body;
+        try {
+            const result = await this.authService.signIn(user);
+            return res.status(HttpStatus.OK).json(result);
+        } catch (error) {
+            return res.status(HttpStatus.BAD_REQUEST).json({ Status: 'Failure', Details: error.message });
+        }
+    }
+
+    @Post('register')
+    async registerUser(@Body() body, @Res() res) {
+        const { user } = body;
+        try {
+            const result = await this.authService.registerUser(user);
+            return res.status(HttpStatus.OK).json(result);
+        } catch (error) {
+            return res.status(HttpStatus.BAD_REQUEST).json({ Status: 'Failure', Details: error.message });
+        }   
     }
 }
