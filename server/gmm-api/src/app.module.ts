@@ -1,12 +1,14 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserModule } from './modules/user/user.module'; // Adjusted import path
-import { AuthModule } from './modules/auth/auth.module'; // Adjusted import path
-import { NoticeModule } from './modules/notice/notice.module'; // Adjusted import path
-import { UserService } from './modules/user/services/user.service'; // Adjusted import path
+import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { NoticeModule } from './modules/notice/notice.module';
+import { UserService } from './modules/user/services/user.service';
+import { LoggerMiddleware } from '@shared/utils/logger';
+import { OTPModule } from '@modules/otp/otp.module';
 
 @Module({
   imports: [
@@ -37,8 +39,13 @@ import { UserService } from './modules/user/services/user.service'; // Adjusted 
       envTransport: 'EMAIL_SMTP_CONNECTION',
       from: 'Guardian / Wali', 
     }),
+    OTPModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

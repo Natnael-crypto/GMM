@@ -22,3 +22,7 @@ export interface ClientConfig {
 export interface EmailLists {
   getList(id: string);
 }
+
+export interface ResponseError extends Error {
+  statusCode?: number;
+}

@@ -4,6 +4,17 @@ import { NoticeService } from './services/notice.service';
 import { NoticeModuleOptions } from '@shared/types/notify.options';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
+const EMAIL_LISTS_PROVIDER = {
+  provide: 'EMAIL_LISTS_PROVIDER',
+  useValue: {
+    getList: async (emailListID: string) => {
+      // Logic to fetch email list by ID
+
+      return ['example1@example.com', 'example2@example.com'];
+    },
+  },
+};
+
 @Module({})
 export class NoticeModule {
   static forRootAsync(options: NoticeModuleOptions): DynamicModule {
@@ -28,7 +39,12 @@ export class NoticeModule {
         },
         NoticeService,
       ],
-      exports: [ NoticeService, 'EMAIL_LISTS_PROVIDER'],
+      exports: [ NoticeService, 'EMAIL_LISTS_PROVIDER',
+        {
+          provide: 'EMAIL_LISTS_PROVIDER',
+          useExisting: options.listsProvider,
+        }
+      ],
     };
   }
 }

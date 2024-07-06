@@ -49,21 +49,4 @@ export class AuthController {
 
         return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
     }
-
-    @Post('send-otp')
-    @ApiBody({
-        schema: {
-        type: 'object',
-        properties: {
-            email: { type: 'string' },
-            password: { type: 'string' },
-            firstname: { type: 'string' },
-            lastname: { type: 'string' },
-            confirmPassword: { type: 'string' }
-        },
-        },
-    })
-    async sendOtp(@Body() createUserDto: CreateUserDto): Promise<void> {
-        await this.authService.sendOtpForSignIn(createUserDto);
-    }
 }

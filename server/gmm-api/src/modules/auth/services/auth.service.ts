@@ -56,27 +56,6 @@ export class AuthService {
     }
   }
 
-  async sendOtpForSignIn(createUserDto: CreateUserDto): Promise<void> {
-    try {
-      const otp = this.generateOTP();
-
-      await this.noticeService.sendOtpEmail(createUserDto.email, otp);
-      
-    } catch (error) {
-      console.log('Failed to send OTP:', error);
-      throw new InternalServerErrorException('Failed to send OTP');
-    }
-  }
-
-  generateOTP(): string {
-    const digits = '0123456789';
-    let otp = '';
-    for (let i = 0; i < 6; i++) {
-      otp += digits[Math.floor(Math.random() * 10)];
-    }
-    return otp;
-  }
-
   async findUserByEmail(email: string): Promise<User | null> {
     const user = await this.userRepository.findOne({ where: { email } });
 
