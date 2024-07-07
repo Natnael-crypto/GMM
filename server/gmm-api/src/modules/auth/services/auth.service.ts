@@ -4,12 +4,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '@modules/user/entities/user.entity';
 import { ConfigService } from '@nestjs/config';
-import { NoticeService } from '@modules/notice/services/notice.service';
-import { UserService } from '@modules/user/services/user.service';
 import { LoginUserDto } from '../dtos/login.dto';
 import * as bcrypt from 'bcrypt';
 import { SignUpUserDto } from '../dtos/signup.dto';
 import { OTPService } from '@modules/otp/services/otp.service';
+import { SignInUserDto } from '../dtos/requests.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,30 +24,42 @@ export class AuthService {
     return this.jwtService.sign(payload, { secret });
   }
 
-  async signIn(user: LoginUserDto) {
+  async signInWithGoogle(user: User) {
     if (!user) {
-      throw new BadRequestException('No Credentials Provided');
+      throw new BadRequestException('auth_unauthenticated');
     }
 
     const userExists = await this.findUserByEmail(user.email);
 
     if (!userExists) {
-      throw new BadRequestException('Email does not exist');
-    }
-
-    const isPasswordValid = await bcrypt.compare(user.password, userExists.password);
-    if (!isPasswordValid) {
-      throw new BadRequestException('Invalid credentials');
+      return this.signUpWithGoogle(user);
     }
 
     return this.generateJwt({
-        sub: userExists.email,
-        email: userExists.email,
-        name: userExists.firstName + ' ' + userExists.lastName,
-      });
+      sub: userExists.email,
+      email: userExists.email,
+      name: userExists.firstName + ' ' + userExists.lastName,
+    });
   }
 
-  async registerUser(user: SignUpUserDto) {
+  async signUpWithGoogle(user: User) {
+    try {
+      const newUser = this.userRepository.create({
+        ...user,});
+
+      return this.generateJwt({
+        sub: newUser.email,
+        email: newUser.email,
+        name: newUser.firstName + ' ' + newUser.lastName,
+      });
+    } catch (e) {
+      throw new InternalServerErrorException();
+    }
+
+  }
+
+
+  async registerUserWithEmail(user: SignUpUserDto) {
     
     const userExists = await this.findUserByEmail(user.email);
     if (userExists) {
@@ -76,7 +87,7 @@ export class AuthService {
     }
   }
 
-  async login(user: LoginUserDto) {
+  async loginWithEmail(user: LoginUserDto) {
     const userExists = await this.findUserByEmail(user.email);
 
     if (!userExists) {

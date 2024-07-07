@@ -15,8 +15,9 @@ import { Request, Response } from 'express';
 import { GoogleOauthGuard } from '../guards/google-oauth.guard';
 import { AuthService } from '../services/auth.service';
 import { LoginUserDto } from '../dtos/login.dto';
-import { RegisterUserDto } from '../dtos/requests.dto';
+import { SignInUserDto } from '../dtos/requests.dto';
 import { SignUpUserDto } from '../dtos/signup.dto';
+import { User } from '@modules/user/entities/user.entity';
 
 
 @ApiTags('auth')
@@ -35,7 +36,7 @@ export class AuthController {
     @UseGuards(GoogleOauthGuard)
     async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
         
-        const token = await this.authService.signIn(req.user as unknown as LoginUserDto);
+        const token = await this.authService.signInWithGoogle(req.user as unknown as User);
         
         const clientSuccessUrl = this.configService.get<string>('CLIENTAUTHSUCCESSURL')!;
         
@@ -51,7 +52,7 @@ export class AuthController {
     async login(@Body() body, @Res() res) {
         const { user } = body;
         try {
-            const result = await this.authService.login(user);
+            const result = await this.authService.loginWithEmail(user);
             return res.status(HttpStatus.OK).json(result);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json({ Status: 'Failure', Details: error.message });
@@ -63,7 +64,7 @@ export class AuthController {
     async registerUser(@Body() body, @Res() res) {
         const { user } = body;
         try {
-            const result = await this.authService.registerUser(user);
+            const result = await this.authService.registerUserWithEmail(user);
             return res.status(HttpStatus.OK).json(result);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json({ Status: 'Failure', Details: error.message });

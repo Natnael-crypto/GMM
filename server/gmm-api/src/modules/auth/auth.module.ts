@@ -9,6 +9,8 @@ import { AuthController } from './controllers/auth.controller';
 import { NoticeModule } from '@modules/notice/notice.module';
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { UserService } from '@modules/user/services/user.service';
+import { OTPModule } from '@modules/otp/otp.module';
+import { OTPService } from '@modules/otp/services/otp.service';
 
 @Module({
   imports: [
@@ -30,9 +32,10 @@ import { UserService } from '@modules/user/services/user.service';
       envTransport: 'EMAIL_SMTP_CONNECTION',
       from: 'betabravah@gmail.com', 
     }),
+    OTPModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, GoogleStrategy, JwtStrategy, NoticeService ],
+  providers: [AuthService, GoogleStrategy, JwtStrategy, NoticeService, OTPService ],
 })
 
 export class AuthModule {}
