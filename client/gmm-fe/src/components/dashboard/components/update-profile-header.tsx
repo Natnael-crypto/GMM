@@ -20,9 +20,9 @@ export default function UpdateProfileHeader({
 }: ProfileHeaderProps) {
   return (
     <div className="flex justify-between items-center border-b p-1">
-      <div className="text-xl font-bold text-secondary">
+      <h1 className="text-xl font-bold text-secondary">
         <span>Hi,</span> <span className="text-primary">Muzaffar Sohail</span>
-      </div>
+      </h1>
       <div className="flex gap-3 items-center">
         <div className="flex gap-1 items-center text-xs">
           <Input type="checkbox" />
