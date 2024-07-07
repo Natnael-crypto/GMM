@@ -10,7 +10,7 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 
 @ApiTags('User')
 @ApiBearerAuth()
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
 

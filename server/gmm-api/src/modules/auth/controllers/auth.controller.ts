@@ -15,6 +15,8 @@ import { Request, Response } from 'express';
 import { GoogleOauthGuard } from '../guards/google-oauth.guard';
 import { AuthService } from '../services/auth.service';
 import { LoginUserDto } from '../dtos/login.dto';
+import { RegisterUserDto } from '../dtos/requests.dto';
+import { SignUpUserDto } from '../dtos/signup.dto';
 
 
 @ApiTags('auth')
@@ -45,10 +47,11 @@ export class AuthController {
     }
 
     @Post('login')
+    @ApiBody({ type: LoginUserDto })
     async login(@Body() body, @Res() res) {
         const { user } = body;
         try {
-            const result = await this.authService.signIn(user);
+            const result = await this.authService.login(user);
             return res.status(HttpStatus.OK).json(result);
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json({ Status: 'Failure', Details: error.message });
@@ -56,6 +59,7 @@ export class AuthController {
     }
 
     @Post('register')
+    @ApiBody({ type: SignUpUserDto })
     async registerUser(@Body() body, @Res() res) {
         const { user } = body;
         try {

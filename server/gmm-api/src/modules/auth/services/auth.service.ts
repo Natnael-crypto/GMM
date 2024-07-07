@@ -8,6 +8,7 @@ import { NoticeService } from '@modules/notice/services/notice.service';
 import { UserService } from '@modules/user/services/user.service';
 import { LoginUserDto } from '../dtos/login.dto';
 import * as bcrypt from 'bcrypt';
+import { SignUpUserDto } from '../dtos/signup.dto';
 import { OTPService } from '@modules/otp/services/otp.service';
 
 @Injectable()
@@ -47,7 +48,7 @@ export class AuthService {
       });
   }
 
-  async registerUser(user: LoginUserDto) {
+  async registerUser(user: SignUpUserDto) {
     
     const userExists = await this.findUserByEmail(user.email);
     if (userExists) {
@@ -73,6 +74,25 @@ export class AuthService {
     } catch (e) {
       throw new InternalServerErrorException();
     }
+  }
+
+  async login(user: LoginUserDto) {
+    const userExists = await this.findUserByEmail(user.email);
+
+    if (!userExists) {
+      throw new BadRequestException('Email does not exist');
+    }
+
+    const isPasswordValid = await bcrypt.compare(user.password, userExists.password);
+    if (!isPasswordValid) {
+      throw new BadRequestException('Invalid credentials');
+    }
+
+    return this.generateJwt({
+      sub: userExists.email,
+      email: userExists.email,
+      name: userExists.firstName + ' ' + userExists.lastName,
+    });
   }
 
   async findUserByEmail(email: string): Promise<User | null> {
