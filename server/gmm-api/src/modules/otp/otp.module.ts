@@ -18,5 +18,6 @@ import { NoticeModule } from '@modules/notice/notice.module';
 
         return ['betabravah@gmail.com'];}
   },}],
+  exports: [OTPService, TypeOrmModule],
 })
 export class OTPModule {}

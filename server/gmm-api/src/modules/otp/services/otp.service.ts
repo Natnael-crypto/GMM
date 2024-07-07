@@ -1,9 +1,8 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import * as otpGenerator from 'otp-generator';
-import * as nodemailer from 'nodemailer';
 
 import { OTP } from '../entities/otp.entity';
 import { AddMinutesToDate } from '@shared/utils/date-utils';
@@ -13,8 +12,7 @@ import { NoticeService } from '@modules/notice/services/notice.service';
 @Injectable()
 export class OTPService {
   constructor(
-    @InjectRepository(OTP)
-    private otpRepository: Repository<OTP>,
+    @InjectRepository(OTP) private otpRepository: Repository<OTP>,
     private noticeService: NoticeService,
   ) {}
 
@@ -62,7 +60,18 @@ export class OTPService {
     await this.noticeService.sendEmail(email, email_subject, email_message);
 
     return { Status: 'Success', Details: encoded };
-    return { Status: 'Success', Details: details };
+  }
+
+  async findOneById(id: string): Promise<OTP> {
+    const otp = await this.otpRepository.findOne({ where: { id } });
+    if (!otp) {
+      throw new NotFoundException(`OTP with id ${id} not found`);
+    }
+    return otp;
+  }
+
+  async save(otpInstance: OTP): Promise<OTP> {
+    return this.otpRepository.save(otpInstance);
   }
 }
 
