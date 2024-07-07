@@ -14,7 +14,7 @@ import StepperSeparator from './stepper-separator';
 import { useLocale, useTranslations } from 'next-intl';
 import { usePathname } from '@/lib/navigation';
 
-export default function Stepper() {
+export default function ProfileStepper() {
   const t = useTranslations('Dashboard.common.stepper');
   const locale = useLocale();
   const pathname = usePathname();
