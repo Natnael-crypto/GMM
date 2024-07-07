@@ -8,14 +8,14 @@ import { NoticeService } from '@modules/notice/services/notice.service';
 import { UserService } from '@modules/user/services/user.service';
 import { LoginUserDto } from '../dtos/login.dto';
 import * as bcrypt from 'bcrypt';
+import { OTPService } from '@modules/otp/services/otp.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private configService: ConfigService,
     private jwtService: JwtService,
-    private noticeService: NoticeService,
-    private userService: UserService,
+    private otpService: OTPService,
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
@@ -61,10 +61,15 @@ export class AuthService {
       });
       await this.userRepository.save(newUser);
       
-      return this.generateJwt({
-        sub: newUser.email,
-        email: newUser.email,
-      });
+      const otpResult = await this.otpService.generateAndSendOTP(newUser.email, 'VERIFICATION');
+      if (otpResult.Status !== 'Success') {
+        throw new InternalServerErrorException('Failed to send OTP');
+      }
+
+      return {
+        message: 'Registration successful. Please check your email for OTP verification.',
+        otpDetails: otpResult.Details,
+      };
     } catch (e) {
       throw new InternalServerErrorException();
     }
