@@ -8,7 +8,6 @@ import { LoginUserDto } from '../dtos/login.dto';
 import * as bcrypt from 'bcrypt';
 import { SignUpUserDto } from '../dtos/signup.dto';
 import { OTPService } from '@modules/otp/services/otp.service';
-import { SignInUserDto } from '../dtos/requests.dto';
 
 @Injectable()
 export class AuthService {
