@@ -5,7 +5,7 @@ import React from 'react';
 
 export default function UpdateBasicInformation() {
   return (
-    <div className="grid grid-cols-3 gap-x-5 py-8 text-xs">
+    <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-3 gap-x-5 py-8 text-xs">
       <div className="col-span-1">
         <ProfileImages />
       </div>

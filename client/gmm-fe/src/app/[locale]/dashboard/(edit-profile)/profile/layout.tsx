@@ -27,17 +27,19 @@ export default function UpdateProfileLayout({
   return (
     <div>
       <Header />
-      <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
-        <UpdateProfileHeader
-          editLink={`/${locale}${pathname.slice(0, -5)}`}
-          pageName={pageNames[pathname]}
-        />
-        <div className="flex items-center justify-center">
-          <h1 className="text-2xl">Update Profile</h1>
+      <div className="py-6">
+        <div className="px-6 sm:px-16 md:px-24 lg:px-52 space-y-8">
+          <UpdateProfileHeader
+            editLink={`/${locale}${pathname.slice(0, -5)}`}
+            pageName={pageNames[pathname]}
+          />
+          <div className="flex items-center justify-center">
+            <h1 className="text-2xl">Update Profile</h1>
+          </div>
+          <UpdateProfileStepper />
         </div>
-        <UpdateProfileStepper />
 
-        <div className="py-5">
+        <div className="py-5 px-6 sm:px-16 md:px-24 lg:px-52 mt-8">
           <div className="bg-muted text-muted-foreground flex flex-col items-center justify-center py-4 text-sm rounded-se-3xl rounded-es-3xl">
             <p>
               To access each section of your profile, simply click any of the
@@ -48,8 +50,8 @@ export default function UpdateProfileLayout({
               minutes.
             </p>
           </div>
-          <div>{children}</div>
         </div>
+        <div>{children}</div>
       </div>
       <Footer />
     </div>
