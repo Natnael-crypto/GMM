@@ -1,4 +1,8 @@
 {
+  "common": {
+    "upload": "Upload",
+    "fileUploadPlaceholder": "Browse file to upload"
+  },
   "Landing": {
     "hero": {
       "title": "Premium Guided Matchmaking",
@@ -248,7 +252,17 @@
         }
       },
       "familyIntroduction": {
-        "title": "Family Introduction"
+        "title": "Family Introduction",
+
+        "guardianInformation": {
+          "fullName": "Guardian's Full Name",
+          "relationship": "Relationship to You"
+        },
+        "idVerification": {
+          "title": "Your ID Verification",
+          "phoneNumber": "Your Phone Number",
+          "id": "Your ID (Drivers License, Passport, or Citizen Card)"
+        }
       }
     }
   }
