@@ -1,10 +1,6 @@
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import {
   faLanguage,
   faLocationDot,
-  faLocationPin,
-  faMapLocation,
   faMosque,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
