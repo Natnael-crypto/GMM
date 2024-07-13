@@ -1,4 +1,8 @@
 {
+  "common": {
+    "upload": "Upload",
+    "fileUploadPlaceholder": "Browse file to upload"
+  },
   "Landing": {
     "hero": {
       "title": "Premium Guided Matchmaking",
@@ -215,6 +219,50 @@
       },
       "familyIntroduction": {
         "title": "Family Introduction"
+      }
+    },
+    "updateProfile": {
+      "basicInformation": {
+        "title": "Basic Information"
+      },
+      "worldlyLifestyle": {
+        "title": "Worldly Lifestyle"
+      },
+      "islamicLifestyle": {
+        "title": "Islamic Lifestyle"
+      },
+      "marriageDiscussion": {
+        "title": "Marriage Discussion",
+        "optionalVerifiable": {
+          "title": "Optional Verifiable",
+          "p1": "Either match may request verification on the items listed below to be verified by guardian marriages to ensure any claims regarding nationality, annual income, debts, DUIs, criminal background checks, STD panel are accruate.",
+          "p2": "Guardian marriages will never share materials provided as evidence but will indicate on member profile that optional items has been verified on such and so date.",
+          "verified": "Verified",
+          "unverified": "Unverified",
+          "upload": "Upload",
+          "annualIncome": "Annual Income: Submit employment letter stating occupation, income and job status (permanent, probationary, full-time or part-time)",
+          "annualTax": "Annual Tax Report",
+          "fullCredit": "Full Credit Report: Disclosing debts.",
+          "drivingRecord": "Driving Record: Valid Driver License",
+          "nationality": "Nationality: Valid Passport ID",
+          "stdTesting": "STD Testing",
+          "criminalBackgroundCheck": "Criminal Background Check",
+          "divorced": "Divorced: Has the legal divorce finalized with the other spouse?",
+          "custody": "If Children Involved: Custody and parenting arrangements"
+        }
+      },
+      "familyIntroduction": {
+        "title": "Family Introduction",
+
+        "guardianInformation": {
+          "fullName": "Guardian's Full Name",
+          "relationship": "Relationship to You"
+        },
+        "idVerification": {
+          "title": "Your ID Verification",
+          "phoneNumber": "Your Phone Number",
+          "id": "Your ID (Drivers License, Passport, or Citizen Card)"
+        }
       }
     }
   }

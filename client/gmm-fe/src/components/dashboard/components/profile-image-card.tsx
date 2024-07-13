@@ -9,7 +9,7 @@ import React from 'react';
 
 export default function ProfileImages() {
   return (
-    <div className="relative rounded-se-3xl rounded-es-3xl overflow-hidden h-[26rem">
+    <div className="sticky top-5 rounded-se-3xl rounded-es-3xl overflow-hidden h-[26rem]">
       <Image
         src="/temp/profile-pic-2.webp"
         className="object-cover w-full h-[26rem] object-top"
