@@ -150,7 +150,7 @@ export default function WorldlyLifestyle() {
 
       <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 text-sm space-y-3">
         <h1 className="text-primary font-bold text-xl">
-          Expected worldly Lifestyle of Your Potential Spouse
+          Expected Worldly Lifestyle of Your Potential Spouse
         </h1>
 
         <div className="divide-y">
