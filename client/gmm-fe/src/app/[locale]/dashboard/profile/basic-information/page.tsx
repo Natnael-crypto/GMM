@@ -5,12 +5,11 @@ import {
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Link from 'next/link';
 import React from 'react';
 
 export default function BasicInformation() {
   return (
-    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 divide-y">
+    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 divide-y text-sm">
       <div className="grid grid-cols-12 py-3">
         <div className="col-span-1">
           <FontAwesomeIcon icon={faUser} size="xl" className="text-primary" />
