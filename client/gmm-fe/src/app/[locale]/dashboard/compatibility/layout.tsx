@@ -36,7 +36,7 @@ export default function CompatibilityLayout({
           <h1 className="text-xl text-center">Profile Compatibility</h1>
           <div className="absolute right-0 top-1/2 -translate-y-1/2">
             <Link
-              href={`/${locale}/dashboard/`}
+              href={`/${locale}/dashboard/basic-information`}
               className={cn(
                 buttonVariants({
                   variant: 'outline',
