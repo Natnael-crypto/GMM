@@ -30,10 +30,10 @@ export default function Sidebar() {
             Personal Info
           </Link>
           <Link
-            href={`/${locale}/dashboard/profile/billing`}
+            href={`/${locale}/dashboard/billing`}
             className={cn(
               'ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full',
-              isActive('/dashboard/profile/billing')
+              isActive('/dashboard/billing')
                 ? 'bg-secondary text-secondary-foreground'
                 : ''
             )}
