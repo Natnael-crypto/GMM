@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from '@/lib/navigation';
 import React from 'react';
 import { cn } from '@/lib/utils';
+import CurrentSubscriptionCard from '../billing/components/current-subscription-card';
 
 export default function Sidebar() {
   const locale = useLocale();
@@ -79,6 +80,8 @@ export default function Sidebar() {
           </Link>
         </div>
       </div>
+
+      <CurrentSubscriptionCard />
     </div>
   );
 }
