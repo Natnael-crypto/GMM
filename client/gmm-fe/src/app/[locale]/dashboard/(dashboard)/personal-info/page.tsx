@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
-export default function Profile() {
+export default function PersonalInfo() {
   const t = useTranslations(
     'Dashboard.updateProfile.marriageDiscussion.optionalVerifiable'
   );
