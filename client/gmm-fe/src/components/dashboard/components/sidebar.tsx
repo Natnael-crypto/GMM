@@ -48,13 +48,13 @@ export default function Sidebar() {
 
         <div className="flex flex-col py-2 gap-1">
           <Link
-            href=""
+            href={`/${locale}/dashboard/profile/basic-information`}
             className="ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full"
           >
             Dashboard
           </Link>
           <Link
-            href=""
+            href={`/${locale}/dashboard/profile/basic-information`}
             className="ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full"
           >
             Profile
