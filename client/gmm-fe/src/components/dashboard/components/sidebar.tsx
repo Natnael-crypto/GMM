@@ -19,7 +19,7 @@ export default function Sidebar() {
 
         <div className="flex flex-col py-2 gap-1">
           <Link
-            href=""
+            href={`/${locale}/dashboard/billing`}
             className={cn(
               'ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full',
               isActive('/dashboard/profile')
