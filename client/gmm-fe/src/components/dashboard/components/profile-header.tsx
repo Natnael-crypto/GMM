@@ -11,17 +11,22 @@ import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { ProfileHeaderProps } from '@/types';
+import { useLocale } from 'next-intl';
 
 export default function ProfileHeader({
   pageName,
   editLink,
 }: ProfileHeaderProps) {
+  const locale = useLocale();
+
   return (
     <div className="flex justify-between items-center">
       <Breadcrumb>
         <BreadcrumbList className="gap-1.5 sm:gap-1.5 text-xs">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+            <BreadcrumbLink href={`/${locale}/dashboard/personal-info`}>
+              Dashboard
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator>
             <span>/</span>
