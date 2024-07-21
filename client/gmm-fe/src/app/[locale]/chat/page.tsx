@@ -1,6 +1,8 @@
 import Chat from '@/components/chat/components/chat';
 import GuardianGuide from '@/components/chat/components/guardian-guide';
 import MatchProfile from '@/components/chat/components/match-profile';
+import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 export default function ChatPage() {
@@ -17,8 +19,18 @@ export default function ChatPage() {
           <GuardianGuide />
         </div>
       </div>
-      <div className="col-span-12 bg-secondary text-secondary-foreground p-2">
-        a
+      <div className="col-span-12 bg-secondary text-secondary-foreground p-2 px-5">
+        <Link href="/">
+          <div className="w-40 md:w-60">
+            <Image
+              className="w-full overflow-hidden"
+              src="/assets/guardian-logo.png"
+              width={537}
+              height={70}
+              alt="Guardian logo"
+            />
+          </div>
+        </Link>
       </div>
     </div>
   );
