@@ -1,0 +1,37 @@
+import Chat from '@/components/chat/components/chat';
+import GuardianGuide from '@/components/chat/components/guardian-guide';
+import MatchProfile from '@/components/chat/components/match-profile';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+
+export default function ChatPage() {
+  return (
+    <div className="h-screen flex flex-col justify-between bg-[#c9e2aa]">
+      <div className="grid grid-cols-12 gap-x-3 gap-y-5 outline h-full p-3">
+        <div className="col-span-3">
+          <MatchProfile />
+        </div>
+        <div className="col-span-6">
+          <Chat />
+        </div>
+        <div className="col-span-3">
+          <GuardianGuide />
+        </div>
+      </div>
+      <div className="col-span-12 bg-secondary text-secondary-foreground p-2 px-5">
+        <Link href="/">
+          <div className="w-40 md:w-60">
+            <Image
+              className="w-full overflow-hidden"
+              src="/assets/guardian-logo.png"
+              width={537}
+              height={70}
+              alt="Guardian logo"
+            />
+          </div>
+        </Link>
+      </div>
+    </div>
+  );
+}
