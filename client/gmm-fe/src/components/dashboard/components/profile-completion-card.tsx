@@ -7,7 +7,7 @@ export default function ProfileCompletionCard() {
   return (
     <div
       className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 text-xs
-space-y-4"
+space-y-5"
     >
       <ProfileCard />
 
