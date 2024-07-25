@@ -7,12 +7,57 @@ import {
   Select,
   SelectItem,
 } from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
 
 import React from 'react';
 
 export default function MatchPreferenceFilter() {
   return (
     <div className="col-span-9 grid grid-cols-subgrid gap-x-4 gap-y-5 text-secondary">
+      <div className="space-y-2 col-span-3">
+        <Label className="text-xs flex justify-between items-center ">
+          <span className="font-bold ">Preferred Age</span>
+          <span className="flex gap-1 items-center justify-center text-[0.65rem]">
+            <Input type="checkbox" className="p-0 m-0 h-fit" />
+            <span>Any</span>
+          </span>
+        </Label>
+        <Slider defaultValue={[50]} max={100} step={1} />
+        <div className="text-[0.6rem] flex gap-1 text-primary font-bold justify-center">
+          <span>25</span>
+        </div>
+      </div>
+      <div className="space-y-2 col-span-3">
+        <Label className="text-xs flex justify-between items-center ">
+          <span className="font-bold ">Height</span>
+          <span className="flex gap-1 items-center justify-center text-[0.65rem]">
+            <Input type="checkbox" className="p-0 m-0 h-fit" />
+            <span>Any</span>
+          </span>
+        </Label>
+        <Slider defaultValue={[50]} max={100} step={1} />
+        <div className="text-[0.6rem] flex gap-1 text-primary font-bold justify-center">
+          <span>152 cm (5&apos;0&apos;)</span>
+          <span>-</span>
+          <span>166 cm (5&apos;5&apos;)</span>
+        </div>
+      </div>
+      <div className="space-y-2 col-span-3">
+        <Label className="text-xs flex justify-between items-center ">
+          <span className="font-bold ">Weight</span>
+          <span className="flex gap-1 items-center justify-center text-[0.65rem]">
+            <Input type="checkbox" className="p-0 m-0 h-fit" />
+            <span>Any</span>
+          </span>
+        </Label>
+        <Slider defaultValue={[50]} max={100} step={1} />
+        <div className="text-[0.6rem] flex gap-1 text-primary font-bold justify-center">
+          <span>40 Kg (104 lb)</span>
+          <span>-</span>
+          <span>54 Kg (119 lb)</span>
+        </div>
+      </div>
+
       <div className="space-y-2 col-span-3">
         <Label className="text-xs flex justify-between items-center ">
           <span className="font-bold ">Ethnic Origin</span>

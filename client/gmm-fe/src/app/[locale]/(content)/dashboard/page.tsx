@@ -1,6 +1,7 @@
 import MatchMeCard from '@/components/dashboard/components/match-me-card';
 import MatchPreferenceFilter from '@/components/dashboard/components/match-preference-filter';
 import NoMatchCard from '@/components/dashboard/components/no-match-card';
+import OutsideFilterCard from '@/components/dashboard/components/outside-filter-card';
 import PendingApprovalMessage from '@/components/dashboard/components/pending-approval-message';
 import ProfileCompletionCard from '@/components/dashboard/components/profile-completion-card';
 
@@ -28,9 +29,12 @@ export default function Dashboard() {
           Match Preferences Filter
         </h1>
 
-        <div className="grid grid-cols-12 gap-4">
+        <div className="grid grid-cols-12 gap-4 py-4">
           <MatchPreferenceFilter />
-          <MatchMeCard />
+          <div className="space-y-5 col-span-3">
+            <MatchMeCard />
+            <OutsideFilterCard />
+          </div>
         </div>
       </div>
     </div>
