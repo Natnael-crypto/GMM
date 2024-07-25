@@ -78,3 +78,8 @@ export interface ProfileHeaderProps {
   pageName: string;
   editLink: string;
 }
+
+export interface ProfileCompletionProgressProps {
+  criteria: string;
+  progress: number;
+}

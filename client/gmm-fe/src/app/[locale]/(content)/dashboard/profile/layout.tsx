@@ -1,10 +1,9 @@
 'use client';
 
-import Header from '@/components/dashboard/components/header';
 import ProfileHeader from '@/components/dashboard/components/profile-header';
 import ProfileImages from '@/components/dashboard/components/profile-image-card';
 import ProfileStepper from '@/components/dashboard/components/stepper/stepper';
-import Footer from '@/components/ui/footer';
+
 import { usePathname } from '@/lib/navigation';
 import { useLocale } from 'next-intl';
 import React from 'react';
@@ -27,7 +26,6 @@ export default function ProfileLayout({
 
   return (
     <div>
-      <Header />
       <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
         <ProfileHeader
           editLink={`/${locale}${pathname}/edit`}
@@ -42,7 +40,6 @@ export default function ProfileLayout({
           <div className="col-span-2">{children}</div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
