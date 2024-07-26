@@ -46,10 +46,10 @@ export default function OtherPlatforms() {
   };
 
   return (
-    <div className="sm:ps-12 md:ps-20 lg:pe-32 my-5 relative">
+    <div className="lg:pe-32 my-5 relative">
       <div className="flex flex-col lg:items-end z-10">
         {/* Title */}
-        <h1 className="px-8 md:ps-0 lg:max-w-[30rem] md:me-10 flex flex-col z-10 text-secondary">
+        <h1 className="px-8 lg:max-w-[30rem] lg:ps-0 md:ps-20 md:me-10 flex flex-col z-10 text-secondary">
           <span className="uppercase font-bold text-primary">{t('title')}</span>
           <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
             {t.rich('subtitle', {
@@ -67,7 +67,7 @@ export default function OtherPlatforms() {
           grid  
           grid-cols-7 lg:grid-cols-4 
           w-[84rem] lg:w-fit    
-          px-6 md:px-0 lg:px-0 
+          px-6 md:ps-5 lg:px-0 
           py-2 md:py-0   
           mt-6 z-10            
           gap-x-2 gap-y-5"
