@@ -61,6 +61,40 @@ export class AuthService {
 
   }
 
+  async signInWithFacebook(user: User) {
+    if (!user) {
+      throw new BadRequestException('auth_unauthenticated');
+    }
+
+    const userExists = await this.findUserByEmail(user.email);
+
+    if (!userExists) {
+      return this.signUpWithFacebook(user);
+    }
+
+    return this.generateJwt({
+      sub: userExists.email,
+      email: userExists.email,
+      name: userExists.firstName + ' ' + userExists.lastName,
+    });
+  }
+
+  async signUpWithFacebook(user: User) {
+    try {
+      const newUser = this.userRepository.create({
+        ...user,
+      });
+
+      return this.generateJwt({
+        sub: newUser.email,
+        email: newUser.email,
+        name: newUser.firstName + ' ' + newUser.lastName,
+      });
+    } catch (e) {
+      throw new InternalServerErrorException();
+    }
+  }
+
 
   async registerUserWithEmail(user: SignUpUserDto) {
     const userExists = await this.findUserByEmail(user.email);

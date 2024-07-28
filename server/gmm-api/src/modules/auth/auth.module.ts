@@ -11,6 +11,7 @@ import { NoticeService } from '@modules/notice/services/notice.service';
 import { UserService } from '@modules/user/services/user.service';
 import { OTPModule } from '@modules/otp/otp.module';
 import { OTPService } from '@modules/otp/services/otp.service';
+import { FacebookStrategy } from './strategies/facebook.strategy';
 
 @Module({
   imports: [
@@ -35,7 +36,7 @@ import { OTPService } from '@modules/otp/services/otp.service';
     OTPModule
   ],
   controllers: [AuthController],
-  providers: [AuthService, GoogleStrategy, JwtStrategy, NoticeService, OTPService ],
+  providers: [AuthService, GoogleStrategy, FacebookStrategy, JwtStrategy, NoticeService, OTPService ],
 })
 
 export class AuthModule {}
