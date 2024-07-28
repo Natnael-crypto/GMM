@@ -1,7 +1,9 @@
 import { Controller, Post, Body, Res, HttpStatus, HttpException } from '@nestjs/common';
 import { OTPService } from '../services/otp.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { decode } from '@shared/utils/crypt';
+import { GetOTPDto } from '../dtos/get-otp.dto';
+import { verifyOTPDTO } from '../dtos/verify-otp.dto';
 
 
 @ApiTags('otp')
@@ -10,6 +12,7 @@ export class OTPController {
   constructor(private readonly otpService: OTPService) {}
 
   @Post('email')
+  @ApiBody({ type: GetOTPDto })
   async sendOTP(@Body() body, @Res() res) {
     const { email, type } = body;
     try {
@@ -21,8 +24,9 @@ export class OTPController {
   }
 
   @Post('verify')
+  @ApiBody({ type: verifyOTPDTO })
   async verifyOTP(
-    @Body('verification_key') verificationKey: string,
+    @Body('verificationKey') verificationKey: string,
     @Body('otp') otp: string,
     @Body('check') check: string
   ): Promise<any> {

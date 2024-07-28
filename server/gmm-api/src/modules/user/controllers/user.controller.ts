@@ -17,11 +17,14 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async getMe(@Req() req: Request & { user: any }) {
+    console.log(req.user);
     if (!req.user || !req.user.id) {
+      
       throw new UnauthorizedException('Invalid user');
     }
     const userId = req.user.id;
-    return await this.userRepository.findOne(userId);
+    console.log(userId);
+    return await this.userRepository.findOne({ where: { id: userId } });
   }
 
   @UseGuards(JwtAuthGuard)
@@ -33,7 +36,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async getUserById(@Param('id') id: string) {
-    const userExists = await this.userRepository.findOne({ where: { id: parseInt(id, 10) } });
+    const userExists = await this.userRepository.findOne({ where: { id } });
     if (!userExists) {
       throw new NotFoundException('User not found');
     }
@@ -43,7 +46,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Put(':id')
   async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    const user = await this.userRepository.findOne({ where: { id: parseInt(id, 10) } });
+    const user = await this.userRepository.findOne({ where: { id} });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
@@ -57,7 +60,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async deleteUser(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id: parseInt(id, 10) } });
+    const user = await this.userRepository.findOne({ where: { id} });
     if (!user) {
       throw new NotFoundException('User not found');
     }

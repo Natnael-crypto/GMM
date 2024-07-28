@@ -23,6 +23,10 @@ export class AuthService {
     return this.jwtService.sign(payload, { secret });
   }
 
+  async validateUser(payload: any) {
+    return await this.findUserByEmail(payload.email);
+  }
+
   async signInWithGoogle(user: User) {
     if (!user) {
       throw new BadRequestException('auth_unauthenticated');
@@ -59,7 +63,6 @@ export class AuthService {
 
 
   async registerUserWithEmail(user: SignUpUserDto) {
-    
     const userExists = await this.findUserByEmail(user.email);
     if (userExists) {
       throw new BadRequestException('Email Exists');

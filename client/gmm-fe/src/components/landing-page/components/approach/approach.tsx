@@ -46,12 +46,14 @@ export default function OurApproach() {
   };
 
   return (
-    <div className="sm:ps-12 md:ps-20 lg:ps-40 my-5 relative">
+    <div className="lg:ps-[12%] my-5 relative">
       <div>
         {/* Title */}
-        <h1 className="flex flex-col px-8 md:ps-0">
-          <span className="uppercase font-bold text-primary">{t('title')}</span>
-          <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
+        <h1 className="z-20 flex flex-col px-8 lg:ps-0 md:px-20">
+          <span className="z-20 uppercase font-bold text-primary">
+            {t('title')}
+          </span>
+          <span className="z-20 text-lg sm:text-xl md:text-2xl lg:text-3xl">
             {t.rich('subtitle', {
               bold: (text) => (
                 <span className="font-bold text-accent">{text}</span>
@@ -66,13 +68,13 @@ export default function OurApproach() {
             className=" 
         grid grid-cols-5 w-[60rem] gap-x-3
         lg:grid lg:grid-cols-3 lg:gap-y-5 
-        px-6 md:px-0 lg:px-0 
+        px-6 md:px-3 lg:px-0 
         py-2 md:py-0        
-        mt-6 lg:w-fit z-10"
+        mt-6 lg:w-full lg:max-w-[52%] z-10"
           >
             <OurApproachCard
               imageSrc="/assets/icon_guided-matchmaking.svg"
-              imageClassName="w-24 lg:w-36"
+              imageClassName="w-24 lg:w-32"
               isActive={current === 0}
               onClick={() => handleCardClick(0)}
             >
@@ -102,7 +104,7 @@ export default function OurApproach() {
             </OurApproachCard>
             <OurApproachCard
               imageSrc="/assets/icon_never-pay-to-compete.svg"
-              imageClassName="w-24 lg:w-36"
+              imageClassName="w-24 lg:w-32"
               isActive={current === 3}
               onClick={() => handleCardClick(3)}
             >

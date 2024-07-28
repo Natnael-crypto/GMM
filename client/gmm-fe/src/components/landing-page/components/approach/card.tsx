@@ -15,16 +15,16 @@ export default function OurApproachCard({
   return (
     <Card
       className={cn(
-        'z-10 flex flex-col justify-between items-center w-40 h-40 lg:w-[13rem] lg:h-[12rem] cursor-pointer transition-colors duration-300 hover:bg-primary group',
+        'z-20 flex flex-col justify-between items-center w-40 lg:w-full cursor-pointer transition-colors duration-300 hover:bg-primary group',
         isActive ? 'bg-primary' : 'bg-background',
         className
       )}
       onClick={onClick}
     >
-      <div className={cn('w-36 lg:mt-5', imageClassName)}>
+      <div className={cn('w-20 lg:mt-5 overflow-hidden', imageClassName)}>
         <Image
           className={cn(
-            'w-full overflow-hidden group-hover:hidden',
+            'w-full overflow-hidden group-hover:hidden object-cover',
             isActive ? 'hidden' : ''
           )}
           src={imageSrc}

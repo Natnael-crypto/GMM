@@ -14,12 +14,12 @@ export default function OtherPlatformCard({
   return (
     <Card
       className={cn(
-        'z-10 flex flex-col justify-between items-center w-[10rem] h-[9rem] cursor-pointer  transition-colors duration-300 hover:bg-primary group',
+        'z-10 flex flex-col justify-between items-center  cursor-pointer  transition-colors duration-300 hover:bg-primary group',
         isActive ? 'bg-primary' : 'bg-background'
       )}
       onClick={onClick}
     >
-      <div className={cn('w-20 mt-3', imageClassName)}>
+      <div className={cn('w-20 mt-3 overflow-hidden', imageClassName)}>
         <Image
           className={cn(
             'w-full overflow-hidden transition-colors duration-300 group-hover:saturate-0 group-hover:brightness-0 group-hover:invert-[100%]',
