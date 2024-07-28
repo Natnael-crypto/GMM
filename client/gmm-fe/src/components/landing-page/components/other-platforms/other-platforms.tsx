@@ -46,12 +46,14 @@ export default function OtherPlatforms() {
   };
 
   return (
-    <div className="lg:pe-32 my-5 relative">
+    <div className="lg:pe-[6%] my-5 relative">
       <div className="flex flex-col lg:items-end z-10">
         {/* Title */}
-        <h1 className="px-8 lg:max-w-[30rem] lg:ps-0 md:ps-20 md:me-10 flex flex-col z-10 text-secondary">
-          <span className="uppercase font-bold text-primary">{t('title')}</span>
-          <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl">
+        <h1 className="px-8 lg:max-w-[30rem] lg:ps-0 md:ps-20 md:me-10 flex flex-col z-20 text-secondary">
+          <span className="z-20 uppercase font-bold text-primary">
+            {t('title')}
+          </span>
+          <span className="z-20 text-lg sm:text-xl md:text-2xl lg:text-3xl">
             {t.rich('subtitle', {
               bold: (text) => (
                 <span className="font-bold text-accent">{text}</span>
@@ -61,10 +63,10 @@ export default function OtherPlatforms() {
         </h1>
 
         {/* Cards */}
-        <div className="overflow-auto no-scrollbar">
+        <div className="overflow-auto no-scrollbar z-20">
           <div
             className="
-          grid  
+          grid
           grid-cols-7 lg:grid-cols-4 
           w-[84rem] lg:w-fit    
           px-6 md:ps-5 lg:px-0 
