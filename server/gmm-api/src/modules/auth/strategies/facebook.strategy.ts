@@ -1,34 +1,37 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { PassportStrategy } from '@nestjs/passport';
-import { OAuthConfig } from '@shared/config';
-import { Strategy, VerifyCallback } from 'passport-google-oauth2';
+import { Injectable } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { PassportStrategy } from "@nestjs/passport";
+import { Profile, Strategy } from "passport-facebook";
 
 @Injectable()
-export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
+export class FacebookStrategy extends PassportStrategy(Strategy, "facebook") {
   constructor(private readonly configService: ConfigService) {
     super({
-      clientID: configService.get<OAuthConfig>('FACEBOOKOAUTH')?.client_id,
-      clientSecret: configService.get<OAuthConfig>('FACEBOOKOAUTH')?.client_secret,
+      clientID: configService.get<string>('FACEBOOK_APP_ID'),
+      clientSecret: configService.get<string>('FACEBOOK_APP_SECRET'),
+      callbackURL: configService.get<string>('FACEBOOK_CALLBACK_URL'),
+      scope: "email",
+      profileFields: ["emails", "name"],
     });
   }
 
   async validate(
-    _accessToken: string,
-    _refreshToken: string,
-    profile: any,
-    done: VerifyCallback,
+    accessToken: string,
+    refreshToken: string,
+    profile: Profile,
+    done: (err: any, user: any, info?: any) => void
   ): Promise<any> {
-    const { id, name, emails, photos } = profile;
-
+    const { name, emails } = profile;
     const user = {
-      provider: 'facebook',
-      providerId: id,
       email: emails[0].value,
-      name: `${name.givenName} ${name.familyName}`,
-      picture: photos[0].value,
+      firstName: name.givenName,
+      lastName: name.familyName,
+    };
+    const payload = {
+      user,
+      accessToken,
     };
 
-    done(null, user);
+    done(null, payload);
   }
 }

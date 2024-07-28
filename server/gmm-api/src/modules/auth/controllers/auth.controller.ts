@@ -17,6 +17,7 @@ import { AuthService } from '../services/auth.service';
 import { LoginUserDto } from '../dtos/login.dto';
 import { SignUpUserDto } from '../dtos/signup.dto';
 import { User } from '@modules/user/entities/user.entity';
+import { FacebookOauthGuard } from '../guards/facebook-oauth.guard';
 
 
 @ApiTags('auth')
@@ -43,6 +44,22 @@ export class AuthController {
             httpOnly: true,
         });
 
+        return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
+    }
+
+    @Get('facebook')
+    @UseGuards(FacebookOauthGuard)
+    async facebookAuth() { }
+
+    @Get('facebook/callback')
+    @UseGuards(FacebookOauthGuard)
+    async facebookAuthCallback(@Req() req: Request, @Res() res: Response) {
+        const token = await this.authService.signInWithFacebook(req.user as unknown as User);
+        
+        const clientSuccessUrl = this.configService.get<string>('CLIENTAUTHSUCCESSURL')!;
+        res.cookie('access_token', token, {
+            httpOnly: true,
+        });
         return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
     }
 
