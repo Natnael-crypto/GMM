@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,25 +12,26 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginFormSchema } from '@/types/forms';
+
 import Link from 'next/link';
 import OrSeparator from '../../components/or-separator';
 import ExternalAuthenticator from '../../components/external-authenticator';
 import { useLocale, useTranslations } from 'next-intl';
+import { Login, LoginSchema } from '@/lib/schemas/auth';
 
 export function LoginForm() {
   const t = useTranslations('Auth.login');
   const locale = useLocale();
 
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
+  const form = useForm<Login>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof loginFormSchema>) {
+  function onSubmit(data: Login) {
     console.log({
       title: 'You submitted the following values:',
       description: (

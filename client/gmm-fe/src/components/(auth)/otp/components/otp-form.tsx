@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,21 +13,21 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { otpFormSchema } from '@/types/forms';
 import { useLocale, useTranslations } from 'next-intl';
+import { Otp, OtpSchema } from '@/lib/schemas/auth';
 
 export function OtpForm() {
   const t = useTranslations('Auth.otp');
   const locale = useLocale();
 
-  const form = useForm<z.infer<typeof otpFormSchema>>({
-    resolver: zodResolver(otpFormSchema),
+  const form = useForm<Otp>({
+    resolver: zodResolver(OtpSchema),
     defaultValues: {
       otp: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof otpFormSchema>) {
+  function onSubmit(data: Otp) {
     console.log({
       title: 'You submitted the following values:',
       description: (

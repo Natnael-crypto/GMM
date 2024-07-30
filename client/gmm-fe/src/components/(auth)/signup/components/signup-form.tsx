@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,15 +12,16 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { signUpFormSchema } from '@/types/forms';
+
 import Link from 'next/link';
 import ExternalAuthenticator from '../../components/external-authenticator';
 import OrSeparator from '../../components/or-separator';
 import { useTranslations } from 'next-intl';
+import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
 
 export function SignUpForm() {
-  const form = useForm<z.infer<typeof signUpFormSchema>>({
-    resolver: zodResolver(signUpFormSchema),
+  const form = useForm<SignUp>({
+    resolver: zodResolver(SignUpSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -30,7 +30,7 @@ export function SignUpForm() {
 
   const t = useTranslations('Auth');
 
-  function onSubmit(data: z.infer<typeof signUpFormSchema>) {
+  function onSubmit(data: SignUp) {
     console.log({
       title: 'You submitted the following values:',
       description: (
