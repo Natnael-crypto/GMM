@@ -27,12 +27,12 @@ export default function OtherPlatformSlide({
       flex flex-col justify-between
     lg:absolute lg:start-0 lg:top-0
     mt-5
-    px-8 lg:pe-44 lg:ps-36
+    px-8 md:px-20 lg:px-0 lg:pe-44 lg:ps-[8%]
     py-8 lg:py-0 lg:pb-3 lg:pt-[4.3rem]
     bg-muted 
     w-full lg:w-[48%] 
-    h-80 lg:h-96`,
-        dir === 'rtl' ? `rounded-tl-[3rem]` : `rounded-tr-[3rem]`
+     lg:h-96`,
+        dir === 'rtl' ? `lg:rounded-tl-[3rem]` : `lg:rounded-tr-[3rem]`
       )}
     >
       {Children.map(children, (child: any, index: number) => {

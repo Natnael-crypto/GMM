@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/dashboard/components/header';
 import UpdateProfileStepper from '@/components/dashboard/components/stepper/update-profile-stepper';
 import UpdateProfileHeader from '@/components/dashboard/components/update-profile-header';
 import Footer from '@/components/ui/footer';
@@ -26,7 +25,6 @@ export default function UpdateProfileLayout({
 
   return (
     <div>
-      <Header />
       <div className="py-6">
         <div className="px-6 sm:px-16 md:px-24 lg:px-52 space-y-8">
           <UpdateProfileHeader
@@ -53,7 +51,6 @@ export default function UpdateProfileLayout({
         </div>
         <div>{children}</div>
       </div>
-      <Footer />
     </div>
   );
 }

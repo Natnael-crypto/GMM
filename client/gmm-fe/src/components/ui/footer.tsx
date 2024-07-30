@@ -28,7 +28,7 @@ export default function Footer() {
         </p>
 
         <p className="hidden md:block text-xs font-thin">
-          Copyright &copy; 2024 Guardian/Wali Project. All Rights Reserved.{' '}
+          Copyright &copy; {(new Date().getFullYear())} Guardian/Wali Project. All Rights Reserved.{' '}
         </p>
       </div>
 
@@ -72,7 +72,7 @@ export default function Footer() {
       </div>
 
       <p className="md:hidden text-xs font-thin mt-5">
-        Copyright &copy; 2024 Guardian/Wali Project. All Rights Reserved.{' '}
+        Copyright &copy; {(new Date().getFullYear())} Guardian/Wali Project. All Rights Reserved.{' '}
       </p>
     </div>
   );

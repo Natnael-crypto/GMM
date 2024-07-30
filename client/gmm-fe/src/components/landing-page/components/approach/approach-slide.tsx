@@ -23,16 +23,16 @@ export default function OurApproachSlide({
   return (
     <div
       className={cn(
-        `
+        `z-10
     flex flex-col justify-between bg-muted 
     mt-5
-    px-8
+    px-8 md:px-20
     py-8 lg:py-0
     lg:absolute 
     lg:end-0 lg:top-0 
-    h-80 lg:h-96
+    min-h-80 lg:min-h-96
     lg:w-1/2
-    lg:pt-[4.3rem] lg:pb-3 lg:px-44`,
+    lg:pt-[4.3rem] lg:pb-3 lg:px-[10%]`,
         dir === 'ltr' ? 'lg:rounded-bl-[3rem]' : 'lg:rounded-br-[3rem] '
       )}
     >

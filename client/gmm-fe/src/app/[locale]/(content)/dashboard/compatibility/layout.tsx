@@ -1,11 +1,7 @@
 'use client';
 
-import Header from '@/components/dashboard/components/header';
-
 import CompatibilityStepper from '@/components/dashboard/components/stepper/compatibility-stepper';
-
 import { buttonVariants } from '@/components/ui/button';
-import Footer from '@/components/ui/footer';
 import { usePathname } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 import { useLocale } from 'next-intl';
@@ -30,7 +26,6 @@ export default function CompatibilityLayout({
 
   return (
     <div>
-      <Header />
       <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
         <div className="relative">
           <h1 className="text-xl text-center">Profile Compatibility</h1>
@@ -54,7 +49,6 @@ export default function CompatibilityLayout({
 
         <div className="py-3">{children}</div>
       </div>
-      <Footer />
     </div>
   );
 }
