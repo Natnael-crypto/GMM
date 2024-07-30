@@ -9,6 +9,15 @@
 # testing
 /coverage
 
+# environment
+.env
+.env.test.local
+.env.development.local
+.env.production.local
+.env.test
+.env.development
+.env.production
+
 # next.js
 /.next/
 /out/
