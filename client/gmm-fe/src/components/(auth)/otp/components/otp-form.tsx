@@ -15,10 +15,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { useLocale, useTranslations } from 'next-intl';
 import { Otp, OtpSchema } from '@/lib/schemas/auth';
+import { verifyOtp } from '@/actions/auth/otp';
+import { useRouter } from '@/lib/navigation';
 
 export function OtpForm() {
   const t = useTranslations('Auth.otp');
   const locale = useLocale();
+  const { replace } = useRouter();
 
   const form = useForm<Otp>({
     resolver: zodResolver(OtpSchema),
@@ -27,15 +30,14 @@ export function OtpForm() {
     },
   });
 
-  function onSubmit(data: Otp) {
-    console.log({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: Otp) {
+    const res = await verifyOtp(data);
+
+    if (res && res.status === 200) {
+      replace('/login');
+    } else {
+      console.log('An error occurred');
+    }
   }
 
   return (

@@ -9,6 +9,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -18,27 +19,35 @@ import ExternalAuthenticator from '../../components/external-authenticator';
 import OrSeparator from '../../components/or-separator';
 import { useTranslations } from 'next-intl';
 import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
+import { Checkbox } from '@/components/ui/checkbox';
+import { signUp } from '@/actions/auth/signup';
+import { useRouter } from '@/lib/navigation';
 
 export function SignUpForm() {
+  const { replace } = useRouter();
+
   const form = useForm<SignUp>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
+      confirmPassword: '',
+      agreeToTerms: false,
     },
   });
 
   const t = useTranslations('Auth');
 
-  function onSubmit(data: SignUp) {
-    console.log({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: SignUp) {
+    const response = await signUp(data);
+
+    if (response && response.status === 200) {
+      replace('otp');
+    } else {
+      console.log('An error occurred');
+    }
   }
 
   return (
@@ -123,6 +132,28 @@ export function SignUpForm() {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="agreeToTerms"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex items-center gap-3 pt-2">
+                  <FormControl className="relative">
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+
+                  <FormLabel className="text-xs text-muted-foreground">
+                    I agree to terms and conditions
+                  </FormLabel>
+                </div>
+
                 <FormMessage className="text-xs" />
               </FormItem>
             )}
