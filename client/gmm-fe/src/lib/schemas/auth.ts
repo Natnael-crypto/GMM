@@ -12,7 +12,9 @@ export const SignUpSchema = z.object({
   email: z.string().email().min(1),
   password: z.string().min(8),
   confirmPassword: z.string().min(8),
-  agreeToTerms: z.boolean(),
+  agreeToTerms: z.boolean().refine((value) => value === true, {
+    message: 'You must agree to the terms and conditions',
+  }),
 });
 export type SignUp = z.infer<typeof SignUpSchema>;
 
