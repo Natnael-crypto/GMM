@@ -13,15 +13,21 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import { Otp, OtpSchema } from '@/lib/schemas/auth';
 import { verifyOtp } from '@/actions/auth/otp';
 import { useRouter } from '@/lib/navigation';
+import Loading from '@/components/ui/loading';
+import { useToast } from '@/components/ui/use-toast';
+import { useState } from 'react';
 
-export function OtpForm() {
+export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
   const t = useTranslations('Auth.otp');
-  const locale = useLocale();
   const { replace } = useRouter();
+  const { toast } = useToast();
+
+  const [isOtpVerificationInProgress, setOtpVerificationInProgress] =
+    useState(false);
 
   const form = useForm<Otp>({
     resolver: zodResolver(OtpSchema),
@@ -31,13 +37,18 @@ export function OtpForm() {
   });
 
   async function onSubmit(data: Otp) {
+    setOtpVerificationInProgress(true);
     const res = await verifyOtp(data);
 
-    if (res && res.status === 200) {
+    if (res.status === 200) {
       replace('/login');
     } else {
-      console.log('An error occurred');
+      toast({
+        title: 'OTP Verification',
+        description: res.message,
+      });
     }
+    setOtpVerificationInProgress(false);
   }
 
   return (
@@ -66,8 +77,9 @@ export function OtpForm() {
           <Button
             type="submit"
             className="h-9 px-5 bg-primary text-primary-foreground font-bold text-xs"
+            disabled={isOtpVerificationInProgress}
           >
-            {t('submit')}
+            {isOtpVerificationInProgress ? <Loading /> : t('submit')}
           </Button>
           <Button
             variant={'outline'}
@@ -78,7 +90,7 @@ export function OtpForm() {
         </div>
 
         <div className="text-xs text-muted-foreground">
-          {t('resendDescription', { email: 'example@domain.com' })}
+          {t('resendDescription', { email: userIdentifier })}
         </div>
       </form>
     </Form>
