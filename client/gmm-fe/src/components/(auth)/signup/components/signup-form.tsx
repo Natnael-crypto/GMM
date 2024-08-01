@@ -22,7 +22,7 @@ import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
 import { Checkbox } from '@/components/ui/checkbox';
 import { signUp } from '@/actions/auth/signup';
 import { useRouter } from '@/lib/navigation';
-import { useToast } from '@/components/ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { useState } from 'react';
 import Loading from '@/components/ui/loading';
 
@@ -41,8 +41,6 @@ export function SignUpForm() {
       agreeToTerms: false,
     },
   });
-
-  const { toast } = useToast();
 
   const t = useTranslations('Auth');
 

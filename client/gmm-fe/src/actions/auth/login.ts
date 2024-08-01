@@ -17,12 +17,13 @@ export const login = async (data: Login) => {
     }),
   });
 
+  const res = await response.json();
+  console.log(res);
+
   if (!response.ok) {
     console.log(response);
-    return { message: 'An error occurred' };
+    return { status: 400, message: res.Details };
   }
-
-  const res = await response.json();
 
   cookies().set({
     name: cookieNames.accessToken,
@@ -33,5 +34,6 @@ export const login = async (data: Login) => {
 
   return {
     status: 200,
+    message: 'Successfully logged in',
   };
 };

@@ -18,10 +18,17 @@ import OrSeparator from '../../components/or-separator';
 import ExternalAuthenticator from '../../components/external-authenticator';
 import { useLocale, useTranslations } from 'next-intl';
 import { Login, LoginSchema } from '@/lib/schemas/auth';
+import { useState } from 'react';
+import { login } from '@/actions/auth/login';
+import { toast } from '@/components/ui/use-toast';
+import { useRouter } from '@/lib/navigation';
+import Loading from '@/components/ui/loading';
 
 export function LoginForm() {
   const t = useTranslations('Auth.login');
   const locale = useLocale();
+  const [isLoginInProgress, setLoginInProgress] = useState(false);
+  const { replace } = useRouter();
 
   const form = useForm<Login>({
     resolver: zodResolver(LoginSchema),
@@ -31,15 +38,26 @@ export function LoginForm() {
     },
   });
 
-  function onSubmit(data: Login) {
-    console.log({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: Login) {
+    setLoginInProgress(true);
+
+    const response = await login(data);
+
+    if (response.status === 200) {
+      toast({
+        title: 'Sign Up',
+        description: response.message,
+      });
+      replace('otp');
+    } else {
+      toast({
+        title: 'Error',
+        description: response.message,
+        variant: 'destructive',
+      });
+    }
+
+    setLoginInProgress(false);
   }
 
   return (
@@ -86,8 +104,9 @@ export function LoginForm() {
           <Button
             type="submit"
             className="w-52 h-9 bg-primary text-primary-foreground font-bold"
+            disabled={isLoginInProgress}
           >
-            {t('cta')}
+            {isLoginInProgress ? <Loading /> : t('cta')}
           </Button>
           <Link
             href={`/${locale}/signup`}
