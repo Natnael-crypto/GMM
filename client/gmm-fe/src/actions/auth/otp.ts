@@ -27,5 +27,7 @@ export const verifyOtp = async (data: Otp) => {
     return { status: 400, message: 'An error occurred' };
   }
 
+  cookies().delete(cookieNames.otpVerificationKey);
+
   return { status: 200 };
 };
