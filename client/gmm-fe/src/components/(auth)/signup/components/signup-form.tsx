@@ -81,6 +81,7 @@ export function SignUpForm() {
                   <Input
                     className="text-sm placeholder:text-xs"
                     placeholder={t('signup.firstName')}
+                    autoComplete="given-name"
                     {...field}
                   />
                 </FormControl>
@@ -95,6 +96,7 @@ export function SignUpForm() {
               <FormItem>
                 <FormControl>
                   <Input
+                    autoComplete="family-name"
                     className="text-sm placeholder:text-xs"
                     placeholder={t('signup.lastName')}
                     {...field}
@@ -111,6 +113,7 @@ export function SignUpForm() {
               <FormItem>
                 <FormControl>
                   <Input
+                    autoComplete="email"
                     className="text-sm placeholder:text-xs"
                     placeholder={t('signup.email')}
                     {...field}
@@ -127,6 +130,7 @@ export function SignUpForm() {
               <FormItem>
                 <FormControl>
                   <Input
+                    autoComplete="new-password"
                     className="text-sm placeholder:text-xs"
                     placeholder={t('signup.password')}
                     type="password"

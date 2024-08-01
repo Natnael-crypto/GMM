@@ -53,6 +53,7 @@ export function LoginForm() {
               <FormItem>
                 <FormControl>
                   <Input
+                    autoComplete="email"
                     className="text-sm placeholder:text-xs"
                     placeholder={t('email')}
                     {...field}
@@ -69,6 +70,7 @@ export function LoginForm() {
               <FormItem>
                 <FormControl>
                   <Input
+                    autoComplete="current-password"
                     className="text-sm placeholder:text-xs"
                     placeholder={t('password')}
                     type="password"
