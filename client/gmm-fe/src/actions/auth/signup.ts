@@ -20,13 +20,13 @@ export const signUp = async (data: SignUp) => {
     }),
   });
 
+  const res = await response.json();
+
   if (!response.ok) {
     console.log(response);
-    return { message: 'An error occurred' };
+    return { status: response.status, message: res.message };
   }
 
-  const res = await response.json();
-  console.log(res);
   cookies().set({
     name: cookieNames.userIdentifier,
     value: data.email,
@@ -43,5 +43,6 @@ export const signUp = async (data: SignUp) => {
 
   return {
     status: 200,
+    message: res.message,
   };
 };
