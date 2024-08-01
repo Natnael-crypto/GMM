@@ -22,9 +22,13 @@ import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
 import { Checkbox } from '@/components/ui/checkbox';
 import { signUp } from '@/actions/auth/signup';
 import { useRouter } from '@/lib/navigation';
+import { useToast } from '@/components/ui/use-toast';
+import { useState } from 'react';
+import Loading from '@/components/ui/loading';
 
 export function SignUpForm() {
   const { replace } = useRouter();
+  const [isSignUpInProgress, setSignUpInProgress] = useState(false);
 
   const form = useForm<SignUp>({
     resolver: zodResolver(SignUpSchema),
@@ -38,16 +42,30 @@ export function SignUpForm() {
     },
   });
 
+  const { toast } = useToast();
+
   const t = useTranslations('Auth');
 
   async function onSubmit(data: SignUp) {
+    setSignUpInProgress(true);
+
     const response = await signUp(data);
 
-    if (response && response.status === 200) {
+    if (response.status === 200) {
+      toast({
+        title: 'Sign Up',
+        description: response.message,
+      });
       replace('otp');
     } else {
-      console.log('An error occurred');
+      toast({
+        title: 'Error',
+        description: response.message,
+        variant: 'destructive',
+      });
     }
+
+    setSignUpInProgress(false);
   }
 
   return (
@@ -163,8 +181,9 @@ export function SignUpForm() {
           <Button
             type="submit"
             className="w-52 h-9 bg-primary text-primary-foreground font-bold"
+            disabled={isSignUpInProgress}
           >
-            {t('signup.cta')}
+            {isSignUpInProgress ? <Loading /> : t('signup.cta')}
           </Button>
 
           <OrSeparator />
