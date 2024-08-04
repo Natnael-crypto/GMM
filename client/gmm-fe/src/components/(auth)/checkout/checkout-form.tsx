@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -14,23 +13,23 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { checkoutForm } from '@/types/forms';
 import { useLocale, useTranslations } from 'next-intl';
 import RadioButton from './radio-button';
+import { Checkout, CheckoutSchema } from '@/lib/schemas/checkout';
 
 export function CheckoutForm() {
   const t = useTranslations('Auth.checkout');
   const locale = useLocale();
 
-  const form = useForm<z.infer<typeof checkoutForm>>({
-    resolver: zodResolver(checkoutForm),
+  const form = useForm<Checkout>({
+    resolver: zodResolver(CheckoutSchema),
     defaultValues: {
       email: '',
       membershipPackage: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof checkoutForm>) {
+  function onSubmit(data: Checkout) {
     console.log({
       title: 'You submitted the following values:',
       description: (

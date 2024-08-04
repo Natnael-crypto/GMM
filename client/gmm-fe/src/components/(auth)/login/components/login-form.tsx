@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,33 +12,52 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { loginFormSchema } from '@/types/forms';
+
 import Link from 'next/link';
 import OrSeparator from '../../components/or-separator';
 import ExternalAuthenticator from '../../components/external-authenticator';
 import { useLocale, useTranslations } from 'next-intl';
+import { Login, LoginSchema } from '@/lib/schemas/auth';
+import { useState } from 'react';
+import { login } from '@/actions/auth/login';
+import { toast } from '@/components/ui/use-toast';
+import { useRouter } from '@/lib/navigation';
+import Loading from '@/components/ui/loading';
 
 export function LoginForm() {
   const t = useTranslations('Auth.login');
   const locale = useLocale();
+  const [isLoginInProgress, setLoginInProgress] = useState(false);
+  const { replace } = useRouter();
 
-  const form = useForm<z.infer<typeof loginFormSchema>>({
-    resolver: zodResolver(loginFormSchema),
+  const form = useForm<Login>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  function onSubmit(data: z.infer<typeof loginFormSchema>) {
-    console.log({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(data: Login) {
+    setLoginInProgress(true);
+
+    const response = await login(data);
+
+    if (response.status === 200) {
+      toast({
+        title: 'Sign Up',
+        description: response.message,
+      });
+      replace('otp');
+    } else {
+      toast({
+        title: 'Error',
+        description: response.message,
+        variant: 'destructive',
+      });
+    }
+
+    setLoginInProgress(false);
   }
 
   return (
@@ -53,6 +71,7 @@ export function LoginForm() {
               <FormItem>
                 <FormControl>
                   <Input
+                    autoComplete="email"
                     className="text-sm placeholder:text-xs"
                     placeholder={t('email')}
                     {...field}
@@ -69,6 +88,7 @@ export function LoginForm() {
               <FormItem>
                 <FormControl>
                   <Input
+                    autoComplete="current-password"
                     className="text-sm placeholder:text-xs"
                     placeholder={t('password')}
                     type="password"
@@ -84,8 +104,9 @@ export function LoginForm() {
           <Button
             type="submit"
             className="w-52 h-9 bg-primary text-primary-foreground font-bold"
+            disabled={isLoginInProgress}
           >
-            {t('cta')}
+            {isLoginInProgress ? <Loading /> : t('cta')}
           </Button>
           <Link
             href={`/${locale}/signup`}

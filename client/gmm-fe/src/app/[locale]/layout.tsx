@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/toaster';
 import { localeDirection } from '@/config';
 import { NextIntlClientProvider, useTranslations } from 'next-intl';
 import { getMessages } from 'next-intl/server';
@@ -22,6 +23,7 @@ export default async function LocaleLayout({
       <body className={montserrat.className}>
         <NextIntlClientProvider messages={messages}>
           {children}
+          <Toaster />
         </NextIntlClientProvider>
       </body>
     </html>
