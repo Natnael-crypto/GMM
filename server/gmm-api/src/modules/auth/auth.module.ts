@@ -20,7 +20,7 @@ import { FacebookStrategy } from './strategies/facebook.strategy';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
         return {
-          secret: configService.get<string>('jwt'),
+          secret: configService.get<string>('JWTSECRET'),
           signOptions: {
             expiresIn: configService.get<string>('JWT_EXPIRATION'),
           },
