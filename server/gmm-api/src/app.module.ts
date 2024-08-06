@@ -35,11 +35,11 @@ import { OTPModule } from '@modules/otp/otp.module';
     }),
     UserModule,
     AuthModule,
-    NoticeModule.forRootAsync({ 
+    NoticeModule.forRootAsync({
       listsProvider: UserService,
       listsImports: [UserModule],
       envTransport: 'EMAIL_SMTP_CONNECTION',
-      from: 'Guardian / Wali', 
+      from: 'Guardian / Wali',
     }),
     OTPModule,
     // PaymentsModule
