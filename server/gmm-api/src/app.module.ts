@@ -15,7 +15,7 @@ import { OTPModule } from '@modules/otp/otp.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.development.env',
+      envFilePath: '.env.development',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
