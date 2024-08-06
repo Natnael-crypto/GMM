@@ -16,7 +16,6 @@ import { OTPModule } from '@modules/otp/otp.module';
     // set the env file path from NODE_ENV
     ConfigModule.forRoot({
       isGlobal: true,
-
       envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     TypeOrmModule.forRootAsync({
