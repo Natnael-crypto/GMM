@@ -9,12 +9,13 @@ import { NoticeModule } from './modules/notice/notice.module';
 import { UserService } from './modules/user/services/user.service';
 import { LoggerMiddleware } from '@shared/utils/logger';
 import { OTPModule } from '@modules/otp/otp.module';
+import { PaymentsModule } from '@modules/payment/payment.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: 'development.env',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -40,6 +41,7 @@ import { OTPModule } from '@modules/otp/otp.module';
       from: 'Guardian / Wali', 
     }),
     OTPModule,
+    PaymentsModule
   ],
   controllers: [AppController],
   providers: [AppService],
