@@ -4,9 +4,13 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { NoticeInterceptor } from '@shared/interceptors/notice.interceptor';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('PORT') || 3000;
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -30,6 +34,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new NoticeInterceptor(noticeService,
       reflector));
 
-  await app.listen(5000);
+  await app.listen(port);
 }
 bootstrap();
