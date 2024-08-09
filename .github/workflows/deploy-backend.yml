@@ -1,0 +1,53 @@
+name: Deploy Backend to EC2
+
+on:
+  push:
+    branches:
+      - main
+      - stage
+      - dev
+    paths:
+      - 'server/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set NODE_ENV
+      run: echo "NODE_ENV=${{ github.ref_name }}" >> $GITHUB_ENV
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: |
+        cd server/gmm-api
+        npm install
+
+    - name: Run tests
+      run: |
+        cd server/gmm-api
+        npm run test
+
+    - name: Build project
+      run: |
+        cd server/gmm-api
+        npm run build
+
+    - name: Deploy to EC2
+      env:
+        NODE_ENV: ${{ github.ref_name }}
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY }} ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+          cd GMM/server/gmm-api
+          git pull origin ${{ github.ref_name }}
+          npm install
+          npm run build
+          pm2 restart all
+        EOF
