@@ -3,13 +3,15 @@ import { config as dotenvConfig } from 'dotenv';
 import { join } from "path";
 import { DataSource, DataSourceOptions } from "typeorm";
 
-dotenvConfig({ path: join(__dirname, '../../../.env.development') });
+const env = process.env.NODE_ENV || 'dev';
+
+dotenvConfig({ path: join(__dirname, `../../../.env.${env}`) });
 
 
 const config = {
     type: 'postgres',
     host: `${process.env.DATABASE_HOST}`,
-    port: `${process.env.DATABASE_PORT}`,
+    port: parseInt(`${process.env.DATABASE_PORT}`, 10),
     username: `${process.env.DATABASE_USERNAME}`,
     password: `${process.env.DATABASE_PASSWORD}`,
     database: `${process.env.DATABASE_NAME}`,
