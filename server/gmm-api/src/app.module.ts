@@ -13,6 +13,7 @@ import { OTPModule } from '@modules/otp/otp.module';
 
 @Module({
   imports: [
+    // set the env file path from NODE_ENV
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`,
