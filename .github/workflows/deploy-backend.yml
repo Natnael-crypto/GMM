@@ -51,4 +51,6 @@ jobs:
           npm run build
           # Restart the specific PM2 app based on branch
           pm2 restart gmm-api-${{ github.ref_name }}
+          echo "Deployment complete"
+          exit 0
         EOF
