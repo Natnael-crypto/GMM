@@ -44,7 +44,7 @@ jobs:
       env:
         NODE_ENV: ${{ github.ref_name }}
       run: |
-        ssh -o StrictHostKeyChecking=no -i /tmp/ec2_key.pem ec2-user@*** << 'EOF'
+        ssh -tt -o StrictHostKeyChecking=no -i /tmp/ec2_key.pem ec2-user@*** << 'EOF'
           cd GMM/server/gmm-api
           git pull origin ${{ github.ref_name }}
           npm install
