@@ -49,5 +49,6 @@ jobs:
           git pull origin ${{ github.ref_name }}
           npm install
           npm run build
-          pm2 restart all
+          # Restart the specific PM2 app based on branch
+          pm2 restart gmm-api-${{ github.ref_name }}
         EOF
