@@ -7,7 +7,7 @@ import { Strategy, VerifyCallback } from 'passport-google-oauth2';
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(private readonly configService: ConfigService) {
-    // print the google config variables
+    // print the google config variables test
     console.log(
       configService.get<OAuthConfig>('oauth')?.client_id,
       configService.get<OAuthConfig>('oauth')?.client_secret,
