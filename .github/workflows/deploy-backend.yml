@@ -35,11 +35,16 @@ jobs:
         cd server/gmm-api
         npm run build
 
+    - name: Save SSH key to file
+      run: |
+        echo "${{ secrets.EC2_KEY }}" > /tmp/ec2_key.pem
+        chmod 600 /tmp/ec2_key.pem
+
     - name: Deploy to EC2
       env:
         NODE_ENV: ${{ github.ref_name }}
       run: |
-        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_KEY }} ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i /tmp/ec2_key.pem ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           cd GMM/server/gmm-api
           git pull origin ${{ github.ref_name }}
           npm install
