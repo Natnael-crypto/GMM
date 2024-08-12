@@ -12,9 +12,10 @@ import { OTPModule } from '@modules/otp/otp.module';
 
 @Module({
   imports: [
+    // set the env file path from NODE_ENV
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
