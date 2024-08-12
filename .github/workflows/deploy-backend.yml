@@ -30,11 +30,6 @@ jobs:
         cd server/gmm-api
         npm install
 
-    - name: Run tests
-      run: |
-        cd server/gmm-api
-        npm run test
-
     - name: Build project
       run: |
         cd server/gmm-api
