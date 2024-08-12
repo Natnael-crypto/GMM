@@ -40,6 +40,19 @@ jobs:
         cd server/gmm-api
         npm run build
 
+    - name: Set environment variables
+      run: |
+        cd server/gmm-api
+        if [ "${{ github.ref_name }}" == "main" ]; then
+          cp .env.main .env
+        elif [ "${{ github.ref_name }}" == "dev" ]; then
+          cp .env.dev .env
+        elif [ "${{ github.ref_name }}" == "stage" ]; then
+          cp .env.stage .env
+        else
+          echo "No environment file for this branch."
+        fi
+
     - name: Deploy to EC2
       env:
         NODE_ENV: ${{ github.ref_name }}
