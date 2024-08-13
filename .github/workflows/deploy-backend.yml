@@ -25,16 +25,6 @@ jobs:
       with:
         node-version: '16'
 
-    - name: Install dependencies
-      run: |
-        cd server/gmm-api
-        npm install
-
-    - name: Build project
-      run: |
-        cd server/gmm-api
-        npm run build
-
     - name: Save SSH key to file
       run: |
         echo "${{ secrets.EC2_KEY }}" > /tmp/ec2_key.pem
@@ -46,10 +36,17 @@ jobs:
       run: |
         ssh -tt -o StrictHostKeyChecking=no -i /tmp/ec2_key.pem ec2-user@${{secrets.EC2_HOST}} << 'EOF'
           cd GMM/server/gmm-api
+          
+          # Fetch and checkout the correct branch
+          git fetch origin
+          git checkout ${{ github.ref_name }}
           git pull origin ${{ github.ref_name }}
+
+          # Install dependencies and build the project
           npm install
           npm run build
-          # Restart the specific PM2 app based on branch
+
+          # Restart the specific PM2 app based on the branch
           pm2 restart gmm-api-${{ github.ref_name }}
           echo "Deployment complete"
           exit 0
