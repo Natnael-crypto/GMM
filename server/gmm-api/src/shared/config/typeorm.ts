@@ -3,9 +3,8 @@ import { config as dotenvConfig } from 'dotenv';
 import { join } from "path";
 import { DataSource, DataSourceOptions } from "typeorm";
 
-const env = process.env.NODE_ENV || 'dev';
 
-dotenvConfig({ path: join(__dirname, `../../../.env.${env}`) });
+dotenvConfig({ path: join(__dirname, `../../../.env.${process.env.NODE_ENV}`) });
 
 
 const config = {
