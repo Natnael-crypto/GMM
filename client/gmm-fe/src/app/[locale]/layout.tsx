@@ -1,6 +1,6 @@
 import { Toaster } from '@/components/ui/toaster';
 import { localeDirection } from '@/config';
-import { NextIntlClientProvider, useTranslations } from 'next-intl';
+import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Montserrat } from 'next/font/google';
 
