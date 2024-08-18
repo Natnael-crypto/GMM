@@ -45,10 +45,10 @@ export function LoginForm() {
 
     if (response.status === 200) {
       toast({
-        title: 'Sign Up',
+        title: 'Welcome Back!',
         description: response.message,
       });
-      replace('otp');
+      replace('/');
     } else {
       toast({
         title: 'Error',

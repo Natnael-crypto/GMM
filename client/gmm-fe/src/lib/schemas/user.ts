@@ -1,0 +1,31 @@
+export interface User {
+  id: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  idCard?: string;
+  guadianId?: string;
+  age?: string;
+  gender?: string;
+  height?: string;
+  weight?: string;
+  country?: string;
+  skinColor?: string;
+  languages?: string;
+  nationality?: string;
+  city?: string;
+  maritalStatus?: string;
+  numberOfChildren?: string;
+  ageOfOldestChild?: string;
+  ageOfYoungestChild?: string;
+  sunniMadhaib?: string;
+  religiousPractice?: string;
+  bornMuslim?: string;
+  drinks?: string;
+  drugs?: string;
+  smokes?: string;
+  tattoos?: string;
+  pictures?: string;
+  video?: string;
+}

@@ -18,10 +18,8 @@ export const login = async (data: Login) => {
   });
 
   const res = await response.json();
-  console.log(res);
 
   if (!response.ok) {
-    console.log(response);
     return { status: 400, message: res.Details };
   }
 
