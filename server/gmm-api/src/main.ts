@@ -18,6 +18,13 @@ async function bootstrap() {
     }),
   );
 
+  app.enableCors({
+    origin: ['https://dev.d1iefzjrnhcxdl.amplifyapp.com/en', 'https://stage.d1iefzjrnhcxdl.amplifyapp.com/en', 'https://main.d1iefzjrnhcxdl.amplifyapp.com/en'], 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+    allowedHeaders: 'Content-Type, Authorization',
+  });
+
   const config = new DocumentBuilder()
     .setTitle('Guardian / Wali Documentation')
     .setDescription('Guardian / Wali API')
