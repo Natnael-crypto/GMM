@@ -36,7 +36,9 @@ export const login = async (data: Login) => {
     name: cookieNames.accessToken,
     value: res,
     httpOnly: true,
+    sameSite: 'strict',
     path: '/',
+    expires: new Date(Date.now() + constants.accessTokenMaxAge),
   });
 
   return {

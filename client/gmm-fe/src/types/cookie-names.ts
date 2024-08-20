@@ -1,5 +1,5 @@
 export const cookieNames = {
-  userIdentifier: 'user-identifier',
-  otpVerificationKey: 'otp-verification-key',
-  accessToken: 'access-token',
+  userIdentifier: 'USER_IDENTIFIER',
+  otpVerificationKey: 'OTP_VERIFICATION_KEY',
+  accessToken: 'ACCESS_TOKEN',
 };
