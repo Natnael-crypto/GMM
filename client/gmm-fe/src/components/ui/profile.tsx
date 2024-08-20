@@ -62,7 +62,7 @@ export default function Profile() {
           </Link>
 
           <Link
-            href=""
+            href="/logout"
             className="w-full justify-start bg-background hover:bg-muted text-muted-foreground hover:text-muted-foreground py-1 px-5"
           >
             Logout
