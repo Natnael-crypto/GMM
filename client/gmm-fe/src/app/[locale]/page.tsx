@@ -7,20 +7,31 @@ import GuardianServices from '@/components/landing-page/components/services/guar
 
 import Footer from '@/components/ui/footer';
 import LanguageSelector from '@/components/ui/language-selector';
+import Profile from '@/components/ui/profile';
 import { auth } from '@/lib/auth/utils';
 
 import { LocaleProps } from '@/types';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default async function Home({ params: { locale } }: LocaleProps) {
+export default async function Home() {
   const session = await auth();
 
   return (
     <main className="flex flex-col">
-      <div className="px-6 sm:px-16 md:px-24 lg:px-52 bg-tertiary text-tertiary-foreground flex justify-end">
+      <div className="px-6 sm:px-16 md:px-24 lg:px-52 bg-tertiary text-tertiary-foreground flex justify-end items-center">
         <LanguageSelector
           text="Language"
           className="text-tertiary-foreground hover:text-tertiary-foreground"
         />
+        {session ? (
+          <div className="flex gap-2 items-center">
+            <FontAwesomeIcon icon={faBell} />
+            <div className="px-2">
+              <Profile />
+            </div>
+          </div>
+        ) : null}
       </div>
       <HeroCarousel />
       <OurApproach />
