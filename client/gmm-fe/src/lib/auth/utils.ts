@@ -1,8 +1,9 @@
 import { cookieNames } from '@/types/cookie-names';
 import { cookies } from 'next/headers';
 import { constants } from '@/config';
+import { Session } from './types';
 
-export const getLoggedInUser = async () => {
+export async function auth(): Promise<Session | null> {
   const response = await fetch(`${constants.apiBaseUrl}/users/me`, {
     method: 'GET',
     headers: {
@@ -11,8 +12,8 @@ export const getLoggedInUser = async () => {
   });
 
   if (response.ok) {
-    return await response.json();
+    return { user: await response.json() };
   }
 
   return null;
-};
+}

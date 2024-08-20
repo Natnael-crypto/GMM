@@ -7,12 +7,12 @@ import GuardianServices from '@/components/landing-page/components/services/guar
 
 import Footer from '@/components/ui/footer';
 import LanguageSelector from '@/components/ui/language-selector';
-import { getLoggedInUser } from '@/lib/auth/utils';
+import { auth } from '@/lib/auth/utils';
 
 import { LocaleProps } from '@/types';
 
 export default async function Home({ params: { locale } }: LocaleProps) {
-  const user = await getLoggedInUser();
+  const session = await auth();
 
   return (
     <main className="flex flex-col">
@@ -24,10 +24,10 @@ export default async function Home({ params: { locale } }: LocaleProps) {
       </div>
       <HeroCarousel />
       <OurApproach />
-      {!user && <CreateAccount />}
+      {!session && <CreateAccount />}
       <OtherPlatforms />
       <HowItWorks />
-      {!user && <CreateAccount variant="filled" margin="wide" />}
+      {!session && <CreateAccount variant="filled" margin="wide" />}
       <GuardianServices />
       <Footer />
     </main>

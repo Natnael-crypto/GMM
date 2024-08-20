@@ -1,6 +1,6 @@
 import { buttonVariants } from '@/components/ui/button';
 import { localeDirection } from '@/config';
-import { getLoggedInUser } from '@/lib/auth/utils';
+import { auth } from '@/lib/auth/utils';
 import { cn } from '@/lib/utils';
 import { getLocale, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
@@ -10,7 +10,7 @@ import React from 'react';
 export default async function GMMHero() {
   const t = await getTranslations('Landing');
   const locale = await getLocale();
-  const user = await getLoggedInUser();
+  const session = await auth();
 
   return (
     <div className="relative">
@@ -63,7 +63,7 @@ export default async function GMMHero() {
 
           {/* Call to action */}
           <div className="flex gap-4 ">
-            {!user && (
+            {!session && (
               <Link
                 href={`/${locale}/login`}
                 className={cn(
