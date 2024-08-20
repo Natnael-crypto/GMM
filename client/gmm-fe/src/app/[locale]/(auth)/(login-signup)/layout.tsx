@@ -1,4 +1,4 @@
-import AuthHeader from '@/components/(auth)/components/header';
+import AuthHeader from '@/components/(auth)/components/auth-header';
 import RegistrationOverview from '@/components/(auth)/components/registration-overview';
 import HowItWorks from '@/components/landing-page/components/how-it-works/how-it-works';
 import Footer from '@/components/ui/footer';
