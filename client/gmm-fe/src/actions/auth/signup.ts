@@ -23,7 +23,6 @@ export const signUp = async (data: SignUp) => {
   const res = await response.json();
 
   if (!response.ok) {
-    console.log(response);
     return { status: response.status, message: res.message };
   }
 

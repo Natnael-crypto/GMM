@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
-import Providers from '@/components/provider';
+import Providers from '@/components/providers/provider';
 
 config.autoAddCss = false;
 

@@ -17,10 +17,19 @@ export const login = async (data: Login) => {
     }),
   });
 
-  const res = await response.json();
+  let res;
+
+  try {
+    res = await response.json();
+  } catch (e) {
+    return { status: 400, message: 'Invalid JSON response' };
+  }
 
   if (!response.ok) {
-    return { status: 400, message: res.Details };
+    if (res.Details) {
+      return { status: 400, message: res.Details };
+    }
+    return { status: 400, message: 'Invalid login' };
   }
 
   cookies().set({
