@@ -28,4 +28,5 @@ export interface User {
   tattoos?: string;
   pictures?: string;
   video?: string;
+  role?: string;
 }

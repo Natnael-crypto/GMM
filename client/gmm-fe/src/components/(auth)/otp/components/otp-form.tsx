@@ -41,7 +41,7 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
     const res = await verifyOtp(data);
 
     if (res.status === 200) {
-      replace('/login');
+      replace('/login?redirect=/checkout');
     } else {
       toast({
         title: 'OTP Verification',

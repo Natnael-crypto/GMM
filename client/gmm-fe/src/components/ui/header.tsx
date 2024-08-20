@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import LanguageSelector from './language-selector';
 import Profile from './profile';
+import { Link } from '@/lib/navigation';
 
 export default function Header() {
   return (
@@ -13,13 +14,15 @@ export default function Header() {
     flex justify-between items-center"
     >
       <div className="w-40 md:w-60">
-        <Image
-          className="w-full overflow-hidden"
-          src="/assets/guardian-logo-footer.png"
-          width={537}
-          height={70}
-          alt="Guardian logo"
-        />
+        <Link href="/" className="w-40 md:w-60">
+          <Image
+            className="w-full overflow-hidden"
+            src="/assets/guardian-logo-footer.png"
+            width={537}
+            height={70}
+            alt="Guardian logo"
+          />
+        </Link>
       </div>
 
       <div className="flex gap-2 items-center">

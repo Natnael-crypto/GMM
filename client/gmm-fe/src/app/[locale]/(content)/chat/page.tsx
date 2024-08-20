@@ -1,14 +1,15 @@
 import Chat from '@/components/chat/components/chat';
 import GuardianGuide from '@/components/chat/components/guardian-guide';
 import MatchProfile from '@/components/chat/components/match-profile';
+import AuthGuard from '@/components/providers/auth-guard';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-export default function ChatPage() {
+export function ChatPage() {
   return (
     <div className="h-screen flex flex-col justify-between bg-[#c9e2aa]">
-      <div className="grid grid-cols-12 gap-x-3 gap-y-5 outline h-full p-3">
+      <div className="grid grid-cols-12 px-6 gap-x-2 gap-y-5 outline h-full p-3">
         <div className="col-span-3">
           <MatchProfile />
         </div>
@@ -35,3 +36,5 @@ export default function ChatPage() {
     </div>
   );
 }
+
+export default AuthGuard({ Component: ChatPage });

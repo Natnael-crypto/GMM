@@ -23,12 +23,14 @@ import { login } from '@/actions/auth/login';
 import { toast } from '@/components/ui/use-toast';
 import { useRouter } from '@/lib/navigation';
 import Loading from '@/components/ui/loading';
+import { useSearchParams } from 'next/navigation';
 
 export function LoginForm() {
   const t = useTranslations('Auth.login');
   const locale = useLocale();
   const [isLoginInProgress, setLoginInProgress] = useState(false);
   const { replace } = useRouter();
+  const searchParams = useSearchParams();
 
   const form = useForm<Login>({
     resolver: zodResolver(LoginSchema),
@@ -48,7 +50,7 @@ export function LoginForm() {
         title: 'Welcome Back!',
         description: response.message,
       });
-      replace('/');
+      replace(searchParams.get('redirect') ?? '/');
     } else {
       toast({
         title: 'Error',

@@ -6,3 +6,7 @@ export interface AuthState {
   user?: User;
   token?: string;
 }
+
+export interface Session {
+  user: User;
+}
