@@ -21,9 +21,8 @@ export const signUp = async (data: SignUp) => {
   });
 
   const res = await response.json();
-
   if (!response.ok) {
-    return { status: response.status, message: res.message };
+    return { status: response.status, message: res.Details };
   }
 
   cookies().set({
