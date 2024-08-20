@@ -1,8 +1,8 @@
 'use client';
 
 import { useLocale } from 'next-intl';
-import Link from 'next/link';
-import { usePathname } from '@/lib/navigation';
+
+import { Link, usePathname } from '@/lib/navigation';
 import React from 'react';
 import { cn } from '@/lib/utils';
 import CurrentSubscriptionCard from '../billing/components/current-subscription-card';
@@ -20,7 +20,7 @@ export default function Sidebar() {
 
         <div className="flex flex-col py-2 gap-1">
           <Link
-            href={`/${locale}/dashboard/personal-info`}
+            href="/dashboard/personal-info"
             className={cn(
               'ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full',
               isActive('/dashboard/personal-info')
@@ -31,7 +31,7 @@ export default function Sidebar() {
             Personal Info
           </Link>
           <Link
-            href={`/${locale}/dashboard/billing`}
+            href="/dashboard/billing"
             className={cn(
               'ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full',
               isActive('/dashboard/billing')
@@ -49,13 +49,13 @@ export default function Sidebar() {
 
         <div className="flex flex-col py-2 gap-1">
           <Link
-            href={`/${locale}/dashboard/profile/basic-information`}
+            href="/dashboard"
             className="ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full"
           >
             Dashboard
           </Link>
           <Link
-            href={`/${locale}/dashboard/profile/basic-information`}
+            href="/dashboard/profile/basic-information"
             className="ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full"
           >
             Profile
