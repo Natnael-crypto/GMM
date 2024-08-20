@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-export function ChatPage() {
+function ChatPage() {
   return (
     <div className="h-screen flex flex-col justify-between bg-[#c9e2aa]">
       <div className="grid grid-cols-12 px-6 gap-x-2 gap-y-5 outline h-full p-3">
