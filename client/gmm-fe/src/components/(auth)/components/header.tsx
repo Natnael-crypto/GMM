@@ -3,8 +3,9 @@ import Image from 'next/image';
 import LanguageSelector from '@/components/ui/language-selector';
 import { useLocale } from 'next-intl';
 import { localeDirection } from '@/config';
+import { Link } from '@/lib/navigation';
 
-export default function Header() {
+export default function AuthHeader() {
   const locale = useLocale();
   return (
     <div className="relative">
@@ -21,13 +22,15 @@ export default function Header() {
     flex justify-between items-center"
       >
         <div className="w-40 md:w-60">
-          <Image
-            className="w-full overflow-hidden"
-            src="/assets/guardian-logo.png"
-            width={537}
-            height={70}
-            alt="Guardian logo"
-          />
+          <Link href="/" className="w-40 md:w-60">
+            <Image
+              className="w-full overflow-hidden"
+              src="/assets/guardian-logo.png"
+              width={537}
+              height={70}
+              alt="Guardian logo"
+            />
+          </Link>
         </div>
 
         <div className="flex gap-2 items-center">
