@@ -1,16 +1,16 @@
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { localeDirection } from '@/config';
 import { getLoggedInUser } from '@/lib/auth/utils';
 import { cn } from '@/lib/utils';
-import { useLocale, useTranslations } from 'next-intl';
+import { getLocale, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-export default function GMMHero() {
-  const t = useTranslations('Landing');
-  const locale = useLocale();
-  const user = getLoggedInUser();
+export default async function GMMHero() {
+  const t = await getTranslations('Landing');
+  const locale = await getLocale();
+  const user = await getLoggedInUser();
 
   return (
     <div className="relative">
