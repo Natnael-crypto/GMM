@@ -26,9 +26,3 @@ export interface EmailLists {
 export interface ResponseError extends Error {
   statusCode?: number;
 }
-
-export interface PaymentRequestBody {
-  plan: '1_month' | '2_months' | '3_months'; // Add other plan options as needed
-  email: string;
-  paymentMethodId: string;
-}

@@ -9,7 +9,7 @@ import { NoticeModule } from './modules/notice/notice.module';
 import { UserService } from './modules/user/services/user.service';
 import { LoggerMiddleware } from '@shared/utils/logger';
 import { OTPModule } from '@modules/otp/otp.module';
-// import { PaymentsModule } from '@modules/payment/payment.module';
+import { PaymentsModule } from '@modules/payment/payment.module';
 
 @Module({
   imports: [
@@ -42,7 +42,7 @@ import { OTPModule } from '@modules/otp/otp.module';
       from: 'Guardian / Wali',
     }),
     OTPModule,
-    // PaymentsModule
+    PaymentsModule
   ],
   controllers: [AppController],
   providers: [AppService],
