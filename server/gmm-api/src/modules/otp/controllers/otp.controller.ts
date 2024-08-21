@@ -5,7 +5,6 @@ import { decode } from '@shared/utils/crypt';
 import { GetOTPDto } from '../dtos/get-otp.dto';
 import { verifyOTPDTO } from '../dtos/verify-otp.dto';
 
-
 @ApiTags('otp')
 @Controller('otp')
 export class OTPController {
@@ -13,13 +12,22 @@ export class OTPController {
 
   @Post('email')
   @ApiBody({ type: GetOTPDto })
-  async sendOTP(@Body() body, @Res() res) {
+  async sendOTP(@Body() body: GetOTPDto, @Res() res) {
     const { email, type } = body;
     try {
-      const result = await this.otpService.generateAndSendOTP(email, type);
-      return res.status(HttpStatus.OK).json(result);
+      await this.otpService.generateAndSendOTP(email, type);
+      return res.status(HttpStatus.OK).json({
+        message: 'OTP has been sent successfully to your email.',
+        data: {
+          email,
+          type
+        }
+      });
     } catch (error) {
-      return res.status(HttpStatus.BAD_REQUEST).json({ Status: 'Failure', Details: error.message });
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to send OTP',
+        error: error.message
+      });
     }
   }
 
@@ -31,27 +39,37 @@ export class OTPController {
     @Body('check') check: string
   ): Promise<any> {
     if (!verificationKey) {
-      throw new HttpException('Verification Key not provided', HttpStatus.BAD_REQUEST);
+      throw new HttpException({
+        message: 'Verification Key not provided'
+      }, HttpStatus.BAD_REQUEST);
     }
     if (!otp) {
-      throw new HttpException('OTP not Provided', HttpStatus.BAD_REQUEST);
+      throw new HttpException({
+        message: 'OTP not provided'
+      }, HttpStatus.BAD_REQUEST);
     }
     if (!check) {
-      throw new HttpException('Check not Provided', HttpStatus.BAD_REQUEST);
+      throw new HttpException({
+        message: 'Check not provided'
+      }, HttpStatus.BAD_REQUEST);
     }
 
     let decoded;
     try {
       decoded = await decode(verificationKey);
     } catch (err) {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      throw new HttpException({
+        message: 'Bad Request'
+      }, HttpStatus.BAD_REQUEST);
     }
 
     const obj = JSON.parse(decoded);
     const checkObj = obj.check;
 
     if (checkObj !== check) {
-      throw new HttpException('OTP was not sent to this particular email or phone number', HttpStatus.BAD_REQUEST);
+      throw new HttpException({
+        message: 'OTP wasn’t sent to this particular email or phone.'
+      }, HttpStatus.BAD_REQUEST);
     }
 
     const otpInstance = await this.otpService.findOneById(obj.otp_id);
@@ -64,18 +82,31 @@ export class OTPController {
             otpInstance.verified = true;
             await this.otpService.save(otpInstance);
 
-            return { Status: 'Success', Details: 'OTP Matched', Check: check };
+            return {
+              message: 'OTP Matched',
+              data: {
+                check
+              }
+            };
           } else {
-            throw new HttpException('OTP NOT Matched', HttpStatus.BAD_REQUEST);
+            throw new HttpException({
+              message: 'OTP NOT Matched'
+            }, HttpStatus.BAD_REQUEST);
           }
         } else {
-          throw new HttpException('OTP Expired', HttpStatus.BAD_REQUEST);
+          throw new HttpException({
+            message: 'OTP Expired'
+          }, HttpStatus.BAD_REQUEST);
         }
       } else {
-        throw new HttpException('OTP Already Used', HttpStatus.BAD_REQUEST);
+        throw new HttpException({
+          message: 'OTP Already Used'
+        }, HttpStatus.BAD_REQUEST);
       }
     } else {
-      throw new HttpException('Bad Request', HttpStatus.BAD_REQUEST);
+      throw new HttpException({
+        message: 'Bad Request'
+      }, HttpStatus.BAD_REQUEST);
     }
   }
 }
