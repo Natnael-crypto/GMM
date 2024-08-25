@@ -3,7 +3,11 @@ import { Card } from '@/components/ui/card';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
-export default function RadioButton({ field, membershipPackage }: any) {
+export default function RadioButton({
+  field,
+  membershipPackage,
+  membershipPackageId,
+}: any) {
   const t = useTranslations(
     `Auth.checkout.membershipPackageCard.${membershipPackage}`
   );
@@ -15,7 +19,7 @@ export default function RadioButton({ field, membershipPackage }: any) {
         id={membershipPackage}
         className="peer text-sm placeholder:text-xs opacity-100 pointer-events-none hidden"
         type="radio"
-        value={membershipPackage}
+        value={membershipPackageId}
       />
       <label htmlFor={membershipPackage} className="group">
         <Card
