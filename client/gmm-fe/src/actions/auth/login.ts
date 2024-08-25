@@ -20,21 +20,21 @@ export const login = async (data: Login) => {
   let res;
 
   try {
-    res = await response.json();
+    res = await response.json();        
   } catch (e) {
     return { status: 400, message: 'Invalid JSON response' };
   }
 
   if (!response.ok) {
-    if (res.Details) {
-      return { status: 400, message: res.Details };
+    if (res.error) {
+      return { status: 400, message: res.error };
     }
-    return { status: 400, message: 'Invalid login' };
+    return { status: 400, message: 'Unable to login' };
   }
 
   cookies().set({
     name: cookieNames.accessToken,
-    value: res,
+    value: res.data.token,
     httpOnly: true,
     sameSite: 'strict',
     path: '/',
@@ -43,6 +43,6 @@ export const login = async (data: Login) => {
 
   return {
     status: 200,
-    message: 'Successfully logged in',
+    message: res.message,
   };
 };
