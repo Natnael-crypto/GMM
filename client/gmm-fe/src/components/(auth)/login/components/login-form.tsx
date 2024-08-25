@@ -50,7 +50,7 @@ export function LoginForm() {
         title: 'Welcome Back!',
         description: response.message,
       });
-      replace(searchParams.get('redirect') ?? '/');
+      replace(searchParams.get('redirect') ?? '/checkout');
     } else {
       toast({
         title: 'Error',
