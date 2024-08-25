@@ -12,7 +12,7 @@ export async function auth(): Promise<Session | null> {
   });
 
   if (response.ok) {
-    return { user: (await response.json()).data };
+    return { user: await response.json() };
   }
 
   return null;
