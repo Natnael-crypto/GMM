@@ -28,8 +28,6 @@ export const signUp = async (data: SignUp) => {
     };
   }
 
-  console.log(res);
-
   cookies().set({
     name: cookieNames.userIdentifier,
     value: data.email,
