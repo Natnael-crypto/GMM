@@ -12,8 +12,8 @@ export const CheckoutSchema = z
     region: z.string().min(1, 'Region is required'),
     country: z.string().min(1, 'Country is required'),
     cardNumber: z.string().min(1, 'Card number is required'),
-    cardExpiryDate: z.string().min(1, 'Card expiry date is required'),
-    cvc: z.string().min(1, 'CVC is required'),
+    cardExpiryDate: z.string().length(5, 'Card expiry date is required'),
+    cvc: z.string().length(3, 'CVC is required'),
   })
   .required();
 
