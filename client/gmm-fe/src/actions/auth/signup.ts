@@ -22,8 +22,13 @@ export const signUp = async (data: SignUp) => {
 
   const res = await response.json();
   if (!response.ok) {
-    return { status: response.status, message: res.Details };
+    return {
+      status: response.status,
+      message: res.data.otpVerificationKey.message,
+    };
   }
+
+  console.log(res);
 
   cookies().set({
     name: cookieNames.userIdentifier,
@@ -34,7 +39,7 @@ export const signUp = async (data: SignUp) => {
 
   cookies().set({
     name: cookieNames.otpVerificationKey,
-    value: res.otpDetails,
+    value: res.data.otpVerificationKey.otpDetails,
     httpOnly: true,
     path: '/',
   });
