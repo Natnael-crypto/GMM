@@ -13,24 +13,47 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useLocale, useTranslations } from 'next-intl';
+import { useTranslations } from 'next-intl';
 import RadioButton from './radio-button';
 import { Checkout, CheckoutSchema } from '@/lib/schemas/checkout';
+import { useAppSelector } from '@/lib/hooks';
+import { useEffect } from 'react';
+import { useToast } from '@/components/ui/use-toast';
 
 export function CheckoutForm() {
   const t = useTranslations('Auth.checkout');
-  const locale = useLocale();
+  const user = useAppSelector((state) => state.auth.user);
+  const { toast } = useToast();
 
   const form = useForm<Checkout>({
     resolver: zodResolver(CheckoutSchema),
     defaultValues: {
       email: '',
       membershipPackage: '',
+      name: '',
+      addressOne: '',
+      addressTwo: '',
+      city: '',
+      postcode: '',
+      region: '',
+      country: '',
+      cardNumber: '',
+      cardExpiryDate: '',
+      cvc: '',
     },
   });
 
+  useEffect(() => {
+    if (user) {
+      form.reset({
+        email: user.email,
+        name: user.firstName ? user.firstName + ' ' + user.lastName : '',
+      });
+    }
+  }, [form, user]);
+
   function onSubmit(data: Checkout) {
-    console.log({
+    toast({
       title: 'You submitted the following values:',
       description: (
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
@@ -62,30 +85,37 @@ export function CheckoutForm() {
 
           <div className="space-y-1">
             <div className="text-xs"> {t('selectMembership')}</div>
-
             <FormField
-              control={form.control}
               name="membershipPackage"
-              render={({ field }) => (
-                <div className="grid grid-cols-2 gap-x-2 gap-y-5 py-3">
-                  <RadioButton
-                    field={field}
-                    membershipPackage="monthlyPackage"
-                  />
-                  <RadioButton
-                    field={field}
-                    membershipPackage="threeMonthsPackage"
-                  />
-                  <RadioButton
-                    field={field}
-                    membershipPackage="sixMonthsPackage"
-                  />
-                  <RadioButton
-                    field={field}
-                    membershipPackage="twelveMonthsPackage"
-                  />
-                </div>
-              )}
+              render={({ field }) => {
+                return (
+                  <>
+                    <fieldset className="grid grid-cols-2 gap-x-2 gap-y-5 py-3">
+                      <RadioButton
+                        name="membershipPackage"
+                        membershipPackage="monthlyPackage"
+                        field={field}
+                      />
+                      <RadioButton
+                        name="membershipPackage"
+                        membershipPackage="threeMonthsPackage"
+                        field={field}
+                      />
+                      <RadioButton
+                        name="membershipPackage"
+                        membershipPackage="sixMonthsPackage"
+                        field={field}
+                      />
+                      <RadioButton
+                        name="membershipPackage"
+                        membershipPackage="twelveMonthsPackage"
+                        field={field}
+                      />
+                    </fieldset>
+                    <FormMessage className="text-xs" />
+                  </>
+                );
+              }}
             />
           </div>
 
