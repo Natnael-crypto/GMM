@@ -24,25 +24,23 @@ import { checkoutApi, useCreateCheckoutMutation } from '@/lib/checkout/api';
 export function CheckoutForm() {
   const t = useTranslations('Auth.checkout');
   const user = useAppSelector((state) => state.auth.user);
-  const { toast } = useToast();
   const [createCheckout, result] = useCreateCheckoutMutation();
 
   const form = useForm<Checkout>({
     resolver: zodResolver(CheckoutSchema),
     defaultValues: {
       email: '',
-
       membershipPackage: '',
-      name: '1',
-      addressOne: '1',
-      addressTwo: '1',
-      city: '1',
-      postcode: '1',
-      region: '1',
-      country: '1',
-      cardNumber: '1111',
-      cardExpiryDate: '11111',
-      cvc: '111',
+      name: '',
+      addressOne: '',
+      addressTwo: '',
+      city: '',
+      postcode: '',
+      region: '',
+      country: '',
+      cardNumber: '',
+      cardExpiryDate: '',
+      cvc: '',
     },
   });
 
