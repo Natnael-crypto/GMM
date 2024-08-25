@@ -20,7 +20,7 @@ export const login = async (data: Login) => {
   let res;
 
   try {
-    res = await response.json();        
+    res = await response.json();
   } catch (e) {
     return { status: 400, message: 'Invalid JSON response' };
   }
@@ -36,8 +36,7 @@ export const login = async (data: Login) => {
     name: cookieNames.accessToken,
     value: res.data.token,
     httpOnly: true,
-    sameSite: 'strict',
-    path: '/',
+    sameSite: 'lax',
     expires: new Date(Date.now() + constants.accessTokenMaxAge),
   });
 
