@@ -8,9 +8,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { Link } from '@/lib/navigation';
+import { useLocale } from 'next-intl';
 
 export default function Profile() {
   const [open, setOpen] = React.useState(false);
+  const locale = useLocale();
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -61,12 +63,12 @@ export default function Profile() {
             Help
           </Link>
 
-          <Link
-            href="/logout"
+          <a
+            href={`${locale}/logout`}
             className="w-full justify-start bg-background hover:bg-muted text-muted-foreground hover:text-muted-foreground py-1 px-5"
           >
             Logout
-          </Link>
+          </a>
         </div>
       </PopoverContent>
     </Popover>
