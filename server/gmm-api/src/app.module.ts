@@ -10,6 +10,7 @@ import { UserService } from './modules/user/services/user.service';
 import { LoggerMiddleware } from '@shared/utils/logger';
 import { OTPModule } from '@modules/otp/otp.module';
 import { PaymentsModule } from '@modules/payment/payment.module';
+import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 
 @Module({
   imports: [
@@ -42,7 +43,8 @@ import { PaymentsModule } from '@modules/payment/payment.module';
       from: 'Guardian / Wali',
     }),
     OTPModule,
-    PaymentsModule
+    PaymentsModule,
+    DynamooseModule
   ],
   controllers: [AppController],
   providers: [AppService],
