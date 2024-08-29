@@ -8,7 +8,7 @@ export class verifyOTPDTO {
 
     @IsNotEmpty()
     @ApiProperty()
-    check: string;
+    userIdentifier: string;
 
     @IsNotEmpty()
     @ApiProperty()

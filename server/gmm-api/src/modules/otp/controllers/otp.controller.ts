@@ -4,11 +4,15 @@ import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { decode } from '@shared/utils/crypt';
 import { GetOTPDto } from '../dtos/get-otp.dto';
 import { verifyOTPDTO } from '../dtos/verify-otp.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @ApiTags('otp')
 @Controller('otp')
 export class OTPController {
-  constructor(private readonly otpService: OTPService) {}
+  constructor(
+    private readonly otpService: OTPService,
+    // private jwtService: JwtService
+  ) {}
 
   @Post('email')
   @ApiBody({ type: GetOTPDto })
@@ -31,7 +35,7 @@ export class OTPController {
     }
   }
 
-  @Post('verify')
+  @Post('verify-otp')
   @ApiBody({ type: verifyOTPDTO })
   async verifyOTP(
     @Body('verificationKey') verificationKey: string,
@@ -81,7 +85,13 @@ export class OTPController {
           if (otp === otpInstance.otp) {
             otpInstance.verified = true;
             await this.otpService.save(otpInstance);
+            
+            // const accessToken = this.jwtService.sign({ userId: obj.userId });
 
+            // return {
+            //   message: 'OTP Matched',
+            //   accessToken,
+            // };
             return {
               message: 'OTP Matched',
               data: {
