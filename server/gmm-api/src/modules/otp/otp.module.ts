@@ -16,7 +16,7 @@ import { NoticeModule } from '@modules/notice/notice.module';
       getList: async (emailListID: string) => {
         // Logic to fetch email list by ID
 
-        return [];}
+        return ['betabravah@gmail.com'];}
   },}],
   exports: [OTPService, TypeOrmModule],
 })
