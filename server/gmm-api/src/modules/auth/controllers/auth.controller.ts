@@ -78,13 +78,12 @@ export class AuthController {
             return res.status(HttpStatus.OK).json({
                 message: 'Successfully logged in.',
                 data: {
-                    token: token
+                    accessToken: token
                 },
             });
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json({
-                message: 'Login failed',
-                error: error.message,
+                message: error.message,
             });
         }
     }
@@ -102,8 +101,7 @@ export class AuthController {
             });
         } catch (error) {
             return res.status(HttpStatus.BAD_REQUEST).json({
-                message: 'Registration failed',
-                error: error.message,
+                message: error.message,
             });
         }
     }

@@ -20,8 +20,4 @@ export class SignUpUserDto {
   @MinLength(6)
   password: string;
 
-  @IsNotEmpty()
-  @ApiProperty()
-  @MinLength(6)
-  confirmPassword: string;
 }
