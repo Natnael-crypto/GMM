@@ -5,26 +5,40 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  email: string;
-
   @Column({ nullable: true })
   firstName: string;
 
   @Column({ nullable: true })
   lastName: string;
 
+  @Column()
+  email: string;
+
   @Column({ nullable: true })
-  phone: string;
+  phoneNumber: string;
 
   @Column({ nullable: true })
   password: string;
 
   @Column({ nullable: true })
-  idCard: string;
+  idCardImage: string;
+
+  @Column({ nullable: true, type: 'simple-array' })
+  pictures: string[];
 
   @Column({ nullable: true })
-  guadianId: string;
+  video: string;
+  
+  
+
+  @Column({ nullable: true })
+  city: string;
+
+  @Column({ nullable: true })
+  country: string;
+
+  @Column({ nullable: true })
+  countryOfOrigin: string;
 
   @Column({ nullable: true, type: 'int' })
   age: number;
@@ -39,9 +53,6 @@ export class User {
   weight: number;
 
   @Column({ nullable: true })
-  country: string;
-
-  @Column({ nullable: true })
   skinColor: string;
 
   @Column({ nullable: true, type: 'simple-array' })
@@ -49,12 +60,14 @@ export class User {
 
   @Column({ nullable: true })
   nationality: string;
-
-  @Column({ nullable: true })
-  city: string;
+  
+  
 
   @Column({ nullable: true })
   maritalStatus: string;
+
+  @Column({ nullable: true })
+  hasChildren: boolean;
 
   @Column({ nullable: true, type: 'int' })
   numberOfChildren: number;
@@ -72,7 +85,7 @@ export class User {
   religiousPractice: string;
 
   @Column({ nullable: true })
-  bornMuslim: boolean;
+  bornOrRevertToIslam: string;
 
   @Column({ nullable: true })
   drinks: boolean;
@@ -86,9 +99,9 @@ export class User {
   @Column({ nullable: true })
   tattoos: boolean;
 
-  @Column({ nullable: true, type: 'simple-array' })
-  pictures: string[];
+
 
   @Column({ nullable: true })
-  video: string;
+  guadianId: string;
+
 }
