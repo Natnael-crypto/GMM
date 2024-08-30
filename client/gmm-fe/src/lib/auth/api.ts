@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { constants } from '@/config';
 import { RootState } from '../store';
+import { User } from '../schemas/user';
+import { BaseResponse } from '@/types/base-response';
 
-export const userApi = createApi({
-  reducerPath: 'userApi',
+export const authApi = createApi({
+  reducerPath: 'authApi',
 
   baseQuery: fetchBaseQuery({
     baseUrl: constants.apiBaseUrl,
@@ -17,10 +19,11 @@ export const userApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    getUser: builder.query<any, void>({
+    getUser: builder.query<User, void>({
       query: () => 'users/me',
+      transformResponse: (response: BaseResponse<User>) => response.data,
     }),
   }),
 });
 
-export const { useGetUserQuery } = userApi;
+export const { useGetUserQuery } = authApi;

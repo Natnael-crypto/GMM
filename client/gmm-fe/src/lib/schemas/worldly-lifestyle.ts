@@ -1,0 +1,88 @@
+import { z } from 'zod';
+
+export const worldlyLifestyleSchema = z
+  .object({
+    employmentType: z.string({
+      required_error: 'Please select an employment type',
+    }),
+    annualIncome: z.string({
+      required_error: '*',
+    }),
+    annualIncomeCurrency: z.string({
+      required_error: '*',
+    }),
+    currentOccupationTitle: z.string({
+      required_error: 'Please select your occupation title',
+    }),
+    typeOfResidence: z.string({
+      required_error: 'Please select a type of residence',
+    }),
+    livingSituation: z.string({
+      required_error: 'Please select your living situation',
+    }),
+    vehicleYear: z.union([
+      z.number(),
+      z
+        .string({ required_error: 'Please enter a vehicle year' })
+        .refine((value) => value.length === 4 && !isNaN(parseInt(value)), {
+          message: 'Please enter a valid year',
+        })
+        .transform(Number),
+    ]),
+    vehicleMake: z.string({ required_error: 'Please enter a vehicle make' }),
+    vehicleModel: z.string({ required_error: 'Please enter a vehicle model' }),
+    educationQualification: z.string({
+      required_error: 'Please select a qualification',
+    }),
+    applicableDebts: z.string({
+      required_error: 'Please select applicable debts',
+    }),
+    currentDebts: z.union([
+      z.array(z.string()),
+      z
+        .string({ required_error: 'Please select current debts' })
+        .transform((value) => [value]),
+    ]),
+    approximateDebts: z.string({
+      required_error: 'Please select approximate debts',
+    }),
+    payingInterestOnDebts: z.string({
+      required_error: 'Please select paying interest',
+    }),
+    presentFamilyMembers: z.string({
+      required_error: 'Please select family members',
+    }),
+    numberOfSibilings: z.union([
+      z.number(),
+      z
+        .string({ required_error: 'Please select siblings' })
+        .refine((value) => value === 'None' || !isNaN(parseInt(value)), {
+          message: 'Please enter a valid number',
+        })
+        .transform((value) => (value === 'None' ? 0 : Number(value))),
+    ]),
+    pets: z.union([
+      z.number(),
+      z
+        .string({ required_error: 'How many pets do you have?' })
+        .refine((value) => value === 'None' || !isNaN(parseInt(value)), {
+          message: 'Please enter a valid number',
+        })
+        .transform((value) => (value === 'None' ? 0 : Number(value))),
+    ]),
+    majorPreexistingHealthCondition: z.string({
+      required_error: 'Please specify your condition',
+    }),
+
+    mobilityAssistantRequirement: z.string({
+      required_error: 'Please specify your mobility assistant requirement',
+    }),
+
+    preexistingHealthConditionDescription: z.string({
+      required_error:
+        'Please specify your preexisting health condition description',
+    }),
+  })
+  .required();
+
+export type WorldlyLifestyle = z.infer<typeof worldlyLifestyleSchema>;

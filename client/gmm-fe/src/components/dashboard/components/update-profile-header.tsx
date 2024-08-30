@@ -1,23 +1,20 @@
+'use client'
+
 import React from 'react';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { ProfileHeaderProps } from '@/types';
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
+import { useUpdateProfileContext } from './update-profile-context';
 
 export default function UpdateProfileHeader({
   pageName,
   editLink,
 }: ProfileHeaderProps) {
+  const { onSave } = useUpdateProfileContext();
+
   return (
     <div className="flex justify-between items-center border-b p-1">
       <h1 className="text-xl font-bold text-secondary">
@@ -54,8 +51,8 @@ export default function UpdateProfileHeader({
         >
           Cancel
         </Link>
-        <Link
-          href=""
+        <Button
+          onClick={onSave}
           className={cn(
             buttonVariants({
               variant: 'default',
@@ -65,7 +62,7 @@ export default function UpdateProfileHeader({
           )}
         >
           Save
-        </Link>
+        </Button>
       </div>
     </div>
   );
