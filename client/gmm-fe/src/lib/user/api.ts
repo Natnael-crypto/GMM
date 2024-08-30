@@ -1,14 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { constants } from '@/config';
 import { RootState } from '../store';
-import { WorldlyLifestyle } from '../schemas/worldly-lifestyle';
+import {
+  ExpectedWorldlyLifestyle,
+  WorldlyLifestyle,
+} from '../schemas/worldly-lifestyle';
 import { BaseResponse } from '@/types/base-response';
-import { UpdateWorldlyLifestyle } from './types';
+import {
+  UpdateWorldlyLifestyle,
+  UpdateExpectedWorldlyLifestyle,
+} from './types';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
 
-  tagTypes: ['WorldlyLifestyle'],
+  tagTypes: ['WorldlyLifestyle', 'ExpectedWorldlyLifestyle'],
 
   baseQuery: fetchBaseQuery({
     baseUrl: constants.apiBaseUrl,
@@ -48,10 +54,42 @@ export const userApi = createApi({
         return [{ type: 'WorldlyLifestyle', id: arg.userId }];
       },
     }),
+
+    getExpectedWorldlyLifestyle: builder.query<
+      ExpectedWorldlyLifestyle,
+      string
+    >({
+      query: (id) => `users/${id}/expected-worldy-lifestyle`,
+      transformResponse: (response: BaseResponse<ExpectedWorldlyLifestyle>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'ExpectedWorldlyLifestyle', id: arg }];
+      },
+    }),
+
+    updateExpectedWorldlyLifestyle: builder.mutation<
+      ExpectedWorldlyLifestyle,
+      UpdateExpectedWorldlyLifestyle
+    >({
+      query: ({ userId, expectedWorldlyLifestyle }) => ({
+        url: `users/${userId}/expected-worldy-lifestyle`,
+        method: 'PUT',
+        body: expectedWorldlyLifestyle,
+      }),
+      transformResponse: (response: BaseResponse<ExpectedWorldlyLifestyle>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'ExpectedWorldlyLifestyle', id: arg.userId }];
+      },
+    }),
   }),
 });
 
 export const {
   useGetWorldlyLifestyleQuery,
   useUpdateWorldlyLifestyleMutation,
+  useGetExpectedWorldlyLifestyleQuery,
+  useUpdateExpectedWorldlyLifestyleMutation,
 } = userApi;

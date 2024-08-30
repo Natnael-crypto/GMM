@@ -1,43 +1,50 @@
 'use client';
 
-import React, { useEffect } from "react";
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from "react";
 
 export interface UpdateProfileContextProps {
     onSave: () => void;
-    setAutoSave: React.Dispatch<React.SetStateAction<boolean>>;
-    setDisplayedForms: React.Dispatch<React.SetStateAction<HTMLFormElement[]>>;
+    setAutoSave: Dispatch<SetStateAction<boolean>>;
+    registerForm: (key: string, form: HTMLFormElement) => void;
 }
 
-const UpdateProfileContext = React.createContext<UpdateProfileContextProps>({
+const UpdateProfileContext = createContext<UpdateProfileContextProps>({
     onSave: () => { },
     setAutoSave: () => { },
-    setDisplayedForms: () => { },
+    registerForm: (key: string, form: HTMLElement) => { },
 });
 
-export const useUpdateProfileContext = () => React.useContext(UpdateProfileContext);
+export const useUpdateProfileContext = () => useContext(UpdateProfileContext);
+
+
 
 export const UpdateProfileProvider = ({ children }: { children: React.ReactNode }) => {
-    const [autoSave, setAutoSave] = React.useState(true);
-    const [displayedForms, setDisplayedForms] = React.useState<HTMLFormElement[]>([]);
+    const [autoSave, setAutoSave] = useState(true);
+    const [displayedForms, setDisplayedForms] = useState<Record<string, HTMLFormElement>>({});
 
-    useEffect(() => {
-        if (autoSave) {
-            const interval = setInterval(() => {
-                displayedForms.forEach((form) => {
-                    form.requestSubmit();
-                });
-            }, 300000 /* 5 minutes */);
-
-            return () => clearInterval(interval);
-        }
-    }, [displayedForms, autoSave]);
+    const registerForm = useRef(function (key: string, form: HTMLFormElement) {
+        setDisplayedForms((prev) => {
+            return {
+                ...prev,
+                [key]: form,
+            };
+        });
+    })
 
     const onSave = () => {
-        displayedForms.forEach((form) => {
-            form.requestSubmit();
-        });
+        for (const key in displayedForms) {
+            displayedForms[key]?.requestSubmit();
+        }
     };
 
-    console.log('hellow', displayedForms)
-    return <UpdateProfileContext.Provider value={{ onSave, setAutoSave, setDisplayedForms }}>{children}</UpdateProfileContext.Provider>;
+    // useEffect(() => {
+    //     if (autoSave) {
+    //         const interval = setInterval(onSave, 300000 /* 5 minutes */);
+
+    //         return () => clearInterval(interval);
+    //     }
+    // }, [displayedForms, autoSave]);
+
+
+    return <UpdateProfileContext.Provider value={{ onSave, setAutoSave, registerForm: registerForm.current }}>{children}</UpdateProfileContext.Provider>;
 }

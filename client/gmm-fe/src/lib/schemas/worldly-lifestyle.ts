@@ -85,4 +85,47 @@ export const worldlyLifestyleSchema = z
   })
   .required();
 
+export const expectedWorldlyLifestyleSchema = z
+  .object({
+    roleOfWife: z.string({ required_error: 'Please select your preference' }),
+    wifeCareer: z.string({ required_error: 'Please select your preference' }),
+    dualIncome: z.string({ required_error: 'Please select your preference' }),
+    relocation: z.string({ required_error: 'Please select your preference' }),
+    jointFamily: z.string({ required_error: 'Please select your preference' }),
+    coupleLivingAccomodation: z.string({
+      required_error: 'Please select your preference',
+    }),
+    openToLiveWithWifeFamily: z.string({
+      required_error: "Are you open to living with your wife's famliy",
+    }),
+    expectWifeToLiveWithHisFamily: z.string({
+      required_error: 'Do you expect your wife to live with your family?',
+    }),
+    havingChildren: z.string({
+      required_error: 'Would you prefer to have a child?',
+    }),
+    numberOfChildren: z.union([
+      z.number(),
+      z
+        .string({ required_error: 'Please select number of children' })
+        .refine((value) => !isNaN(parseInt(value)), {
+          message: 'Please enter a valid number',
+        })
+        .transform(Number),
+    ]),
+    parenthoodTimingAfterMarriage: z.string({
+      required_error: 'Please select your preference',
+    }),
+    requireWifeToAcceptChildren: z.string({
+      required_error: 'Please select your preference',
+    }),
+    willingToAcceptWifeChildren: z.string({
+      required_error: 'Please select your preference',
+    }),
+  })
+  .required();
+
 export type WorldlyLifestyle = z.infer<typeof worldlyLifestyleSchema>;
+export type ExpectedWorldlyLifestyle = z.infer<
+  typeof expectedWorldlyLifestyleSchema
+>;
