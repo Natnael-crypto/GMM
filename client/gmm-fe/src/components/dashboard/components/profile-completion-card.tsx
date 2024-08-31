@@ -1,7 +1,9 @@
 import React from 'react';
 import ProfileCard from './profile-card';
 import ProfileCompletionProgress from './profile-completion';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Link } from '@/lib/navigation';
+import { cn } from '@/lib/utils';
 
 export default function ProfileCompletionCard() {
   return (
@@ -29,13 +31,12 @@ space-y-5"
       </div>
 
       <div className="flex justify-end">
-        <Button
-          variant="outline"
-          className="rounded-full text-xs text-secondary h-6"
-          disabled
+        <Link
+          href="/dashboard/profile/basic-information"
+          className={cn(buttonVariants({ variant: 'outline' }), "rounded-full text-xs text-secondary h-6")}
         >
           View Profile
-        </Button>
+        </Link>
       </div>
     </div>
   );

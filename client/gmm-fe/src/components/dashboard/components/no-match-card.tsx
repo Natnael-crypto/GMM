@@ -1,6 +1,7 @@
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/lib/navigation';
 import React from 'react';
 
 export default function NoMatchCard() {
@@ -25,12 +26,12 @@ export default function NoMatchCard() {
           with accurate information.
         </p>
         <div className="flex justify-center">
-          <Button
-            variant="outline"
-            className="rounded-full text-xs text-primary-foreground bg-primary font-bold h-6"
+          <Link
+            href='/dashboard/profile/basic-information/edit'
+            className={cn(buttonVariants({ variant: 'outline' }), "rounded-full text-xs text-primary-foreground bg-primary font-bold h-6")}
           >
             Click Here To Edit Your Profile
-          </Button>
+          </Link>
         </div>
 
         <div className="flex flex-col justify-center">
