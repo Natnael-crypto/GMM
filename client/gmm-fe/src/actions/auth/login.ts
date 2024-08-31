@@ -26,8 +26,8 @@ export const login = async (data: Login) => {
   }
 
   if (!response.ok) {
-    if (res.error) {
-      return { status: 400, message: res.error };
+    if (res.message) {
+      return { status: 400, message: res.message };
     }
     return { status: 400, message: 'Unable to login' };
   }
