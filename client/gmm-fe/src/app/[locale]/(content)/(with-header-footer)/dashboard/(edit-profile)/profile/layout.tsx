@@ -4,7 +4,6 @@ import UpdateProfileStepper from '@/components/dashboard/components/stepper/upda
 import { UpdateProfileProvider } from '@/components/dashboard/components/update-profile-context';
 import UpdateProfileHeader from '@/components/dashboard/components/update-profile-header';
 import { usePathname } from '@/lib/navigation';
-import { useLocale } from 'next-intl';
 import React from 'react';
 
 const pageNames: Record<string, string> = {
@@ -21,8 +20,6 @@ export default function UpdateProfileLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const locale = useLocale();
-
 
   return (
     <UpdateProfileProvider>
@@ -30,7 +27,7 @@ export default function UpdateProfileLayout({
         <div className="py-6">
           <div className="px-6 sm:px-16 md:px-24 lg:px-52 space-y-8">
             <UpdateProfileHeader
-              editLink={`/${locale}${pathname.slice(0, -5)}`}
+              editLink={pathname.slice(0, -5)}
               pageName={pageNames[pathname]}
             />
             <div className="flex items-center justify-center">

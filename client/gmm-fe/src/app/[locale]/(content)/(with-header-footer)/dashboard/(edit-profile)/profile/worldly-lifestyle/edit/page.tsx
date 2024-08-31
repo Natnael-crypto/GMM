@@ -5,7 +5,7 @@ import { WorldlyLifestyleForm } from "@/components/dashboard/profile/components/
 import { useAppSelector } from "@/lib/hooks";
 import { useGetExpectedWorldlyLifestyleQuery, useGetWorldlyLifestyleQuery } from "@/lib/user/api";
 
-export default function WorldlyLifestylePage() {
+export default function UpdateWorldlyLifestylePage() {
   const user = useAppSelector(state => state.auth.user);
   const { data: worldlyLifestyle, isLoading: isWorldlyLifestyleLoading } = useGetWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
   const { data: expectedWorldlyLifestyle, isLoading: isExpectedWorldlyLifestyleLoading } = useGetExpectedWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
