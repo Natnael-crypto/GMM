@@ -1,13 +1,17 @@
+'use client'
+
 import { Button } from '@/components/ui/button';
-import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAppSelector } from '@/lib/hooks';
+// import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslations } from 'next-intl';
-import React from 'react';
 
 export default function PersonalInfo() {
   const t = useTranslations(
     'Dashboard.updateProfile.marriageDiscussion.optionalVerifiable'
   );
+
+  const user = useAppSelector((state) => state.auth.user);
 
   return (
     <div className="rounded-xl bg-background shadow-lg p-5 space-y-4 text-sm">
@@ -20,7 +24,7 @@ export default function PersonalInfo() {
         <div className="flex justify-between items-center py-2 pt-3">
           <div className="flex flex-col gap-1">
             <span className="font-bold">Full Name</span>
-            <span>Muzaffar Sohali</span>
+            <span>{user?.firstName} {user?.lastName}</span>
           </div>
         </div>
 
@@ -28,17 +32,17 @@ export default function PersonalInfo() {
           <div className="flex flex-col gap-1">
             <span className="font-bold">Email Address</span>
             <span className="flex gap-3 items-center">
-              mohali@email.com{' '}
+              {user?.email}{' '}
               <span className="text-destructive text-[0.6rem] gap-1 flex items-center justify-center">
-                <FontAwesomeIcon className="text-xs" icon={faXmarkCircle} />
-                <span className="font-bold">{t('unverified')}</span>
+                {/* <FontAwesomeIcon className="text-xs" icon={faXmarkCircle} />
+                <span className="font-bold">{t('unverified')}</span> */}
               </span>
             </span>
           </div>
 
-          <Button variant="outline" className="text-secondary h-7 text-xs">
+          {/* <Button variant="outline" className="text-secondary h-7 text-xs">
             Re-Send Verification
-          </Button>
+          </Button> */}
         </div>
 
         <div className="flex justify-between items-center py-2 pt-3">

@@ -1,7 +1,13 @@
+'use client'
+
+import { useAppSelector } from '@/lib/hooks';
 import Image from 'next/image';
 import React from 'react';
 
+
 export default function ProfileCard() {
+  const user = useAppSelector((state) => state.auth.user);
+
   return (
     <div className="flex gap-4">
       <div className="rounded-full w-16 aspect-square overflow-hidden">
@@ -16,11 +22,11 @@ export default function ProfileCard() {
 
       <div className="flex flex-col gap-1">
         <h1 className="font-bold text-xl text-muted-foreground">
-          Muzaffar Sohail
+          {user?.firstName} {user?.lastName}
         </h1>
 
         <span>User ID #11223344</span>
-        <span>msohail@email.com</span>
+        <span>{user?.email}</span>
       </div>
     </div>
   );
