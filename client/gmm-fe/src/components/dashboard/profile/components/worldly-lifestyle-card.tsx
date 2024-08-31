@@ -1,3 +1,7 @@
+'use client';
+
+import { useAppSelector } from '@/lib/hooks';
+import { useGetWorldlyLifestyleQuery } from '@/lib/user/api';
 import {
   faBabyCarriage,
   faBriefcase,
@@ -15,6 +19,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
 export default function WorldlyLifestyleCard() {
+  const user = useAppSelector((state) => state.auth.user);
+  const { data: worldlyLifestyle, isLoading, isSuccess, isError } = useGetWorldlyLifestyleQuery(user?.id || '', {
+    skip: !user,
+  });
+
   return (
     <div className="space-y-6">
       <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 divide-y text-sm">
@@ -28,7 +37,8 @@ export default function WorldlyLifestyleCard() {
           </div>
           <div className="col-span-11 space-y-3 ">
             <h1 className="font-bold">
-              Self-Employed as &quot;Web &amp; Graphic Designer&quot;
+              {isSuccess && worldlyLifestyle.employmentType}
+              {isLoading && 'Loading...'}
             </h1>
           </div>
         </div>
@@ -41,7 +51,10 @@ export default function WorldlyLifestyleCard() {
             />
           </div>
           <div className="col-span-11 space-y-3 ">
-            <h1 className="font-bold">0-20,000 USD</h1>
+            <h1 className="font-bold">
+              {isSuccess && worldlyLifestyle.annualIncome}
+              {isLoading && 'Loading...'}
+            </h1>
           </div>
         </div>
         <div className="grid grid-cols-12 py-3">
@@ -53,7 +66,10 @@ export default function WorldlyLifestyleCard() {
             />
           </div>
           <div className="col-span-11 space-y-3 ">
-            <h1 className="font-bold">Bachelor Degree</h1>
+            <h1 className="font-bold">
+              {isSuccess && worldlyLifestyle.currentOccupationTitle}
+              {isLoading && 'Loading...'}
+            </h1>
           </div>
         </div>
         <div className="grid grid-cols-12 py-3">
@@ -61,7 +77,10 @@ export default function WorldlyLifestyleCard() {
             <FontAwesomeIcon icon={faCar} size="xl" className="text-primary" />
           </div>
           <div className="col-span-11 space-y-3 ">
-            <h1 className="font-bold">2020 Honda Civic</h1>
+            <h1 className="font-bold">
+              {isSuccess && `${worldlyLifestyle.vehicleYear} ${worldlyLifestyle.vehicleMake} ${worldlyLifestyle.vehicleModel}`}
+              {isLoading && 'Loading...'}
+            </h1>
           </div>
         </div>
 
@@ -76,18 +95,27 @@ export default function WorldlyLifestyleCard() {
           <div className="col-span-11 space-y-3 ">
             <ul className="flex flex-col gap-2 text-sm ">
               <li>
-                Applicable Debts: <span className="font-bold">Yes</span>
+                Applicable Debts: <span className="font-bold">
+                  {isSuccess && worldlyLifestyle.applicableDebts}
+                </span>
               </li>
               <li>
-                Current Debts: <span className="font-bold">Car</span>,{' '}
-                <span className="font-bold">Personal Loan</span>
+                Current Debts: <span className="font-bold">
+                  {
+                    isSuccess && worldlyLifestyle.currentDebts
+                  }
+                </span>
               </li>
               <li>
-                Approximate Debts: <span className="font-bold">10,000 USD</span>
+                Approximate Debts: <span className="font-bold">{
+                  isSuccess && worldlyLifestyle.approximateDebts
+                }</span>
               </li>
               <li>
                 Paying Interest/Riba on Debts:{' '}
-                <span className="font-bold">No</span>
+                <span className="font-bold">
+                  {isSuccess && worldlyLifestyle.payingInterestOnDebts}
+                </span>
               </li>
             </ul>
           </div>
@@ -104,11 +132,13 @@ export default function WorldlyLifestyleCard() {
           <div className="col-span-11 space-y-2">
             <h1>Living Accommodation:</h1>
             <ul className="flex flex-col gap-2 text-sm ">
-              <li className="font-bold">- Apartment (Rent)</li>
-              <li className="font-bold">- Living with kids</li>
-              <li className="font-bold">- Both Parents Present</li>
+              <li className="font-bold">- {isSuccess && worldlyLifestyle.typeOfResidence}</li>
+              <li className="font-bold">- {isSuccess && worldlyLifestyle.livingSituation}</li>
+              <li className="font-bold">- {isSuccess && worldlyLifestyle.presentFamilyMembers}</li>
               <li className="font-bold">
-                - 4 <span className="font-normal">Siblings & </span>0{' '}
+                - {isSuccess && worldlyLifestyle.numberOfSibilings} <span className="font-normal">Siblings & </span>{
+                  isSuccess && worldlyLifestyle.pets
+                }{' '}
                 <span className="font-normal">Pets</span>
               </li>
             </ul>
@@ -127,20 +157,17 @@ export default function WorldlyLifestyleCard() {
             <ul className="flex flex-col gap-2 text-sm ">
               <li>
                 Major Pre-Existing Health Conditions and/or Disability:{' '}
-                <span className="font-bold">Yes</span>
+                <span className="font-bold">{isSuccess && worldlyLifestyle.majorPreexistingHealthCondition}</span>
               </li>
               <li>
                 Mobility Assistance Required:{' '}
-                <span className="font-bold">No</span>
+                <span className="font-bold">{isSuccess && worldlyLifestyle.mobilityAssistantRequirement}</span>
               </li>
               <li>
                 Pre-existing health conditions and/or disabilities:
                 <br />
                 <span className="font-bold text-muted-foreground leading-relaxed">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
-                  nobis, reiciendis placeat perferendis quasi iusto aspernatur
-                  quos possimus esse maiores enim voluptate molestias accusamus
-                  in sed dolor fugit exercitationem cumque.
+                  {isSuccess && worldlyLifestyle.preexistingHealthConditionDescription}
                 </span>
               </li>
             </ul>

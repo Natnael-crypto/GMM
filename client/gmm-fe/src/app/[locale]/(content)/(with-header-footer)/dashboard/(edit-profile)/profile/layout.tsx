@@ -1,10 +1,9 @@
 'use client';
 
 import UpdateProfileStepper from '@/components/dashboard/components/stepper/update-profile-stepper';
+import { UpdateProfileProvider } from '@/components/dashboard/components/update-profile-context';
 import UpdateProfileHeader from '@/components/dashboard/components/update-profile-header';
-import Footer from '@/components/ui/footer';
 import { usePathname } from '@/lib/navigation';
-import { useLocale } from 'next-intl';
 import React from 'react';
 
 const pageNames: Record<string, string> = {
@@ -21,36 +20,37 @@ export default function UpdateProfileLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const locale = useLocale();
 
   return (
-    <div>
-      <div className="py-6">
-        <div className="px-6 sm:px-16 md:px-24 lg:px-52 space-y-8">
-          <UpdateProfileHeader
-            editLink={`/${locale}${pathname.slice(0, -5)}`}
-            pageName={pageNames[pathname]}
-          />
-          <div className="flex items-center justify-center">
-            <h1 className="text-2xl">Update Profile</h1>
+    <UpdateProfileProvider>
+      <div>
+        <div className="py-6">
+          <div className="px-6 sm:px-16 md:px-24 lg:px-52 space-y-8">
+            <UpdateProfileHeader
+              editLink={pathname.slice(0, -5)}
+              pageName={pageNames[pathname]}
+            />
+            <div className="flex items-center justify-center">
+              <h1 className="text-2xl">Update Profile</h1>
+            </div>
+            <UpdateProfileStepper />
           </div>
-          <UpdateProfileStepper />
-        </div>
 
-        <div className="py-5 px-6 sm:px-16 md:px-24 lg:px-52 mt-8">
-          <div className="bg-muted text-muted-foreground flex flex-col items-center justify-center py-4 text-sm rounded-se-3xl rounded-es-3xl">
-            <p>
-              To access each section of your profile, simply click any of the
-              buttons above.
-            </p>
-            <p>
-              Please note that your profile is auto saved by default every 5
-              minutes.
-            </p>
+          <div className="py-5 px-6 sm:px-16 md:px-24 lg:px-52 mt-8">
+            <div className="bg-muted text-muted-foreground flex flex-col items-center justify-center py-4 text-sm rounded-se-3xl rounded-es-3xl">
+              <p>
+                To access each section of your profile, simply click any of the
+                buttons above.
+              </p>
+              <p>
+                Please note that your profile is auto saved by default every 5
+                minutes.
+              </p>
+            </div>
           </div>
+          <div>{children}</div>
         </div>
-        <div>{children}</div>
       </div>
-    </div>
+    </UpdateProfileProvider>
   );
 }

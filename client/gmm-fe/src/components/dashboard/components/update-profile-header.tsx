@@ -1,27 +1,26 @@
+'use client'
+
 import React from 'react';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { ProfileHeaderProps } from '@/types';
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
+import { useUpdateProfileContext } from './update-profile-context';
+import { useAppSelector } from '@/lib/hooks';
+import { Link } from '@/lib/navigation';
 
 export default function UpdateProfileHeader({
   pageName,
   editLink,
 }: ProfileHeaderProps) {
+  const { onSave } = useUpdateProfileContext();
+  const user = useAppSelector((state) => state.auth.user);
+
   return (
     <div className="flex justify-between items-center border-b p-1">
       <h1 className="text-xl font-bold text-secondary">
-        <span>Hi,</span> <span className="text-primary">Muzaffar Sohail</span>
+        <span>Hi,</span> <span className="text-primary">{user?.firstName} {user?.lastName}</span>
       </h1>
       <div className="flex gap-3 items-center">
         <div className="flex gap-1 items-center text-xs">
@@ -43,7 +42,7 @@ export default function UpdateProfileHeader({
           View Profile
         </Link>
         <Link
-          href=""
+          href="/dashboard"
           className={cn(
             buttonVariants({
               variant: 'outline',
@@ -54,8 +53,8 @@ export default function UpdateProfileHeader({
         >
           Cancel
         </Link>
-        <Link
-          href=""
+        <Button
+          onClick={onSave}
           className={cn(
             buttonVariants({
               variant: 'default',
@@ -65,7 +64,7 @@ export default function UpdateProfileHeader({
           )}
         >
           Save
-        </Link>
+        </Button>
       </div>
     </div>
   );

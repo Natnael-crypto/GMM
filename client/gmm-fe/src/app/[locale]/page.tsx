@@ -10,7 +10,6 @@ import LanguageSelector from '@/components/ui/language-selector';
 import Profile from '@/components/ui/profile';
 import { auth } from '@/lib/auth/utils';
 
-import { LocaleProps } from '@/types';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

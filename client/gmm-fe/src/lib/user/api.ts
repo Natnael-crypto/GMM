@@ -1,0 +1,216 @@
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { constants } from '@/config';
+import { RootState } from '../store';
+import {
+  ExpectedWorldlyLifestyle,
+  WorldlyLifestyle,
+} from '../schemas/worldly-lifestyle';
+import { BaseResponse } from '@/types/base-response';
+import {
+  UpdateWorldlyLifestyle,
+  UpdateExpectedWorldlyLifestyle,
+  UpdateIslamicLifestyle,
+  UpdateExpectedIslamicLifestyle,
+  UpdateMarriageDiscussion,
+} from './types';
+import { User } from '../schemas/user';
+import {
+  ExpectedIslamicLifestyle,
+  IslamicLifestyle,
+} from '../schemas/islamic-lifestyle';
+import { MarriageDiscussion } from '../schemas/marriage-discussion';
+
+export const userApi = createApi({
+  reducerPath: 'userApi',
+
+  tagTypes: [
+    'User',
+    'WorldlyLifestyle',
+    'ExpectedWorldlyLifestyle',
+    'IslamicLifestyle',
+    'ExpectedIslamicLifestyle',
+    'MarriageDiscussion',
+  ],
+
+  baseQuery: fetchBaseQuery({
+    baseUrl: constants.apiBaseUrl,
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).auth.token;
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
+
+  endpoints: (builder) => ({
+    updateUser: builder.mutation<User, User>({
+      query: (user) => ({
+        url: `users/${user.id}`,
+        method: 'PUT',
+        body: user,
+      }),
+      transformResponse: (response: BaseResponse<User>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'User', id: arg.id }];
+      },
+    }),
+
+    getWorldlyLifestyle: builder.query<WorldlyLifestyle, string>({
+      query: (id) => `users/${id}/worldy-lifestyle`,
+      transformResponse: (response: BaseResponse<WorldlyLifestyle>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'WorldlyLifestyle', id: arg }];
+      },
+    }),
+
+    updateWorldlyLifestyle: builder.mutation<
+      WorldlyLifestyle,
+      UpdateWorldlyLifestyle
+    >({
+      query: ({ userId, worldlyLifestyle }) => ({
+        url: `users/${userId}/worldy-lifestyle`,
+        method: 'PUT',
+        body: worldlyLifestyle,
+      }),
+      transformResponse: (response: BaseResponse<WorldlyLifestyle>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'WorldlyLifestyle', id: arg.userId }];
+      },
+    }),
+
+    getExpectedWorldlyLifestyle: builder.query<
+      ExpectedWorldlyLifestyle,
+      string
+    >({
+      query: (id) => `users/${id}/expected-worldy-lifestyle`,
+      transformResponse: (response: BaseResponse<ExpectedWorldlyLifestyle>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'ExpectedWorldlyLifestyle', id: arg }];
+      },
+    }),
+
+    updateExpectedWorldlyLifestyle: builder.mutation<
+      ExpectedWorldlyLifestyle,
+      UpdateExpectedWorldlyLifestyle
+    >({
+      query: ({ userId, expectedWorldlyLifestyle }) => ({
+        url: `users/${userId}/expected-worldy-lifestyle`,
+        method: 'PUT',
+        body: expectedWorldlyLifestyle,
+      }),
+      transformResponse: (response: BaseResponse<ExpectedWorldlyLifestyle>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'ExpectedWorldlyLifestyle', id: arg.userId }];
+      },
+    }),
+
+    getIslamicLifestyle: builder.query<IslamicLifestyle, string>({
+      query: (id) => `users/${id}/islamic-lifestyle`,
+      transformResponse: (response: BaseResponse<IslamicLifestyle>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'IslamicLifestyle', id: arg }];
+      },
+    }),
+
+    updateIslamicLifestyle: builder.mutation<
+      IslamicLifestyle,
+      UpdateIslamicLifestyle
+    >({
+      query: ({ userId, islamicLifestyle }) => ({
+        url: `users/${userId}/islamic-lifestyle`,
+        method: 'PUT',
+        body: islamicLifestyle,
+      }),
+      transformResponse: (response: BaseResponse<IslamicLifestyle>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'IslamicLifestyle', id: arg.userId }];
+      },
+    }),
+
+    getExpectedIslamicLifestyle: builder.query<
+      ExpectedIslamicLifestyle,
+      string
+    >({
+      query: (id) => `users/${id}/expected-islamic-lifestyle`,
+      transformResponse: (response: BaseResponse<ExpectedIslamicLifestyle>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'ExpectedIslamicLifestyle', id: arg }];
+      },
+    }),
+
+    updateExpectedIslamicLifestyle: builder.mutation<
+      ExpectedIslamicLifestyle,
+      UpdateExpectedIslamicLifestyle
+    >({
+      query: ({ userId, expectedIslamicLifestyle }) => ({
+        url: `users/${userId}/expected-islamic-lifestyle`,
+        method: 'PUT',
+        body: expectedIslamicLifestyle,
+      }),
+      transformResponse: (response: BaseResponse<ExpectedIslamicLifestyle>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'ExpectedIslamicLifestyle', id: arg.userId }];
+      },
+    }),
+
+    getMarriageDiscussion: builder.query<MarriageDiscussion, string>({
+      query: (id) => `users/${id}/marriage-discussion`,
+      transformResponse: (response: BaseResponse<MarriageDiscussion>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'MarriageDiscussion', id: arg }];
+      },
+    }),
+
+    updateMarriageDiscussion: builder.mutation<
+      MarriageDiscussion,
+      UpdateMarriageDiscussion
+    >({
+      query: ({ userId, marriageDiscussion }) => ({
+        url: `users/${userId}/marriage-discussion`,
+        method: 'PUT',
+        body: marriageDiscussion,
+      }),
+      transformResponse: (response: BaseResponse<MarriageDiscussion>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'MarriageDiscussion', id: arg.userId }];
+      },
+    }),
+  }),
+});
+
+export const {
+  useUpdateUserMutation,
+  useGetWorldlyLifestyleQuery,
+  useUpdateWorldlyLifestyleMutation,
+  useGetExpectedWorldlyLifestyleQuery,
+  useUpdateExpectedWorldlyLifestyleMutation,
+  useGetIslamicLifestyleQuery,
+  useUpdateIslamicLifestyleMutation,
+  useGetExpectedIslamicLifestyleQuery,
+  useUpdateExpectedIslamicLifestyleMutation,
+  useGetMarriageDiscussionQuery,
+  useUpdateMarriageDiscussionMutation,
+} = userApi;

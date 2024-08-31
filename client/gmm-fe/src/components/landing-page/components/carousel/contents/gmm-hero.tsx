@@ -63,7 +63,17 @@ export default async function GMMHero() {
 
           {/* Call to action */}
           <div className="flex gap-4 ">
-            {!session && (
+            {session ? (
+              <Link
+                href={`/${locale}/dashboard`}
+                className={cn(
+                  buttonVariants({ variant: 'default' }),
+                  'font-bold px-14'
+                )}
+              >
+                {t('hero.getStarted')}
+              </Link>
+            ) : (
               <Link
                 href={`/${locale}/login`}
                 className={cn(
