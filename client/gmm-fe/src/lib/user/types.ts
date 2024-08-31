@@ -2,6 +2,7 @@ import {
   ExpectedIslamicLifestyle,
   IslamicLifestyle,
 } from '../schemas/islamic-lifestyle';
+import { MarriageDiscussion } from '../schemas/marriage-discussion';
 import {
   ExpectedWorldlyLifestyle,
   WorldlyLifestyle,
@@ -25,4 +26,9 @@ export interface UpdateIslamicLifestyle {
 export interface UpdateExpectedIslamicLifestyle {
   userId: string;
   expectedIslamicLifestyle: ExpectedIslamicLifestyle;
+}
+
+export interface UpdateMarriageDiscussion {
+  userId: string;
+  marriageDiscussion: MarriageDiscussion;
 }

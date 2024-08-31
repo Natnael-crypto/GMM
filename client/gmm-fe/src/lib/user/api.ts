@@ -11,12 +11,14 @@ import {
   UpdateExpectedWorldlyLifestyle,
   UpdateIslamicLifestyle,
   UpdateExpectedIslamicLifestyle,
+  UpdateMarriageDiscussion,
 } from './types';
 import { User } from '../schemas/user';
 import {
   ExpectedIslamicLifestyle,
   IslamicLifestyle,
 } from '../schemas/islamic-lifestyle';
+import { MarriageDiscussion } from '../schemas/marriage-discussion';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -27,6 +29,7 @@ export const userApi = createApi({
     'ExpectedWorldlyLifestyle',
     'IslamicLifestyle',
     'ExpectedIslamicLifestyle',
+    'MarriageDiscussion',
   ],
 
   baseQuery: fetchBaseQuery({
@@ -168,6 +171,33 @@ export const userApi = createApi({
         return [{ type: 'ExpectedIslamicLifestyle', id: arg.userId }];
       },
     }),
+
+    getMarriageDiscussion: builder.query<MarriageDiscussion, string>({
+      query: (id) => `users/${id}/marriage-discussion`,
+      transformResponse: (response: BaseResponse<MarriageDiscussion>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'MarriageDiscussion', id: arg }];
+      },
+    }),
+
+    updateMarriageDiscussion: builder.mutation<
+      MarriageDiscussion,
+      UpdateMarriageDiscussion
+    >({
+      query: ({ userId, marriageDiscussion }) => ({
+        url: `users/${userId}/marriage-discussion`,
+        method: 'PUT',
+        body: marriageDiscussion,
+      }),
+      transformResponse: (response: BaseResponse<MarriageDiscussion>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'MarriageDiscussion', id: arg.userId }];
+      },
+    }),
   }),
 });
 
@@ -181,4 +211,6 @@ export const {
   useUpdateIslamicLifestyleMutation,
   useGetExpectedIslamicLifestyleQuery,
   useUpdateExpectedIslamicLifestyleMutation,
+  useGetMarriageDiscussionQuery,
+  useUpdateMarriageDiscussionMutation,
 } = userApi;

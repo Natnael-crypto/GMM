@@ -1,122 +1,27 @@
+'use client'
+
 import Unverified from '@/components/dashboard/profile/marriage/components/unverified';
 import Verified from '@/components/dashboard/profile/marriage/components/verfied';
 import { buttonVariants } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
 import { useTranslations } from 'next-intl';
-import Link from 'next/link';
-import React from 'react';
+import { Link } from '@/lib/navigation';
+import MarriageDiscussionForm from '@/components/dashboard/profile/components/marriage-discussion-form';
+
+import { useAppSelector } from '@/lib/hooks';
+import { useGetMarriageDiscussionQuery } from '@/lib/user/api';
 
 export default function MarriageDiscussion() {
   const t = useTranslations('Dashboard.updateProfile.marriageDiscussion');
+  const user = useAppSelector(state => state.auth.user);
+
+  const { data: marriageDiscussion, isLoading: isMarriageDiscussionLoading } = useGetMarriageDiscussionQuery(user?.id ?? '', { skip: !user });
+
   return (
     <div>
       <div className="pb-8 px-6 sm:px-16 md:px-24 lg:px-52">
-        <div className="grid grid-cols-12 gap-x-3 gap-y-3 py-5">
-          <div className="space-y-1 col-span-4">
-            <Label className="font-normal text-xs">Marriage Type</Label>
-            <Select>
-              <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                <SelectValue placeholder="Intimate Gathering ..." />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="complete">Intimate Gathering</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1 col-span-4">
-            <Label className="font-normal text-xs">Marriage Location</Label>
-            <Select>
-              <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                <SelectValue placeholder="Enhanced Devotion (Embracing...)" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="web-and-graphic-designer">
-                  Enhanced Devotion (Embracing...
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1 col-span-4">
-            <Label className="font-normal text-xs">Marriage Venue</Label>
-            <Select>
-              <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                <SelectValue placeholder="Ramadan + Sunnah (Fasts in Ramadan)" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="apartment-rent">
-                  Ramadan + Sunnah (Fasts in Ramadan)
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1 col-span-4">
-            <Label className="font-normal text-xs">Marriage Timeline</Label>
-            <Select>
-              <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                <SelectValue placeholder="Eligibility Based" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="apartment-rent">
-                  Eligibility Based
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1 col-span-4">
-            <Label className="font-normal text-xs">
-              Family in Marriage Discussion
-            </Label>
-            <Select>
-              <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                <SelectValue placeholder="Indifferent" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="indifferent">Indifferent</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1 col-span-4">
-            <Label className="font-normal text-xs">
-              Dowry/Mahr Expectation
-            </Label>
-            <Select>
-              <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                <SelectValue placeholder="Combining Deen and Culture" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="honda">
-                  Combining Deen and Culture
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-1 col-span-4">
-            <Label className="font-normal text-xs">Wedding Budget</Label>
-            <Select>
-              <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                <SelectValue placeholder="Full Islamic Compliance" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="bsc">Full Islamic Compliance</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
+        <MarriageDiscussionForm marriageDiscussion={marriageDiscussion} />
 
         <div className="grid grid-cols-12 gap-x-3 gap-y-3 py-5">
           <h1 className="text-xl font-bold text-secondary border-b p-1 col-span-12">
