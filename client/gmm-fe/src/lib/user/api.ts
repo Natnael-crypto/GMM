@@ -10,9 +10,13 @@ import {
   UpdateWorldlyLifestyle,
   UpdateExpectedWorldlyLifestyle,
   UpdateIslamicLifestyle,
+  UpdateExpectedIslamicLifestyle,
 } from './types';
 import { User } from '../schemas/user';
-import { IslamicLifestyle } from '../schemas/islamic-lifestyle';
+import {
+  ExpectedIslamicLifestyle,
+  IslamicLifestyle,
+} from '../schemas/islamic-lifestyle';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -22,6 +26,7 @@ export const userApi = createApi({
     'WorldlyLifestyle',
     'ExpectedWorldlyLifestyle',
     'IslamicLifestyle',
+    'ExpectedIslamicLifestyle',
   ],
 
   baseQuery: fetchBaseQuery({
@@ -133,6 +138,36 @@ export const userApi = createApi({
         return [{ type: 'IslamicLifestyle', id: arg.userId }];
       },
     }),
+
+    getExpectedIslamicLifestyle: builder.query<
+      ExpectedIslamicLifestyle,
+      string
+    >({
+      query: (id) => `users/${id}/expected-islamic-lifestyle`,
+      transformResponse: (response: BaseResponse<ExpectedIslamicLifestyle>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'ExpectedIslamicLifestyle', id: arg }];
+      },
+    }),
+
+    updateExpectedIslamicLifestyle: builder.mutation<
+      ExpectedIslamicLifestyle,
+      UpdateExpectedIslamicLifestyle
+    >({
+      query: ({ userId, expectedIslamicLifestyle }) => ({
+        url: `users/${userId}/expected-islamic-lifestyle`,
+        method: 'PUT',
+        body: expectedIslamicLifestyle,
+      }),
+      transformResponse: (response: BaseResponse<ExpectedIslamicLifestyle>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'ExpectedIslamicLifestyle', id: arg.userId }];
+      },
+    }),
   }),
 });
 
@@ -144,4 +179,6 @@ export const {
   useUpdateExpectedWorldlyLifestyleMutation,
   useGetIslamicLifestyleQuery,
   useUpdateIslamicLifestyleMutation,
+  useGetExpectedIslamicLifestyleQuery,
+  useUpdateExpectedIslamicLifestyleMutation,
 } = userApi;
