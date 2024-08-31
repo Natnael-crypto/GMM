@@ -34,7 +34,7 @@ export const login = async (data: Login) => {
 
   cookies().set({
     name: cookieNames.accessToken,
-    value: res.data.token,
+    value: res.data.accessToken,
     httpOnly: true,
     sameSite: 'strict',
     secure: true,
