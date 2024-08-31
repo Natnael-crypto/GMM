@@ -297,8 +297,8 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="Wants children">Wants children</SelectItem>
-                                                <SelectItem value="Don't want children">Don't want children</SelectItem>
-                                                <SelectItem value="Can't Have Children (medical reason)">Can't Have Children (medical reason)</SelectItem>
+                                                <SelectItem value="Don't want children">Don&apos;t want children</SelectItem>
+                                                <SelectItem value="Can't Have Children (medical reason)">Can&apos;t Have Children (medical reason)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -325,7 +325,7 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                                 <SelectItem value="2">2+</SelectItem>
                                                 <SelectItem value="3">3+</SelectItem>
                                                 <SelectItem value="4">4+</SelectItem>
-                                                <SelectItem value="5">5 or more Insha'Allah</SelectItem>
+                                                <SelectItem value="5">5 or more Insha&apos;Allah</SelectItem>
                                                 <SelectItem value="6">To be discussed</SelectItem>
                                             </SelectContent>
                                         </Select>
