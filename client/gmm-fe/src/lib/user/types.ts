@@ -12,3 +12,8 @@ export interface UpdateExpectedWorldlyLifestyle {
   userId: string;
   expectedWorldlyLifestyle: ExpectedWorldlyLifestyle;
 }
+
+export interface UpdateIslamicLifestyle {
+  userId: string;
+  islamicLifestyle: IslamicLifestyle;
+}

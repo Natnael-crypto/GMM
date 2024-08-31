@@ -9,13 +9,20 @@ import { BaseResponse } from '@/types/base-response';
 import {
   UpdateWorldlyLifestyle,
   UpdateExpectedWorldlyLifestyle,
+  UpdateIslamicLifestyle,
 } from './types';
 import { User } from '../schemas/user';
+import { IslamicLifestyle } from '../schemas/islamic-lifestyle';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
 
-  tagTypes: ['WorldlyLifestyle', 'ExpectedWorldlyLifestyle', 'User'],
+  tagTypes: [
+    'User',
+    'WorldlyLifestyle',
+    'ExpectedWorldlyLifestyle',
+    'IslamicLifestyle',
+  ],
 
   baseQuery: fetchBaseQuery({
     baseUrl: constants.apiBaseUrl,
@@ -99,6 +106,33 @@ export const userApi = createApi({
         return [{ type: 'ExpectedWorldlyLifestyle', id: arg.userId }];
       },
     }),
+
+    getIslamicLifestyle: builder.query<IslamicLifestyle, string>({
+      query: (id) => `users/${id}/islamic-lifestyle`,
+      transformResponse: (response: BaseResponse<IslamicLifestyle>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'IslamicLifestyle', id: arg }];
+      },
+    }),
+
+    updateIslamicLifestyle: builder.mutation<
+      IslamicLifestyle,
+      UpdateIslamicLifestyle
+    >({
+      query: ({ userId, islamicLifestyle }) => ({
+        url: `users/${userId}/islamic-lifestyle`,
+        method: 'PUT',
+        body: islamicLifestyle,
+      }),
+      transformResponse: (response: BaseResponse<IslamicLifestyle>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'IslamicLifestyle', id: arg.userId }];
+      },
+    }),
   }),
 });
 
@@ -108,4 +142,6 @@ export const {
   useUpdateWorldlyLifestyleMutation,
   useGetExpectedWorldlyLifestyleQuery,
   useUpdateExpectedWorldlyLifestyleMutation,
+  useGetIslamicLifestyleQuery,
+  useUpdateIslamicLifestyleMutation,
 } = userApi;
