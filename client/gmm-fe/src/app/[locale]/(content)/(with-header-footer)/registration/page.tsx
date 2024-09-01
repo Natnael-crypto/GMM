@@ -6,10 +6,21 @@ import FamilyForm from '@/components/registration/components/family-form';
 import PhotoUploader from '@/components/registration/components/photo-uploader';
 import VideoUploader from '@/components/registration/components/video-uploader';
 import { Button } from '@/components/ui/button';
-import React from 'react';
+import { useAppSelector } from '@/lib/hooks';
+import { useRouter } from '@/lib/navigation';
+import React, { useEffect } from 'react';
 
 export default function Registration() {
   const { onSave } = useUpdateProfileContext();
+
+  const user = useAppSelector((state) => state.auth.user);
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user && user.age) {
+      router.push('/dashboard');
+    }
+  }, [user, router])
 
   return (
     <div className="space-y-5">
