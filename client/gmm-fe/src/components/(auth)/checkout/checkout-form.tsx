@@ -20,11 +20,13 @@ import { useAppSelector } from '@/lib/hooks';
 import { useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { checkoutApi, useCreateCheckoutMutation } from '@/lib/checkout/api';
+import { useRouter } from '@/lib/navigation';
 
 export function CheckoutForm() {
   const t = useTranslations('Auth.checkout');
   const user = useAppSelector((state) => state.auth.user);
   const [createCheckout, result] = useCreateCheckoutMutation();
+  const router = useRouter()
 
   const form = useForm<Checkout>({
     resolver: zodResolver(CheckoutSchema),
@@ -54,7 +56,12 @@ export function CheckoutForm() {
   }, [form, user]);
 
   async function onSubmit(data: Checkout) {
-    console.log(await createCheckout({ plan: data.membershipPackage }));
+    const response = await createCheckout({ plan: data.membershipPackage }).unwrap();
+
+    localStorage.setItem('gmm-checkout-type', data.membershipPackage);
+    localStorage.setItem('gmm-checkout-status', 'pending');
+
+    router.push(response.url)
     // toast({
     //   title: 'You submitted the following values:',
     //   description: (

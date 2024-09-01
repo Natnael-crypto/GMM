@@ -23,6 +23,7 @@ export const checkoutApi = createApi({
         method: 'POST',
         body: data,
       }),
+      transformResponse: (response: any) => response.data,
     }),
   }),
 });
