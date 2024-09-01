@@ -50,6 +50,12 @@ export function LoginForm() {
         title: 'Welcome Back!',
         description: response.message,
       });
+
+      if (localStorage.getItem('gmm-checkout-status') === 'success') {
+        replace('/dashboard');
+        return
+      }
+
       replace(searchParams.get('redirect') ?? '/checkout');
     } else {
       toast({
