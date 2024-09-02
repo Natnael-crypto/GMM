@@ -1,0 +1,53 @@
+x-environment:
+  &default-environment
+  DATABASE_URL: postgres://postgres:postgres@postgres:5432/postgres
+  SECRET_KEY: change_me_to_something_random
+  PORT: 8000
+  EMAIL_URL: smtp://[EMAIL_ADDRESS]:587?username=[EMAIL_ADDRESS]&password=[PASSWORD]&use_tls=True&from=[EMAIL_ADDRESS]
+  GLITCHTIP_DOMAIN: https://glitchtip.guardianmuslimmarriage.com
+  DEFAULT_FROM_EMAIL: [EMAIL_ADDRESS]
+  CELERY_WORKER_AUTOSCALE: "1,2"
+  CELERY_WORKER_MAX_TASKS_PER_CHILD: "10000"
+
+x-depends_on:
+  &default-depends_on
+  - postgres
+  - redis
+
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    restart: unless-stopped
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+  redis:
+    image: valkey/valkey
+    restart: unless-stopped
+  web:
+    image: glitchtip/glitchtip
+    depends_on: *default-depends_on
+    ports:
+      - "8000:8000"
+    environment: *default-environment
+    restart: unless-stopped
+    volumes: 
+      - ./uploads:/code/uploads
+  worker:
+    image: glitchtip/glitchtip
+    command: ./bin/run-celery-with-beat.sh
+    depends_on: *default-depends_on
+    environment: *default-environment
+    restart: unless-stopped
+    volumes: 
+      - ./uploads:/code/uploads
+  migrate:
+    image: glitchtip/glitchtip
+    depends_on: *default-depends_on
+    command: ./bin/run-migrate.sh
+    environment: *default-environment
+
+volumes:
+  pg-data:
+  uploads:
