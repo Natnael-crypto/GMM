@@ -1,4 +1,4 @@
-import SignUpCard from '@/components/(auth)/signup/components/signup-card';
+import SignUpCard from '@/components/(auth)/signup/signup-card';
 import React from 'react';
 
 export default function SignUp() {

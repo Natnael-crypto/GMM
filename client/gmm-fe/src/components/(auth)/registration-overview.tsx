@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import OurApproachCard from '@/components/landing-page/components/approach/card';
-import HowItWorks from '@/components/landing-page/components/how-it-works/how-it-works';
 
 export default function RegistrationOverview() {
   const approachT = useTranslations('Landing.ourApproach');

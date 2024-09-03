@@ -15,16 +15,16 @@ import {
 import { Input } from '@/components/ui/input';
 
 import Link from 'next/link';
-import ExternalAuthenticator from '../../components/external-authenticator';
-import OrSeparator from '../../components/or-separator';
-import { useTranslations } from 'next-intl';
-import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
+import ExternalAuthenticator from '@/components/(auth)/external-authenticator';
+import OrSeparator from '@/components/(auth)/or-separator';
 import { Checkbox } from '@/components/ui/checkbox';
+import { toast } from '@/components/ui/use-toast';
+import Loading from '@/components/ui/loading';
 import { signUp } from '@/actions/auth/signup';
 import { useRouter } from '@/lib/navigation';
-import { toast } from '@/components/ui/use-toast';
+import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
 import { useState } from 'react';
-import Loading from '@/components/ui/loading';
+import { useTranslations } from 'next-intl';
 
 export function SignUpForm() {
   const { replace } = useRouter();
