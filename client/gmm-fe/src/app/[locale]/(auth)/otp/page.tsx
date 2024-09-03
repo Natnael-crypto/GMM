@@ -1,4 +1,4 @@
-import OtpCard from '@/components/(auth)/otp/components/otp-card';
+import OtpCard from '@/components/auth/otp/components/otp-card';
 import Image from 'next/image';
 import React from 'react';
 

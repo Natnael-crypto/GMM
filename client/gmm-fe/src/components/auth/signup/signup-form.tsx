@@ -15,8 +15,8 @@ import {
 import { Input } from '@/components/ui/input';
 
 import Link from 'next/link';
-import ExternalAuthenticator from '@/components/(auth)/external-authenticator';
-import OrSeparator from '@/components/(auth)/or-separator';
+import ExternalAuthenticator from '@/components/auth/external-authenticator';
+import OrSeparator from '@/components/auth/or-separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from '@/components/ui/use-toast';
 import Loading from '@/components/ui/loading';
