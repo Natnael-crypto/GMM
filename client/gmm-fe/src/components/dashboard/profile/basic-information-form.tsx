@@ -10,7 +10,7 @@ import { User, userSchema } from '@/lib/schemas/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { useUpdateProfileContext } from '../../components/update-profile-context';
+import { useUpdateProfileContext } from '@/components/dashboard/components/update-profile-context';
 import { useUpdateUserMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
 import { setUser } from '@/lib/auth/slice';

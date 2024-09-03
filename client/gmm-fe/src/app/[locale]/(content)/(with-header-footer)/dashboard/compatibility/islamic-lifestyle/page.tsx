@@ -1,5 +1,5 @@
 import ProfileOverview from '@/components/dashboard/compatibility/components/profile-overview-card';
-import IslamicLifestyleCard from '@/components/dashboard/profile/components/islamic-lifestyle-card';
+import IslamicLifestyleCard from '@/components/dashboard/profile/islamic-lifestyle-card';
 import React from 'react';
 
 export default function IslamicLifestyle() {

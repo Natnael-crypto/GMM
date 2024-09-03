@@ -13,7 +13,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useAppSelector } from '@/lib/hooks';
-import { useUpdateProfileContext } from '../../components/update-profile-context';
+import { useUpdateProfileContext } from '@/components/dashboard/components/update-profile-context';
 import { toast } from '@/components/ui/use-toast';
 import { MarriageDiscussion, marriageDiscussionSchema } from '@/lib/schemas/marriage-discussion';
 import { useUpdateMarriageDiscussionMutation } from '@/lib/user/api';

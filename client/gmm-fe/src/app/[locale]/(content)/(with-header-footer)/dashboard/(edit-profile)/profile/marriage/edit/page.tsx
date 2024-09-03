@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 
 import { useTranslations } from 'next-intl';
 import { Link } from '@/lib/navigation';
-import MarriageDiscussionForm from '@/components/dashboard/profile/components/marriage-discussion-form';
+import MarriageDiscussionForm from '@/components/dashboard/profile/marriage-discussion-form';
 
 import { useAppSelector } from '@/lib/hooks';
 import { useGetMarriageDiscussionQuery } from '@/lib/user/api';
