@@ -1,15 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber } from 'class-validator';
 
 export class PresignedUploadUrlDto {
   @ApiProperty({
-    description: 'The name of the file to upload',
-    example: 'my-image.png',
+    description: 'Size of the file in bytes',
+    example: 10,
   })
-  filename: string;
+  @IsNumber()
+  size: number;
 
   @ApiProperty({
     description: 'The MIME type of the file',
     example: 'image/png',
   })
-  contentType: string;
+  @IsNotEmpty()
+  type: string;
+
+  @ApiProperty({
+    description: 'SHA256 checksum of the file',
+    example: 'd41d8cd98f00b204e9800998ecf8427e',
+  })
+  @IsNotEmpty()
+  checksum: string;
 }

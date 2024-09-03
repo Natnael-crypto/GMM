@@ -1,4 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
+import { NotAcceptableException, NotFoundException } from '@nestjs/common';
 
 export class FileNotFoundException extends NotFoundException {
   constructor(public message: string) {
@@ -6,14 +6,12 @@ export class FileNotFoundException extends NotFoundException {
   }
 }
 
-export class FileUploadException {
-  constructor(public message: string) {}
-}
-
-export class FileDownloadException {
-  constructor(public message: string) {}
-}
-
 export class FileDeleteException {
   constructor(public message: string) {}
+}
+
+export class UnsupportedFileTypeException extends NotAcceptableException {
+  constructor(public message: string) {
+    super(`File type ${message} is not supported`);
+  }
 }
