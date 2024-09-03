@@ -17,7 +17,7 @@ import { useAppSelector } from '@/lib/hooks';
 
 import { useUpdateExpectedIslamicLifestyleMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
-import { useUpdateProfileContext } from '@/components/dashboard/components/update-profile-context';
+import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 
 export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle }: { expectedIslamicLifestyle?: ExpectedIslamicLifestyle }) {
     const form = useForm<ExpectedIslamicLifestyle>({

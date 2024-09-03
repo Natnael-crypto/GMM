@@ -13,7 +13,7 @@ import { useUpdateUserMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
 import { setUser } from '@/lib/auth/slice';
 import { useEffect, useRef } from 'react';
-import { useUpdateProfileContext } from '@/components/dashboard/components/update-profile-context';
+import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 
 
 const languages = [{

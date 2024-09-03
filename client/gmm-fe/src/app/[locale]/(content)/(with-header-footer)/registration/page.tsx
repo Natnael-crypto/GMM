@@ -1,6 +1,6 @@
 'use client'
 
-import { useUpdateProfileContext } from '@/components/dashboard/components/update-profile-context';
+import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 import BasicInformationForm from '@/components/registration/basic-information-form';
 import FamilyForm from '@/components/registration/family-form';
 import PhotoUploader from '@/components/registration/photo-uploader';

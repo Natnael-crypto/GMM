@@ -1,4 +1,4 @@
-import { UpdateProfileProvider } from '@/components/dashboard/components/update-profile-context';
+import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
 import React from 'react';
 
 export default function ProfileLayout({

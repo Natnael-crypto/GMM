@@ -16,7 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppSelector } from '@/lib/hooks';
 import { IslamicLifestyle, islamicLifestyleSchema } from '@/lib/schemas/islamic-lifestyle';
 import { useUpdateIslamicLifestyleMutation } from '@/lib/user/api';
-import { useUpdateProfileContext } from '@/components/dashboard/components/update-profile-context';
+import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 
 export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLifestyle?: IslamicLifestyle }) {
     const form = useForm<IslamicLifestyle>({

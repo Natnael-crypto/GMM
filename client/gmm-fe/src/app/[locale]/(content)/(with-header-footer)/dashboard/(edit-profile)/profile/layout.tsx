@@ -1,8 +1,8 @@
 'use client';
 
 import UpdateProfileStepper from '@/components/dashboard/components/stepper/update-profile-stepper';
-import { UpdateProfileProvider } from '@/components/dashboard/components/update-profile-context';
-import UpdateProfileHeader from '@/components/dashboard/components/update-profile-header';
+import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
+import UpdateProfileHeader from '@/components/dashboard/profile/update-profile-header';
 import { usePathname } from '@/lib/navigation';
 import React from 'react';
 
