@@ -1,5 +1,5 @@
 import ProfileOverview from '@/components/dashboard/compatibility/components/profile-overview-card';
-import BasicInformationCard from '@/components/dashboard/profile/basic-information-card';
+import BasicInformationCard from '@/components/dashboard/profile/basic-information/basic-information-card';
 
 import React from 'react';
 

@@ -1,7 +1,7 @@
 'use client'
 
-import { ExpectedWorldlyLifestyleForm } from "@/components/dashboard/profile/expected-worldly-lifestyle-form";
-import { WorldlyLifestyleForm } from "@/components/dashboard/profile/worldly-lifestyle-form";
+import { ExpectedWorldlyLifestyleForm } from "@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-form";
+import { WorldlyLifestyleForm } from "@/components/dashboard/profile/worldly-lifestyle/worldly-lifestyle-form";
 import { useAppSelector } from "@/lib/hooks";
 import { useGetExpectedWorldlyLifestyleQuery, useGetWorldlyLifestyleQuery } from "@/lib/user/api";
 
