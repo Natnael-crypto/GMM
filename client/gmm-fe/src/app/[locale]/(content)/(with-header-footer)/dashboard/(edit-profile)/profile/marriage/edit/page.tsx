@@ -1,7 +1,7 @@
 'use client'
 
-import Unverified from '@/components/dashboard/profile/marriage/components/unverified';
-import Verified from '@/components/dashboard/profile/marriage/components/verfied';
+import Unverified from '@/components/dashboard/profile/marriage/unverified';
+import Verified from '@/components/dashboard/profile/marriage/verfied';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
