@@ -22,16 +22,16 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
     const form = useForm<IslamicLifestyle>({
         resolver: zodResolver(islamicLifestyleSchema),
         defaultValues: {
-            salat: '',
-            ramadan: '',
-            fasting: '',
-            zakat: '',
-            food: '',
-            islamAndCulture: '',
-            islamicEducation: '',
-            appearance: '',
-            hajjAndUmrah: '',
-            childrenAndUpbringing: 0,
+            salat: islamicLifestyle?.salat || '',
+            ramadan: islamicLifestyle?.ramadan || '',
+            fasting: islamicLifestyle?.fasting || '',
+            zakat: islamicLifestyle?.zakat || '',
+            food: islamicLifestyle?.food || '',
+            islamAndCulture: islamicLifestyle?.islamAndCulture || '',
+            islamicEducation: islamicLifestyle?.islamicEducation || '',
+            appearance: islamicLifestyle?.appearance || '',
+            hajjAndUmrah: islamicLifestyle?.hajjAndUmrah || '',
+            childrenAndUpbringing: islamicLifestyle?.childrenAndUpbringing || 0,
         }
     });
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 export interface UpdateProfileContextProps {
     onSave: () => void;
@@ -31,19 +31,19 @@ export const UpdateProfileProvider = ({ children }: { children: React.ReactNode 
         });
     })
 
-    const onSave = () => {
+    const onSave = useCallback(() => {
         for (const key in displayedForms) {
             displayedForms[key]?.requestSubmit();
         }
-    };
+    }, [displayedForms]);
 
-    // useEffect(() => {
-    //     if (autoSave) {
-    //         const interval = setInterval(onSave, 300000 /* 5 minutes */);
+    useEffect(() => {
+        if (autoSave) {
+            const interval = setInterval(onSave, 300000 /* 5 minutes */);
 
-    //         return () => clearInterval(interval);
-    //     }
-    // }, [displayedForms, autoSave]);
+            return () => clearInterval(interval);
+        }
+    }, [displayedForms, autoSave, onSave]);
 
 
     return <UpdateProfileContext.Provider value={{ onSave, setAutoSave, registerForm: registerForm.current }}>{children}</UpdateProfileContext.Provider>;

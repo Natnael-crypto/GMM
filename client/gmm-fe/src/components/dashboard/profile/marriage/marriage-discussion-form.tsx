@@ -23,13 +23,13 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
     const form = useForm<MarriageDiscussion>({
         resolver: zodResolver(marriageDiscussionSchema),
         defaultValues: {
-            marriageType: '',
-            marriageLocation: '',
-            marriageVenue: '',
-            marriageTimeline: '',
-            familyInMarriageDiscussion: '',
-            dowry: '',
-            weddingBudget: ''
+            marriageType: marriageDiscussion?.marriageType || '',
+            marriageLocation: marriageDiscussion?.marriageLocation || '',
+            marriageVenue: marriageDiscussion?.marriageVenue || '',
+            marriageTimeline: marriageDiscussion?.marriageTimeline || '',
+            familyInMarriageDiscussion: marriageDiscussion?.familyInMarriageDiscussion || '',
+            dowry: marriageDiscussion?.dowry || '',
+            weddingBudget: marriageDiscussion?.weddingBudget || '',
         }
     });
 
