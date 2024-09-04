@@ -9,12 +9,13 @@ import { Label } from '@radix-ui/react-label';
 import { useUpdateProfileContext } from './update-profile-context';
 import { useAppSelector } from '@/lib/hooks';
 import { Link } from '@/lib/navigation';
+import Loading from '@/components/ui/loading';
 
 export default function UpdateProfileHeader({
   pageName,
   editLink,
 }: ProfileHeaderProps) {
-  const { onSave } = useUpdateProfileContext();
+  const { onSave, isSaving } = useUpdateProfileContext();
   const user = useAppSelector((state) => state.auth.user);
 
   return (
@@ -62,8 +63,9 @@ export default function UpdateProfileHeader({
             }),
             'bg-primary rounded-full text-xs text-primary-foreground h-6'
           )}
+          disabled={isSaving}
         >
-          Save
+          {isSaving ? <Loading /> : "Save"}
         </Button>
       </div>
     </div>

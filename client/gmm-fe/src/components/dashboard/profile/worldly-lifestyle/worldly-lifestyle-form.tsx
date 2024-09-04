@@ -55,7 +55,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
     const user = useAppSelector((state) => state.auth.user);
     const worldlyLifestyleFormRef = useRef<HTMLFormElement>(null);
 
-    const { registerForm } = useUpdateProfileContext()
+    const { registerForm, setSaving } = useUpdateProfileContext()
     const [updateWorldlyStyle, updateResult] = useUpdateWorldlyLifestyleMutation();
 
     useEffect(() => {
@@ -76,6 +76,10 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
             });
         }
     }, [updateResult])
+
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving])
 
     return (
 

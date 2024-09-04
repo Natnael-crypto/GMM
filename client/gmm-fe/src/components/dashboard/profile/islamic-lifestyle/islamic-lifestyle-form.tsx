@@ -42,7 +42,7 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
     const user = useAppSelector((state) => state.auth.user);
     const islamicLifestyleFormRef = useRef<HTMLFormElement>(null);
 
-    const { registerForm } = useUpdateProfileContext()
+    const { registerForm, setSaving } = useUpdateProfileContext()
     const [updateIslamicLifestyle, updateResult] = useUpdateIslamicLifestyleMutation();
 
     useEffect(() => {
@@ -51,8 +51,8 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
         }
     }, [islamicLifestyleFormRef, registerForm]);
 
-    const onSubmit = (data: IslamicLifestyle) => {
-        updateIslamicLifestyle({ userId: user!.id, islamicLifestyle: data });
+    const onSubmit = async (data: IslamicLifestyle) => {
+        await updateIslamicLifestyle({ userId: user!.id, islamicLifestyle: data });
     }
 
     useEffect(() => {
@@ -63,6 +63,10 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
             });
         }
     }, [updateResult])
+
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving])
 
     return (
         <div className="py-8 px-6 sm:px-16 md:px-24 lg:px-52">

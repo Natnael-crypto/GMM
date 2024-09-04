@@ -80,7 +80,7 @@ export default function BasicInformationForm() {
 
 
     const basicInfoFormRef = useRef<HTMLFormElement>(null);
-    const { registerForm } = useUpdateProfileContext();
+    const { registerForm, setSaving } = useUpdateProfileContext();
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -106,6 +106,10 @@ export default function BasicInformationForm() {
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateResult, dispatch])
+
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving])
 
     return (
         <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-3 gap-x-5 py-8 text-xs">

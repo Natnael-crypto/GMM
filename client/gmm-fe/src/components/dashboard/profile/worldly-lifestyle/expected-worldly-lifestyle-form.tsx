@@ -23,19 +23,19 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
     const form = useForm<ExpectedWorldlyLifestyle>({
         resolver: zodResolver(expectedWorldlyLifestyleSchema),
         defaultValues: {
-            roleOfWife: '',
-            wifeCareer: '',
-            dualIncome: '',
-            relocation: '',
-            jointFamily: '',
-            coupleLivingAccomodation: '',
-            openToLiveWithWifeFamily: '',
-            expectWifeToLiveWithHisFamily: '',
-            havingChildren: '',
-            numberOfChildren: 0,
-            parenthoodTimingAfterMarriage: '',
-            requireWifeToAcceptChildren: '',
-            willingToAcceptWifeChildren: ''
+            roleOfWife: expectedWorldlyLifestyle?.roleOfWife || '',
+            wifeCareer: expectedWorldlyLifestyle?.wifeCareer || '',
+            dualIncome: expectedWorldlyLifestyle?.dualIncome || '',
+            relocation: expectedWorldlyLifestyle?.relocation || '',
+            jointFamily: expectedWorldlyLifestyle?.jointFamily || '',
+            coupleLivingAccomodation: expectedWorldlyLifestyle?.coupleLivingAccomodation || '',
+            openToLiveWithWifeFamily: expectedWorldlyLifestyle?.openToLiveWithWifeFamily || '',
+            expectWifeToLiveWithHisFamily: expectedWorldlyLifestyle?.expectWifeToLiveWithHisFamily || '',
+            havingChildren: expectedWorldlyLifestyle?.havingChildren || '',
+            numberOfChildren: expectedWorldlyLifestyle?.numberOfChildren || 0,
+            parenthoodTimingAfterMarriage: expectedWorldlyLifestyle?.parenthoodTimingAfterMarriage || '',
+            requireWifeToAcceptChildren: expectedWorldlyLifestyle?.requireWifeToAcceptChildren || '',
+            willingToAcceptWifeChildren: expectedWorldlyLifestyle?.willingToAcceptWifeChildren || '',
         },
     });
 
@@ -46,7 +46,7 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
     const user = useAppSelector((state) => state.auth.user);
     const expectedWorldlyLifestyleFormRef = React.useRef<HTMLFormElement>(null);
 
-    const { registerForm } = useUpdateProfileContext()
+    const { registerForm, setSaving } = useUpdateProfileContext()
     const [updateExpectedWorldlyStyle, updateResult] = useUpdateExpectedWorldlyLifestyleMutation();
 
     React.useEffect(() => {
@@ -67,6 +67,10 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
             });
         }
     }, [updateResult])
+
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving]);
 
     return (
         <div className="bg-muted w-full py-4 px-6 sm:px-16 md:px-24 lg:px-52">

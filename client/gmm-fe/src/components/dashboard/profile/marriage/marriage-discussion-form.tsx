@@ -40,7 +40,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
     const user = useAppSelector((state) => state.auth.user);
     const marriageDiscussionFormRef = useRef<HTMLFormElement>(null);
 
-    const { registerForm } = useUpdateProfileContext()
+    const { registerForm, setSaving } = useUpdateProfileContext()
     const [updateMarriageDiscussion, updateResult] = useUpdateMarriageDiscussionMutation();
 
     useEffect(() => {
@@ -61,6 +61,10 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
             });
         }
     }, [updateResult])
+
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving])
 
     return (
         <Form {...form}>

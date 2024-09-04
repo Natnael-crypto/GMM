@@ -4,12 +4,16 @@ import { createContext, Dispatch, SetStateAction, useCallback, useContext, useEf
 
 export interface UpdateProfileContextProps {
     onSave: () => void;
+    isSaving: boolean;
+    setSaving: Dispatch<SetStateAction<boolean>>;
     setAutoSave: Dispatch<SetStateAction<boolean>>;
     registerForm: (key: string, form: HTMLFormElement) => void;
 }
 
 const UpdateProfileContext = createContext<UpdateProfileContextProps>({
+    isSaving: false,
     onSave: () => { },
+    setSaving: () => { },
     setAutoSave: () => { },
     registerForm: (key: string, form: HTMLElement) => { },
 });
@@ -21,6 +25,7 @@ export const useUpdateProfileContext = () => useContext(UpdateProfileContext);
 export const UpdateProfileProvider = ({ children }: { children: React.ReactNode }) => {
     const [autoSave, setAutoSave] = useState(true);
     const [displayedForms, setDisplayedForms] = useState<Record<string, HTMLFormElement>>({});
+    const [isSaving, setSaving] = useState(false);
 
     const registerForm = useRef(function (key: string, form: HTMLFormElement) {
         setDisplayedForms((prev) => {
@@ -32,10 +37,13 @@ export const UpdateProfileProvider = ({ children }: { children: React.ReactNode 
     })
 
     const onSave = useCallback(() => {
-        for (const key in displayedForms) {
-            displayedForms[key]?.requestSubmit();
+        if (!isSaving) {
+            for (const key in displayedForms) {
+                displayedForms[key]?.requestSubmit();
+            }
         }
-    }, [displayedForms]);
+    }, [displayedForms, isSaving]);
+
 
     useEffect(() => {
         if (autoSave) {
@@ -45,6 +53,5 @@ export const UpdateProfileProvider = ({ children }: { children: React.ReactNode 
         }
     }, [displayedForms, autoSave, onSave]);
 
-
-    return <UpdateProfileContext.Provider value={{ onSave, setAutoSave, registerForm: registerForm.current }}>{children}</UpdateProfileContext.Provider>;
+    return <UpdateProfileContext.Provider value={{ isSaving, setSaving, onSave, setAutoSave, registerForm: registerForm.current }}>{children}</UpdateProfileContext.Provider>;
 }

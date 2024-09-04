@@ -23,15 +23,15 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
     const form = useForm<ExpectedIslamicLifestyle>({
         resolver: zodResolver(expectedIslamicLifestyleSchema),
         defaultValues: {
-            salat: '',
-            hijab: '',
-            appearance: '',
-            familyStructure: '',
-            childrenAndUpbringing: '',
-            socialMedia: '',
-            nonMehramContact: '',
-            obedienceToHusband: '',
-            obedienceToInLaws: ''
+            salat: expectedIslamicLifestyle?.salat ?? '',
+            hijab: expectedIslamicLifestyle?.hijab ?? '',
+            appearance: expectedIslamicLifestyle?.appearance ?? '',
+            familyStructure: expectedIslamicLifestyle?.familyStructure ?? '',
+            childrenAndUpbringing: expectedIslamicLifestyle?.childrenAndUpbringing ?? '',
+            socialMedia: expectedIslamicLifestyle?.socialMedia ?? '',
+            nonMehramContact: expectedIslamicLifestyle?.nonMehramContact ?? '',
+            obedienceToHusband: expectedIslamicLifestyle?.obedienceToHusband ?? '',
+            obedienceToInLaws: expectedIslamicLifestyle?.obedienceToInLaws ?? ''
         }
     });
 
@@ -42,7 +42,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
     const user = useAppSelector((state) => state.auth.user);
     const expectedIslamicLifestyleFormRef = useRef<HTMLFormElement>(null);
 
-    const { registerForm } = useUpdateProfileContext()
+    const { registerForm, setSaving } = useUpdateProfileContext()
     const [updateExpectedIslamicLifestyle, updateResult] = useUpdateExpectedIslamicLifestyleMutation();
 
     useEffect(() => {
@@ -55,6 +55,9 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
         updateExpectedIslamicLifestyle({ userId: user!.id, expectedIslamicLifestyle: data });
     }
 
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving])
 
     useEffect(() => {
         if (updateResult.isSuccess) {
