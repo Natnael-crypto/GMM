@@ -75,13 +75,9 @@ export default function BasicInformationForm() {
             video: '',
             phone: '',
         })
-        console.log('called')
+
     }, [form, user]);
 
-    console.log("User =----------------------------------------------------------")
-    console.log(user)
-    console.log("Form =----------------------------------------------------------")
-    console.log(form.getValues());
 
     const basicInfoFormRef = useRef<HTMLFormElement>(null);
     const { registerForm } = useUpdateProfileContext();
