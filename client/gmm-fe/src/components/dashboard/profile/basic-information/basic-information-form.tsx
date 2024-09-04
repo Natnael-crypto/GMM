@@ -36,29 +36,29 @@ export default function BasicInformationForm() {
     const form = useForm<User>({
         resolver: zodResolver(userSchema),
         defaultValues: {
-            firstName: '',
-            lastName: '',
-            age: 0,
-            gender: '',
-            height: 0,
-            weight: 0,
-            country: '',
-            skinColor: '',
-            languages: [],
-            nationality: '',
-            city: '',
-            numberOfChildren: 0,
-            ageOfOldestChild: 0,
-            ageOfYoungestChild: 0,
-            sunniMadhaib: '',
-            religiousPractice: '',
+            firstName: user?.firstName ?? '',
+            lastName: user?.lastName ?? '',
+            age: user?.age ?? 0,
+            gender: user?.gender ?? '',
+            height: user?.height ?? 0,
+            weight: user?.weight ?? 0,
+            country: user?.country ?? '',
+            skinColor: user?.skinColor ?? '',
+            languages: user?.languages ?? [],
+            nationality: user?.nationality ?? '',
+            city: user?.city ?? '',
+            numberOfChildren: user?.numberOfChildren ?? 0,
+            ageOfOldestChild: user?.ageOfOldestChild ?? 0,
+            ageOfYoungestChild: user?.ageOfYoungestChild ?? 0,
+            sunniMadhaib: user?.sunniMadhaib ?? '',
+            religiousPractice: user?.religiousPractice ?? '',
             bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
-            drinks: false,
-            drugs: false,
-            smokes: false,
-            tattoos: false,
-            email: '',
-            maritalStatus: '',
+            drinks: user?.drinks ?? false,
+            drugs: user?.drugs ?? false,
+            smokes: user?.smokes ?? false,
+            tattoos: user?.tattoos ?? false,
+            email: user?.email ?? '',
+            maritalStatus: user?.maritalStatus ?? '',
             pictures: [],
             video: '',
             phone: '',
@@ -75,7 +75,13 @@ export default function BasicInformationForm() {
             video: '',
             phone: '',
         })
+        console.log('called')
     }, [form, user]);
+
+    console.log("User =----------------------------------------------------------")
+    console.log(user)
+    console.log("Form =----------------------------------------------------------")
+    console.log(form.getValues());
 
     const basicInfoFormRef = useRef<HTMLFormElement>(null);
     const { registerForm } = useUpdateProfileContext();
