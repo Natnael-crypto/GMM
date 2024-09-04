@@ -18,8 +18,7 @@ import RadioButton from './radio-button';
 import { Checkout, CheckoutSchema } from '@/lib/schemas/checkout';
 import { useAppSelector } from '@/lib/hooks';
 import { useEffect } from 'react';
-import { useToast } from '@/components/ui/use-toast';
-import { checkoutApi, useCreateCheckoutMutation } from '@/lib/checkout/api';
+import { useCreateCheckoutMutation } from '@/lib/checkout/api';
 import { useRouter } from '@/lib/navigation';
 
 export function CheckoutForm() {
@@ -62,14 +61,6 @@ export function CheckoutForm() {
     localStorage.setItem('gmm-checkout-status', 'pending');
 
     router.push(response.url)
-    // toast({
-    //   title: 'You submitted the following values:',
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
   }
 
   return (
