@@ -63,48 +63,52 @@ export default function PhotoUploader({ prevImages = [] }: PhotoUploaderProps) {
                 <h1 className="font-bold">Your Photo and Introduction Video</h1>
             </div>
 
-            <div className="text-xs aspect-square flex items-center justify-center">
-                {defaultImage ? <Image
-                    className="w-full overflow-hidden aspect-square"
-                    src={imageMap[images.findIndex((v) => v === defaultImage)]}
-                    width={300}
-                    height={300}
-                    alt="User Profile"
-                /> :
-                    <FontAwesomeIcon className="text-[6rem] text-muted-foreground" icon={faUser} />
-                }
-            </div>
+            <div className='flex gap-5 justify-between items-start lg:flex-col lg:gap-3'>
+                <div className="text-xs aspect-square flex items-center justify-center w-[225px] lg:w-full">
+                    {defaultImage ? <Image
+                        className="w-full overflow-hidden aspect-square object-cover"
+                        src={imageMap[images.findIndex((v) => v === defaultImage)]}
+                        width={300}
+                        height={300}
+                        alt="User Profile"
+                    /> :
+                        <FontAwesomeIcon className="text-[6rem] text-muted-foreground" icon={faUser} />
+                    }
+                </div>
 
-            <div className="grid grid-cols-4 gap-1">
-                {
-                    images.map((image, index) => (
-                        <Label key={index} className="col-span-1 bg-gray-200 flex justify-center items-center aspect-square cursor-pointer overflow-clip">
-                            {imageMap[index] ?
-                                <div className='relative w-full h-full aspect-square'>
-                                    <Image className='object-contain h-full w-full' src={imageMap[index]} width={100} height={100} alt="User Profile" />
-                                    <div className={cn("absolute bottom-2 left-2", defaultImage !== image ? 'opacity-20' : '')} onClick={(e) => handleDefaultImageChange(e, image)}>
-                                        <FontAwesomeIcon className="text-background" icon={faStar} />
-                                    </div>
-                                </div> :
-                                <FontAwesomeIcon className="text-background" icon={faPlus} />}
-                            <input type="file" className="hidden" onChange={(e) => handleImageChange(e, index)} />
+                <div className='flex flex-col gap-5 lg:gap-3 w-full'>
+                    <div className="grid grid-cols-4 gap-1">
+                        {
+                            images.map((image, index) => (
+                                <Label key={index} className="col-span-1 bg-gray-200 flex justify-center items-center aspect-square cursor-pointer overflow-clip">
+                                    {imageMap[index] ?
+                                        <div className='relative w-full h-full aspect-square'>
+                                            <Image className='object-cover h-full w-full' src={imageMap[index]} width={100} height={100} alt="User Profile" />
+                                            <div className={cn("absolute bottom-2 left-2", defaultImage !== image ? 'opacity-20' : '')} onClick={(e) => handleDefaultImageChange(e, image)}>
+                                                <FontAwesomeIcon className="text-background" icon={faStar} />
+                                            </div>
+                                        </div> :
+                                        <FontAwesomeIcon className="text-background" icon={faPlus} />}
+                                    <input type="file" className="hidden" onChange={(e) => handleImageChange(e, index)} />
+                                </Label>
+                            ))
+                        }
+                    </div>
+
+                    <div className="lg:w-full border border-secondary flex items-center bg-background h-8 px-3 justify-between gap-1 ">
+                        <Label className="text-nowrap font-normal text-xs line-clamp-1 cursor-pointer">
+                            <span>Introduction Video</span>
+                            <input type="file" className="hidden" />
                         </Label>
-                    ))
-                }
-            </div>
-
-            <div className="w-full border border-secondary flex items-center bg-background h-8 px-3 justify-between gap-1 ">
-                <Label className="text-nowrap font-normal text-xs line-clamp-1 cursor-pointer">
-                    <span>Introduction Video</span>
-                    <input type="file" className="hidden" />
-                </Label>
-                <div className='flex gap-2 text-nowrap font-normal text-xs line-clamp-1'>
-                    <span className="cursor-pointer" onClick={() => console.log('play')}>
-                        <FontAwesomeIcon icon={faCirclePlay} />
-                    </span>
-                    <span className="cursor-pointer" onClick={() => console.log('delete')}>
-                        <FontAwesomeIcon icon={faTrashCan} />
-                    </span>
+                        <div className='flex gap-2 text-nowrap font-normal text-xs line-clamp-1'>
+                            <span className="cursor-pointer" onClick={() => console.log('play')}>
+                                <FontAwesomeIcon icon={faCirclePlay} />
+                            </span>
+                            <span className="cursor-pointer" onClick={() => console.log('delete')}>
+                                <FontAwesomeIcon icon={faTrashCan} />
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
 

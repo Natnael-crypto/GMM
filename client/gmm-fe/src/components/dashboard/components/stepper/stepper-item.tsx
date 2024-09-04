@@ -27,7 +27,7 @@ export default function StepperItem({
         className="absolute bottom-0 text-nowrap
       transform translate-y-6
       -translate-x-1/2 left-1/2
-      text-xs font-semibold text-secondary "
+      text-xs font-semibold text-secondary hidden sm:block"
       >
         <Link href={href}>{text}</Link>
       </div>

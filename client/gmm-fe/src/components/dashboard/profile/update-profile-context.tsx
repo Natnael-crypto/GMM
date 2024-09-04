@@ -5,6 +5,7 @@ import { createContext, Dispatch, SetStateAction, useCallback, useContext, useEf
 export interface UpdateProfileContextProps {
     onSave: () => void;
     isSaving: boolean;
+    isAutoSaveEnabled: boolean;
     setSaving: Dispatch<SetStateAction<boolean>>;
     setAutoSave: Dispatch<SetStateAction<boolean>>;
     registerForm: (key: string, form: HTMLFormElement) => void;
@@ -12,6 +13,7 @@ export interface UpdateProfileContextProps {
 
 const UpdateProfileContext = createContext<UpdateProfileContextProps>({
     isSaving: false,
+    isAutoSaveEnabled: false,
     onSave: () => { },
     setSaving: () => { },
     setAutoSave: () => { },
@@ -23,7 +25,7 @@ export const useUpdateProfileContext = () => useContext(UpdateProfileContext);
 
 
 export const UpdateProfileProvider = ({ children }: { children: React.ReactNode }) => {
-    const [autoSave, setAutoSave] = useState(true);
+    const [isAutoSaveEnabled, setAutoSave] = useState(true);
     const [displayedForms, setDisplayedForms] = useState<Record<string, HTMLFormElement>>({});
     const [isSaving, setSaving] = useState(false);
 
@@ -36,6 +38,8 @@ export const UpdateProfileProvider = ({ children }: { children: React.ReactNode 
         });
     })
 
+    console.log(isAutoSaveEnabled, ">>>>");
+
     const onSave = useCallback(() => {
         if (!isSaving) {
             for (const key in displayedForms) {
@@ -46,12 +50,12 @@ export const UpdateProfileProvider = ({ children }: { children: React.ReactNode 
 
 
     useEffect(() => {
-        if (autoSave) {
+        if (isAutoSaveEnabled) {
             const interval = setInterval(onSave, 300000 /* 5 minutes */);
 
             return () => clearInterval(interval);
         }
-    }, [displayedForms, autoSave, onSave]);
+    }, [displayedForms, isAutoSaveEnabled, onSave]);
 
-    return <UpdateProfileContext.Provider value={{ isSaving, setSaving, onSave, setAutoSave, registerForm: registerForm.current }}>{children}</UpdateProfileContext.Provider>;
+    return <UpdateProfileContext.Provider value={{ isSaving, setSaving, isAutoSaveEnabled, onSave, setAutoSave, registerForm: registerForm.current }}>{children}</UpdateProfileContext.Provider>;
 }

@@ -15,19 +15,19 @@ export default function UpdateProfileHeader({
   pageName,
   editLink,
 }: ProfileHeaderProps) {
-  const { onSave, isSaving } = useUpdateProfileContext();
+  const { onSave, isSaving, isAutoSaveEnabled, setAutoSave } = useUpdateProfileContext();
   const user = useAppSelector((state) => state.auth.user);
 
   return (
-    <div className="flex justify-between items-center border-b p-1">
+    <div className="flex flex-col md:flex-row justify-between items-center border-b p-1 gap-2">
       <h1 className="text-xl font-bold text-secondary">
         <span>Hi,</span> <span className="text-primary">{user?.firstName} {user?.lastName}</span>
       </h1>
       <div className="flex gap-3 items-center">
         <div className="flex gap-1 items-center text-xs">
-          <Input type="checkbox" />
+          <Input type="checkbox" checked={isAutoSaveEnabled} onChange={(e) => setAutoSave(value => !value)} />
           <Label htmlFor="checkbox" className="text-nowrap">
-            Auto Save On
+            Auto Save
           </Label>
         </div>
         <Link

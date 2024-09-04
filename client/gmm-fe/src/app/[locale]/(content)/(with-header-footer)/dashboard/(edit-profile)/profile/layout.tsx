@@ -1,6 +1,7 @@
 'use client';
 
 import UpdateProfileStepper from '@/components/dashboard/components/stepper/update-profile-stepper';
+import Banner from '@/components/dashboard/profile/banner';
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
 import UpdateProfileHeader from '@/components/dashboard/profile/update-profile-header';
 import { usePathname } from '@/lib/navigation';
@@ -37,16 +38,7 @@ export default function UpdateProfileLayout({
           </div>
 
           <div className="py-5 px-6 sm:px-16 md:px-24 lg:px-52 mt-8">
-            <div className="bg-muted text-muted-foreground flex flex-col items-center justify-center py-4 text-sm rounded-se-3xl rounded-es-3xl">
-              <p>
-                To access each section of your profile, simply click any of the
-                buttons above.
-              </p>
-              <p>
-                Please note that your profile is auto saved by default every 5
-                minutes.
-              </p>
-            </div>
+            <Banner />
           </div>
           <div>{children}</div>
         </div>

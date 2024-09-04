@@ -73,7 +73,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="grid grid-cols-12 gap-x-3 gap-y-3 py-5">
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">Marriage Type</Label>
+                    <Label className="font-normal text-xs line-clamp-1">Marriage Type</Label>
                     <FormField
                         name='marriageType'
                         control={form.control}
@@ -99,7 +99,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">Marriage Location</Label>
+                    <Label className="font-normal text-xs line-clamp-1">Marriage Location</Label>
                     <FormField
                         name='marriageLocation'
                         control={form.control}
@@ -124,7 +124,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">Marriage Venue</Label>
+                    <Label className="font-normal text-xs line-clamp-1">Marriage Venue</Label>
                     <FormField
                         name='marriageVenue'
                         control={form.control}
@@ -149,7 +149,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">Marriage Timeline</Label>
+                    <Label className="font-normal text-xs line-clamp-1">Marriage Timeline</Label>
                     <FormField
                         name='marriageTimeline'
                         control={form.control}
@@ -173,7 +173,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">
+                    <Label className="font-normal text-xs line-clamp-1">
                         Family in Marriage Discussion
                     </Label>
                     <FormField
@@ -200,7 +200,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">
+                    <Label className="font-normal text-xs line-clamp-1">
                         Dowry/Mahr Expectation
                     </Label>
                     <FormField
@@ -226,7 +226,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">Wedding Budget</Label>
+                    <Label className="font-normal text-xs line-clamp-1">Wedding Budget</Label>
                     <FormField
                         name='weddingBudget'
                         control={form.control}

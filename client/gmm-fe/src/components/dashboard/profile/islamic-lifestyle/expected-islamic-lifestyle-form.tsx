@@ -81,7 +81,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid grid-cols-12 gap-x-3 gap-y-4 py-5">
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Salat/Prayers</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Salat/Prayers</Label>
                         <FormField
                             name='salat'
                             control={form.control}
@@ -106,7 +106,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Hijab</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Hijab</Label>
                         <FormField
                             name='hijab'
                             control={form.control}
@@ -131,7 +131,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">
+                        <Label className="font-normal text-xs line-clamp-1">
                             Appearance (Makeup/Perfume)
                         </Label>
                         <FormField
@@ -158,7 +158,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">
+                        <Label className="font-normal text-xs line-clamp-1">
                             Polygyny/Family Structure
                         </Label>
                         <FormField
@@ -185,7 +185,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Children Upbringing</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Children Upbringing</Label>
                         <FormField
                             name='childrenAndUpbringing'
                             control={form.control}
@@ -210,7 +210,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Social Media</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Social Media</Label>
                         <FormField
                             name='socialMedia'
                             control={form.control}
@@ -235,7 +235,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Non-Mehram Contract</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Non-Mehram Contract</Label>
                         <FormField
                             name='nonMehramContact'
                             control={form.control}
@@ -260,7 +260,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Obedience to Husband</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Obedience to Husband</Label>
                         <FormField
                             name='obedienceToHusband'
                             control={form.control}
@@ -285,7 +285,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Obedience to In-laws</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Obedience to In-laws</Label>
                         <FormField
                             name='obedienceToInLaws'
                             control={form.control}
