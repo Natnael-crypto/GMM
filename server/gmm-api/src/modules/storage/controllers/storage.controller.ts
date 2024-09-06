@@ -24,12 +24,12 @@ export class StorageController {
     @Res() response: Response,
   ) {
     try {
-      const url = await this.storageService.generatePresignedUploadUrl(
+      const fileInfo = await this.storageService.generatePresignedUploadUrl(
         presignedUploadUrlDto,
       );
       return response.status(HttpStatus.CREATED).json({
         message: 'Presigned upload URL generated successfully',
-        data: { url },
+        data: fileInfo,
       });
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({

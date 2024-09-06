@@ -48,10 +48,15 @@ export class StorageService {
       ContentLength: file.size,
     });
 
-    return await getSignedUrl(this.s3, command, {
+    const url = await getSignedUrl(this.s3, command, {
       expiresIn: +process.env.PRESIGNED_URL_EXPIRATION!,
       signingDate: new Date(),
     });
+
+    return {
+      fileKey: normalizedFileName,
+      url,
+    };
   }
 
   private inferExtensionFromContentType(contentType: string) {
