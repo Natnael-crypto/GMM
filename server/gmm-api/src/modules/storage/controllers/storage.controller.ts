@@ -1,5 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { StorageService } from '../services/storage.service';
+import { Response } from 'express';
 import { ApiTags } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 import { PresignedUploadUrlDto } from '../dtos/presigned-upload-url.dto';
@@ -10,14 +19,42 @@ export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
   @Post('presigned-url')
-  async presignedUpload(@Body() presignedUploadUrlDto: PresignedUploadUrlDto) {
-    return await this.storageService.generatePresignedUploadUrl(
-      presignedUploadUrlDto,
-    );
+  async presignedUpload(
+    @Body() presignedUploadUrlDto: PresignedUploadUrlDto,
+    @Res() response: Response,
+  ) {
+    try {
+      const url = await this.storageService.generatePresignedUploadUrl(
+        presignedUploadUrlDto,
+      );
+      return response.status(HttpStatus.CREATED).json({
+        message: 'Presigned upload URL generated successfully',
+        data: { url },
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to generate presigned upload URL',
+        error: error.message,
+      });
+    }
   }
 
   @Get('presigned-url/:id')
-  async getPresignedDownloadUrl(@Param('id') id: string) {
-    return await this.storageService.generatePresignedDownloadUrl(id);
+  async getPresignedDownloadUrl(
+    @Param('id') id: string,
+    @Res() response: Response,
+  ) {
+    try {
+      const url = await this.storageService.generatePresignedDownloadUrl(id);
+      return response.status(HttpStatus.OK).json({
+        message: 'Presigned download URL generated successfully',
+        data: { url },
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to generate presigned download URL',
+        error: error.message,
+      });
+    }
   }
 }
