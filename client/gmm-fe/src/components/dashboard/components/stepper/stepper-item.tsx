@@ -15,14 +15,15 @@ export default function StepperItem({
 }) {
   return (
     <div className="relative cursor-pointer">
-      <div
+      <Link
+        href={href}
         className={cn(
           'rounded-full overflow-hidden text-foreground bg-[#c7c7c7] w-[2.8rem] h-[2.8rem] flex items-center justify-center',
           className
         )}
-      >
-        <Link href={href}>{icon}</Link>
-      </div>
+
+      >{icon}</Link>
+
       <div
         className="absolute bottom-0 text-nowrap
       transform translate-y-6
