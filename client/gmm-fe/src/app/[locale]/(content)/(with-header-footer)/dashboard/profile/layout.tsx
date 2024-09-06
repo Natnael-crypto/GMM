@@ -34,10 +34,10 @@ export default function ProfileLayout({
         <ProfileStepper />
 
         <div className="grid grid-cols-3 gap-5 py-8">
-          <div className="col-span-1">
+          <div className="hidden md:block col-span-1">
             <ProfileImages />
           </div>
-          <div className="col-span-2">{children}</div>
+          <div className="col-span-3 lg:col-span-2">{children}</div>
         </div>
       </div>
     </div>

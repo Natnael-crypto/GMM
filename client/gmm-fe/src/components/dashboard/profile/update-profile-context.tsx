@@ -38,8 +38,6 @@ export const UpdateProfileProvider = ({ children }: { children: React.ReactNode 
         });
     })
 
-    console.log(isAutoSaveEnabled, ">>>>");
-
     const onSave = useCallback(() => {
         if (!isSaving) {
             for (const key in displayedForms) {
