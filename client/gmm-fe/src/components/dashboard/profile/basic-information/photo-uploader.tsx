@@ -27,8 +27,6 @@ export default function PhotoUploader({ images, onChange }: PhotoUploaderProps) 
     const [generateUploadUrl] = useCreateUploadUrlMutation();
     const [generateDownloadUrl] = useCreateDownloadUrlMutation();
 
-    console.log(images)
-
     useEffect(() => {
         for (let i = 0; i < images.length; i++) {
             const image = images[i];
@@ -104,7 +102,7 @@ export default function PhotoUploader({ images, onChange }: PhotoUploaderProps) 
 
             <div className='flex gap-5 justify-between items-start lg:flex-col lg:gap-3'>
                 <div className="text-xs aspect-square flex items-center justify-center w-[225px] lg:w-full">
-                    {imageMap[images.findIndex((v) => v === defaultImage)] ? <Image
+                    {imageMap[images?.findIndex((v) => v === defaultImage)] ? <Image
                         className="w-full overflow-hidden aspect-square object-cover"
                         src={imageMap[images.findIndex((v) => v === defaultImage)]}
                         width={300}
