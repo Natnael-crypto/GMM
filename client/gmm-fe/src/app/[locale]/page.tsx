@@ -27,7 +27,7 @@ export default async function Home() {
           <div className="flex gap-2 items-center">
             <FontAwesomeIcon icon={faBell} />
             <div className="px-2">
-              <Profile />
+              <Profile user={session.user} />
             </div>
           </div>
         ) : null}

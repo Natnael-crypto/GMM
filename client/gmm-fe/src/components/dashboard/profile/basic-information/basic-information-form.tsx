@@ -59,7 +59,7 @@ export default function BasicInformationForm() {
             tattoos: user?.tattoos ?? false,
             email: user?.email ?? '',
             maritalStatus: user?.maritalStatus ?? '',
-            pictures: [],
+            pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
             video: '',
             phone: '',
         }
@@ -71,10 +71,17 @@ export default function BasicInformationForm() {
         form.reset({
             ...user,
             bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
-            pictures: [],
             video: '',
             phone: '',
         })
+
+        if (user?.pictures && user.pictures.length < 8) {
+            const pics = [...user.pictures];
+            for (let i = pics.length; i < 8; i++) {
+                pics.push('');
+            }
+            form.setValue('pictures', pics);
+        }
 
     }, [form, user]);
 
@@ -111,10 +118,16 @@ export default function BasicInformationForm() {
         setSaving(updateResult.isLoading);
     }, [updateResult, setSaving])
 
+    console.log(form.getValues())
+
     return (
         <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-12 lg:grid-cols-3 gap-x-5 gap-y-4 py-8 text-xs">
             <div className="col-span-12 md:col-span-8 lg:col-span-1">
-                <PhotoUploader />
+                <FormField
+                    name="pictures"
+                    control={form.control}
+                    render={({ field }) => <PhotoUploader onChange={field.onChange} images={field.value} />}
+                />
             </div>
 
             <Form {...form}>

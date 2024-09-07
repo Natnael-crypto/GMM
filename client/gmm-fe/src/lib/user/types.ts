@@ -32,3 +32,19 @@ export interface UpdateMarriageDiscussion {
   userId: string;
   marriageDiscussion: MarriageDiscussion;
 }
+
+export interface UploadFileInfo {
+  type: string;
+  size: number;
+  checksum: string;
+}
+
+export interface UploadFile {
+  url: string;
+  file: File;
+}
+
+export interface UrlResponse {
+  url: string;
+  fileKey: string;
+}

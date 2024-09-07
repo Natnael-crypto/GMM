@@ -2,6 +2,7 @@
 
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { useCreateUploadUrlMutation, useCreateDownloadUrlMutation } from '@/lib/user/api';
 import { cn } from '@/lib/utils';
 import {
     faCirclePlay,
@@ -15,30 +16,42 @@ import Image from 'next/image';
 import React, { useEffect } from 'react';
 
 export interface PhotoUploaderProps {
-    prevImages?: string[];
+    images: string[];
+    onChange: (images: string[]) => void;
 }
 
-export default function PhotoUploader({ prevImages = [] }: PhotoUploaderProps) {
+export default function PhotoUploader({ images, onChange }: PhotoUploaderProps) {
     const [defaultImage, setDefaultImage] = React.useState<string>();
-    const [images, setImages] = React.useState<string[]>(prevImages);
-
     const [imageMap, setImagesMap] = React.useState<{ [key: number]: string }>({});
 
-    useEffect(() => {
-        if (images.length < 8) {
-            setImages((images) => [...images, '']);
-        }
-    }, [images, setImages])
+    const [generateUploadUrl] = useCreateUploadUrlMutation();
+    const [generateDownloadUrl] = useCreateDownloadUrlMutation();
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+    console.log(images)
+
+    useEffect(() => {
+        for (let i = 0; i < images.length; i++) {
+            const image = images[i];
+            const imageIndex = images.findIndex((v) => v === image);
+            if (imageIndex !== -1 && image !== '') {
+                generateDownloadUrl(image).unwrap().then((url) => {
+                    setImagesMap((imageMap) => {
+                        return {
+                            ...imageMap,
+                            [imageIndex]: url
+                        };
+                    });
+                });
+            }
+        }
+        if (images.length > 0) {
+            setDefaultImage(images[0]);
+        }
+    }, [generateDownloadUrl, images])
+
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const file = e.target.files?.[0];
         if (file) {
-            setImages((images) => {
-                const newImages = [...images];
-                newImages[index] = file.name;
-                return newImages;
-            });
-
             const blobUrl = URL.createObjectURL(file);
 
             setImagesMap((imageMap) => {
@@ -47,14 +60,40 @@ export default function PhotoUploader({ prevImages = [] }: PhotoUploaderProps) {
                     [index]: blobUrl
                 };
             });
-        };
 
+            try {
+                const fileInfo = await generateUploadUrl({
+                    type: file.type,
+                    size: file.size,
+                    checksum: "sha256"
+                }).unwrap();
+
+                const result = await fetch(fileInfo.url, {
+                    method: 'PUT',
+                    body: file
+                });
+
+                if (!result.ok) {
+                    throw new Error("Failed to upload file");
+                }
+
+                onChange(images.map((image, i) => i === index ? fileInfo.fileKey : image));
+
+            } catch (error) {
+                console.error(error);
+            }
+        };
     }
 
     const handleDefaultImageChange = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, image: string) => {
         e.preventDefault()
         e.stopPropagation()
         setDefaultImage(image);
+        const defaultIndex = images.findIndex((v) => v === image)
+
+        if (defaultIndex !== -1) {
+            onChange([image, ...images.filter((v, i) => i !== defaultIndex)]);
+        }
     }
 
     return (
@@ -65,7 +104,7 @@ export default function PhotoUploader({ prevImages = [] }: PhotoUploaderProps) {
 
             <div className='flex gap-5 justify-between items-start lg:flex-col lg:gap-3'>
                 <div className="text-xs aspect-square flex items-center justify-center w-[225px] lg:w-full">
-                    {defaultImage ? <Image
+                    {imageMap[images.findIndex((v) => v === defaultImage)] ? <Image
                         className="w-full overflow-hidden aspect-square object-cover"
                         src={imageMap[images.findIndex((v) => v === defaultImage)]}
                         width={300}
@@ -84,8 +123,8 @@ export default function PhotoUploader({ prevImages = [] }: PhotoUploaderProps) {
                                     {imageMap[index] ?
                                         <div className='relative w-full h-full aspect-square'>
                                             <Image className='object-cover h-full w-full' src={imageMap[index]} width={100} height={100} alt="User Profile" />
-                                            <div className={cn("absolute bottom-2 left-2", defaultImage !== image ? 'opacity-20' : '')} onClick={(e) => handleDefaultImageChange(e, image)}>
-                                                <FontAwesomeIcon className="text-background" icon={faStar} />
+                                            <div className={cn("absolute bottom-2 left-2", defaultImage !== image ? 'text-background opacity-70' : 'text-yellow-400')} onClick={(e) => handleDefaultImageChange(e, image)}>
+                                                <FontAwesomeIcon icon={faStar} />
                                             </div>
                                         </div> :
                                         <FontAwesomeIcon className="text-background" icon={faPlus} />}

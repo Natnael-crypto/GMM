@@ -12,6 +12,9 @@ import {
   UpdateIslamicLifestyle,
   UpdateExpectedIslamicLifestyle,
   UpdateMarriageDiscussion,
+  UploadFileInfo,
+  UploadFile,
+  UrlResponse,
 } from './types';
 import { User } from '../schemas/user';
 import {
@@ -198,6 +201,34 @@ export const userApi = createApi({
         return [{ type: 'MarriageDiscussion', id: arg.userId }];
       },
     }),
+
+    createUploadUrl: builder.mutation<UrlResponse, UploadFileInfo>({
+      query: (fileInfo) => ({
+        url: 'storage/presigned-url',
+        method: 'POST',
+        body: fileInfo,
+      }),
+      transformResponse: (response: BaseResponse<UrlResponse>) => {
+        return response.data;
+      },
+    }),
+
+    createDownloadUrl: builder.mutation<string, string>({
+      query: (key) => ({
+        url: `storage/presigned-url/${key}`,
+        method: 'GET',
+      }),
+      transformResponse: (response: BaseResponse<UrlResponse>) => {
+        return response.data.url;
+      },
+    }),
+
+    getDownloadUrl: builder.query<string, string>({
+      query: (key) => `storage/presigned-url/${key}`,
+      transformResponse: (response: BaseResponse<UrlResponse>) => {
+        return response.data.url;
+      },
+    }),
   }),
 });
 
@@ -213,4 +244,7 @@ export const {
   useUpdateExpectedIslamicLifestyleMutation,
   useGetMarriageDiscussionQuery,
   useUpdateMarriageDiscussionMutation,
+  useCreateUploadUrlMutation,
+  useCreateDownloadUrlMutation,
+  useGetDownloadUrlQuery,
 } = userApi;
