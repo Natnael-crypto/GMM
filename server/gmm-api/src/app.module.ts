@@ -19,7 +19,7 @@ import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
     // set the env file path from NODE_ENV
     ConfigModule.forRoot({
       isGlobal: true,
-      // envFilePath: `.env.${process.env.NODE_ENV}`,
+      envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
