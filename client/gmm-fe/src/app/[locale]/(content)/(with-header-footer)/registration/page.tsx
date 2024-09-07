@@ -13,14 +13,14 @@ import React, { useEffect } from 'react';
 export default function Registration() {
   const { onSave } = useUpdateProfileContext();
 
-  const user = useAppSelector((state) => state.auth.user);
-  const router = useRouter()
+  // const user = useAppSelector((state) => state.auth.user);
+  // const router = useRouter()
 
-  useEffect(() => {
-    if (user && user.age) {
-      router.push('/dashboard');
-    }
-  }, [user, router])
+  // useEffect(() => {
+  //   if (user && user.age) {
+  //     router.push('/dashboard');
+  //   }
+  // }, [user, router])
 
   return (
     <div className="space-y-5">

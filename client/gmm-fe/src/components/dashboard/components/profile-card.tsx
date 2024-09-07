@@ -8,7 +8,7 @@ import { useGetDownloadUrlQuery } from '@/lib/user/api';
 export default function ProfileCard() {
   const user = useAppSelector((state) => state.auth.user);
 
-  const { data: imageUrl } = useGetDownloadUrlQuery(user!.pictures[0]!, { skip: !user?.pictures[0] });
+  const { data: imageUrl } = useGetDownloadUrlQuery(user?.pictures ? user?.pictures[0] : '', { skip: !user?.pictures[0] });
 
   return (
     <div className="flex gap-4">
