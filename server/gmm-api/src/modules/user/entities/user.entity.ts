@@ -1,4 +1,12 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Match } from '@modules/matchmaking/entities/match.entity';
+import { Preference } from '@modules/matchmaking/entities/preference.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -28,8 +36,6 @@ export class User {
 
   @Column({ nullable: true })
   video: string;
-  
-  
 
   @Column({ nullable: true })
   city: string;
@@ -60,8 +66,6 @@ export class User {
 
   @Column({ nullable: true })
   nationality: string;
-  
-  
 
   @Column({ nullable: true })
   maritalStatus: string;
@@ -99,9 +103,18 @@ export class User {
   @Column({ nullable: true })
   tattoos: boolean;
 
-
-
   @Column({ nullable: true })
   guadianId: string;
 
+  @OneToMany(() => Match, (match) => match.maleUser, { onDelete: 'CASCADE' })
+  matchesAsMale: Match[];
+
+  @OneToMany(() => Match, (match) => match.femaleUser, { onDelete: 'CASCADE' })
+  matchesAsFemale: Match[];
+
+  @OneToOne(() => Preference, (preference) => preference.user, {
+    onDelete: 'CASCADE',
+    eager: true,
+  })
+  preference: Preference;
 }

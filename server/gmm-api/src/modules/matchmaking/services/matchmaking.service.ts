@@ -1,0 +1,224 @@
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Preference } from '../entities/preference.entity';
+import { Repository } from 'typeorm';
+import { UpdatePreferenceDto } from '../dtos/preference.dto';
+import { Match } from '../entities/match.entity';
+import { UserService } from '@modules/user/services/user.service';
+
+@Injectable()
+export class MatchMakingService {
+  constructor(
+    @InjectRepository(Preference)
+    private readonly preferenceRepository: Repository<Preference>,
+
+    @InjectRepository(Match)
+    private readonly matchRepository: Repository<Match>,
+
+    private readonly userService: UserService,
+  ) {}
+
+  async getUserPreference(id: string): Promise<Preference> {
+    const preference = await this.preferenceRepository.findOne({
+      where: { userId: id },
+    });
+
+    if (!preference) {
+      const p = new Preference();
+      return await this.preferenceRepository.save(p);
+    }
+
+    return preference;
+  }
+
+  async updateUserPreference(
+    id: string,
+    data: UpdatePreferenceDto,
+  ): Promise<Preference> {
+    return await this.preferenceRepository.save({ userId: id, ...data });
+  }
+
+  async createMatch(userId: string) {
+    const potentialMatches = await this.filterUsersByPreference(userId);
+    const previousMatches = await this.getMatches(userId);
+    const previousMatchIds = previousMatches.map((match) => match.femaleUserId);
+
+    for (const match of previousMatches) {
+      if (match.isActive) {
+        throw new ConflictException('You already have an active match');
+      }
+    }
+
+    if (potentialMatches.length === 0) {
+      throw new NotFoundException('No potential matches found');
+    }
+
+    for (const match of potentialMatches) {
+      if (previousMatchIds.includes(match.id)) {
+        continue;
+      }
+
+      const newMatch = new Match();
+      newMatch.maleUserId = userId;
+      newMatch.femaleUserId = match.id;
+
+      return await this.matchRepository.save(newMatch);
+    }
+
+    throw new NotFoundException('No potential matches found');
+  }
+
+  async getMatches(userId: string): Promise<Match[]> {
+    return await this.matchRepository.find({
+      where: [{ maleUserId: userId }, { femaleUserId: userId }],
+    });
+  }
+
+  async getCurrentMatch(userId: string): Promise<Match> {
+    const matches = await this.getMatches(userId);
+
+    for (const match of matches) {
+      if (match.isActive) {
+        return match;
+      }
+    }
+
+    throw new NotFoundException('No active match found');
+  }
+
+  async getMatch(matchId: string): Promise<Match> {
+    const match = await this.matchRepository.findOne({
+      where: { id: matchId },
+    });
+
+    if (!match) {
+      throw new NotFoundException('Match not found');
+    }
+
+    return match;
+  }
+
+  async filterUsersByPreference(userId: string) {
+    const preference = await this.getUserPreference(userId);
+
+    const users = await this.userService.findAll();
+
+    const matches: any[] = [];
+
+    for (const user of users) {
+      if (user.id === userId) {
+        continue;
+      }
+
+      if (preference.preferredAge !== undefined) {
+        if (user.age !== preference.preferredAge) {
+          continue;
+        }
+      }
+
+      if (preference.minHeight !== undefined) {
+        if (user.height < preference.minHeight) {
+          continue;
+        }
+      }
+
+      if (preference.maxHeight !== undefined) {
+        if (user.height > preference.maxHeight) {
+          continue;
+        }
+      }
+
+      if (preference.minWeight !== undefined) {
+        if (user.weight < preference.minWeight) {
+          continue;
+        }
+      }
+
+      if (preference.maxWeight !== undefined) {
+        if (user.weight > preference.maxWeight) {
+          continue;
+        }
+      }
+
+      if (preference.nationality !== undefined) {
+        if (user.nationality !== preference.nationality) {
+          continue;
+        }
+      }
+
+      if (preference.language !== undefined) {
+        if (!user.languages.includes(preference.language)) {
+          continue;
+        }
+      }
+
+      if (preference.countryOfOrigin !== undefined) {
+        if (user.countryOfOrigin !== preference.countryOfOrigin) {
+          continue;
+        }
+      }
+
+      if (preference.martialStatus !== undefined) {
+        if (user.maritalStatus !== preference.martialStatus) {
+          continue;
+        }
+      }
+
+      if (preference.salat !== undefined) {
+        if (user.salat !== preference.salat) {
+          continue;
+        }
+      }
+
+      if (preference.bornOrRevert !== undefined) {
+        if (user.bornOrRevertToIslam !== preference.bornOrRevert) {
+          continue;
+        }
+      }
+
+      if (preference.hijab !== undefined) {
+        if (user.hijab !== preference.hijab) {
+          continue;
+        }
+      }
+
+      if (preference.education !== undefined) {
+        if (user.education !== preference.education) {
+          continue;
+        }
+      }
+
+      if (preference.profession !== undefined) {
+        if (user.profession !== preference.profession) {
+          continue;
+        }
+      }
+
+      if (preference.drinking !== undefined) {
+        if (user.drinks !== preference.drinking) {
+          continue;
+        }
+      }
+
+      if (preference.smoking !== undefined) {
+        if (user.smokes !== preference.smoking) {
+          continue;
+        }
+      }
+
+      if (preference.tattoos !== undefined) {
+        if (user.tattoos !== preference.tattoos) {
+          continue;
+        }
+      }
+
+      matches.push(user);
+    }
+
+    return matches;
+  }
+}

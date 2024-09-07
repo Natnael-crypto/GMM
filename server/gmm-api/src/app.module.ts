@@ -12,6 +12,7 @@ import { OTPModule } from '@modules/otp/otp.module';
 import { PaymentsModule } from '@modules/payment/payment.module';
 import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { StorageModule } from '@modules/storage/storage.module';
+import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { StorageModule } from '@modules/storage/storage.module';
     PaymentsModule,
     DynamooseModule,
     StorageModule,
+    MatchMakingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
