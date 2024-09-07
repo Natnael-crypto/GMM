@@ -1,9 +1,9 @@
-import OurApproach from '@/components/landing-page/components/approach/approach';
-import HeroCarousel from '@/components/landing-page/components/carousel/hero-carousel';
-import CreateAccount from '@/components/landing-page/components/create-account/create-account';
-import HowItWorks from '@/components/landing-page/components/how-it-works/how-it-works';
-import OtherPlatforms from '@/components/landing-page/components/other-platforms/other-platforms';
-import GuardianServices from '@/components/landing-page/components/services/guardian-services';
+import OurApproach from '@/components/landing-page/approach/approach';
+import HeroCarousel from '@/components/landing-page/carousel/hero-carousel';
+import CreateAccount from '@/components/landing-page/create-account/create-account';
+import HowItWorks from '@/components/landing-page/how-it-works/how-it-works';
+import OtherPlatforms from '@/components/landing-page/other-platforms/other-platforms';
+import GuardianServices from '@/components/landing-page/services/guardian-services';
 
 import Footer from '@/components/ui/footer';
 import LanguageSelector from '@/components/ui/language-selector';
@@ -27,7 +27,7 @@ export default async function Home() {
           <div className="flex gap-2 items-center">
             <FontAwesomeIcon icon={faBell} />
             <div className="px-2">
-              <Profile />
+              <Profile user={session.user} />
             </div>
           </div>
         ) : null}

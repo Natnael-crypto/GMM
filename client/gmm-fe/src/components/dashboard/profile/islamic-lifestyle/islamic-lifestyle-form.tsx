@@ -16,22 +16,22 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useAppSelector } from '@/lib/hooks';
 import { IslamicLifestyle, islamicLifestyleSchema } from '@/lib/schemas/islamic-lifestyle';
 import { useUpdateIslamicLifestyleMutation } from '@/lib/user/api';
-import { useUpdateProfileContext } from '../../components/update-profile-context';
+import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 
 export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLifestyle?: IslamicLifestyle }) {
     const form = useForm<IslamicLifestyle>({
         resolver: zodResolver(islamicLifestyleSchema),
         defaultValues: {
-            salat: '',
-            ramadan: '',
-            fasting: '',
-            zakat: '',
-            food: '',
-            islamAndCulture: '',
-            islamicEducation: '',
-            appearance: '',
-            hajjAndUmrah: '',
-            childrenAndUpbringing: 0,
+            salat: islamicLifestyle?.salat || '',
+            ramadan: islamicLifestyle?.ramadan || '',
+            fasting: islamicLifestyle?.fasting || '',
+            zakat: islamicLifestyle?.zakat || '',
+            food: islamicLifestyle?.food || '',
+            islamAndCulture: islamicLifestyle?.islamAndCulture || '',
+            islamicEducation: islamicLifestyle?.islamicEducation || '',
+            appearance: islamicLifestyle?.appearance || '',
+            hajjAndUmrah: islamicLifestyle?.hajjAndUmrah || '',
+            childrenAndUpbringing: islamicLifestyle?.childrenAndUpbringing || 0,
         }
     });
 
@@ -42,7 +42,7 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
     const user = useAppSelector((state) => state.auth.user);
     const islamicLifestyleFormRef = useRef<HTMLFormElement>(null);
 
-    const { registerForm } = useUpdateProfileContext()
+    const { registerForm, setSaving } = useUpdateProfileContext()
     const [updateIslamicLifestyle, updateResult] = useUpdateIslamicLifestyleMutation();
 
     useEffect(() => {
@@ -51,8 +51,8 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
         }
     }, [islamicLifestyleFormRef, registerForm]);
 
-    const onSubmit = (data: IslamicLifestyle) => {
-        updateIslamicLifestyle({ userId: user!.id, islamicLifestyle: data });
+    const onSubmit = async (data: IslamicLifestyle) => {
+        await updateIslamicLifestyle({ userId: user!.id, islamicLifestyle: data });
     }
 
     useEffect(() => {
@@ -63,6 +63,10 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
             });
         }
     }, [updateResult])
+
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving])
 
     return (
         <div className="py-8 px-6 sm:px-16 md:px-24 lg:px-52">

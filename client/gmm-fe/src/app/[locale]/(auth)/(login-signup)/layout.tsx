@@ -1,6 +1,6 @@
-import AuthHeader from '@/components/(auth)/components/auth-header';
-import RegistrationOverview from '@/components/(auth)/components/registration-overview';
-import HowItWorks from '@/components/landing-page/components/how-it-works/how-it-works';
+import AuthHeader from '@/components/auth/auth-header';
+import RegistrationOverview from '@/components/auth/registration-overview';
+import HowItWorks from '@/components/landing-page/how-it-works/how-it-works';
 import Footer from '@/components/ui/footer';
 import React from 'react';
 

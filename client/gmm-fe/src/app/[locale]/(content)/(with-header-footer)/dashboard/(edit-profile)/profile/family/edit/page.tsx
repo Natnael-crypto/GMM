@@ -18,7 +18,7 @@ export default function FamilyIntroduction() {
       <div className="pb-8 px-6 sm:px-16 md:px-24 lg:px-52">
         <div className="grid grid-cols-12 gap-x-3 gap-y-3 py-4">
           <div className="space-y-1 col-span-4">
-            <Label className="font-normal text-xs">
+            <Label className="font-normal text-xs line-clamp-1">
               {t('guardianInformation.fullName')}
             </Label>
             <Input
@@ -28,7 +28,7 @@ export default function FamilyIntroduction() {
           </div>
 
           <div className="space-y-1 col-span-4">
-            <Label className="font-normal text-xs">
+            <Label className="font-normal text-xs line-clamp-1">
               {t('guardianInformation.relationship')}
             </Label>
             <Select>
@@ -44,7 +44,7 @@ export default function FamilyIntroduction() {
           </div>
 
           <div className="space-y-1 col-span-4">
-            <Label className="font-normal text-xs">
+            <Label className="font-normal text-xs line-clamp-1">
               Guardian&apos;s Full Name
             </Label>
             <Input
@@ -54,7 +54,7 @@ export default function FamilyIntroduction() {
           </div>
 
           <div className="space-y-1 col-span-6">
-            <Label className="font-normal text-xs">Guardian&apos;s Email</Label>
+            <Label className="font-normal text-xs line-clamp-1">Guardian&apos;s Email</Label>
             <Input
               type="file"
               className="text-muted-foreground bg-background text-xs shadow rounded-sm"
@@ -63,7 +63,7 @@ export default function FamilyIntroduction() {
           </div>
 
           <div className="space-y-1 col-span-6">
-            <Label className="font-normal text-xs">
+            <Label className="font-normal text-xs line-clamp-1">
               {t('idVerification.id')}
             </Label>
             <Input
@@ -77,7 +77,7 @@ export default function FamilyIntroduction() {
           </h1>
 
           <div className="space-y-1 col-span-6">
-            <Label className="font-normal text-xs">
+            <Label className="font-normal text-xs line-clamp-1">
               {t('idVerification.phoneNumber')}
             </Label>
             <Input
@@ -87,7 +87,7 @@ export default function FamilyIntroduction() {
           </div>
 
           <div className="space-y-1 col-span-6">
-            <Label className="font-normal text-xs">
+            <Label className="font-normal text-xs line-clamp-1">
               {t('idVerification.id')}
             </Label>
             <Input

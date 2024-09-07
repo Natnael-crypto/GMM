@@ -1,10 +1,10 @@
 'use client'
 
-import { useUpdateProfileContext } from '@/components/dashboard/components/update-profile-context';
-import BasicInformationForm from '@/components/registration/components/basic-information-form';
-import FamilyForm from '@/components/registration/components/family-form';
-import PhotoUploader from '@/components/registration/components/photo-uploader';
-import VideoUploader from '@/components/registration/components/video-uploader';
+import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
+import BasicInformationForm from '@/components/registration/basic-information-form';
+import FamilyForm from '@/components/registration/family-form';
+import PhotoUploader from '@/components/registration/photo-uploader';
+import VideoUploader from '@/components/registration/video-uploader';
 import { Button } from '@/components/ui/button';
 import { useAppSelector } from '@/lib/hooks';
 import { useRouter } from '@/lib/navigation';

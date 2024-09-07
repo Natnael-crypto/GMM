@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/components/ui/loading';
 import { useAppSelector } from '@/lib/hooks';
 import { useGetWorldlyLifestyleQuery } from '@/lib/user/api';
 import {
@@ -38,7 +39,7 @@ export default function WorldlyLifestyleCard() {
           <div className="col-span-11 space-y-3 ">
             <h1 className="font-bold">
               {isSuccess && worldlyLifestyle.employmentType}
-              {isLoading && 'Loading...'}
+              {isLoading && <Loading />}
             </h1>
           </div>
         </div>
@@ -53,7 +54,7 @@ export default function WorldlyLifestyleCard() {
           <div className="col-span-11 space-y-3 ">
             <h1 className="font-bold">
               {isSuccess && worldlyLifestyle.annualIncome}
-              {isLoading && 'Loading...'}
+              {isLoading && <Loading />}
             </h1>
           </div>
         </div>
@@ -68,7 +69,7 @@ export default function WorldlyLifestyleCard() {
           <div className="col-span-11 space-y-3 ">
             <h1 className="font-bold">
               {isSuccess && worldlyLifestyle.currentOccupationTitle}
-              {isLoading && 'Loading...'}
+              {isLoading && <Loading />}
             </h1>
           </div>
         </div>
@@ -79,7 +80,7 @@ export default function WorldlyLifestyleCard() {
           <div className="col-span-11 space-y-3 ">
             <h1 className="font-bold">
               {isSuccess && `${worldlyLifestyle.vehicleYear} ${worldlyLifestyle.vehicleMake} ${worldlyLifestyle.vehicleModel}`}
-              {isLoading && 'Loading...'}
+              {isLoading && <Loading />}
             </h1>
           </div>
         </div>

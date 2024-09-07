@@ -1,5 +1,5 @@
 import ProfileOverview from '@/components/dashboard/compatibility/components/profile-overview-card';
-import FamilyIntroductionCard from '@/components/dashboard/profile/components/family-introduction-card';
+import FamilyIntroductionCard from '@/components/dashboard/profile/family-introduction/family-introduction-card';
 
 import React from 'react';
 

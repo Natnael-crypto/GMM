@@ -14,23 +14,24 @@ import { ExpectedIslamicLifestyle, expectedIslamicLifestyleSchema } from '@/lib/
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useAppSelector } from '@/lib/hooks';
-import { useUpdateProfileContext } from '../../components/update-profile-context';
+
 import { useUpdateExpectedIslamicLifestyleMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
+import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 
 export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle }: { expectedIslamicLifestyle?: ExpectedIslamicLifestyle }) {
     const form = useForm<ExpectedIslamicLifestyle>({
         resolver: zodResolver(expectedIslamicLifestyleSchema),
         defaultValues: {
-            salat: '',
-            hijab: '',
-            appearance: '',
-            familyStructure: '',
-            childrenAndUpbringing: '',
-            socialMedia: '',
-            nonMehramContact: '',
-            obedienceToHusband: '',
-            obedienceToInLaws: ''
+            salat: expectedIslamicLifestyle?.salat ?? '',
+            hijab: expectedIslamicLifestyle?.hijab ?? '',
+            appearance: expectedIslamicLifestyle?.appearance ?? '',
+            familyStructure: expectedIslamicLifestyle?.familyStructure ?? '',
+            childrenAndUpbringing: expectedIslamicLifestyle?.childrenAndUpbringing ?? '',
+            socialMedia: expectedIslamicLifestyle?.socialMedia ?? '',
+            nonMehramContact: expectedIslamicLifestyle?.nonMehramContact ?? '',
+            obedienceToHusband: expectedIslamicLifestyle?.obedienceToHusband ?? '',
+            obedienceToInLaws: expectedIslamicLifestyle?.obedienceToInLaws ?? ''
         }
     });
 
@@ -41,7 +42,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
     const user = useAppSelector((state) => state.auth.user);
     const expectedIslamicLifestyleFormRef = useRef<HTMLFormElement>(null);
 
-    const { registerForm } = useUpdateProfileContext()
+    const { registerForm, setSaving } = useUpdateProfileContext()
     const [updateExpectedIslamicLifestyle, updateResult] = useUpdateExpectedIslamicLifestyleMutation();
 
     useEffect(() => {
@@ -54,6 +55,9 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
         updateExpectedIslamicLifestyle({ userId: user!.id, expectedIslamicLifestyle: data });
     }
 
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving])
 
     useEffect(() => {
         if (updateResult.isSuccess) {
@@ -77,7 +81,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid grid-cols-12 gap-x-3 gap-y-4 py-5">
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Salat/Prayers</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Salat/Prayers</Label>
                         <FormField
                             name='salat'
                             control={form.control}
@@ -102,7 +106,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Hijab</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Hijab</Label>
                         <FormField
                             name='hijab'
                             control={form.control}
@@ -127,7 +131,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">
+                        <Label className="font-normal text-xs line-clamp-1">
                             Appearance (Makeup/Perfume)
                         </Label>
                         <FormField
@@ -154,7 +158,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">
+                        <Label className="font-normal text-xs line-clamp-1">
                             Polygyny/Family Structure
                         </Label>
                         <FormField
@@ -181,7 +185,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Children Upbringing</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Children Upbringing</Label>
                         <FormField
                             name='childrenAndUpbringing'
                             control={form.control}
@@ -206,7 +210,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Social Media</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Social Media</Label>
                         <FormField
                             name='socialMedia'
                             control={form.control}
@@ -231,7 +235,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Non-Mehram Contract</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Non-Mehram Contract</Label>
                         <FormField
                             name='nonMehramContact'
                             control={form.control}
@@ -256,7 +260,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Obedience to Husband</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Obedience to Husband</Label>
                         <FormField
                             name='obedienceToHusband'
                             control={form.control}
@@ -281,7 +285,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Obedience to In-laws</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Obedience to In-laws</Label>
                         <FormField
                             name='obedienceToInLaws'
                             control={form.control}

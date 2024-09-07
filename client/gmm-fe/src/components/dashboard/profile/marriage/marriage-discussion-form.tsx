@@ -13,7 +13,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useAppSelector } from '@/lib/hooks';
-import { useUpdateProfileContext } from '../../components/update-profile-context';
+import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 import { toast } from '@/components/ui/use-toast';
 import { MarriageDiscussion, marriageDiscussionSchema } from '@/lib/schemas/marriage-discussion';
 import { useUpdateMarriageDiscussionMutation } from '@/lib/user/api';
@@ -23,13 +23,13 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
     const form = useForm<MarriageDiscussion>({
         resolver: zodResolver(marriageDiscussionSchema),
         defaultValues: {
-            marriageType: '',
-            marriageLocation: '',
-            marriageVenue: '',
-            marriageTimeline: '',
-            familyInMarriageDiscussion: '',
-            dowry: '',
-            weddingBudget: ''
+            marriageType: marriageDiscussion?.marriageType || '',
+            marriageLocation: marriageDiscussion?.marriageLocation || '',
+            marriageVenue: marriageDiscussion?.marriageVenue || '',
+            marriageTimeline: marriageDiscussion?.marriageTimeline || '',
+            familyInMarriageDiscussion: marriageDiscussion?.familyInMarriageDiscussion || '',
+            dowry: marriageDiscussion?.dowry || '',
+            weddingBudget: marriageDiscussion?.weddingBudget || '',
         }
     });
 
@@ -40,7 +40,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
     const user = useAppSelector((state) => state.auth.user);
     const marriageDiscussionFormRef = useRef<HTMLFormElement>(null);
 
-    const { registerForm } = useUpdateProfileContext()
+    const { registerForm, setSaving } = useUpdateProfileContext()
     const [updateMarriageDiscussion, updateResult] = useUpdateMarriageDiscussionMutation();
 
     useEffect(() => {
@@ -62,6 +62,10 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
         }
     }, [updateResult])
 
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving])
+
     return (
         <Form {...form}>
             <form
@@ -69,7 +73,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="grid grid-cols-12 gap-x-3 gap-y-3 py-5">
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">Marriage Type</Label>
+                    <Label className="font-normal text-xs line-clamp-1">Marriage Type</Label>
                     <FormField
                         name='marriageType'
                         control={form.control}
@@ -95,7 +99,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">Marriage Location</Label>
+                    <Label className="font-normal text-xs line-clamp-1">Marriage Location</Label>
                     <FormField
                         name='marriageLocation'
                         control={form.control}
@@ -120,7 +124,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">Marriage Venue</Label>
+                    <Label className="font-normal text-xs line-clamp-1">Marriage Venue</Label>
                     <FormField
                         name='marriageVenue'
                         control={form.control}
@@ -145,7 +149,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">Marriage Timeline</Label>
+                    <Label className="font-normal text-xs line-clamp-1">Marriage Timeline</Label>
                     <FormField
                         name='marriageTimeline'
                         control={form.control}
@@ -169,7 +173,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">
+                    <Label className="font-normal text-xs line-clamp-1">
                         Family in Marriage Discussion
                     </Label>
                     <FormField
@@ -196,7 +200,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">
+                    <Label className="font-normal text-xs line-clamp-1">
                         Dowry/Mahr Expectation
                     </Label>
                     <FormField
@@ -222,7 +226,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                 </div>
 
                 <div className="space-y-1 col-span-4">
-                    <Label className="font-normal text-xs">Wedding Budget</Label>
+                    <Label className="font-normal text-xs line-clamp-1">Wedding Budget</Label>
                     <FormField
                         name='weddingBudget'
                         control={form.control}

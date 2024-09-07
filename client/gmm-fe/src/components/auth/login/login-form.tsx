@@ -14,8 +14,8 @@ import {
 import { Input } from '@/components/ui/input';
 
 import Link from 'next/link';
-import OrSeparator from '../../components/or-separator';
-import ExternalAuthenticator from '../../components/external-authenticator';
+import OrSeparator from '@/components/auth/or-separator';
+import ExternalAuthenticator from '@/components/auth/external-authenticator';
 import { useLocale, useTranslations } from 'next-intl';
 import { Login, LoginSchema } from '@/lib/schemas/auth';
 import { useState } from 'react';

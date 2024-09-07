@@ -1,6 +1,5 @@
 'use client';
 
-import ProfileImages from '@/components/dashboard/components/profile-image-card';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,10 +10,12 @@ import { User, userSchema } from '@/lib/schemas/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { useUpdateProfileContext } from '../../components/update-profile-context';
+import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 import { useUpdateUserMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
 import { setUser } from '@/lib/auth/slice';
+import PhotoUploader from './photo-uploader';
+
 
 const languages = [{
     value: 'EN',
@@ -35,30 +36,30 @@ export default function BasicInformationForm() {
     const form = useForm<User>({
         resolver: zodResolver(userSchema),
         defaultValues: {
-            firstName: '',
-            lastName: '',
-            age: 0,
-            gender: '',
-            height: 0,
-            weight: 0,
-            country: '',
-            skinColor: '',
-            languages: [],
-            nationality: '',
-            city: '',
-            numberOfChildren: 0,
-            ageOfOldestChild: 0,
-            ageOfYoungestChild: 0,
-            sunniMadhaib: '',
-            religiousPractice: '',
+            firstName: user?.firstName ?? '',
+            lastName: user?.lastName ?? '',
+            age: user?.age ?? 0,
+            gender: user?.gender ?? '',
+            height: user?.height ?? 0,
+            weight: user?.weight ?? 0,
+            country: user?.country ?? '',
+            skinColor: user?.skinColor ?? '',
+            languages: user?.languages ?? [],
+            nationality: user?.nationality ?? '',
+            city: user?.city ?? '',
+            numberOfChildren: user?.numberOfChildren ?? 0,
+            ageOfOldestChild: user?.ageOfOldestChild ?? 0,
+            ageOfYoungestChild: user?.ageOfYoungestChild ?? 0,
+            sunniMadhaib: user?.sunniMadhaib ?? '',
+            religiousPractice: user?.religiousPractice ?? '',
             bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
-            drinks: false,
-            drugs: false,
-            smokes: false,
-            tattoos: false,
-            email: '',
-            maritalStatus: '',
-            pictures: [],
+            drinks: user?.drinks ?? false,
+            drugs: user?.drugs ?? false,
+            smokes: user?.smokes ?? false,
+            tattoos: user?.tattoos ?? false,
+            email: user?.email ?? '',
+            maritalStatus: user?.maritalStatus ?? '',
+            pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
             video: '',
             phone: '',
         }
@@ -70,14 +71,23 @@ export default function BasicInformationForm() {
         form.reset({
             ...user,
             bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
-            pictures: [],
             video: '',
             phone: '',
         })
+
+        if (user?.pictures && user.pictures.length < 8) {
+            const pics = [...user.pictures];
+            for (let i = pics.length; i < 8; i++) {
+                pics.push('');
+            }
+            form.setValue('pictures', pics);
+        }
+
     }, [form, user]);
 
+
     const basicInfoFormRef = useRef<HTMLFormElement>(null);
-    const { registerForm } = useUpdateProfileContext();
+    const { registerForm, setSaving } = useUpdateProfileContext();
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -104,18 +114,28 @@ export default function BasicInformationForm() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [updateResult, dispatch])
 
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving])
+
+    console.log(form.getValues())
+
     return (
-        <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-3 gap-x-5 py-8 text-xs">
-            <div className="col-span-1">
-                <ProfileImages />
+        <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-12 lg:grid-cols-3 gap-x-5 gap-y-4 py-8 text-xs">
+            <div className="col-span-12 md:col-span-8 lg:col-span-1">
+                <FormField
+                    name="pictures"
+                    control={form.control}
+                    render={({ field }) => <PhotoUploader onChange={field.onChange} images={field.value} />}
+                />
             </div>
 
             <Form {...form}>
                 <form
                     ref={basicInfoFormRef}
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="col-span-2 grid grid-cols-4 gap-x-5 gap-y-4 h-fit">
-                    <div className="col-span-2 flex gap-5 items-center h-fit">
+                    className="col-span-12 lg:col-span-2 grid grid-cols-4 gap-x-5 gap-y-4 h-fit">
+                    <div className="col-span-4 md:col-span-2 flex gap-5 items-center h-fit">
                         <Label className="text-nowrap font-normal text-xs line-clamp-1">First Name</Label>
                         <FormField
                             name='firstName'
@@ -135,7 +155,7 @@ export default function BasicInformationForm() {
 
                     </div>
 
-                    <div className="col-span-2 flex gap-5 items-center h-fit">
+                    <div className="col-span-4 md:col-span-2 flex gap-5 items-center h-fit">
                         <Label className="text-nowrap font-normal text-xs line-clamp-1">Last Name</Label>
                         <FormField
                             name='lastName'
@@ -155,7 +175,7 @@ export default function BasicInformationForm() {
 
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-1 col-span-2 lg:col-span-1">
                         <Label className="font-normal text-xs line-clamp-1">Age (Year)</Label>
                         <FormField
                             name='age'
@@ -179,7 +199,7 @@ export default function BasicInformationForm() {
                         />
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-1 col-span-2 lg:col-span-1">
                         <Label className="font-normal text-xs line-clamp-1">Gender</Label>
                         <FormField
                             name='gender'
@@ -198,7 +218,7 @@ export default function BasicInformationForm() {
                         />
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-1 col-span-2 lg:col-span-1">
                         <Label className="font-normal text-xs line-clamp-1">Height</Label>
                         <FormField
                             name='height'
@@ -221,7 +241,7 @@ export default function BasicInformationForm() {
 
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-1 col-span-2 lg:col-span-1">
                         <Label className="font-normal text-xs line-clamp-1">Weight</Label>
                         <FormField
                             name='weight'
@@ -589,8 +609,8 @@ export default function BasicInformationForm() {
                         /> */}
                     </div>
 
-                    <div className="col-span-4 grid grid-cols-8 gap-x-5 ">
-                        <div className="space-y-1 col-span-2">
+                    <div className="col-span-4 grid grid-cols-4 lg:grid-cols-8 gap-x-5 gap-y-4 ">
+                        <div className="space-y-1 col-span-4 lg:col-span-2">
                             <Label className="font-normal text-xs line-clamp-1">Number of children</Label>
                             <FormField
                                 name='numberOfChildren'
@@ -613,7 +633,7 @@ export default function BasicInformationForm() {
                             />
                         </div>
 
-                        <div className="space-y-1 col-span-3">
+                        <div className="space-y-1 col-span-4 lg:col-span-3">
                             <Label className="font-normal text-xs line-clamp-1">Age of Oldest Child</Label>
                             <FormField
                                 name='ageOfOldestChild'
@@ -635,7 +655,7 @@ export default function BasicInformationForm() {
                                     </FormItem>)}
                             />
                         </div>
-                        <div className="space-y-1 col-span-3">
+                        <div className="space-y-1 col-span-4 lg:col-span-3">
                             <Label className="font-normal text-xs line-clamp-1">Age of Youngest Child</Label>
                             <FormField
                                 name='ageOfYoungestChild'
@@ -658,8 +678,8 @@ export default function BasicInformationForm() {
                         </div>
                     </div>
 
-                    <div className="col-span-4 grid grid-cols-8 gap-x-5 ">
-                        <div className="space-y-1 col-span-2">
+                    <div className="col-span-4 grid grid-cols-4 lg:grid-cols-8 gap-x-5 gap-y-4">
+                        <div className="space-y-1 col-span-4 lg:col-span-2">
                             <Label className="font-normal text-xs line-clamp-1">Sunni-Madhaib</Label>
                             <FormField
                                 name='sunniMadhaib'
@@ -686,7 +706,7 @@ export default function BasicInformationForm() {
 
                         </div>
 
-                        <div className="space-y-1 col-span-3">
+                        <div className="space-y-1 col-span-4 lg:col-span-3">
                             <Label className="font-normal text-xs line-clamp-1">Religious Practice</Label>
                             <FormField
                                 name='religiousPractice'
@@ -711,7 +731,7 @@ export default function BasicInformationForm() {
                             />
 
                         </div>
-                        <div className="space-y-1 col-span-3">
+                        <div className="space-y-1 col-span-4 lg:col-span-3">
                             <Label className="font-normal text-xs line-clamp-1">
                                 Born/Reverted to Islam
                             </Label>
@@ -737,7 +757,7 @@ export default function BasicInformationForm() {
                         </div>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-1 col-span-2 lg:col-span-1">
                         <Label className="font-normal text-xs line-clamp-1">Drinks</Label>
                         <FormField
                             name='drinks'
@@ -759,7 +779,7 @@ export default function BasicInformationForm() {
                                 </FormItem>)}
                         />
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-1 col-span-2 lg:col-span-1">
                         <Label className="font-normal text-xs line-clamp-1 text-nowrap">
                             Drugs{' '}
                             <span className="text-[0.6rem] text-nowrap">
@@ -786,7 +806,7 @@ export default function BasicInformationForm() {
                                 </FormItem>)}
                         />
                     </div>
-                    <div className="space-y-1">
+                    <div className="space-y-1 col-span-2 lg:col-span-1">
                         <Label className="font-normal text-xs line-clamp-1">
                             Smokes <span className="text-[0.6rem]">(Vapping/Shisha)</span>
                         </Label>
@@ -811,7 +831,7 @@ export default function BasicInformationForm() {
                         />
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-1 col-span-2 lg:col-span-1">
                         <Label className="font-normal text-xs line-clamp-1">Tattoo(s)</Label>
                         <FormField
                             name='tattoos'

@@ -5,8 +5,12 @@ import { faBell } from '@fortawesome/free-solid-svg-icons';
 import LanguageSelector from './language-selector';
 import Profile from './profile';
 import { Link } from '@/lib/navigation';
+import { auth } from '@/lib/auth/utils';
 
-export default function Header() {
+
+export default async function Header() {
+  const session = await auth();
+
   return (
     <div
       className="py-3 px-6 sm:px-16 md:px-24 lg:px-52
@@ -29,7 +33,7 @@ export default function Header() {
         <LanguageSelector />
         <FontAwesomeIcon icon={faBell} />
         <div className="px-2">
-          <Profile />
+          {session && <Profile user={session.user} />}
         </div>
       </div>
     </div>

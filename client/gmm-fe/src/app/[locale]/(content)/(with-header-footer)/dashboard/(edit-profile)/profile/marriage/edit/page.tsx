@@ -1,14 +1,12 @@
 'use client'
 
-import Unverified from '@/components/dashboard/profile/marriage/components/unverified';
-import Verified from '@/components/dashboard/profile/marriage/components/verfied';
+import Unverified from '@/components/dashboard/profile/marriage/unverified';
+import Verified from '@/components/dashboard/profile/marriage/verfied';
+import MarriageDiscussionForm from '@/components/dashboard/profile/marriage/marriage-discussion-form';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-
 import { useTranslations } from 'next-intl';
 import { Link } from '@/lib/navigation';
-import MarriageDiscussionForm from '@/components/dashboard/profile/components/marriage-discussion-form';
-
 import { useAppSelector } from '@/lib/hooks';
 import { useGetMarriageDiscussionQuery } from '@/lib/user/api';
 

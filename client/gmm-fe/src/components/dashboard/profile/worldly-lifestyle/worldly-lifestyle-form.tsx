@@ -1,6 +1,6 @@
 'use client'
 
-import { useUpdateProfileContext } from '@/components/dashboard/components/update-profile-context';
+import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -25,26 +25,26 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
     const form = useForm<WorldlyLifestyle>({
         resolver: zodResolver(worldlyLifestyleSchema),
         defaultValues: {
-            employmentType: '',
-            annualIncome: '',
-            annualIncomeCurrency: '',
-            currentOccupationTitle: '',
-            typeOfResidence: '',
-            livingSituation: '',
-            vehicleYear: new Date().getFullYear(),
-            vehicleMake: '',
-            vehicleModel: '',
-            educationQualification: '',
-            applicableDebts: '',
-            currentDebts: [],
-            approximateDebts: '',
-            payingInterestOnDebts: '',
-            presentFamilyMembers: '',
-            numberOfSibilings: 0,
-            pets: 0,
-            majorPreexistingHealthCondition: '',
-            mobilityAssistantRequirement: '',
-            preexistingHealthConditionDescription: '',
+            employmentType: worldlyLifestyle?.employmentType || '',
+            annualIncome: worldlyLifestyle?.annualIncome || '',
+            annualIncomeCurrency: worldlyLifestyle?.annualIncomeCurrency || '',
+            currentOccupationTitle: worldlyLifestyle?.currentOccupationTitle || '',
+            typeOfResidence: worldlyLifestyle?.typeOfResidence || '',
+            livingSituation: worldlyLifestyle?.livingSituation || '',
+            vehicleYear: worldlyLifestyle?.vehicleYear || (new Date().getFullYear()),
+            vehicleMake: worldlyLifestyle?.vehicleMake || '',
+            vehicleModel: worldlyLifestyle?.vehicleModel || '',
+            educationQualification: worldlyLifestyle?.educationQualification || '',
+            applicableDebts: worldlyLifestyle?.applicableDebts || '',
+            currentDebts: worldlyLifestyle?.currentDebts || [],
+            approximateDebts: worldlyLifestyle?.approximateDebts || '',
+            payingInterestOnDebts: worldlyLifestyle?.payingInterestOnDebts || '',
+            presentFamilyMembers: worldlyLifestyle?.presentFamilyMembers || '',
+            numberOfSibilings: worldlyLifestyle?.numberOfSibilings || 0,
+            pets: worldlyLifestyle?.pets || 0,
+            majorPreexistingHealthCondition: worldlyLifestyle?.majorPreexistingHealthCondition || '',
+            mobilityAssistantRequirement: worldlyLifestyle?.mobilityAssistantRequirement || '',
+            preexistingHealthConditionDescription: worldlyLifestyle?.preexistingHealthConditionDescription || '',
         },
     });
 
@@ -55,7 +55,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
     const user = useAppSelector((state) => state.auth.user);
     const worldlyLifestyleFormRef = useRef<HTMLFormElement>(null);
 
-    const { registerForm } = useUpdateProfileContext()
+    const { registerForm, setSaving } = useUpdateProfileContext()
     const [updateWorldlyStyle, updateResult] = useUpdateWorldlyLifestyleMutation();
 
     useEffect(() => {
@@ -76,6 +76,10 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
             });
         }
     }, [updateResult])
+
+    useEffect(() => {
+        setSaving(updateResult.isLoading);
+    }, [updateResult, setSaving])
 
     return (
 

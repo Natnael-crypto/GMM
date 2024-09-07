@@ -1,7 +1,7 @@
 'use client'
 
-import ExpectedIslamicLifestyleForm from '@/components/dashboard/profile/components/expected-islamic-lifestyle-form';
-import IslamicLifestyleForm from '@/components/dashboard/profile/components/islamic-lifestyle-form';
+import ExpectedIslamicLifestyleForm from '@/components/dashboard/profile/islamic-lifestyle/expected-islamic-lifestyle-form';
+import IslamicLifestyleForm from '@/components/dashboard/profile/islamic-lifestyle/islamic-lifestyle-form';
 import { useAppSelector } from '@/lib/hooks';
 import { useGetExpectedIslamicLifestyleQuery, useGetIslamicLifestyleQuery } from '@/lib/user/api';
 import React from 'react';

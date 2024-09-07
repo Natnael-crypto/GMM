@@ -1,7 +1,8 @@
 'use client'
 
-import { ExpectedWorldlyLifestyleForm } from "@/components/dashboard/profile/components/expected-worldly-lifestyle-form";
-import { WorldlyLifestyleForm } from "@/components/dashboard/profile/components/worldly-lifestyle-form";
+import { ExpectedWorldlyLifestyleForm } from "@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-form";
+import { WorldlyLifestyleForm } from "@/components/dashboard/profile/worldly-lifestyle/worldly-lifestyle-form";
+import Loading from "@/components/ui/loading";
 import { useAppSelector } from "@/lib/hooks";
 import { useGetExpectedWorldlyLifestyleQuery, useGetWorldlyLifestyleQuery } from "@/lib/user/api";
 
@@ -12,9 +13,9 @@ export default function UpdateWorldlyLifestylePage() {
 
 
   return <div>
-    {isWorldlyLifestyleLoading && <div>Loading...</div>}
+    {isWorldlyLifestyleLoading && <div className="w-full flex justify-center"><Loading /></div>}
     <WorldlyLifestyleForm worldlyLifestyle={worldlyLifestyle} />
-    {isExpectedWorldlyLifestyleLoading && <div>Loading...</div>}
+    {isExpectedWorldlyLifestyleLoading && <div className="w-full flex justify-center"><Loading /></div>}
     {expectedWorldlyLifestyle ? <ExpectedWorldlyLifestyleForm expectedWorldlyLifestyle={expectedWorldlyLifestyle} /> : <ExpectedWorldlyLifestyleForm />}
   </div>
 }
