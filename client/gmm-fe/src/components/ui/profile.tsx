@@ -16,7 +16,7 @@ export default function Profile({ user }: { user: User }) {
   const [open, setOpen] = React.useState(false);
   const locale = useLocale();
 
-  const { data: imageUrl } = useGetDownloadUrlQuery(user.pictures[0], { skip: !user.pictures });
+  const { data: imageUrl } = useGetDownloadUrlQuery(user?.pictures ? user?.pictures[0] : '', { skip: !user.pictures });
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -69,6 +69,7 @@ export default function Profile({ user }: { user: User }) {
 
           <a
             href={`/${locale}/logout`}
+            onClick={(e) => { localStorage.clear() }}
             className="w-full justify-start bg-background hover:bg-muted text-muted-foreground hover:text-muted-foreground py-1 px-5"
           >
             Logout

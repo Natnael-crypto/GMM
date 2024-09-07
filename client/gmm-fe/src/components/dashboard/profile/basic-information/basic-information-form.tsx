@@ -70,6 +70,8 @@ export default function BasicInformationForm() {
     useEffect(() => {
         form.reset({
             ...user,
+            languages: user?.languages ?? [],
+            pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
             bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
             video: '',
             phone: '',
@@ -117,8 +119,6 @@ export default function BasicInformationForm() {
     useEffect(() => {
         setSaving(updateResult.isLoading);
     }, [updateResult, setSaving])
-
-    console.log(form.getValues())
 
     return (
         <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-12 lg:grid-cols-3 gap-x-5 gap-y-4 py-8 text-xs">

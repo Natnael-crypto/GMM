@@ -11,14 +11,14 @@ export const verifyOtp = async (data: Otp) => {
     cookieNames.otpVerificationKey
   )?.value;
 
-  const response = await fetch(`${constants.apiBaseUrl}/otp/verify`, {
+  const response = await fetch(`${constants.apiBaseUrl}/otp/verify-otp`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       otp: data.otp,
-      userIdentifier,
+      check: userIdentifier,
       verificationKey: otpVerificationKey,
     }),
   });
