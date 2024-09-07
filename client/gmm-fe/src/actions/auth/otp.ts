@@ -18,7 +18,7 @@ export const verifyOtp = async (data: Otp) => {
     },
     body: JSON.stringify({
       otp: data.otp,
-      check: userIdentifier,
+      userIdentifier,
       verificationKey: otpVerificationKey,
     }),
   });
