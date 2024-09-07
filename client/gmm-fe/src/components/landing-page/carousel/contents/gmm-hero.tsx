@@ -65,7 +65,7 @@ export default async function GMMHero() {
           <div className="flex gap-4 ">
             {session ? (
               <Link
-                href={session.user.age != null ? `/${locale}/registration` : `/${locale}/dashboard`}
+                href={session.user.age == null ? `/${locale}/registration` : `/${locale}/dashboard`}
                 className={cn(
                   buttonVariants({ variant: 'default' }),
                   'font-bold px-14'
