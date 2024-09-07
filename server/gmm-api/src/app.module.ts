@@ -12,13 +12,14 @@ import { OTPModule } from '@modules/otp/otp.module';
 import { PaymentsModule } from '@modules/payment/payment.module';
 import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { StorageModule } from '@modules/storage/storage.module';
+import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
 
 @Module({
   imports: [
     // set the env file path from NODE_ENV
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
+      // envFilePath: `.env.${process.env.NODE_ENV}`,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -47,6 +48,7 @@ import { StorageModule } from '@modules/storage/storage.module';
     PaymentsModule,
     DynamooseModule,
     StorageModule,
+    MatchMakingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
