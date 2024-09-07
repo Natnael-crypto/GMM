@@ -114,103 +114,103 @@ export class MatchMakingService {
         continue;
       }
 
-      if (preference.preferredAge !== undefined) {
+      if (preference.preferredAge) {
         if (user.age !== preference.preferredAge) {
           continue;
         }
       }
 
-      if (preference.minHeight !== undefined) {
+      if (preference.minHeight) {
         if (user.height < preference.minHeight) {
           continue;
         }
       }
 
-      if (preference.maxHeight !== undefined) {
+      if (preference.maxHeight) {
         if (user.height > preference.maxHeight) {
           continue;
         }
       }
 
-      if (preference.minWeight !== undefined) {
+      if (preference.minWeight) {
         if (user.weight < preference.minWeight) {
           continue;
         }
       }
 
-      if (preference.maxWeight !== undefined) {
+      if (preference.maxWeight) {
         if (user.weight > preference.maxWeight) {
           continue;
         }
       }
 
-      if (preference.nationality !== undefined) {
+      if (preference.nationality) {
         if (user.nationality !== preference.nationality) {
           continue;
         }
       }
 
-      if (preference.language !== undefined) {
+      if (preference.language) {
         if (!user.languages.includes(preference.language)) {
           continue;
         }
       }
 
-      if (preference.countryOfOrigin !== undefined) {
+      if (preference.countryOfOrigin) {
         if (user.countryOfOrigin !== preference.countryOfOrigin) {
           continue;
         }
       }
 
-      if (preference.martialStatus !== undefined) {
+      if (preference.martialStatus) {
         if (user.maritalStatus !== preference.martialStatus) {
           continue;
         }
       }
 
-      if (preference.salat !== undefined) {
+      if (preference.salat) {
         if (user.salat !== preference.salat) {
           continue;
         }
       }
 
-      if (preference.bornOrRevert !== undefined) {
+      if (preference.bornOrRevert) {
         if (user.bornOrRevertToIslam !== preference.bornOrRevert) {
           continue;
         }
       }
 
-      if (preference.hijab !== undefined) {
+      if (preference.hijab) {
         if (user.hijab !== preference.hijab) {
           continue;
         }
       }
 
-      if (preference.education !== undefined) {
+      if (preference.education) {
         if (user.education !== preference.education) {
           continue;
         }
       }
 
-      if (preference.profession !== undefined) {
+      if (preference.profession) {
         if (user.profession !== preference.profession) {
           continue;
         }
       }
 
-      if (preference.drinking !== undefined) {
+      if (preference.drinking != null || preference.drinking != undefined) {
         if (user.drinks !== preference.drinking) {
           continue;
         }
       }
 
-      if (preference.smoking !== undefined) {
+      if (preference.smoking != null || preference.smoking != undefined) {
         if (user.smokes !== preference.smoking) {
           continue;
         }
       }
 
-      if (preference.tattoos !== undefined) {
+      if (preference.tattoos != null || preference.tattoos != undefined) {
         if (user.tattoos !== preference.tattoos) {
           continue;
         }
