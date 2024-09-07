@@ -43,7 +43,7 @@ export class MatchMakingController {
     return await this.matchmakingService.getMatches((req.user as User).id);
   }
 
-  @Get(':id')
+  @Get('matches/:id')
   async getMatch(@Param('id') id: string) {
     return await this.matchmakingService.getMatch(id);
   }

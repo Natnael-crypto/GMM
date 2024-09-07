@@ -75,6 +75,7 @@ export class MatchMakingService {
   async getMatches(userId: string): Promise<Match[]> {
     return await this.matchRepository.find({
       where: [{ maleUserId: userId }, { femaleUserId: userId }],
+      relations: ['maleUser', 'femaleUser'],
     });
   }
 
@@ -93,6 +94,7 @@ export class MatchMakingService {
   async getMatch(matchId: string): Promise<Match> {
     const match = await this.matchRepository.findOne({
       where: { id: matchId },
+      relations: ['maleUser', 'femaleUser'],
     });
 
     if (!match) {
