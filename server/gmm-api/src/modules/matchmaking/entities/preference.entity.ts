@@ -11,7 +11,10 @@ export class Preference {
   user: User;
 
   @Column({ nullable: true })
-  preferredAge: number;
+  minAge: number;
+
+  @Column({ nullable: true })
+  maxAge: number;
 
   @Column({ nullable: true })
   minHeight: number;

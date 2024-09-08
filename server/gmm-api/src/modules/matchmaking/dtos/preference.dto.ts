@@ -2,10 +2,15 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdatePreferenceDto {
+  @ApiProperty({ example: 23 })
+  @IsNumber()
+  @IsOptional()
+  minAge?: number;
+
   @ApiProperty({ example: 25 })
   @IsNumber()
   @IsOptional()
-  preferredAge?: number;
+  maxAge?: number;
 
   @ApiProperty({ example: 160 })
   @IsNumber()

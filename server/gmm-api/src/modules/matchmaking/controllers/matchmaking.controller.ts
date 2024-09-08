@@ -50,9 +50,7 @@ export class MatchMakingController {
 
   @Post()
   async createMatch(@Req() req: Request, @Res() response: Response) {
-    const match = await this.matchmakingService.createMatch(
-      (req.user as User).id,
-    );
+    const match = await this.matchmakingService.createMatch(req.user as User);
     return response.status(HttpStatus.CREATED).json({
       message: 'Match created successfully',
       data: match,

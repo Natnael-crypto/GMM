@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
 import { Match } from '../entities/match.entity';
 import { UserService } from '@modules/user/services/user.service';
+import { User } from '@modules/user/entities/user.entity';
 
 @Injectable()
 export class MatchMakingService {
@@ -42,9 +43,9 @@ export class MatchMakingService {
     return await this.preferenceRepository.save({ userId: id, ...data });
   }
 
-  async createMatch(userId: string) {
-    const potentialMatches = await this.filterUsersByPreference(userId);
-    const previousMatches = await this.getMatches(userId);
+  async createMatch(user: User) {
+    const potentialMatches = await this.filterUsersByPreference(user);
+    const previousMatches = await this.getMatches(user.id);
     const previousMatchIds = previousMatches.map((match) => match.femaleUserId);
 
     for (const match of previousMatches) {
@@ -63,7 +64,7 @@ export class MatchMakingService {
       }
 
       const newMatch = new Match();
-      newMatch.maleUserId = userId;
+      newMatch.maleUserId = user.id;
       newMatch.femaleUserId = match.id;
 
       return await this.matchRepository.save(newMatch);
@@ -104,20 +105,26 @@ export class MatchMakingService {
     return match;
   }
 
-  async filterUsersByPreference(userId: string) {
-    const preference = await this.getUserPreference(userId);
+  async filterUsersByPreference(origUser: User) {
+    const preference = await this.getUserPreference(origUser.id);
 
     const users = await this.userService.findAll();
 
     const matches: any[] = [];
 
     for (const user of users) {
-      if (user.id === userId) {
+      if (user.id === origUser.id || user.gender === origUser.gender) {
         continue;
       }
 
-      if (preference.preferredAge) {
-        if (user.age !== preference.preferredAge) {
+      if (preference.minAge) {
+        if (user.age < preference.minAge) {
+          continue;
+        }
+      }
+
+      if (preference.maxAge) {
+        if (user.age > preference.maxAge) {
           continue;
         }
       }
