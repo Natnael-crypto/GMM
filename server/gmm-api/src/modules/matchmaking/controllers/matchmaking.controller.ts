@@ -59,7 +59,7 @@ export class MatchMakingController {
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         message: 'Match not created successfully',
-        error,
+        error: error.message,
       });
     }
   }
