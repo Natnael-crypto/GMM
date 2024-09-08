@@ -13,7 +13,6 @@ import {
   UpdateExpectedIslamicLifestyle,
   UpdateMarriageDiscussion,
   UploadFileInfo,
-  UploadFile,
   UrlResponse,
 } from './types';
 import { User } from '../schemas/user';
@@ -22,6 +21,7 @@ import {
   IslamicLifestyle,
 } from '../schemas/islamic-lifestyle';
 import { MarriageDiscussion } from '../schemas/marriage-discussion';
+import { Preference } from '../schemas/preference';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -58,6 +58,20 @@ export const userApi = createApi({
       },
       invalidatesTags(result, error, arg, meta) {
         return [{ type: 'User', id: arg.id }];
+      },
+    }),
+
+    updatePreference: builder.mutation<Preference, Preference>({
+      query: (preference) => ({
+        url: `matchmaking/preference`,
+        method: 'PUT',
+        body: preference,
+      }),
+      transformResponse: (response: BaseResponse<Preference>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'User' }];
       },
     }),
 
@@ -233,6 +247,7 @@ export const userApi = createApi({
 });
 
 export const {
+  useUpdatePreferenceMutation,
   useUpdateUserMutation,
   useGetWorldlyLifestyleQuery,
   useUpdateWorldlyLifestyleMutation,

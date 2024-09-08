@@ -1,72 +1,5 @@
-// export interface User {
-//   id: string;
-//   email: string;
-//   firstName?: string;
-//   lastName?: string;
-//   phone?: string;
-//   idCard?: string;
-//   guadianId?: string;
-//   age?: string;
-//   gender?: string;
-//   height?: string;
-//   weight?: string;
-//   country?: string;
-//   skinColor?: string;
-//   languages?: string;
-//   nationality?: string;
-//   city?: string;
-//   maritalStatus?: string;
-//   numberOfChildren?: string;
-//   ageOfOldestChild?: string;
-//   ageOfYoungestChild?: string;
-//   sunniMadhaib?: string;
-//   religiousPractice?: string;
-//   bornMuslim?: string;
-//   drinks?: string;
-//   drugs?: string;
-//   smokes?: string;
-//   tattoos?: string;
-//   pictures?: string;
-//   video?: string;
-//   role?: string;
-// }
-// {
-//   "email": "string",
-//   "firstName": "string",
-//   "lastName": "string",
-//   "phone": "string",
-//   "password": "string",
-//   "idCard": "string",
-//   "guadianId": "string",
-//   "age": 30,
-//   "gender": "string",
-//   "height": 180,
-//   "weight": 75,
-//   "country": "string",
-//   "skinColor": "string",
-//   "languages": [
-//     "string"
-//   ],
-//   "nationality": "string",
-//   "city": "string",
-//   "maritalStatus": "string",
-//   "numberOfChildren": 2,
-//   "ageOfOldestChild": 10,
-//   "ageOfYoungestChild": 5,
-//   "sunniMadhaib": "string",
-//   "religiousPractice": "string",
-//   "bornMuslim": true,
-//   "drinks": true,
-//   "drugs": true,
-//   "smokes": true,
-//   "tattoos": true,
-//   "pictures": [
-//     "string"
-//   ],
-//   "video": "string"
-// }
-
 import { z } from 'zod';
+import { preferenceSchema, Preference } from './preference';
 
 export const userSchema = z
   .object({
@@ -257,6 +190,8 @@ export const userSchema = z
       })
       .default('')
       .optional(),
+
+    preference: preferenceSchema.optional().nullable(),
   })
   .required();
 
