@@ -13,6 +13,7 @@ import { PaymentsModule } from '@modules/payment/payment.module';
 import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { StorageModule } from '@modules/storage/storage.module';
 import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
+import { ChatModule } from '@modules/chat/chat.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
     DynamooseModule,
     StorageModule,
     MatchMakingModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
