@@ -8,7 +8,6 @@ import Loading from '@/components/ui/loading';
 export default function MatchMeCard() {
   const { onSave, isSaving } = useUpdateProfileContext();
 
-  console.log(isSaving)
 
   return (
     <div className="flex flex-col justify-center items-center rounded-se-3xl rounded-es-3xl overflow-hidden bg-primary text-primary-foreground aspect-square p-5 group hover:bg-secondary hover:text-secondary-foreground cursor-pointer">

@@ -51,11 +51,10 @@ export const matchApi = createApi({
       },
     }),
 
-    createMatch: builder.mutation<Match, Match>({
-      query: (match) => ({
+    createMatch: builder.mutation<Match, undefined>({
+      query: () => ({
         url: 'matchmaking',
         method: 'POST',
-        body: match,
       }),
       transformResponse: (response: BaseResponse<Match>) => {
         return response.data;

@@ -20,6 +20,7 @@ import { useForm } from 'react-hook-form';
 import { useUpdateProfileContext } from '../profile/update-profile-context';
 import { toast } from '@/components/ui/use-toast';
 import { setUser } from '@/lib/auth/slice';
+import { useCreateMatchMutation } from '@/lib/matchmaking/api';
 
 
 export default function MatchPreferenceFilter() {
@@ -82,10 +83,11 @@ export default function MatchPreferenceFilter() {
   }, [preferenceFormRef, registerForm]);
 
   const [updatePreference, updateResult] = useUpdatePreferenceMutation()
+  const [createMatch, createResult] = useCreateMatchMutation()
 
   useEffect(() => {
-    setSaving(updateResult.isLoading);
-  }, [updateResult, setSaving])
+    setSaving(updateResult.isLoading || createResult.isLoading);
+  }, [updateResult, createResult, setSaving])
 
   useEffect(() => {
     if (updateResult.isSuccess) {
@@ -94,11 +96,21 @@ export default function MatchPreferenceFilter() {
         description: 'Preference updated successfully',
       });
       dispatch(setUser({ ...user, preference: updateResult.data }));
+      createMatch(undefined);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateResult, dispatch])
 
-  console.log(form.formState.errors)
+  useEffect(() => {
+    if (createResult.isSuccess) {
+      toast({
+        title: 'Success',
+        description: 'Match created successfully',
+      });
+    }
+  }, [createResult])
+
 
 
   const onSubmit = (data: Preference) => {
@@ -141,7 +153,6 @@ export default function MatchPreferenceFilter() {
   const isSmokingAny = form.watch('smoking') === ('' as unknown as boolean)
   const isTattooAny = form.watch('tattoos') === ('' as unknown as boolean)
 
-  console.log(user)
 
   return (
     <Form {...form}>
