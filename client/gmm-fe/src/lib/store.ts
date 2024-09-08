@@ -5,12 +5,14 @@ import authReducer from './auth/slice';
 import { authApi } from './auth/api';
 import { checkoutApi } from './checkout/api';
 import { userApi } from './user/api';
+import { matchApi } from './matchmaking/api';
 
 const reducer = combineReducers({
   auth: authReducer,
   [authApi.reducerPath]: authApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [checkoutApi.reducerPath]: checkoutApi.reducer,
+  [matchApi.reducerPath]: matchApi.reducer,
 });
 
 export const makeStore = () => {
@@ -20,7 +22,8 @@ export const makeStore = () => {
       getDefaultMiddleware().concat(
         authApi.middleware,
         checkoutApi.middleware,
-        userApi.middleware
+        userApi.middleware,
+        matchApi.middleware
       ),
   });
 };
