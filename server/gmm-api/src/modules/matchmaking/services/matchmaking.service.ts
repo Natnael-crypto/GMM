@@ -159,7 +159,7 @@ export class MatchMakingService {
         }
       }
 
-      if (preference.language) {
+      if (preference.language && user.languages) {
         if (!user.languages.includes(preference.language)) {
           continue;
         }
