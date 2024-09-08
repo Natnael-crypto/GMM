@@ -63,6 +63,20 @@ export class UserService implements EmailLists {
     );
   }
 
+  async getUserById(id: string) {
+    try {
+
+    
+      const user = await this.userRepository.findOne({where: {id}});
+      if (!user) {
+          throw new NotFoundException(`User with ID ${id} not found`);
+      }
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async create(createUserDto: UserDto) {
     return this.userRepository.save({
       ...createUserDto,
