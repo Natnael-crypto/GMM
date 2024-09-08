@@ -1,3 +1,4 @@
+import { User } from '@/lib/schemas/user';
 import {
   faLocationDot,
   faUpDown,
@@ -7,11 +8,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import React from 'react';
 
-export default function ProfileDescription() {
+export default function ProfileDescription({ user }: { user: User }) {
   return (
     <div className="w-full h-full rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted p-5 space-y-3">
       <h1 className="text-xl font-bold text-muted-foreground">
-        Muzaffar <span className="text-sm">(35)</span>
+        {user.firstName} {user.lastName} <span className="text-sm">(35)</span>
       </h1>
 
       <div className="space-y-2 font-thin">
@@ -23,27 +24,27 @@ export default function ProfileDescription() {
             src={`/icons/lang/en.svg`}
             alt="Language Flag"
           />
-          <span>Pakistani Nationality / Passport</span>
+          <span>{user.nationality} Nationality / Passport</span>
         </p>
         <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
           <span>
             <FontAwesomeIcon icon={faLocationDot} />
           </span>
-          <span>Toronto, Canada</span>
+          <span>{user.city}, {user.country}</span>
         </p>
 
         <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
           <span>
             <FontAwesomeIcon icon={faUpDown} />
           </span>
-          <span>5&apos; 17&quot; (171 cm)</span>
+          <span>{user.height} cm</span>
         </p>
 
         <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
           <span>
             <FontAwesomeIcon icon={faWeightScale} />
           </span>
-          <span>90 kg (198 lb)</span>
+          <span>{user.weight} kg </span>
         </p>
       </div>
     </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useAppSelector } from '@/lib/hooks';
+import { User } from '@/lib/schemas/user';
 import {
   faLanguage,
   faLocationDot,
@@ -17,8 +18,7 @@ const languages: Record<string, string> = {
   "HN": "Hindu"
 }
 
-export default function BasicInformationCard() {
-  const user = useAppSelector((state) => state.auth.user);
+export default function BasicInformationCard({ user }: { user: User }) {
 
   return (
     <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 divide-y text-sm">
