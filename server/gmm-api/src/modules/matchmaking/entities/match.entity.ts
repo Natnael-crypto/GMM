@@ -17,7 +17,7 @@ export class Match {
   maleUserId: string;
 
   @ManyToOne(() => User, (user) => user.matchesAsMale, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'userId' })
+  @JoinColumn({ name: 'maleUserId' })
   maleUser: User;
 
   @Column()
