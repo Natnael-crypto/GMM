@@ -12,7 +12,10 @@ import { OTPModule } from '@modules/otp/otp.module';
 import { PaymentsModule } from '@modules/payment/payment.module';
 import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { StorageModule } from '@modules/storage/storage.module';
+<<<<<<< Updated upstream
 import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
+=======
+>>>>>>> Stashed changes
 import { ChatModule } from '@modules/chat/chat.module';
 
 @Module({
@@ -49,7 +52,10 @@ import { ChatModule } from '@modules/chat/chat.module';
     PaymentsModule,
     DynamooseModule,
     StorageModule,
+<<<<<<< Updated upstream
     MatchMakingModule,
+=======
+>>>>>>> Stashed changes
     ChatModule,
   ],
   controllers: [AppController],
