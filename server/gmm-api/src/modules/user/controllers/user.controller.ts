@@ -1,6 +1,18 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Req, UseGuards, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Put,
+  Delete,
+  Param,
+  Body,
+  Req,
+  UseGuards,
+  NotFoundException,
+  UnauthorizedException,
+  Query,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
@@ -15,20 +27,30 @@ import { UserMarriageDiscussionDto } from '../dtos/user-marriage-discussion.dto'
 import { UserOptionalVerifiableDto } from '../dtos/user-optional-verifiable.dto';
 import { UserFamilyIntroductionDto } from '../dtos/user-family-introduction-dto';
 
-
 @ApiTags('User')
 @ApiBearerAuth()
 @Controller('users')
 export class UserController {
-  
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-    private readonly userService: UserService
-) {}
+    private readonly userService: UserService,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getUsers() {
+  @ApiQuery({ name: 'email', required: false })
+  async getUsers(@Query('email') email: string) {
+    if (email) {
+      const user = await this.userRepository.findOne({ where: { email } });
+      if (!user) {
+        throw new NotFoundException('User not found');
+      }
+      return {
+        message: 'User retrieved successfully',
+        data: user,
+      };
+    }
+
     const users = await this.userRepository.find();
 
     return {
@@ -40,13 +62,11 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Get('me')
   async getMe(@Req() req: Request & { user: any }) {
-    console.log(req.user);
     if (!req.user || !req.user.id) {
-      
       throw new UnauthorizedException('Invalid user');
     }
     const userId = req.user.id;
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.userService.getUserById(userId);
 
     return {
       message: 'User retrieved successfully',
@@ -79,7 +99,9 @@ export class UserController {
 
     // check if email already exists
     if (userDto.email) {
-      const emailExists = await this.userRepository.findOne({ where: { email: userDto.email } });
+      const emailExists = await this.userRepository.findOne({
+        where: { email: userDto.email },
+      });
       if (emailExists && emailExists.id !== id) {
         throw new UnauthorizedException('Email already exists');
       }
@@ -101,7 +123,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async deleteUser(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id} });
+    const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -134,7 +156,10 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateDto: UserWorldlyLifestyleDto,
   ) {
-    const updatedLifestyle = await this.userService.updateWorldlyLifestyle(id, updateDto);
+    const updatedLifestyle = await this.userService.updateWorldlyLifestyle(
+      id,
+      updateDto,
+    );
     return {
       message: 'Worldly lifestyle updated successfully',
       data: updatedLifestyle,
@@ -149,9 +174,12 @@ export class UserController {
       throw new NotFoundException('User not found');
     }
 
-    const expectedWorldyLifestyle = await this.userService.getExpectedWorldyLifestyle(id);
+    const expectedWorldyLifestyle =
+      await this.userService.getExpectedWorldyLifestyle(id);
     if (!expectedWorldyLifestyle) {
-      throw new NotFoundException('Expected worldly lifestyle information not found');
+      throw new NotFoundException(
+        'Expected worldly lifestyle information not found',
+      );
     }
 
     return {
@@ -166,13 +194,13 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateDto: ExpectedWorldlyLifestyleDto,
   ) {
-    const updatedLifestyle = await this.userService.updateExpectedWorldlyLifestyle(id, updateDto);
+    const updatedLifestyle =
+      await this.userService.updateExpectedWorldlyLifestyle(id, updateDto);
     return {
       message: 'Expected worldly lifestyle updated successfully',
       data: updatedLifestyle,
     };
   }
-
 
   @UseGuards(JwtAuthGuard)
   @Get(':id/islamic-lifestyle')
@@ -199,7 +227,10 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateDto: UserIslamicLifestyleDto,
   ) {
-    const updatedLifestyle = await this.userService.updateIslamicLifestyle(id, updateDto);
+    const updatedLifestyle = await this.userService.updateIslamicLifestyle(
+      id,
+      updateDto,
+    );
     return {
       message: 'Islamic lifestyle updated successfully',
       data: updatedLifestyle,
@@ -214,9 +245,12 @@ export class UserController {
       throw new NotFoundException('User not found');
     }
 
-    const expectedIslamicLifestyle = await this.userService.getExpectedIslamicLifestyle(id);
+    const expectedIslamicLifestyle =
+      await this.userService.getExpectedIslamicLifestyle(id);
     if (!expectedIslamicLifestyle) {
-      throw new NotFoundException('Expected Islamic lifestyle information not found');
+      throw new NotFoundException(
+        'Expected Islamic lifestyle information not found',
+      );
     }
 
     return {
@@ -231,7 +265,8 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateDto: ExpectedIslamicLifestyleDto,
   ) {
-    const updatedLifestyle = await this.userService.updateExpectedIslamicLifestyle(id, updateDto);
+    const updatedLifestyle =
+      await this.userService.updateExpectedIslamicLifestyle(id, updateDto);
     return {
       message: 'Expected Islamic lifestyle updated successfully',
       data: updatedLifestyle,
@@ -248,7 +283,9 @@ export class UserController {
 
     const marriageDiscussion = await this.userService.getMarriageDiscussion(id);
     if (!marriageDiscussion) {
-      throw new NotFoundException('User Marriage Discussion information not found');
+      throw new NotFoundException(
+        'User Marriage Discussion information not found',
+      );
     }
 
     return {
@@ -263,7 +300,10 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateDto: UserMarriageDiscussionDto,
   ) {
-    const updatedDiscussion = await  this.userService.updateMarriageDiscussion(id, updateDto);
+    const updatedDiscussion = await this.userService.updateMarriageDiscussion(
+      id,
+      updateDto,
+    );
     return {
       message: 'Marriage Discussion updated successfully',
       data: updatedDiscussion,
@@ -280,7 +320,9 @@ export class UserController {
 
     const optionalVerifiable = await this.userService.getOptionalVerifiable(id);
     if (!optionalVerifiable) {
-      throw new NotFoundException('User Optional Verifiable information not found');
+      throw new NotFoundException(
+        'User Optional Verifiable information not found',
+      );
     }
 
     return {
@@ -295,7 +337,10 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateDto: UserOptionalVerifiableDto,
   ) {
-    const updatedVerifiable = await this.userService.updateOptionalVerifiable(id, updateDto);
+    const updatedVerifiable = await this.userService.updateOptionalVerifiable(
+      id,
+      updateDto,
+    );
     return {
       message: 'User Optional Verifiable updated successfully',
       data: updatedVerifiable,
@@ -312,7 +357,9 @@ export class UserController {
 
     const family = await this.userService.getFamilyIntroduction(id);
     if (!family) {
-      throw new NotFoundException('User Family Introduction information not found');
+      throw new NotFoundException(
+        'User Family Introduction information not found',
+      );
     }
 
     return {
@@ -327,7 +374,10 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateDto: UserFamilyIntroductionDto,
   ) {
-    const updatedFamily = await this.userService.updateFamilyIntroduction(id, updateDto);
+    const updatedFamily = await this.userService.updateFamilyIntroduction(
+      id,
+      updateDto,
+    );
     return {
       message: 'User Family Introduction updated successfully',
       data: updatedFamily,

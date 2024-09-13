@@ -1,4 +1,10 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { EmailLists } from '@shared/config';
 import { EMAIL_LISTS_ID } from '../user.module';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -65,11 +71,12 @@ export class UserService implements EmailLists {
 
   async getUserById(id: string) {
     try {
-
-    
-      const user = await this.userRepository.findOne({where: {id}});
+      const user = await this.userRepository.findOne({
+        where: { id },
+        relations: ['sentRequests', 'receivedRequests', 'guardian'],
+      });
       if (!user) {
-          throw new NotFoundException(`User with ID ${id} not found`);
+        throw new NotFoundException(`User with ID ${id} not found`);
       }
       return user;
     } catch (error) {
