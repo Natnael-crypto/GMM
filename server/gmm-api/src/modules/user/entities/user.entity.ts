@@ -6,7 +6,16 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   OneToOne,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+import { GuardianRequest } from './guardian-request.entity';
+
+export enum AccountType {
+  USER = 'USER',
+  GUARDIAN = 'GUARDIAN',
+  ADMIN = 'ADMIN',
+}
 
 @Entity()
 export class User {
@@ -27,6 +36,13 @@ export class User {
 
   @Column({ nullable: true })
   password: string;
+
+  @Column({
+    type: 'enum',
+    enum: AccountType,
+    default: AccountType.USER,
+  })
+  accountType: AccountType;
 
   @Column({ nullable: true })
   idCardImage: string;
@@ -104,7 +120,17 @@ export class User {
   tattoos: boolean;
 
   @Column({ nullable: true })
-  guadianId: string;
+  guardianId: string | null;
+
+  @ManyToOne(() => User, (user) => user.id, {
+    onDelete: 'CASCADE',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'guardianId' })
+  guardian: User | null;
+
+  @OneToMany(() => User, (user) => user.guardian, { onDelete: 'CASCADE' })
+  dependents: User[];
 
   @OneToMany(() => Match, (match) => match.maleUser, { onDelete: 'CASCADE' })
   matchesAsMale: Match[];
@@ -117,4 +143,15 @@ export class User {
     eager: true,
   })
   preference: Preference;
+
+  @OneToMany(() => GuardianRequest, (req) => req.user, { onDelete: 'CASCADE' })
+  sentRequests: GuardianRequest[];
+
+  @OneToMany(() => GuardianRequest, (req) => req.guardian, {
+    onDelete: 'CASCADE',
+  })
+  receivedRequests: GuardianRequest[];
+
+  @Column({ nullable: true })
+  createdAt: Date;
 }
