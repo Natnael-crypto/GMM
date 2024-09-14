@@ -1,19 +1,32 @@
 import * as dynamoose from "dynamoose";
 
 const MessageSchema = new dynamoose.Schema({
-    roomId: {
-      type: String,
-      hashKey: true,
-    },
-    order: {
-      type: Number,
-      rangeKey: true,
-    },
-    socketId: String,
-    username: String,
-    content: String,
-    createdAt: Date,
-  });
+  id: {
+    type: String,
+    hashKey: true,
+  },
+  roomId: {
+    type: String,
+    required: true,
+  },
+  senderId: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  contentType: {
+    type: String,
+    required: true,
+  },
+  sentAt: {
+    type: Date,
+    required: true,
+  }
+}, {
+  timestamps: true
+});
 
 export const MessageModel = dynamoose.model('Messages', MessageSchema);
-

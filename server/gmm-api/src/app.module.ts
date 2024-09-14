@@ -14,6 +14,7 @@ import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { StorageModule } from '@modules/storage/storage.module';
 import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
 import { ChatModule } from '@modules/chat/chat.module';
+import { ChatWebsocketGateway } from '@modules/chat/services/chat.websocket.gateway';
 
 @Module({
   imports: [
@@ -53,7 +54,7 @@ import { ChatModule } from '@modules/chat/chat.module';
     ChatModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ChatWebsocketGateway],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

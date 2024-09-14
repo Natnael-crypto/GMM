@@ -5,6 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { NoticeInterceptor } from '@shared/interceptors/notice.interceptor';
 import { ConfigService } from '@nestjs/config';
+import { IoAdapter } from '@nestjs/platform-socket.io';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -24,6 +25,8 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: '*',
   });
+
+  app.useWebSocketAdapter(new IoAdapter(app));
   
 
   const config = new DocumentBuilder()

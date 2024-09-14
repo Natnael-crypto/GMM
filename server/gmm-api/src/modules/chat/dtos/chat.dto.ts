@@ -24,7 +24,7 @@ export class MessageDto {
 
     @ApiProperty({ example: 'chat_123', description: 'The ID of the chat the message belongs to' })
     @IsNotEmpty()
-    chatId: string;
+    roomId: string;
 
     @ApiProperty({ example: 'user_123', description: 'The ID of the sender of the message' })
     @IsNotEmpty()

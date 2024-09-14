@@ -4,11 +4,12 @@ import { ChatController } from './controllers/chat.controller';
 import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { UserService } from '@modules/user/services/user.service';
 import { UserModule } from '@modules/user/user.module';
+import { AuthModule } from '@modules/auth/auth.module';
 
 
 @Module({
-    imports: [UserModule],
-    providers: [ChatService, DynamooseModule, UserService ],
+    imports: [UserModule, AuthModule],
+    providers: [ChatService, DynamooseModule, UserService],
     controllers: [ChatController],
     exports: [ChatService],
 })

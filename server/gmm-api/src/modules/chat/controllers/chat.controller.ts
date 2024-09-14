@@ -6,13 +6,18 @@ import {
     Param,
     ParseIntPipe,
     Query,
-    HttpCode, Post, ForbiddenException, Body
+    HttpCode, Post, ForbiddenException, Body,
+    UseGuards,
+    Req
 } from "@nestjs/common";
 import { ChatService } from "../services/chat.service";
 import { InitiateChatDto, MessageDto, ChatDto } from "../dtos/chat.dto";
 import { ApiVersion } from "@shared/types/version";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { JwtAuthGuard } from "@modules/auth/guards/jwt-auth.guard";
 
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @ApiTags('chats')
 @Controller({ version: ApiVersion.V1, path: 'chats' })
 export class ChatController {
@@ -29,8 +34,11 @@ export class ChatController {
     
     @Post()
     @HttpCode(201)
-    async initiateChat(@Body() initiateChatDto: InitiateChatDto): Promise<{ message: string, data: ChatDto }> {
-        const chat = await this.chatService.createChat(initiateChatDto);
+    async initiateChat(@Body() initiateChatDto: InitiateChatDto, @Req() req: Request): Promise<{ message: string, data: ChatDto }> {
+        const chat = await this.chatService.createChat(
+            initiateChatDto,
+            (req as unknown as any).user,
+        );
         return { message: 'Chat initiated successfully', data: chat };
     }
 
