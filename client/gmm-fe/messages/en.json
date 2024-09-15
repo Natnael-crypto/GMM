@@ -257,7 +257,9 @@
 
         "guardianInformation": {
           "fullName": "Guardian's Full Name",
-          "relationship": "Relationship to You"
+          "relationship": "Relationship to You",
+          "phoneNumber": "Guardian's Phone Number",
+          "email": "Guardian's Email"
         },
         "idVerification": {
           "title": "Your ID Verification",

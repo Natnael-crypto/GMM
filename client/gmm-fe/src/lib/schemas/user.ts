@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { preferenceSchema, Preference } from './preference';
 
-export const userSchema = z
+export const baseUserSchema = z
   .object({
     id: z.string(),
     email: z
@@ -194,5 +194,9 @@ export const userSchema = z
     preference: preferenceSchema.optional().nullable(),
   })
   .required();
+
+export const userSchema = baseUserSchema.extend({
+  guardian: baseUserSchema.optional().nullable(),
+});
 
 export type User = z.infer<typeof userSchema>;

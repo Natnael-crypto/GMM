@@ -14,6 +14,7 @@ import {
   UpdateMarriageDiscussion,
   UploadFileInfo,
   UrlResponse,
+  UpdateFamilyIntroduction,
 } from './types';
 import { User } from '../schemas/user';
 import {
@@ -22,6 +23,7 @@ import {
 } from '../schemas/islamic-lifestyle';
 import { MarriageDiscussion } from '../schemas/marriage-discussion';
 import { Preference } from '../schemas/preference';
+import { FamilyIntroduction } from '../schemas/family-introduction';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -33,6 +35,7 @@ export const userApi = createApi({
     'IslamicLifestyle',
     'ExpectedIslamicLifestyle',
     'MarriageDiscussion',
+    'FamilyIntroduction',
   ],
 
   baseQuery: fetchBaseQuery({
@@ -216,6 +219,33 @@ export const userApi = createApi({
       },
     }),
 
+    getFamilyIntroduction: builder.query<FamilyIntroduction, string>({
+      query: (id) => `users/${id}/family-introduction`,
+      transformResponse: (response: BaseResponse<FamilyIntroduction>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'FamilyIntroduction', id: arg }];
+      },
+    }),
+
+    updateFamilyIntroduction: builder.mutation<
+      FamilyIntroduction,
+      UpdateFamilyIntroduction
+    >({
+      query: ({ userId, familyIntroduction }) => ({
+        url: `users/${userId}/family-introduction`,
+        method: 'PUT',
+        body: familyIntroduction,
+      }),
+      transformResponse: (response: BaseResponse<FamilyIntroduction>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'FamilyIntroduction', id: arg.userId }];
+      },
+    }),
+
     createUploadUrl: builder.mutation<UrlResponse, UploadFileInfo>({
       query: (fileInfo) => ({
         url: 'storage/presigned-url',
@@ -259,6 +289,8 @@ export const {
   useUpdateExpectedIslamicLifestyleMutation,
   useGetMarriageDiscussionQuery,
   useUpdateMarriageDiscussionMutation,
+  useGetFamilyIntroductionQuery,
+  useUpdateFamilyIntroductionMutation,
   useCreateUploadUrlMutation,
   useCreateDownloadUrlMutation,
   useGetDownloadUrlQuery,

@@ -1,3 +1,4 @@
+import { FamilyIntroduction } from '../schemas/family-introduction';
 import {
   ExpectedIslamicLifestyle,
   IslamicLifestyle,
@@ -31,6 +32,11 @@ export interface UpdateExpectedIslamicLifestyle {
 export interface UpdateMarriageDiscussion {
   userId: string;
   marriageDiscussion: MarriageDiscussion;
+}
+
+export interface UpdateFamilyIntroduction {
+  userId: string;
+  familyIntroduction: FamilyIntroduction;
 }
 
 export interface UploadFileInfo {
