@@ -363,7 +363,7 @@ export class UserService implements EmailLists {
       await this.noticeService.sendEmail(
         updateDto.guardianEmail,
         'Guardian Request',
-        `You have a new guardian request from ${user.firstName} ${user.lastName}. Please <a href="${updateDto.guardianIdCard}">register/login</a> to your account to accept or reject the request.`,
+        `You have a new guardian request from ${user.firstName} ${user.lastName}. Please <a href="${process.env.CLIENTAUTHSUCCESSURL?.slice(0, process.env.CLIENTAUTHSUCCESSURL.length - 8)}guardian-registration">register/login</a> to your account to accept or reject the request.`,
       );
     }
 
