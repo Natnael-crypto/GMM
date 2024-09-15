@@ -9,19 +9,29 @@ import { GuardianRequest } from './entities/guardian-request.entity';
 import { GuardianController } from './controllers/guardian.controller';
 import { GuardianService } from './services/guardian.service';
 import { NoticeModule } from '@modules/notice/notice.module';
+import { NoticeService } from '@modules/notice/services/notice.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Match, Preference, GuardianRequest]),
-    NoticeModule.forRootAsync({
-      listsProvider: UserService,
-      listsImports: [UserModule],
-      envTransport: 'EMAIL_SMTP_CONNECTION',
-      from: 'betabravah@gmail.com',
-    }),
+    NoticeModule,
   ],
   controllers: [UserController, GuardianController],
-  providers: [UserService, GuardianService],
+  providers: [
+    GuardianService,
+    NoticeService,
+    {
+      provide: 'EMAIL_LISTS_PROVIDER',
+      useValue: {
+        getList: async (emailListID: string) => {
+          // Logic to fetch email list by ID
+
+          return [];
+        },
+      },
+    },
+    UserService,
+  ],
   exports: [TypeOrmModule, UserService],
 })
 export class UserModule {}
