@@ -25,12 +25,14 @@ import { UserOptionalVerifiableModel } from '../entities/user-optional-verifiabl
 import { UserOptionalVerifiableDto } from '../dtos/user-optional-verifiable.dto';
 import { UserFamilyIntroductionModel } from '../entities/user-family-introduction.schema';
 import { UserFamilyIntroductionDto } from '../dtos/user-family-introduction-dto';
+import { NoticeService } from '@modules/notice/services/notice.service';
 
 @Injectable()
 export class UserService implements EmailLists {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly noticeService: NoticeService,
   ) {}
 
   async getList(id: string): Promise<string[]> {
@@ -352,6 +354,17 @@ export class UserService implements EmailLists {
     let family = await UserFamilyIntroductionModel.get(userId);
     if (!family) {
       family = new UserFamilyIntroductionModel({ id: userId });
+    }
+
+    if (
+      updateDto.guardianEmail &&
+      updateDto.guardianEmail !== user.guardian?.email
+    ) {
+      await this.noticeService.sendEmail(
+        updateDto.guardianEmail,
+        'Guardian Request',
+        `You have a new guardian request from ${user.firstName} ${user.lastName}. Please register/login to your account to accept or reject the request.`,
+      );
     }
 
     Object.assign(family, updateDto);
