@@ -17,9 +17,12 @@ import { ConfigService } from '@nestjs/config';
 import { randomUUID } from 'crypto';
 
 @WebSocketGateway({
-    transports: ['websocket', 'polling'],
-    cors: {origin: '*'}
-})
+    cors: {
+      origin: "*", // Or specify allowed origins
+      methods: ["GET", "POST"],
+      credentials: true
+    },
+  })
 export class ChatWebsocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
     constructor(
         private readonly jwtService: JwtService,
