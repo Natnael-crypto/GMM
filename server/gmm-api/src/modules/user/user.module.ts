@@ -8,10 +8,17 @@ import { Preference } from '@modules/matchmaking/entities/preference.entity';
 import { GuardianRequest } from './entities/guardian-request.entity';
 import { GuardianController } from './controllers/guardian.controller';
 import { GuardianService } from './services/guardian.service';
+import { NoticeModule } from '@modules/notice/notice.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Match, Preference, GuardianRequest]),
+    NoticeModule.forRootAsync({
+      listsProvider: UserService,
+      listsImports: [UserModule],
+      envTransport: 'EMAIL_SMTP_CONNECTION',
+      from: 'betabravah@gmail.com',
+    }),
   ],
   controllers: [UserController, GuardianController],
   providers: [UserService, GuardianService],
