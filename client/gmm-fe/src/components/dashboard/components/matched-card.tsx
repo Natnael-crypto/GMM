@@ -75,7 +75,7 @@ export default function MatchedCard({ user }: { user: User }) {
                         <div className='rounded-md bg-primary p-2 aspect-square text-primary-foreground flex items-center justify-center'><FontAwesomeIcon icon={faUser} /></div>
                         <span className='text-xs text-secondary font-bold'>View Profile</span>
                     </Link>
-                    <Link href="/chat" className='flex gap-4 items-center'>
+                    <Link href="/chat/1" className='flex gap-4 items-center'>
                         <div className='rounded-md bg-primary p-2 aspect-square text-primary-foreground flex items-center justify-center'><FontAwesomeIcon icon={faComment} /></div>
                         <span className='text-xs text-secondary font-bold'>Chat & Move to Step 2</span>
                     </Link>
