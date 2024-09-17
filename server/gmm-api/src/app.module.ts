@@ -1,4 +1,8 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  OnApplicationBootstrap,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -56,8 +60,14 @@ import { ChatWebsocketGateway } from '@modules/chat/services/chat.websocket.gate
   controllers: [AppController],
   providers: [AppService, ChatWebsocketGateway],
 })
-export class AppModule {
+export class AppModule implements OnApplicationBootstrap {
+  constructor(private readonly appService: AppService) {}
+
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+
+  async onApplicationBootstrap() {
+    await this.appService.seed();
   }
 }

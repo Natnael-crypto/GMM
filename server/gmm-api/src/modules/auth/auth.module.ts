@@ -12,9 +12,15 @@ import { UserService } from '@modules/user/services/user.service';
 import { OTPModule } from '@modules/otp/otp.module';
 import { OTPService } from '@modules/otp/services/otp.service';
 import { FacebookStrategy } from './strategies/facebook.strategy';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Permission } from './entities/permission.entity';
+import { Role } from './entities/role.entity';
+import { RoleService } from './services/role.service';
+import { RoleController } from './controllers/roles.controller';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([Permission, Role]),
     UserModule,
     JwtModule.registerAsync({
       inject: [ConfigService],
@@ -27,17 +33,25 @@ import { FacebookStrategy } from './strategies/facebook.strategy';
         };
       },
     }),
-    NoticeModule.forRootAsync({ 
+    NoticeModule.forRootAsync({
       listsProvider: UserService,
       listsImports: [UserModule],
       envTransport: 'EMAIL_SMTP_CONNECTION',
-      from: 'betabravah@gmail.com', 
+      from: 'betabravah@gmail.com',
     }),
-    OTPModule
+    OTPModule,
   ],
-  controllers: [AuthController],
-  providers: [AuthService, GoogleStrategy, FacebookStrategy, JwtStrategy, NoticeService, OTPService, JwtService ],
+  controllers: [AuthController, RoleController],
+  providers: [
+    AuthService,
+    GoogleStrategy,
+    FacebookStrategy,
+    JwtStrategy,
+    NoticeService,
+    OTPService,
+    JwtService,
+    RoleService,
+  ],
   exports: [AuthService, JwtService],
 })
-
 export class AuthModule {}

@@ -20,14 +20,13 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: '*', 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', 
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
     allowedHeaders: '*',
   });
 
   app.useWebSocketAdapter(new IoAdapter(app));
-  
 
   const config = new DocumentBuilder()
     .setTitle('Guardian / Wali Documentation')
@@ -42,8 +41,7 @@ async function bootstrap() {
 
   const noticeService = app.get(NoticeService);
   const reflector = app.get(Reflector);
-  app.useGlobalInterceptors(new NoticeInterceptor(noticeService,
-      reflector));
+  app.useGlobalInterceptors(new NoticeInterceptor(noticeService, reflector));
 
   await app.listen(port);
 }

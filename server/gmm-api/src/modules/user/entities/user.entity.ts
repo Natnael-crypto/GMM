@@ -10,12 +10,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { GuardianRequest } from './guardian-request.entity';
-
-export enum AccountType {
-  USER = 'USER',
-  GUARDIAN = 'GUARDIAN',
-  ADMIN = 'ADMIN',
-}
+import { Role } from '@modules/auth/entities/role.entity';
 
 @Entity()
 export class User {
@@ -36,13 +31,6 @@ export class User {
 
   @Column({ nullable: true })
   password: string;
-
-  @Column({
-    type: 'enum',
-    enum: AccountType,
-    default: AccountType.USER,
-  })
-  accountType: AccountType;
 
   @Column({ nullable: true })
   idCardImage: string;
@@ -123,35 +111,40 @@ export class User {
   guardianId: string | null;
 
   @ManyToOne(() => User, (user) => user.id, {
-    onDelete: 'CASCADE',
     nullable: true,
   })
   @JoinColumn({ name: 'guardianId' })
   guardian: User | null;
 
-  @OneToMany(() => User, (user) => user.guardian, { onDelete: 'CASCADE' })
+  @OneToMany(() => User, (user) => user.guardian)
   dependents: User[];
 
-  @OneToMany(() => Match, (match) => match.maleUser, { onDelete: 'CASCADE' })
+  @OneToMany(() => Match, (match) => match.maleUser)
   matchesAsMale: Match[];
 
-  @OneToMany(() => Match, (match) => match.femaleUser, { onDelete: 'CASCADE' })
+  @OneToMany(() => Match, (match) => match.femaleUser)
   matchesAsFemale: Match[];
 
   @OneToOne(() => Preference, (preference) => preference.user, {
-    onDelete: 'CASCADE',
     eager: true,
   })
   preference: Preference;
 
-  @OneToMany(() => GuardianRequest, (req) => req.user, { onDelete: 'CASCADE' })
+  @OneToMany(() => GuardianRequest, (req) => req.user)
   sentRequests: GuardianRequest[];
 
-  @OneToMany(() => GuardianRequest, (req) => req.guardian, {
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(() => GuardianRequest, (req) => req.guardian)
   receivedRequests: GuardianRequest[];
 
   @Column({ nullable: true })
   createdAt: Date;
+
+  @Column({ default: 'User' })
+  roleId: string;
+
+  @ManyToOne(() => Role, (role) => role.users, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'roleId' })
+  role: Role;
 }
