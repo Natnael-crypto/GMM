@@ -1,10 +1,4 @@
-import {
-  ConflictException,
-  Inject,
-  Injectable,
-  NotAcceptableException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { EmailLists } from '@shared/config';
 import { EMAIL_LISTS_ID } from '../user.module';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -91,6 +85,10 @@ export class UserService implements EmailLists {
       ...createUserDto,
       createdAt: new Date(),
     });
+  }
+
+  async updateUser(user: User) {
+    return await this.userRepository.save(user);
   }
 
   async getWorldyLifestyle(userId: string) {
