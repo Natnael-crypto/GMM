@@ -1,5 +1,5 @@
-import ProfileImages from '@/components/dashboard/components/profile-image-card';
 import { Button } from '@/components/ui/button';
+import { User } from '@/lib/schemas/user';
 import {
   faHome,
   faLocationDot,
@@ -11,8 +11,13 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import React from 'react';
+import { useAppSelector } from '@/lib/hooks'
+import { useGetDownloadUrlQuery } from '@/lib/user/api'
 
-export default function MatchProfile() {
+export default function MatchProfile({ matchedUser }: { matchedUser: User }) {
+  const user = useAppSelector((state) => state.auth.user);
+  const { data: imageUrl } = useGetDownloadUrlQuery(matchedUser?.pictures ? matchedUser?.pictures[0] : '', { skip: (!matchedUser?.pictures || !matchedUser?.pictures[0]) });
+
   return (
     <div className="h-full bg-[#f0f8f8] rounded-lg overflow-hidden">
       <h1 className="font-semibold text-primary-foreground bg-primary w-full text-center p-1">
@@ -21,18 +26,18 @@ export default function MatchProfile() {
 
       <div className="p-5 flex flex-col item-center justify-between h-full pb-12">
         <div className=" rounded-se-3xl rounded-es-3xl overflow-hidden h-[20rem]">
-          <Image
-            src="/temp/woman.webp"
+          {imageUrl && <Image
+            src={imageUrl}
             className="object-cover w-full h-[20rem] object-top"
             width={297}
             height={384}
             alt="Hero image"
-          />
+          />}
 
           <div className="relative">
             <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-transparent from-90%  to-muted-foreground"></div>
             <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
-              <h2 className="text-background font-semibold text-3xl">Zara</h2>
+              <h2 className="text-background font-semibold text-3xl">{matchedUser.firstName}</h2>
 
               <div className="space-y-2 font-thin">
                 <p className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-xs font-semibold px-2 shadow-lg">
@@ -43,13 +48,13 @@ export default function MatchProfile() {
                     src={`/icons/lang/en.svg`}
                     alt="Language Flag"
                   />
-                  <span>Pakistani Nationality / Passport</span>
+                  <span>{matchedUser.nationality} Nationality / Passport</span>
                 </p>
                 <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
                   <span>
                     <FontAwesomeIcon icon={faLocationDot} />
                   </span>
-                  <span>Toronto, Canada</span>
+                  <span>{matchedUser.city}, {matchedUser.country}</span>
                 </p>
 
                 <div className="flex gap-2">
@@ -57,13 +62,13 @@ export default function MatchProfile() {
                     <span>
                       <FontAwesomeIcon icon={faUpDown} />
                     </span>
-                    <span>5&apos; 17&quot; (171 cm)</span>
+                    <span>{matchedUser.height} cm</span>
                   </p>
                   <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
                     <span>
                       <FontAwesomeIcon icon={faWeightScale} />
                     </span>
-                    <span>90 kg (198 lb)</span>
+                    <span>{matchedUser.weight} kg </span>
                   </p>
                 </div>
               </div>

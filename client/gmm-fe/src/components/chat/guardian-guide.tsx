@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
+import { User } from '@/lib/schemas/user';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
-export default function GuardianGuide() {
+export default function GuardianGuide({ matchedUser }: { matchedUser: User }) {
   return (
     <div className="h-full bg-background rounded-lg overflow-hidden">
       <h1 className="font-semibold text-primary-foreground bg-secondary w-full text-center p-1">
@@ -20,7 +21,7 @@ export default function GuardianGuide() {
           </div>
 
           <p className="font-bold text-sm text-center px-10">
-            You are on [Step 1] with Zara from Pakistan
+            You are on [Step 1] with {matchedUser.firstName} from {matchedUser.country}
           </p>
 
           <div className="text-sm space-y-3 py-5 border-t">
