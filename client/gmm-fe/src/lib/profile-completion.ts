@@ -78,17 +78,47 @@ export const worldlyLifestyleCompletion = (
 };
 
 export const islamicLifestyleCompletion = (islamicLifestyle: any): number => {
-  return 0;
+  const fields = [
+    'salat',
+    'ramadan',
+    'fasting',
+    'zakat',
+    'food',
+    'islamAndCulture',
+    'islamicEducation',
+    'appearance',
+    'hajjAndUmrah',
+    'childrenAndUpbringing',
+  ];
+
+  return completionCalculator(fields, islamicLifestyle);
 };
 
 export const marriageDiscussionCompletion = (
   marriageDiscussion: any
 ): number => {
-  return 0;
+  const fields = [
+    'marriageType',
+    'marriageLocation',
+    'marriageVenue',
+    'marriageTimeline',
+    'familyInMarriageDiscussion',
+    'dowry',
+    'weddingBudget',
+  ];
+
+  return completionCalculator(fields, marriageDiscussion);
 };
 
 export const familyIntroductionCompletion = (
   familyIntroduction: any
 ): number => {
-  return 0;
+  const fields = [
+    'guardianFullName',
+    'relationshipToGuardian',
+    'guardianPhoneNumber',
+    'guardianEmail',
+  ];
+
+  return completionCalculator(fields, familyIntroduction);
 };
