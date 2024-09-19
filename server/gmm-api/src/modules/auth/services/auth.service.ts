@@ -156,6 +156,7 @@ export class AuthService {
 
     return this.generateJwt({
       sub: userExists.email,
+      id: userExists.id,
       email: userExists.email,
       name: userExists.firstName + ' ' + userExists.lastName,
     });

@@ -66,6 +66,10 @@ export class UserService implements EmailLists {
   }
 
   async getUserById(id: string) {
+    if (!id) {
+      throw new NotFoundException('User ID is required');
+    }
+
     try {
       const user = await this.userRepository.findOne({
         where: { id },

@@ -23,8 +23,6 @@ export class PermissionGuard implements CanActivate {
 
     const user: User = request.user;
 
-    console.log(user);
-
     if (!user.role.permissions) {
       return false;
     }

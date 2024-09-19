@@ -160,8 +160,6 @@ export class GuardianService {
       throw new ConflictException('User already has a guardian');
     }
 
-    console.log('user:guardian', user, guardian);
-
     user.guardian = guardian;
     return await this.userRepository.save(user);
   }
