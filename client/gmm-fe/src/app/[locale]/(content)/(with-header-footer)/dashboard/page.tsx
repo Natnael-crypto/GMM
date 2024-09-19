@@ -20,9 +20,7 @@ export default function Dashboard() {
 
   const user = useAppSelector((state) => state.auth.user)
 
-  const { data: currentMatch } = useGetCurrentMatchQuery(undefined, {
-    skip: !user,
-  })
+  const { data: currentMatch } = useGetCurrentMatchQuery(undefined, { skip: !user })
 
   return (
     <UpdateProfileProvider autoSave={false}>
@@ -31,7 +29,7 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-7">
-            {isAccountApproved ? (currentMatch ? <MatchedCard user={user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser} /> : <NoMatchCard />) : <PendingApprovalMessage />}
+            {isAccountApproved ? (currentMatch ? <MatchedCard matchedUser={user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser} /> : <NoMatchCard />) : <PendingApprovalMessage />}
           </div>
           <div className="col-span-5">
             <ProfileCompletionCard />
