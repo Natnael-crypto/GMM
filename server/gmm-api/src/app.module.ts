@@ -19,6 +19,8 @@ import { StorageModule } from '@modules/storage/storage.module';
 import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
 import { ChatModule } from '@modules/chat/chat.module';
 import { ChatWebsocketGateway } from '@modules/chat/services/chat.websocket.gateway';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+
 
 @Module({
   imports: [
@@ -42,6 +44,7 @@ import { ChatWebsocketGateway } from '@modules/chat/services/chat.websocket.gate
       }),
       inject: [ConfigService],
     }),
+    EventEmitterModule.forRoot(),
     UserModule,
     AuthModule,
     NoticeModule.forRootAsync({

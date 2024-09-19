@@ -9,7 +9,6 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { GuardianRequest } from './guardian-request.entity';
 import { Role } from '@modules/auth/entities/role.entity';
 
 @Entity()
@@ -129,12 +128,6 @@ export class User {
     eager: true,
   })
   preference: Preference;
-
-  @OneToMany(() => GuardianRequest, (req) => req.user)
-  sentRequests: GuardianRequest[];
-
-  @OneToMany(() => GuardianRequest, (req) => req.guardian)
-  receivedRequests: GuardianRequest[];
 
   @Column({ nullable: true })
   createdAt: Date;

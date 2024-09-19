@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotAcceptableException,
   NotFoundException,
@@ -7,26 +8,32 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
-import { GuardianRequest } from '../entities/guardian-request.entity';
+import {
+  GuardianRequest,
+  GuardianRequestStatus,
+} from '../entities/guardian-request.entity';
+import { NoticeService } from '@modules/notice/services/notice.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { GuardianRequestedEvent } from '../events/guardian.events';
 
 @Injectable()
 export class GuardianService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-
     @InjectRepository(GuardianRequest)
     private readonly guardianRequestRepository: Repository<GuardianRequest>,
+    private readonly noticeService: NoticeService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async requestGuardian(userId: string, guardianId: string) {
-    if (userId === guardianId) {
+  async requestGuardian(user: User, guardianEmail: string) {
+    if (user.email === guardianEmail) {
       throw new ConflictException('User cannot be their own guardian');
     }
 
-    const user = await this.userRepository.findOne({ where: { id: userId } });
     if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
+      throw new NotFoundException(`User not found`);
     }
 
     if (user.guardianId) {
@@ -34,79 +41,137 @@ export class GuardianService {
     }
 
     const guardian = await this.userRepository.findOne({
-      where: { id: guardianId },
+      where: { email: guardianEmail },
     });
-    if (!guardian) {
-      throw new NotFoundException(`Guardian with ID ${guardianId} not found`);
+
+    const pendingRequests = await this.guardianRequestRepository.find({
+      where: {
+        userId: user.id,
+        guardianEmail,
+        status: GuardianRequestStatus.PENDING,
+      },
+    });
+
+    if (pendingRequests.length !== 0) {
+      throw new ConflictException('Request already sent to this guardian');
     }
 
-    return await this.guardianRequestRepository.save({
+    await this.guardianRequestRepository.save({
       user,
-      guardian,
+      guardianEmail,
+    });
+
+    if (!guardian) {
+      this.eventEmitter.emit(
+        GuardianRequestedEvent.name,
+        new GuardianRequestedEvent(user, guardianEmail),
+      );
+
+      return 'Guardian is not registered at Guardian/Wali. Registration request has been sent to their email successfully.';
+    }
+
+    await this.noticeService.sendEmail(
+      guardianEmail,
+      'Guardian Request',
+      `Hello. ${user.firstName} ${user.lastName} has requested you to be their guardian. Please login to your Guardian/Wali account to accept the request.`,
+    );
+
+    return 'Guardian request sent successfully';
+  }
+
+  async getReceivedGuardianRequests(user: User) {
+    return await this.guardianRequestRepository.find({
+      where: { guardianEmail: user.email },
+      relations: ['user'],
     });
   }
 
-  async acceptGuardianRequest(requestId: string, requestInitiatorId: string) {
+  async getSentGuardianRequests(user: User) {
+    return await this.guardianRequestRepository.find({
+      where: { userId: user.id },
+      relations: ['user'],
+    });
+  }
+
+  async acceptGuardianRequest(requestId: string, user: User) {
     const request = await this.guardianRequestRepository.findOne({
       where: { id: requestId },
+      relations: ['user'],
     });
+
     if (!request) {
       throw new NotFoundException(`Request with ID ${requestId} not found`);
     }
 
-    if (request.guardianId !== requestInitiatorId) {
-      throw new NotAcceptableException(
-        'User does not have permission to accept guardian request',
+    if (request.status !== GuardianRequestStatus.PENDING) {
+      throw new NotAcceptableException('Request has expired.');
+    }
+
+    if (request.guardianEmail !== user.email) {
+      throw new ForbiddenException(
+        'You are not authorized to reject this request',
       );
     }
 
-    request.accepted = true;
-    await this.guardianRequestRepository.save(request);
+    await this.assignGuardian(request.user, request.guardianEmail);
 
-    return await this.assignGuardian(request.userId, request.guardianId);
+    request.status = GuardianRequestStatus.ACCEPTED;
+    request.acceptedAt = new Date();
+
+    await this.guardianRequestRepository.save(request);
   }
 
-  private async assignGuardian(userId: string, guardianId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
+  async rejectGuardianRequest(requestId: string, user: User) {
+    const request = await this.guardianRequestRepository.findOne({
+      where: { id: requestId },
+      relations: ['user'],
+    });
+
+    if (!request) {
+      throw new NotFoundException(`Request with ID ${requestId} not found`);
     }
 
+    if (request.guardianEmail !== user.email) {
+      throw new ForbiddenException(
+        'You are not authorized to reject this request',
+      );
+    }
+
+    if (request.status !== GuardianRequestStatus.PENDING) {
+      throw new NotAcceptableException('Request has expired.');
+    }
+
+    request.status = GuardianRequestStatus.REJECTED;
+    request.rejectedAt = new Date();
+
+    await this.guardianRequestRepository.save(request);
+  }
+
+  private async assignGuardian(user: User, guardianEmail: string) {
     const guardian = await this.userRepository.findOne({
-      where: { id: guardianId },
+      where: { email: guardianEmail },
     });
+
     if (!guardian) {
-      throw new NotFoundException(`Guardian with ID ${guardianId} not found`);
+      throw new NotFoundException(`Guardian is not registered yet.`);
     }
 
     if (user.guardian) {
       throw new ConflictException('User already has a guardian');
     }
 
+    console.log('user:guardian', user, guardian);
+
     user.guardian = guardian;
     return await this.userRepository.save(user);
   }
 
-  async removeGuardian(userId: string, requestInitiatorId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
+  async removeGuardian(user: User) {
     if (!user.guardianId) {
       throw new ConflictException('User does not have a guardian');
     }
 
-    if (
-      user.id === requestInitiatorId ||
-      user.guardianId === requestInitiatorId
-    ) {
-      user.guardian = null;
-      return await this.userRepository.save(user);
-    }
-
-    throw new NotAcceptableException(
-      'User does not have permission to remove guardian',
-    );
+    user.guardian = null;
+    return await this.userRepository.save(user);
   }
 }

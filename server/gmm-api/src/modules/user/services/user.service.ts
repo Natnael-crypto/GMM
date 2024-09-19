@@ -69,7 +69,7 @@ export class UserService implements EmailLists {
     try {
       const user = await this.userRepository.findOne({
         where: { id },
-        relations: ['sentRequests', 'receivedRequests', 'guardian'],
+        relations: ['guardian'],
       });
       if (!user) {
         throw new NotFoundException(`User with ID ${id} not found`);

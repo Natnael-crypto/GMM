@@ -7,6 +7,11 @@ import {
 } from 'typeorm';
 import { User } from './user.entity';
 
+export enum GuardianRequestStatus {
+  ACCEPTED = 'accepted',
+  PENDING = 'pending',
+  REJECTED = 'rejected',
+}
 @Entity()
 export class GuardianRequest {
   @PrimaryGeneratedColumn('uuid')
@@ -15,23 +20,26 @@ export class GuardianRequest {
   @Column()
   userId: string;
 
-  @ManyToOne(() => User, (user) => user.sentRequests, {
-    onDelete: 'CASCADE',
-    eager: true,
-  })
+  @ManyToOne(() => User)
   @JoinColumn({ name: 'userId' })
   user: User;
 
   @Column()
-  guardianId: string;
+  guardianEmail: string;
 
-  @ManyToOne(() => User, (user) => user.receivedRequests, {
-    onDelete: 'CASCADE',
-    eager: true,
+  @Column({
+    type: 'enum',
+    enum: GuardianRequestStatus,
+    default: GuardianRequestStatus.PENDING,
   })
-  @JoinColumn({ name: 'guardianId' })
-  guardian: User;
+  status: GuardianRequestStatus;
 
-  @Column({ default: false })
-  accepted: boolean;
+  @Column({ default: new Date() })
+  requestedAt: Date;
+
+  @Column({ nullable: true })
+  acceptedAt: Date;
+
+  @Column({ nullable: true })
+  rejectedAt: Date;
 }

@@ -19,5 +19,23 @@ export class SignUpUserDto {
   @ApiProperty()
   @MinLength(6)
   password: string;
+}
 
+export class RegisterAsGuardian {
+  @IsNotEmpty()
+  @ApiProperty()
+  firstname: string;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  lastname: string;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  token: string;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  @MinLength(6)
+  password: string;
 }
