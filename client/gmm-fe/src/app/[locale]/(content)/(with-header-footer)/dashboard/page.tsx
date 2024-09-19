@@ -1,6 +1,5 @@
 'use client'
 
-import MatchProfile from '@/components/chat/match-profile';
 import MatchMeCard from '@/components/dashboard/components/match-me-card';
 import MatchPreferenceFilter from '@/components/dashboard/components/match-preference-filter';
 import MatchedCard from '@/components/dashboard/components/matched-card';
@@ -26,7 +25,7 @@ export default function Dashboard() {
   })
 
   return (
-    <UpdateProfileProvider>
+    <UpdateProfileProvider autoSave={false}>
       <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
         <h1 className="text-xl text-center font-medium">Your Dashboard</h1>
 

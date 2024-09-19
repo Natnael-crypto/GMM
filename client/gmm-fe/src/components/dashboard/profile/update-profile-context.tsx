@@ -24,8 +24,8 @@ export const useUpdateProfileContext = () => useContext(UpdateProfileContext);
 
 
 
-export const UpdateProfileProvider = ({ children }: { children: React.ReactNode }) => {
-    const [isAutoSaveEnabled, setAutoSave] = useState(true);
+export const UpdateProfileProvider = ({ children, autoSave = true }: { children: React.ReactNode, autoSave?: boolean }) => {
+    const [isAutoSaveEnabled, setAutoSave] = useState(autoSave);
     const [displayedForms, setDisplayedForms] = useState<Record<string, HTMLFormElement>>({});
     const [isSaving, setSaving] = useState(false);
 
@@ -39,6 +39,7 @@ export const UpdateProfileProvider = ({ children }: { children: React.ReactNode 
     })
 
     const onSave = useCallback(() => {
+        console.log('...saving');
         if (!isSaving) {
             for (const key in displayedForms) {
                 displayedForms[key]?.requestSubmit();
