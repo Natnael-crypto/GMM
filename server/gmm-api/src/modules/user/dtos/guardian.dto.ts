@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsUUID } from 'class-validator';
+import { IsEmail, IsString } from 'class-validator';
 
 export class RequestGuardianDto {
-  @ApiProperty({ example: '28da3e51-ca85-443b-adc6-32b6b111cc3b' })
+  @ApiProperty()
   @IsString()
-  @IsUUID()
-  guardianId: string;
+  @IsEmail()
+  guardianEmail: string;
 }

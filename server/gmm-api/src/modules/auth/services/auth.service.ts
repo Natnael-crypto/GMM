@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -8,19 +12,28 @@ import { LoginUserDto } from '../dtos/login.dto';
 import * as bcrypt from 'bcrypt';
 import { SignUpUserDto } from '../dtos/signup.dto';
 import { OTPService } from '@modules/otp/services/otp.service';
+import { OnEvent } from '@nestjs/event-emitter';
+import { NoticeService } from '@modules/notice/services/notice.service';
+import { GuardianRequestedEvent } from '@modules/user/events/guardian.events';
 
 @Injectable()
 export class AuthService {
+  private domain: string;
+  private secret: string;
+
   constructor(
     private configService: ConfigService,
     private jwtService: JwtService,
     private otpService: OTPService,
     @InjectRepository(User) private userRepository: Repository<User>,
-  ) {}
+    private noticeService: NoticeService,
+  ) {
+    this.domain = this.configService.get<string>('DOMAIN')!;
+    this.secret = this.configService.get<string>('JWTSECRET')!;
+  }
 
   generateJwt(payload: any) {
-    const secret = this.configService.get<string>('JWTSECRET');
-    return this.jwtService.sign(payload, { secret });
+    return this.jwtService.sign(payload, { secret: this.secret });
   }
 
   async validateUser(payload: any) {
@@ -48,7 +61,8 @@ export class AuthService {
   async signUpWithGoogle(user: User) {
     try {
       const newUser = this.userRepository.create({
-        ...user,});
+        ...user,
+      });
 
       return this.generateJwt({
         sub: newUser.email,
@@ -58,7 +72,6 @@ export class AuthService {
     } catch (e) {
       throw new InternalServerErrorException();
     }
-
   }
 
   async signInWithFacebook(user: User) {
@@ -95,7 +108,6 @@ export class AuthService {
     }
   }
 
-
   async registerUserWithEmail(user: SignUpUserDto) {
     const userExists = await this.findUserByEmail(user.email);
     if (userExists) {
@@ -108,14 +120,18 @@ export class AuthService {
         password: hashedPassword,
       });
       await this.userRepository.save(newUser);
-      
-      const otpResult = await this.otpService.generateAndSendOTP(newUser.email, 'VERIFICATION');
+
+      const otpResult = await this.otpService.generateAndSendOTP(
+        newUser.email,
+        'VERIFICATION',
+      );
       if (otpResult.Status !== 'Success') {
         throw new InternalServerErrorException('Failed to send OTP');
       }
 
       return {
-        message: 'Registration successful. Please check your email for OTP verification.',
+        message:
+          'Registration successful. Please check your email for OTP verification.',
         otpDetails: otpResult.Details,
       };
     } catch (e) {
@@ -130,7 +146,10 @@ export class AuthService {
       throw new BadRequestException('Email does not exist');
     }
 
-    const isPasswordValid = await bcrypt.compare(user.password, userExists.password);
+    const isPasswordValid = await bcrypt.compare(
+      user.password,
+      userExists.password,
+    );
     if (!isPasswordValid) {
       throw new BadRequestException('Invalid credentials');
     }
@@ -150,5 +169,36 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async generateRegistrationLink(email: string) {
+    const token = this.jwtService.sign({ email }, { secret: this.secret });
+    return `${this.domain}/en/register-via-link?token=${token}`;
+  }
+
+  async extractEmail(token: string): Promise<string> {
+    const decoded = this.jwtService.verify(token, {
+      secret: this.secret,
+    });
+
+    if (!decoded) {
+      throw new BadRequestException('Invalid token');
+    }
+
+    return decoded.email;
+  }
+  @OnEvent(GuardianRequestedEvent.name, { async: true })
+  async sendRegistrationLinkToGuardian(
+    guardianRequest: GuardianRequestedEvent,
+  ) {
+    const { user, guardianEmail } = guardianRequest;
+
+    const registrationLink = await this.generateRegistrationLink(guardianEmail);
+
+    await this.noticeService.sendEmail(
+      guardianEmail,
+      'Guardian Request',
+      `Hello. ${user.firstName} ${user.lastName} has requested you to be ${user.gender === 'Male' ? 'his' : 'her'} guardian. Please visit <a href=${registrationLink}>Guardian/Wali</a> to create account and accept the request.`,
+    );
   }
 }

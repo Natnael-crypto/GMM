@@ -2,9 +2,10 @@ import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import {
   Body,
   Controller,
-  Delete,
+  Get,
   Param,
   Post,
+  Put,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -14,7 +15,7 @@ import { GuardianService } from '../services/guardian.service';
 
 @ApiTags('Guardian')
 @ApiBearerAuth()
-@Controller('guardian')
+@Controller('guardians')
 export class GuardianController {
   constructor(private readonly guardianService: GuardianService) {}
 
@@ -25,48 +26,69 @@ export class GuardianController {
     @Req() req: Request & { user: any },
   ) {
     const user = req.user;
-    const request = await this.guardianService.requestGuardian(
-      user.id,
-      guardianDto.guardianId,
+    const message = await this.guardianService.requestGuardian(
+      user,
+      guardianDto.guardianEmail,
     );
 
     return {
-      message: 'Guardian request sent to user successfully',
+      message,
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('received-requests')
+  async getReceivedGuardianRequests(@Req() req: Request & { user: any }) {
+    const request = await this.guardianService.getReceivedGuardianRequests(
+      req.user,
+    );
+
+    return {
+      message: 'Guardian requests fetched successfully',
       data: request,
     };
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('accept/:requestId')
-  async acceptGuardianRequest(
-    @Param('requestId') requestId: string,
-    @Req() req: Request & { user: any },
-  ) {
-    const user = req.user;
-    const updatedUser = await this.guardianService.acceptGuardianRequest(
-      requestId,
-      user.id,
+  @Get('sent-requests')
+  async getSentGuardianRequests(@Req() req: Request & { user: any }) {
+    const request = await this.guardianService.getSentGuardianRequests(
+      req.user,
     );
 
     return {
-      message: 'Guardian request accepted successfully',
-      data: updatedUser,
+      message: 'Guardian requests fetched successfully',
+      data: request,
     };
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':userId')
-  async removeGuardian(
-    @Param('userId') id: string,
+  @Put(':requestId/accept')
+  async acceptRequest(
+    @Param('requestId') requestId: string,
     @Req() req: Request & { user: any },
   ) {
-    const updatedUser = await this.guardianService.removeGuardian(
-      id,
-      req.user.id,
-    );
+    const user = req.user;
+
+    await this.guardianService.acceptGuardianRequest(requestId, user);
+
     return {
-      message: 'Guardian removed successfully',
-      data: updatedUser,
+      message: 'Guardian request accepted successfully',
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put(':requestId/reject')
+  async rejectRequest(
+    @Param('requestId') requestId: string,
+    @Req() req: Request & { user: any },
+  ) {
+    const user = req.user;
+
+    await this.guardianService.rejectGuardianRequest(requestId, user);
+
+    return {
+      message: 'Guardian request accepted successfully',
     };
   }
 }
