@@ -39,7 +39,7 @@ export const chatApi = createApi({
     }),
 
     getMessages: builder.query<Message[], string>({
-      query: (roomId) => `chats/${roomId}/messages`,
+      query: (roomId) => `chats/${roomId}/messages?limit=100`,
       transformResponse: (response: BaseResponse<Message[]>) => response.data,
     }),
   }),
