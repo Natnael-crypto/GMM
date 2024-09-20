@@ -55,10 +55,16 @@ export class ChatController {
 
   @Get('/:id/messages')
   @ApiQuery({
-    name: 'lastKey',
+    name: 'lastId',
     required: false,
     type: String,
     description: 'The last key of the last message retrieved',
+  })
+  @ApiQuery({
+    name: 'lastSentAt',
+    required: false,
+    type: Number,
+    description: 'The timestamp of the last message retrieved',
   })
   @ApiQuery({
     name: 'limit',
@@ -68,13 +74,24 @@ export class ChatController {
   })
   async getChatMessages(
     @Param('id') chatId: string,
-    @Query('lastKey') lastKey?: string,
+    @Query('lastId') lastId?: string,
+    @Query('lastSentAt') lastSentAt?: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
-  ): Promise<{ message: string; data: MessageDto[] }> {
-    const messages = await this.chatService.getMessages(chatId, {
+  ): Promise<{
+    message: string;
+    data: {
+      messages: MessageDto[];
+      lastKey: { id: string; roomId: string; sentAt: number } | null;
+    };
+  }> {
+    let lastKey: any = undefined;
+    if (lastId && lastSentAt) {
+      lastKey = { id: lastId, roomId: chatId, sentAt: lastSentAt };
+    }
+    const response = await this.chatService.getMessages(chatId, {
       lastKey,
       limit,
     });
-    return { message: 'Messages retrieved successfully', data: messages };
+    return { message: 'Messages retrieved successfully', data: response };
   }
 }

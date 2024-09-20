@@ -2,7 +2,6 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
-  Req,
 } from '@nestjs/common';
 
 import { RoomModel } from '../entities/room.schema';
@@ -87,7 +86,10 @@ export class ChatService {
 
   async getMessages(
     roomId: string,
-    options?: { lastKey?: string; limit?: number },
+    options?: {
+      lastKey?: { id: string; roomId: string; sentAt: number };
+      limit?: number;
+    },
   ): Promise<any> {
     const room = await RoomModel.get({ roomId });
     if (!room) {
@@ -97,21 +99,24 @@ export class ChatService {
     let messages;
 
     if (options?.lastKey) {
-      messages = await MessageModel.scan('roomId')
-        .startAt({
-          id: options.lastKey,
-        })
-        .limit(options.limit || 10)
+      messages = await MessageModel.query('roomId')
         .eq(roomId)
+        .sort('descending')
+        .startAt(options.lastKey)
+        .limit(options?.limit || 10)
         .exec();
     } else {
-      messages = await MessageModel.scan('roomId')
-        .limit(options?.limit || 10)
+      messages = await MessageModel.query('roomId')
         .eq(roomId)
+        .sort('descending')
+        .limit(options?.limit || 10)
         .exec();
     }
 
-    return messages.map((message: any) => toMessageDto(message));
+    return {
+      messages: messages.map((message: any) => toMessageDto(message)),
+      lastKey: messages.lastKey,
+    };
   }
 
   async saveMessage(messageDto): Promise<MessageDto> {

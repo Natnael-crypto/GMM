@@ -5,11 +5,20 @@ const MessageSchema = new dynamoose.Schema(
     id: {
       type: String,
       hashKey: true,
+      required: true,
     },
     roomId: {
-      rangeKey: true,
       type: String,
+      index: {
+        type: 'global',
+        name: 'roomId-sentAt-index',
+      },
       required: true,
+    },
+    sentAt: {
+      type: Date,
+      required: true,
+      rangeKey: true,
     },
     senderId: {
       type: String,
@@ -21,10 +30,7 @@ const MessageSchema = new dynamoose.Schema(
     },
     contentType: {
       type: String,
-      required: true,
-    },
-    sentAt: {
-      type: Date,
+      enum: ['text', 'image', 'video', 'audio'], // Enum for content types
       required: true,
     },
   },
