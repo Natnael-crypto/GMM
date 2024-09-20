@@ -20,16 +20,18 @@ export default function ChatPage() {
   const matchedUser = currentMatch && (user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser);
 
   return (
-    <div className="h-screen flex flex-col justify-between bg-[#c9e2aa]">
-      <div className="grid grid-cols-12 px-6 gap-x-2 gap-y-5 outline h-full p-3">
-        <div className="col-span-3">
-          {matchedUser && <MatchProfile matchedUser={matchedUser} />}
-        </div>
-        <div className="col-span-6">
-          {chat && <Chat chat={chat} />}
-        </div>
-        <div className="col-span-3">
-          {matchedUser && <GuardianGuide matchedUser={matchedUser} />}
+    <div className="flex flex-col justify-between bg-[#c9e2aa]">
+      <div className='h-screen px-5 p-3 flex items-center justify-center'>
+        <div className="grid grid-cols-18 gap-x-[0.4rem] gap-y-5 h-full">
+          <div className="col-span-4">
+            {matchedUser && <MatchProfile matchedUser={matchedUser} />}
+          </div>
+          <div className="col-span-10">
+            {chat && <Chat chat={chat} />}
+          </div>
+          <div className="col-span-4">
+            {matchedUser && <GuardianGuide matchedUser={matchedUser} />}
+          </div>
         </div>
       </div>
       <div className="col-span-12 bg-secondary text-secondary-foreground p-2 px-5">

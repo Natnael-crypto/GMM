@@ -11,20 +11,20 @@ export default function GuardianGuide({ matchedUser }: { matchedUser: User }) {
         Guardian Guide
       </h1>
 
-      <div className="p-5 flex flex-col item-center justify-between h-full pb-12">
+      <div className="p-4 flex flex-col item-center justify-between h-full pb-12">
         <div className="space-y-5">
           <div className="rounded-full bg-[#bababa] text-background p-2 items-center justify-center flex gap-2 font-bold">
             <FontAwesomeIcon icon={faGlobe} />
-            <span className="text-xs">
+            <span className="text-[0.62rem]">
               Guardian Service (Available at Step 4)
             </span>
           </div>
 
-          <p className="font-bold text-sm text-center px-10">
+          <p className="font-bold text-xs text-center px-10">
             You are on [Step 1] with {matchedUser.firstName} from {matchedUser.country}
           </p>
 
-          <div className="text-sm space-y-3 py-5 border-t">
+          <div className="text-xs space-y-3 py-5 border-t">
             <p>Talk to each other and exchange pleasantries</p>
             <p>
               Please note that you cannot unmatch each other until you proceed
@@ -40,7 +40,7 @@ export default function GuardianGuide({ matchedUser }: { matchedUser: User }) {
         <div className="flex justify-end">
           <Button
             variant="outline"
-            className="bg-transparent text-muted-foreground h-7 w-fit"
+            className="bg-transparent text-muted-foreground h-7 w-fit text-xs"
           >
             Unmatch
           </Button>
