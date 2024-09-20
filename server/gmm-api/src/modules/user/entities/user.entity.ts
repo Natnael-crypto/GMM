@@ -11,6 +11,13 @@ import {
 } from 'typeorm';
 import { Role } from '@modules/auth/entities/role.entity';
 
+export enum AccountStatus {
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  DENIED = 'denied',
+  SUSPENDED = 'suspended',
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -140,4 +147,69 @@ export class User {
   })
   @JoinColumn({ name: 'roleId' })
   role: Role;
+
+  @Column({ type: 'enum', enum: AccountStatus, default: AccountStatus.PENDING })
+  accountStatus: AccountStatus;
 }
+
+export const userFilterableFields = [
+  'id',
+  'firstName',
+  'lastName',
+  'email',
+  'phoneNumber',
+  'city',
+  'country',
+  'age',
+  'gender',
+  'height',
+  'weight',
+  'skinColor',
+  'languages',
+  'nationality',
+  'maritalStatus',
+  'hasChildren',
+  'numberOfChildren',
+  'ageOfOldestChild',
+  'ageOfYoungestChild',
+  'sunniMadhaib',
+  'religiousPractice',
+  'bornOrRevertToIslam',
+  'drinks',
+  'drugs',
+  'smokes',
+  'tattoos',
+  'role',
+  'accountStatus',
+];
+
+export const userSortableFields = [
+  'id',
+  'firstName',
+  'lastName',
+  'email',
+  'phoneNumber',
+  'city',
+  'country',
+  'age',
+  'gender',
+  'height',
+  'weight',
+  'skinColor',
+  'languages',
+  'nationality',
+  'maritalStatus',
+  'hasChildren',
+  'numberOfChildren',
+  'ageOfOldestChild',
+  'ageOfYoungestChild',
+  'sunniMadhaib',
+  'religiousPractice',
+  'bornOrRevertToIslam',
+  'drinks',
+  'drugs',
+  'smokes',
+  'tattoos',
+  'role',
+  'accountStatus',
+];

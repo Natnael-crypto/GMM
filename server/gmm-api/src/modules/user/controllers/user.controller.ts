@@ -14,11 +14,15 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiBearerAuth, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Repository } from 'typeorm';
-import { User } from '../entities/user.entity';
+import {
+  User,
+  userFilterableFields,
+  userSortableFields,
+} from '../entities/user.entity';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { ExpectedIslamicLifestyleDto } from '../dtos/expected-islamic-lifestyle.dto';
 import { UserService } from '../services/user.service';
-import { UserDto } from '../dtos/user.dto';
+import { StatusDto, UserDto } from '../dtos/user.dto';
 import * as bcrypt from 'bcrypt';
 import { UserIslamicLifestyleDto } from '../dtos/user-islamic-lifestyle.dto';
 import { UserWorldlyLifestyleDto } from '../dtos/user-worldly-lifestyle.dto';
@@ -26,6 +30,16 @@ import { ExpectedWorldlyLifestyleDto } from '../dtos/expected-worldly-lifestyle.
 import { UserMarriageDiscussionDto } from '../dtos/user-marriage-discussion.dto';
 import { UserOptionalVerifiableDto } from '../dtos/user-optional-verifiable.dto';
 import { UserFamilyIntroductionDto } from '../dtos/user-family-introduction-dto';
+import { PermissionGuard } from '@modules/auth/guards/permission.guard';
+import { Sorting, SortingParams } from '@shared/decorators/sorting.decorator';
+import {
+  Pagination,
+  PaginationParams,
+} from '@shared/decorators/pagination.decorator';
+import {
+  Filtering,
+  FilteringParams,
+} from '@shared/decorators/filter.decorator';
 
 @ApiTags('User')
 @ApiBearerAuth()
@@ -36,45 +50,49 @@ export class UserController {
     private readonly userService: UserService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @ApiQuery({
+    name: 'filter',
+    required: false,
+    description: 'Filter parameters (e.g. filter=field:rule:value,field:rule)',
+  })
+  @ApiQuery({
+    name: 'sort',
+    required: false,
+    description: 'Sorting parameters (e.g. sort=field:asc|desc)',
+  })
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    description: 'Page number for pagination (defaults to 0)',
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    description: 'Number of items per page (defaults to 10)',
+  })
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:query']))
   @Get()
-  @ApiQuery({ name: 'email', required: false })
-  async getUsers(@Query('email') email: string) {
-    if (email) {
-      const user = await this.userRepository.findOne({ where: { email } });
-      if (!user) {
-        throw new NotFoundException('User not found');
-      }
-      return {
-        message: 'User retrieved successfully',
-        data: user,
-      };
+  async getUsers(
+    @PaginationParams() paginationParams: Pagination,
+    @SortingParams(userSortableFields) sortingParams: Sorting,
+    @FilteringParams(userFilterableFields)
+    filteringParams: Filtering[],
+  ) {
+    try {
+      const users = await this.userService.getUsers(
+        paginationParams,
+        sortingParams,
+        filteringParams,
+      );
+
+      return users;
+    } catch (e) {
+      console.log(e);
+      return { message: e.message, totalItems: 0, data: [], page: 0, limit: 0 };
     }
-
-    const users = await this.userRepository.find();
-
-    return {
-      message: 'Users retrieved successfully',
-      data: users,
-    };
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('me')
-  async getMe(@Req() req: Request & { user: any }) {
-    if (!req.user || !req.user.id) {
-      throw new UnauthorizedException('Invalid user');
-    }
-    const userId = req.user.id;
-    const user = await this.userService.getUserById(userId);
-
-    return {
-      message: 'User retrieved successfully',
-      data: user,
-    };
-  }
-
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id')
   async getUserById(@Param('id') id: string) {
     const userExists = await this.userRepository.findOne({ where: { id } });
@@ -88,9 +106,27 @@ export class UserController {
     };
   }
 
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['account_status:write']))
+  @Put(':id/account-status')
+  async updateAccountStatus(@Param('id') id: string, @Body() dto: StatusDto) {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    user.accountStatus = dto.status;
+    await this.userRepository.save(user);
+
+    return {
+      message: 'User account status updated successfully',
+      data: user,
+    };
+  }
+
   @UseGuards(JwtAuthGuard)
-  @Put(':id')
   @ApiBody({ type: UserDto, required: false })
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @Put(':id')
   async updateUser(@Param('id') id: string, @Body() userDto: Partial<UserDto>) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
@@ -120,7 +156,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:delete']))
   @Delete(':id')
   async deleteUser(@Param('id') id: string) {
     const user = await this.userRepository.findOne({ where: { id } });
@@ -131,27 +167,27 @@ export class UserController {
     return { message: 'User deleted successfully' };
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get(':id/worldy-lifestyle')
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @Get(':id/worldly-lifestyle')
   async getWorldlyLifestyle(@Param('id') id: string) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    const worldyLifestyle = await this.userService.getWorldyLifestyle(id);
-    if (!worldyLifestyle) {
+    const worldlyLifestyle = await this.userService.getWorldlyLifestyle(id);
+    if (!worldlyLifestyle) {
       throw new NotFoundException('Worldly lifestyle information not found');
     }
 
     return {
       message: 'Worldly lifestyle retrieved successfully',
-      data: worldyLifestyle,
+      data: worldlyLifestyle,
     };
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Put(':id/worldy-lifestyle')
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @Put(':id/worldly-lifestyle')
   async updateWorldlyLifestyle(
     @Param('id') id: string,
     @Body() updateDto: UserWorldlyLifestyleDto,
@@ -166,17 +202,17 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get(':id/expected-worldy-lifestyle')
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @Get(':id/expected-worldly-lifestyle')
   async getExpectedWorldlyLifestyle(@Param('id') id: string) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    const expectedWorldyLifestyle =
-      await this.userService.getExpectedWorldyLifestyle(id);
-    if (!expectedWorldyLifestyle) {
+    const expectedWorldlyLifestyle =
+      await this.userService.getExpectedWorldlyLifestyle(id);
+    if (!expectedWorldlyLifestyle) {
       throw new NotFoundException(
         'Expected worldly lifestyle information not found',
       );
@@ -184,12 +220,12 @@ export class UserController {
 
     return {
       message: 'Expected worldly lifestyle retrieved successfully',
-      data: expectedWorldyLifestyle,
+      data: expectedWorldlyLifestyle,
     };
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Put(':id/expected-worldy-lifestyle')
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @Put(':id/expected-worldly-lifestyle')
   async updateExpectedWorldlyLifestyle(
     @Param('id') id: string,
     @Body() updateDto: ExpectedWorldlyLifestyleDto,
@@ -202,7 +238,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/islamic-lifestyle')
   async getIslamicLifestyle(@Param('id') id: string) {
     const user = await this.userRepository.findOne({ where: { id } });
@@ -221,7 +257,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
   @Put(':id/islamic-lifestyle')
   async updateIslamicLifestyle(
     @Param('id') id: string,
@@ -237,7 +273,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/expected-islamic-lifestyle')
   async getExpectedIslamicLifestyle(@Param('id') id: string) {
     const user = await this.userRepository.findOne({ where: { id } });
@@ -259,7 +295,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
   @Put(':id/expected-islamic-lifestyle')
   async updateExpectedIslamicLifestyle(
     @Param('id') id: string,
@@ -273,7 +309,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/marriage-discussion')
   async getMarriageDiscussion(@Param('id') id: string) {
     const user = await this.userRepository.findOne({ where: { id } });
@@ -294,7 +330,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
   @Put(':id/marriage-discussion')
   async updateMarriageDiscussion(
     @Param('id') id: string,
@@ -310,7 +346,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/optional-verifiable')
   async getOptionalVerifiable(@Param('id') id: string) {
     const user = await this.userRepository.findOne({ where: { id } });
@@ -331,7 +367,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
   @Put(':id/optional-verifiable')
   async updateOptionalVerifiable(
     @Param('id') id: string,
@@ -347,7 +383,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/family-introduction')
   async getFamilyIntroduction(@Param('id') id: string) {
     const user = await this.userRepository.findOne({ where: { id } });
@@ -368,7 +404,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
   @Put(':id/family-introduction')
   async updateFamilyIntroduction(
     @Param('id') id: string,

@@ -10,13 +10,14 @@ import { GuardianController } from './controllers/guardian.controller';
 import { GuardianService } from './services/guardian.service';
 import { NoticeModule } from '@modules/notice/notice.module';
 import { NoticeService } from '@modules/notice/services/notice.service';
+import { SelfAccountController } from './controllers/self.controller';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Match, Preference, GuardianRequest]),
     NoticeModule,
   ],
-  controllers: [UserController, GuardianController],
+  controllers: [SelfAccountController, UserController, GuardianController],
   providers: [
     GuardianService,
     NoticeService,

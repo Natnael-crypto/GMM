@@ -1,5 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString, IsBoolean, IsInt, IsArray, IsNumber } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsBoolean,
+  IsInt,
+  IsArray,
+  IsNumber,
+  IsEnum,
+} from 'class-validator';
+import { AccountStatus } from '../entities/user.entity';
 
 export class UserDto {
   @ApiProperty({ example: 'string' })
@@ -148,4 +159,11 @@ export class UserDto {
   @IsOptional()
   @IsString()
   video?: string;
+}
+
+export class StatusDto {
+  @ApiProperty({ example: 'approved' })
+  @IsNotEmpty()
+  @IsEnum(AccountStatus)
+  status: AccountStatus;
 }
