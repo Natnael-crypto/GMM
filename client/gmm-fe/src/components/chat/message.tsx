@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { useEffect, useRef } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { useGetDownloadUrlQuery } from '@/lib/user/api'
+import Loading from '../ui/loading'
 
 
 export function Profile({ user }: { user: User }) {
@@ -43,6 +44,7 @@ export default function MessageBox({ message, sender }: { message: Message & { m
                     )}
                 >
                     {message.content}
+                    {(message as any).pending && <span><Loading /></span>}
                 </div>
             </div>
         </div >

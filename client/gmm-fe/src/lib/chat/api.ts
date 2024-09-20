@@ -2,7 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BaseResponse } from '@/types/base-response';
 import { constants } from '@/config';
 import { RootState } from '../store';
-import { Chat, Message } from '../schemas/chat';
+import { Chat } from '../schemas/chat';
+import { MessagesResponse } from './type';
 
 export const chatApi = createApi({
   reducerPath: 'chatApi',
@@ -38,9 +39,10 @@ export const chatApi = createApi({
       transformResponse: (response: BaseResponse<Chat>) => response.data,
     }),
 
-    getMessages: builder.query<Message[], string>({
+    getMessages: builder.query<MessagesResponse, string>({
       query: (roomId) => `chats/${roomId}/messages?limit=100`,
-      transformResponse: (response: BaseResponse<Message[]>) => response.data,
+      transformResponse: (response: BaseResponse<MessagesResponse>) =>
+        response.data,
     }),
   }),
 });
