@@ -50,7 +50,7 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
     }, [marriageDiscussionFormRef, registerForm]);
 
     const onSubmit = (data: MarriageDiscussion) => {
-        updateMarriageDiscussion({ userId: user!.id, marriageDiscussion: data });
+        updateMarriageDiscussion({ userId: user!.id, marriageDiscussion: data, self: true });
     }
 
     useEffect(() => {

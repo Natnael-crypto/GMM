@@ -50,7 +50,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
     }, [familyIntroductionFormRef, registerForm]);
 
     const onSubmit = (data: FamilyIntroduction) => {
-        updateFamilyIntroduction({ userId: user!.id, familyIntroduction: data });
+        updateFamilyIntroduction({ userId: user!.id, familyIntroduction: data, self: true });
     }
 
     useEffect(() => {
