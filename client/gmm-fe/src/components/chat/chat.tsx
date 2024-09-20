@@ -23,7 +23,7 @@ export default function ChatBox({ chat }: { chat: Chat }) {
   const loadedMessages = messagesResponse?.messages;
 
   const messages = useAppSelector((state) => state.chat.messages);
-  const pendingMessages = useAppSelector((state) => state.chat.pendingMessagesSequence);
+  const pendingMessages = useAppSelector((state) => state.chat.pendingMessages);
 
   const isMine = (message: Message) => {
     return message.senderId === user?.id
@@ -38,7 +38,11 @@ export default function ChatBox({ chat }: { chat: Chat }) {
   }
 
   for (const message of messages) {
-    combinedMessages.push({ ...message, mine: isMine(message), pending: pendingMessages.find((seq) => seq === message.sequence) })
+    combinedMessages.push({ ...message, mine: isMine(message), pending: false })
+  }
+
+  for (const message of pendingMessages) {
+    combinedMessages.push({ ...message, mine: isMine(message), pending: true })
   }
 
   combinedMessages.sort((a: any, b: any) => Date.parse(a.sentAt) - Date.parse(b.sentAt))
@@ -47,7 +51,6 @@ export default function ChatBox({ chat }: { chat: Chat }) {
     if (!messageBoxRef.current) return
     const message = messageBoxRef.current.value
     if (message.length > 0) {
-      console.log("sending, ", message)
       sendMessage(message, chat.id)
     }
     messageBoxRef.current.value = ''

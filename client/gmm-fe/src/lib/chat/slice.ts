@@ -9,12 +9,12 @@ export interface MessageWithSequence extends Message {
 
 export interface ChatInitialState {
   messages: MessageWithSequence[];
-  pendingMessagesSequence: string[];
+  pendingMessages: MessageWithSequence[];
 }
 
 export const chatInitialState: ChatInitialState = {
   messages: [],
-  pendingMessagesSequence: [],
+  pendingMessages: [],
 };
 
 const chatSlice = createSlice({
@@ -26,15 +26,12 @@ const chatSlice = createSlice({
     },
 
     addPendingMessage(state, action) {
-      state.pendingMessagesSequence = [
-        ...state.pendingMessagesSequence,
-        action.payload,
-      ];
+      state.pendingMessages = [...state.pendingMessages, action.payload];
     },
 
     removePendingMessage(state, action) {
-      state.pendingMessagesSequence = state.pendingMessagesSequence.filter(
-        (seq) => seq !== action.payload
+      state.pendingMessages = state.pendingMessages.filter(
+        (message) => message.sequence !== action.payload
       );
     },
 
@@ -43,12 +40,12 @@ const chatSlice = createSlice({
     },
 
     clearPendingMessages(state) {
-      state.pendingMessagesSequence = [];
+      state.pendingMessages = [];
     },
 
     clearChat(state) {
       state.messages = [];
-      state.pendingMessagesSequence = [];
+      state.pendingMessages = [];
     },
   },
 });

@@ -21,6 +21,7 @@ export const useSocketContext = () => useContext(SocketContext);
 
 export default function SocketProvider({ children }: { children: React.ReactNode }) {
     const token = useAppSelector((state) => state.auth.token);
+    const user = useAppSelector((state) => state.auth.user);
     const socket = io(constants.apiBaseUrl, {
         autoConnect: false,
         extraHeaders: {
@@ -43,13 +44,11 @@ export default function SocketProvider({ children }: { children: React.ReactNode
     useEffect(() => {
         const onMessageReceived = (message: any) => {
             dispatch(addMessage(message));
-            console.log('Message received:', message);
         }
 
         const onMessageDelivered = (payload: any) => {
             dispatch(removePendingMessage(payload.sequence));
             dispatch(addMessage(payload.message));
-            console.log('Message delivered:', payload);
         }
 
         socket.on('message:received', onMessageReceived);
@@ -78,8 +77,9 @@ export default function SocketProvider({ children }: { children: React.ReactNode
     const sendMessage = (text: string, chatId: string) => {
         const messageDto = { roomId: chatId, content: text, contentType: 'text' }
         const sequence = uuidv4();
+
         socket?.emit('message:sent', { messageDto, sequence });
-        dispatch(addPendingMessage(sequence));
+        dispatch(addPendingMessage({ ...messageDto, senderId: user?.id, sequence }));
     }
 
     return (

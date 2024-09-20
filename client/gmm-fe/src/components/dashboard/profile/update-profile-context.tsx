@@ -39,7 +39,6 @@ export const UpdateProfileProvider = ({ children, autoSave = true }: { children:
     })
 
     const onSave = useCallback(() => {
-        console.log('...saving');
         if (!isSaving) {
             for (const key in displayedForms) {
                 displayedForms[key]?.requestSubmit();
