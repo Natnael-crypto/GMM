@@ -44,8 +44,8 @@ export default function MessageBox({ message, sender }: { message: Message & { m
                     )}
                 >
                     {message.content}
+                    {(message as any).pending && <span><Loading /></span>}
                 </div>
-                {(message as any).pending && <Loading />}
             </div>
         </div >
     )
