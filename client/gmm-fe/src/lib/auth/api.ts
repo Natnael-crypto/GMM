@@ -23,7 +23,12 @@ export const authApi = createApi({
       query: () => 'users/me',
       transformResponse: (response: BaseResponse<User>) => response.data,
     }),
+
+    getUserById: builder.query<User, string>({
+      query: (id) => `users/${id}`,
+      transformResponse: (response: BaseResponse<User>) => response.data,
+    }),
   }),
 });
 
-export const { useGetUserQuery } = authApi;
+export const { useGetUserQuery, useGetUserByIdQuery } = authApi;
