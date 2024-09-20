@@ -15,6 +15,7 @@ import {
   UploadFileInfo,
   UrlResponse,
   UpdateFamilyIntroduction,
+  UpdateUser,
 } from './types';
 import { User } from '../schemas/user';
 import {
@@ -50,9 +51,9 @@ export const userApi = createApi({
   }),
 
   endpoints: (builder) => ({
-    updateUser: builder.mutation<User, User>({
-      query: (user) => ({
-        url: `users/${user.id}`,
+    updateUser: builder.mutation<User, UpdateUser>({
+      query: ({ user, self }) => ({
+        url: self ? `users/me` : `users/${user.id}`,
         method: 'PUT',
         body: user,
       }),
@@ -60,7 +61,7 @@ export const userApi = createApi({
         return response.data;
       },
       invalidatesTags(result, error, arg, meta) {
-        return [{ type: 'User', id: arg.id }];
+        return [{ type: 'User', id: arg.user.id }];
       },
     }),
 
@@ -79,7 +80,7 @@ export const userApi = createApi({
     }),
 
     getWorldlyLifestyle: builder.query<WorldlyLifestyle, string>({
-      query: (id) => `users/${id}/worldy-lifestyle`,
+      query: (id) => `users/${id}/worldly-lifestyle`,
       transformResponse: (response: BaseResponse<WorldlyLifestyle>) => {
         return response.data;
       },
@@ -92,8 +93,10 @@ export const userApi = createApi({
       WorldlyLifestyle,
       UpdateWorldlyLifestyle
     >({
-      query: ({ userId, worldlyLifestyle }) => ({
-        url: `users/${userId}/worldy-lifestyle`,
+      query: ({ userId, worldlyLifestyle, self }) => ({
+        url: self
+          ? `users/worldly-lifestyle`
+          : `users/${userId}/worldly-lifestyle`,
         method: 'PUT',
         body: worldlyLifestyle,
       }),
@@ -109,7 +112,7 @@ export const userApi = createApi({
       ExpectedWorldlyLifestyle,
       string
     >({
-      query: (id) => `users/${id}/expected-worldy-lifestyle`,
+      query: (id) => `users/${id}/expected-worldly-lifestyle`,
       transformResponse: (response: BaseResponse<ExpectedWorldlyLifestyle>) => {
         return response.data;
       },
@@ -122,8 +125,10 @@ export const userApi = createApi({
       ExpectedWorldlyLifestyle,
       UpdateExpectedWorldlyLifestyle
     >({
-      query: ({ userId, expectedWorldlyLifestyle }) => ({
-        url: `users/${userId}/expected-worldy-lifestyle`,
+      query: ({ userId, expectedWorldlyLifestyle, self }) => ({
+        url: self
+          ? `users/expected-worldly-lifestyle`
+          : `users/${userId}/expected-worldly-lifestyle`,
         method: 'PUT',
         body: expectedWorldlyLifestyle,
       }),
@@ -149,8 +154,10 @@ export const userApi = createApi({
       IslamicLifestyle,
       UpdateIslamicLifestyle
     >({
-      query: ({ userId, islamicLifestyle }) => ({
-        url: `users/${userId}/islamic-lifestyle`,
+      query: ({ userId, islamicLifestyle, self }) => ({
+        url: self
+          ? `users/islamic-lifestyle`
+          : `users/${userId}/islamic-lifestyle`,
         method: 'PUT',
         body: islamicLifestyle,
       }),
@@ -179,8 +186,10 @@ export const userApi = createApi({
       ExpectedIslamicLifestyle,
       UpdateExpectedIslamicLifestyle
     >({
-      query: ({ userId, expectedIslamicLifestyle }) => ({
-        url: `users/${userId}/expected-islamic-lifestyle`,
+      query: ({ userId, expectedIslamicLifestyle, self }) => ({
+        url: self
+          ? `users/expected-islamic-lifestyle`
+          : `users/${userId}/expected-islamic-lifestyle`,
         method: 'PUT',
         body: expectedIslamicLifestyle,
       }),
@@ -206,8 +215,10 @@ export const userApi = createApi({
       MarriageDiscussion,
       UpdateMarriageDiscussion
     >({
-      query: ({ userId, marriageDiscussion }) => ({
-        url: `users/${userId}/marriage-discussion`,
+      query: ({ userId, marriageDiscussion, self }) => ({
+        url: self
+          ? `users/marriage-discussion`
+          : `users/${userId}/marriage-discussion`,
         method: 'PUT',
         body: marriageDiscussion,
       }),
@@ -233,8 +244,10 @@ export const userApi = createApi({
       FamilyIntroduction,
       UpdateFamilyIntroduction
     >({
-      query: ({ userId, familyIntroduction }) => ({
-        url: `users/${userId}/family-introduction`,
+      query: ({ userId, familyIntroduction, self }) => ({
+        url: self
+          ? `users/family-introduction`
+          : `users/${userId}/family-introduction`,
         method: 'PUT',
         body: familyIntroduction,
       }),

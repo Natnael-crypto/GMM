@@ -112,7 +112,7 @@ export default function BasicInformationForm() {
 
   const onSubmit = (data: User) => {
     try {
-      updateUser(data)
+      updateUser({ user: data, self: true });
     } catch (error) { console.log(error) }
   }
 

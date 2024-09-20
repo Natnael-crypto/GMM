@@ -100,7 +100,7 @@ export default function BasicInformationForm() {
 
 
     const onSubmit = (data: User) => {
-        updateUser(data);
+        updateUser({ user: data, self: true });
     }
 
     useEffect(() => {

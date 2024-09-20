@@ -52,7 +52,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
     }, [expectedIslamicLifestyleFormRef, registerForm]);
 
     const onSubmit = (data: ExpectedIslamicLifestyle) => {
-        updateExpectedIslamicLifestyle({ userId: user!.id, expectedIslamicLifestyle: data });
+        updateExpectedIslamicLifestyle({ userId: user!.id, expectedIslamicLifestyle: data, self: true });
     }
 
     useEffect(() => {
