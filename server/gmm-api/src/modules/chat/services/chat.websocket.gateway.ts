@@ -105,14 +105,19 @@ export class ChatWebsocketGateway
   }
 
   @SubscribeMessage('message:sent')
-  async handleMessage(socket: Socket, messageDto: MessageDto): Promise<void> {
+  async handleMessage(
+    socket: Socket,
+    payload: { messageDto: MessageDto; sequence: number },
+  ): Promise<void> {
+    const { messageDto, sequence } = payload;
+
     const newMessage = await this.chatService.saveMessage({
       ...messageDto,
       senderId: socket.data.userId,
     });
 
     socket.to(messageDto.roomId).emit('message:received', newMessage);
-    socket.emit('message:delivered', newMessage);
+    socket.emit('message:delivered', { message: newMessage, sequence });
   }
 
   private async checkUserAccess(userId: string, room: any): Promise<boolean> {
