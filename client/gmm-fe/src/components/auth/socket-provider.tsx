@@ -3,6 +3,8 @@
 import { constants } from '@/config';
 import { addMessage, addPendingMessage, removePendingMessage } from '@/lib/chat/slice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { v4 as uuidv4 } from 'uuid';
+
 import React, { useContext, useEffect } from 'react'
 import { io, Socket } from 'socket.io-client'
 
@@ -44,10 +46,10 @@ export default function SocketProvider({ children }: { children: React.ReactNode
             console.log('Message received:', message);
         }
 
-        const onMessageDelivered = (message: any) => {
-            dispatch(removePendingMessage(message));
-            dispatch(addMessage(message));
-            console.log('Message delivered:', message);
+        const onMessageDelivered = (payload: any) => {
+            dispatch(removePendingMessage(payload.sequence));
+            dispatch(addMessage(payload.message));
+            console.log('Message delivered:', payload);
         }
 
         socket.on('message:received', onMessageReceived);
@@ -74,8 +76,10 @@ export default function SocketProvider({ children }: { children: React.ReactNode
     }, [socket]);
 
     const sendMessage = (text: string, chatId: string) => {
-        socket?.emit('message:sent', { roomId: chatId, content: text, contentType: 'text' });
-        dispatch(addPendingMessage({ content: text, contentType: 'text' }));
+        const messageDto = { roomId: chatId, content: text, contentType: 'text' }
+        const sequence = uuidv4();
+        socket?.emit('message:sent', { messageDto, sequence });
+        dispatch(addPendingMessage(sequence));
     }
 
     return (

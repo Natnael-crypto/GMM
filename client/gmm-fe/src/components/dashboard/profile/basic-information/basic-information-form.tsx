@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import Multiselect from '@/components/ui/multi-select';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { User, userSchema } from '@/lib/schemas/user';
+import { User, userBasicInformationSchema } from '@/lib/schemas/user';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
@@ -34,8 +34,9 @@ const languages = [{
 export default function BasicInformationForm() {
     const user = useAppSelector(state => state.auth.user);
     const form = useForm<User>({
-        resolver: zodResolver(userSchema),
+        resolver: zodResolver(userBasicInformationSchema),
         defaultValues: {
+            id: user?.id ?? '',
             firstName: user?.firstName ?? '',
             lastName: user?.lastName ?? '',
             age: user?.age ?? 0,
@@ -64,7 +65,6 @@ export default function BasicInformationForm() {
             phone: '',
         }
     });
-
     const [updateUser, updateResult] = useUpdateUserMutation();
 
     useEffect(() => {

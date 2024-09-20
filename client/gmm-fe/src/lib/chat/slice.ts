@@ -3,14 +3,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Message } from '../schemas/chat';
 
+export interface MessageWithSequence extends Message {
+  sequence: string;
+}
+
 export interface ChatInitialState {
-  messages: Message[];
-  pendingMessages: Message[];
+  messages: MessageWithSequence[];
+  pendingMessagesSequence: string[];
 }
 
 export const chatInitialState: ChatInitialState = {
   messages: [],
-  pendingMessages: [],
+  pendingMessagesSequence: [],
 };
 
 const chatSlice = createSlice({
@@ -22,12 +26,15 @@ const chatSlice = createSlice({
     },
 
     addPendingMessage(state, action) {
-      state.pendingMessages = [...state.pendingMessages, action.payload];
+      state.pendingMessagesSequence = [
+        ...state.pendingMessagesSequence,
+        action.payload,
+      ];
     },
 
     removePendingMessage(state, action) {
-      state.pendingMessages = state.pendingMessages.filter(
-        (message) => message.content !== action.payload.content
+      state.pendingMessagesSequence = state.pendingMessagesSequence.filter(
+        (seq) => seq !== action.payload
       );
     },
 
@@ -36,12 +43,12 @@ const chatSlice = createSlice({
     },
 
     clearPendingMessages(state) {
-      state.pendingMessages = [];
+      state.pendingMessagesSequence = [];
     },
 
     clearChat(state) {
       state.messages = [];
-      state.pendingMessages = [];
+      state.pendingMessagesSequence = [];
     },
   },
 });

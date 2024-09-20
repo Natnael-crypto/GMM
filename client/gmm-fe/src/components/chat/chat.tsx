@@ -14,14 +14,16 @@ import { useGetUserQuery, useGetUserByIdQuery } from '@/lib/auth/api';
 
 export default function ChatBox({ chat }: { chat: Chat }) {
   const user = useAppSelector((state) => state.auth.user);
-  const { data: loadedMessages } = useGetMessagesQuery(chat.id, { skip: !chat.id || !user });
+  const { data: messagesResponse } = useGetMessagesQuery(chat.id, { skip: !chat.id || !user });
   const { sendMessage, socket } = useSocketContext();
   const otherUserId = user?.id === chat.user1 ? chat.user2 : chat.user1;
   const { data: otherUser } = useGetUserByIdQuery(otherUserId, { skip: !otherUserId });
   const messageBoxRef = React.useRef<HTMLTextAreaElement>(null);
 
+  const loadedMessages = messagesResponse?.messages;
+
   const messages = useAppSelector((state) => state.chat.messages);
-  const pendingMessages = useAppSelector((state) => state.chat.pendingMessages);
+  const pendingMessages = useAppSelector((state) => state.chat.pendingMessagesSequence);
 
   const isMine = (message: Message) => {
     return message.senderId === user?.id
@@ -36,8 +38,10 @@ export default function ChatBox({ chat }: { chat: Chat }) {
   }
 
   for (const message of messages) {
-    combinedMessages.push({ ...message, mine: isMine(message), pending: false })
+    combinedMessages.push({ ...message, mine: isMine(message), pending: pendingMessages.find((seq) => seq === message.sequence) })
   }
+
+  combinedMessages.sort((a: any, b: any) => Date.parse(a.sentAt) - Date.parse(b.sentAt))
 
   const handleSend = () => {
     if (!messageBoxRef.current) return
