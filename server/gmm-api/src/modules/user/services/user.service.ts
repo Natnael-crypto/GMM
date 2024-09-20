@@ -20,6 +20,10 @@ import { UserOptionalVerifiableDto } from '../dtos/user-optional-verifiable.dto'
 import { UserFamilyIntroductionModel } from '../entities/user-family-introduction.schema';
 import { UserFamilyIntroductionDto } from '../dtos/user-family-introduction-dto';
 import { NoticeService } from '@modules/notice/services/notice.service';
+import { Pagination } from '@shared/decorators/pagination.decorator';
+import { Sorting } from '@shared/decorators/sorting.decorator';
+import { Filtering } from '@shared/decorators/filter.decorator';
+import { getWhere, getOrder } from '@shared/decorators/filter.helper';
 
 @Injectable()
 export class UserService implements EmailLists {
@@ -38,6 +42,29 @@ export class UserService implements EmailLists {
     return [];
   }
 
+  async getUsers(
+    { page, limit, offset }: Pagination,
+    sort?: Sorting,
+    filter?: Filtering[],
+  ) {
+    const where = getWhere(filter);
+    const order = getOrder(sort);
+
+    const [users, total] = await this.userRepository.findAndCount({
+      where,
+      order,
+      take: limit,
+      skip: offset,
+    });
+
+    return {
+      totalItems: total,
+      data: users,
+      page,
+      limit,
+    };
+  }
+
   async findAll() {
     const users = await this.userRepository.find();
     return Promise.all(
@@ -47,7 +74,7 @@ export class UserService implements EmailLists {
         let islamicLifestyle;
 
         try {
-          worldlyLifestyle = await this.getWorldyLifestyle(user.id);
+          worldlyLifestyle = await this.getWorldlyLifestyle(user.id);
         } catch (error) {}
 
         try {
@@ -95,7 +122,7 @@ export class UserService implements EmailLists {
     return await this.userRepository.save(user);
   }
 
-  async getWorldyLifestyle(userId: string) {
+  async getWorldlyLifestyle(userId: string) {
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
     if (!user) {
@@ -132,7 +159,7 @@ export class UserService implements EmailLists {
     return lifestyle;
   }
 
-  async getExpectedWorldyLifestyle(userId: string) {
+  async getExpectedWorldlyLifestyle(userId: string) {
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
     if (!user) {

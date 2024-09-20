@@ -11,9 +11,12 @@ export class Permission {
 
 export const allPermissions = {
   'user:write': 'Allow user to create/update any user',
-  'user:read': 'Allow user to read any user',
+  'user:read': 'Allow user to read any single user',
+  'user:query': 'Allow user to query any user',
   'user:delete': 'Allow user to delete any user',
-  'user:approve': 'Allow user to approve user registration',
+
+  'account_status:write':
+    'Allow user to approve, ban or reject user registration',
 
   'role:write': 'Allow user to create/update role',
   'role:read': 'Allow user to read role',
