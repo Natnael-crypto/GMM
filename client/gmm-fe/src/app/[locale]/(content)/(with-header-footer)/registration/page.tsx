@@ -5,13 +5,13 @@ import BasicInformationForm from '@/components/registration/basic-information-fo
 import FamilyForm from '@/components/registration/family-form';
 import PhotoUploader from '@/components/registration/photo-uploader';
 import VideoUploader from '@/components/registration/video-uploader';
-import { Button } from '@/components/ui/button';
-import { useAppSelector } from '@/lib/hooks';
-import { useRouter } from '@/lib/navigation';
-import React, { useEffect } from 'react';
+import { Button, buttonVariants } from '@/components/ui/button';
+import Loading from '@/components/ui/loading';
+import { cn } from '@/lib/utils';
+
 
 export default function Registration() {
-  const { onSave } = useUpdateProfileContext();
+  const { onSave, isSaving } = useUpdateProfileContext();
 
   // const user = useAppSelector((state) => state.auth.user);
   // const router = useRouter()
@@ -34,8 +34,18 @@ export default function Registration() {
           <BasicInformationForm />
           <FamilyForm />
           <div className="flex justify-end">
-            <Button className="bg-primary text-primary-foreground" onClick={onSave}>
-              Submit
+            <Button
+              onClick={onSave}
+              className={cn(
+                buttonVariants({
+                  variant: 'default',
+                  size: 'sm',
+                }),
+                'bg-primary rounded-full text-xs text-primary-foreground h-6'
+              )}
+              disabled={isSaving}
+            >
+              {isSaving ? <Loading /> : "Submit"}
             </Button>
           </div>
         </div>

@@ -1,13 +1,11 @@
 'use client'
 
-import { useAppSelector } from '@/lib/hooks';
 import Image from 'next/image';
 import React from 'react';
 import { useGetDownloadUrlQuery } from '@/lib/user/api';
+import { User } from '@/lib/schemas/user';
 
-export default function ProfileCard() {
-  const user = useAppSelector((state) => state.auth.user);
-
+export default function ProfileCard({ user }: { user: User }) {
   const { data: imageUrl } = useGetDownloadUrlQuery(user?.pictures ? user?.pictures[0] : '', { skip: (!user?.pictures || !user?.pictures[0]) });
 
   return (

@@ -1,23 +1,37 @@
+'use client'
+
 import Chat from '@/components/chat/chat';
 import GuardianGuide from '@/components/chat/guardian-guide';
 import MatchProfile from '@/components/chat/match-profile';
-import AuthGuard from '@/components/providers/auth-guard';
+import { useGetChatQuery } from '@/lib/chat/api';
+import { useAppSelector } from '@/lib/hooks';
+import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React from 'react';
 
-function ChatPage() {
+export default function ChatPage() {
+  const user = useAppSelector((state) => state.auth.user);
+  const params = useParams<{ chatId: string }>();
+  const { data: currentMatch } = useGetCurrentMatchQuery(undefined, { skip: !user })
+  const { data: chat, isLoading: isChatLoading } = useGetChatQuery(params.chatId, { skip: !user || !params.chatId });
+
+  const matchedUser = currentMatch && (user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser);
+
   return (
-    <div className="h-screen flex flex-col justify-between bg-[#c9e2aa]">
-      <div className="grid grid-cols-12 px-6 gap-x-2 gap-y-5 outline h-full p-3">
-        <div className="col-span-3">
-          <MatchProfile />
-        </div>
-        <div className="col-span-6">
-          <Chat />
-        </div>
-        <div className="col-span-3">
-          <GuardianGuide />
+    <div className="flex flex-col justify-between bg-[#c9e2aa]">
+      <div className='h-screen px-5 p-3 flex items-center justify-center'>
+        <div className="grid grid-cols-18 gap-x-[0.4rem] gap-y-5 h-full">
+          <div className="col-span-4">
+            {matchedUser && <MatchProfile matchedUser={matchedUser} />}
+          </div>
+          <div className="col-span-10">
+            {chat && <Chat chat={chat} />}
+          </div>
+          <div className="col-span-4">
+            {matchedUser && <GuardianGuide matchedUser={matchedUser} />}
+          </div>
         </div>
       </div>
       <div className="col-span-12 bg-secondary text-secondary-foreground p-2 px-5">
@@ -36,5 +50,3 @@ function ChatPage() {
     </div>
   );
 }
-
-export default AuthGuard({ Component: ChatPage });

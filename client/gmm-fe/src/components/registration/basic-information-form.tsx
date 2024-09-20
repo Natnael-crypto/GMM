@@ -35,37 +35,38 @@ export default function BasicInformationForm() {
   const form = useForm<User>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      age: 0,
-      gender: '',
-      height: 0,
-      weight: 0,
-      country: '',
-      skinColor: '',
-      languages: [],
-      nationality: '',
-      city: '',
-      numberOfChildren: 0,
-      ageOfOldestChild: 0,
-      ageOfYoungestChild: 0,
-      sunniMadhaib: '',
-      religiousPractice: '',
+      id: user?.id ?? '',
+      firstName: user?.firstName ?? '',
+      lastName: user?.lastName ?? '',
+      age: user?.age ?? 0,
+      gender: user?.gender ?? '',
+      height: user?.height ?? 0,
+      weight: user?.weight ?? 0,
+      country: user?.country ?? '',
+      skinColor: user?.skinColor ?? '',
+      languages: user?.languages ?? [],
+      nationality: user?.nationality ?? '',
+      city: user?.city ?? '',
+      numberOfChildren: user?.numberOfChildren ?? 0,
+      ageOfOldestChild: user?.ageOfOldestChild ?? 0,
+      ageOfYoungestChild: user?.ageOfYoungestChild ?? 0,
+      sunniMadhaib: user?.sunniMadhaib ?? '',
+      religiousPractice: user?.religiousPractice ?? '',
       bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
-      drinks: false,
-      drugs: false,
-      smokes: false,
-      tattoos: false,
-      email: '',
-      maritalStatus: '',
-      pictures: [],
+      drinks: user?.drinks ?? false,
+      drugs: user?.drugs ?? false,
+      smokes: user?.smokes ?? false,
+      tattoos: user?.tattoos ?? false,
+      email: user?.email ?? '',
+      maritalStatus: user?.maritalStatus ?? '',
+      pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
       video: '',
       phone: '',
     }
   });
 
   const basicInfoFormRef = useRef<HTMLFormElement>(null);
-  const { registerForm } = useUpdateProfileContext();
+  const { registerForm, setSaving } = useUpdateProfileContext();
   const [updateUser, updateResult] = useUpdateUserMutation();
   const dispatch = useAppDispatch();
 
@@ -76,17 +77,43 @@ export default function BasicInformationForm() {
   }, [basicInfoFormRef, registerForm]);
 
   useEffect(() => {
-    form.reset({
-      ...user,
-      bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
-      pictures: [],
-      video: '',
-      phone: '',
-    })
+    if (user) {
+      form.reset({
+        id: user?.id ?? '',
+        firstName: user?.firstName ?? '',
+        lastName: user?.lastName ?? '',
+        age: user?.age ?? 0,
+        gender: user?.gender ?? '',
+        height: user?.height ?? 0,
+        weight: user?.weight ?? 0,
+        country: user?.country ?? '',
+        skinColor: user?.skinColor ?? '',
+        languages: user?.languages ?? [],
+        nationality: user?.nationality ?? '',
+        city: user?.city ?? '',
+        numberOfChildren: user?.numberOfChildren ?? 0,
+        ageOfOldestChild: user?.ageOfOldestChild ?? 0,
+        ageOfYoungestChild: user?.ageOfYoungestChild ?? 0,
+        sunniMadhaib: user?.sunniMadhaib ?? '',
+        religiousPractice: user?.religiousPractice ?? '',
+        drinks: user?.drinks ?? false,
+        drugs: user?.drugs ?? false,
+        smokes: user?.smokes ?? false,
+        tattoos: user?.tattoos ?? false,
+        email: user?.email ?? '',
+        maritalStatus: user?.maritalStatus ?? '',
+        bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
+        pictures: [],
+        video: '',
+        phone: '',
+      })
+    }
   }, [form, user]);
 
   const onSubmit = (data: User) => {
-    updateUser(data)
+    try {
+      updateUser(data)
+    } catch (error) { console.log(error) }
   }
 
   useEffect(() => {
@@ -101,6 +128,10 @@ export default function BasicInformationForm() {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [updateResult, dispatch])
+
+  useEffect(() => {
+    setSaving(updateResult.isLoading);
+  }, [updateResult, setSaving])
 
   return (
     <Form {...form}>
@@ -494,6 +525,7 @@ export default function BasicInformationForm() {
                 <FormMessage className="text-xs" />
               </FormItem>)}
           />
+
 
         </div>
         <div className="space-y-1 col-span-2">

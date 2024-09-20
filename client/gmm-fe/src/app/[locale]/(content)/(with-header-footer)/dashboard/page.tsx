@@ -1,6 +1,5 @@
 'use client'
 
-import MatchProfile from '@/components/chat/match-profile';
 import MatchMeCard from '@/components/dashboard/components/match-me-card';
 import MatchPreferenceFilter from '@/components/dashboard/components/match-preference-filter';
 import MatchedCard from '@/components/dashboard/components/matched-card';
@@ -21,18 +20,16 @@ export default function Dashboard() {
 
   const user = useAppSelector((state) => state.auth.user)
 
-  const { data: currentMatch } = useGetCurrentMatchQuery(undefined, {
-    skip: !user,
-  })
+  const { data: currentMatch } = useGetCurrentMatchQuery(undefined, { skip: !user })
 
   return (
-    <UpdateProfileProvider>
+    <UpdateProfileProvider autoSave={false}>
       <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
         <h1 className="text-xl text-center font-medium">Your Dashboard</h1>
 
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-7">
-            {isAccountApproved ? (currentMatch ? <MatchedCard user={user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser} /> : <NoMatchCard />) : <PendingApprovalMessage />}
+            {isAccountApproved ? (currentMatch ? <MatchedCard matchedUser={user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser} /> : <NoMatchCard />) : <PendingApprovalMessage />}
           </div>
           <div className="col-span-5">
             <ProfileCompletionCard />

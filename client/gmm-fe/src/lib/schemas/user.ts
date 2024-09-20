@@ -3,7 +3,7 @@ import { preferenceSchema, Preference } from './preference';
 
 export const baseUserSchema = z
   .object({
-    id: z.string(),
+    id: z.string().optional(),
     email: z
       .string({ required_error: 'Please enter a valid email' })
       .email({ message: 'Please enter a valid email' }),
