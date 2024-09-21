@@ -16,7 +16,6 @@ import {
   UrlResponse,
   UpdateFamilyIntroduction,
   UpdateUser,
-  QueryParams,
 } from './types';
 import { User } from '../schemas/user';
 import {

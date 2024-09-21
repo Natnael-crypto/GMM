@@ -10,107 +10,52 @@ import {
   WorldlyLifestyle,
 } from '../schemas/worldly-lifestyle';
 
-export interface UserFilterableParams {
-  firstName?: {
-    rule: string;
-    value: string | null;
-  };
-  lastName?: {
-    rule: string;
-    value: string | null;
-  };
-  email?: {
-    rule: string;
-    value: string | null;
-  };
-  phoneNumber?: {
-    rule: string;
-    value: string | null;
-  };
-  age?: {
-    rule: string;
-    value: string | null;
-  };
-  gender?: {
-    rule: string;
-    value: string | null;
-  };
-  height?: {
-    rule: string;
-    value: string | null;
-  };
-  weight?: {
-    rule: string;
-    value: string | null;
-  };
-  country?: {
-    rule: string;
-    value: string | null;
-  };
-  city?: {
-    rule: string;
-    value: string | null;
-  };
-  skinColor?: {
-    rule: string;
-    value: string | null;
-  };
-  languages?: {
-    rule: string;
-    value: string | null;
-  };
-  nationality?: {
-    rule: string;
-    value: string | null;
-  };
-  numberOfChildren?: {
-    rule: string;
-    value: string | null;
-  };
-  ageOfOldestChild?: {
-    rule: string;
-    value: string | null;
-  };
-  ageOfYoungestChild?: {
-    rule: string;
-    value: string | null;
-  };
-  sunniMadhaib?: {
-    rule: string;
-    value: string | null;
-  };
-  religiousPractice?: {
-    rule: string;
-    value: string | null;
-  };
-  bornMuslim?: {
-    rule: string;
-    value: string | null;
-  };
-  drinks?: {
-    rule: string;
-    value: string | null;
-  };
-  smokes?: {
-    rule: string;
-    value: string | null;
-  };
-  drugs?: {
-    rule: string;
-    value: string | null;
-  };
-  tattoos?: {
-    rule: string;
-    value: string | null;
-  };
-  maritalStatus?: {
-    rule: string;
-    value: string | null;
-  };
-}
+export type FilterRule =
+  | 'eq'
+  | 'neq'
+  | 'gt'
+  | 'gte'
+  | 'lt'
+  | 'lte'
+  | 'like'
+  | 'nlike'
+  | 'in'
+  | 'nin'
+  | 'isnull'
+  | 'isnotnull';
+
+export type UserField =
+  | 'firstName'
+  | 'lastName'
+  | 'email'
+  | 'phoneNumber'
+  | 'age'
+  | 'gender'
+  | 'height'
+  | 'weight'
+  | 'country'
+  | 'city'
+  | 'skinColor'
+  | 'languages'
+  | 'nationality'
+  | 'numberOfChildren'
+  | 'ageOfOldestChild'
+  | 'ageOfYoungestChild'
+  | 'sunniMadhaib'
+  | 'religiousPractice'
+  | 'bornMuslim'
+  | 'drinks'
+  | 'smokes'
+  | 'drugs'
+  | 'tattoos'
+  | 'maritalStatus';
+
+export type UserFilterParams = {
+  [key in UserField]?: { [key in FilterRule]?: { value?: string | null } };
+};
 
 export class UserQueryParams {
-  filter: UserFilterableParams;
+  filters: UserFilterParams;
   public page?: number;
   public limit?: number;
   public sort?: {
@@ -118,15 +63,15 @@ export class UserQueryParams {
     direction: 'asc' | 'desc';
   };
 
-  private filterableFields: (keyof UserFilterableParams)[];
+  public filterableFields: UserField[];
 
   constructor({
-    filter,
+    filters,
     page,
     limit,
     sort,
   }: {
-    filter: UserFilterableParams;
+    filters: UserFilterParams;
     page?: number;
     limit?: number;
     sort?: {
@@ -134,7 +79,7 @@ export class UserQueryParams {
       direction: 'asc' | 'desc';
     };
   }) {
-    this.filter = filter;
+    this.filters = filters;
     this.filterableFields = [
       'firstName',
       'lastName',
@@ -168,14 +113,19 @@ export class UserQueryParams {
     let filterString = '';
 
     filterString = this.filterableFields
-      .filter((field) => this.filter[field])
-      .map((field) => {
-        const filter = this.filter[field]!;
-        if (filter.value === null) {
-          return `${field}:${filter.rule}`;
-        } else {
-          return `${field}:${filter.rule}:${filter.value}`;
-        }
+      .filter((field) => this.filters[field])
+      .flatMap((field) => {
+        const filter = this.filters[field]!;
+
+        return Object.keys(filter)
+          .filter((rule) => filter[rule as FilterRule] !== undefined)
+          .map((rule) => {
+            if (filter[rule as FilterRule]!.value === null) {
+              return `${field}:${rule}`;
+            } else {
+              return `${field}:${rule}:${filter[rule as FilterRule]!.value}`;
+            }
+          });
       })
       .join(',');
     queries.push(`filter=${filterString}`);
@@ -197,7 +147,7 @@ export class UserQueryParams {
 
   public static fromQueryString(queryString: string): UserQueryParams {
     const queryParams = new UserQueryParams({
-      filter: {},
+      filters: {},
     });
 
     const params = new URLSearchParams(queryString);
@@ -206,105 +156,12 @@ export class UserQueryParams {
       const filters = params.get('filter')?.split(',');
       filters?.forEach((filter) => {
         const [field, rule, value] = filter.split(':');
-        queryParams.filter[field as keyof UserFilterableParams] = {
-          rule,
-          value: value === undefined ? null : value,
+        const prevFilters = queryParams.filters[field as UserField] ?? {};
+
+        queryParams.filters[field as UserField] = {
+          ...prevFilters,
+          [rule as FilterRule]: { value: value === undefined ? null : value },
         };
-      });
-    }
-
-    if (params.has('page')) {
-      queryParams.page = Number(params.get('page'));
-    }
-
-    if (params.has('limit')) {
-      queryParams.limit = Number(params.get('limit'));
-    }
-
-    if (params.has('sort')) {
-      const [field, direction] = params.get('sort')!.split(':');
-      queryParams.sort = { field, direction: direction as 'asc' | 'desc' };
-    }
-
-    return queryParams;
-  }
-}
-
-export class QueryParams {
-  public filters?: {
-    field: string;
-    rule: string;
-    value: string | null;
-  }[];
-  public page?: number;
-  public limit?: number;
-  public sort?: {
-    field: string;
-    direction: 'asc' | 'desc';
-  };
-
-  constructor({
-    filters,
-    page,
-    limit,
-    sort,
-  }: {
-    filters?: { field: string; rule: string; value: string | null }[];
-    page?: number;
-    limit?: number;
-    sort?: {
-      field: string;
-      direction: 'asc' | 'desc';
-    };
-  }) {
-    this.filters = filters;
-    this.page = page;
-    this.limit = limit;
-    this.sort = sort;
-  }
-
-  public toQueryString(): string {
-    let queries = [];
-    let filterString = '';
-
-    if (this.filters) {
-      filterString = this.filters
-        .map((filter) => {
-          if (filter.value === null) {
-            return `${filter.field}:${filter.rule}`;
-          } else {
-            return `${filter.field}:${filter.rule}:${filter.value}`;
-          }
-        })
-        .join(',');
-      queries.push(`filter=${filterString}`);
-    }
-
-    if (this.page) {
-      queries.push(`page=${this.page}`);
-    }
-
-    if (this.limit) {
-      queries.push(`limit=${this.limit}`);
-    }
-
-    if (this.sort) {
-      queries.push(`sort=${this.sort.field}:${this.sort.direction}`);
-    }
-
-    return queries.join('&');
-  }
-
-  public static fromQueryString(queryString: string): QueryParams {
-    const queryParams = new QueryParams({});
-
-    const params = new URLSearchParams(queryString);
-
-    if (params.has('filter')) {
-      const filters = params.get('filter')?.split(',');
-      queryParams.filters = filters?.map((filter) => {
-        const [field, rule, value] = filter.split(':');
-        return { field, rule, value: value === undefined ? null : value };
       });
     }
 

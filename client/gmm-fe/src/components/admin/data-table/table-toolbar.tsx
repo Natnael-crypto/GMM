@@ -10,7 +10,7 @@ import { DataTableViewOptions } from "./table-view-options"
 import { DataTableFacetedFilter } from "./table-faceted-filter"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { QueryParams, UserQueryParams } from "@/lib/user/types"
+import { UserQueryParams } from "@/lib/user/types"
 
 interface DataTableToolbarProps<TData> {
     table: Table<TData>
@@ -22,34 +22,29 @@ export function DataTableToolbar<TData>({
     const isFiltered = table.getState().columnFilters.length > 0
 
     const searchParams = useSearchParams()
-    const initialSearchValue = QueryParams.fromQueryString(searchParams.toString())
+    const initialSearchValue = UserQueryParams.fromQueryString(searchParams.toString())
+
+    const [filterKey, setFilterKey] = useState<string>('firstName')
     const [searchValue, setSearchValue] = useState<string>('')
 
-    // console.log(initialSearchValue)
-
-    console.log(UserQueryParams.fromQueryString(searchParams.toString()))
+    console.log(initialSearchValue)
 
     useEffect(() => {
         if (initialSearchValue.filters) {
-            for (const filter of initialSearchValue.filters) {
-                if (filter.field === 'firstName') {
-                    setSearchValue(filter.value!)
-                }
-            }
+            setSearchValue(initialSearchValue.filters.firstName?.like?.value ?? '')
         }
     }, [])
 
     useEffect(() => {
-        const prevFilters = initialSearchValue.filters ? initialSearchValue.filters : []
-        const queryParams = new QueryParams({
-            filters: [
-                ...prevFilters,
-                {
-                    field: 'firstName',
-                    rule: 'like',
-                    value: searchValue
+        const queryParams = new UserQueryParams({
+            filters: {
+                ...initialSearchValue.filters,
+                firstName: searchValue === '' ? undefined : {
+                    like: {
+                        value: searchValue,
+                    }
                 }
-            ]
+            }
         })
         window.history.pushState(null, '', `?${queryParams.toQueryString()}`)
     }, [searchValue])
@@ -67,11 +62,11 @@ export function DataTableToolbar<TData>({
                     {table.getColumn("firstName") && (
                         <DataTableFacetedFilter
                             column={table.getColumn("firstName")}
-                            title="First Name"
+                            title="Search by"
                             options={
                                 [{
-                                    value: 'Leul',
-                                    label: "Leul"
+                                    value: 'firstName',
+                                    label: "First Name"
                                 }]
                             }
                         />
