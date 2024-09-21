@@ -13,8 +13,8 @@ const labels: Record<FilterRule, string> = {
     'lt': '<',
     'gte': '≥',
     'lte': '≤',
-    'like': 'Contains',
-    'nlike': 'Doesn\'t contain',
+    'like': '🔎︎',
+    'nlike': '⊘',
     'in': 'In',
     'nin': 'Not in',
     'isnull': 'Is null',
@@ -65,7 +65,7 @@ export default function FilterOptionItem({ column, option }: { column: any, opti
     return <div className='flex gap-2 items-center justify-between flex-nowrap text-nowrap w-full'>
         <div className='flex items-center gap-3'>
             <span className='text-nowrap'>{labels[option]}</span>
-            {!(option === 'isnull' || option === 'isnotnull') && <Input ref={inputRef} className='text-xs h-7' />}
+            {!(option === 'isnull' || option === 'isnotnull') && <Input ref={inputRef} className='text-xs h-7 text-muted-foreground hover:text-muted-foreground' />}
         </div>
 
         <Checkbox

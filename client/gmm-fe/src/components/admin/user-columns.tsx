@@ -19,7 +19,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'firstName',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="First Name" />
+                <DataTableColumnHeader column={column} title="First Name" options={['like', 'eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -36,7 +36,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'lastName',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Last Name" />
+                <DataTableColumnHeader column={column} title="Last Name" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -53,7 +53,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'email',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Email" />
+                <DataTableColumnHeader column={column} title="Email" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -70,7 +70,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'phoneNumber',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Phone" />
+                <DataTableColumnHeader column={column} title="Phone" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -104,7 +104,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'gender',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Gender" />
+                <DataTableColumnHeader column={column} title="Gender" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -121,7 +121,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'height',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Height" />
+                <DataTableColumnHeader column={column} title="Height" options={['eq', 'neq', 'lt', 'gt', 'lte', 'gte', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -138,7 +138,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'weight',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Weight" />
+                <DataTableColumnHeader column={column} title="Weight" options={['eq', 'neq', 'lt', 'gt', 'lte', 'gte', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -155,7 +155,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'country',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Country" />
+                <DataTableColumnHeader column={column} title="Country" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -172,7 +172,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'city',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="City" />
+                <DataTableColumnHeader column={column} title="City" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -189,7 +189,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'skinColor',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Skin Color" />
+                <DataTableColumnHeader column={column} title="Skin Color" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -206,7 +206,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'languages',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Languages" />
+                <DataTableColumnHeader column={column} title="Languages" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -223,7 +223,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'nationality',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Nationality" />
+                <DataTableColumnHeader column={column} title="Nationality" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -240,7 +240,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'numberOfChildren',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Number of Children" />
+                <DataTableColumnHeader column={column} title="Number of Children" options={['eq', 'neq', 'lt', 'gt', 'lte', 'gte', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -257,7 +257,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'ageOfOldestChild',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Age of Oldest Child" />
+                <DataTableColumnHeader column={column} title="Age of Oldest Child" options={['eq', 'neq', 'lt', 'gt', 'lte', 'gte', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -274,7 +274,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'ageOfYoungestChild',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Age of Youngest Child" />
+                <DataTableColumnHeader column={column} title="Age of Youngest Child" options={['eq', 'neq', 'lt', 'gt', 'lte', 'gte', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -291,7 +291,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'sunniMadhaib',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Sunni Madhaib" />
+                <DataTableColumnHeader column={column} title="Sunni Madhaib" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -308,7 +308,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'religiousPractice',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Religious Practice" />
+                <DataTableColumnHeader column={column} title="Religious Practice" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -325,7 +325,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'bornMuslim',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Born Muslim" />
+                <DataTableColumnHeader column={column} title="Born Muslim" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -342,7 +342,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'drinks',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Drinks" />
+                <DataTableColumnHeader column={column} title="Drinks" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -359,7 +359,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'smokes',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Smokes" />
+                <DataTableColumnHeader column={column} title="Smokes" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -376,7 +376,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'drugs',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Drugs" />
+                <DataTableColumnHeader column={column} title="Drugs" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -393,7 +393,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'tattoos',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Tattoo(s)" />
+                <DataTableColumnHeader column={column} title="Tattoo(s)" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {
@@ -410,7 +410,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'maritalStatus',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Marital Status" />
+                <DataTableColumnHeader column={column} title="Marital Status" options={['eq', 'neq', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {

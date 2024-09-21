@@ -75,7 +75,7 @@ export function DataTableColumnHeader<TData, TValue>({
                         )}
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="max-h-36 overflow-auto">
+                <DropdownMenuContent align="start" className="max-h-52 overflow-auto">
                     <DropdownMenuItem onClick={() => handleSort('asc')} className={cn("text-xs", initQueryParams.sort?.field === column.id && initQueryParams.sort?.direction === 'asc' ? 'font-bold' : '')}>
                         <ChevronUp className="text-xs mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Asc
