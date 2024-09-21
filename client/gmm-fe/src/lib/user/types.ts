@@ -54,14 +54,16 @@ export type UserFilterParams = {
   [key in UserField]?: { [key in FilterRule]?: { value?: string | null } };
 };
 
+export type UserSortParams = {
+  field: UserField;
+  direction: 'asc' | 'desc';
+};
+
 export class UserQueryParams {
   filters: UserFilterParams;
+  public sort?: UserSortParams;
   public page?: number;
   public limit?: number;
-  public sort?: {
-    field: string;
-    direction: 'asc' | 'desc';
-  };
 
   public filterableFields: UserField[];
 
@@ -72,14 +74,14 @@ export class UserQueryParams {
     sort,
   }: {
     filters: UserFilterParams;
+    sort?: UserSortParams;
     page?: number;
     limit?: number;
-    sort?: {
-      field: string;
-      direction: 'asc' | 'desc';
-    };
   }) {
     this.filters = filters;
+    this.limit = limit;
+    this.page = page;
+    this.sort = sort;
     this.filterableFields = [
       'firstName',
       'lastName',
@@ -175,7 +177,10 @@ export class UserQueryParams {
 
     if (params.has('sort')) {
       const [field, direction] = params.get('sort')!.split(':');
-      queryParams.sort = { field, direction: direction as 'asc' | 'desc' };
+      queryParams.sort = {
+        field: field as UserField,
+        direction: direction as 'asc' | 'desc',
+      };
     }
 
     return queryParams;

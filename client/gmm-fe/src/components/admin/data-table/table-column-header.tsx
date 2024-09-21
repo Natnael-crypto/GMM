@@ -1,3 +1,5 @@
+'use client'
+
 import {
     CaretSortIcon,
     EyeNoneIcon,
@@ -14,6 +16,8 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useSearchParams } from "next/navigation"
+import { UserField, UserQueryParams } from "@/lib/user/types"
 
 interface DataTableColumnHeaderProps<TData, TValue>
     extends React.HTMLAttributes<HTMLDivElement> {
@@ -26,8 +30,26 @@ export function DataTableColumnHeader<TData, TValue>({
     title,
     className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
+    const searchParams = useSearchParams()
+    const initQueryParams = UserQueryParams.fromQueryString(searchParams.toString())
+
     if (!column.getCanSort()) {
         return <div className={cn(className)}>{title}</div>
+    }
+
+    const handleSort = (direction: 'asc' | 'desc' | null) => {
+        const queryParams = new UserQueryParams(initQueryParams)
+
+        if (direction) {
+            queryParams.sort = {
+                field: column.id as UserField,
+                direction,
+            }
+        } else {
+            queryParams.sort = undefined
+        }
+
+        window.history.replaceState(null, '', `?${queryParams.toQueryString()}`)
     }
 
     return (
@@ -37,9 +59,9 @@ export function DataTableColumnHeader<TData, TValue>({
                     <Button
                         variant="ghost"
                         size="sm"
-                        className={`-ml-3 h-8 data-[state=open]:bg-accent ${column.getIsSorted() ? 'text-gray-900 font-bold' : ''}`}
+                        className={`-ml-3 h-8 data-[state=open]:bg-accent ${initQueryParams.sort?.field === column.id ? 'text-gray-900 font-bold' : ''}`}
                     >
-                        <span>{title}</span>
+                        <span className="text-xs">{title}</span>
                         {column.getIsSorted() === "desc" ? (
                             <ChevronDown className="ml-2 h-4 w-4" />
                         ) : column.getIsSorted() === "asc" ? (
@@ -50,17 +72,17 @@ export function DataTableColumnHeader<TData, TValue>({
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
-                    <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-                        <ChevronUp className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                    <DropdownMenuItem onClick={() => handleSort('asc')} className={cn("", initQueryParams.sort?.field === column.id && initQueryParams.sort?.direction === 'asc' ? 'font-bold' : '')}>
+                        <ChevronUp className="text-xs mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Asc
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-                        <ChevronDown className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                    <DropdownMenuItem onClick={() => handleSort('desc')} className={cn("", initQueryParams.sort?.field === column.id && initQueryParams.sort?.direction === 'desc' ? 'font-bold' : '')}>
+                        <ChevronDown className="text-xs mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Desc
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-                        <EyeNoneIcon className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+                        <EyeNoneIcon className="text-xs mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Hide
                     </DropdownMenuItem>
                 </DropdownMenuContent>

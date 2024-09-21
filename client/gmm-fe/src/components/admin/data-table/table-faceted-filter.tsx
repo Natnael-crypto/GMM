@@ -1,5 +1,4 @@
 import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons"
-import { Column } from "@tanstack/react-table"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -21,24 +20,23 @@ import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 
 interface DataTableFacetedFilterProps<TData, TValue> {
-    column?: Column<TData, TValue>
-    title?: string
+    title?: string;
     options: {
         label: string
         value: string
         icon?: React.ComponentType<{ className?: string }>
-    }[]
+    }[];
+    selected?: string
+    onUpdate: (values?: string) => void;
 }
 
 export function DataTableFacetedFilter<TData, TValue>({
-    column,
     title,
     options,
+    onUpdate,
+    selected
 }: DataTableFacetedFilterProps<TData, TValue>) {
-    const facets = column?.getFacetedUniqueValues()
-    const selectedValues = new Set(column?.getFilterValue() as string[])
-
-    console.log("selectedvalues", selectedValues, facets)
+    const selectedValues = new Set<string>(selected ? [selected] : [])
 
     return (
         <Popover>
@@ -96,12 +94,12 @@ export function DataTableFacetedFilter<TData, TValue>({
                                             if (isSelected) {
                                                 selectedValues.delete(option.value)
                                             } else {
+                                                selectedValues.clear()
                                                 selectedValues.add(option.value)
                                             }
-                                            const filterValues = Array.from(selectedValues)
-                                            column?.setFilterValue(
-                                                filterValues.length ? filterValues : undefined
-                                            )
+                                            onUpdate(option.value)
+
+                                            console.log('clicked', option.value)
                                         }}
                                     >
                                         <div
@@ -118,11 +116,6 @@ export function DataTableFacetedFilter<TData, TValue>({
                                             <option.icon className="mr-2 h-4 w-4 text-muted-foreground" />
                                         )}
                                         <span>{option.label}</span>
-                                        {facets?.get(option.value) && (
-                                            <span className="ml-auto flex h-4 w-4 items-center justify-center font-mono text-xs">
-                                                {facets.get(option.value)}
-                                            </span>
-                                        )}
                                     </CommandItem>
                                 )
                             })}
@@ -132,7 +125,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                                 <CommandSeparator />
                                 <CommandGroup>
                                     <CommandItem
-                                        onSelect={() => column?.setFilterValue(undefined)}
+                                        onSelect={() => { onUpdate(undefined) }}
                                         className="justify-center text-center"
                                     >
                                         Clear filters

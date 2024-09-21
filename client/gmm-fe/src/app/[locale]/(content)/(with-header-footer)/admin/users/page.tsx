@@ -4,7 +4,6 @@ import { DataTable } from '@/components/admin/data-table/data-table'
 import { columns } from '@/components/admin/user-columns'
 import { useAppSelector } from '@/lib/hooks'
 import { useLazyGetUsersQuery } from '@/lib/user/api'
-import { QueryParams } from '@/lib/user/types'
 import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
 
@@ -13,15 +12,10 @@ export default function AdminPage() {
 
     const searchParams = useSearchParams()
 
-    useEffect(() => {
-        console.log(searchParams.toString())
-    }, [searchParams])
-
     const [trigger, result, lastPromiseInfo] = useLazyGetUsersQuery()
 
     useEffect(() => {
         if (user) {
-            // trigger(new QueryParams({ sort: { field: 'firstName', direction: 'desc' } }).toQueryString())
             trigger(searchParams.toString())
         }
     }, [user, trigger, searchParams])

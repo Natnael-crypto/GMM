@@ -50,7 +50,7 @@ export default function AdminSidebar() {
 
             <div className='space-y-2'>
                 <SidebarSection title='Users'>
-                    <SidebarLink href="">All Users</SidebarLink>
+                    <SidebarLink href="/admin/users">All Users</SidebarLink>
                     <SidebarLink href="">Matches</SidebarLink>
                 </SidebarSection>
 

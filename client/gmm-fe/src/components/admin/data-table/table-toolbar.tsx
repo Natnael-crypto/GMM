@@ -11,6 +11,7 @@ import { DataTableFacetedFilter } from "./table-faceted-filter"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { UserQueryParams } from "@/lib/user/types"
+import { userToolbarOptions } from "./user-toolbar-options"
 
 interface DataTableToolbarProps<TData> {
     table: Table<TData>
@@ -27,8 +28,6 @@ export function DataTableToolbar<TData>({
     const [filterKey, setFilterKey] = useState<string>('firstName')
     const [searchValue, setSearchValue] = useState<string>('')
 
-    console.log(initialSearchValue)
-
     useEffect(() => {
         if (initialSearchValue.filters) {
             setSearchValue(initialSearchValue.filters.firstName?.like?.value ?? '')
@@ -38,16 +37,18 @@ export function DataTableToolbar<TData>({
     useEffect(() => {
         const queryParams = new UserQueryParams({
             filters: {
-                ...initialSearchValue.filters,
-                firstName: searchValue === '' ? undefined : {
+                [filterKey]: searchValue === '' ? undefined : {
                     like: {
                         value: searchValue,
                     }
                 }
-            }
+            },
+            sort: initialSearchValue.sort,
+            page: initialSearchValue.page,
+            limit: initialSearchValue.limit,
         })
-        window.history.pushState(null, '', `?${queryParams.toQueryString()}`)
-    }, [searchValue])
+        window.history.replaceState(null, '', `?${queryParams.toQueryString()}`)
+    }, [searchValue, filterKey])
 
     return (
         <div className="flex justify-between">
@@ -61,58 +62,12 @@ export function DataTableToolbar<TData>({
                 <div className="flex flex-wrap flex-grow flex-1 items-center gap-x-2 gap-y-2">
                     {table.getColumn("firstName") && (
                         <DataTableFacetedFilter
-                            column={table.getColumn("firstName")}
+                            selected={filterKey}
+                            onUpdate={(value) => setFilterKey(value ?? 'firstName')}
                             title="Search by"
-                            options={
-                                [{
-                                    value: 'firstName',
-                                    label: "First Name"
-                                }]
-                            }
+                            options={userToolbarOptions}
                         />
                     )}
-                    {/* {table.getColumn("transactionType") && (
-                        <DataTableFacetedFilter
-                            column={table.getColumn("transactionType")}
-                            title="Transaction"
-                            options={transactionTypes}
-                        />
-                    )}
-                    {table.getColumn("deliverableType") && (
-                        <DataTableFacetedFilter
-                            column={table.getColumn("deliverableType")}
-                            title="Deliverable"
-                            options={deliverableTypes}
-                        />
-                    )}
-                    {table.getColumn("verificationStatus") && (
-                        <DataTableFacetedFilter
-                            column={table.getColumn("verificationStatus")}
-                            title="Verification"
-                            options={verificationStatuses}
-                        />
-                    )}
-                    {table.getColumn("bidStatus") && (
-                        <DataTableFacetedFilter
-                            column={table.getColumn("bidStatus")}
-                            title="Bid Status"
-                            options={bidStatuses}
-                        />
-                    )}
-                    {table.getColumn("paymentStatus") && (
-                        <DataTableFacetedFilter
-                            column={table.getColumn("paymentStatus")}
-                            title="Payment Status"
-                            options={paymentStatuses}
-                        />
-                    )}
-                    {table.getColumn("paybackStatus") && (
-                        <DataTableFacetedFilter
-                            column={table.getColumn("paybackStatus")}
-                            title="Payback Status"
-                            options={paymentStatuses}
-                        />
-                    )} */}
                     {isFiltered && (
                         <Button
                             onClick={() => table.resetColumnFilters()}
