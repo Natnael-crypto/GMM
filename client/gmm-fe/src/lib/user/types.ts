@@ -122,7 +122,7 @@ export class UserQueryParams {
         return Object.keys(filter)
           .filter((rule) => filter[rule as FilterRule] !== undefined)
           .map((rule) => {
-            if (filter[rule as FilterRule]!.value === null) {
+            if (rule === 'isnull' || rule === 'isnotnull') {
               return `${field}:${rule}`;
             } else {
               return `${field}:${rule}:${filter[rule as FilterRule]!.value}`;

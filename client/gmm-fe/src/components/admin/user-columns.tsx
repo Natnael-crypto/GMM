@@ -87,7 +87,7 @@ export const columns: ColumnDef<User>[] = [
         accessorKey: 'age',
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Age" />
+                <DataTableColumnHeader column={column} title="Age" options={['eq', 'neq', 'lt', 'gt', 'lte', 'gte', 'isnull', 'isnotnull']} />
             );
         },
         cell: ({ row, column }) => {

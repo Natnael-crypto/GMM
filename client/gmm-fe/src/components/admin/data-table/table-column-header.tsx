@@ -17,18 +17,22 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useSearchParams } from "next/navigation"
-import { UserField, UserQueryParams } from "@/lib/user/types"
+import { FilterRule, UserField, UserQueryParams } from "@/lib/user/types"
+import React from "react"
+import FilterOptionItem from "./filter-option"
 
 interface DataTableColumnHeaderProps<TData, TValue>
     extends React.HTMLAttributes<HTMLDivElement> {
     column: Column<TData, TValue>
     title: string
+    options?: FilterRule[]
 }
 
 export function DataTableColumnHeader<TData, TValue>({
     column,
     title,
     className,
+    options
 }: DataTableColumnHeaderProps<TData, TValue>) {
     const searchParams = useSearchParams()
     const initQueryParams = UserQueryParams.fromQueryString(searchParams.toString())
@@ -59,7 +63,7 @@ export function DataTableColumnHeader<TData, TValue>({
                     <Button
                         variant="ghost"
                         size="sm"
-                        className={`-ml-3 h-8 data-[state=open]:bg-accent ${initQueryParams.sort?.field === column.id ? 'text-gray-900 font-bold' : ''}`}
+                        className={`-ml-3 h-8 data-[state=open]:bg-accent data-[state=open]:text-background ${initQueryParams.sort?.field === column.id ? 'text-gray-900 font-bold' : ''}`}
                     >
                         <span className="text-xs">{title}</span>
                         {column.getIsSorted() === "desc" ? (
@@ -71,22 +75,36 @@ export function DataTableColumnHeader<TData, TValue>({
                         )}
                     </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start">
-                    <DropdownMenuItem onClick={() => handleSort('asc')} className={cn("", initQueryParams.sort?.field === column.id && initQueryParams.sort?.direction === 'asc' ? 'font-bold' : '')}>
+                <DropdownMenuContent align="start" className="max-h-36 overflow-auto">
+                    <DropdownMenuItem onClick={() => handleSort('asc')} className={cn("text-xs", initQueryParams.sort?.field === column.id && initQueryParams.sort?.direction === 'asc' ? 'font-bold' : '')}>
                         <ChevronUp className="text-xs mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Asc
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleSort('desc')} className={cn("", initQueryParams.sort?.field === column.id && initQueryParams.sort?.direction === 'desc' ? 'font-bold' : '')}>
+                    <DropdownMenuItem onClick={() => handleSort('desc')} className={cn("text-xs", initQueryParams.sort?.field === column.id && initQueryParams.sort?.direction === 'desc' ? 'font-bold' : '')}>
                         <ChevronDown className="text-xs mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Desc
                     </DropdownMenuItem>
+                    {
+                        options &&
+                        <>
+                            <DropdownMenuSeparator />
+                            {options.map(
+                                (option, index) => (
+                                    <DropdownMenuItem key={index} className="text-xs" onClick={(e) => e.preventDefault()}>
+                                        <FilterOptionItem option={option} column={column} />
+                                    </DropdownMenuItem>)
+                            )
+                            }
+                        </>
+                    }
+
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
+                    <DropdownMenuItem onClick={() => column.toggleVisibility(false)} className="text-xs">
                         <EyeNoneIcon className="text-xs mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
                         Hide
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-        </div>
+        </div >
     )
 }

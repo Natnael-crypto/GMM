@@ -10,7 +10,7 @@ import { DataTableViewOptions } from "./table-view-options"
 import { DataTableFacetedFilter } from "./table-faceted-filter"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
-import { UserQueryParams } from "@/lib/user/types"
+import { UserField, UserQueryParams } from "@/lib/user/types"
 import { userToolbarOptions } from "./user-toolbar-options"
 
 interface DataTableToolbarProps<TData> {
@@ -25,30 +25,52 @@ export function DataTableToolbar<TData>({
     const searchParams = useSearchParams()
     const initialSearchValue = UserQueryParams.fromQueryString(searchParams.toString())
 
-    const [filterKey, setFilterKey] = useState<string>('firstName')
+    const [filterKey, setFilterKey] = useState<UserField>('firstName')
     const [searchValue, setSearchValue] = useState<string>('')
 
     useEffect(() => {
+        let initFilterField = undefined
+        let initFilterValue = undefined
+
         if (initialSearchValue.filters) {
-            setSearchValue(initialSearchValue.filters.firstName?.like?.value ?? '')
+            for (const field of initialSearchValue.filterableFields) {
+                if (initialSearchValue.filters[field] && initialSearchValue.filters[field].like) {
+                    initFilterField = field
+                    initFilterValue = initialSearchValue.filters[field].like.value ?? ''
+                }
+            }
         }
+
+        setFilterKey(initFilterField ?? 'firstName')
+        setSearchValue(initFilterValue ?? '')
     }, [])
 
     useEffect(() => {
-        const queryParams = new UserQueryParams({
-            filters: {
-                [filterKey]: searchValue === '' ? undefined : {
-                    like: {
-                        value: searchValue,
-                    }
-                }
-            },
-            sort: initialSearchValue.sort,
-            page: initialSearchValue.page,
-            limit: initialSearchValue.limit,
-        })
+        const queryParams = new UserQueryParams(initialSearchValue)
+
+        queryParams.filters[filterKey] = searchValue === '' ? undefined : {
+            like: {
+                value: searchValue,
+            }
+        }
+
         window.history.replaceState(null, '', `?${queryParams.toQueryString()}`)
     }, [searchValue, filterKey])
+
+
+    const handleUpdateSearchFilterKey = (value?: string) => {
+        const queryParams = new UserQueryParams(initialSearchValue)
+
+        // clear all previous `like` filters
+        for (const field of queryParams.filterableFields) {
+            if (queryParams.filters[field]) {
+                queryParams.filters[field].like = undefined
+            }
+        }
+
+        window.history.replaceState(null, '', `?${queryParams.toQueryString()}`)
+        setFilterKey(value as UserField ?? 'firstName')
+    }
 
     return (
         <div className="flex justify-between">
@@ -63,7 +85,7 @@ export function DataTableToolbar<TData>({
                     {table.getColumn("firstName") && (
                         <DataTableFacetedFilter
                             selected={filterKey}
-                            onUpdate={(value) => setFilterKey(value ?? 'firstName')}
+                            onUpdate={handleUpdateSearchFilterKey}
                             title="Search by"
                             options={userToolbarOptions}
                         />
