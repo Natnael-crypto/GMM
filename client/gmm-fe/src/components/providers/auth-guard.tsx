@@ -12,13 +12,12 @@ export default function AuthGuard({ Component, allowedRoles }: AuthGuardProps) {
 
     if (
       !session
-      /*
+
       ||
       (allowedRoles &&
-        session.user.role &&
-        !allowedRoles.includes(session.user.role)
+        (session.user as any).roleId &&
+        !allowedRoles.includes((session.user as any).roleId)
       )
-      */
     ) {
       redirect('/login');
     }
