@@ -98,8 +98,6 @@ export function DataTableFacetedFilter<TData, TValue>({
                                                 selectedValues.add(option.value)
                                             }
                                             onUpdate(option.value)
-
-                                            console.log('clicked', option.value)
                                         }}
                                     >
                                         <div
