@@ -16,6 +16,7 @@ import {
   UrlResponse,
   UpdateFamilyIntroduction,
   UpdateUser,
+  QueryParams,
 } from './types';
 import { User } from '../schemas/user';
 import {
@@ -51,6 +52,13 @@ export const userApi = createApi({
   }),
 
   endpoints: (builder) => ({
+    getUsers: builder.query<User[], string>({
+      query: (queryString) => `users?${queryString}`,
+      transformResponse: (response: BaseResponse<User[]>) => {
+        return response.data;
+      },
+    }),
+
     updateUser: builder.mutation<User, UpdateUser>({
       query: ({ user, self }) => ({
         url: self ? `users/me` : `users/${user.id}`,
@@ -290,6 +298,7 @@ export const userApi = createApi({
 });
 
 export const {
+  useLazyGetUsersQuery,
   useUpdatePreferenceMutation,
   useUpdateUserMutation,
   useGetWorldlyLifestyleQuery,
