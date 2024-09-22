@@ -39,10 +39,6 @@ export default function OurApproach() {
     if (animation) {
       clearInterval(animation);
     }
-    const interval = setInterval(() => {
-      next();
-    }, 5000);
-    setAnimationInterval(interval);
   };
 
   return (
@@ -178,7 +174,7 @@ export default function OurApproach() {
           title={t('slide.guardianFamilyInvolvement.title')}
         >
           <>
-            {t.rich('slide.neverPayToCompete.description', {
+            {t.rich('slide.guardianFamilyInvolvement.description', {
               bold: (text) => <span className="font-bold">{text}</span>,
             })}
           </>

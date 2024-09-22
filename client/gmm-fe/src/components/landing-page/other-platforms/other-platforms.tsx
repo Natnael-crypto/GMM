@@ -39,10 +39,6 @@ export default function OtherPlatforms() {
     if (animation) {
       clearInterval(animation);
     }
-    const interval = setInterval(() => {
-      next();
-    }, 5000);
-    setAnimationInterval(interval);
   };
 
   return (

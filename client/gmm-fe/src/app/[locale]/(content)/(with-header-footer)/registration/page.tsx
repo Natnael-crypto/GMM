@@ -2,7 +2,7 @@
 
 import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 import BasicInformationForm from '@/components/registration/basic-information-form';
-import FamilyForm from '@/components/registration/family-form';
+import FamilyIntroductionForm from '@/components/registration/family-form';
 import PhotoUploader from '@/components/registration/photo-uploader';
 import VideoUploader from '@/components/registration/video-uploader';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -32,7 +32,9 @@ export default function Registration() {
         </div>
         <div className="col-span-2 space-y-10">
           <BasicInformationForm />
-          <FamilyForm />
+          <div className='w-full'>
+            <FamilyIntroductionForm />
+          </div>
           <div className="flex justify-end">
             <Button
               onClick={onSave}

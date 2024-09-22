@@ -52,7 +52,7 @@ export default function BasicInformationForm() {
         }
     });
     const [updateUser, updateResult] = useUpdateUserMutation();
-
+    console.log(user)
     useEffect(() => {
         form.reset({
             ...user,
