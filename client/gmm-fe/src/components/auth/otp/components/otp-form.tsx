@@ -20,14 +20,16 @@ import { useRouter } from '@/lib/navigation';
 import Loading from '@/components/ui/loading';
 import { useToast } from '@/components/ui/use-toast';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
   const t = useTranslations('Auth.otp');
   const { replace } = useRouter();
   const { toast } = useToast();
 
-  const [isOtpVerificationInProgress, setOtpVerificationInProgress] =
-    useState(false);
+  const params = useSearchParams();
+
+  const [isOtpVerificationInProgress, setOtpVerificationInProgress] = useState(false);
 
   const form = useForm<Otp>({
     resolver: zodResolver(OtpSchema),
@@ -41,6 +43,10 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
     const res = await verifyOtp(data);
 
     if (res.status === 200) {
+      if (params.get('account') === 'guardian') {
+        replace('/guardian');
+        return;
+      }
       replace('/login?redirect=/checkout');
     } else {
       toast({

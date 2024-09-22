@@ -17,9 +17,13 @@ import { useUpdateFamilyIntroductionMutation } from '@/lib/user/api';
 import { useAppSelector } from '@/lib/hooks';
 import { toast } from '@/components/ui/use-toast';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import { useSendRequestMutation } from '@/lib/guardian/api';
 
 export default function FamilyIntroductionForm({ familyIntroduction }: { familyIntroduction?: FamilyIntroduction }) {
     const t = useTranslations('Dashboard.updateProfile.familyIntroduction');
+
+    const user = useAppSelector(state => state.auth.user);
+
 
     const form = useForm<FamilyIntroduction>({
         resolver: zodResolver(familyIntroductionSchema),
@@ -31,17 +35,22 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
         },
     })
 
-
     useEffect(() => {
-        form.reset(familyIntroduction)
-    }, [form, familyIntroduction])
-
-    const user = useAppSelector(state => state.auth.user);
+        if (user && user.guardian) {
+            form.reset({
+                ...familyIntroduction,
+                guardianEmail: user.guardian.email,
+            });
+        } else {
+            form.reset(familyIntroduction);
+        }
+    }, [form, familyIntroduction, user])
 
     const familyIntroductionFormRef = useRef<HTMLFormElement>(null);
 
     const { registerForm, setSaving } = useUpdateProfileContext()
     const [updateFamilyIntroduction, updateResult] = useUpdateFamilyIntroductionMutation();
+    const [sendGuardianRequest, sendGuardianRequestResult] = useSendRequestMutation();
 
     useEffect(() => {
         if (familyIntroductionFormRef && familyIntroductionFormRef.current) {
@@ -49,8 +58,22 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
         }
     }, [familyIntroductionFormRef, registerForm]);
 
-    const onSubmit = (data: FamilyIntroduction) => {
+    const onSubmit = async (data: FamilyIntroduction) => {
         updateFamilyIntroduction({ userId: user!.id, familyIntroduction: data, self: true });
+
+        try {
+            const result = await sendGuardianRequest({ guardianEmail: data.guardianEmail }).unwrap();
+            console.log(result)
+            if (result) {
+                toast({
+                    title: 'Success',
+                    description: 'Guardian request sent successfully',
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+
     }
 
     useEffect(() => {
@@ -147,7 +170,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
 
                     <div className="space-y-1 col-span-6">
                         <Label className="font-normal text-xs line-clamp-1">{t('guardianInformation.email')}{" "}
-                            {user && (!user.guardian || user.guardian.email !== form.watch('guardianEmail')) && <span className='text-xs font-medium italic'>(Pending Approval)</span>}
+                            {/* {user && (!user.guardian || user.guardian.email !== form.watch('guardianEmail')) && <span className='text-xs font-medium italic'>(Pending Approval)</span>} */}
                         </Label>
                         <FormField
                             name="guardianEmail"

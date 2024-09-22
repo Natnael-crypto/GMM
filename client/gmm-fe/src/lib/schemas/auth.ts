@@ -48,3 +48,20 @@ export const OtpSchema = z.object({
   }),
 });
 export type Otp = z.infer<typeof OtpSchema>;
+
+export const signUpWithLinkSchema = z.object({
+  firstName: z.string().min(1, {
+    message: 'Please enter your first name',
+  }),
+  lastName: z.string().min(1, {
+    message: 'Please enter your last name',
+  }),
+  token: z.string().min(1, {
+    message: 'Invalid registration link',
+  }),
+  password: z.string().min(8, {
+    message: 'Password must be at least 8 characters',
+  }),
+});
+
+export type SignUpWithLink = z.infer<typeof signUpWithLinkSchema>;
