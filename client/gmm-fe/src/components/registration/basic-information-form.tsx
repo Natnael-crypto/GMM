@@ -236,6 +236,7 @@ export default function BasicInformationForm() {
                 <FormControl>
                   <Input
                     type='number'
+                    min={1}
                     step={1}
                     pattern='[0-9]'
                     className="text-muted-foreground bg-background text-xs shadow rounded-sm"
@@ -261,6 +262,7 @@ export default function BasicInformationForm() {
                     className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                     placeholder="in kg"
                     type='number'
+                    min={1}
                     step={1}
                     pattern='[0-9]'
                     {...field}
@@ -631,6 +633,7 @@ export default function BasicInformationForm() {
                       className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                       placeholder="0"
                       type='number'
+                      min={0}
                       step={1}
                       pattern='[0-9]'
                       {...field}
@@ -654,6 +657,7 @@ export default function BasicInformationForm() {
                       className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                       placeholder="0"
                       type='number'
+                      min={0}
                       step={1}
                       pattern='[0-9]'
                       {...field}
@@ -676,6 +680,7 @@ export default function BasicInformationForm() {
                       className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                       placeholder="0"
                       type='number'
+                      min={0}
                       step={1}
                       pattern='[0-9]'
                       {...field}
