@@ -6,15 +6,19 @@ import {
   Param,
   Post,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { StorageService } from '../services/storage.service';
 import { Response } from 'express';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 import { PresignedUploadUrlDto } from '../dtos/presigned-upload-url.dto';
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 
 @ApiTags('storage')
+@ApiBearerAuth()
 @Controller({ version: ApiVersion.V1, path: 'storage' })
+@UseGuards(JwtAuthGuard)
 export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
