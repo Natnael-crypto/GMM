@@ -55,7 +55,7 @@ export default function BasicInformationCard({ user }: { user: User }) {
           />
         </div>
         <div className="col-span-11 space-y-3 ">
-          <h1 className="font-bold">{user?.languages.map((l) => languages[l]).join(', ')}</h1>
+          <h1 className="font-bold">{user?.languages?.map((l) => languages[l]).join(', ')}</h1>
         </div>
       </div>
 
