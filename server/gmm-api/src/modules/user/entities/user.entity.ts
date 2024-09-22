@@ -10,6 +10,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Role } from '@modules/auth/entities/role.entity';
+import { Subscription } from '@modules/payment/entities/subscription.entity';
 
 export enum AccountStatus {
   PENDING = 'pending',
@@ -138,6 +139,14 @@ export class User {
 
   @Column({ nullable: true })
   createdAt: Date;
+
+  @Column({ nullable: true })
+  stripeCustomerId: string;
+
+  @OneToOne(() => Subscription, subscription => subscription.user)
+  subscription: Subscription;
+
+
 
   @Column({ default: 'User' })
   roleId: string;
