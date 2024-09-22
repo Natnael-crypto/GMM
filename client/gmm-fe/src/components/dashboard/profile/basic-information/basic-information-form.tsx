@@ -15,21 +15,7 @@ import { useUpdateUserMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
 import { setUser } from '@/lib/auth/slice';
 import PhotoUploader from './photo-uploader';
-
-
-const languages = [{
-    value: 'EN',
-    label: 'English',
-}, {
-    value: 'AR',
-    label: 'Arabic',
-}, {
-    value: 'HN',
-    label: 'Hindu',
-}, {
-    value: 'FR',
-    label: 'France',
-},]
+import { languages } from '@/config/locales';
 
 export default function BasicInformationForm() {
     const user = useAppSelector(state => state.auth.user);
@@ -66,7 +52,7 @@ export default function BasicInformationForm() {
         }
     });
     const [updateUser, updateResult] = useUpdateUserMutation();
-
+    console.log(user)
     useEffect(() => {
         form.reset({
             ...user,
@@ -222,11 +208,15 @@ export default function BasicInformationForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input
-                                            className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                                            placeholder="Male / Female"
-                                            {...field}
-                                        />
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="Male">Male</SelectItem>
+                                                <SelectItem value="Female">Female</SelectItem>
+                                            </SelectContent>
+                                        </Select>
                                     </FormControl>
                                     <FormMessage className="text-xs" />
                                 </FormItem>)}

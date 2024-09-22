@@ -11,12 +11,14 @@ import { Link } from '@/lib/navigation';
 import { useLocale } from 'next-intl';
 import { User } from '@/lib/schemas/user';
 import { useGetDownloadUrlQuery } from '@/lib/user/api';
+import { useAppSelector } from '@/lib/hooks';
 
-export default function Profile({ user }: { user: User }) {
+export default function Profile({ user: profileUser }: { user: User }) {
   const [open, setOpen] = React.useState(false);
   const locale = useLocale();
+  const user = useAppSelector((state) => state.auth.user);
 
-  const { data: imageUrl } = useGetDownloadUrlQuery(user?.pictures ? user?.pictures[0] : '', { skip: !user.pictures });
+  const { data: imageUrl } = useGetDownloadUrlQuery(profileUser?.pictures ? profileUser?.pictures[0] : '', { skip: !user || !profileUser?.pictures || !profileUser?.pictures[0] });
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
