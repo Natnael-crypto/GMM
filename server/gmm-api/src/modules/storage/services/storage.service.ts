@@ -61,6 +61,7 @@ export class StorageService {
 
   private inferExtensionFromContentType(contentType: string) {
     switch (contentType) {
+      // Image
       case 'image/jpeg':
         return '.jpg';
       case 'image/png':
@@ -77,6 +78,22 @@ export class StorageService {
         return '.tiff';
       case 'image/x-icon':
         return '.ico';
+
+      // Video
+      case 'video/mp4':
+        return '.mp4';
+      case 'video/ogg':
+        return '.ogv';
+      case 'video/webm':
+        return '.webm';
+      case 'video/avi':
+        return '.avi';
+      case 'video/mpeg':
+        return '.mpeg';
+      case 'video/quicktime':
+        return '.mov';
+      case 'video/x-ms-wmv':
+        return '.wmv';
       default:
         throw new UnsupportedFileTypeException(contentType);
     }

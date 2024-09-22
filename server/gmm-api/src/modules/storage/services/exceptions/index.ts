@@ -13,5 +13,6 @@ export class FileDeleteException {
 export class UnsupportedFileTypeException extends NotAcceptableException {
   constructor(public message: string) {
     super(`File type ${message} is not supported`);
+    this.message = `File type ${message} is not supported`;
   }
 }
