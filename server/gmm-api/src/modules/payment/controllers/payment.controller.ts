@@ -1,11 +1,15 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Body, Controller, Get, HttpStatus, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Response, Request } from 'express';
 import { PaymentsService } from '../services/payment.service';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { User } from '@modules/user/entities/user.entity';
 
 @ApiTags('payments')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller({ version: ApiVersion.V1, path: 'payments' })
 export class PaymentsController {
   constructor(private paymentService: PaymentsService) {}
@@ -14,10 +18,11 @@ export class PaymentsController {
   @ApiBody({ type: CreateCheckoutSessionDto })
   async createCheckoutSession(
     @Res() response: Response,
+    @Req() req: Request,
     @Body() createCheckoutSessionDto: CreateCheckoutSessionDto,
   ) {
     try {
-      const session = await this.paymentService.createCheckoutSession(createCheckoutSessionDto);
+      const session = await this.paymentService.createCheckoutSession(createCheckoutSessionDto, (req.user as User).id,);
       return response.status(HttpStatus.CREATED).json({
         message: 'Checkout session created successfully',
         data: { url: session.url },
@@ -61,4 +66,122 @@ export class PaymentsController {
       });
     }
   }
+
+  @Get('current-subscription/:userId')
+  async getCurrentSubscription(@Res() response: Response, @Param('userId') userId: string) {
+    try {
+      const subscription = await this.paymentService.getCurrentSubscription(userId);
+      if (!subscription) {
+        return response.status(HttpStatus.NOT_FOUND).json({
+          message: 'No subscription found for the user',
+        });
+      }
+      return response.status(HttpStatus.OK).json({
+        message: 'Current subscription retrieved successfully',
+        data: subscription,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to retrieve subscription',
+        error: error.message,
+      });
+    }
+  }
+
+  @Get('checkout/success')
+  async handleCheckoutSuccess(
+    @Res() response: Response,
+    @Query('session_id') sessionId: string,
+    @Req() req: any,
+  ) {
+    try {
+      const userId = req.user.id;
+      await this.paymentService.handleCheckoutSuccess(sessionId, userId);
+
+      return response.status(HttpStatus.OK).json({
+        message: 'Subscription successfully created and stored',
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to handle checkout success',
+        error: error.message,
+      });
+    }
+  }
+
+  @Post('consume-match/:userId')
+  async consumeMatch(@Res() response: Response, @Param('userId') userId: string) {
+    try {
+      await this.paymentService.consumeMatch(userId);
+      return response.status(HttpStatus.OK).json({
+        message: 'Match consumed successfully',
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to consume match',
+        error: error.message,
+      });
+    }
+  }
+
+  @Post('renew-subscription/:userId')
+  async renewSubscription(@Res() response: Response, @Param('userId') userId: string) {
+    try {
+      console.log('Renewing subscription for user:', userId);
+      const subscription = await this.paymentService.getCurrentSubscription(userId);
+      console.log('Subscription:', subscription);
+      if (!subscription) {
+        return response.status(HttpStatus.NOT_FOUND).json({
+          message: 'No subscription found for the user',
+        });
+      }
+      await this.paymentService.renewSubscription(subscription, userId);
+      return response.status(HttpStatus.OK).json({
+        message: 'Subscription renewed successfully',
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to renew subscription',
+        error: error.message,
+      });
+    }
+  }
+
+  @Post('notify-renewal/:userId')
+  async notifyUserOfRenewal(@Res() response: Response, @Param('userId') userId: string) {
+    try {
+      await this.paymentService.notifyUserOfRenewal(userId);
+      return response.status(HttpStatus.OK).json({
+        message: 'User notified of subscription renewal',
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to notify user of renewal',
+        error: error.message,
+      });
+    }
+  }
+
+  // @Post('webhook')
+  // async handleStripeWebhook(
+  //   @Body() body: any,
+  //   @Headers('stripe-signature') signature: string,
+  //   @Res() res: Response
+  // ) {
+  //   let event: Stripe.Event;
+
+  //   try {
+  //     event = this.paymentService.verifyStripeWebhook(body, signature);
+  //   } catch (err) {
+  //     return res.status(HttpStatus.BAD_REQUEST).send(`Webhook Error: ${err.message}`);
+  //   }
+
+  //   // Process the event
+  //   try {
+  //     await this.paymentService.processWebhookEvent(event);
+  //     return res.status(HttpStatus.OK).send({ received: true });
+  //   } catch (err) {
+  //     return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(`Failed to process event: ${err.message}`);
+  //   }
+  // }
 }
