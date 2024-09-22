@@ -13,7 +13,7 @@ import { useGetDownloadUrlQuery } from '@/lib/user/api';
 export default function ProfileImages() {
   const user = useAppSelector((state) => state.auth.user);
 
-  const { data: imageUrl } = useGetDownloadUrlQuery(user?.pictures ? user?.pictures[0] : '', { skip: !user || !(user?.pictures[0]) });
+  const { data: imageUrl } = useGetDownloadUrlQuery(user?.pictures ? user?.pictures[0] : '', { skip: !user || !user?.pictures || !(user?.pictures[0]) });
 
   return (
     <div className="sticky top-5 rounded-se-3xl rounded-es-3xl overflow-hidden h-[26rem]">

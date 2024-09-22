@@ -14,10 +14,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
-import RadioButton from './radio-button';
+import { RadioButton } from './radio-button';
 import { Checkout, CheckoutSchema } from '@/lib/schemas/checkout';
 import { useAppSelector } from '@/lib/hooks';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useCreateCheckoutMutation } from '@/lib/checkout/api';
 import { useRouter } from '@/lib/navigation';
 
@@ -27,21 +27,13 @@ export function CheckoutForm() {
   const [createCheckout, result] = useCreateCheckoutMutation();
   const router = useRouter()
 
+  const ref = useRef<HTMLInputElement>(null)
+
   const form = useForm<Checkout>({
     resolver: zodResolver(CheckoutSchema),
     defaultValues: {
-      email: '',
-      membershipPackage: '',
-      name: '',
-      addressOne: '',
-      addressTwo: '',
-      city: '',
-      postcode: '',
-      region: '',
-      country: '',
-      cardNumber: '',
-      cardExpiryDate: '',
-      cvc: '',
+      email: user?.email || '',
+      membershipPackage: '3_months',
     },
   });
 
@@ -49,8 +41,12 @@ export function CheckoutForm() {
     if (user) {
       form.reset({
         email: user.email,
-        name: user.firstName ? user.firstName + ' ' + user.lastName : '',
+        membershipPackage: '3_months',
       });
+      if (ref.current) {
+        console.log('hhh')
+        ref.current.click()
+      }
     }
   }, [form, user]);
 
@@ -63,6 +59,7 @@ export function CheckoutForm() {
     router.push(response.url)
   }
 
+  console.log(form.getValues())
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
@@ -98,6 +95,7 @@ export function CheckoutForm() {
                         field={field}
                       />
                       <RadioButton
+                        ref={ref}
                         name="membershipPackage"
                         membershipPackage="threeMonthsPackage"
                         membershipPackageId="3_months"
@@ -121,184 +119,6 @@ export function CheckoutForm() {
                 );
               }}
             />
-          </div>
-
-          <div className="space-y-1">
-            <FormLabel className="text-xs">{t('billingInfo.title')}</FormLabel>
-            <div>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder={t('billingInfo.name')}
-                        className="text-sm placeholder:text-xs rounded-none rounded-t-md "
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="addressOne"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder={t('billingInfo.addressOne')}
-                        className="text-sm placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="addressTwo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder={t('billingInfo.addressTwo')}
-                        className="text-sm placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-              <div className="flex">
-                <FormField
-                  control={form.control}
-                  name="city"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder={t('billingInfo.city')}
-                          className="text-sm placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="postcode"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder={t('billingInfo.postcode')}
-                          className="text-sm placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <FormField
-                control={form.control}
-                name="region"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder={t('billingInfo.region')}
-                        className="text-sm placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="country"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder={t('billingInfo.country')}
-                        className="text-sm placeholder:text-xs rounded-none rounded-b-md  border-t-0 ring-transparent ring-offset-transparent"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
-
-          <div className="space-y-1">
-            <FormLabel className="text-xs">{t('cardInfo.title')}</FormLabel>
-            <div>
-              <FormField
-                control={form.control}
-                name="cardNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        placeholder="1234 1234 1234"
-                        className="text-sm placeholder:text-xs rounded-none rounded-t-md "
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-
-              <div className="flex">
-                <FormField
-                  control={form.control}
-                  name="cardExpiryDate"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder="MM / YY"
-                          className="text-sm placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent rounded-bl-md"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="cvc"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          placeholder="CVC"
-                          className="text-sm placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent rounded-br-md"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
           </div>
         </div>
 

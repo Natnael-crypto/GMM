@@ -2,6 +2,7 @@
 
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { toast } from '@/components/ui/use-toast';
 import { useCreateUploadUrlMutation, useCreateDownloadUrlMutation } from '@/lib/user/api';
 import { cn } from '@/lib/utils';
 import {
@@ -17,15 +18,21 @@ import React, { useEffect } from 'react';
 
 export interface PhotoUploaderProps {
     images: string[];
+    video?: string;
     onChange: (images: string[]) => void;
+    onVideoChange?: (video: string) => void;
 }
 
-export default function PhotoUploader({ images, onChange }: PhotoUploaderProps) {
+export default function PhotoUploader({ images, video, onChange, onVideoChange }: PhotoUploaderProps) {
+    const [spotlightImage, setSpotlightImage] = React.useState<string | undefined>();
     const [defaultImage, setDefaultImage] = React.useState<string>();
+    const [videoUrl, setVideoUrl] = React.useState<string | undefined>(undefined);
     const [imageMap, setImagesMap] = React.useState<{ [key: number]: string }>({});
 
     const [generateUploadUrl] = useCreateUploadUrlMutation();
     const [generateDownloadUrl] = useCreateDownloadUrlMutation();
+
+    const videoRef = React.useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
         for (let i = 0; i < images.length; i++) {
@@ -44,14 +51,69 @@ export default function PhotoUploader({ images, onChange }: PhotoUploaderProps) 
         }
         if (images.length > 0) {
             setDefaultImage(images[0]);
+            setSpotlightImage(images[0]);
         }
     }, [generateDownloadUrl, images])
+
+    useEffect(() => {
+        if (video && !videoUrl) {
+            generateDownloadUrl(video).unwrap().then((url) => {
+                setVideoUrl(url)
+            });
+        }
+    }, [generateDownloadUrl, video, videoUrl])
+
+    const handleVideoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!videoRef.current) return;
+
+        const file = e.target.files?.[0];
+        if (file) {
+            const blobUrl = URL.createObjectURL(file);
+
+            setVideoUrl(blobUrl);
+
+            videoRef.current.onloadedmetadata = async () => {
+                if (videoRef.current && videoRef.current.duration <= 120 /* seconds */) {
+                    try {
+                        const fileInfo = await generateUploadUrl({
+                            type: file.type,
+                            size: file.size,
+                            checksum: "sha256"
+                        }).unwrap();
+
+                        const result = await fetch(fileInfo.url, {
+                            method: 'PUT',
+                            body: file
+                        });
+
+                        if (!result.ok) {
+                            throw new Error("Failed to upload file");
+                        }
+
+                        if (onVideoChange) {
+                            console.log('onvideo change called', fileInfo.fileKey)
+                            onVideoChange(fileInfo.fileKey);
+                        }
+                    } catch (error) {
+                        console.error(error);
+                    }
+                } else {
+                    toast({
+                        title: 'Invalid Video',
+                        description: 'Video should be less than 2 minutes long',
+                    })
+                    setVideoUrl(undefined)
+                    onVideoChange && onVideoChange('');
+                }
+            }
+        };
+    }
 
     const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const file = e.target.files?.[0];
         if (file) {
             const blobUrl = URL.createObjectURL(file);
-
+            console.log(blobUrl)
             setImagesMap((imageMap) => {
                 return {
                     ...imageMap,
@@ -102,9 +164,9 @@ export default function PhotoUploader({ images, onChange }: PhotoUploaderProps) 
 
             <div className='flex gap-5 justify-between items-start lg:flex-col lg:gap-3'>
                 <div className="text-xs aspect-square flex items-center justify-center w-[225px] lg:w-full">
-                    {imageMap[images?.findIndex((v) => v === defaultImage)] ? <Image
+                    {imageMap[images?.findIndex((v) => v === spotlightImage)] ? <Image
                         className="w-full overflow-hidden aspect-square object-cover"
-                        src={imageMap[images.findIndex((v) => v === defaultImage)]}
+                        src={imageMap[images.findIndex((v) => v === spotlightImage)]}
                         width={300}
                         height={300}
                         alt="User Profile"
@@ -119,7 +181,7 @@ export default function PhotoUploader({ images, onChange }: PhotoUploaderProps) 
                             images.map((image, index) => (
                                 <Label key={index} className="col-span-1 bg-gray-200 flex justify-center items-center aspect-square cursor-pointer overflow-clip">
                                     {imageMap[index] ?
-                                        <div className='relative w-full h-full aspect-square'>
+                                        <div className='relative w-full h-full aspect-square' onMouseEnter={() => setSpotlightImage(image)} onMouseLeave={() => setSpotlightImage(defaultImage)}>
                                             <Image className='object-cover h-full w-full' src={imageMap[index]} width={100} height={100} alt="User Profile" />
                                             <div className={cn("absolute bottom-2 left-2", defaultImage !== image ? 'text-background opacity-70' : 'text-yellow-400')} onClick={(e) => handleDefaultImageChange(e, image)}>
                                                 <FontAwesomeIcon icon={faStar} />
@@ -132,10 +194,12 @@ export default function PhotoUploader({ images, onChange }: PhotoUploaderProps) 
                         }
                     </div>
 
+                    {<video ref={videoRef} className={cn("aspect-video", videoUrl ? '' : 'hidden')} src={videoUrl} controls />}
                     <div className="lg:w-full border border-secondary flex items-center bg-background h-8 px-3 justify-between gap-1 ">
+
                         <Label className="text-nowrap font-normal text-xs line-clamp-1 cursor-pointer">
                             <span>Introduction Video</span>
-                            <input type="file" className="hidden" />
+                            <input type="file" className="hidden" accept="video/*" onChange={(e) => handleVideoChange(e)} />
                         </Label>
                         <div className='flex gap-2 text-nowrap font-normal text-xs line-clamp-1'>
                             <span className="cursor-pointer" onClick={() => console.log('play')}>

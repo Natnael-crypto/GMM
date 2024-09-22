@@ -61,7 +61,7 @@ export default function BasicInformationForm() {
             email: user?.email ?? '',
             maritalStatus: user?.maritalStatus ?? '',
             pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
-            video: '',
+            video: user?.video ?? '',
             phone: '',
         }
     });
@@ -73,7 +73,7 @@ export default function BasicInformationForm() {
             languages: user?.languages ?? [],
             pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
             bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
-            video: '',
+            video: user?.video ?? '',
             phone: '',
         })
 
@@ -126,7 +126,22 @@ export default function BasicInformationForm() {
                 <FormField
                     name="pictures"
                     control={form.control}
-                    render={({ field }) => <PhotoUploader onChange={field.onChange} images={field.value} />}
+                    render={({ field }) => {
+                        const pictureField = field;
+                        return <FormField
+                            name="video"
+                            control={form.control}
+                            render={({ field }) =>
+                                <PhotoUploader
+                                    onChange={pictureField.onChange}
+                                    images={pictureField.value}
+                                    video={field.value}
+                                    onVideoChange={field.onChange}
+                                />
+                            }
+                        />
+                    }
+                    }
                 />
             </div>
 
@@ -229,6 +244,7 @@ export default function BasicInformationForm() {
                                         <Input
                                             type='number'
                                             step={1}
+                                            min={1}
                                             pattern='[0-9]'
                                             className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                                             placeholder='in cm'
@@ -253,6 +269,7 @@ export default function BasicInformationForm() {
                                             className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                                             placeholder="in kg"
                                             type='number'
+                                            min={1}
                                             step={1}
                                             pattern='[0-9]'
                                             {...field}
@@ -622,6 +639,7 @@ export default function BasicInformationForm() {
                                                 className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                                                 placeholder="0"
                                                 type='number'
+                                                min={0}
                                                 step={1}
                                                 pattern='[0-9]'
                                                 {...field}
@@ -645,6 +663,7 @@ export default function BasicInformationForm() {
                                                 className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                                                 placeholder="0"
                                                 type='number'
+                                                min={0}
                                                 step={1}
                                                 pattern='[0-9]'
                                                 {...field}
@@ -667,6 +686,7 @@ export default function BasicInformationForm() {
                                                 className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                                                 placeholder="0"
                                                 type='number'
+                                                min={0}
                                                 step={1}
                                                 pattern='[0-9]'
                                                 {...field}

@@ -221,20 +221,30 @@ export const baseUserSchema = z
     height: z.union([
       z
         .string({ required_error: 'Please enter your height in cm' })
-        .refine((value) => !isNaN(parseInt(value)))
+        .refine((value) => {
+          const num = parseInt(value);
+          return !isNaN(num) && num > 0;
+        })
         .transform(Number),
-      z.number({
-        required_error: 'Please enter your height in cm',
-      }),
+      z
+        .number({
+          required_error: 'Please enter your height in cm',
+        })
+        .min(1),
     ]),
     weight: z.union([
       z
         .string({ required_error: 'Please enter your height in kg' })
-        .refine((value) => !isNaN(parseInt(value)))
+        .refine((value) => {
+          const num = parseInt(value);
+          return !isNaN(num) && num > 0;
+        })
         .transform(Number),
-      z.number({
-        required_error: 'Please enter your weight in kg',
-      }),
+      z
+        .number({
+          required_error: 'Please enter your weight in kg',
+        })
+        .min(1),
     ]),
     country: z.string({
       required_error: 'Please enter your country',
@@ -278,30 +288,48 @@ export const baseUserSchema = z
       required_error: 'Please state your status',
     }),
     numberOfChildren: z.union([
-      z.number(),
+      z.number().min(0),
       z
         .string({ required_error: 'How many children do you have?' })
-        .refine((value) => !isNaN(parseInt(value)), {
-          message: 'Please enter a valid number',
-        })
+        .refine(
+          (value) => {
+            const num = parseInt(value);
+            return !isNaN(num) && num >= 0;
+          },
+          {
+            message: 'Please enter a valid number',
+          }
+        )
         .transform(Number),
     ]),
     ageOfOldestChild: z.union([
-      z.number(),
+      z.number().min(0),
       z
         .string({ required_error: 'How old is your oldest child?' })
-        .refine((value) => !isNaN(parseInt(value)), {
-          message: 'Please enter a valid number',
-        })
+        .refine(
+          (value) => {
+            const num = parseInt(value);
+            return !isNaN(num) && num >= 0;
+          },
+          {
+            message: 'Please enter a valid number',
+          }
+        )
         .transform(Number),
     ]),
     ageOfYoungestChild: z.union([
-      z.number(),
+      z.number().min(0),
       z
         .string({ required_error: 'How old is your youngest child?' })
-        .refine((value) => !isNaN(parseInt(value)), {
-          message: 'Please enter a valid number',
-        })
+        .refine(
+          (value) => {
+            const num = parseInt(value);
+            return !isNaN(num) && num >= 0;
+          },
+          {
+            message: 'Please enter a valid number',
+          }
+        )
         .transform(Number),
     ]),
     sunniMadhaib: z.string({
