@@ -60,7 +60,7 @@ export default function BasicInformationForm() {
       email: user?.email ?? '',
       maritalStatus: user?.maritalStatus ?? '',
       pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
-      video: '',
+      video: user?.video ?? '',
       phone: '',
     }
   });
@@ -104,7 +104,7 @@ export default function BasicInformationForm() {
         maritalStatus: user?.maritalStatus ?? '',
         bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
         pictures: [],
-        video: '',
+        video: user?.video ?? '',
         phone: '',
       })
     }

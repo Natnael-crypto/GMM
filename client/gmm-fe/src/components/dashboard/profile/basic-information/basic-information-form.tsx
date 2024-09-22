@@ -61,7 +61,7 @@ export default function BasicInformationForm() {
             email: user?.email ?? '',
             maritalStatus: user?.maritalStatus ?? '',
             pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
-            video: '',
+            video: user?.video ?? '',
             phone: '',
         }
     });
@@ -73,7 +73,7 @@ export default function BasicInformationForm() {
             languages: user?.languages ?? [],
             pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
             bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
-            video: '',
+            video: user?.video ?? '',
             phone: '',
         })
 
@@ -126,7 +126,22 @@ export default function BasicInformationForm() {
                 <FormField
                     name="pictures"
                     control={form.control}
-                    render={({ field }) => <PhotoUploader onChange={field.onChange} images={field.value} />}
+                    render={({ field }) => {
+                        const pictureField = field;
+                        return <FormField
+                            name="video"
+                            control={form.control}
+                            render={({ field }) =>
+                                <PhotoUploader
+                                    onChange={pictureField.onChange}
+                                    images={pictureField.value}
+                                    video={field.value}
+                                    onVideoChange={field.onChange}
+                                />
+                            }
+                        />
+                    }
+                    }
                 />
             </div>
 
