@@ -24,6 +24,7 @@ export interface PhotoUploaderProps {
 }
 
 export default function PhotoUploader({ images, video, onChange, onVideoChange }: PhotoUploaderProps) {
+    const [spotlightImage, setSpotlightImage] = React.useState<string | undefined>();
     const [defaultImage, setDefaultImage] = React.useState<string>();
     const [videoUrl, setVideoUrl] = React.useState<string | undefined>(undefined);
     const [imageMap, setImagesMap] = React.useState<{ [key: number]: string }>({});
@@ -50,6 +51,7 @@ export default function PhotoUploader({ images, video, onChange, onVideoChange }
         }
         if (images.length > 0) {
             setDefaultImage(images[0]);
+            setSpotlightImage(images[0]);
         }
     }, [generateDownloadUrl, images])
 
@@ -162,9 +164,9 @@ export default function PhotoUploader({ images, video, onChange, onVideoChange }
 
             <div className='flex gap-5 justify-between items-start lg:flex-col lg:gap-3'>
                 <div className="text-xs aspect-square flex items-center justify-center w-[225px] lg:w-full">
-                    {imageMap[images?.findIndex((v) => v === defaultImage)] ? <Image
+                    {imageMap[images?.findIndex((v) => v === spotlightImage)] ? <Image
                         className="w-full overflow-hidden aspect-square object-cover"
-                        src={imageMap[images.findIndex((v) => v === defaultImage)]}
+                        src={imageMap[images.findIndex((v) => v === spotlightImage)]}
                         width={300}
                         height={300}
                         alt="User Profile"
@@ -179,7 +181,7 @@ export default function PhotoUploader({ images, video, onChange, onVideoChange }
                             images.map((image, index) => (
                                 <Label key={index} className="col-span-1 bg-gray-200 flex justify-center items-center aspect-square cursor-pointer overflow-clip">
                                     {imageMap[index] ?
-                                        <div className='relative w-full h-full aspect-square'>
+                                        <div className='relative w-full h-full aspect-square' onMouseEnter={() => setSpotlightImage(image)} onMouseLeave={() => setSpotlightImage(defaultImage)}>
                                             <Image className='object-cover h-full w-full' src={imageMap[index]} width={100} height={100} alt="User Profile" />
                                             <div className={cn("absolute bottom-2 left-2", defaultImage !== image ? 'text-background opacity-70' : 'text-yellow-400')} onClick={(e) => handleDefaultImageChange(e, image)}>
                                                 <FontAwesomeIcon icon={faStar} />
