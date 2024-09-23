@@ -23,6 +23,25 @@ export interface PhotoUploaderProps {
     onVideoChange?: (video: string) => void;
 }
 
+const upload = async (file: File, generateUploadUrl: any) => {
+    const fileInfo = await generateUploadUrl({
+        type: file.type,
+        size: file.size,
+        checksum: "sha256"
+    }).unwrap();
+
+    const result = await fetch(fileInfo.url, {
+        method: 'PUT',
+        body: file
+    });
+
+    if (!result.ok) {
+        throw new Error("Failed to upload file");
+    }
+
+    return fileInfo;
+}
+
 export default function PhotoUploader({ images, video, onChange, onVideoChange }: PhotoUploaderProps) {
     const [spotlightImage, setSpotlightImage] = React.useState<string | undefined>();
     const [defaultImage, setDefaultImage] = React.useState<string>();
@@ -75,23 +94,9 @@ export default function PhotoUploader({ images, video, onChange, onVideoChange }
             videoRef.current.onloadedmetadata = async () => {
                 if (videoRef.current && videoRef.current.duration <= 120 /* seconds */) {
                     try {
-                        const fileInfo = await generateUploadUrl({
-                            type: file.type,
-                            size: file.size,
-                            checksum: "sha256"
-                        }).unwrap();
-
-                        const result = await fetch(fileInfo.url, {
-                            method: 'PUT',
-                            body: file
-                        });
-
-                        if (!result.ok) {
-                            throw new Error("Failed to upload file");
-                        }
+                        const fileInfo = await upload(file, generateUploadUrl);
 
                         if (onVideoChange) {
-                            console.log('onvideo change called', fileInfo.fileKey)
                             onVideoChange(fileInfo.fileKey);
                         }
                     } catch (error) {
@@ -103,7 +108,9 @@ export default function PhotoUploader({ images, video, onChange, onVideoChange }
                         description: 'Video should be less than 2 minutes long',
                     })
                     setVideoUrl(undefined)
-                    onVideoChange && onVideoChange('');
+                    if (onVideoChange) {
+                        onVideoChange('');
+                    }
                 }
             }
         };
@@ -113,7 +120,7 @@ export default function PhotoUploader({ images, video, onChange, onVideoChange }
         const file = e.target.files?.[0];
         if (file) {
             const blobUrl = URL.createObjectURL(file);
-            console.log(blobUrl)
+
             setImagesMap((imageMap) => {
                 return {
                     ...imageMap,
@@ -122,20 +129,7 @@ export default function PhotoUploader({ images, video, onChange, onVideoChange }
             });
 
             try {
-                const fileInfo = await generateUploadUrl({
-                    type: file.type,
-                    size: file.size,
-                    checksum: "sha256"
-                }).unwrap();
-
-                const result = await fetch(fileInfo.url, {
-                    method: 'PUT',
-                    body: file
-                });
-
-                if (!result.ok) {
-                    throw new Error("Failed to upload file");
-                }
+                const fileInfo = await upload(file, generateUploadUrl);
 
                 onChange(images.map((image, i) => i === index ? fileInfo.fileKey : image));
 

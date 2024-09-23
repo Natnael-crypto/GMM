@@ -1,7 +1,7 @@
 export const languages = [
   {
     value: 'en',
-    label: 'English (Default)',
+    label: 'English',
   },
   {
     value: 'sq',
