@@ -52,7 +52,7 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
     }, [islamicLifestyleFormRef, registerForm]);
 
     const onSubmit = async (data: IslamicLifestyle) => {
-        await updateIslamicLifestyle({ userId: user!.id, islamicLifestyle: data, self: true });
+        await updateIslamicLifestyle({ userId: user!.id, islamicLifestyle: data });
     }
 
     useEffect(() => {
