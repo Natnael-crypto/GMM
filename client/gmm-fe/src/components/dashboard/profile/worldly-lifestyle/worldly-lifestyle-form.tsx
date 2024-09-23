@@ -65,7 +65,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
     }, [worldlyLifestyleFormRef, registerForm]);
 
     const onSubmit = (data: WorldlyLifestyle) => {
-        updateWorldlyStyle({ userId: user!.id, worldlyLifestyle: data, self: true });
+        updateWorldlyStyle({ userId: user!.id, worldlyLifestyle: data });
     }
 
     useEffect(() => {

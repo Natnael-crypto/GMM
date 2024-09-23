@@ -189,43 +189,36 @@ export class UserQueryParams {
 
 export interface UpdateUser {
   user: User;
-  self: boolean;
 }
 
 export interface UpdateWorldlyLifestyle {
   userId: string;
   worldlyLifestyle: WorldlyLifestyle;
-  self: boolean;
 }
 
 export interface UpdateExpectedWorldlyLifestyle {
   userId: string;
   expectedWorldlyLifestyle: ExpectedWorldlyLifestyle;
-  self: boolean;
 }
 
 export interface UpdateIslamicLifestyle {
   userId: string;
   islamicLifestyle: IslamicLifestyle;
-  self: boolean;
 }
 
 export interface UpdateExpectedIslamicLifestyle {
   userId: string;
   expectedIslamicLifestyle: ExpectedIslamicLifestyle;
-  self: boolean;
 }
 
 export interface UpdateMarriageDiscussion {
   userId: string;
   marriageDiscussion: MarriageDiscussion;
-  self: boolean;
 }
 
 export interface UpdateFamilyIntroduction {
   userId: string;
   familyIntroduction: FamilyIntroduction;
-  self: boolean;
 }
 
 export interface UploadFileInfo {

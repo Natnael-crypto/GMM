@@ -56,7 +56,7 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
     }, [expectedWorldlyLifestyleFormRef, registerForm]);
 
     const onSubmit = (data: ExpectedWorldlyLifestyle) => {
-        updateExpectedWorldlyStyle({ userId: user!.id, expectedWorldlyLifestyle: data, self: true });
+        updateExpectedWorldlyStyle({ userId: user!.id, expectedWorldlyLifestyle: data });
     }
 
     useEffect(() => {

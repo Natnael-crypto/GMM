@@ -59,7 +59,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
     }, [familyIntroductionFormRef, registerForm]);
 
     const onSubmit = async (data: FamilyIntroduction) => {
-        updateFamilyIntroduction({ userId: user!.id, familyIntroduction: data, self: true });
+        updateFamilyIntroduction({ userId: user!.id, familyIntroduction: data });
 
         try {
             const result = await sendGuardianRequest({ guardianEmail: data.guardianEmail }).unwrap();
