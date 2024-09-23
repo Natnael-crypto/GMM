@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -44,6 +45,10 @@ export class MatchMakingService {
   }
 
   async createMatch(user: User) {
+    if (user.gender != 'Male') {
+      throw new BadRequestException('You are not allowed to create a match');
+    }
+
     const potentialMatches = await this.filterUsersByPreference(user);
     const previousMatches = await this.getMatches(user.id);
     const previousMatchIds = previousMatches.map((match) => match.femaleUserId);
@@ -58,14 +63,14 @@ export class MatchMakingService {
       throw new NotFoundException('No potential matches found');
     }
 
-    for (const match of potentialMatches) {
-      if (previousMatchIds.includes(match.id)) {
+    for (const matchedUser of potentialMatches) {
+      if (previousMatchIds.includes(matchedUser.id)) {
         continue;
       }
 
       const newMatch = new Match();
       newMatch.maleUserId = user.id;
-      newMatch.femaleUserId = match.id;
+      newMatch.femaleUserId = matchedUser.id;
 
       return await this.matchRepository.save(newMatch);
     }
@@ -109,7 +114,6 @@ export class MatchMakingService {
     const preference = await this.getUserPreference(origUser.id);
 
     const users = await this.userService.findAll();
-
     const matches: any[] = [];
 
     for (const user of users) {
