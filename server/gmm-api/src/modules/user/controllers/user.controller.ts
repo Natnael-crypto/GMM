@@ -49,6 +49,20 @@ export class UserController {
     @InjectRepository(User) private userRepository: Repository<User>,
     private readonly userService: UserService,
   ) {}
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  async getMe(@Req() req: Request & { user: any }) {
+    if (!req.user || !req.user.id) {
+      throw new UnauthorizedException('Invalid user');
+    }
+    const userId = req.user.id;
+    const user = await this.userService.getUserById(userId);
+
+    return {
+      message: 'User retrieved successfully',
+      data: user,
+    };
+  }
 
   @ApiQuery({
     name: 'filter',
@@ -125,7 +139,10 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @ApiBody({ type: UserDto, required: false })
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(['user:write'], (req) => req.user.id === req.params.id),
+  )
   @Put(':id')
   async updateUser(@Param('id') id: string, @Body() userDto: Partial<UserDto>) {
     const user = await this.userRepository.findOne({ where: { id } });
@@ -186,7 +203,10 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(['user:write'], (req) => req.user.id === req.params.id),
+  )
   @Put(':id/worldly-lifestyle')
   async updateWorldlyLifestyle(
     @Param('id') id: string,
@@ -224,7 +244,10 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(['user:write'], (req) => req.user.id === req.params.id),
+  )
   @Put(':id/expected-worldly-lifestyle')
   async updateExpectedWorldlyLifestyle(
     @Param('id') id: string,
@@ -257,7 +280,10 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(['user:write'], (req) => req.user.id === req.params.id),
+  )
   @Put(':id/islamic-lifestyle')
   async updateIslamicLifestyle(
     @Param('id') id: string,
@@ -295,7 +321,10 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(['user:write'], (req) => req.user.id === req.params.id),
+  )
   @Put(':id/expected-islamic-lifestyle')
   async updateExpectedIslamicLifestyle(
     @Param('id') id: string,
@@ -330,7 +359,10 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(['user:write'], (req) => req.user.id === req.params.id),
+  )
   @Put(':id/marriage-discussion')
   async updateMarriageDiscussion(
     @Param('id') id: string,
@@ -367,7 +399,10 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(['user:write'], (req) => req.user.id === req.params.id),
+  )
   @Put(':id/optional-verifiable')
   async updateOptionalVerifiable(
     @Param('id') id: string,
@@ -404,7 +439,10 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(['user:write'], (req) => req.user.id === req.params.id),
+  )
   @Put(':id/family-introduction')
   async updateFamilyIntroduction(
     @Param('id') id: string,

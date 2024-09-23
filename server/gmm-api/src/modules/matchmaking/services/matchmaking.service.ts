@@ -114,6 +114,26 @@ export class MatchMakingService {
     return match;
   }
 
+  async unmatchByMatchId(matchId: string) {
+    const match = await this.getMatch(matchId);
+
+    if (!match.isActive) {
+      throw new BadRequestException('Match is already inactive');
+    }
+
+    match.isActive = false;
+
+    return await this.matchRepository.save(match);
+  }
+
+  async unmatchByUserId(userId: string) {
+    const match = await this.getCurrentMatch(userId);
+
+    match.isActive = false;
+
+    return await this.matchRepository.save(match);
+  }
+
   async filterUsersByPreference(origUser: User) {
     const preference = await this.getUserPreference(origUser.id);
 

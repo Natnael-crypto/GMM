@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -111,6 +112,39 @@ export class MatchMakingController {
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         message: 'Failed to fetch current match',
+        error: error.message,
+      });
+    }
+  }
+
+  @Delete('matches/:id')
+  async unmatchByAdmin(@Param('id') id: string, @Res() response: Response) {
+    try {
+      await this.matchmakingService.unmatchByMatchId(id);
+      return response.status(HttpStatus.OK).json({
+        message: 'Match deleted successfully',
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to delete match',
+        error: error.message,
+      });
+    }
+  }
+
+  @Put('filter')
+  async unmatch(@Req() req: Request, @Res() response: Response) {
+    try {
+      const users = await this.matchmakingService.filterUsersByPreference(
+        req.user as User,
+      );
+      return response.status(HttpStatus.OK).json({
+        message: 'Users fetched successfully',
+        data: users,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to fetch users',
         error: error.message,
       });
     }
