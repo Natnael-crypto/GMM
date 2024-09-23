@@ -11,6 +11,7 @@ import { UpdatePreferenceDto } from '../dtos/preference.dto';
 import { Match } from '../entities/match.entity';
 import { UserService } from '@modules/user/services/user.service';
 import { User } from '@modules/user/entities/user.entity';
+import { PaymentsService } from '@modules/payment/services/payment.service';
 
 @Injectable()
 export class MatchMakingService {
@@ -22,6 +23,7 @@ export class MatchMakingService {
     private readonly matchRepository: Repository<Match>,
 
     private readonly userService: UserService,
+    private readonly paymentService: PaymentsService,
   ) {}
 
   async getUserPreference(id: string): Promise<Preference> {
@@ -71,6 +73,8 @@ export class MatchMakingService {
       const newMatch = new Match();
       newMatch.maleUserId = user.id;
       newMatch.femaleUserId = matchedUser.id;
+
+      await this.paymentService.consumeMatch(user.id);
 
       return await this.matchRepository.save(newMatch);
     }
