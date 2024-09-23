@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -10,6 +11,7 @@ import { UpdatePreferenceDto } from '../dtos/preference.dto';
 import { Match } from '../entities/match.entity';
 import { UserService } from '@modules/user/services/user.service';
 import { User } from '@modules/user/entities/user.entity';
+import { PaymentsService } from '@modules/payment/services/payment.service';
 
 @Injectable()
 export class MatchMakingService {
@@ -21,6 +23,7 @@ export class MatchMakingService {
     private readonly matchRepository: Repository<Match>,
 
     private readonly userService: UserService,
+    private readonly paymentService: PaymentsService,
   ) {}
 
   async getUserPreference(id: string): Promise<Preference> {
@@ -44,6 +47,10 @@ export class MatchMakingService {
   }
 
   async createMatch(user: User) {
+    if (user.gender != 'Male') {
+      throw new BadRequestException('You are not allowed to create a match');
+    }
+
     const potentialMatches = await this.filterUsersByPreference(user);
     const previousMatches = await this.getMatches(user.id);
     const previousMatchIds = previousMatches.map((match) => match.femaleUserId);
@@ -58,14 +65,16 @@ export class MatchMakingService {
       throw new NotFoundException('No potential matches found');
     }
 
-    for (const match of potentialMatches) {
-      if (previousMatchIds.includes(match.id)) {
+    for (const matchedUser of potentialMatches) {
+      if (previousMatchIds.includes(matchedUser.id)) {
         continue;
       }
 
       const newMatch = new Match();
       newMatch.maleUserId = user.id;
-      newMatch.femaleUserId = match.id;
+      newMatch.femaleUserId = matchedUser.id;
+
+      await this.paymentService.consumeMatch(user.id);
 
       return await this.matchRepository.save(newMatch);
     }
@@ -105,11 +114,30 @@ export class MatchMakingService {
     return match;
   }
 
+  async unmatchByMatchId(matchId: string) {
+    const match = await this.getMatch(matchId);
+
+    if (!match.isActive) {
+      throw new BadRequestException('Match is already inactive');
+    }
+
+    match.isActive = false;
+
+    return await this.matchRepository.save(match);
+  }
+
+  async unmatchByUserId(userId: string) {
+    const match = await this.getCurrentMatch(userId);
+
+    match.isActive = false;
+
+    return await this.matchRepository.save(match);
+  }
+
   async filterUsersByPreference(origUser: User) {
     const preference = await this.getUserPreference(origUser.id);
 
     const users = await this.userService.findAll();
-
     const matches: any[] = [];
 
     for (const user of users) {

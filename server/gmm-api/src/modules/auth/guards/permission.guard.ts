@@ -4,17 +4,22 @@ import {
   ExecutionContext,
   ForbiddenException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import type { AppPermission } from '../entities/permission.entity';
 import type { User } from '@modules/user/entities/user.entity';
+import { Request } from 'express';
+
+export type BypassFunction = (
+  req: Request & { user: User },
+) => Promise<boolean> | boolean;
 
 @Injectable()
 export class PermissionGuard implements CanActivate {
-  constructor(private readonly requirePermission: AppPermission[]) {}
+  constructor(
+    private readonly requirePermission: AppPermission[],
+    private readonly bypassIf: BypassFunction = () => false,
+  ) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
 
     if (!request.user) {
@@ -27,14 +32,20 @@ export class PermissionGuard implements CanActivate {
       return false;
     }
 
-    const allow = this.requirePermission.every((permission) =>
-      user.role.permissions.includes(permission),
+    const missingPermissions = this.requirePermission.filter(
+      (permission) => !user.role.permissions.includes(permission),
     );
 
+    let allow = missingPermissions.length === 0;
+
+    allow = allow || (await this.bypassIf(request));
+
     if (!allow) {
-      throw new ForbiddenException(
-        'You do not have permission to access this resource',
-      );
+      throw new ForbiddenException({
+        message: 'You do not have permission to access this resource.',
+        missingPermissions,
+        action: request.method + ' ' + request.url,
+      });
     }
 
     return allow;
