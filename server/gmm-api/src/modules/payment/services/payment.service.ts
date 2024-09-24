@@ -9,6 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { User } from '@modules/user/entities/user.entity';
 import { SubscriptionTiers } from '../entities/tiers';
+import { SubscriptionHistory } from '../entities/subscription-history.entity';
 
 @Injectable()
 export class PaymentsService {
@@ -18,6 +19,8 @@ export class PaymentsService {
     private readonly configService: ConfigService,
     @InjectRepository(Subscription)
     private readonly subscriptionRepository: Repository<Subscription>,
+    @InjectRepository(SubscriptionHistory)
+    private readonly subscriptionHistoryRepository: Repository<SubscriptionHistory>, 
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly noticeService: NoticeService
@@ -68,6 +71,45 @@ export class PaymentsService {
       throw new Error(error.message);
     }
   }
+
+  async createPaymentIntent(createCheckoutSessionDto: CreateCheckoutSessionDto, userId: string) {
+    const { plan } = createCheckoutSessionDto;
+    const tier = SubscriptionTiers[plan];
+  
+    if (!tier) {
+      throw new Error('Invalid plan name');
+    }
+  
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new Error('User not found.');
+    }
+  
+    if (!user.stripeCustomerId) {
+      const customer = await this.stripe.customers.create({
+        email: user.email,
+        name: `${user.firstName} ${user.lastName}`,
+      });
+  
+      user.stripeCustomerId = customer.id;
+      await this.userRepository.save(user);
+    }
+  
+    try {
+      const paymentIntent = await this.stripe.paymentIntents.create({
+        amount: tier.amount, 
+        currency: 'usd', 
+        customer: user.stripeCustomerId,
+        payment_method_types: ['card'],
+        metadata: { userId: user.id, plan },
+      });
+  
+      return { clientSecret: paymentIntent.client_secret };
+    } catch (error) {
+      throw new Error(`Failed to create payment intent: ${error.message}`);
+    }
+  }
+  
   
 
   async getProducts(): Promise<Stripe.Product[]> {
@@ -101,22 +143,26 @@ export class PaymentsService {
     try {
       const session = await this.stripe.checkout.sessions.retrieve(sessionId);
       const subscriptionId = session.subscription as string;
-
+  
       if (!subscriptionId) {
         throw new Error('Subscription ID not found in session.');
       }
-
+  
       const subscription = await this.stripe.subscriptions.retrieve(subscriptionId);
       const planId = subscription.items.data[0].price.id;
-
-      // Find the tier based on the plan ID
+  
       const tier = Object.values(SubscriptionTiers).find(t => t.priceId === planId);
       if (!tier) {
         throw new Error('Unknown subscription plan.');
       }
-
+  
+      const user = await this.userRepository.findOne({ where: { id: userId } });
+      if (!user) {
+        throw new Error('User not found.');
+      }
+  
       let existingSubscription = await this.subscriptionRepository.findOne({ where: { user: { id: userId } } });
-
+  
       if (existingSubscription) {
         existingSubscription.subscriptionId = subscription.id;
         existingSubscription.status = subscription.status;
@@ -127,7 +173,7 @@ export class PaymentsService {
         existingSubscription.remainingMatches = tier.matches;
       } else {
         existingSubscription = this.subscriptionRepository.create({
-          user: { id: userId },
+          user,
           subscriptionId: subscription.id,
           status: subscription.status,
           planId: planId,
@@ -137,13 +183,17 @@ export class PaymentsService {
           remainingMatches: tier.matches,
         });
       }
-
+  
       const result = await this.subscriptionRepository.save(existingSubscription);
+  
+      await this.saveSubscriptionHistory(user, existingSubscription);
+  
       return result;
     } catch (error) {
       throw new Error(`Failed to handle checkout success: ${error.message}`);
     }
   }
+  
   
   
 
@@ -202,6 +252,8 @@ export class PaymentsService {
     subscription.status = newStripeSubscription.status;
   
     await this.subscriptionRepository.save(subscription);
+
+    await this.saveSubscriptionHistory(user, subscription);
   }
     
   
@@ -240,39 +292,48 @@ export class PaymentsService {
     return event;
   }
 
-  // Handle the Stripe webhook event
-  // async processWebhookEvent(event: Stripe.Event) {
-  //   switch (event.type) {
-  //     case 'checkout.session.completed':
-  //       const session = event.data.object as Stripe.Checkout.Session;
-  //       await this.handleCheckoutSuccess(session);
-  //       break;
 
-  //     case 'invoice.payment_succeeded':
-  //       const invoice = event.data.object as Stripe.Invoice;
-  //       await this.handleInvoicePaymentSuccess(invoice);
-  //       break;
-
-  //     case 'invoice.payment_failed':
-  //       const failedInvoice = event.data.object as Stripe.Invoice;
-  //       await this.handleInvoicePaymentFailed(failedInvoice);
-  //       break;
-
-  //     // Add other events as necessary
-
-  //     default:
-  //       console.log(`Unhandled event type ${event.type}`);
-  //   }
-  // }
-
-  async handleInvoicePaymentSuccess(invoice: Stripe.Invoice) {
-    // Implement logic to handle successful invoice payments
-    console.log('Invoice payment succeeded:', invoice.id);
+  private async saveSubscriptionHistory(user: User, subscription: Subscription): Promise<void> {
+    const subscriptionHistory = this.subscriptionHistoryRepository.create({
+      user,
+      subscriptionId: subscription.subscriptionId,
+      status: subscription.status,
+      planId: subscription.planId,
+      periodStart: subscription.currentPeriodStart,
+      periodEnd: subscription.currentPeriodEnd,
+      amount: subscription.amount,
+      remainingMatches: subscription.remainingMatches,
+    });
+  
+    await this.subscriptionHistoryRepository.save(subscriptionHistory);
   }
 
-  async handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
-    // Implement logic to handle failed invoice payments
-    console.log('Invoice payment failed:', invoice.id);
+  async getSubscriptionHistory(userId: string): Promise<SubscriptionHistory[]> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+  
+    if (!user) {
+      throw new Error('User not found.');
+    }
+  
+    const subscriptionHistory = await this.subscriptionHistoryRepository.find({
+      where: { user: { id: userId } },
+      order: { periodStart: 'DESC' },
+    });
+  
+    return subscriptionHistory;
+  }
+  
+
+  async getRemainingMatches(userId: string): Promise<number> {
+    const subscription = await this.subscriptionRepository.findOne({
+      where: { user: { id: userId }, status: 'active' },
+    });
+
+    if (!subscription) {
+      throw new Error('No active subscription found for the user.');
+    }
+
+    return subscription.remainingMatches;
   }
   
 }

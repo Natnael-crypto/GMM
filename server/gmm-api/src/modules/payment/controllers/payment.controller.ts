@@ -6,6 +6,8 @@ import { ApiVersion } from '@shared/types/version';
 import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { User } from '@modules/user/entities/user.entity';
+import { PermissionGuard } from '@modules/auth/guards/permission.guard';
+import { use } from 'passport';
 
 @ApiTags('payments')
 @ApiBearerAuth()
@@ -15,6 +17,7 @@ export class PaymentsController {
   constructor(private paymentService: PaymentsService) {}
 
   @Post('checkout-session')
+  @UseGuards(new PermissionGuard(['payment:write']))
   @ApiBody({ type: CreateCheckoutSessionDto })
   async createCheckoutSession(
     @Res() response: Response,
@@ -35,7 +38,34 @@ export class PaymentsController {
     }
   }
 
+  @Post('create-payment-intent')
+  @UseGuards(new PermissionGuard(['payment:write']))
+  async createPaymentIntent(
+    @Res() response: Response,
+    @Req() req: Request,
+    @Body() createCheckoutSessionDto: CreateCheckoutSessionDto,
+  ) {
+    try {
+      const userId = (req.user as User).id;
+      
+      const result = await this.paymentService.createPaymentIntent(createCheckoutSessionDto, userId);
+
+      return response.status(HttpStatus.CREATED).json({
+        message: 'Payment intent created successfully',
+        data: result,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to create payment intent',
+        error: error.message,
+      });
+    }
+  }
+
+
+
   @Get('products')
+  @UseGuards(new PermissionGuard(['products:read']))
   async getProducts(@Res() response: Response) {
     try {
       const products = await this.paymentService.getProducts();
@@ -52,6 +82,7 @@ export class PaymentsController {
   }
 
   @Get('customers')
+  @UseGuards(new PermissionGuard(['customers:read']))
   async getCustomers(@Res() response: Response) {
     try {
       const customers = await this.paymentService.getCustomers();
@@ -68,6 +99,7 @@ export class PaymentsController {
   }
 
   @Get('current-subscription/:userId')
+  @UseGuards(new PermissionGuard(['payment:read']))
   async getCurrentSubscription(@Res() response: Response, @Param('userId') userId: string) {
     try {
       const subscription = await this.paymentService.getCurrentSubscription(userId);
@@ -89,6 +121,7 @@ export class PaymentsController {
   }
 
   @Get('checkout/success')
+  @UseGuards(new PermissionGuard(['payment:write']))
   async handleCheckoutSuccess(
     @Res() response: Response,
     @Query('session_id') sessionId: string,
@@ -110,6 +143,7 @@ export class PaymentsController {
   }
 
   @Post('consume-match/:userId')
+  @UseGuards(new PermissionGuard(['match:consume']))
   async consumeMatch(@Res() response: Response, @Param('userId') userId: string) {
     try {
       await this.paymentService.consumeMatch(userId);
@@ -125,6 +159,7 @@ export class PaymentsController {
   }
 
   @Post('renew-subscription/:userId')
+  @UseGuards(new PermissionGuard(['payment:write']))
   async renewSubscription(@Res() response: Response, @Param('userId') userId: string) {
     try {
       console.log('Renewing subscription for user:', userId);
@@ -157,6 +192,41 @@ export class PaymentsController {
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         message: 'Failed to notify user of renewal',
+        error: error.message,
+      });
+    }
+  }
+
+
+  @Get('subscription-history/:userId')
+  @UseGuards(new PermissionGuard(['payment:read']))
+  async getUserSubscriptionHistory(@Res() response: Response, @Param('userId') userId: string) {
+    try {
+      const subscriptions = await this.paymentService.getSubscriptionHistory(userId);
+      return response.status(HttpStatus.OK).json({
+        message: 'Subscription history retrieved successfully',
+        data: subscriptions,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to retrieve subscription history',
+        error: error.message,
+      });
+    }
+  }
+
+  @Get('remaining-matches/:userId')
+  @UseGuards(new PermissionGuard(['payment:read']))
+  async getRemainingMatches(@Res() response: Response, @Param('userId') userId: string) {
+    try {
+      const remainingMatches = await this.paymentService.getRemainingMatches(userId);
+      return response.status(HttpStatus.OK).json({
+        message: 'Remaining matches retrieved successfully',
+        data: { remainingMatches },
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to retrieve remaining matches',
         error: error.message,
       });
     }

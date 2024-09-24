@@ -2,13 +2,19 @@ import { Module } from '@nestjs/common';
 import { PaymentsService } from './services/payment.service';
 import { PaymentsController } from './controllers/payment.controller';
 import { Subscription } from './entities/subscription.entity';
+import { SubscriptionHistory } from './entities/subscription-history.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from '@modules/user/user.module';
 import { NoticeModule } from '@modules/notice/notice.module';
 import { NoticeService } from '@modules/notice/services/notice.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Subscription]), UserModule, NoticeModule],
+  imports: [
+    TypeOrmModule.forFeature([Subscription]),
+    TypeOrmModule.forFeature([SubscriptionHistory]),
+    UserModule,
+    NoticeModule,
+  ],
   controllers: [PaymentsController],
   providers: [
     PaymentsService,
