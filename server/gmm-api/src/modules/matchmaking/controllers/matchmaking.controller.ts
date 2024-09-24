@@ -66,13 +66,29 @@ export class MatchMakingController {
   }
 
   @Get()
-  async getMatches(@Req() req: Request, @Res() response: Response) {
+  async getMyMatches(@Req() req: Request, @Res() response: Response) {
     try {
-      const matches = await this.matchmakingService.getMatches(
+      const matches = await this.matchmakingService.getMyMatches(
         (req.user as User).id,
       );
       return response.status(HttpStatus.OK).json({
         message: 'Matches fetched successfully',
+        data: matches,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to fetch matches',
+        error: error.message,
+      });
+    }
+  }
+  
+  @Get()
+  async getCurrentMatches(@Res() response: Response) {
+    try {
+      const matches = await this.matchmakingService.getCurrentMatches();
+      return response.status(HttpStatus.OK).json({
+        message: 'Current Matches fetched successfully',
         data: matches,
       });
     } catch (error) {

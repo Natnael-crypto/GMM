@@ -52,7 +52,7 @@ export class MatchMakingService {
     }
 
     const potentialMatches = await this.filterUsersByPreference(user);
-    const previousMatches = await this.getMatches(user.id);
+    const previousMatches = await this.getMyMatches(user.id);
     const previousMatchIds = previousMatches.map((match) => match.femaleUserId);
 
     for (const match of previousMatches) {
@@ -82,7 +82,11 @@ export class MatchMakingService {
     throw new NotFoundException('No potential matches found');
   }
 
-  async getMatches(userId: string): Promise<Match[]> {
+  async getCurrentMatches(): Promise<Match[]> {
+    return await this.matchRepository.find({ where: { isActive: true } });
+  }
+
+  async getMyMatches(userId: string): Promise<Match[]> {
     return await this.matchRepository.find({
       where: [{ maleUserId: userId }, { femaleUserId: userId }],
       relations: ['maleUser', 'femaleUser'],
@@ -90,7 +94,7 @@ export class MatchMakingService {
   }
 
   async getCurrentMatch(userId: string): Promise<Match> {
-    const matches = await this.getMatches(userId);
+    const matches = await this.getMyMatches(userId);
 
     for (const match of matches) {
       if (match.isActive) {
