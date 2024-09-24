@@ -27,6 +27,23 @@ export const allPermissions = {
   'matchmaking:write': 'Allow user to create/update matchmaking',
   'matchmaking:read': 'Allow user to read matchmaking',
   'matchmaking:delete': 'Allow user to delete matchmaking',
+
+  'payment:write': 'Allow user to create/update payment',
+  'payment:read': 'Allow user to read payment',
+  'payment:delete': 'Allow user to delete payment',
+
+  'match:consume': 'Allow user to consume match',
+  'macth:read': 'Allow user to read match',
+
+  'notification:write': 'Allow user to create/update notification',
+  'notification:read': 'Allow user to read notification',
+  
+  'otp:write': 'Allow user to create/update otp',
+  'otp:read': 'Allow user to read otp',
+
+  'customers:read': 'Allow user to read customer',
+  'products:read': 'Allow user to read product',
+
 };
 
 export type AppPermission = keyof typeof allPermissions;
