@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Role } from '@modules/auth/entities/role.entity';
 import { Subscription } from '@modules/payment/entities/subscription.entity';
+import { SubscriptionHistory } from '@modules/payment/entities/subscription-history.entity';
 
 export enum AccountStatus {
   PENDING = 'pending',
@@ -145,6 +146,9 @@ export class User {
 
   @OneToOne(() => Subscription, subscription => subscription.user)
   subscription: Subscription;
+
+  @OneToMany(() => SubscriptionHistory, (subscriptionHistory) => subscriptionHistory.user)
+  subscriptionHistory: SubscriptionHistory[];
 
 
 
