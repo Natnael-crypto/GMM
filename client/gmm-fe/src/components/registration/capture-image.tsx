@@ -81,7 +81,7 @@ export default function CaptureImage({ onCapture }: { onCapture: (file: File) =>
                 <video ref={videoRef} className='outline w-full'></video>
             </div>
             <div className='flex items-center justify-center w-full mt-5'>
-                <Button variant='outline' onClick={capture}><FontAwesomeIcon icon={faCamera} /></Button>
+                <Button type="button" variant='outline' onClick={capture}><FontAwesomeIcon icon={faCamera} /></Button>
             </div>
         </div>
     )

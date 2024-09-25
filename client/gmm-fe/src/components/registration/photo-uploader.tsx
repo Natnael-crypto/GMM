@@ -1,11 +1,10 @@
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useCreateUploadUrlMutation } from '@/lib/user/api';
 import { cn } from '@/lib/utils';
 import {
   faCloudUpload,
-  faTrash,
   faTrashAlt,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
