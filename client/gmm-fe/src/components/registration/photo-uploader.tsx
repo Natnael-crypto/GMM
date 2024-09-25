@@ -12,28 +12,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import CaptureImage from './capture-image';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card';
+import { upload } from '@/lib/file-upload';
 
-const upload = async (file: File, generateUploadUrl: any) => {
-  const fileInfo = await generateUploadUrl({
-    type: file.type,
-    size: file.size,
-    checksum: "sha256"
-  }).unwrap();
-
-  const result = await fetch(fileInfo.url, {
-    method: 'PUT',
-    body: file
-  });
-
-  if (!result.ok) {
-    throw new Error("Failed to upload file");
-  }
-
-  return fileInfo;
-}
 
 export default function PhotoUploader() {
   const [images, setImages] = React.useState<string[]>(['', '', '', '', '', '', '', '']);
@@ -57,7 +40,6 @@ export default function PhotoUploader() {
 
       try {
         const fileInfo = await upload(file, generateUploadUrl);
-        console.log(fileInfo, index)
 
         const prevImageKeys = form.getValues('pictures') as string[]
 

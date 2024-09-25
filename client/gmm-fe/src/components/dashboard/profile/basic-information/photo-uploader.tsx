@@ -3,6 +3,7 @@
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
+import { upload } from '@/lib/file-upload';
 import { useCreateUploadUrlMutation, useCreateDownloadUrlMutation } from '@/lib/user/api';
 import { cn } from '@/lib/utils';
 import {
@@ -21,25 +22,6 @@ export interface PhotoUploaderProps {
     video?: string;
     onChange: (images: string[]) => void;
     onVideoChange?: (video: string) => void;
-}
-
-const upload = async (file: File, generateUploadUrl: any) => {
-    const fileInfo = await generateUploadUrl({
-        type: file.type,
-        size: file.size,
-        checksum: "sha256"
-    }).unwrap();
-
-    const result = await fetch(fileInfo.url, {
-        method: 'PUT',
-        body: file
-    });
-
-    if (!result.ok) {
-        throw new Error("Failed to upload file");
-    }
-
-    return fileInfo;
 }
 
 export default function PhotoUploader({ images, video, onChange, onVideoChange }: PhotoUploaderProps) {
