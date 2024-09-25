@@ -15,7 +15,9 @@ import { setUser } from '@/lib/auth/slice';
 import { useEffect, useRef } from 'react';
 import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 import { languages } from '@/config/locales';
-
+import PhotoUploader from '@/components/registration/photo-uploader';
+import VideoUploader from '@/components/registration/video-uploader';
+import FamilyIntroductionForm from '@/components/registration/family-form';
 export default function BasicInformationForm() {
   const user = useAppSelector(state => state.auth.user);
   const form = useForm<User>({
@@ -89,7 +91,7 @@ export default function BasicInformationForm() {
         email: user?.email ?? '',
         maritalStatus: user?.maritalStatus ?? '',
         bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
-        pictures: [],
+        pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
         video: user?.video ?? '',
         phone: '',
       })
@@ -97,6 +99,7 @@ export default function BasicInformationForm() {
   }, [form, user]);
 
   const onSubmit = (data: User) => {
+    console.log(data)
     try {
       updateUser({ user: data });
     } catch (error) { console.log(error) }
@@ -121,548 +124,564 @@ export default function BasicInformationForm() {
 
   return (
     <Form {...form}>
-      <form
-        ref={basicInfoFormRef}
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="col-span-2 grid grid-cols-4 gap-x-5 gap-y-4 h-fit">
-        <div className="col-span-4 flex justify-between items-center border-b border-b-secondary pb-1">
-          <h1 className="text-primary text-lg font-bold">Basic Information</h1>
-          <span className="text-destructive font-bold text-xs">
-            Please Answer All Questions Accurately
-          </span>
-        </div>
+      <div className="grid grid-cols-3 gap-x-5">
+        <form
+          ref={basicInfoFormRef}
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="col-span-3 grid grid-cols-3 gap-x-4">
+          <div className="col-span-1 space-y-4 relative">
+            <div className='absolute top-0 space-y-4 w-full'>
+              <PhotoUploader />
+              <VideoUploader />
+            </div>
+          </div>
 
-        <div className="col-span-2 space-y-1 items-center h-fit">
-          <Label className="text-nowrap font-normal text-xs line-clamp-1">First Name</Label>
-          <FormField
-            name='firstName'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
-        </div>
+          <div className="col-span-2 grid gird-cols-4 gap-x-5 gap-y-4 h-fit">
+            <div className="col-span-4 flex justify-between items-center border-b border-b-secondary pb-1">
+              <h1 className="text-primary text-lg font-bold">Basic Information</h1>
+              <span className="text-destructive font-bold text-xs">
+                Please Answer All Questions Accurately
+              </span>
+            </div>
 
-        <div className="col-span-2 space-y-1 items-center h-fit">
-          <Label className="text-nowrap font-normal text-xs line-clamp-1">Last Name</Label>
-          <FormField
-            name='lastName'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
+            <div className="col-span-2 space-y-1 items-center h-fit">
+              <Label className="text-nowrap font-normal text-xs line-clamp-1">First Name</Label>
+              <FormField
+                name='firstName'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
+            </div>
 
-        </div>
+            <div className="col-span-2 space-y-1 items-center h-fit">
+              <Label className="text-nowrap font-normal text-xs line-clamp-1">Last Name</Label>
+              <FormField
+                name='lastName'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
 
-        <div className="space-y-1">
-          <Label className="font-normal text-xs line-clamp-1">Age (Year)</Label>
-          <FormField
-            name='age'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className='max-h-64'>
-                      {
-                        Array.from({ length: 100 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
-                      }
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
-        </div>
+            </div>
 
-        <div className="space-y-1">
-          <Label className="font-normal text-xs line-clamp-1">Gender</Label>
-          <FormField
-            name='gender'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Male">Male</SelectItem>
-                      <SelectItem value="Female">Female</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
-        </div>
+            <div className="space-y-1">
+              <Label className="font-normal text-xs line-clamp-1">Age (Year)</Label>
+              <FormField
+                name='age'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className='max-h-64'>
+                          {
+                            Array.from({ length: 100 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
+                          }
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
+            </div>
 
-        <div className="space-y-1">
-          <Label className="font-normal text-xs line-clamp-1">Height</Label>
-          <FormField
-            name='height'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.keys(heights).map((h, i) => <SelectItem key={i} value={h}>{heights[h]}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
+            <div className="space-y-1">
+              <Label className="font-normal text-xs line-clamp-1">Gender</Label>
+              <FormField
+                name='gender'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Male">Male</SelectItem>
+                          <SelectItem value="Female">Female</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
+            </div>
 
-        </div>
+            <div className="space-y-1">
+              <Label className="font-normal text-xs line-clamp-1">Height</Label>
+              <FormField
+                name='height'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.keys(heights).map((h, i) => <SelectItem key={i} value={h}>{heights[h]}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
 
-        <div className="space-y-1">
-          <Label className="font-normal text-xs line-clamp-1">Weight</Label>
-          <FormField
-            name='weight'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.keys(weights).map((w, i) => <SelectItem key={i} value={w}>{weights[w]}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
-        </div>
+            </div>
 
-        <div className="space-y-1 col-span-2">
-          <Label className="font-normal text-xs line-clamp-1">Country of Origin</Label>
-          <FormField
-            name='country'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.keys(countries).map((country, i) => <SelectItem key={i} value={country}>{country}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
-        </div>
-        <div className="space-y-1 col-span-2">
-          <Label className="font-normal text-xs line-clamp-1">Skin Color</Label>
-          <FormField
-            name='skinColor'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Asian">Asian</SelectItem>
-                      <SelectItem value="Black">Black</SelectItem>
-                      <SelectItem value="Brown">Brown</SelectItem>
-                      <SelectItem value="White">White</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
-        </div>
-        <div className="space-y-1 col-span-4">
-          <Label className="font-normal text-xs line-clamp-1">Language(s) - Max 3</Label>
-          <FormField
-            name='languages'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Multiselect onChange={field.onChange} selectedOptions={field.value} title="Language" max={3} initOptions={languages} placeholder='Select' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
+            <div className="space-y-1">
+              <Label className="font-normal text-xs line-clamp-1">Weight</Label>
+              <FormField
+                name='weight'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.keys(weights).map((w, i) => <SelectItem key={i} value={w}>{weights[w]}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
+            </div>
+
+            <div className="space-y-1 col-span-2">
+              <Label className="font-normal text-xs line-clamp-1">Country of Origin</Label>
+              <FormField
+                name='country'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.keys(countries).map((country, i) => <SelectItem key={i} value={country}>{country}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
+            </div>
+            <div className="space-y-1 col-span-2">
+              <Label className="font-normal text-xs line-clamp-1">Skin Color</Label>
+              <FormField
+                name='skinColor'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Asian">Asian</SelectItem>
+                          <SelectItem value="Black">Black</SelectItem>
+                          <SelectItem value="Brown">Brown</SelectItem>
+                          <SelectItem value="White">White</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
+            </div>
+            <div className="space-y-1 col-span-4">
+              <Label className="font-normal text-xs line-clamp-1">Language(s) - Max 3</Label>
+              <FormField
+                name='languages'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Multiselect onChange={field.onChange} selectedOptions={field.value} title="Language" max={3} initOptions={languages} placeholder='Select' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
 
 
-        </div>
-        <div className="space-y-1 col-span-2">
-          <Label className="font-normal text-xs line-clamp-1">Nationality/Passport</Label>
-          <FormField
-            name='nationality'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.keys(countries).map((country, i) => <SelectItem key={i} value={country}>{country}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
+            </div>
+            <div className="space-y-1 col-span-2">
+              <Label className="font-normal text-xs line-clamp-1">Nationality/Passport</Label>
+              <FormField
+                name='nationality'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {Object.keys(countries).map((country, i) => <SelectItem key={i} value={country}>{country}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
 
-        </div>
-        <div className="space-y-1 col-span-2">
-          <Label className="font-normal text-xs line-clamp-1">Current City</Label>
-          <FormField
-            name='city'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                    placeholder="Toronto"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
+            </div>
+            <div className="space-y-1 col-span-2">
+              <Label className="font-normal text-xs line-clamp-1">Current City</Label>
+              <FormField
+                name='city'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                        placeholder="Toronto"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
 
-        </div>
-        <div className="space-y-1 col-span-2">
-          <Label className="font-normal text-xs line-clamp-1">Marital Status</Label>
-          <FormField
-            name='maritalStatus'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Single/Never Married">Single/Never Married</SelectItem>
-                      <SelectItem value="Single/Legally Divorced">Single/Legally Divorced</SelectItem>
-                      <SelectItem value="Single/Islamically-Divorced">Single/Islamically-Divorced</SelectItem>
-                      <SelectItem value="Other">Other</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
+            </div>
+            <div className="space-y-1 col-span-2">
+              <Label className="font-normal text-xs line-clamp-1">Marital Status</Label>
+              <FormField
+                name='maritalStatus'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Single/Never Married">Single/Never Married</SelectItem>
+                          <SelectItem value="Single/Legally Divorced">Single/Legally Divorced</SelectItem>
+                          <SelectItem value="Single/Islamically-Divorced">Single/Islamically-Divorced</SelectItem>
+                          <SelectItem value="Other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
 
-        </div>
+            </div>
 
-        <div className="space-y-1 col-span-2">
-          <Label className="font-normal text-xs line-clamp-1">Do you have children?</Label>
-          {/* <FormField
+            <div className="space-y-1 col-span-2">
+              <Label className="font-normal text-xs line-clamp-1">Do you have children?</Label>
+              {/* <FormField
                             name='maritalStatus'
                             control={form.control}
                             render={({ field }) => ( */}
-          <FormItem>
-            <FormControl>
-              <Select >
-                <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="No kids">No kids</SelectItem>
-                  <SelectItem value="Yes 20%+ Shared parenting">Yes 20%+ Shared parenting</SelectItem>
-                  <SelectItem value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
-                  <SelectItem value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
-                </SelectContent>
-              </Select>
-            </FormControl>
-            <FormMessage className="text-xs" />
-          </FormItem>
-          {/* )}
+              <FormItem>
+                <FormControl>
+                  <Select >
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="No kids">No kids</SelectItem>
+                      <SelectItem value="Yes 20%+ Shared parenting">Yes 20%+ Shared parenting</SelectItem>
+                      <SelectItem value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
+                      <SelectItem value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+              {/* )}
                         /> */}
-        </div>
+            </div>
 
-        <div className="col-span-4 grid grid-cols-8 gap-x-5 ">
-          <div className="space-y-1 col-span-2">
-            <Label className="font-normal text-xs line-clamp-1">Number of children</Label>
-            <FormField
-              name='numberOfChildren'
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                      placeholder="0"
-                      type='number'
-                      min={0}
-                      step={1}
-                      pattern='[0-9]'
-                      {...field}
+            <div className="col-span-4 grid grid-cols-8 gap-x-5 ">
+              <div className="space-y-1 col-span-2">
+                <Label className="font-normal text-xs line-clamp-1">Number of children</Label>
+                <FormField
+                  name='numberOfChildren'
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                          placeholder="0"
+                          type='number'
+                          min={0}
+                          step={1}
+                          pattern='[0-9]'
+                          {...field}
 
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>)}
-            />
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>)}
+                />
+              </div>
+
+              <div className="space-y-1 col-span-3">
+                <Label className="font-normal text-xs line-clamp-1">Age of Oldest Child</Label>
+                <FormField
+                  name='ageOfOldestChild'
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                          placeholder="0"
+                          type='number'
+                          min={0}
+                          step={1}
+                          pattern='[0-9]'
+                          {...field}
+
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>)}
+                />
+              </div>
+              <div className="space-y-1 col-span-3">
+                <Label className="font-normal text-xs line-clamp-1">Age of Youngest Child</Label>
+                <FormField
+                  name='ageOfYoungestChild'
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                          placeholder="0"
+                          type='number'
+                          min={0}
+                          step={1}
+                          pattern='[0-9]'
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>)}
+                />
+              </div>
+            </div>
+
+            <div className="col-span-4 grid grid-cols-8 gap-x-5 ">
+              <div className="space-y-1 col-span-2">
+                <Label className="font-normal text-xs line-clamp-1">Sunni-Madhaib</Label>
+                <FormField
+                  name='sunniMadhaib'
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Hanafi">Hanafi</SelectItem>
+                            <SelectItem value="Hanbali">Hanbali</SelectItem>
+                            <SelectItem value="Maliki">Maliki</SelectItem>
+                            <SelectItem value="Shafi">Shafi</SelectItem>
+                            <SelectItem value="All Four">All Four</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>)}
+                />
+
+              </div>
+
+              <div className="space-y-1 col-span-3">
+                <Label className="font-normal text-xs line-clamp-1">Religious Practice</Label>
+                <FormField
+                  name='religiousPractice'
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Not Practicing Never Prays/Non-Muslim">Not Practicing Never Prays/Non-Muslim</SelectItem>
+                            <SelectItem value="Practicing/Fardh">Practicing/Fardh</SelectItem>
+                            <SelectItem value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>
+
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>)}
+                />
+
+              </div>
+              <div className="space-y-1 col-span-3">
+                <Label className="font-normal text-xs line-clamp-1">
+                  Born/Reverted to Islam
+                </Label>
+                <FormField
+                  name='bornMuslim'
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="true">Born Muslim</SelectItem>
+                            <SelectItem value="false">Reverted to Islam</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>)}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <Label className="font-normal text-xs line-clamp-1">Drinks</Label>
+              <FormField
+                name='drinks'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="true">Yes</SelectItem>
+                          <SelectItem value="false">No</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label className="font-normal text-xs line-clamp-1 text-nowrap">
+                Drugs{' '}
+                <span className="text-[0.6rem] text-nowrap">
+                  (Including Cannabis)
+                </span>
+              </Label>
+              <FormField
+                name='drugs'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="true">Yes</SelectItem>
+                          <SelectItem value="false">No</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
+            </div>
+            <div className="space-y-1">
+              <Label className="font-normal text-xs line-clamp-1">
+                Smokes <span className="text-[0.6rem]">(Vapping/Shisha)</span>
+              </Label>
+              <FormField
+                name='smokes'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="true">Yes</SelectItem>
+                          <SelectItem value="false">No</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
+            </div>
+
+            <div className="space-y-1">
+              <Label className="font-normal text-xs line-clamp-1">Tattoo(s)</Label>
+              <FormField
+                name='tattoos'
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="true">Yes</SelectItem>
+                          <SelectItem value="false">No</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>)}
+              />
+            </div>
+
           </div>
-
-          <div className="space-y-1 col-span-3">
-            <Label className="font-normal text-xs line-clamp-1">Age of Oldest Child</Label>
-            <FormField
-              name='ageOfOldestChild'
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                      placeholder="0"
-                      type='number'
-                      min={0}
-                      step={1}
-                      pattern='[0-9]'
-                      {...field}
-
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>)}
-            />
-          </div>
-          <div className="space-y-1 col-span-3">
-            <Label className="font-normal text-xs line-clamp-1">Age of Youngest Child</Label>
-            <FormField
-              name='ageOfYoungestChild'
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                      placeholder="0"
-                      type='number'
-                      min={0}
-                      step={1}
-                      pattern='[0-9]'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>)}
-            />
-          </div>
+        </form>
+        <div className='col-span-1'></div>
+        <div className="col-span-2 mt-8">
+          <FamilyIntroductionForm />
         </div>
-
-        <div className="col-span-4 grid grid-cols-8 gap-x-5 ">
-          <div className="space-y-1 col-span-2">
-            <Label className="font-normal text-xs line-clamp-1">Sunni-Madhaib</Label>
-            <FormField
-              name='sunniMadhaib'
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Hanafi">Hanafi</SelectItem>
-                        <SelectItem value="Hanbali">Hanbali</SelectItem>
-                        <SelectItem value="Maliki">Maliki</SelectItem>
-                        <SelectItem value="Shafi">Shafi</SelectItem>
-                        <SelectItem value="All Four">All Four</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>)}
-            />
-
-          </div>
-
-          <div className="space-y-1 col-span-3">
-            <Label className="font-normal text-xs line-clamp-1">Religious Practice</Label>
-            <FormField
-              name='religiousPractice'
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Not Practicing Never Prays/Non-Muslim">Not Practicing Never Prays/Non-Muslim</SelectItem>
-                        <SelectItem value="Practicing/Fardh">Practicing/Fardh</SelectItem>
-                        <SelectItem value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>
-
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>)}
-            />
-
-          </div>
-          <div className="space-y-1 col-span-3">
-            <Label className="font-normal text-xs line-clamp-1">
-              Born/Reverted to Islam
-            </Label>
-            <FormField
-              name='bornMuslim'
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="true">Born Muslim</SelectItem>
-                        <SelectItem value="false">Reverted to Islam</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>)}
-            />
-          </div>
-        </div>
-
-        <div className="space-y-1">
-          <Label className="font-normal text-xs line-clamp-1">Drinks</Label>
-          <FormField
-            name='drinks'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="true">Yes</SelectItem>
-                      <SelectItem value="false">No</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
-        </div>
-        <div className="space-y-1">
-          <Label className="font-normal text-xs line-clamp-1 text-nowrap">
-            Drugs{' '}
-            <span className="text-[0.6rem] text-nowrap">
-              (Including Cannabis)
-            </span>
-          </Label>
-          <FormField
-            name='drugs'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="true">Yes</SelectItem>
-                      <SelectItem value="false">No</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
-        </div>
-        <div className="space-y-1">
-          <Label className="font-normal text-xs line-clamp-1">
-            Smokes <span className="text-[0.6rem]">(Vapping/Shisha)</span>
-          </Label>
-          <FormField
-            name='smokes'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="true">Yes</SelectItem>
-                      <SelectItem value="false">No</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
-        </div>
-
-        <div className="space-y-1">
-          <Label className="font-normal text-xs line-clamp-1">Tattoo(s)</Label>
-          <FormField
-            name='tattoos'
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="true">Yes</SelectItem>
-                      <SelectItem value="false">No</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-xs" />
-              </FormItem>)}
-          />
-        </div>
-      </form>
+      </div>
     </Form>
   );
 }
