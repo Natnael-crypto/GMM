@@ -1,3 +1,6 @@
+'use client'
+
+import * as UserAgent from '@/lib/user-agent';
 import { buttonVariants } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -16,14 +19,20 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import CaptureImage from './capture-image';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card';
 import { upload } from '@/lib/file-upload';
+import { toast } from '../ui/use-toast';
 
 
-export default function PhotoUploader() {
+export default function PhotoUploader({ field }: { field: any }) {
   const [images, setImages] = React.useState<string[]>(['', '', '', '', '', '', '', '']);
   const form = useFormContext()
   const [generateUploadUrl] = useCreateUploadUrlMutation();
   const [draggedOnTop, setDragOnTop] = React.useState(false);
   const [isCaptureImageOpen, setIsCaptureImageOpen] = React.useState(false)
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMobile(UserAgent.isMobile.any());
+  }, [setIsMobile]);
 
   const handleImageChange = async (files: FileList | null, index: number) => {
     const file = files?.[0];
@@ -48,13 +57,13 @@ export default function PhotoUploader() {
       try {
         const fileInfo = await upload(file, generateUploadUrl);
 
-        const prevImageKeys = form.getValues('pictures') as string[]
+        const prevImageKeys = field.value as string[]
 
         while (prevImageKeys.length < 8) {
           prevImageKeys.push('')
         }
 
-        form.setValue('pictures', [...prevImageKeys.slice(0, index), fileInfo.fileKey, ...prevImageKeys.slice(index + 1)])
+        field.onChange([...prevImageKeys.slice(0, index), fileInfo.fileKey, ...prevImageKeys.slice(index + 1)])
 
       } catch (error) {
         console.error(error);
@@ -69,13 +78,14 @@ export default function PhotoUploader() {
         ]
       });
 
-      const prevImageKeys = form.getValues('pictures') as string[]
+      const prevImageKeys = field.value as string[]
 
       while (prevImageKeys.length < 8) {
         prevImageKeys.push('')
       }
 
-      form.setValue('pictures', [...prevImageKeys.slice(0, index), '', ...prevImageKeys.slice(index + 1)])
+      field.onChange([...prevImageKeys.slice(0, index), '', ...prevImageKeys.slice(index + 1)])
+      toast({ title: "inside", description: JSON.stringify([...prevImageKeys.slice(0, index), '', ...prevImageKeys.slice(index + 1)]) })
     }
   }
 
@@ -189,7 +199,10 @@ export default function PhotoUploader() {
 
             <span>or</span>
 
-            <Dialog open={isCaptureImageOpen}  >
+            {isMobile ? <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-xs h-7 text-secondary")}>
+              Capture Image
+              <input type="file" accept="image/*" capture="user" className='hidden' onChange={(e) => { insertImage(e.target.files); e.target.value = '' }} />
+            </Label> : <Dialog open={isCaptureImageOpen}  >
               <DialogTrigger className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-xs h-7 text-secondary")} onClick={() => setIsCaptureImageOpen(true)}>
                 Capture Image
               </DialogTrigger>
@@ -202,7 +215,7 @@ export default function PhotoUploader() {
 
 
               </DialogContent>
-            </Dialog>
+            </Dialog>}
           </div>
         </>
       }

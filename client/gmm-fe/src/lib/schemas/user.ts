@@ -7,15 +7,20 @@ export const userBasicInformationSchema = z
     email: z
       .string({ required_error: 'Please enter a valid email' })
       .email({ message: 'Please enter a valid email' }),
-    firstName: z.string({
-      required_error: 'Please enter your first name',
-    }),
-    lastName: z.string({
-      required_error: 'Please enter your last name',
-    }),
+    firstName: z
+      .string({
+        required_error: 'Please enter your first name',
+      })
+      .min(1, { message: 'Please enter your first name' }),
+    lastName: z
+      .string({
+        required_error: 'Please enter your last name',
+      })
+      .min(1, { message: 'Please enter your last name' }),
     phone: z.string({
       required_error: 'Please enter your phone number',
     }),
+    // .min(1, { message: 'Please enter your phone number' }),
     age: z.union([
       z
         .string({ required_error: 'Please enter your age' })
@@ -25,7 +30,9 @@ export const userBasicInformationSchema = z
         required_error: 'Please enter your age',
       }),
     ]),
-    gender: z.string({ required_error: 'Please enter your gender' }),
+    gender: z
+      .string({ required_error: 'Please enter your gender' })
+      .min(1, { message: 'Required' }),
     height: z.union([
       z
         .string({ required_error: 'Please enter your height in cm' })
@@ -44,14 +51,18 @@ export const userBasicInformationSchema = z
         required_error: 'Please enter your weight in kg',
       }),
     ]),
-    country: z.string({
-      required_error: 'Please enter your country',
-    }),
-    skinColor: z.string({
-      required_error: 'Please enter your skin color',
-    }),
+    country: z
+      .string({
+        required_error: 'Please enter your country',
+      })
+      .min(1, { message: 'Please enter your country' }),
+    skinColor: z
+      .string({
+        required_error: 'Please enter your skin color',
+      })
+      .min(1, { message: 'Please enter your skin color' }),
     languages: z.union([
-      z.array(z.string()).min(1).max(3),
+      z.array(z.string()).min(1, { message: 'Required' }).max(3),
       z
         .string({
           required_error: 'Please list languages you speak',
@@ -76,15 +87,21 @@ export const userBasicInformationSchema = z
             .filter((lang) => lang.length > 0)
         ),
     ]),
-    nationality: z.string({
-      required_error: 'Please enter your nationality',
-    }),
-    city: z.string({
-      required_error: 'Please enter your city',
-    }),
-    maritalStatus: z.string({
-      required_error: 'Please state your status',
-    }),
+    nationality: z
+      .string({
+        required_error: 'Please enter your nationality',
+      })
+      .min(1, { message: 'Please enter your nationality' }),
+    city: z
+      .string({
+        required_error: 'Please enter your city',
+      })
+      .min(1, { message: 'Please enter your city' }),
+    maritalStatus: z
+      .string({
+        required_error: 'Please state your status',
+      })
+      .min(1, { message: 'Please state your status' }),
     numberOfChildren: z.union([
       z.number(),
       z
@@ -112,13 +129,17 @@ export const userBasicInformationSchema = z
         })
         .transform(Number),
     ]),
-    sunniMadhaib: z.string({
-      required_error: 'Please specify',
-    }),
+    sunniMadhaib: z
+      .string({
+        required_error: 'Please specify',
+      })
+      .min(1, { message: 'Please specify' }),
 
-    religiousPractice: z.string({
-      required_error: 'Please specify your religious practice',
-    }),
+    religiousPractice: z
+      .string({
+        required_error: 'Please specify your religious practice',
+      })
+      .min(1, { message: 'Please specify your religious practice' }),
 
     bornMuslim: z.union([
       z.boolean({
@@ -198,7 +219,6 @@ export const userBasicInformationSchema = z
       })
       .refine(
         (value) => {
-          console.log(value, '<<<');
           return value.length > 1;
         },
         {
@@ -245,7 +265,7 @@ export const baseUserSchema = z
         .number({
           required_error: 'Please enter your height in cm',
         })
-        .min(1),
+        .min(1, { message: 'Required' }),
     ]),
     weight: z.union([
       z
@@ -259,7 +279,7 @@ export const baseUserSchema = z
         .number({
           required_error: 'Please enter your weight in kg',
         })
-        .min(1),
+        .min(1, { message: 'Required' }),
     ]),
     country: z.string({
       required_error: 'Please enter your country',
@@ -268,7 +288,7 @@ export const baseUserSchema = z
       required_error: 'Please enter your skin color',
     }),
     languages: z.union([
-      z.array(z.string()).min(1).max(3),
+      z.array(z.string()).min(1, { message: 'Required' }).max(3),
       z
         .string({
           required_error: 'Please list languages you speak',

@@ -120,13 +120,15 @@ export default function BasicInformationForm() {
   }, [updateResult, setSaving])
 
   useEffect(() => {
+    if (form.formState.errors && Object.keys(form.formState.errors).length > 0) {
+      toast({
+        title: 'Error',
+        description: 'Please fill all required fields (' + Object.keys(form.formState.errors).join(', ') + ')',
+      });
+    }
+  }, [form, form.formState.errors])
 
-    toast({
-      title: 'Error',
-      description: 'Please fill all required fields'
-    });
-
-  }, [form.formState.errors])
+  console.log(form.getValues())
 
   return (
     <Form {...form}>
@@ -151,9 +153,9 @@ export default function BasicInformationForm() {
                   <FormField
                     name="pictures"
                     control={form.control}
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
-                        <PhotoUploader />
+                        <PhotoUploader field={field} />
                         <FormMessage className='text-xs' />
                       </FormItem>)}
                   />

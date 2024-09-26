@@ -8,7 +8,7 @@ export default function ProfileLayout({
 }) {
   return (
     <div className="px-6 sm:px-16 md:px-[8%] lg:px-[15%] py-6 space-y-8">
-      <UpdateProfileProvider>
+      <UpdateProfileProvider autoSave={false}>
         {children}
       </UpdateProfileProvider>
     </div>
