@@ -11,15 +11,6 @@ import { cn } from '@/lib/utils';
 export default function Registration() {
   const { onSave, isSaving } = useUpdateProfileContext();
 
-  // const user = useAppSelector((state) => state.auth.user);
-  // const router = useRouter()
-
-  // useEffect(() => {
-  //   if (user && user.age) {
-  //     router.push('/dashboard');
-  //   }
-  // }, [user, router])
-
   return (
     <div className="space-y-5">
       <h1 className="text-2xl font-medium text-center">Account Registration</h1>

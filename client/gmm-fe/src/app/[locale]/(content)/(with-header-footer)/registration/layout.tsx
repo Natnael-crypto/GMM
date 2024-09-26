@@ -1,6 +1,7 @@
 'use client'
 
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
+import { toast } from '@/components/ui/use-toast';
 import { useAppSelector } from '@/lib/hooks';
 import { useRouter } from '@/lib/navigation';
 import React, { useEffect } from 'react';
@@ -15,7 +16,10 @@ export default function ProfileLayout({
 
   useEffect(() => {
     if (user && user.registered) {
-      router.push('/dashboard');
+      router.replace('/dashboard');
+      toast({
+        title: 'You’re already registered!',
+      })
     }
   }, [user, router])
 

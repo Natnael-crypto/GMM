@@ -53,7 +53,7 @@ export default function ChildrenStatus() {
                                         </SelectTrigger>
                                         <SelectContent className='max-h-64'>
                                             {
-                                                Array.from({ length: 83 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
+                                                Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
                                             }
                                         </SelectContent>
                                     </Select>
@@ -77,7 +77,7 @@ export default function ChildrenStatus() {
                                         </SelectTrigger>
                                         <SelectContent className='max-h-64'>
                                             {
-                                                Array.from({ length: 83 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
+                                                Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
                                             }
                                         </SelectContent>
                                     </Select>
