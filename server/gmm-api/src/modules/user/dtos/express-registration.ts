@@ -67,6 +67,10 @@ export class ExpressRegistrationDto {
   maritalStatus: string;
 
   @ApiProperty()
+  @IsString()
+  hasChildren: string;
+
+  @ApiProperty()
   @IsInt()
   numberOfChildren: number;
 

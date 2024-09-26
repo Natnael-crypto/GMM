@@ -75,6 +75,10 @@ export class UpdateUserDto {
   maritalStatus?: string;
 
   @IsOptional()
+  @IsString()
+  hasChildren?: string;
+
+  @IsOptional()
   @IsInt()
   numberOfChildren?: number;
 

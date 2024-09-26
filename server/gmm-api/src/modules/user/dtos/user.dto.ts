@@ -99,6 +99,11 @@ export class UserDto {
   @IsString()
   maritalStatus?: string;
 
+  @ApiProperty({ example: 'No Kids', required: false })
+  @IsOptional()
+  @IsString()
+  hasChildren?: string;
+
   @ApiProperty({ example: 2, required: false })
   @IsOptional()
   @IsInt()
