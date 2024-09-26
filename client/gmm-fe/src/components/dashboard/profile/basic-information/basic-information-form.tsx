@@ -48,19 +48,17 @@ export default function BasicInformationForm() {
             maritalStatus: user?.maritalStatus ?? '',
             pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
             video: user?.video ?? '',
-            phone: '',
+            phoneNumber: user?.phoneNumber ?? '',
         }
     });
     const [updateUser, updateResult] = useUpdateUserMutation();
-    console.log(user)
+
     useEffect(() => {
         form.reset({
             ...user,
             languages: user?.languages ?? [],
             pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
             bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
-            video: user?.video ?? '',
-            phone: '',
         })
 
         if (user?.pictures && user.pictures.length < 8) {

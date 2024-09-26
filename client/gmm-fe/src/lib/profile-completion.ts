@@ -42,7 +42,7 @@ export const basicInformationCompletion = (user: User): number => {
     'maritalStatus',
     'pictures',
     'video',
-    'phone',
+    'phoneNumber',
   ];
 
   return completionCalculator(fields, user);

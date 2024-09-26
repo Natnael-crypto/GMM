@@ -17,10 +17,12 @@ export const userBasicInformationSchema = z
         required_error: 'Please enter your last name',
       })
       .min(1, { message: 'Please enter your last name' }),
-    phone: z.string({
-      required_error: 'Please enter your phone number',
-    }),
-    // .min(1, { message: 'Please enter your phone number' }),
+    phoneNumber: z
+      .string({
+        required_error: 'Please enter your phone number',
+      })
+      .min(1, { message: 'Please enter your phone number' }),
+
     age: z.union([
       z
         .string({ required_error: 'Please enter your age' })
@@ -32,7 +34,8 @@ export const userBasicInformationSchema = z
     ]),
     gender: z
       .string({ required_error: 'Please enter your gender' })
-      .min(1, { message: 'Required' }),
+      .min(1, { message: 'Please enter your gender' }),
+
     height: z.union([
       z
         .string({ required_error: 'Please enter your height in cm' })
@@ -87,6 +90,11 @@ export const userBasicInformationSchema = z
             .filter((lang) => lang.length > 0)
         ),
     ]),
+    idCardImage: z
+      .string({
+        required_error: 'Please upload your ID',
+      })
+      .min(1, { message: 'Please upload your ID' }),
     nationality: z
       .string({
         required_error: 'Please enter your nationality',
@@ -102,6 +110,11 @@ export const userBasicInformationSchema = z
         required_error: 'Please state your status',
       })
       .min(1, { message: 'Please state your status' }),
+    hasChildren: z
+      .string({
+        required_error: 'Please state your status',
+      })
+      .min(1, { message: 'Please select your status' }),
     numberOfChildren: z.union([
       z.number(),
       z
@@ -231,6 +244,7 @@ export const userBasicInformationSchema = z
 export const baseUserSchema = z
   .object({
     id: z.string().optional(),
+    registered: z.boolean(),
     email: z
       .string({ required_error: 'Please enter a valid email' })
       .email({ message: 'Please enter a valid email' }),
@@ -240,7 +254,7 @@ export const baseUserSchema = z
     lastName: z.string({
       required_error: 'Please enter your last name',
     }),
-    phone: z.string({
+    phoneNumber: z.string({
       required_error: 'Please enter your phone number',
     }),
     age: z.union([
@@ -313,6 +327,9 @@ export const baseUserSchema = z
             .filter((lang) => lang.length > 0)
         ),
     ]),
+    idCardImage: z.string({
+      required_error: 'Please upload your ID',
+    }),
     nationality: z.string({
       required_error: 'Please enter your nationality',
     }),
@@ -320,6 +337,9 @@ export const baseUserSchema = z
       required_error: 'Please enter your city',
     }),
     maritalStatus: z.string({
+      required_error: 'Please state your status',
+    }),
+    hasChildren: z.string({
       required_error: 'Please state your status',
     }),
     numberOfChildren: z.union([
@@ -454,6 +474,31 @@ export const userSchema = baseUserSchema.extend({
   guardian: baseUserSchema.optional().nullable(),
 });
 
+export const userRegistrationSchema = userBasicInformationSchema.extend({
+  guardianFullName: z
+    .string({
+      required_error: "Please enter guardian's full name",
+    })
+    .min(1, { message: "Please enter guardian's full name" }),
+  relationshipToGuardian: z
+    .string({
+      required_error: 'Please enter your relationship to guardian',
+    })
+    .min(1, {
+      message: 'Please enter your relationship to guardian',
+    }),
+  guardianPhoneNumber: z
+    .string({
+      required_error: 'Please enter guardian phone number',
+    })
+    .min(1, { message: 'Please enter guardian phone number' }),
+
+  guardianEmail: z
+    .string({ required_error: "Please enter guardian's email" })
+    .email({ message: 'Please enter a valid email' }),
+});
+
+export type UserRegistration = z.infer<typeof userRegistrationSchema>;
 export type User = z.infer<typeof userSchema>;
 export type UserBasicInformation = z.infer<typeof userBasicInformationSchema>;
 

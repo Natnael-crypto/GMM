@@ -7,9 +7,9 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import Multiselect from '@/components/ui/multi-select';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { countries, heights, weights, userBasicInformationSchema, UserBasicInformation, User } from '@/lib/schemas/user';
+import { countries, heights, weights, userRegistrationSchema, UserRegistration, User } from '@/lib/schemas/user';
 import { useForm } from 'react-hook-form';
-import { useUpdateUserMutation } from '@/lib/user/api';
+import { useRegisterUserMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
 import { setUser } from '@/lib/auth/slice';
 import { useEffect, useRef } from 'react';
@@ -18,11 +18,12 @@ import { languages } from '@/config/locales';
 import PhotoUploader from '@/components/registration/photo-uploader';
 import VideoUploader from '@/components/registration/video-uploader';
 import FamilyIntroductionForm from '@/components/registration/family-form';
+import ChildrenStatus from './children-status';
 
 export default function BasicInformationForm() {
   const user = useAppSelector(state => state.auth.user);
-  const form = useForm<UserBasicInformation>({
-    resolver: zodResolver(userBasicInformationSchema),
+  const form = useForm<UserRegistration>({
+    resolver: zodResolver(userRegistrationSchema),
     defaultValues: {
       id: user?.id ?? '',
       firstName: user?.firstName ?? '',
@@ -50,22 +51,22 @@ export default function BasicInformationForm() {
       maritalStatus: user?.maritalStatus ?? '',
       pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
       video: user?.video ?? '',
-      phone: '',
+      phoneNumber: user?.phoneNumber ?? '',
+      idCardImage: user?.idCardImage ?? '',
     }
   });
 
-  console.log(form.formState.errors)
 
-  const basicInfoFormRef = useRef<HTMLFormElement>(null);
+  const registrationFormRef = useRef<HTMLFormElement>(null);
   const { registerForm, setSaving } = useUpdateProfileContext();
-  const [updateUser, updateResult] = useUpdateUserMutation();
+  const [registerUser, registrationResult] = useRegisterUserMutation();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (basicInfoFormRef && basicInfoFormRef.current) {
-      registerForm('registrationBasicInformationForm', basicInfoFormRef.current);
+    if (registrationFormRef && registrationFormRef.current) {
+      registerForm('registrationForm', registrationFormRef.current);
     }
-  }, [basicInfoFormRef, registerForm]);
+  }, [registrationFormRef, registerForm]);
 
   useEffect(() => {
     if (user) {
@@ -82,6 +83,7 @@ export default function BasicInformationForm() {
         languages: user?.languages ?? [],
         nationality: user?.nationality ?? '',
         city: user?.city ?? '',
+        hasChildren: user?.hasChildren ?? '',
         numberOfChildren: user?.numberOfChildren ?? 0,
         ageOfOldestChild: user?.ageOfOldestChild ?? 0,
         ageOfYoungestChild: user?.ageOfYoungestChild ?? 0,
@@ -96,28 +98,28 @@ export default function BasicInformationForm() {
         bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
         pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
         video: user?.video ?? '',
-        phone: '',
+        phoneNumber: user?.phoneNumber ?? '',
       })
     }
   }, [form, user]);
 
-  const onSubmit = (data: UserBasicInformation) => {
+  const onSubmit = (data: UserRegistration) => {
     try {
-      updateUser({ user: data as User });
+      registerUser(data);
     } catch (error) { console.log(error) }
   }
 
   useEffect(() => {
-    if (updateResult.isSuccess) {
-      dispatch(setUser({ ...user, ...updateResult.data }));
+    if (registrationResult.isSuccess) {
+      dispatch(setUser({ ...user, ...registrationResult.data }));
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateResult, dispatch])
+  }, [registrationResult, dispatch])
 
   useEffect(() => {
-    setSaving(updateResult.isLoading);
-  }, [updateResult, setSaving])
+    setSaving(registrationResult.isLoading);
+  }, [registrationResult, setSaving])
 
   useEffect(() => {
     if (form.formState.errors && Object.keys(form.formState.errors).length > 0) {
@@ -132,7 +134,7 @@ export default function BasicInformationForm() {
     <Form {...form}>
       <div className="grid grid-cols-3 gap-x-5">
         <form
-          ref={basicInfoFormRef}
+          ref={registrationFormRef}
           onSubmit={form.handleSubmit(onSubmit)}
           className="col-span-3 grid grid-cols-3 gap-x-4 gap-y-4">
 
@@ -434,101 +436,31 @@ export default function BasicInformationForm() {
 
               <div className="space-y-1 col-span-4 sm:col-span-2">
                 <Label className="font-normal text-xs line-clamp-1">Do you have children?</Label>
-                {/* <FormField
-                            name='maritalStatus'
-                            control={form.control}
-                            render={({ field }) => ( */}
-                <FormItem>
-                  <FormControl>
-                    <Select >
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="No kids">No kids</SelectItem>
-                        <SelectItem value="Yes 20%+ Shared parenting">Yes 20%+ Shared parenting</SelectItem>
-                        <SelectItem value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
-                        <SelectItem value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-                {/* )}
-                        /> */}
+                <FormField
+                  name='hasChildren'
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="No kids">No kids</SelectItem>
+                            <SelectItem value="Yes 20%+ Shared parenting">Yes 20%+ Shared parenting</SelectItem>
+                            <SelectItem value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
+                            <SelectItem value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
               </div>
 
-              <div className="col-span-4 grid grid-cols-8 gap-x-5 gap-y-4">
-                <div className="space-y-1 col-span-8 sm:col-span-2">
-                  <Label className="font-normal text-xs line-clamp-1">Number of children</Label>
-                  <FormField
-                    name='numberOfChildren'
-                    control={form.control}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                            placeholder="0"
-                            type='number'
-                            min={0}
-                            step={1}
-                            pattern='[0-9]'
-                            {...field}
-
-                          />
-                        </FormControl>
-                        <FormMessage className="text-xs" />
-                      </FormItem>)}
-                  />
-                </div>
-
-                <div className="space-y-1 col-span-4 sm:col-span-3">
-                  <Label className="font-normal text-xs line-clamp-1">Age of Oldest Child</Label>
-                  <FormField
-                    name='ageOfOldestChild'
-                    control={form.control}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                            placeholder="0"
-                            type='number'
-                            min={0}
-                            step={1}
-                            pattern='[0-9]'
-                            {...field}
-
-                          />
-                        </FormControl>
-                        <FormMessage className="text-xs" />
-                      </FormItem>)}
-                  />
-                </div>
-                <div className="space-y-1 col-span-4 sm:col-span-3">
-                  <Label className="font-normal text-xs line-clamp-1">Age of Youngest Child</Label>
-                  <FormField
-                    name='ageOfYoungestChild'
-                    control={form.control}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                            placeholder="0"
-                            type='number'
-                            min={0}
-                            step={1}
-                            pattern='[0-9]'
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage className="text-xs" />
-                      </FormItem>)}
-                  />
-                </div>
-              </div>
+              <ChildrenStatus />
 
               <div className="col-span-4 grid grid-cols-8 gap-x-5 gap-y-4">
                 <div className="space-y-1 col-span-8 sm:col-span-2">
