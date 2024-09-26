@@ -54,13 +54,8 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
   }
 
   useEffect(() => {
-    if (updateResult.isSuccess) {
-      toast({
-        title: 'Success',
-        description: 'Family information updated successfully',
-      });
-    }
-  }, [updateResult])
+    setSaving(updateResult.isLoading);
+  }, [updateResult, setSaving])
 
   useEffect(() => {
     setSaving(updateResult.isLoading);

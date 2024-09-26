@@ -7,7 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import Multiselect from '@/components/ui/multi-select';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { countries, heights, weights, User, userSchema } from '@/lib/schemas/user';
+import { countries, heights, weights, userBasicInformationSchema, UserBasicInformation, User } from '@/lib/schemas/user';
 import { useForm } from 'react-hook-form';
 import { useUpdateUserMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
@@ -18,10 +18,11 @@ import { languages } from '@/config/locales';
 import PhotoUploader from '@/components/registration/photo-uploader';
 import VideoUploader from '@/components/registration/video-uploader';
 import FamilyIntroductionForm from '@/components/registration/family-form';
+
 export default function BasicInformationForm() {
   const user = useAppSelector(state => state.auth.user);
-  const form = useForm<User>({
-    resolver: zodResolver(userSchema),
+  const form = useForm<UserBasicInformation>({
+    resolver: zodResolver(userBasicInformationSchema),
     defaultValues: {
       id: user?.id ?? '',
       firstName: user?.firstName ?? '',
@@ -52,6 +53,8 @@ export default function BasicInformationForm() {
       phone: '',
     }
   });
+
+  console.log(form.formState.errors)
 
   const basicInfoFormRef = useRef<HTMLFormElement>(null);
   const { registerForm, setSaving } = useUpdateProfileContext();
@@ -98,20 +101,14 @@ export default function BasicInformationForm() {
     }
   }, [form, user]);
 
-  const onSubmit = (data: User) => {
-    console.log(data)
+  const onSubmit = (data: UserBasicInformation) => {
     try {
-      updateUser({ user: data });
+      updateUser({ user: data as User });
     } catch (error) { console.log(error) }
   }
 
   useEffect(() => {
     if (updateResult.isSuccess) {
-
-      toast({
-        title: 'Success',
-        description: 'Basic information updated successfully',
-      });
       dispatch(setUser({ ...user, ...updateResult.data }));
     }
 
@@ -129,30 +126,7 @@ export default function BasicInformationForm() {
           ref={basicInfoFormRef}
           onSubmit={form.handleSubmit(onSubmit)}
           className="col-span-3 grid grid-cols-3 gap-x-4 gap-y-4">
-          {/* <div className="hidden md:block col-span-1 space-y-4 relative">
-            <div className='absolute top-0 space-y-4 w-full'>
-              <FormField
-                name="pictures"
-                control={form.control}
-                render={() => (
-                  <FormItem>
-                    <PhotoUploader />
-                    <FormMessage className='text-xs' />
-                  </FormItem>)}
-              />
 
-              <FormField
-                name="video"
-                control={form.control}
-                render={() => (
-                  <FormItem>
-                    <VideoUploader />
-                    <FormMessage className='text-xs' />
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div> */}
           <div className="hidden lg:block col-span-1"></div>
           <div className="col-span-3 lg:col-span-2 flex flex-col sm:flex-row justify-between items-center border-b border-b-secondary pb-1">
             <h1 className="text-primary text-lg font-bold">Basic Information</h1>

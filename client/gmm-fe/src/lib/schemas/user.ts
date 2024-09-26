@@ -181,15 +181,21 @@ export const userBasicInformationSchema = z
           required_error: 'Please upload a picture',
         })
       )
-      .default([])
-      .optional(),
-
-    video: z
-      .string({
-        required_error: 'Please upload a video',
+      .max(8, {
+        message: 'Please upload maximum of 8 pictures',
       })
-      .default('')
-      .optional(),
+      .refine(
+        (value) => {
+          return value.filter((val) => val != '').length >= 5;
+        },
+        {
+          message: 'Please upload at least 5 pictures',
+        }
+      ),
+
+    video: z.string({
+      required_error: 'Please upload a video',
+    }),
   })
   .required();
 
@@ -420,6 +426,7 @@ export const userSchema = baseUserSchema.extend({
 });
 
 export type User = z.infer<typeof userSchema>;
+export type UserBasicInformation = z.infer<typeof userBasicInformationSchema>;
 
 export const heights: Record<string, string> = {
   '147': "4'10'' (147 cm)",
