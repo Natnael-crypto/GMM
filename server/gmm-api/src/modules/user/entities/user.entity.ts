@@ -86,7 +86,7 @@ export class User {
   maritalStatus: string;
 
   @Column({ nullable: true })
-  hasChildren: boolean;
+  hasChildren: string;
 
   @Column({ nullable: true, type: 'int' })
   numberOfChildren: number;
