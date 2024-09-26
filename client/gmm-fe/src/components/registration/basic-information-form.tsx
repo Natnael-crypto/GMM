@@ -228,7 +228,7 @@ export default function BasicInformationForm() {
                           </SelectTrigger>
                           <SelectContent className='max-h-64'>
                             {
-                              Array.from({ length: 100 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
+                              Array.from({ length: 83 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
                             }
                           </SelectContent>
                         </Select>
@@ -504,9 +504,9 @@ export default function BasicInformationForm() {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="Not Practicing Never Prays/Non-Muslim">Not Practicing Never Prays/Non-Muslim</SelectItem>
+                              <SelectItem value="Practicing and Trying to Get Better">Practicing and Trying to get Better</SelectItem>
                               <SelectItem value="Practicing/Fardh">Practicing/Fardh</SelectItem>
                               <SelectItem value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>
-
                             </SelectContent>
                           </Select>
                         </FormControl>

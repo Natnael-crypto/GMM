@@ -533,10 +533,9 @@ export default function BasicInformationForm() {
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="Not Practicing Never Prays/Non-Muslim">Not Practicing Never Prays/Non-Muslim</SelectItem>
+                                                    <SelectItem value="Practicing and Trying to Get Better">Practicing and Trying to get Better</SelectItem>
                                                     <SelectItem value="Practicing/Fardh">Practicing/Fardh</SelectItem>
-                                                    <SelectItem value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>
-
-                                                </SelectContent>
+                                                    <SelectItem value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>                                                </SelectContent>
                                             </Select>
                                         </FormControl>
                                         <FormMessage className="text-xs" />
