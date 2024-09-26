@@ -24,6 +24,7 @@ import { Pagination } from '@shared/decorators/pagination.decorator';
 import { Sorting } from '@shared/decorators/sorting.decorator';
 import { Filtering } from '@shared/decorators/filter.decorator';
 import { getWhere, getOrder } from '@shared/decorators/filter.helper';
+import { ExpressRegistrationDto } from '../dtos/express-registration';
 
 @Injectable()
 export class UserService implements EmailLists {
@@ -116,6 +117,24 @@ export class UserService implements EmailLists {
       ...createUserDto,
       createdAt: new Date(),
     });
+  }
+
+  async expressRegistration(userId: string, dto: ExpressRegistrationDto) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return await Promise.all([
+      this.userRepository.save(Object.assign(user, dto)),
+
+      this.updateFamilyIntroduction(userId, {
+        guardianEmail: dto.guardianEmail,
+        guardianFullName: dto.guardianFullName,
+        guardianPhoneNumber: dto.guardianPhoneNumber,
+        relationshipToGuardian: dto.relationshipToGuardian,
+      }),
+    ]);
   }
 
   async updateUser(user: User) {
