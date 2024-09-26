@@ -129,7 +129,7 @@ export default function VideoUploader() {
         <input type="file" accept="video/*" className="hidden" onChange={(e) => { handleVideoChange(e.target.files); e.target.value = '' }} />
       </Label>
 
-      <div className="flex items-center justify-around">
+      <div className="flex flex-col sm:flex-row items-center justify-around">
         <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-xs h-7 text-secondary")}>
           Browse Files
           <input type="file" accept="video/*" className='hidden' onChange={(e) => { handleVideoChange(e.target.files); e.target.value = '' }} />
