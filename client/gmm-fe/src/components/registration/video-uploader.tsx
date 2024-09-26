@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-export default function VideoUploader() {
+export default function VideoUploader({ field }: { field: any }) {
   const [videoUrl, setVideoUrl] = React.useState<string | undefined>(undefined);
   const [fileName, setFileName] = React.useState<string | null>(null);
   const form = useFormContext();
@@ -55,7 +55,7 @@ export default function VideoUploader() {
           try {
             const fileInfo = await upload(file, generateUploadUrl);
 
-            form.setValue('video', fileInfo.fileKey);
+            field.onChange(fileInfo.fileKey);
           } catch (error) {
             form.setError('video', {
               type: 'uploadFailed',

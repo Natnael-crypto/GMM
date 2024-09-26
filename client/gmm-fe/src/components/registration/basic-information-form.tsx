@@ -128,8 +128,6 @@ export default function BasicInformationForm() {
     }
   }, [form, form.formState.errors])
 
-  console.log(form.getValues())
-
   return (
     <Form {...form}>
       <div className="grid grid-cols-3 gap-x-5">
@@ -164,9 +162,9 @@ export default function BasicInformationForm() {
                   <FormField
                     name="video"
                     control={form.control}
-                    render={() => (
+                    render={({ field }) => (
                       <FormItem>
-                        <VideoUploader />
+                        <VideoUploader field={field} />
                         <FormMessage className='text-xs' />
                       </FormItem>
                     )}
