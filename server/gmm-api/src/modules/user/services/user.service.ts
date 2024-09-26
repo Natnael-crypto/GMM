@@ -25,6 +25,7 @@ import { Sorting } from '@shared/decorators/sorting.decorator';
 import { Filtering } from '@shared/decorators/filter.decorator';
 import { getWhere, getOrder } from '@shared/decorators/filter.helper';
 import { ExpressRegistrationDto } from '../dtos/express-registration';
+import { GuardianService } from '../services/guardian.service';
 
 @Injectable()
 export class UserService implements EmailLists {
@@ -32,6 +33,7 @@ export class UserService implements EmailLists {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly noticeService: NoticeService,
+    private readonly guardianService: GuardianService,
   ) {}
 
   async getList(id: string): Promise<string[]> {
@@ -125,13 +127,21 @@ export class UserService implements EmailLists {
       throw new NotFoundException('User not found');
     }
 
+    const updatedUser = Object.assign(user, dto);
+    updatedUser.registered = true;
+
     return await Promise.all([
-      this.userRepository.save(Object.assign(user, dto)),
+      this.userRepository.save(updatedUser),
 
       this.updateFamilyIntroduction(userId, {
         guardianEmail: dto.guardianEmail,
         guardianFullName: dto.guardianFullName,
         guardianPhoneNumber: dto.guardianPhoneNumber,
+        relationshipToGuardian: dto.relationshipToGuardian,
+      }),
+
+      this.guardianService.requestGuardian(user, {
+        guardianEmail: dto.guardianEmail,
         relationshipToGuardian: dto.relationshipToGuardian,
       }),
     ]);

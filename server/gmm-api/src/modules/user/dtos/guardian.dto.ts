@@ -6,4 +6,8 @@ export class RequestGuardianDto {
   @IsString()
   @IsEmail()
   guardianEmail: string;
+
+  @ApiProperty()
+  @IsString()
+  relationshipToGuardian: string;
 }

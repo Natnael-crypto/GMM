@@ -28,7 +28,7 @@ export class GuardianController {
     const user = req.user;
     const message = await this.guardianService.requestGuardian(
       user,
-      guardianDto.guardianEmail,
+      guardianDto,
     );
 
     return {

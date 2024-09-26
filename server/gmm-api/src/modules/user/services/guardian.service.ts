@@ -15,6 +15,7 @@ import {
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { GuardianRequestedEvent } from '../events/guardian.events';
+import { RequestGuardianDto } from '../dtos/guardian.dto';
 
 @Injectable()
 export class GuardianService {
@@ -27,8 +28,8 @@ export class GuardianService {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async requestGuardian(user: User, guardianEmail: string) {
-    if (user.email === guardianEmail) {
+  async requestGuardian(user: User, dto: RequestGuardianDto) {
+    if (user.email === dto.guardianEmail) {
       throw new ConflictException('User cannot be their own guardian');
     }
 
@@ -41,13 +42,13 @@ export class GuardianService {
     }
 
     const guardian = await this.userRepository.findOne({
-      where: { email: guardianEmail },
+      where: { email: dto.guardianEmail },
     });
 
     const pendingRequests = await this.guardianRequestRepository.find({
       where: {
         userId: user.id,
-        guardianEmail,
+        guardianEmail: dto.guardianEmail,
         status: GuardianRequestStatus.PENDING,
       },
     });
@@ -58,20 +59,21 @@ export class GuardianService {
 
     await this.guardianRequestRepository.save({
       user,
-      guardianEmail,
+      guardianEmail: dto.guardianEmail,
+      relationshipToGuardian: dto.relationshipToGuardian,
     });
 
     if (!guardian) {
       this.eventEmitter.emit(
         GuardianRequestedEvent.name,
-        new GuardianRequestedEvent(user, guardianEmail),
+        new GuardianRequestedEvent(user, dto.guardianEmail),
       );
 
       return 'Guardian is not registered at Guardian/Wali. Registration request has been sent to their email successfully.';
     }
 
     await this.noticeService.sendEmail(
-      guardianEmail,
+      dto.guardianEmail,
       'Guardian Request',
       `Hello. ${user.firstName} ${user.lastName} has requested you to be their guardian. Please login to your Guardian/Wali account to accept the request.`,
     );
