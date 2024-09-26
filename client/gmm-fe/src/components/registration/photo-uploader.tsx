@@ -28,6 +28,13 @@ export default function PhotoUploader() {
   const handleImageChange = async (files: FileList | null, index: number) => {
     const file = files?.[0];
     if (file) {
+      if (!file.type.startsWith('image')) {
+        form.setError('pictures', {
+          type: 'invalidFileType',
+          message: 'Invalid file type. Please upload an image file',
+        });
+        return;
+      }
       const blobUrl = URL.createObjectURL(file);
 
       setImages((images) => {

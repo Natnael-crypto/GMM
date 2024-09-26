@@ -131,8 +131,26 @@ export default function BasicInformationForm() {
           className="col-span-3 grid grid-cols-3 gap-x-4">
           <div className="col-span-1 space-y-4 relative">
             <div className='absolute top-0 space-y-4 w-full'>
-              <PhotoUploader />
-              <VideoUploader />
+              <FormField
+                name="pictures"
+                control={form.control}
+                render={() => (
+                  <FormItem>
+                    <PhotoUploader />
+                    <FormMessage className='text-xs' />
+                  </FormItem>)}
+              />
+
+              <FormField
+                name="video"
+                control={form.control}
+                render={() => (
+                  <FormItem>
+                    <VideoUploader />
+                    <FormMessage className='text-xs' />
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
 
@@ -677,8 +695,8 @@ export default function BasicInformationForm() {
 
           </div>
         </form>
-        <div className='col-span-1'></div>
-        <div className="col-span-2 mt-8">
+        <div className='hidden md:block md:col-span-1'></div>
+        <div className="col-span-3 md:col-span-2 mt-8">
           <FamilyIntroductionForm />
         </div>
       </div>
