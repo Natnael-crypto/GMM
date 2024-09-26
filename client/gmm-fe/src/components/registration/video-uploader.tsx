@@ -1,6 +1,6 @@
 'use client'
 
-import { isMobile } from '@/lib/user-agent';
+import * as UserAgent from '@/lib/user-agent';
 import { buttonVariants } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -23,6 +23,12 @@ export default function VideoUploader() {
   const [generateUploadUrl] = useCreateUploadUrlMutation();
   const [draggedOnTop, setDragOnTop] = React.useState(false);
   const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMobile(UserAgent.isMobile.any());
+  }, [setIsMobile]);
 
   const handleVideoChange = async (files: FileList | null) => {
     if (!videoRef.current) return;
@@ -51,6 +57,10 @@ export default function VideoUploader() {
 
             form.setValue('video', fileInfo.fileKey);
           } catch (error) {
+            form.setError('video', {
+              type: 'uploadFailed',
+              message: 'Unable to upload video',
+            });
             console.error(error);
           }
         } else {
@@ -124,7 +134,7 @@ export default function VideoUploader() {
           Browse Files
           <input type="file" accept="video/*" className='hidden' onChange={(e) => { handleVideoChange(e.target.files); e.target.value = '' }} />
         </Label>
-        {isMobile.any() && <><span>or</span>
+        {isMobile && <><span>or</span>
           <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-xs h-7 text-secondary")}>
             Capture Video
             <input type="file" accept="video/*" capture className='hidden' onChange={(e) => { handleVideoChange(e.target.files); e.target.value = '' }} />
