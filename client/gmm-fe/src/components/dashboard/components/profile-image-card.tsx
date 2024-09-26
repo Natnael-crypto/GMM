@@ -45,7 +45,7 @@ export default function ProfileImages() {
               <span>
                 <FontAwesomeIcon icon={faLocationDot} />
               </span>
-              {user && <span>{user.city}, {user.country}</span>}
+              {user && <span>{user.city.includes(',') ? user.city : `${user.city}, ${user.country}`}</span>}
             </p>
 
             {user && <div className="flex gap-2">

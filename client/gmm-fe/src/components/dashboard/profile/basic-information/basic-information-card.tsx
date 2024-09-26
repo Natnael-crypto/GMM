@@ -1,6 +1,6 @@
 'use client'
 
-import { useAppSelector } from '@/lib/hooks';
+import { languages } from '@/config/locales';
 import { User } from '@/lib/schemas/user';
 import {
   faLanguage,
@@ -11,12 +11,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
-const languages: Record<string, string> = {
-  "EN": "English",
-  "AR": "Arabic",
-  "FR": "French",
-  "HN": "Hindu"
-}
+const languageMap: Record<string, string> = languages.reduce((acc, lang) => ({ ...acc, [lang.value]: lang.label }), {})
 
 export default function BasicInformationCard({ user }: { user: User }) {
 
@@ -55,7 +50,7 @@ export default function BasicInformationCard({ user }: { user: User }) {
           />
         </div>
         <div className="col-span-11 space-y-3 ">
-          <h1 className="font-bold">{user?.languages?.map((l) => languages[l]).join(', ')}</h1>
+          <h1 className="font-bold">{user?.languages?.map((l) => languageMap[l]).join(', ')}</h1>
         </div>
       </div>
 
