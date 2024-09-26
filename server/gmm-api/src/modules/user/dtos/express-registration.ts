@@ -23,7 +23,7 @@ export class ExpressRegistrationDto {
 
   @ApiProperty()
   @IsString()
-  phone: string;
+  phoneNumber: string;
 
   @ApiProperty()
   @IsInt()

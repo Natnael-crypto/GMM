@@ -31,7 +31,7 @@ export class UserDto {
   @ApiProperty({ example: 'string', required: false })
   @IsOptional()
   @IsString()
-  phone?: string;
+  phoneNumber?: string;
 
   @ApiProperty({ example: 'string', required: false })
   @IsOptional()
@@ -41,7 +41,7 @@ export class UserDto {
   @ApiProperty({ example: 'string', required: false })
   @IsOptional()
   @IsString()
-  idCard?: string;
+  idCardImage?: string;
 
   @ApiProperty({ example: 'string', required: false })
   @IsOptional()
