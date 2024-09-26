@@ -181,21 +181,30 @@ export const userBasicInformationSchema = z
           required_error: 'Please upload a picture',
         })
       )
-      .max(8, {
-        message: 'Please upload maximum of 8 pictures',
-      })
       .refine(
         (value) => {
-          return value.filter((val) => val != '').length >= 5;
+          return (
+            value.length === 8 && value.filter((val) => val != '').length >= 5
+          );
         },
         {
           message: 'Please upload at least 5 pictures',
         }
       ),
 
-    video: z.string({
-      required_error: 'Please upload a video',
-    }),
+    video: z
+      .string({
+        required_error: 'Please upload a video',
+      })
+      .refine(
+        (value) => {
+          console.log(value, '<<<');
+          return value.length > 1;
+        },
+        {
+          message: 'Please upload a video',
+        }
+      ),
   })
   .required();
 

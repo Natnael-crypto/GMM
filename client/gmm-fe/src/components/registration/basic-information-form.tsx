@@ -119,6 +119,15 @@ export default function BasicInformationForm() {
     setSaving(updateResult.isLoading);
   }, [updateResult, setSaving])
 
+  useEffect(() => {
+
+    toast({
+      title: 'Error',
+      description: 'Please fill all required fields'
+    });
+
+  }, [form.formState.errors])
+
   return (
     <Form {...form}>
       <div className="grid grid-cols-3 gap-x-5">
