@@ -10,6 +10,8 @@ import {
   NotFoundException,
   UnauthorizedException,
   Query,
+  Post,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ApiBearerAuth, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
@@ -40,6 +42,7 @@ import {
   Filtering,
   FilteringParams,
 } from '@shared/decorators/filter.decorator';
+import { ExpressRegistrationDto } from '../dtos/express-registration';
 
 @ApiTags('User')
 @ApiBearerAuth()
@@ -103,6 +106,29 @@ export class UserController {
     } catch (e) {
       console.log(e);
       return { message: e.message, totalItems: 0, data: [], page: 0, limit: 0 };
+    }
+  }
+
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(['user:write'], (req) => req.user.id === req.params.id),
+  )
+  @Post(':id')
+  async expressRegistration(
+    @Body() registrationDto: ExpressRegistrationDto,
+    @Param('id') id: string,
+  ) {
+    try {
+      const result = await this.userService.expressRegistration(
+        id,
+        registrationDto,
+      );
+      return {
+        message: 'User registration updated successfully',
+        data: result[0],
+      };
+    } catch (e) {
+      throw new UnprocessableEntityException(e.message);
     }
   }
 

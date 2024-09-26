@@ -34,6 +34,9 @@ export class GuardianRequest {
   })
   status: GuardianRequestStatus;
 
+  @Column()
+  relationshipToGuardian: string;
+
   @Column({ default: new Date() })
   requestedAt: Date;
 

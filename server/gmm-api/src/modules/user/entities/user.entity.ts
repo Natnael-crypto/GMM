@@ -25,6 +25,9 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ default: false })
+  registered: boolean;
+
   @Column({ nullable: true })
   firstName: string;
 
@@ -144,13 +147,14 @@ export class User {
   @Column({ nullable: true })
   stripeCustomerId: string;
 
-  @OneToOne(() => Subscription, subscription => subscription.user)
+  @OneToOne(() => Subscription, (subscription) => subscription.user)
   subscription: Subscription;
 
-  @OneToMany(() => SubscriptionHistory, (subscriptionHistory) => subscriptionHistory.user)
+  @OneToMany(
+    () => SubscriptionHistory,
+    (subscriptionHistory) => subscriptionHistory.user,
+  )
   subscriptionHistory: SubscriptionHistory[];
-
-
 
   @Column({ default: 'User' })
   roleId: string;

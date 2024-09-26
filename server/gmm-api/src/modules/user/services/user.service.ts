@@ -24,6 +24,8 @@ import { Pagination } from '@shared/decorators/pagination.decorator';
 import { Sorting } from '@shared/decorators/sorting.decorator';
 import { Filtering } from '@shared/decorators/filter.decorator';
 import { getWhere, getOrder } from '@shared/decorators/filter.helper';
+import { ExpressRegistrationDto } from '../dtos/express-registration';
+import { GuardianService } from '../services/guardian.service';
 
 @Injectable()
 export class UserService implements EmailLists {
@@ -31,6 +33,7 @@ export class UserService implements EmailLists {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly noticeService: NoticeService,
+    private readonly guardianService: GuardianService,
   ) {}
 
   async getList(id: string): Promise<string[]> {
@@ -116,6 +119,32 @@ export class UserService implements EmailLists {
       ...createUserDto,
       createdAt: new Date(),
     });
+  }
+
+  async expressRegistration(userId: string, dto: ExpressRegistrationDto) {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const updatedUser = Object.assign(user, dto);
+    updatedUser.registered = true;
+
+    return await Promise.all([
+      this.userRepository.save(updatedUser),
+
+      this.updateFamilyIntroduction(userId, {
+        guardianEmail: dto.guardianEmail,
+        guardianFullName: dto.guardianFullName,
+        guardianPhoneNumber: dto.guardianPhoneNumber,
+        relationshipToGuardian: dto.relationshipToGuardian,
+      }),
+
+      this.guardianService.requestGuardian(user, {
+        guardianEmail: dto.guardianEmail,
+        relationshipToGuardian: dto.relationshipToGuardian,
+      }),
+    ]);
   }
 
   async updateUser(user: User) {
@@ -392,7 +421,7 @@ export class UserService implements EmailLists {
       await this.noticeService.sendEmail(
         updateDto.guardianEmail,
         'Guardian Request',
-        `You have a new guardian request from ${user.firstName} ${user.lastName}. Please <a href="${process.env.CLIENTAUTHSUCCESSURL?.slice(0, process.env.CLIENTAUTHSUCCESSURL.length - 8)}guardian-registration">register/login</a> to your account to accept or reject the request.`,
+        `You have a new guardian request from ${user.firstName} ${user.lastName}. Please <a href="${process.env.CLIENTAUTHSUCCESSURL?.slice(0, process.env.CLIENTAUTHSUCCESSURL.length - 8)}guardian">register/login</a> to your account to accept or reject the request.`,
       );
     }
 
