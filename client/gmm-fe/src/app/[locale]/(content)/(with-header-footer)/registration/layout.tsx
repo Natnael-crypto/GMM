@@ -1,14 +1,27 @@
+'use client'
+
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
-import React from 'react';
+import { useAppSelector } from '@/lib/hooks';
+import { useRouter } from '@/lib/navigation';
+import React, { useEffect } from 'react';
 
 export default function ProfileLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const user = useAppSelector((state) => state.auth.user);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user && user.registered) {
+      router.push('/dashboard');
+    }
+  }, [user])
+
   return (
-    <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
-      <UpdateProfileProvider>
+    <div className="px-6 sm:px-16 md:px-[8%] lg:px-[15%] py-6 space-y-8">
+      <UpdateProfileProvider autoSave={false}>
         {children}
       </UpdateProfileProvider>
     </div>

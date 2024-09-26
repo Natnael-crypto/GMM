@@ -177,7 +177,7 @@ export default function GuardianRegistrationPage() {
             <div className="flex flex-col gap-1">
               <span className="font-bold">Guardian ID</span>
               <span className="flex gap-3 items-center">
-                {user?.phone}{' '}
+                {user?.phoneNumber}{' '}
                 <span className="text-destructive text-[0.6rem] gap-1 flex items-center justify-center">
                   {/* <FontAwesomeIcon className="text-xs" icon={faXmarkCircle} />
                 <span className="font-bold">{t('unverified')}</span> */}

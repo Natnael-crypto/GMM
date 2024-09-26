@@ -80,7 +80,7 @@ export default function Multiselect({
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 className="w-full"
                             />
-                            <div className="flex flex-col gap-2">
+                            <div className="flex flex-col gap-2 max-h-56 overflow-auto no-scrollbar">
                                 {filteredOptions.map((option) => (
                                     <div key={option.value} className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">

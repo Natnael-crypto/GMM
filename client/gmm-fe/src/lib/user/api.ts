@@ -17,7 +17,7 @@ import {
   UpdateFamilyIntroduction,
   UpdateUser,
 } from './types';
-import { User } from '../schemas/user';
+import { User, UserRegistration } from '../schemas/user';
 import {
   ExpectedIslamicLifestyle,
   IslamicLifestyle,
@@ -54,6 +54,17 @@ export const userApi = createApi({
     getUsers: builder.query<User[], string>({
       query: (queryString) => `users?${queryString}`,
       transformResponse: (response: BaseResponse<User[]>) => {
+        return response.data;
+      },
+    }),
+
+    registerUser: builder.mutation<User, UserRegistration>({
+      query: (userRegistration) => ({
+        url: `users/${userRegistration.id}`,
+        method: 'POST',
+        body: userRegistration,
+      }),
+      transformResponse: (response: BaseResponse<User>) => {
         return response.data;
       },
     }),
@@ -287,6 +298,7 @@ export const userApi = createApi({
 export const {
   useLazyGetUsersQuery,
   useUpdatePreferenceMutation,
+  useRegisterUserMutation,
   useUpdateUserMutation,
   useGetWorldlyLifestyleQuery,
   useUpdateWorldlyLifestyleMutation,

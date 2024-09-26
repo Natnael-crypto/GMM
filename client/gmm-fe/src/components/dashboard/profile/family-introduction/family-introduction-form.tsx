@@ -59,6 +59,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
     }, [familyIntroductionFormRef, registerForm]);
 
     const onSubmit = async (data: FamilyIntroduction) => {
+        return
         updateFamilyIntroduction({ userId: user!.id, familyIntroduction: data });
 
         try {
@@ -108,6 +109,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled
                                             className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                                         />
                                     </FormControl>
@@ -128,7 +130,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" disabled>
                                                 <SelectValue />
                                             </SelectTrigger>
 
@@ -159,6 +161,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                                     <FormControl>
                                         <Input
                                             {...field}
+                                            disabled
                                             className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                                         />
                                     </FormControl>
@@ -180,7 +183,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                                     <FormControl>
                                         <Input
                                             {...field}
-                                            disabled={Boolean(user?.guardian)}
+                                            disabled
                                             className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                                         />
                                     </FormControl>
@@ -211,6 +214,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                         <Input
                             className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                             placeholder="1234567890"
+                            disabled
                         />
                     </div>
 
@@ -221,6 +225,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                         <Input
                             className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                             type="file"
+                            disabled
                         />
                     </div>
                 </div>
