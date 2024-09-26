@@ -181,7 +181,7 @@ export default function PhotoUploader() {
           </Label>
 
 
-          <div className="flex flex-col sm:flex-row items-center justify-around">
+          <div className="flex flex-col sm:flex-row items-center gap-1 flex-wrap">
             <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-xs h-7 text-secondary")}>
               Browse Files
               <input type="file" accept="image/*" className='hidden' onChange={(e) => { insertImage(e.target.files); e.target.value = '' }} />

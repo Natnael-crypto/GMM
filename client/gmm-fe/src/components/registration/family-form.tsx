@@ -72,7 +72,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
         ref={familyIntroductionFormRef}
         onSubmit={form.handleSubmit(onSubmit)}
       >
-        <div className="col-span-2 flex justify-between items-center border-b border-b-secondary pb-1">
+        <div className="col-span-2 flex flex-col sm:flex-row justify-between items-center border-b border-b-secondary pb-1">
           <h1 className="text-primary text-lg font-bold">
             Family/Guardian Introduction
           </h1>
