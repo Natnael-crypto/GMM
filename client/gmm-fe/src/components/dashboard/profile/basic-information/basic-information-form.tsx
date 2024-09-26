@@ -16,6 +16,19 @@ import { toast } from '@/components/ui/use-toast';
 import { setUser } from '@/lib/auth/slice';
 import PhotoUploader from './photo-uploader';
 import { languages } from '@/config/locales';
+import ChildrenStatus from '@/components/registration/children-status';
+import AutoComplete from '@/components/ui/searchable-select';
+
+const countryOptions = Object.keys(countries).map((country) => ({
+    label: country,
+    value: country
+}));
+
+const cityOptions = Object.keys(countries).flatMap(country => countries[country].map(city => ({
+    label: `${city}, ${country}`,
+    value: `${city}, ${country}`
+})));
+
 
 export default function BasicInformationForm() {
     const user = useAppSelector(state => state.auth.user);
@@ -34,6 +47,7 @@ export default function BasicInformationForm() {
             languages: user?.languages ?? [],
             nationality: user?.nationality ?? '',
             city: user?.city ?? '',
+            hasChildren: user?.hasChildren ?? '',
             numberOfChildren: user?.numberOfChildren ?? 0,
             ageOfOldestChild: user?.ageOfOldestChild ?? 0,
             ageOfYoungestChild: user?.ageOfYoungestChild ?? 0,
@@ -188,7 +202,7 @@ export default function BasicInformationForm() {
                                             </SelectTrigger>
                                             <SelectContent className='max-h-64'>
                                                 {
-                                                    Array.from({ length: 100 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
+                                                    Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
                                                 }
                                             </SelectContent>
                                         </Select>
@@ -233,7 +247,7 @@ export default function BasicInformationForm() {
                                             <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
-                                            <SelectContent>
+                                            <SelectContent className='max-h-64'>
                                                 {Object.keys(heights).map((h, i) => <SelectItem key={i} value={h}>{heights[h]}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
@@ -256,7 +270,7 @@ export default function BasicInformationForm() {
                                             <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
-                                            <SelectContent>
+                                            <SelectContent className='max-h-64'>
                                                 {Object.keys(weights).map((w, i) => <SelectItem key={i} value={w}>{weights[w]}</SelectItem>)}
                                             </SelectContent>
                                         </Select>
@@ -274,14 +288,7 @@ export default function BasicInformationForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {Object.keys(countries).map((country, i) => <SelectItem key={i} value={country}>{country}</SelectItem>)}
-                                            </SelectContent>
-                                        </Select>
+                                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
                                     </FormControl>
                                     <FormMessage className="text-xs" />
                                 </FormItem>)}
@@ -334,14 +341,7 @@ export default function BasicInformationForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {Object.keys(countries).map((country, i) => <SelectItem key={i} value={country}>{country}</SelectItem>)}
-                                            </SelectContent>
-                                        </Select>
+                                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
                                     </FormControl>
                                     <FormMessage className="text-xs" />
                                 </FormItem>)}
@@ -356,11 +356,7 @@ export default function BasicInformationForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Input
-                                            className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                                            placeholder="Toronto"
-                                            {...field}
-                                        />
+                                        <AutoComplete extend={true} onChange={field.onChange} selectedOption={field.value} options={cityOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
                                     </FormControl>
                                     <FormMessage className="text-xs" />
                                 </FormItem>)}
@@ -395,101 +391,31 @@ export default function BasicInformationForm() {
 
                     <div className="space-y-1 col-span-2">
                         <Label className="font-normal text-xs line-clamp-1">Do you have children?</Label>
-                        {/* <FormField
-                            name='maritalStatus'
+                        <FormField
+                            name='hasChildren'
                             control={form.control}
-                            render={({ field }) => ( */}
-                        <FormItem>
-                            <FormControl>
-                                <Select >
-                                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="No kids">No kids</SelectItem>
-                                        <SelectItem value="Yes 20%+ Shared parenting">Yes 20%+ Shared parenting</SelectItem>
-                                        <SelectItem value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
-                                        <SelectItem value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </FormControl>
-                            <FormMessage className="text-xs" />
-                        </FormItem>
-                        {/* )}
-                        /> */}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} value={field.value}>
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                                <SelectValue />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="No kids">No kids</SelectItem>
+                                                <SelectItem value="Yes 20%+ Shared parenting">Yes 20%+ Shared parenting</SelectItem>
+                                                <SelectItem value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
+                                                <SelectItem value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage className="text-xs" />
+                                </FormItem>
+                            )}
+                        />
                     </div>
 
-                    <div className="col-span-4 grid grid-cols-4 lg:grid-cols-8 gap-x-5 gap-y-4 ">
-                        <div className="space-y-1 col-span-4 lg:col-span-2">
-                            <Label className="font-normal text-xs line-clamp-1">Number of children</Label>
-                            <FormField
-                                name='numberOfChildren'
-                                control={form.control}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input
-                                                className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                                                placeholder="0"
-                                                type='number'
-                                                min={0}
-                                                step={1}
-                                                pattern='[0-9]'
-                                                {...field}
-
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="text-xs" />
-                                    </FormItem>)}
-                            />
-                        </div>
-
-                        <div className="space-y-1 col-span-4 lg:col-span-3">
-                            <Label className="font-normal text-xs line-clamp-1">Age of Oldest Child</Label>
-                            <FormField
-                                name='ageOfOldestChild'
-                                control={form.control}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input
-                                                className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                                                placeholder="0"
-                                                type='number'
-                                                min={0}
-                                                step={1}
-                                                pattern='[0-9]'
-                                                {...field}
-
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="text-xs" />
-                                    </FormItem>)}
-                            />
-                        </div>
-                        <div className="space-y-1 col-span-4 lg:col-span-3">
-                            <Label className="font-normal text-xs line-clamp-1">Age of Youngest Child</Label>
-                            <FormField
-                                name='ageOfYoungestChild'
-                                control={form.control}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input
-                                                className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                                                placeholder="0"
-                                                type='number'
-                                                min={0}
-                                                step={1}
-                                                pattern='[0-9]'
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="text-xs" />
-                                    </FormItem>)}
-                            />
-                        </div>
-                    </div>
+                    <ChildrenStatus />
 
                     <div className="col-span-4 grid grid-cols-4 lg:grid-cols-8 gap-x-5 gap-y-4">
                         <div className="space-y-1 col-span-4 lg:col-span-2">
@@ -533,10 +459,9 @@ export default function BasicInformationForm() {
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="Not Practicing Never Prays/Non-Muslim">Not Practicing Never Prays/Non-Muslim</SelectItem>
+                                                    <SelectItem value="Practicing and Trying to Get Better">Practicing and Trying to get Better</SelectItem>
                                                     <SelectItem value="Practicing/Fardh">Practicing/Fardh</SelectItem>
-                                                    <SelectItem value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>
-
-                                                </SelectContent>
+                                                    <SelectItem value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>                                                </SelectContent>
                                             </Select>
                                         </FormControl>
                                         <FormMessage className="text-xs" />

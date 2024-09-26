@@ -18,7 +18,7 @@ export default async function Header() {
     flex justify-between items-center"
     >
       <div className="w-40 md:w-60">
-        <Link href="/" className="w-40 md:w-60">
+        <Link href={session ? "/dashboard" : "/"} className="w-40 md:w-60">
           <Image
             className="w-full overflow-hidden"
             src="/assets/guardian-logo-footer.png"

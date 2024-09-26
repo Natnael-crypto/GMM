@@ -42,27 +42,6 @@ export default function Profile({ user: profileUser }: { user: User }) {
           </Link>
 
           <Link
-            href="/dashboard/billing"
-            className="w-full justify-start bg-background hover:bg-muted text-muted-foreground hover:text-muted-foreground py-1 px-5"
-          >
-            Billing
-          </Link>
-
-          <Link
-            href=""
-            className="w-full justify-start bg-background hover:bg-muted text-muted-foreground hover:text-muted-foreground py-1 px-5"
-          >
-            Legal
-          </Link>
-
-          <Link
-            href=""
-            className="w-full justify-start bg-background hover:bg-muted text-muted-foreground hover:text-muted-foreground py-1 px-5"
-          >
-            FAQ
-          </Link>
-
-          <Link
             href=""
             className="w-full justify-start bg-background hover:bg-muted text-muted-foreground hover:text-muted-foreground py-1 px-5"
           >

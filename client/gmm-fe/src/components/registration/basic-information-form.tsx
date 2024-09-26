@@ -19,6 +19,18 @@ import PhotoUploader from '@/components/registration/photo-uploader';
 import VideoUploader from '@/components/registration/video-uploader';
 import FamilyIntroductionForm from '@/components/registration/family-form';
 import ChildrenStatus from './children-status';
+import AutoComplete from '../ui/searchable-select';
+
+const countryOptions = Object.keys(countries).map((country) => ({
+  label: country,
+  value: country
+}));
+
+const cityOptions = Object.keys(countries).flatMap(country => countries[country].map(city => ({
+  label: `${city}, ${country}`,
+  value: `${city}, ${country}`
+})));
+
 
 export default function BasicInformationForm() {
   const user = useAppSelector(state => state.auth.user);
@@ -228,7 +240,7 @@ export default function BasicInformationForm() {
                           </SelectTrigger>
                           <SelectContent className='max-h-64'>
                             {
-                              Array.from({ length: 100 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
+                              Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
                             }
                           </SelectContent>
                         </Select>
@@ -273,7 +285,7 @@ export default function BasicInformationForm() {
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className='max-h-64'>
                             {Object.keys(heights).map((h, i) => <SelectItem key={i} value={h}>{heights[h]}</SelectItem>)}
                           </SelectContent>
                         </Select>
@@ -296,7 +308,7 @@ export default function BasicInformationForm() {
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
-                          <SelectContent>
+                          <SelectContent className='max-h-64'>
                             {Object.keys(weights).map((w, i) => <SelectItem key={i} value={w}>{weights[w]}</SelectItem>)}
                           </SelectContent>
                         </Select>
@@ -314,14 +326,7 @@ export default function BasicInformationForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {Object.keys(countries).map((country, i) => <SelectItem key={i} value={country}>{country}</SelectItem>)}
-                          </SelectContent>
-                        </Select>
+                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>)}
@@ -375,14 +380,7 @@ export default function BasicInformationForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {Object.keys(countries).map((country, i) => <SelectItem key={i} value={country}>{country}</SelectItem>)}
-                          </SelectContent>
-                        </Select>
+                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>)}
@@ -397,11 +395,7 @@ export default function BasicInformationForm() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
-                          className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                          placeholder="Toronto"
-                          {...field}
-                        />
+                        <AutoComplete extend={true} onChange={field.onChange} selectedOption={field.value} options={cityOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>)}
@@ -504,9 +498,9 @@ export default function BasicInformationForm() {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="Not Practicing Never Prays/Non-Muslim">Not Practicing Never Prays/Non-Muslim</SelectItem>
+                              <SelectItem value="Practicing and Trying to Get Better">Practicing and Trying to get Better</SelectItem>
                               <SelectItem value="Practicing/Fardh">Practicing/Fardh</SelectItem>
                               <SelectItem value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>
-
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -642,7 +636,7 @@ export default function BasicInformationForm() {
           </div>
         </form>
         <div className='hidden md:block md:col-span-1'></div>
-        <div className="col-span-3 md:col-span-2 mt-8">
+        <div className="col-span-3 lg:col-span-2 mt-8">
           <FamilyIntroductionForm />
         </div>
       </div>

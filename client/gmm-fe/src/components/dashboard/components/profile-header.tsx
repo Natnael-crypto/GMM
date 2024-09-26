@@ -24,7 +24,7 @@ export default function ProfileHeader({
       <Breadcrumb>
         <BreadcrumbList className="gap-1.5 sm:gap-1.5 text-xs">
           <BreadcrumbItem>
-            <BreadcrumbLink href={`/${locale}/dashboard/personal-info`}>
+            <BreadcrumbLink href={`/${locale}/dashboard`}>
               Dashboard
             </BreadcrumbLink>
           </BreadcrumbItem>
