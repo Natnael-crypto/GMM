@@ -25,7 +25,17 @@ export const checkoutApi = createApi({
       }),
       transformResponse: (response: any) => response.data,
     }),
+
+    createPaymentIntent: builder.mutation<any, any>({
+      query: (data) => ({
+        url: 'payments/create-payment-intent',
+        method: 'POST',
+        body: { plan: data },
+      }),
+      transformResponse: (response: any) => response.data,
+    }),
   }),
 });
 
-export const { useCreateCheckoutMutation } = checkoutApi;
+export const { useCreateCheckoutMutation, useCreatePaymentIntentMutation } =
+  checkoutApi;

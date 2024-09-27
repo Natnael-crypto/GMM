@@ -1,136 +1,124 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
-import { RadioButton } from './radio-button';
-import { Checkout, CheckoutSchema } from '@/lib/schemas/checkout';
+
 import { useAppSelector } from '@/lib/hooks';
-import { useEffect, useRef } from 'react';
-import { useCreateCheckoutMutation } from '@/lib/checkout/api';
-import { useRouter } from '@/lib/navigation';
+import { useEffect, useState } from 'react';
+import { useCreatePaymentIntentMutation } from '@/lib/checkout/api';
+
+
+import { Appearance, loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { constants } from '@/config';
+import StripeForm from './stripe-form';
+import { StripeElementsOptions } from '@stripe/stripe-js';
+import Loading from '@/components/ui/loading';
+import { RadioButton } from './radio-button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+
+const stripePromise = loadStripe(constants.stripe.publicKey);
 
 export function CheckoutForm() {
   const t = useTranslations('Auth.checkout');
+
   const user = useAppSelector((state) => state.auth.user);
-  const [createCheckout, result] = useCreateCheckoutMutation();
-  const router = useRouter()
+  const [createPaymentIntent, result] = useCreatePaymentIntentMutation();
 
-  const ref = useRef<HTMLInputElement>(null)
+  const [selectedOption, setSelectedOption] = useState<string | null>('3_months');
 
-  const form = useForm<Checkout>({
-    resolver: zodResolver(CheckoutSchema),
-    defaultValues: {
-      email: user?.email || '',
-      membershipPackage: '3_months',
-    },
-  });
+  const onPlanChange = async (plan: string) => {
+    try {
+      await createPaymentIntent(plan).unwrap();
+      setSelectedOption(plan);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     if (user) {
-      form.reset({
-        email: user.email,
-        membershipPackage: '3_months',
-      });
-      if (ref.current) {
-        console.log('hhh')
-        ref.current.click()
+      onPlanChange('3_months');
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  const appearance: Appearance = {
+    theme: 'flat',
+    variables: {
+      borderRadius: '0.3rem',
+      fontSizeXs: '0.875rem',
+      fontSizeLg: '0.875rem',
+      fontSizeSm: '0.875rem',
+      fontSizeBase: '0.875rem',
+      fontSizeXl: '0.875rem',
+      focusOutline: 'none',
+      focusBoxShadow: 'none',
+      colorBackground: 'white',
+    },
+    rules: {
+      '.Input': {
+        border: '1px solid #E0E6EB',
+        height: '1rem',
+      },
+      '.Label': {
+        display: 'none'
       }
     }
-  }, [form, user]);
+  };
 
-  async function onSubmit(data: Checkout) {
-    const response = await createCheckout({ plan: data.membershipPackage }).unwrap();
+  const options: StripeElementsOptions = {
+    clientSecret: result?.data?.clientSecret,
+    appearance,
+  };
 
-    localStorage.setItem('gmm-checkout-type', data.membershipPackage);
-    localStorage.setItem('gmm-checkout-status', 'pending');
-
-    router.push(response.url)
-  }
-
-  console.log(form.getValues())
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
-        <div className="space-y-5 text-sm">
-          <div className="space-y-1">
-            <FormLabel className="text-xs">{t('email')}</FormLabel>
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Input className="text-sm placeholder:text-xs" {...field} />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-          </div>
+    <div>
+      <div className="space-y-5 text-sm">
+        <div className="space-y-1">
+          <Label className="text-xs">{t('email')}</Label>
+          <Input className="text-sm placeholder:text-xs" value={user?.email ?? ''} disabled />
+        </div>
 
-          <div className="space-y-1">
-            <div className="text-xs"> {t('selectMembership')}</div>
-            <FormField
-              name="membershipPackage"
-              render={({ field }) => {
-                return (
-                  <>
-                    <fieldset className="grid grid-cols-2 gap-x-2 gap-y-5 py-3">
-                      <RadioButton
-                        name="membershipPackage"
-                        membershipPackage="monthlyPackage"
-                        membershipPackageId="1_month"
-                        field={field}
-                      />
-                      <RadioButton
-                        ref={ref}
-                        name="membershipPackage"
-                        membershipPackage="threeMonthsPackage"
-                        membershipPackageId="3_months"
-                        field={field}
-                      />
-                      <RadioButton
-                        name="membershipPackage"
-                        membershipPackage="sixMonthsPackage"
-                        membershipPackageId="6_months"
-                        field={field}
-                      />
-                      <RadioButton
-                        name="membershipPackage"
-                        membershipPackage="twelveMonthsPackage"
-                        membershipPackageId="12_months"
-                        field={field}
-                      />
-                    </fieldset>
-                    <FormMessage className="text-xs" />
-                  </>
-                );
-              }}
+        <div className="space-y-1">
+          <div className="text-xs"> {t('selectMembership')}</div>
+
+          <div className="grid grid-cols-2 gap-x-2 gap-y-5 px-3">
+            <RadioButton
+              name="monthlyPackage"
+              value="1_month"
+              selected={selectedOption === '1_month'}
+              onClick={() => onPlanChange('1_month')}
+            />
+            <RadioButton
+              name="threeMonthsPackage"
+              value="3_months"
+              selected={selectedOption === '3_months'}
+              onClick={() => onPlanChange('3_months')}
+            />
+            <RadioButton
+              name="sixMonthsPackage"
+              value="6_months"
+              selected={selectedOption === '6_months'}
+              onClick={() => onPlanChange('6_months')}
+            />
+            <RadioButton
+              name="twelveMonthsPackage"
+              value="12_months"
+              selected={selectedOption === '12_months'}
+              onClick={() => onPlanChange('12_months')}
             />
           </div>
         </div>
+      </div>
 
-        <div className="w-full flex flex-col items-center gap-3">
-          <Button
-            type="submit"
-            className="w-52 h-9 bg-primary text-primary-foreground font-bold"
-          >
-            {t('processPayment')}
-          </Button>
-        </div>
-      </form>
-    </Form>
+      {user && result && result.data ? (
+        <Elements key={result.data.clientSecret} options={options} stripe={stripePromise}>
+          <StripeForm user={user} />
+        </Elements>
+      ) : <div className="flex items-center justify-center p-4"><Loading /></div>}
+    </div>
   );
 }
