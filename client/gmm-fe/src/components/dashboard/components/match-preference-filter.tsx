@@ -33,7 +33,6 @@ const countryOptions = Object.keys(countries).map((country) => ({
 export default function MatchPreferenceFilter() {
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
-  const searchParams = useSearchParams();
 
   const form = useForm<Preference>({
     resolver: zodResolver(preferenceSchema),
@@ -104,7 +103,7 @@ export default function MatchPreferenceFilter() {
         description: 'Preference updated successfully',
       });
       dispatch(setUser({ ...user, preference: updateResult.data }));
-      createMatch(searchParams.toString());
+      createMatch(getQueryString(form.getValues()));
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -165,7 +164,7 @@ export default function MatchPreferenceFilter() {
   const isTattooAny = form.watch('tattoos') === ('' as unknown as boolean)
 
 
-  const updateQueryString = (data: Preference) => {
+  const getQueryString = (data: Preference) => {
     const filter = []
 
     if (user) {
@@ -227,10 +226,8 @@ export default function MatchPreferenceFilter() {
       filter.push(`tattoos:eq:${data.tattoos}`)
     }
 
-    window.history.replaceState(null, '', `?filter=${filter.join(',')}`)
+    return `filter=${filter.join(',')}`
   }
-
-  updateQueryString(form.getValues())
 
   return (
     <Form {...form}>
