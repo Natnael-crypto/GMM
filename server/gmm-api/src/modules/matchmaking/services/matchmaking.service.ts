@@ -59,6 +59,8 @@ export class MatchMakingService {
       }
     }
 
+    await this.addToMatchingPool(user);
+
     const previousMatchedUserIds = previousMatches.map((match) => {
       if (user.gender === 'Male') {
         return match.femaleUserId;
