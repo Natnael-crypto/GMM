@@ -237,7 +237,7 @@ export default function MatchPreferenceFilter() {
         className="col-span-9 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary">
         <div className="space-y-2 col-span-9 md:col-span-3">
           <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('preferredAge', [18, 100])}>
-            <span className="font-bold line-clamp-1 line-clamp-1">Preferred Age</span>
+            <span className="font-bold line-clamp-1">Preferred Age</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isAgeAny} onChange={() => { }} />
               <span>Any</span>
