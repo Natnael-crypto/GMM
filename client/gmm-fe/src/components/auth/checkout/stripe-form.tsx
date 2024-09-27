@@ -26,10 +26,10 @@ export default function StripeForm({ user }: { user: User }) {
         {
             resolver: zodResolver(checkoutSchema),
             defaultValues: {
-                name: user.firstName + " " + user.lastName,
+                name: "",
                 addressOne: "",
                 addressTwo: "",
-                city: user.city ? (user.city?.includes(",") ? user.city.split(",")[0] : user.city) : '',
+                city: "",
                 postcode: "",
                 region: "",
             },
