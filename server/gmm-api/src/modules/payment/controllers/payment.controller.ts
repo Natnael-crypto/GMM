@@ -1,4 +1,15 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Query,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { Response, Request } from 'express';
 import { PaymentsService } from '../services/payment.service';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
@@ -7,17 +18,15 @@ import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { User } from '@modules/user/entities/user.entity';
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
-import { use } from 'passport';
 
 @ApiTags('payments')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller({ version: ApiVersion.V1, path: 'payments' })
 export class PaymentsController {
   constructor(private paymentService: PaymentsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post('checkout-session')
-  @UseGuards(new PermissionGuard(['payment:write']))
   @ApiBody({ type: CreateCheckoutSessionDto })
   async createCheckoutSession(
     @Res() response: Response,
@@ -25,7 +34,10 @@ export class PaymentsController {
     @Body() createCheckoutSessionDto: CreateCheckoutSessionDto,
   ) {
     try {
-      const session = await this.paymentService.createCheckoutSession(createCheckoutSessionDto, (req.user as User).id,);
+      const session = await this.paymentService.createCheckoutSession(
+        createCheckoutSessionDto,
+        (req.user as User).id,
+      );
       return response.status(HttpStatus.CREATED).json({
         message: 'Checkout session created successfully',
         data: { url: session.url },
@@ -38,8 +50,8 @@ export class PaymentsController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('create-payment-intent')
-  @UseGuards(new PermissionGuard(['payment:write']))
   async createPaymentIntent(
     @Res() response: Response,
     @Req() req: Request,
@@ -47,8 +59,11 @@ export class PaymentsController {
   ) {
     try {
       const userId = (req.user as User).id;
-      
-      const result = await this.paymentService.createPaymentIntent(createCheckoutSessionDto, userId);
+
+      const result = await this.paymentService.createPaymentIntent(
+        createCheckoutSessionDto,
+        userId,
+      );
 
       return response.status(HttpStatus.CREATED).json({
         message: 'Payment intent created successfully',
@@ -62,10 +77,8 @@ export class PaymentsController {
     }
   }
 
-
-
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['products:read']))
   @Get('products')
-  @UseGuards(new PermissionGuard(['products:read']))
   async getProducts(@Res() response: Response) {
     try {
       const products = await this.paymentService.getProducts();
@@ -82,7 +95,7 @@ export class PaymentsController {
   }
 
   @Get('customers')
-  @UseGuards(new PermissionGuard(['customers:read']))
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['customers:read']))
   async getCustomers(@Res() response: Response) {
     try {
       const customers = await this.paymentService.getCustomers();
@@ -99,10 +112,20 @@ export class PaymentsController {
   }
 
   @Get('current-subscription/:userId')
-  @UseGuards(new PermissionGuard(['payment:read']))
-  async getCurrentSubscription(@Res() response: Response, @Param('userId') userId: string) {
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(
+      ['payment:read'],
+      (req) => req.params.userId === req.user.id,
+    ),
+  )
+  async getCurrentSubscription(
+    @Res() response: Response,
+    @Param('userId') userId: string,
+  ) {
     try {
-      const subscription = await this.paymentService.getCurrentSubscription(userId);
+      const subscription =
+        await this.paymentService.getCurrentSubscription(userId);
       if (!subscription) {
         return response.status(HttpStatus.NOT_FOUND).json({
           message: 'No subscription found for the user',
@@ -121,7 +144,7 @@ export class PaymentsController {
   }
 
   @Get('checkout/success')
-  @UseGuards(new PermissionGuard(['payment:write']))
+  @UseGuards(JwtAuthGuard)
   async handleCheckoutSuccess(
     @Res() response: Response,
     @Query('session_id') sessionId: string,
@@ -143,8 +166,11 @@ export class PaymentsController {
   }
 
   @Post('consume-match/:userId')
-  @UseGuards(new PermissionGuard(['match:consume']))
-  async consumeMatch(@Res() response: Response, @Param('userId') userId: string) {
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['match:consume']))
+  async consumeMatch(
+    @Res() response: Response,
+    @Param('userId') userId: string,
+  ) {
     try {
       await this.paymentService.consumeMatch(userId);
       return response.status(HttpStatus.OK).json({
@@ -159,11 +185,15 @@ export class PaymentsController {
   }
 
   @Post('renew-subscription/:userId')
-  @UseGuards(new PermissionGuard(['payment:write']))
-  async renewSubscription(@Res() response: Response, @Param('userId') userId: string) {
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['payment:write']))
+  async renewSubscription(
+    @Res() response: Response,
+    @Param('userId') userId: string,
+  ) {
     try {
       console.log('Renewing subscription for user:', userId);
-      const subscription = await this.paymentService.getCurrentSubscription(userId);
+      const subscription =
+        await this.paymentService.getCurrentSubscription(userId);
       console.log('Subscription:', subscription);
       if (!subscription) {
         return response.status(HttpStatus.NOT_FOUND).json({
@@ -183,7 +213,10 @@ export class PaymentsController {
   }
 
   @Post('notify-renewal/:userId')
-  async notifyUserOfRenewal(@Res() response: Response, @Param('userId') userId: string) {
+  async notifyUserOfRenewal(
+    @Res() response: Response,
+    @Param('userId') userId: string,
+  ) {
     try {
       await this.paymentService.notifyUserOfRenewal(userId);
       return response.status(HttpStatus.OK).json({
@@ -197,12 +230,15 @@ export class PaymentsController {
     }
   }
 
-
   @Get('subscription-history/:userId')
-  @UseGuards(new PermissionGuard(['payment:read']))
-  async getUserSubscriptionHistory(@Res() response: Response, @Param('userId') userId: string) {
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['payment:read']))
+  async getUserSubscriptionHistory(
+    @Res() response: Response,
+    @Param('userId') userId: string,
+  ) {
     try {
-      const subscriptions = await this.paymentService.getSubscriptionHistory(userId);
+      const subscriptions =
+        await this.paymentService.getSubscriptionHistory(userId);
       return response.status(HttpStatus.OK).json({
         message: 'Subscription history retrieved successfully',
         data: subscriptions,
@@ -216,10 +252,20 @@ export class PaymentsController {
   }
 
   @Get('remaining-matches/:userId')
-  @UseGuards(new PermissionGuard(['payment:read']))
-  async getRemainingMatches(@Res() response: Response, @Param('userId') userId: string) {
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(
+      ['payment:read'],
+      (req) => req.params.userId === req.user.id,
+    ),
+  )
+  async getRemainingMatches(
+    @Res() response: Response,
+    @Param('userId') userId: string,
+  ) {
     try {
-      const remainingMatches = await this.paymentService.getRemainingMatches(userId);
+      const remainingMatches =
+        await this.paymentService.getRemainingMatches(userId);
       return response.status(HttpStatus.OK).json({
         message: 'Remaining matches retrieved successfully',
         data: { remainingMatches },
