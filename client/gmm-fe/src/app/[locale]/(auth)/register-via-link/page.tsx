@@ -30,8 +30,6 @@ export default function GuardianRegistrationPage() {
   const user = useAppSelector((state) => state.auth.user);
   const params = useSearchParams()
 
-  console.log(params, params.get('token'))
-
   const form = useForm<SignUpWithLink>({
     resolver: zodResolver(signUpWithLinkSchema),
     defaultValues: {

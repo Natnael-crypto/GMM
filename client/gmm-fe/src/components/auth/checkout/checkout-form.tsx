@@ -61,11 +61,7 @@ export function CheckoutForm() {
     rules: {
       '.Input': {
         border: '1px solid #E0E6EB',
-        height: '1rem',
       },
-      '.Label': {
-        display: 'none'
-      }
     }
   };
 

@@ -64,7 +64,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
 
         try {
             const result = await sendGuardianRequest({ guardianEmail: data.guardianEmail }).unwrap();
-            console.log(result)
+
             if (result) {
                 toast({
                     title: 'Success',

@@ -8,7 +8,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { Layout } from "@stripe/stripe-js";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Loading from "@/components/ui/loading";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,8 @@ import { Checkout, checkoutSchema } from "@/lib/schemas/checkout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@/lib/schemas/user";
 import { toast } from "@/components/ui/use-toast";
+import { constants } from "@/config";
+
 
 export default function StripeForm({ user }: { user: User }) {
     const t = useTranslations('Auth.checkout');
@@ -36,6 +38,8 @@ export default function StripeForm({ user }: { user: User }) {
         }
     );
 
+    const locale = useLocale()
+
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async () => {
@@ -49,7 +53,7 @@ export default function StripeForm({ user }: { user: User }) {
             elements,
             confirmParams: {
                 // Make sure to change this to your payment completion page
-                return_url: "http://localhost:3000/en/checkout/success",
+                return_url: `${constants.baseUrl}/${locale}/checkout/success`,
             },
         });
 

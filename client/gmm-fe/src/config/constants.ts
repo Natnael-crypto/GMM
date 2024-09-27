@@ -1,4 +1,5 @@
 export const constants = {
+  baseUrl: process.env.NEXT_PUBLIC_BASE_URL!,
   apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL!,
   accessTokenMaxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
   stripe: {

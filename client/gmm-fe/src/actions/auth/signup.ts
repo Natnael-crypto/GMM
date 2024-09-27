@@ -50,7 +50,6 @@ export const signUp = async (data: SignUp) => {
 };
 
 export const signUpWithLink = async (data: SignUpWithLink) => {
-  console.log(data);
   let email;
 
   try {
@@ -80,7 +79,7 @@ export const signUpWithLink = async (data: SignUpWithLink) => {
   );
 
   const res = await response.json();
-  console.log(res);
+
   if (!response.ok) {
     return {
       status: response.status,
