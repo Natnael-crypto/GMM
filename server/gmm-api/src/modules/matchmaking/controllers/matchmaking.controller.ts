@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -13,10 +14,15 @@ import {
 } from '@nestjs/common';
 import { MatchMakingService } from '../services/matchmaking.service';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { Request, Response } from 'express';
 import { User } from '@modules/user/entities/user.entity';
+import {
+  Filtering,
+  FilteringParams,
+} from '@shared/decorators/filter.decorator';
+import { matchFilterableFields } from '../entities/match-pool.entity';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
@@ -49,19 +55,56 @@ export class MatchMakingController {
     }
   }
 
-  @Post()
-  async createMatch(@Req() req: Request, @Res() response: Response) {
+  @ApiQuery({
+    name: 'filter',
+    required: false,
+    description: 'Filter parameters (e.g. filter=field:rule:value,field:rule)',
+  })
+  @Get('count')
+  async countMatches(
+    @FilteringParams(matchFilterableFields) filters: Filtering[],
+  ) {
     try {
-      const match = await this.matchmakingService.createMatch(req.user as User);
-      return response.status(HttpStatus.CREATED).json({
-        message: 'Match created successfully',
-        data: match,
-      });
+      const count = await this.matchmakingService.countMatches(filters);
+      return {
+        message: 'Matches count fetched successfully',
+        data: count,
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Match not created successfully',
-        error: error.message,
-      });
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  @ApiQuery({
+    name: 'filter',
+    required: false,
+    description: 'Filter parameters (e.g. filter=field:rule:value,field:rule)',
+  })
+  @Post()
+  async createMatches(
+    @FilteringParams(matchFilterableFields) filters: Filtering[],
+    @Req() req: Request & { user: User },
+  ) {
+    try {
+      const match = await this.matchmakingService.matchUser(req.user, filters);
+      return {
+        message: 'Matched successfully',
+        data: match,
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  @Put('add-to-pool')
+  async addToMatchingPool(@Req() req: Request & { user: User }) {
+    try {
+      await this.matchmakingService.addToMatchingPool(req.user);
+      return {
+        message: 'Added to matching pool successfully',
+      };
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
   }
 
@@ -82,7 +125,6 @@ export class MatchMakingController {
       });
     }
   }
-  
   @Get()
   async getCurrentMatches(@Res() response: Response) {
     try {

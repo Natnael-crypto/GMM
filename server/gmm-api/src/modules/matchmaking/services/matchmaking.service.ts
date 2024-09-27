@@ -12,6 +12,9 @@ import { Match } from '../entities/match.entity';
 import { UserService } from '@modules/user/services/user.service';
 import { User } from '@modules/user/entities/user.entity';
 import { PaymentsService } from '@modules/payment/services/payment.service';
+import { Filtering } from '@shared/decorators/filter.decorator';
+import { getWhere } from '@shared/decorators/filter.helper';
+import { MatchPool } from '../entities/match-pool.entity';
 
 @Injectable()
 export class MatchMakingService {
@@ -21,6 +24,9 @@ export class MatchMakingService {
 
     @InjectRepository(Match)
     private readonly matchRepository: Repository<Match>,
+
+    @InjectRepository(MatchPool)
+    private readonly matchPoolRepository: Repository<MatchPool>,
 
     private readonly userService: UserService,
     private readonly paymentService: PaymentsService,
@@ -39,6 +45,81 @@ export class MatchMakingService {
     return preference;
   }
 
+  async countMatches(filters: Filtering[]): Promise<number> {
+    return await this.matchPoolRepository.count({
+      where: getWhere(filters),
+    });
+  }
+
+  async matchUser(user: User, filters: Filtering[]): Promise<Match> {
+    const previousMatches = await this.getMyMatches(user.id);
+    for (const previousMatch of previousMatches) {
+      if (previousMatch.isActive) {
+        throw new ConflictException('You already have an active match');
+      }
+    }
+
+    const previousMatchedUserIds = previousMatches.map((match) => {
+      if (user.gender === 'Male') {
+        return match.femaleUserId;
+      }
+
+      return match.maleUserId;
+    });
+
+    const matches = await this.matchPoolRepository.find({
+      where: getWhere(filters),
+    });
+
+    const validMatches = matches.filter(
+      (match) => !previousMatchedUserIds.includes(match.userId),
+    );
+
+    if (!validMatches || validMatches.length === 0) {
+      throw new NotFoundException('No matches found');
+    }
+
+    const randomIndex = Math.floor(Math.random() * matches.length);
+    const matchedUserId = validMatches[randomIndex].userId;
+
+    await this.userService.getUserById(matches[randomIndex].userId);
+
+    const newMatch = new Match();
+
+    if (user.gender === 'Male') {
+      newMatch.maleUserId = user.id;
+      newMatch.femaleUserId = matchedUserId;
+    } else {
+      newMatch.femaleUserId = user.id;
+      newMatch.maleUserId = matchedUserId;
+    }
+
+    // await this.paymentService.consumeMatch(user.id);
+
+    const match = await this.matchRepository.save(newMatch);
+
+    await this.userService.userRepository.update(user.id, {
+      isMatched: true,
+    });
+    await this.userService.userRepository.update(matchedUserId, {
+      isMatched: true,
+    });
+
+    await this.matchPoolRepository.delete([
+      matches[randomIndex].userId,
+      user.id,
+    ]);
+
+    return match;
+  }
+
+  async createUserPreference(id: string): Promise<Preference> {
+    const p = new Preference();
+    p.userId = id;
+
+    return await this.preferenceRepository.save(p);
+  }
+
   async updateUserPreference(
     id: string,
     data: UpdatePreferenceDto,
@@ -46,11 +127,11 @@ export class MatchMakingService {
     return await this.preferenceRepository.save({ userId: id, ...data });
   }
 
-  async createMatch(user: User) {
-    if (user.gender != 'Male') {
-      throw new BadRequestException('You are not allowed to create a match');
-    }
+  async addToMatchingPool(user: User) {
+    return await this.matchPoolRepository.save({ ...user, userId: user.id });
+  }
 
+  async createMatch(user: User) {
     const potentialMatches = await this.filterUsersByPreference(user);
     const previousMatches = await this.getMyMatches(user.id);
     const previousMatchIds = previousMatches.map((match) => match.femaleUserId);
