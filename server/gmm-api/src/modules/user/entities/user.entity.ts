@@ -167,6 +167,9 @@ export class User {
 
   @Column({ type: 'enum', enum: AccountStatus, default: AccountStatus.PENDING })
   accountStatus: AccountStatus;
+
+  @Column({ nullable: true, default: false })
+  isMatched: boolean;
 }
 
 export const userFilterableFields = [

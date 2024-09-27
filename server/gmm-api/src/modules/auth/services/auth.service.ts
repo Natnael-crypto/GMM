@@ -108,7 +108,7 @@ export class AuthService {
     }
   }
 
-  async registerUserWithEmail(user: SignUpUserDto) {
+  async registerUserWithEmail(user: SignUpUserDto & { roleId?: string }) {
     const userExists = await this.findUserByEmail(user.email);
     if (userExists) {
       throw new BadRequestException('Email Exists');
