@@ -24,6 +24,7 @@ import { useCreateMatchMutation } from '@/lib/matchmaking/api';
 import AutoComplete from '@/components/ui/searchable-select';
 import { countries } from '@/lib/schemas/user';
 import { useSearchParams } from 'next/navigation';
+import { setQueryString } from '@/lib/matchmaking/slice';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -228,6 +229,8 @@ export default function MatchPreferenceFilter() {
 
     return `filter=${filter.join(',')}`
   }
+
+  dispatch(setQueryString(getQueryString(form.getValues())));
 
   return (
     <Form {...form}>
