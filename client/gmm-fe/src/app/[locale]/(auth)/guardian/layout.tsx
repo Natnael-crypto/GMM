@@ -1,4 +1,6 @@
-export default function OtpLayout({
+import AuthGuard from "@/components/providers/auth-guard";
+
+function GuardianLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
@@ -9,3 +11,5 @@ export default function OtpLayout({
         </main>
     );
 }
+
+export default AuthGuard({ Component: GuardianLayout, allowedRoles: ['Guardian'] })

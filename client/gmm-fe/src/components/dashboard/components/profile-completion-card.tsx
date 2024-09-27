@@ -91,12 +91,18 @@ export default function ProfileCompletionCard() {
 
       <div className="flex justify-end">
         <Link
+          href="/dashboard/profile/basic-information/edit"
+          className={cn(buttonVariants({ variant: 'outline' }), "rounded-full text-xs text-secondary h-6", user && user.isMatched ? "hidden" : "")}
+        >
+          Edit Profile
+        </Link>
+        <Link
           href="/dashboard/profile/basic-information"
           className={cn(buttonVariants({ variant: 'outline' }), "rounded-full text-xs text-secondary h-6")}
         >
           View Profile
         </Link>
       </div>
-    </div>
+    </div >
   );
 }

@@ -10,12 +10,12 @@ export default function ProfileCard({ user }: { user: User }) {
 
   return (
     <div className="flex gap-4">
-      <div className="rounded-full w-16 aspect-square overflow-hidden">
+      <div className="rounded-full w-16 h-16 aspect-square overflow-hidden">
         {imageUrl && <Image
           src={imageUrl}
-          className="object-contain w-full h-[12rem] object-top"
-          width={297}
-          height={384}
+          className="object-cover w-full h-full object-top"
+          width={300}
+          height={300}
           alt="Hero image"
         />}
       </div>
