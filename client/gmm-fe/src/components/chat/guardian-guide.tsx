@@ -1,10 +1,27 @@
+'use client'
+
 import { Button } from '@/components/ui/button';
+import { useAppSelector } from '@/lib/hooks';
+import { useUnmatchMutation } from '@/lib/matchmaking/api';
+import { Match } from '@/lib/matchmaking/types';
+import { useRouter } from '@/lib/navigation';
 import { User } from '@/lib/schemas/user';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect } from 'react';
 
-export default function GuardianGuide({ matchedUser }: { matchedUser: User }) {
+export default function GuardianGuide({ matchedUser, match }: { matchedUser: User, match: Match }) {
+  const user = useAppSelector(state => state.auth.user);
+
+  const [unmatch, unmatchResult] = useUnmatchMutation();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (unmatchResult.isSuccess) {
+      router.replace('/dashboard');
+    }
+  }, [unmatchResult, router])
+
   return (
     <div className="h-full bg-background rounded-lg overflow-hidden">
       <h1 className="font-semibold text-primary-foreground bg-secondary w-full text-center p-1">
@@ -41,6 +58,7 @@ export default function GuardianGuide({ matchedUser }: { matchedUser: User }) {
           <Button
             variant="outline"
             className="bg-transparent text-muted-foreground h-7 w-fit text-xs"
+            onClick={() => unmatch(match.id)}
           >
             Unmatch
           </Button>

@@ -42,9 +42,9 @@ export default function Dashboard() {
             Match Preferences Filter
           </h1>
 
-          <div className="grid grid-cols-12 gap-4 py-4">
+          <div className="flex flex-col md:grid md:grid-cols-12 gap-4 py-4">
             <MatchPreferenceFilter />
-            <div className="space-y-5 col-span-3">
+            <div className="md:col-span-3 flex gap-3 sm:flex-col md:gap-y-5">
               <MatchMeCard />
               <OutsideFilterCard />
             </div>

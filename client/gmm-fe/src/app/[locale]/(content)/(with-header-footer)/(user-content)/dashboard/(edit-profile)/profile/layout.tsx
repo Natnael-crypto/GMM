@@ -4,9 +4,7 @@ import UpdateProfileStepper from '@/components/dashboard/components/stepper/upda
 import Banner from '@/components/dashboard/profile/banner';
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
 import UpdateProfileHeader from '@/components/dashboard/profile/update-profile-header';
-import { useAppSelector } from '@/lib/hooks';
-import { usePathname, useRouter } from '@/lib/navigation';
-import React, { useEffect } from 'react';
+import { usePathname } from '@/lib/navigation';
 
 const pageNames: Record<string, string> = {
   '/dashboard/profile/basic-information': 'Basic Information',
@@ -22,15 +20,6 @@ export default function UpdateProfileLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const user = useAppSelector((state) => state.auth.user)
-  const router = useRouter()
-
-  useEffect(() => {
-    if (user && user.isMatched) {
-      router.replace('/dashboard')
-    }
-  }, [user, router])
-
 
   return (
     <UpdateProfileProvider>

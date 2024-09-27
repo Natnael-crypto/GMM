@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react';
 import {
   Breadcrumb,
@@ -12,12 +14,16 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { ProfileHeaderProps } from '@/types';
 import { useLocale } from 'next-intl';
+import { auth } from '@/lib/auth/utils';
+import { useAppSelector } from '@/lib/hooks';
 
 export default function ProfileHeader({
   pageName,
   editLink,
 }: ProfileHeaderProps) {
   const locale = useLocale();
+
+  const user = useAppSelector((state) => state.auth.user);
 
   return (
     <div className="flex justify-between items-center">
@@ -37,7 +43,7 @@ export default function ProfileHeader({
         </BreadcrumbList>
       </Breadcrumb>
       <div>
-        <Link
+        {user && !user.isMatched && <Link
           href={editLink}
           className={cn(
             buttonVariants({
@@ -48,7 +54,7 @@ export default function ProfileHeader({
           )}
         >
           Edit Profile
-        </Link>
+        </Link>}
       </div>
     </div>
   );
