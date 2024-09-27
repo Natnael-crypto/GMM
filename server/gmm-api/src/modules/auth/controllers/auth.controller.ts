@@ -18,6 +18,7 @@ import { LoginUserDto } from '../dtos/login.dto';
 import { RegisterAsGuardian, SignUpUserDto } from '../dtos/signup.dto';
 import { User } from '@modules/user/entities/user.entity';
 import { FacebookOauthGuard } from '../guards/facebook-oauth.guard';
+import { guardianRole } from '@modules/seeds/role.seed';
 
 @ApiTags('auth')
 @Controller({ version: ApiVersion.V1, path: 'auth' })
@@ -130,6 +131,7 @@ export class AuthController {
         firstname: registrationDto.firstname,
         lastname: registrationDto.lastname,
         password: registrationDto.password,
+        roleId: guardianRole.name,
       });
       return res.status(HttpStatus.OK).json({
         message:

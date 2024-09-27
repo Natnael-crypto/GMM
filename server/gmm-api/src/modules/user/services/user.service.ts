@@ -31,7 +31,7 @@ import { GuardianService } from '../services/guardian.service';
 export class UserService implements EmailLists {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    public readonly userRepository: Repository<User>,
     private readonly noticeService: NoticeService,
     private readonly guardianService: GuardianService,
   ) {}

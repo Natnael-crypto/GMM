@@ -76,7 +76,16 @@ export class MatchMakingService {
 
       await this.paymentService.consumeMatch(user.id);
 
-      return await this.matchRepository.save(newMatch);
+      const match = await this.matchRepository.save(newMatch);
+
+      await this.userService.userRepository.update(user.id, {
+        isMatched: true,
+      });
+      await this.userService.userRepository.update(matchedUser.id, {
+        isMatched: true,
+      });
+
+      return match;
     }
 
     throw new NotFoundException('No potential matches found');
@@ -127,6 +136,13 @@ export class MatchMakingService {
 
     match.isActive = false;
 
+    await this.userService.userRepository.update(match.maleUserId, {
+      isMatched: false,
+    });
+    await this.userService.userRepository.update(match.femaleUserId, {
+      isMatched: false,
+    });
+
     return await this.matchRepository.save(match);
   }
 
@@ -134,6 +150,13 @@ export class MatchMakingService {
     const match = await this.getCurrentMatch(userId);
 
     match.isActive = false;
+
+    await this.userService.userRepository.update(match.maleUserId, {
+      isMatched: false,
+    });
+    await this.userService.userRepository.update(match.femaleUserId, {
+      isMatched: false,
+    });
 
     return await this.matchRepository.save(match);
   }

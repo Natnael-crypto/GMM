@@ -8,6 +8,9 @@ import { Role } from '../entities/role.entity';
 import { Repository } from 'typeorm';
 import { CreateRoleDto, UpdateRoleDto } from '../dtos/role.dto';
 import { UserService } from '@modules/user/services/user.service';
+import { roleSeed } from '@modules/seeds/role.seed';
+
+const defaultRoles = roleSeed.map((role) => role.name);
 
 @Injectable()
 export class RoleService {
@@ -26,7 +29,7 @@ export class RoleService {
   }
 
   async updateRole(name: string, updatedRole: UpdateRoleDto) {
-    if (name === 'User' || name === 'Admin') {
+    if (defaultRoles.includes(name)) {
       throw new ConflictException('Cannot update default roles');
     }
 
@@ -58,7 +61,7 @@ export class RoleService {
   }
 
   async deleteRole(name: string) {
-    if (name === 'User' || name === 'Admin') {
+    if (defaultRoles.includes(name)) {
       throw new ConflictException('Cannot delete default roles');
     }
 
