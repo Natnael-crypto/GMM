@@ -29,7 +29,7 @@ export default function StripeForm({ user }: { user: User }) {
                 name: user.firstName + " " + user.lastName,
                 addressOne: "",
                 addressTwo: "",
-                city: user.city.includes(",") ? user.city.split(",")[0] : user.city,
+                city: user.city ? (user.city?.includes(",") ? user.city.split(",")[0] : user.city) : '',
                 postcode: "",
                 region: "",
             },
