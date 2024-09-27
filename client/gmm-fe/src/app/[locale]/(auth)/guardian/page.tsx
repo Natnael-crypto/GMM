@@ -22,7 +22,6 @@ export default function GuardianRequests() {
         }
     }
 
-    console.log(receivedRequests)
     return (
         <div className="flex flex-col items-center">
             <div className="w-40 md:w-60 mb-10">

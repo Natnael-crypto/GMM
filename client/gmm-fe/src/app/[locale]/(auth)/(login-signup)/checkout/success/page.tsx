@@ -1,25 +1,17 @@
 'use client'
 
-import { toast } from '@/components/ui/use-toast';
-import { useRouter } from '@/lib/navigation';
-import { useEffect } from 'react';
+import { CheckoutCompletePage } from "@/components/auth/checkout/checkout-result";
+import { constants } from "@/config";
+import { Elements } from "@stripe/react-stripe-js"
+import { loadStripe } from "@stripe/stripe-js";
 
-export default function SuccessPage() {
-    const router = useRouter();
+const stripePromise = loadStripe(constants.stripe.publicKey);
 
-    useEffect(() => {
-        localStorage.setItem('gmm-checkout-status', 'success');
-        toast(
-            {
-                title: 'Payment Successful',
-                description: 'Your payment was successful'
-            }
-        )
-        router.push('/registration')
-    }, [router])
+export default function page() {
 
-
-    return <div className="flex h-screen w-full items-center justify-center">
-        <h1 className="text-3xl font-bold text-green-500">Payment Successful</h1>
-    </div>
+    return (
+        <Elements stripe={stripePromise}>
+            <CheckoutCompletePage />
+        </Elements>
+    )
 }
