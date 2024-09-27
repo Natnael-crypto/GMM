@@ -6,10 +6,11 @@ import { MatchMakingController } from './controllers/matchmaking.controller';
 import { MatchMakingService } from './services/matchmaking.service';
 import { UserModule } from '@modules/user/user.module';
 import { PaymentsModule } from '@modules/payment/payment.module';
+import { MatchPool } from './entities/match-pool.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Match, Preference]),
+    TypeOrmModule.forFeature([Match, Preference, MatchPool]),
     UserModule,
     PaymentsModule,
   ],
