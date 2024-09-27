@@ -54,6 +54,7 @@ export const matchApi = createApi({
     countPotentialMatches: builder.query<number, string>({
       query: (queryString) => `matchmaking/count?${queryString}`,
       transformResponse: (response: BaseResponse<number>) => {
+        console.log(response.data);
         return response.data;
       },
       providesTags: (result, error, arg, meta) => {
@@ -61,7 +62,7 @@ export const matchApi = createApi({
       },
     }),
 
-    createMatch: builder.mutation<Match, undefined>({
+    createMatch: builder.mutation<Match, string>({
       query: (queryString) => ({
         url: 'matchmaking?' + queryString,
         method: 'POST',
