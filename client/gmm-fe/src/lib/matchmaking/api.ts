@@ -7,7 +7,7 @@ import { Match } from './types';
 export const matchApi = createApi({
   reducerPath: 'matchApi',
 
-  tagTypes: ['Match'],
+  tagTypes: ['Match', 'MatchCount'],
 
   baseQuery: fetchBaseQuery({
     baseUrl: constants.apiBaseUrl,
@@ -51,9 +51,19 @@ export const matchApi = createApi({
       },
     }),
 
+    countPotentialMatches: builder.query<number, string>({
+      query: (queryString) => `matchmaking/count?${queryString}`,
+      transformResponse: (response: BaseResponse<number>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'MatchCount', id: arg }];
+      },
+    }),
+
     createMatch: builder.mutation<Match, undefined>({
-      query: () => ({
-        url: 'matchmaking',
+      query: (queryString) => ({
+        url: 'matchmaking?' + queryString,
         method: 'POST',
       }),
       transformResponse: (response: BaseResponse<Match>) => {
@@ -61,6 +71,19 @@ export const matchApi = createApi({
       },
       invalidatesTags(result, error, arg, meta) {
         return [{ type: 'Match' }];
+      },
+    }),
+
+    unmatch: builder.mutation<Match, string>({
+      query: (id) => ({
+        url: `matchmaking/matches/${id}`,
+        method: 'DELETE',
+      }),
+      transformResponse: (response: BaseResponse<Match>) => {
+        return response.data;
+      },
+      invalidatesTags(result, error, arg, meta) {
+        return [{ type: 'Match', id: arg }];
       },
     }),
   }),
@@ -71,4 +94,6 @@ export const {
   useGetMatchesQuery,
   useGetMatchQuery,
   useCreateMatchMutation,
+  useUnmatchMutation,
+  useCountPotentialMatchesQuery,
 } = matchApi;

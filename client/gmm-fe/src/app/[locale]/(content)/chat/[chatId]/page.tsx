@@ -30,7 +30,7 @@ export default function ChatPage() {
             {chat && <Chat chat={chat} />}
           </div>
           <div className="col-span-4">
-            {matchedUser && <GuardianGuide matchedUser={matchedUser} />}
+            {matchedUser && <GuardianGuide matchedUser={matchedUser} match={currentMatch} />}
           </div>
         </div>
       </div>
