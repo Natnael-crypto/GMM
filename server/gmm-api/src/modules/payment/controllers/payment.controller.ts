@@ -143,7 +143,7 @@ export class PaymentsController {
     }
   }
 
-  @Get('payment/success')
+  @Get('checkout/success')
   @UseGuards(JwtAuthGuard, new PermissionGuard(['payment:write']))
   async handlePaymentSuccess(
   @Res() response: Response,
