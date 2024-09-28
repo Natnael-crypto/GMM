@@ -148,19 +148,27 @@ export class PaymentsService {
         throw new Error('Payment intent is not successful.');
       }
   
-      // Assuming the subscription ID is stored as metadata in the payment intent
-      const subscriptionId = paymentIntent.metadata?.subscriptionId;
-      
-      if (!subscriptionId) {
-        throw new Error('Subscription ID not found in payment intent metadata.');
+      // Extract plan and user ID from metadata
+      const plan = paymentIntent.metadata?.plan;
+      const userIdFromMetadata = paymentIntent.metadata?.userId;
+  
+      if (!plan || !userIdFromMetadata) {
+        throw new Error('Plan or User ID not found in payment intent metadata.');
       }
   
-      // Retrieve the subscription from Stripe using the subscription ID
-      const subscription = await this.stripe.subscriptions.retrieve(subscriptionId);
-      const planId = subscription.items.data[0].price.id;
+      // Ensure the userId from the metadata matches the request userId
+      if (userId !== userIdFromMetadata) {
+        throw new Error('User ID mismatch.');
+      }
   
-      // Determine subscription tier
-      const tier = Object.values(SubscriptionTiers).find(t => t.priceId === planId);
+      // Find the corresponding tier based on the plan in metadata
+      // Corrected way to find the tier by matching the plan with the key of SubscriptionTiers
+const tier = Object.entries(SubscriptionTiers).find(([key, value]) => key === plan)?.[1];
+
+if (!tier) {
+  throw new Error('Unknown subscription plan.');
+}
+
       if (!tier) {
         throw new Error('Unknown subscription plan.');
       }
@@ -176,21 +184,17 @@ export class PaymentsService {
   
       // Update existing subscription or create a new one
       if (existingSubscription) {
-        existingSubscription.subscriptionId = subscription.id;
-        existingSubscription.status = subscription.status;
-        existingSubscription.planId = planId;
-        existingSubscription.currentPeriodStart = new Date(subscription.current_period_start * 1000);
-        existingSubscription.currentPeriodEnd = new Date(subscription.current_period_end * 1000);
+        existingSubscription.status = paymentIntent.status;
+        existingSubscription.planId = tier.priceId;
+        existingSubscription.currentPeriodStart = new Date(); // Assuming current date is the start of the subscription
         existingSubscription.amount = tier.amount;
         existingSubscription.remainingMatches = tier.matches;
       } else {
         existingSubscription = this.subscriptionRepository.create({
           user,
-          subscriptionId: subscription.id,
-          status: subscription.status,
-          planId: planId,
-          currentPeriodStart: new Date(subscription.current_period_start * 1000),
-          currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+          status: paymentIntent.status,
+          planId: tier.priceId,
+          currentPeriodStart: new Date(),
           amount: tier.amount,
           remainingMatches: tier.matches,
         });
@@ -207,6 +211,7 @@ export class PaymentsService {
       throw new Error(`Failed to handle payment success: ${error.message}`);
     }
   }
+  
   
   
   
@@ -263,7 +268,6 @@ export class PaymentsService {
     subscription.remainingMatches = this.getMatchesForPlan(planId);
     subscription.subscriptionId = newStripeSubscription.id;
     subscription.currentPeriodStart = new Date(newStripeSubscription.current_period_start * 1000);
-    subscription.currentPeriodEnd = new Date(newStripeSubscription.current_period_end * 1000);
     subscription.status = newStripeSubscription.status;
   
     await this.subscriptionRepository.save(subscription);
@@ -315,7 +319,6 @@ export class PaymentsService {
       status: subscription.status,
       planId: subscription.planId,
       periodStart: subscription.currentPeriodStart,
-      periodEnd: subscription.currentPeriodEnd,
       amount: subscription.amount,
       remainingMatches: subscription.remainingMatches,
     });

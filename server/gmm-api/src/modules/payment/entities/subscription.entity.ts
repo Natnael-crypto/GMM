@@ -24,9 +24,6 @@ export class Subscription {
   @Column({ type: 'timestamp' })
   currentPeriodStart: Date;
 
-  @Column({ type: 'timestamp' })
-  currentPeriodEnd: Date;
-
   @Column({ type: 'int', nullable: true })
   amount: number | null;
 
