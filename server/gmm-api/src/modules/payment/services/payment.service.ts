@@ -139,30 +139,42 @@ export class PaymentsService {
     return subscription;
   }
 
-  async handleCheckoutSuccess(sessionId: string, userId: string) {
+  async handlePaymentSuccess(paymentIntentId: string, userId: string) {
     try {
-      const session = await this.stripe.checkout.sessions.retrieve(sessionId);
-      const subscriptionId = session.subscription as string;
+      // Retrieve the payment intent from Stripe
+      const paymentIntent = await this.stripe.paymentIntents.retrieve(paymentIntentId);
   
-      if (!subscriptionId) {
-        throw new Error('Subscription ID not found in session.');
+      if (!paymentIntent || paymentIntent.status !== 'succeeded') {
+        throw new Error('Payment intent is not successful.');
       }
   
+      // Assuming the subscription ID is stored as metadata in the payment intent
+      const subscriptionId = paymentIntent.metadata?.subscriptionId;
+      
+      if (!subscriptionId) {
+        throw new Error('Subscription ID not found in payment intent metadata.');
+      }
+  
+      // Retrieve the subscription from Stripe using the subscription ID
       const subscription = await this.stripe.subscriptions.retrieve(subscriptionId);
       const planId = subscription.items.data[0].price.id;
   
+      // Determine subscription tier
       const tier = Object.values(SubscriptionTiers).find(t => t.priceId === planId);
       if (!tier) {
         throw new Error('Unknown subscription plan.');
       }
   
+      // Find the user in your database
       const user = await this.userRepository.findOne({ where: { id: userId } });
       if (!user) {
         throw new Error('User not found.');
       }
   
+      // Check if the user already has a subscription
       let existingSubscription = await this.subscriptionRepository.findOne({ where: { user: { id: userId } } });
   
+      // Update existing subscription or create a new one
       if (existingSubscription) {
         existingSubscription.subscriptionId = subscription.id;
         existingSubscription.status = subscription.status;
@@ -184,15 +196,18 @@ export class PaymentsService {
         });
       }
   
+      // Save the subscription to the repository
       const result = await this.subscriptionRepository.save(existingSubscription);
   
+      // Save a record in subscription history
       await this.saveSubscriptionHistory(user, existingSubscription);
   
       return result;
     } catch (error) {
-      throw new Error(`Failed to handle checkout success: ${error.message}`);
+      throw new Error(`Failed to handle payment success: ${error.message}`);
     }
   }
+  
   
   
   

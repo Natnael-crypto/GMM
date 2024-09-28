@@ -143,27 +143,28 @@ export class PaymentsController {
     }
   }
 
-  @Get('checkout/success')
-  @UseGuards(JwtAuthGuard)
-  async handleCheckoutSuccess(
-    @Res() response: Response,
-    @Query('session_id') sessionId: string,
-    @Req() req: any,
+  @Get('payment/success')
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['payment:write']))
+  async handlePaymentSuccess(
+  @Res() response: Response,
+  @Query('payment_intent_id') paymentIntentId: string,
+  @Req() req: any,
   ) {
     try {
       const userId = req.user.id;
-      await this.paymentService.handleCheckoutSuccess(sessionId, userId);
+      await this.paymentService.handlePaymentSuccess(paymentIntentId, userId);
 
       return response.status(HttpStatus.OK).json({
         message: 'Subscription successfully created and stored',
       });
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Failed to handle checkout success',
+        message: 'Failed to handle payment success',
         error: error.message,
       });
     }
   }
+
 
   @Post('consume-match/:userId')
   @UseGuards(JwtAuthGuard, new PermissionGuard(['match:consume']))
