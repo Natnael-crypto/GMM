@@ -6,15 +6,14 @@ import { useUpdateProfileContext } from '../profile/update-profile-context';
 import Loading from '@/components/ui/loading';
 import { useCountPotentialMatchesQuery } from '@/lib/matchmaking/api';
 import { useAppSelector } from '@/lib/hooks';
-import { useSearchParams } from 'next/navigation';
 
 export default function MatchMeCard() {
   const { onSave, isSaving } = useUpdateProfileContext();
 
   const user = useAppSelector((state) => state.auth.user);
-  const searchParams = useSearchParams()
+  const queryString = useAppSelector((state) => state.preference.queryString);
 
-  const { data: count } = useCountPotentialMatchesQuery(searchParams.toString(), { skip: !user })
+  const { data: count } = useCountPotentialMatchesQuery(queryString, { skip: !user })
 
   return (
     <div className="flex flex-col justify-center items-center rounded-se-3xl rounded-es-3xl overflow-hidden bg-primary text-primary-foreground aspect-square p-5 group hover:bg-secondary hover:text-secondary-foreground cursor-pointer max-w-48">
