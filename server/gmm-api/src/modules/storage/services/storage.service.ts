@@ -78,6 +78,8 @@ export class StorageService {
         return '.tiff';
       case 'image/x-icon':
         return '.ico';
+      case 'image/avif'
+        return '.avif';
 
       // Video
       case 'video/mp4':
