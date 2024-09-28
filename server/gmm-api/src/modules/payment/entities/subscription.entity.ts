@@ -5,8 +5,8 @@ import { User } from '../../user/entities/user.entity';
 
 @Entity('subscriptions')
 export class Subscription {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @OneToOne(() => User, (user) => user.subscription)
   @JoinColumn({ name: 'user_id' })

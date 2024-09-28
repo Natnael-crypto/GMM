@@ -163,11 +163,7 @@ export class PaymentsService {
   
       // Find the corresponding tier based on the plan in metadata
       // Corrected way to find the tier by matching the plan with the key of SubscriptionTiers
-const tier = Object.entries(SubscriptionTiers).find(([key, value]) => key === plan)?.[1];
-
-if (!tier) {
-  throw new Error('Unknown subscription plan.');
-}
+      const tier = Object.entries(SubscriptionTiers).find(([key, value]) => key === plan)?.[1];
 
       if (!tier) {
         throw new Error('Unknown subscription plan.');
