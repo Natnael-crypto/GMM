@@ -16,6 +16,14 @@ export default function AuthGuard({ Component, allowedRoles }: AuthGuardProps) {
         !allowedRoles.includes((session.user as any).roleId)
       )
     ) {
+      if ((session?.user as any)?.roleId === 'Admin') {
+        return redirect('/admin');
+      }
+
+      if ((session?.user as any)?.roleId === 'Guardian') {
+        return redirect('/guardian');
+      }
+
       redirect('/login');
     }
 
