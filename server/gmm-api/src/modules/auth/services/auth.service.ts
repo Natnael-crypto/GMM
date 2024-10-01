@@ -20,6 +20,8 @@ import { GuardianRequestedEvent } from '@modules/user/events/guardian.events';
 export class AuthService {
   private domain: string;
   private secret: string;
+  private resetPasswordSecret: string;
+  private resetPasswordExpiration: number;
 
   constructor(
     private configService: ConfigService,
@@ -30,6 +32,8 @@ export class AuthService {
   ) {
     this.domain = this.configService.get<string>('DOMAIN')!;
     this.secret = this.configService.get<string>('JWTSECRET')!;
+    this.resetPasswordSecret = this.configService.get<string>('RESET_PASSWORD_SECRET')!;
+    this.resetPasswordExpiration = this.configService.get<number>('RESET_PASSWORD_EXPIRATION') || 3600;
   }
 
   generateJwt(payload: any) {
@@ -201,5 +205,53 @@ export class AuthService {
       'Guardian Request',
       `Hello. ${user.firstName} ${user.lastName} has requested you to be ${user.gender === 'Male' ? 'his' : 'her'} guardian. Please visit <a href=${registrationLink}>Guardian/Wali</a> to create account and accept the request.`,
     );
+  }
+
+  // Generate Reset Password Token
+  async generateResetPasswordToken(email: string): Promise<string> {
+    const user = await this.findUserByEmail(email);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+
+    const token = this.jwtService.sign(
+      { email: user.email },
+      { 
+        secret: this.resetPasswordSecret,
+        expiresIn: this.resetPasswordExpiration,
+      }
+    );
+
+    return `${this.domain}/reset-password?token=${token}`;
+  }
+
+  // Send Reset Password Email
+  async sendResetPasswordEmail(email: string): Promise<void> {
+    const resetPasswordLink = await this.generateResetPasswordToken(email);
+
+    await this.noticeService.sendEmail(
+      email,
+      'Guardian Match Making: Reset Password Request',
+      `Click the following link to reset your password: <a href="${resetPasswordLink}">Reset Password</a>`
+    );
+  }
+
+  // Handle Reset Password Request
+  async resetPassword(token: string, newPassword: string): Promise<void> {
+    try {
+      const decoded = this.jwtService.verify(token, { secret: this.resetPasswordSecret });
+      const email = decoded.email;
+
+      const user = await this.findUserByEmail(email);
+      if (!user) {
+        throw new BadRequestException('Invalid token or user not found');
+      }
+
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      await this.userRepository.save(user);
+    } catch (e) {
+      throw new BadRequestException('Invalid or expired token');
+    }
   }
 }

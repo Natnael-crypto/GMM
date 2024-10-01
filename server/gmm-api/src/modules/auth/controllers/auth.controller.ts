@@ -7,6 +7,7 @@ import {
   Res,
   UseGuards,
   Body,
+  Query,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiTags, ApiBody } from '@nestjs/swagger';
@@ -19,6 +20,8 @@ import { RegisterAsGuardian, SignUpUserDto } from '../dtos/signup.dto';
 import { User } from '@modules/user/entities/user.entity';
 import { FacebookOauthGuard } from '../guards/facebook-oauth.guard';
 import { guardianRole } from '@modules/seeds/role.seed';
+import { ResetPasswordDto } from '../dtos/reset-password.dto';
+import { RequestResetPasswordDto } from '../dtos/request-reset-password.dto';
 
 @ApiTags('auth')
 @Controller({ version: ApiVersion.V1, path: 'auth' })
@@ -115,6 +118,19 @@ export class AuthController {
         message: error.message,
       });
     }
+  }
+
+  @Post('request-reset-password')
+  async requestResetPassword(@Body() requestResetPasswordDto: RequestResetPasswordDto) {
+    await this.authService.sendResetPasswordEmail(requestResetPasswordDto.email);
+    return { message: 'Reset password link has been sent to your email.' };
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto) {
+    const { token, newPassword } = resetPasswordDto;
+    await this.authService.resetPassword(token, newPassword);
+    return { message: 'Password reset successful' };
   }
 
   @Post('guardian-registration')
