@@ -34,7 +34,7 @@ export class User {
   @Column({ nullable: true })
   lastName: string;
 
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @Column({ nullable: true })
@@ -42,6 +42,9 @@ export class User {
 
   @Column({ nullable: true })
   password: string;
+
+  @Column({ default: false })
+  hasPassword: boolean;
 
   @Column({ nullable: true })
   idCardImage: string;

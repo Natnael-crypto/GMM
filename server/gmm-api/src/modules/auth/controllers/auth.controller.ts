@@ -8,6 +8,7 @@ import {
   UseGuards,
   Body,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiTags, ApiBody } from '@nestjs/swagger';
@@ -22,6 +23,7 @@ import { FacebookOauthGuard } from '../guards/facebook-oauth.guard';
 import { guardianRole } from '@modules/seeds/role.seed';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { RequestResetPasswordDto } from '../dtos/request-reset-password.dto';
+import { SetPasswordDto } from '../dtos/set-password.dto';
 
 @ApiTags('auth')
 @Controller({ version: ApiVersion.V1, path: 'auth' })
@@ -117,6 +119,17 @@ export class AuthController {
       return res.status(HttpStatus.BAD_REQUEST).json({
         message: error.message,
       });
+    }
+  }
+
+  @Post('set-password')
+  async setPassword(@Body() setPasswordDto: SetPasswordDto) {
+    const { token, newPassword } = setPasswordDto;
+    try {
+      await this.authService.setPassword(token, newPassword);
+      return { message: 'Password successfully set' };
+    } catch (error) {
+      throw new BadRequestException(error.message);
     }
   }
 

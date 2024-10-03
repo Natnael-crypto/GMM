@@ -66,8 +66,11 @@ export class AuthService {
     try {
       const newUser = this.userRepository.create({
         ...user,
+        hasPassword: false,
       });
-
+  
+      await this.userRepository.save(newUser);
+  
       return this.generateJwt({
         sub: newUser.email,
         email: newUser.email,
@@ -77,6 +80,7 @@ export class AuthService {
       throw new InternalServerErrorException();
     }
   }
+  
 
   async signInWithFacebook(user: User) {
     if (!user) {
@@ -100,6 +104,7 @@ export class AuthService {
     try {
       const newUser = this.userRepository.create({
         ...user,
+        hasPassword: false,
       });
 
       return this.generateJwt({
@@ -145,19 +150,28 @@ export class AuthService {
 
   async loginWithEmail(user: LoginUserDto) {
     const userExists = await this.findUserByEmail(user.email);
-
+  
     if (!userExists) {
       throw new BadRequestException('Email does not exist');
     }
-
+  
+    if (!userExists.hasPassword) {
+      const setPasswordLink = await this.generateSetPasswordLink(user.email);
+      return {
+        message: 'You have not set a password yet. Please check your email to set one.',
+        setPasswordLink,
+      };
+    }
+  
     const isPasswordValid = await bcrypt.compare(
       user.password,
       userExists.password,
     );
+  
     if (!isPasswordValid) {
       throw new BadRequestException('Invalid credentials');
     }
-
+  
     return this.generateJwt({
       sub: userExists.email,
       id: userExists.id,
@@ -165,6 +179,7 @@ export class AuthService {
       name: userExists.firstName + ' ' + userExists.lastName,
     });
   }
+  
 
   async findUserByEmail(email: string): Promise<User | null> {
     const user = await this.userRepository.findOne({ where: { email } });
@@ -175,6 +190,48 @@ export class AuthService {
 
     return user;
   }
+
+  async generateSetPasswordLink(email: string): Promise<string> {
+    const user = await this.findUserByEmail(email);
+    if (!user) {
+      throw new BadRequestException('User not found');
+    }
+  
+    const token = this.jwtService.sign(
+      { email: user.email },
+      { 
+        secret: this.resetPasswordSecret, 
+        expiresIn: this.resetPasswordExpiration 
+      }
+    );
+  
+    return `${this.domain}/set-password?token=${token}`;
+  }
+  
+  
+  async setPassword(token: string, newPassword: string): Promise<void> {
+    try {
+      const decoded = this.jwtService.verify(token, { secret: this.resetPasswordSecret });
+      const email = decoded.email;
+  
+      const user = await this.findUserByEmail(email);
+      if (!user) {
+        throw new BadRequestException('Invalid token or user not found');
+      }
+  
+      if (user.hasPassword) {
+        throw new BadRequestException('Password already set for this account');
+      }
+  
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      user.hasPassword = true;
+      await this.userRepository.save(user);
+    } catch (e) {
+      throw new BadRequestException('Invalid or expired token');
+    }
+  }
+  
 
   async generateRegistrationLink(email: string) {
     const token = this.jwtService.sign({ email }, { secret: this.secret });
