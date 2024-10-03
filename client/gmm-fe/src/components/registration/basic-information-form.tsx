@@ -443,7 +443,7 @@ export default function BasicInformationForm() {
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="No kids">No kids</SelectItem>
-                            <SelectItem value="Yes Full-Time Single Parent">Yes but not with me</SelectItem>
+                            <SelectItem value="Yes but not with me">Yes but not with me</SelectItem>
                             <SelectItem value="Yes 20%+ Shared parenting">Yes 20%+ Shared Parenting</SelectItem>
                             <SelectItem value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
                             <SelectItem value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
@@ -500,6 +500,7 @@ export default function BasicInformationForm() {
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="Not Practicing Never Prays/Non-Muslim">Not Practicing Never Prays/Non-Muslim</SelectItem>
+                              <SelectItem value="Occasionally Practicing">Occasionally Practicing</SelectItem>
                               <SelectItem value="Practicing and Trying to Get Better">Practicing and Trying to get Better</SelectItem>
                               <SelectItem value="Practicing/Fardh">Practicing/Fardh</SelectItem>
                               <SelectItem value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>
