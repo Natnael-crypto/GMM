@@ -24,14 +24,15 @@ export default function StripeForm({ user }: { user: User }) {
     const t = useTranslations('Auth.checkout');
     const stripe = useStripe();
     const elements = useElements();
+    const fullName = `${user.firstName} ${user.lastName}`
     const form = useForm<Checkout>(
         {
             resolver: zodResolver(checkoutSchema),
             defaultValues: {
-                name: "",
+                name: fullName,
                 addressOne: "",
                 addressTwo: "",
-                city: "",
+                city: user.city,
                 postcode: "",
                 region: "",
             },
