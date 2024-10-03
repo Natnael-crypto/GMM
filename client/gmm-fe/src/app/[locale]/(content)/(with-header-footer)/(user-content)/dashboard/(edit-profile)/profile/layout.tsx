@@ -35,7 +35,7 @@ export default function UpdateProfileLayout({
             </div>
           </div>
 
-          <div className='sticky top-0 bg-background pb-10 pt-3 z-50'>
+          <div className='sticky top-0 backdrop-blur-md pb-10 pt-3 z-50'>
             <UpdateProfileStepper />
           </div>
 
