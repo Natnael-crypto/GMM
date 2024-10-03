@@ -404,7 +404,8 @@ export default function BasicInformationForm() {
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="No kids">No kids</SelectItem>
-                                                <SelectItem value="Yes 20%+ Shared parenting">Yes 20%+ Shared parenting</SelectItem>
+                                                <SelectItem value="Yes Full-Time Single Parent">Yes but not with me</SelectItem>
+                                                <SelectItem value="Yes 20%+ Shared parenting">Yes 20%+ Shared Parenting</SelectItem>
                                                 <SelectItem value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
                                                 <SelectItem value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
                                             </SelectContent>
