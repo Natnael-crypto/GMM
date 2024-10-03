@@ -16,7 +16,7 @@ export default function ProfileImages() {
   const { data: imageUrl } = useGetDownloadUrlQuery(user?.pictures ? user?.pictures[0] : '', { skip: !user || !user?.pictures || !(user?.pictures[0]) });
 
   return (
-    <div className="sticky top-5 rounded-se-3xl rounded-es-3xl overflow-hidden h-[26rem]">
+    <div className="sticky top-24 rounded-se-3xl rounded-es-3xl overflow-hidden h-[26rem]">
       {imageUrl && <Image
         src={imageUrl}
         className="object-cover w-full h-[26rem] object-top"

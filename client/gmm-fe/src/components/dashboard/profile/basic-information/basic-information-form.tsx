@@ -294,7 +294,7 @@ export default function BasicInformationForm() {
                                 </FormItem>)}
                         />
                     </div>
-                    <div className="space-y-1 col-span-2">
+                    {/* <div className="space-y-1 col-span-2">
                         <Label className="font-normal text-xs line-clamp-1">Skin Color</Label>
                         <FormField
                             name='skinColor'
@@ -317,7 +317,7 @@ export default function BasicInformationForm() {
                                     <FormMessage className="text-xs" />
                                 </FormItem>)}
                         />
-                    </div>
+                    </div> */}
                     <div className="space-y-1 col-span-4">
                         <Label className="font-normal text-xs line-clamp-1">Language(s) - Max 3</Label>
                         <FormField
