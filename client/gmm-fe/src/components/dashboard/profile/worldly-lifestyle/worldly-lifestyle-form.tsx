@@ -81,6 +81,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
         setSaving(updateResult.isLoading);
     }, [updateResult, setSaving])
 
+    const hasPreexistingHealthCondition = form.watch('majorPreexistingHealthCondition') === 'Yes';
+
     return (
 
         <div className="py-8 px-6 sm:px-16 md:px-24 lg:px-52">
@@ -598,7 +600,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-12">
+                    {hasPreexistingHealthCondition && <div className="space-y-1 col-span-12">
                         <Label className="line-clamp-1 font-normal text-xs">
                             Describe your pre-existing conditions and/or disabilities
                             (Example: STD, Disabilities, Cancer, etc)
@@ -617,7 +619,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                     <FormMessage className="text-xs" />
                                 </FormItem>)}
                         />
-                    </div>
+                    </div>}
                 </form>
             </Form>
         </div>
