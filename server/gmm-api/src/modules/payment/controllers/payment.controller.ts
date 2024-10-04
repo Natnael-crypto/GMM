@@ -144,11 +144,17 @@ export class PaymentsController {
   }
 
   @Get('checkout/success')
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['payment:write']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(
+      ['payment:write'],
+      (req) => req.params.userId === req.user.id,
+    ),
+  )
   async handlePaymentSuccess(
-  @Res() response: Response,
-  @Query('payment_intent_id') paymentIntentId: string,
-  @Req() req: any,
+    @Res() response: Response,
+    @Query('payment_intent_id') paymentIntentId: string,
+    @Req() req: any,
   ) {
     try {
       const userId = req.user.id;
@@ -164,7 +170,6 @@ export class PaymentsController {
       });
     }
   }
-
 
   @Post('consume-match/:userId')
   @UseGuards(JwtAuthGuard, new PermissionGuard(['match:consume']))
@@ -186,7 +191,13 @@ export class PaymentsController {
   }
 
   @Post('renew-subscription/:userId')
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['payment:write']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(
+      ['payment:write'],
+      (req) => req.params.userId === req.user.id,
+    ),
+  )
   async renewSubscription(
     @Res() response: Response,
     @Param('userId') userId: string,
@@ -214,6 +225,7 @@ export class PaymentsController {
   }
 
   @Post('notify-renewal/:userId')
+  @UseGuards(JwtAuthGuard)
   async notifyUserOfRenewal(
     @Res() response: Response,
     @Param('userId') userId: string,
@@ -232,7 +244,13 @@ export class PaymentsController {
   }
 
   @Get('subscription-history/:userId')
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['payment:read']))
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(
+      ['payment:read'],
+      (req) => req.params.userId === req.user.id,
+    ),
+  )
   async getUserSubscriptionHistory(
     @Res() response: Response,
     @Param('userId') userId: string,
