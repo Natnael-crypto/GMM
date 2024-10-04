@@ -20,9 +20,6 @@ export class SubscriptionHistory {
   @Column({ type: 'timestamp' })
   periodStart: Date;
 
-  @Column({ type: 'timestamp' })
-  periodEnd: Date;
-
   @Column({ type: 'int', nullable: true })
   amount: number | null;
 
