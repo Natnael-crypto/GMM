@@ -144,13 +144,7 @@ export class PaymentsController {
   }
 
   @Get('checkout/success')
-  @UseGuards(
-    JwtAuthGuard,
-    new PermissionGuard(
-      ['payment:write'],
-      (req) => req.params.userId === req.user.id,
-    ),
-  )
+  @UseGuards(JwtAuthGuard)
   async handlePaymentSuccess(
     @Res() response: Response,
     @Query('payment_intent_id') paymentIntentId: string,
