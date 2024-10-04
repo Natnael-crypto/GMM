@@ -1,6 +1,6 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { NoticeInterceptor } from '@shared/interceptors/notice.interceptor';
@@ -27,6 +27,8 @@ async function bootstrap() {
   });
 
   app.useWebSocketAdapter(new IoAdapter(app));
+
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
 
   const config = new DocumentBuilder()
     .setTitle('Guardian / Wali Documentation')

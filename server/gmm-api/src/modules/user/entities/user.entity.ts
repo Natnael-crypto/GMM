@@ -12,6 +12,7 @@ import {
 import { Role } from '@modules/auth/entities/role.entity';
 import { Subscription } from '@modules/payment/entities/subscription.entity';
 import { SubscriptionHistory } from '@modules/payment/entities/subscription-history.entity';
+import { Exclude } from 'class-transformer';
 
 export enum AccountStatus {
   PENDING = 'pending',
@@ -41,6 +42,7 @@ export class User {
   phoneNumber: string;
 
   @Column({ nullable: true })
+  @Exclude()
   password: string;
 
   @Column({ default: false })
