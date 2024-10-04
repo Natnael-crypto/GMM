@@ -12,9 +12,6 @@ export class SubscriptionHistory {
   user: User;
 
   @Column()
-  subscriptionId: string;
-
-  @Column()
   status: string;
 
   @Column()

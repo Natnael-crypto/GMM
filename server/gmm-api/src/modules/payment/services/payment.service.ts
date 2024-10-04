@@ -220,7 +220,7 @@ export class PaymentsService {
     });
   
     subscription.remainingMatches = this.getMatchesForPlan(planId);
-    subscription.subscriptionId = newStripeSubscription.id;
+    subscription.id = newStripeSubscription.id;
     subscription.currentPeriodStart = new Date(newStripeSubscription.current_period_start * 1000);
     subscription.status = newStripeSubscription.status;
   
@@ -269,7 +269,6 @@ export class PaymentsService {
   private async saveSubscriptionHistory(user: User, subscription: Subscription): Promise<void> {
     const subscriptionHistory = this.subscriptionHistoryRepository.create({
       user,
-      subscriptionId: subscription.subscriptionId,
       status: subscription.status,
       planId: subscription.planId,
       periodStart: subscription.currentPeriodStart,
