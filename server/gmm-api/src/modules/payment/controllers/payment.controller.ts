@@ -26,31 +26,6 @@ export class PaymentsController {
   constructor(private paymentService: PaymentsService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('checkout-session')
-  @ApiBody({ type: CreateCheckoutSessionDto })
-  async createCheckoutSession(
-    @Res() response: Response,
-    @Req() req: Request,
-    @Body() createCheckoutSessionDto: CreateCheckoutSessionDto,
-  ) {
-    try {
-      const session = await this.paymentService.createCheckoutSession(
-        createCheckoutSessionDto,
-        (req.user as User).id,
-      );
-      return response.status(HttpStatus.CREATED).json({
-        message: 'Checkout session created successfully',
-        data: { url: session.url },
-      });
-    } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Failed to create checkout session',
-        error: error.message,
-      });
-    }
-  }
-
-  @UseGuards(JwtAuthGuard)
   @Post('create-payment-intent')
   async createPaymentIntent(
     @Res() response: Response,

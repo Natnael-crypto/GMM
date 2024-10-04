@@ -10,6 +10,7 @@ import { NoticeService } from '@modules/notice/services/notice.service';
 import { User } from '@modules/user/entities/user.entity';
 import { SubscriptionTiers } from '../entities/tiers';
 import { SubscriptionHistory } from '../entities/subscription-history.entity';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class PaymentsService {
@@ -26,50 +27,6 @@ export class PaymentsService {
     private readonly noticeService: NoticeService
   ) {
     this.stripe = new Stripe(configService.get<string>('STRIPE_API_SECRET_KEY')!);
-  }
-
-  async createCheckoutSession(createCheckoutSessionDto: CreateCheckoutSessionDto, userId: string) {
-    const { plan } = createCheckoutSessionDto;
-    const tier = SubscriptionTiers[plan];
-  
-    if (!tier) {
-      throw new Error('Invalid plan name');
-    }
-  
-    const user = await this.userRepository.findOne({ where: { id: userId } });
-    if (!user) {
-      throw new Error('User not found.');
-    }
-  
-    if (!user.stripeCustomerId) {
-      const customer = await this.stripe.customers.create({
-        email: user.email,
-        name: `${user.firstName} ${user.lastName}`,
-      });
-  
-      user.stripeCustomerId = customer.id;
-      await this.userRepository.save(user);
-    }
-  
-    const domain = this.configService.get<string>('DOMAIN');
-  
-    try {
-      const session = await this.stripe.checkout.sessions.create({
-        mode: 'subscription',
-        payment_method_types: ['card'],
-        line_items: [{
-          price: tier.priceId,
-          quantity: 1,
-        }],
-        customer: user.stripeCustomerId,
-        success_url: `${domain}/en/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${domain}/en/checkout/failure`,
-      });
-  
-      return { url: session.url };
-    } catch (error) {
-      throw new Error(error.message);
-    }
   }
 
   async createPaymentIntent(createCheckoutSessionDto: CreateCheckoutSessionDto, userId: string) {
@@ -143,7 +100,7 @@ export class PaymentsService {
     try {
       // Retrieve the payment intent from Stripe
       const paymentIntent = await this.stripe.paymentIntents.retrieve(paymentIntentId);
-  
+      console.log(paymentIntent);
       if (!paymentIntent || paymentIntent.status !== 'succeeded') {
         throw new Error('Payment intent is not successful.');
       }
@@ -187,6 +144,7 @@ export class PaymentsService {
         existingSubscription.remainingMatches = tier.matches;
       } else {
         existingSubscription = this.subscriptionRepository.create({
+          id: randomUUID(),
           user,
           status: paymentIntent.status,
           planId: tier.priceId,
