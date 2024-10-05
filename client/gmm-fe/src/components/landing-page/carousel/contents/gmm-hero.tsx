@@ -18,7 +18,7 @@ export default async function GMMHero() {
         <Image
           src="/assets/hero-image-1.jpg"
           className={cn(
-            'hidden sm:block object-cover w-full h-[85vh]',
+            'hidden sm:block object-cover w-full h-[75vh]',
             localeDirection[locale] === 'rtl' ? '-scale-x-100' : ''
           )}
           width={1920}
@@ -28,7 +28,7 @@ export default async function GMMHero() {
         <Image
           src="/assets/hero-image-green.jpg"
           className={cn(
-            'sm:hidden object-cover w-full h-[85vh]',
+            'sm:hidden object-cover w-full h-[75vh]',
             localeDirection[locale] === 'rtl' ? '-scale-x-100' : ''
           )}
           width={1920}
@@ -39,7 +39,7 @@ export default async function GMMHero() {
 
       <div className="lg:absolute lg:top-0 lg:left-0 w-full h-full">
         {/* Hero content */}
-        <div className="px-12 sm:px-16 md:px-24 lg:px-52 py-16 lg:w-9/12 gap-10 flex flex-col h-full">
+        <div className="px-12 sm:px-16 md:px-24 lg:px-48 py-16 lg:w-9/12 gap-8 flex flex-col h-full">
           {/* Hero image */}
           <div className="w-40 md:w-60 lg:w-80">
             <Image
@@ -53,7 +53,7 @@ export default async function GMMHero() {
 
           {/* Hero text */}
           <div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl lg:leading-[3.8rem] font-bold text-primary-foreground text-wrap">
+            <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl lg:leading-[3.6rem] font-bold text-primary-foreground text-wrap">
               {t('hero.title')}
             </h1>
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font- text-white mt-4 text-wrap">

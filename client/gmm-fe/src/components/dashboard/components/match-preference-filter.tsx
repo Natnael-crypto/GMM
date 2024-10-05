@@ -635,6 +635,7 @@ export default function MatchPreferenceFilter() {
                       <SelectItem value="Single/Never Married">Single/Never Married</SelectItem>
                       <SelectItem value="Single/Legally Divorced">Single/Legally Divorced</SelectItem>
                       <SelectItem value="Single/Islamically-Divorced">Single/Islamically-Divorced</SelectItem>
+                      <SelectItem value="Widowed">Widowed</SelectItem>
                       <SelectItem value="Other">Other</SelectItem>
                     </SelectContent>
                   </Select>

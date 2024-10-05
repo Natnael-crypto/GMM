@@ -3,7 +3,7 @@ import { BaseResponse } from '@/types/base-response';
 import { constants } from '@/config';
 import { RootState } from '../store';
 import { Chat } from '../schemas/chat';
-import { MessagesResponse } from './type';
+import { LastKey, MessagesResponse } from './type';
 
 export const chatApi = createApi({
   reducerPath: 'chatApi',
@@ -39,8 +39,11 @@ export const chatApi = createApi({
       transformResponse: (response: BaseResponse<Chat>) => response.data,
     }),
 
-    getMessages: builder.query<MessagesResponse, string>({
-      query: (roomId) => `chats/${roomId}/messages?limit=100`,
+    getMessages: builder.query<MessagesResponse, LastKey>({
+      query: ({ id, roomId, sentAt }) =>
+        id
+          ? `chats/${roomId}/messages?limit=100&lastId=${id}&lastSentAt=${sentAt}`
+          : `chats/${roomId}/messages?limit=100`,
       transformResponse: (response: BaseResponse<MessagesResponse>) =>
         response.data,
     }),
@@ -52,4 +55,5 @@ export const {
   useGetChatsQuery,
   useInitiateChatMutation,
   useGetMessagesQuery,
+  useLazyGetMessagesQuery,
 } = chatApi;

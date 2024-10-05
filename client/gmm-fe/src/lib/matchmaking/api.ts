@@ -54,7 +54,6 @@ export const matchApi = createApi({
     countPotentialMatches: builder.query<number, string>({
       query: (queryString) => `matchmaking/count?${queryString}`,
       transformResponse: (response: BaseResponse<number>) => {
-        console.log(response.data);
         return response.data;
       },
       providesTags: (result, error, arg, meta) => {

@@ -28,9 +28,9 @@ export default function ChildrenStatus() {
                                         </SelectTrigger>
                                         <SelectContent>
                                             {
-                                                Array.from({ length: 15 }, (_, i) => i).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
+                                                Array.from({ length: 15 }, (_, i) => i).map(i => <SelectItem className="text-sm max-w-80" key={i} value={i.toString()}>{i}</SelectItem>)
                                             }
-                                            <SelectItem value="15">More than 15</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="15">More than 15</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
@@ -53,7 +53,7 @@ export default function ChildrenStatus() {
                                         </SelectTrigger>
                                         <SelectContent className='max-h-64'>
                                             {
-                                                Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
+                                                Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem className="text-sm max-w-80" key={i} value={i.toString()}>{i}</SelectItem>)
                                             }
                                         </SelectContent>
                                     </Select>
@@ -77,7 +77,7 @@ export default function ChildrenStatus() {
                                         </SelectTrigger>
                                         <SelectContent className='max-h-64'>
                                             {
-                                                Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem key={i} value={i.toString()}>{i}</SelectItem>)
+                                                Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem className="text-sm max-w-80" key={i} value={i.toString()}>{i}</SelectItem>)
                                             }
                                         </SelectContent>
                                     </Select>

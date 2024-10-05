@@ -19,7 +19,7 @@
         "matchGuarantee": "Match<br></br>Guarantee",
         "oneOnOneChats": "1-On-1<br></br>Chats",
         "neverPayToCompete": "Never Pay<br></br>to Compete",
-        "guardianFamilyInvolvement": "Guardian/Family<br></br>Involvement"
+        "guardianFamilyInvolvement": "Guardian/Family<br></br>Awareness"
       },
 
       "slide": {
@@ -46,8 +46,8 @@
           "description": "No Competing with Other Members using your Money to Stand Out! We won't Entice you (by giving you the option) to <bold>Pay for Visibility of your profile or the Direct Message a Potential Spouse</bold>"
         },
         "guardianFamilyInvolvement": {
-          "title": "Guardian/Family Involvement",
-          "description": "Unlike a Casual Dating App/Site Targeting Muslim Under the branding of \"<bold>Halal Marriages</bold>\". Guardian Muslim Marriage requires \"<bold>Verification and Family Involvement</bold>\" from the Start for all Our Members. Ensuring Family Awareness and Participation in the Marriage Process."
+          "title": "Guardian/Family Awareness",
+          "description": "Unlike a Casual Dating App/Site Targeting Muslim Under the branding of \"<bold>Halal Marriages</bold>\". Guardian Muslim Marriage requires \"<bold>Verification and Family Awareness</bold>\" from the Start for all Our Members. Ensuring Family Awareness and Participation in the Marriage Process."
         }
       }
     },
@@ -62,7 +62,7 @@
       "card": {
         "endlessSearching": "Endless Searching<br></br>& Swiping",
         "noOneOnOneChats": "No 1-On-1<br></br>Chats",
-        "noFamilyInvolvement": "No Family<br></br>Involvement",
+        "noFamilyInvolvement": "No Family<br></br>Awareness",
         "noMatchGuarantee": "No Match Guarantee<br></br>or Guidance",
         "noTrueHalalApproach": "No True Halal<br></br>Marriage Approach",
         "terribleHealth": "Terrible Mental<br></br>Health",
@@ -80,7 +80,7 @@
         },
         "noFamilyInvolvement": {
           "title": "No Family Involvement",
-          "description": "Marketed as \"Halal & Muslim\" but Failing without Family Involvement. Real Islamic Marriage Involve Family awareness from the Very Start! The Core of What Makes Marriages Happen and are Truly Halal!"
+          "description": "Marketed as \"Halal & Muslim\" but Failing without Family Awareness. Real Islamic Marriage Require Family awareness from the Very Start! The Core of What Makes Marriages Happen and are Truly Halal!"
         },
         "noMatchGuarantee": {
           "title": "No Match Guarantee or Guidance",
@@ -154,26 +154,26 @@
       "selectMembership": "Select Membership",
       "membershipPackageCard": {
         "monthlyPackage": {
-          "title": "Monthly Package",
-          "price": "<bold>$249</bold> /month",
-          "description": "Min <bold>7</bold> Matches"
+          "title": "Good for 1 Month",
+          "price": "<bold>$249</bold> for",
+          "description": "<bold>7</bold> Matches"
         },
         "threeMonthsPackage": {
-          "title": "3 Months Package",
-          "price": "<bold>$459</bold> /month",
-          "description": "Min <bold>18</bold> Matches",
+          "title": "Good for 3 Months",
+          "price": "<bold>$459</bold> for",
+          "description": "<bold>18</bold> Matches",
           "discount": "<bold>Save 89%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         },
         "sixMonthsPackage": {
-          "title": "6 Months Package",
-          "price": "<bold>$799</bold> /month",
-          "description": "Min <bold>36</bold> Matches",
+          "title": "Good for 6 Months",
+          "price": "<bold>$799</bold> for",
+          "description": "<bold>36</bold> Matches",
           "discount": "<bold>Save 91%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         },
         "twelveMonthsPackage": {
-          "title": "12 Months Package",
-          "price": "$<bold>1449</bold> /month",
-          "description": "Min <bold>73</bold> Matches",
+          "title": "Good for 12 Months",
+          "price": "$<bold>1449</bold> for",
+          "description": "<bold>73</bold> Matches",
           "discount": "<bold>Save 92%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         }
       },

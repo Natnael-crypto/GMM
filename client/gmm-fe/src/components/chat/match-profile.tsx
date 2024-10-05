@@ -21,7 +21,10 @@ export default function MatchProfile({ matchedUser }: { matchedUser: User }) {
   const { data: imageUrl } = useGetDownloadUrlQuery(matchedUser?.pictures ? matchedUser?.pictures[0] : '', { skip: (!matchedUser?.pictures || !matchedUser?.pictures[0]) });
 
   return (
-    <div className="bg-[#f0f8f8] rounded-lg overflow-hidden h-full flex flex-col items-center">
+    <div className="bg-[#f0f8f8] rounded-lg overflow-hidden h-full flex flex-col items-center"
+      style={{
+        height: 'calc(100vh - 1.50rem)',
+      }}>
       <h1 className="font-semibold text-primary-foreground bg-primary w-full text-center p-1">
         Your Match
       </h1>

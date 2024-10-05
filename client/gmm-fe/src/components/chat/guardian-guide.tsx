@@ -23,7 +23,9 @@ export default function GuardianGuide({ matchedUser, match }: { matchedUser: Use
   }, [unmatchResult, router])
 
   return (
-    <div className="h-full bg-background rounded-lg overflow-hidden">
+    <div className="h-full bg-background rounded-lg overflow-hidden" style={{
+      height: 'calc(100vh - 1.50rem)',
+    }}>
       <h1 className="font-semibold text-primary-foreground bg-secondary w-full text-center p-1">
         Guardian Guide
       </h1>
@@ -43,6 +45,7 @@ export default function GuardianGuide({ matchedUser, match }: { matchedUser: Use
 
           <div className="text-xs space-y-3 py-5 border-t">
             <p>Talk to each other and exchange pleasantries</p>
+            <p>Guardians do not have access to your chat. Only you and {matchedUser.firstName} can view the content of this chat.</p>
             <p>
               Please note that you cannot unmatch each other until you proceed
               to [Step 2]

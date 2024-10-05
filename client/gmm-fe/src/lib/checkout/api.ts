@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { constants } from '@/config';
 import { RootState } from '../store';
+import { Subscription } from '../schemas/checkout';
 
 export const checkoutApi = createApi({
   reducerPath: 'checkoutApi',
@@ -34,8 +35,24 @@ export const checkoutApi = createApi({
       }),
       transformResponse: (response: any) => response.data,
     }),
+
+    confirmPayment: builder.mutation<any, { paymentIntentId: string }>({
+      query: (data) => ({
+        url: `payments/checkout/success?payment_intent_id=${data.paymentIntentId}`,
+        method: 'GET',
+      }),
+    }),
+
+    getCurrentSubscription: builder.query<Subscription, string>({
+      query: (userId) => `payments/current-subscription/${userId}`,
+      transformResponse: (response: any) => response.data,
+    }),
   }),
 });
 
-export const { useCreateCheckoutMutation, useCreatePaymentIntentMutation } =
-  checkoutApi;
+export const {
+  useCreateCheckoutMutation,
+  useCreatePaymentIntentMutation,
+  useConfirmPaymentMutation,
+  useGetCurrentSubscriptionQuery,
+} = checkoutApi;

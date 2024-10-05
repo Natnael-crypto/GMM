@@ -5,13 +5,7 @@ import { CarouselItem } from '@/components/ui/carousel';
 
 export default function HeroCarousel() {
   return (
-    <InteractiveCarousel itemCount={3}>
-      <CarouselItem>
-        <GMMHero />
-      </CarouselItem>
-      <CarouselItem>
-        <GMMHero />
-      </CarouselItem>
+    <InteractiveCarousel itemCount={1}>
       <CarouselItem>
         <GMMHero />
       </CarouselItem>

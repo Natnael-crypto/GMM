@@ -3,10 +3,11 @@
 import { Message } from '@/lib/schemas/chat'
 import { User } from '@/lib/schemas/user'
 import { cn } from '@/lib/utils'
-import { useEffect, useRef } from 'react'
+import { forwardRef, useEffect, useRef } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { useGetDownloadUrlQuery } from '@/lib/user/api'
 import Loading from '../ui/loading'
+import { formatToAMPM } from '@/lib/format'
 
 
 export function Profile({ user }: { user: User }) {
@@ -21,32 +22,36 @@ export function Profile({ user }: { user: User }) {
 }
 
 
-export default function MessageBox({ message, sender }: { message: Message & { mine: boolean }, sender: User }) {
-    const ref = useRef<HTMLDivElement | null>(null);
-
-    useEffect(() => {
-        if (ref.current) {
-            ref.current.scrollIntoView({ behavior: "smooth", block: "end" });
-        }
-    }, []);
+export const MessageBox = forwardRef((
+    { message, sender }: { message: Message & { mine: boolean }, sender: User },
+    ref: any
+) => {
+    const sentDate = new Date(message.sentAt)
+    const time = formatToAMPM(sentDate)
 
     return (
         <div
             ref={ref}
             className={cn("flex gap-2 text-xs", message.mine ? 'justify-end' : 'justify-start')}
         >
-            <div className={cn('flex gap-2 max-w-[65%]', message.mine ? 'flex-row-reverse' : '')}>
+            <div className={cn('flex items-end gap-2 max-w-[65%]', message.mine ? 'flex-row-reverse' : '')}>
                 <Profile user={sender} />
-                <div
-                    className={cn("p-1 rounded-md border", message.mine
-                        ? 'bg-[#f3f3f4] text-muted-foreground'
-                        : 'bg-background text-muted-foreground'
-                    )}
-                >
-                    {message.content}
-                    {(message as any).pending && <span><Loading /></span>}
+                <div className='flex flex-col'>
+                    {(message as any).pending ? <span><Loading className="w-5" /></span> : <span className={cn('text-[0.6rem] text-muted-foreground', message.mine ? 'text-end' : 'text-start')}>{time}</span>}
+                    <div
+                        className={cn("p-1 rounded-md border", message.mine
+                            ? 'bg-[#f3f3f4] text-muted-foreground'
+                            : 'bg-background text-muted-foreground'
+                        )}
+                    >
+                        {message.content}
+
+                    </div>
                 </div>
             </div>
+
         </div >
+
     )
-}
+})
+MessageBox.displayName = 'MessageBox'

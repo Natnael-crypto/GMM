@@ -59,11 +59,9 @@ export const userBasicInformationSchema = z
         required_error: 'Please enter your country',
       })
       .min(1, { message: 'Please enter your country' }),
-    skinColor: z
-      .string({
-        required_error: 'Please enter your skin color',
-      })
-      .min(1, { message: 'Please enter your skin color' }),
+    skinColor: z.string({
+      required_error: 'Please enter your skin color',
+    }),
     languages: z.union([
       z.array(z.string()).min(1, { message: 'Required' }).max(3),
       z

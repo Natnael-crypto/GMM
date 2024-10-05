@@ -71,7 +71,7 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
     return (
         <div className="py-8 px-6 sm:px-16 md:px-24 lg:px-52">
             <h1 className="text-xl font-bold text-secondary border-b p-1">
-                Currently Islamic Lifestyle
+                Your Current Islamic Lifestyle <span className='text-xs'>(that you live)</span>
             </h1>
 
             <Form {...form}>
@@ -92,13 +92,13 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Fardh and Sunnah (Performs 5 Fardh along with Sunnah prayers daily)">Fardh and Sunnah (Performs 5 Fardh along with Sunnah prayers daily)</SelectItem>
-                                                <SelectItem value="Complete Fardh (Observes all 5 Fardh prayers daily)">Complete Fardh (Observes all 5 Fardh prayers daily)</SelectItem>
-                                                <SelectItem value="Frequent (Prays 3 or more times daily)">Frequent (Prays 3 or more times daily)</SelectItem>
-                                                <SelectItem value="Occasional (Prays 2 or more times daily)">Occasional (Prays 2 or more times daily)</SelectItem>
-                                                <SelectItem value="Irregular (Prays at least once daily)">Irregular (Prays at least once daily)</SelectItem>
-                                                <SelectItem value="Weekly (Only on Fridays)">Weekly (Only on Fridays)</SelectItem>
-                                                <SelectItem value="Does not pray/Non-Muslim (Does not perform Salat)">Does not pray/Non-Muslim (Does not perform Salat)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Fardh and Sunnah (Performs 5 Fardh along with Sunnah prayers daily)">Fardh and Sunnah (Performs 5 Fardh along with Sunnah prayers daily)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Complete Fardh (Observes all 5 Fardh prayers daily)">Complete Fardh (Observes all 5 Fardh prayers daily)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Frequent (Prays 3 or more times daily)">Frequent (Prays 3 or more times daily)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Occasional (Prays 2 or more times daily)">Occasional (Prays 2 or more times daily)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Irregular (Prays at least once daily)">Irregular (Prays at least once daily)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Weekly (Only on Fridays)">Weekly (Only on Fridays)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Does not pray/Non-Muslim (Does not perform Salat)">Does not pray/Non-Muslim (Does not perform Salat)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -120,9 +120,9 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Enhanced Devotion (Embracing Ramadan, increasing worship, and abandoning haram)">Enhanced Devotion (Embracing Ramadan, increasing worship, and abandoning haram)</SelectItem>
-                                                <SelectItem value="Basic Observance (Only obligatory acts of prayer & fasting, maintaining usual habits)">Basic Observance (Only obligatory acts of prayer & fasting, maintaining usual habits)</SelectItem>
-                                                <SelectItem value="Outside Ramadan Routine (Treating Ramadan like any other day, without additional religious or lifestyle changes)">Outside Ramadan Routine (Treating Ramadan like any other day, without additional religious or lifestyle changes)</SelectItem>
+                                                <SelectItem value="Enhanced Devotion (Embracing Ramadan, increasing worship, and abandoning haram)" className="text-sm max-w-80">Enhanced Devotion (Embracing Ramadan, increasing worship, and abandoning haram)</SelectItem>
+                                                <SelectItem value="Basic Observance (Only obligatory acts of prayer & fasting, maintaining usual habits)" className="text-sm max-w-80">Basic Observance (Only obligatory acts of prayer & fasting, maintaining usual habits)</SelectItem>
+                                                <SelectItem value="Outside Ramadan Routine (Treating Ramadan like any other day, without additional religious or lifestyle changes)" className="text-sm max-w-80">Outside Ramadan Routine (Treating Ramadan like any other day, without additional religious or lifestyle changes)</SelectItem>
                                             </SelectContent>
                                         </Select></FormControl>
                                     <FormMessage className="text-xs" />
@@ -143,9 +143,9 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Ramadan Only (Fasts solely during Ramadan)">Ramadan Only (Fasts solely during Ramadan)</SelectItem>
-                                                <SelectItem value="Ramadan + Sunnah (Fasts in Ramadan and on Mondays & Thursdays)">Ramadan + Sunnah (Fasts in Ramadan and on Mondays & Thursdays)</SelectItem>
-                                                <SelectItem value="No Fasting (Does not Fast at all)">No Fasting (Does not Fast at all)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Ramadan Only (Fasts solely during Ramadan)">Ramadan Only (Fasts solely during Ramadan)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Ramadan + Sunnah (Fasts in Ramadan and on Mondays & Thursdays)">Ramadan + Sunnah (Fasts in Ramadan and on Mondays & Thursdays)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No Fasting (Does not Fast at all)">No Fasting (Does not Fast at all)</SelectItem>
 
                                             </SelectContent>
                                         </Select></FormControl>
@@ -167,10 +167,10 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Annual Contributor (Gives Zakat annually, as a regular practice)">Annual Contributor (Gives Zakat annually, as a regular practice)</SelectItem>
-                                                <SelectItem value="Eligibility-Based (Gives Zakat only when financially eligible)">Eligibility-Based (Gives Zakat only when financially eligible)</SelectItem>
-                                                <SelectItem value="Constrained by Poverty (Does not give due to personal financial hardships)">Constrained by Poverty (Does not give due to personal financial hardships)</SelectItem>
-                                                <SelectItem value="Non-Giver (Chooses not to give Zakat or is exempt for other reasons)">Non-Giver (Chooses not to give Zakat or is exempt for other reasons)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Annual Contributor (Gives Zakat annually, as a regular practice)">Annual Contributor (Gives Zakat annually, as a regular practice)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Eligibility-Based (Gives Zakat only when financially eligible)">Eligibility-Based (Gives Zakat only when financially eligible)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Constrained by Poverty (Does not give due to personal financial hardships)">Constrained by Poverty (Does not give due to personal financial hardships)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Non-Giver (Chooses not to give Zakat or is exempt for other reasons)">Non-Giver (Chooses not to give Zakat or is exempt for other reasons)</SelectItem>
                                             </SelectContent>
                                         </Select></FormControl>
                                     <FormMessage className="text-xs" />
@@ -191,9 +191,9 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Strictly Halal (Eats only halal)">Strictly Halal (Eats only halal)</SelectItem>
-                                                <SelectItem value="Preferably Halal (Prefers halal unless unavailable)">Preferably Halal (Prefers halal unless unavailable)</SelectItem>
-                                                <SelectItem value="Indifferent (Does not consider halal or haram in food choices)">Indifferent (Does not consider halal or haram in food choices)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Strictly Halal (Eats only halal)">Strictly Halal (Eats only halal)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Preferably Halal (Prefers halal unless unavailable)">Preferably Halal (Prefers halal unless unavailable)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Indifferent (Does not consider halal or haram in food choices)">Indifferent (Does not consider halal or haram in food choices)</SelectItem>
                                             </SelectContent>
                                         </Select></FormControl>
                                     <FormMessage className="text-xs" />
@@ -214,10 +214,10 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Deen Over Culture (Prioritizes Islamic principles over cultural practices)">Deen Over Culture (Prioritizes Islamic principles over cultural practices)</SelectItem>
-                                                <SelectItem value="Combining Deen and Culture (Attempts to integrate Islamic teachings with cultural norms)">Combining Deen and Culture (Attempts to integrate Islamic teachings with cultural norms)</SelectItem>
-                                                <SelectItem value="Culture-Focused Islamic Inclusion (Follows cultural norms, includes Islamic elements occasionally)">Culture-Focused Islamic Inclusion (Follows cultural norms, includes Islamic elements occasionally)</SelectItem>
-                                                <SelectItem value="Culture-Prioritized (Cultural practices dominant, limited Islamic influence)">Culture-Prioritized (Cultural practices dominant, limited Islamic influence)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Deen Over Culture (Prioritizes Islamic principles over cultural practices)">Deen Over Culture (Prioritizes Islamic principles over cultural practices)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Combining Deen and Culture (Attempts to integrate Islamic teachings with cultural norms)">Combining Deen and Culture (Attempts to integrate Islamic teachings with cultural norms)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Culture-Focused Islamic Inclusion (Follows cultural norms, includes Islamic elements occasionally)">Culture-Focused Islamic Inclusion (Follows cultural norms, includes Islamic elements occasionally)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Culture-Prioritized (Cultural practices dominant, limited Islamic influence)">Culture-Prioritized (Cultural practices dominant, limited Islamic influence)</SelectItem>
                                             </SelectContent>
                                         </Select></FormControl>
                                     <FormMessage className="text-xs" />
@@ -238,9 +238,9 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                 <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="Full Islamic Compliance (Non-interest finance, strict halal earning and halal spending)">Full Islamic Compliance (Non-interest finance, strict halal earning and halal spending)</SelectItem>
-                                <SelectItem value="Mixed Adherence (Strict Halal income. Riba/Interest financing: Student Loans, Car, Home, Credit Cards etc)">Mixed Adherence (Strict Halal income. Riba/Interest financing: Student Loans, Car, Home, Credit Cards etc)</SelectItem>
-                                <SelectItem value="Indifferent Approach (Not following halal/haram guidelines in earnings, financing and spending)">Indifferent Approach (Not following halal/haram guidelines in earnings, financing and spending)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Full Islamic Compliance (Non-interest finance, strict halal earning and halal spending)">Full Islamic Compliance (Non-interest finance, strict halal earning and halal spending)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Mixed Adherence (Strict Halal income. Riba/Interest financing: Student Loans, Car, Home, Credit Cards etc)">Mixed Adherence (Strict Halal income. Riba/Interest financing: Student Loans, Car, Home, Credit Cards etc)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Indifferent Approach (Not following halal/haram guidelines in earnings, financing and spending)">Indifferent Approach (Not following halal/haram guidelines in earnings, financing and spending)</SelectItem>
 
                             </SelectContent>
                         </Select>
@@ -263,10 +263,10 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Self-Study & Qur'an Translation (Independent study, occasional mosque lectures, listening/reading Qur'an translations)">Self-Study & Qur&apos;an Translation (Independent study, occasional mosque lectures, listening/reading Qur&apos;an translations)</SelectItem>
-                                                <SelectItem value="Direct Scholar Guidance (Studying under a scholar or imam)">Direct Scholar Guidance (Studying under a scholar or imam)</SelectItem>
-                                                <SelectItem value="Institute Education (Enrolled in Islamic institutes for certification/diploma courses)">Institute Education (Enrolled in Islamic institutes for certification/diploma courses)</SelectItem>
-                                                <SelectItem value="University Level Studies (Pursuing higher education in Islamic studies: Bachelors, Masters, PhD)">University Level Studies (Pursuing higher education in Islamic studies: Bachelors, Masters, PhD)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Self-Study & Qur'an Translation (Independent study, occasional mosque lectures, listening/reading Qur'an translations)">Self-Study & Qur&apos;an Translation (Independent study, occasional mosque lectures, listening/reading Qur&apos;an translations)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Direct Scholar Guidance (Studying under a scholar or imam)">Direct Scholar Guidance (Studying under a scholar or imam)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Institute Education (Enrolled in Islamic institutes for certification/diploma courses)">Institute Education (Enrolled in Islamic institutes for certification/diploma courses)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="University Level Studies (Pursuing higher education in Islamic studies: Bachelors, Masters, PhD)">University Level Studies (Pursuing higher education in Islamic studies: Bachelors, Masters, PhD)</SelectItem>
                                             </SelectContent>
                                         </Select></FormControl>
                                     <FormMessage className="text-xs" />
@@ -287,9 +287,9 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Have a Beard">Have a Beard</SelectItem>
-                                                <SelectItem value="No Beard by Choice (personal preference)">No Beard by Choice (personal preference)</SelectItem>
-                                                <SelectItem value="No Beard, Medical Reasons (Lacks a beard due to medical conditions or issues)">No Beard, Medical Reasons (Lacks a beard due to medical conditions or issues)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Have a Beard">Have a Beard</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No Beard by Choice (personal preference)">No Beard by Choice (personal preference)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No Beard, Medical Reasons (Lacks a beard due to medical conditions or issues)">No Beard, Medical Reasons (Lacks a beard due to medical conditions or issues)</SelectItem>
                                             </SelectContent>
                                         </Select></FormControl>
                                     <FormMessage className="text-xs" />
@@ -310,10 +310,10 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Completed Pilgrimage">Completed Pilgrimage</SelectItem>
-                                                <SelectItem value="Planning with Priority (Intends to perform Hajj/Umrah soon, high priority)">Planning with Priority (Intends to perform Hajj/Umrah soon, high priority)</SelectItem>
-                                                <SelectItem value="Future Consideration (Plans to perform Hajj/Umrah in the future)">Future Consideration (Plans to perform Hajj/Umrah in the future)</SelectItem>
-                                                <SelectItem value="No Plans (Currently no plans to perform Hajj or Umrah)">No Plans (Currently no plans to perform Hajj or Umrah)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Completed Pilgrimage">Completed Pilgrimage</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Planning with Priority (Intends to perform Hajj/Umrah soon, high priority)">Planning with Priority (Intends to perform Hajj/Umrah soon, high priority)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Future Consideration (Plans to perform Hajj/Umrah in the future)">Future Consideration (Plans to perform Hajj/Umrah in the future)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No Plans (Currently no plans to perform Hajj or Umrah)">No Plans (Currently no plans to perform Hajj or Umrah)</SelectItem>
                                             </SelectContent>
                                         </Select></FormControl>
                                     <FormMessage className="text-xs" />
@@ -334,11 +334,11 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="1">Children in Islamic Setting (Prioritizes Islamic education/environment for children)</SelectItem>
-                                                <SelectItem value="2">Plans for Islamic Setting (Intends to provide Islamic setting for future children)</SelectItem>
-                                                <SelectItem value="3">Children in Mixed Setting (Combines Islamic and non-Islamic environments for children)</SelectItem>
-                                                <SelectItem value="4">Undecided for Future Children (No children yet, undecided about their future environment)</SelectItem>
-                                                <SelectItem value="5">Non-Islamic Setting for Children (Does not prioritize Islamic environment for children)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="1">Children in Islamic Setting (Prioritizes Islamic education/environment for children)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="2">Plans for Islamic Setting (Intends to provide Islamic setting for future children)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="3">Children in Mixed Setting (Combines Islamic and non-Islamic environments for children)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="4">Undecided for Future Children (No children yet, undecided about their future environment)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="5">Non-Islamic Setting for Children (Does not prioritize Islamic environment for children)</SelectItem>
                                             </SelectContent>
                                         </Select></FormControl>
                                     <FormMessage className="text-xs" />

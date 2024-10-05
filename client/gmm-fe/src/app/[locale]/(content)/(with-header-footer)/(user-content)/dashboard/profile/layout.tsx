@@ -31,7 +31,9 @@ export default function ProfileLayout({
           editLink={`/${locale}${pathname}/edit`}
           pageName={pageNames[pathname]}
         />
-        <ProfileStepper />
+        <div className='sticky top-0 bg-background pb-8 pt-3 z-50'>
+          <ProfileStepper />
+        </div>
 
         <div className="grid grid-cols-3 gap-5 py-8">
           <div className="hidden md:block col-span-1">
