@@ -23,7 +23,9 @@ export default function GuardianGuide({ matchedUser, match }: { matchedUser: Use
   }, [unmatchResult, router])
 
   return (
-    <div className="h-full bg-background rounded-lg overflow-hidden">
+    <div className="h-full bg-background rounded-lg overflow-hidden" style={{
+      height: 'calc(100vh - 1.50rem)',
+    }}>
       <h1 className="font-semibold text-primary-foreground bg-secondary w-full text-center p-1">
         Guardian Guide
       </h1>

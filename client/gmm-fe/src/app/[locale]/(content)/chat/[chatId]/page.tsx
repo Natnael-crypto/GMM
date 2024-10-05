@@ -21,15 +21,16 @@ export default function ChatPage() {
 
   return (
     <div className="flex flex-col justify-between bg-[#c9e2aa]">
-      <div className='h-screen px-5 p-3 flex items-center justify-center'>
-        <div className="grid grid-cols-18 gap-x-[0.4rem] gap-y-5 h-full">
-          <div className="col-span-4">
+      <div className='flex h-screen w-full px-5 p-3'>
+        <div className="lg:grid grid-cols-18 gap-x-[0.4rem] gap-y-5 h-full w-full">
+          <div className="hidden col-span-4 lg:flex">
             {matchedUser && <MatchProfile matchedUser={matchedUser} />}
           </div>
-          <div className="col-span-10">
+          <div className="col-span-10 flex relative">
+
             {chat && <Chat chat={chat} />}
           </div>
-          <div className="col-span-4">
+          <div className="hidden col-span-4 lg:flex">
             {matchedUser && <GuardianGuide matchedUser={matchedUser} match={currentMatch} />}
           </div>
         </div>

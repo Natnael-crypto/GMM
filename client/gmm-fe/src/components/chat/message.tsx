@@ -36,7 +36,7 @@ export const MessageBox = forwardRef((
         >
             <div className={cn('flex items-end gap-2 max-w-[65%]', message.mine ? 'flex-row-reverse' : '')}>
                 <Profile user={sender} />
-                <div className='flex flex-col gap-1'>
+                <div className='flex flex-col'>
                     {(message as any).pending ? <span><Loading className="w-5" /></span> : <span className={cn('text-[0.6rem] text-muted-foreground', message.mine ? 'text-end' : 'text-start')}>{time}</span>}
                     <div
                         className={cn("p-1 rounded-md border", message.mine
