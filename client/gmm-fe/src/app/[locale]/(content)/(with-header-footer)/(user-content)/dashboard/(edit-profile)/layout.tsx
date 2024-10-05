@@ -10,7 +10,7 @@ export default async function UpdateProfileLayout({
     const session = await auth()
 
     if (session && session.user && session.user.isMatched) {
-        return redirect('/dashboard')
+        // return redirect('/dashboard')
     }
 
     return children

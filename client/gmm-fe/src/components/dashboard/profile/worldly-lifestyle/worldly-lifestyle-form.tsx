@@ -21,6 +21,34 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
+const currencies = [
+    'USD', 'CAD', 'EUR', 'GBP', 'JPY', 'AUD', 'CHF', 'CNY', 'INR', 'MXN',
+    'BRL', 'ZAR', 'RUB', 'KRW', 'HKD', 'SGD', 'NZD', 'SEK', 'NOK', 'DKK',
+    'TRY', 'PLN', 'THB', 'IDR', 'PHP', 'MYR', 'VND', 'AED', 'SAR', 'ILS'
+];
+
+const professions = [
+    "Web & Graphic Designer", "Software Engineer", "Doctor", "Nurse", "Teacher",
+    "Accountant", "Business Owner", "Investor", "Lawyer", "Architect",
+    "Engineer", "Data Scientist", "Project Manager", "Sales Manager",
+    "Marketing Specialist", "HR Manager", "Journalist", "Consultant",
+    "Artist", "Musician", "Photographer", "Chef", "Dentist",
+    "Pharmacist", "Electrician", "Plumber", "Carpenter", "Mechanic",
+    "Pilot", "Flight Attendant", "Scientist", "Psychologist", "Therapist",
+    "Veterinarian", "Police Officer", "Firefighter", "Translator", "Interpreter",
+    "Fashion Designer", "Civil Engineer", "Biomedical Engineer", "Software Tester",
+    "SEO Specialist", "Social Media Manager", "Event Planner", "Interior Designer",
+    "Legal Secretary", "Paralegal", "Logistics Manager", "Supply Chain Analyst",
+    "IT Support Specialist", "Systems Administrator", "Cybersecurity Analyst",
+    "Graphic Artist", "Animator", "Film Director", "Video Editor", "Game Developer",
+    "Bartender", "Waiter", "Personal Trainer", "Yoga Instructor", "Chiropractor",
+    "Real Estate Agent", "Property Manager", "Entrepreneur", "Economist",
+    "Political Scientist", "Historian", "Researcher", "Biologist",
+    "Environmental Scientist", "Geologist", "Urban Planner", "Sociologist",
+    "Anthropologist", "Author", "Novelist", "Screenwriter", "Public Relations Specialist",
+    "Corporate Trainer", "Health Coach", "Nutritionist", "Baker", "Florist"
+];
+
 export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: WorldlyLifestyle }) {
     const form = useForm<WorldlyLifestyle>({
         resolver: zodResolver(worldlyLifestyleSchema),
@@ -108,13 +136,13 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Employed">Employed</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Self-Employed">Self-Employed</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Business owner/investor">Business owner/investor</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Not employed">Not employed</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Retired">Retired</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Student">Student</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Homemaker/housewife">Homemaker/housewife</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Employed">Employed</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Self-Employed">Self-Employed</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Business owner/investor">Business owner/investor</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Not employed">Not employed</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Retired">Retired</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Student">Student</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Homemaker/housewife">Homemaker/housewife</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -138,13 +166,13 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem className="text-xs max-w-80" value="0 - 20,000">0 - 20,000</SelectItem>
-                                                    <SelectItem className="text-xs max-w-80" value="20,000 - 50,000">20,000 - 50,000</SelectItem>
-                                                    <SelectItem className="text-xs max-w-80" value="50,000 - 100,000">50,000 - 100,000</SelectItem>
-                                                    <SelectItem className="text-xs max-w-80" value="100,000 - 200,000">100,000 - 200,000</SelectItem>
-                                                    <SelectItem className="text-xs max-w-80" value="200,000 - 350,000">200,000 - 350,000</SelectItem>
-                                                    <SelectItem className="text-xs max-w-80" value="200,000 - 300,000">350,000 - 450,000</SelectItem>
-                                                    <SelectItem className="text-xs max-w-80" value="> 450,000">&gt; 450,000</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="0 - 20,000">0 - 20,000</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="20,000 - 50,000">20,000 - 50,000</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="50,000 - 100,000">50,000 - 100,000</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="100,000 - 200,000">100,000 - 200,000</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="200,000 - 350,000">200,000 - 350,000</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="200,000 - 300,000">350,000 - 450,000</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="> 450,000">&gt; 450,000</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
@@ -163,9 +191,11 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem className="text-xs max-w-80" value="USD">USD</SelectItem>
-                                                    <SelectItem className="text-xs max-w-80" value="CAD">CAD</SelectItem>
-                                                    <SelectItem className="text-xs max-w-80" value="EUR">EUR</SelectItem>
+                                                    {currencies.map((currency) => (
+                                                        <SelectItem className="text-sm max-w-80" value={currency} key={currency}>
+                                                            {currency}
+                                                        </SelectItem>
+                                                    ))}
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
@@ -190,14 +220,11 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Web & Graphic Designer">Web & Graphic Designer</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Software Engineer">Software Engineer</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Doctor">Doctor</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Nurse">Nurse</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Teacher">Teacher</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Accountant">Accountant</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Business Owner">Business Owner</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Investor">Investor</SelectItem>
+                                                {professions.map((profession) => (
+                                                    <SelectItem value={profession} key={profession} className='text-sm'>
+                                                        {profession}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -219,10 +246,10 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Apartment (Rent)">Apartment (Rent)</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Apartment Owned">Apartment Owned</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="House (Rent)">House (Rent)</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="House (Owned)">House (Owned)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Apartment (Rent)">Apartment (Rent)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Apartment Owned">Apartment Owned</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="House (Rent)">House (Rent)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="House (Owned)">House (Owned)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -244,11 +271,11 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Living alone">Living alone</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Living with friends/roommates truncate">Living with friends/roommates</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Living with kids">Living with kids</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Living with mother/father">Living with mother/father</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Living in joint family/with brother and his wife">Living in joint family/with brother and his wife</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Living alone">Living alone</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Living with friends/roommates truncate">Living with friends/roommates</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Living with kids">Living with kids</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Living with mother/father">Living with mother/father</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Living in joint family/with brother and his wife">Living in joint family/with brother and his wife</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -272,7 +299,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                             <SelectContent className='max-h-36'>
                                                 {
                                                     Array.from({ length: 15 }, (_, i) => (
-                                                        <SelectItem className="text-xs max-w-80" key={i} value={String((new Date().getFullYear()) - i)}>
+                                                        <SelectItem className="text-sm max-w-80" key={i} value={String((new Date().getFullYear()) - i)}>
                                                             {String((new Date().getFullYear()) - i)}
                                                         </SelectItem>))
                                                 }
@@ -299,26 +326,26 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Toyota">Toyota</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Ford">Ford</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Honda">Honda</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Chevrolet">Chevrolet</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Nissan">Nissan</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="BMW">BMW</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Mercedes-Benz">Mercedes-Benz</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Volkswagen">Volkswagen</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Audi">Audi</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Hyundai">Hyundai</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Kia">Kia</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Subaru">Subaru</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Tesla">Tesla</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Volvo">Volvo</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Jeep">Jeep</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Lexus">Lexus</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Mazda">Mazda</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Dodge">Dodge</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Porsche">Porsche</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Land Rover">Land Rover</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Toyota">Toyota</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Ford">Ford</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Honda">Honda</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Chevrolet">Chevrolet</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Nissan">Nissan</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="BMW">BMW</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Mercedes-Benz">Mercedes-Benz</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Volkswagen">Volkswagen</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Audi">Audi</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Hyundai">Hyundai</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Kia">Kia</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Subaru">Subaru</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Tesla">Tesla</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Volvo">Volvo</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Jeep">Jeep</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Lexus">Lexus</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Mazda">Mazda</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Dodge">Dodge</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Porsche">Porsche</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Land Rover">Land Rover</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -360,14 +387,14 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="High school">High school</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Diploma">Diploma</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Non-Degree Qualified">Non-Degree Qualified</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Bachelor's degree">Bachelor&apos;s degree</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Masters">Masters</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="PHD/Doctorate">PHD/Doctorate</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Currently Studying">Currently Studying</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="None of the above">None of the above</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="High school">High school</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Diploma">Diploma</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Non-Degree Qualified">Non-Degree Qualified</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Bachelor's degree">Bachelor&apos;s degree</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Masters">Masters</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="PHD/Doctorate">PHD/Doctorate</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Currently Studying">Currently Studying</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="None of the above">None of the above</SelectItem>
 
                                             </SelectContent>
                                         </Select>
@@ -390,8 +417,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -413,11 +440,11 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Car">Car</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Home">Home</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Student Loans">Student Loans</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Personal Loans">Personal Loans</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Business loans">Business loans</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Car">Car</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Home">Home</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Student Loans">Student Loans</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Personal Loans">Personal Loans</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Business loans">Business loans</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -460,8 +487,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -485,10 +512,10 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Both Parents Present">Both Parents Present</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Only Father">Only Father</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Only Mother">Only Mother</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Other">Other</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Both Parents Present">Both Parents Present</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Only Father">Only Father</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Only Mother">Only Mother</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Other">Other</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -510,12 +537,12 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="None">None</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="1">1</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="2">2</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="3">3</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="4">4</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="5">5</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="None">None</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="1">1</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="2">2</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="3">3</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="4">4</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="5">5</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -537,12 +564,12 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="None">None</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="1">1</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="2">2</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="3">3</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="4">4</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="5">5</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="None">None</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="1">1</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="2">2</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="3">3</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="4">4</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="5">5</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -568,8 +595,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs" value="No">No</SelectItem>
+                                                <SelectItem value="Yes">Yes</SelectItem>
+                                                <SelectItem value="No">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -593,8 +620,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>

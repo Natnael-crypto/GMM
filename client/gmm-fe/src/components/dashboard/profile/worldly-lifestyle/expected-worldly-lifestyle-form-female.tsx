@@ -96,9 +96,9 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Sole Decision-Maker (Husband as Primary decision-maker in the family)">Sole Decision-Maker (Husband as Primary decision-maker in the family)</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Consultative Leader (Husband Leads by consulting with the wife on major decisions considering her views but has final say)">Consultative Leader (Husband Leads by consulting with the wife on major decisions considering her views but has final say)</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Co-Leadership (Husband Shares leadership equally with the wife, jointly making decisions)">Co-Leadership (Husband Shares leadership equally with the wife, jointly making decisions)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Sole Decision-Maker (Husband as Primary decision-maker in the family)">Sole Decision-Maker (Husband as Primary decision-maker in the family)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Consultative Leader (Husband Leads by consulting with the wife on major decisions considering her views but has final say)">Consultative Leader (Husband Leads by consulting with the wife on major decisions considering her views but has final say)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Co-Leadership (Husband Shares leadership equally with the wife, jointly making decisions)">Co-Leadership (Husband Shares leadership equally with the wife, jointly making decisions)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -120,9 +120,9 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Provider (Husband is the sole financial provider of the family and children)">Provider (Husband is the sole financial provider of the family and children)</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Provider + Household Support (Husband must financially provide + help with the home and raising children)">Provider + Household Support (Husband must financially provide + help with the home and raising children)</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Dual Income (Equally share in the financial, and family responsibilities)">Dual Income (Equally share in the financial, and family responsibilities)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Provider (Husband is the sole financial provider of the family and children)">Provider (Husband is the sole financial provider of the family and children)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Provider + Household Support (Husband must financially provide + help with the home and raising children)">Provider + Household Support (Husband must financially provide + help with the home and raising children)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Dual Income (Equally share in the financial, and family responsibilities)">Dual Income (Equally share in the financial, and family responsibilities)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -144,9 +144,9 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Maybe/Possibly">Maybe/Possibly</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Maybe/Possibly">Maybe/Possibly</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -168,10 +168,10 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Needs Husband to relocate to her current city of residence: Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Maybe">Maybe</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="To be discussed">To be discussed</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Needs Husband to relocate to her current city of residence: Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Maybe">Maybe</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="To be discussed">To be discussed</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -193,9 +193,9 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Husband must have home separate from their respective families: Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Maybe">Maybe</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Husband must have home separate from their respective families: Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Maybe">Maybe</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -219,9 +219,9 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Husband must be willing to live with wife's family: Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Maybe/should consider it">Maybe/should consider it</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Husband must be willing to live with wife's family: Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Maybe/should consider it">Maybe/should consider it</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -245,9 +245,9 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Wife willing to live with husband's family (Joint family): Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Maybe/Will consider it">Maybe/Will consider it</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Wife willing to live with husband's family (Joint family): Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Maybe/Will consider it">Maybe/Will consider it</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -271,8 +271,8 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Wants Children: Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Wants Children: Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -294,8 +294,8 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Requires Husband to accept/financially be responsible for wife's children from previous marriage: Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Requires Husband to accept/financially be responsible for wife's children from previous marriage: Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -317,8 +317,8 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Wife willing to accept/take care of husband's children from previous marriage: Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Wife willing to accept/take care of husband's children from previous marriage: Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -342,9 +342,9 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Having Children: Wants children">Wants children</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Don't want children">Don&apos;t want children</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="Can't Have Children (medical reason)">Can&apos;t Have Children (medical reason)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Having Children: Wants children">Wants children</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Don't want children">Don&apos;t want children</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Can't Have Children (medical reason)">Can&apos;t Have Children (medical reason)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -368,13 +368,13 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Not specified (whatever Allah Azawajal wills)">Not specified (whatever Allah Azawajal wills)</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="1+">1+</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="2+">2+</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="3+">3+</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="4+">4+</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="5 or more Insha’Allah">5 or more Insha’Allah</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="To be discussed">To be discussed</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Not specified (whatever Allah Azawajal wills)">Not specified (whatever Allah Azawajal wills)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="1+">1+</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="2+">2+</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="3+">3+</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="4+">4+</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="5 or more Insha’Allah">5 or more Insha’Allah</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="To be discussed">To be discussed</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -398,13 +398,13 @@ export function ExpectedWorldlyLifestyleFormFemale({ expectedWorldlyLifestyle }:
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-xs max-w-80" value="Immediately">Immediately</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="After 8 months">After 8 months</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="1 year">1 year</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="2 years">2 years</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="3 years">3 years</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="4 years">4 years</SelectItem>
-                                                <SelectItem className="text-xs max-w-80" value="To be discussed">To be discussed</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Immediately">Immediately</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="After 8 months">After 8 months</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="1 year">1 year</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="2 years">2 years</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="3 years">3 years</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="4 years">4 years</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="To be discussed">To be discussed</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>

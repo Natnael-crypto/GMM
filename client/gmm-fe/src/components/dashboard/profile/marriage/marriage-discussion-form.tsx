@@ -85,10 +85,10 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem className="text-xs max-w-80" value="Simple Ceremony (modest and straightforward wedding with minimal extravagance)">Simple Ceremony (modest and straightforward wedding with minimal extravagance)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Traditional Ceremony (wedding that adheres closely to tradition)">Traditional Ceremony (wedding that adheres closely to tradition)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Lavish Ceremony (grand and elaborate wedding celebration)">Lavish Ceremony (grand and elaborate wedding celebration)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Intimate Gathering (small, personal ceremony with close friends and family)">Intimate Gathering (small, personal ceremony with close friends and family)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Simple Ceremony (modest and straightforward wedding with minimal extravagance)">Simple Ceremony (modest and straightforward wedding with minimal extravagance)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Traditional Ceremony (wedding that adheres closely to tradition)">Traditional Ceremony (wedding that adheres closely to tradition)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Lavish Ceremony (grand and elaborate wedding celebration)">Lavish Ceremony (grand and elaborate wedding celebration)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Intimate Gathering (small, personal ceremony with close friends and family)">Intimate Gathering (small, personal ceremony with close friends and family)</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
@@ -111,10 +111,10 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem className="text-xs max-w-80" value="Hometown Celebration (wedding to take place in my home city)">Hometown Celebration (wedding to take place in my home city)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Spouse Hometown (open to having the wedding in the city of my spouse)">Spouse Hometown (open to having the wedding in the city of my spouse)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Destination Wedding (want a wedding in a specific, or significant, location)">Destination Wedding (want a wedding in a specific, or significant, location)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Any Location (not tied to a specific location)">Any Location (not tied to a specific location)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Hometown Celebration (wedding to take place in my home city)">Hometown Celebration (wedding to take place in my home city)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Spouse Hometown (open to having the wedding in the city of my spouse)">Spouse Hometown (open to having the wedding in the city of my spouse)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Destination Wedding (want a wedding in a specific, or significant, location)">Destination Wedding (want a wedding in a specific, or significant, location)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Any Location (not tied to a specific location)">Any Location (not tied to a specific location)</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
@@ -136,10 +136,10 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem className="text-xs max-w-80" value="Mosque Ceremony (prefer a wedding held in a mosque)">Mosque Ceremony (prefer a wedding held in a mosque)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Wedding Hall Celebration (want a ceremony in a formal wedding hall)">Wedding Hall Celebration (want a ceremony in a formal wedding hall)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Outdoor Setting (an outdoor wedding, such as in a garden or on a beach)">Outdoor Setting (an outdoor wedding, such as in a garden or on a beach)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="To Be Discussed (we can decide)">To Be Discussed (we can decide)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Mosque Ceremony (prefer a wedding held in a mosque)">Mosque Ceremony (prefer a wedding held in a mosque)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Wedding Hall Celebration (want a ceremony in a formal wedding hall)">Wedding Hall Celebration (want a ceremony in a formal wedding hall)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Outdoor Setting (an outdoor wedding, such as in a garden or on a beach)">Outdoor Setting (an outdoor wedding, such as in a garden or on a beach)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="To Be Discussed (we can decide)">To Be Discussed (we can decide)</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
@@ -161,9 +161,9 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem className="text-xs max-w-80" value="Immediate (wedding as soon as possible)">Immediate (wedding as soon as possible)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Short-Term (3 - 6 months)">Short-Term (3 - 6 months)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Long-Term Planning (6 months to a year+)">Long-Term Planning (6 months to a year+)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Immediate (wedding as soon as possible)">Immediate (wedding as soon as possible)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Short-Term (3 - 6 months)">Short-Term (3 - 6 months)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Long-Term Planning (6 months to a year+)">Long-Term Planning (6 months to a year+)</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
@@ -187,10 +187,10 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem className="text-xs max-w-80" value="Significant Influence (family plays a major role in marriage decision-making)">Significant Influence (family plays a major role in marriage decision-making)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Moderate Input (some family input but it's my say in the final decision)">Moderate Input (some family input but it&apos;s my say in the final decision)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Limited Involvement (family involvement is minimal)">Limited Involvement (family involvement is minimal)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Independent Decision (marriage decision is mine and my family has no say)">Independent Decision (marriage decision is mine and my family has no say)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Significant Influence (family plays a major role in marriage decision-making)">Significant Influence (family plays a major role in marriage decision-making)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Moderate Input (some family input but it's my say in the final decision)">Moderate Input (some family input but it&apos;s my say in the final decision)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Limited Involvement (family involvement is minimal)">Limited Involvement (family involvement is minimal)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Independent Decision (marriage decision is mine and my family has no say)">Independent Decision (marriage decision is mine and my family has no say)</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
@@ -214,9 +214,9 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem className="text-xs max-w-80" value="Symbolic (Minimal, symbolic Mahr, does not have to be money)">Symbolic (Minimal, symbolic Mahr, does not have to be money)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Moderate (Mahr of moderate value to be discussed)">Moderate (Mahr of moderate value to be discussed)</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Substantial Mahr (A significant Mahr to be discussed)">Substantial Mahr (A significant Mahr to be discussed)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Symbolic (Minimal, symbolic Mahr, does not have to be money)">Symbolic (Minimal, symbolic Mahr, does not have to be money)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Moderate (Mahr of moderate value to be discussed)">Moderate (Mahr of moderate value to be discussed)</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Substantial Mahr (A significant Mahr to be discussed)">Substantial Mahr (A significant Mahr to be discussed)</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
@@ -238,10 +238,10 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem className="text-xs max-w-80" value="Economical: $5,000 - $10,000">Economical: $5,000 - $10,000</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Moderate: $10,000 - $20,000">Moderate: $10,000 - $20,000</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="Flexible: $20,000 - $30,000">Flexible: $20,000 - $30,000</SelectItem>
-                                            <SelectItem className="text-xs max-w-80" value="High-End: $30,000+">High-End: $30,000+</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Economical: $5,000 - $10,000">Economical: $5,000 - $10,000</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Moderate: $10,000 - $20,000">Moderate: $10,000 - $20,000</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="Flexible: $20,000 - $30,000">Flexible: $20,000 - $30,000</SelectItem>
+                                            <SelectItem className="text-sm max-w-80" value="High-End: $30,000+">High-End: $30,000+</SelectItem>
 
                                         </SelectContent>
                                     </Select>

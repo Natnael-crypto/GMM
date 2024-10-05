@@ -25,7 +25,7 @@ export default function UpdateProfileLayout({
     <UpdateProfileProvider>
       <>
         <div className="pb-6 relative h-screen overflow-auto no-scrollbar">
-          <div className="pt-6 px-6 sm:px-16 md:px-24 lg:px-52 space-y-8 mb-8">
+          <div className="pt-6 px-6 sm:px-16 md:px-24 lg:px-52 space-y-8 mb-4">
             <UpdateProfileHeader
               editLink={pathname.slice(0, -5)}
               pageName={pageNames[pathname]}
@@ -39,7 +39,7 @@ export default function UpdateProfileLayout({
             <UpdateProfileStepper />
           </div>
 
-          <div className="py-5 px-6 sm:px-16 md:px-24 lg:px-52 mt-8">
+          <div className="px-6 sm:px-16 md:px-24 lg:px-52 mt-3">
             <Banner />
           </div>
           <div>{children}</div>

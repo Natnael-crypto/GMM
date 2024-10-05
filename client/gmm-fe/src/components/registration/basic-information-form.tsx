@@ -240,7 +240,7 @@ export default function BasicInformationForm() {
                           </SelectTrigger>
                           <SelectContent className='max-h-64'>
                             {
-                              Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem className="text-xs max-w-80" key={i} value={i.toString()}>{i}</SelectItem>)
+                              Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem className="text-sm max-w-80" key={i} value={i.toString()}>{i}</SelectItem>)
                             }
                           </SelectContent>
                         </Select>
@@ -263,8 +263,8 @@ export default function BasicInformationForm() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-xs max-w-80" value="Male">Male</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Female">Female</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Male">Male</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Female">Female</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -286,7 +286,7 @@ export default function BasicInformationForm() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className='max-h-64'>
-                            {Object.keys(heights).map((h, i) => <SelectItem className="text-xs max-w-80" key={i} value={h}>{heights[h]}</SelectItem>)}
+                            {Object.keys(heights).map((h, i) => <SelectItem className="text-sm max-w-80" key={i} value={h}>{heights[h]}</SelectItem>)}
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -309,7 +309,7 @@ export default function BasicInformationForm() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className='max-h-64'>
-                            {Object.keys(weights).map((w, i) => <SelectItem className="text-xs max-w-80" key={i} value={w}>{weights[w]}</SelectItem>)}
+                            {Object.keys(weights).map((w, i) => <SelectItem className="text-sm max-w-80" key={i} value={w}>{weights[w]}</SelectItem>)}
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -345,10 +345,10 @@ export default function BasicInformationForm() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-xs max-w-80" value="Asian">Asian</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Black">Black</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Brown">Brown</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="White">White</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Asian">Asian</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Black">Black</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Brown">Brown</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="White">White</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -415,11 +415,11 @@ export default function BasicInformationForm() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-xs max-w-80" value="Single/Never Married">Single/Never Married</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Single/Legally Divorced">Single/Legally Divorced</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Single/Islamically-Divorced">Single/Islamically-Divorced</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Widowed">Widowed</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Other">Other</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Single/Never Married">Single/Never Married</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Single/Legally Divorced">Single/Legally Divorced</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Single/Islamically-Divorced">Single/Islamically-Divorced</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Widowed">Widowed</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Other">Other</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -442,11 +442,11 @@ export default function BasicInformationForm() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-xs max-w-80" value="No kids">No kids</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Yes but not with me">Yes but not with me</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Yes 20%+ Shared parenting">Yes 20%+ Shared Parenting</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="No kids">No kids</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Yes but not with me">Yes but not with me</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Yes 20%+ Shared parenting">Yes 20%+ Shared Parenting</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -472,11 +472,11 @@ export default function BasicInformationForm() {
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem className="text-xs max-w-80" value="Hanafi">Hanafi</SelectItem>
-                              <SelectItem className="text-xs max-w-80" value="Hanbali">Hanbali</SelectItem>
-                              <SelectItem className="text-xs max-w-80" value="Maliki">Maliki</SelectItem>
-                              <SelectItem className="text-xs max-w-80" value="Shafi">Shafi</SelectItem>
-                              <SelectItem className="text-xs max-w-80" value="All Four">All Four</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Hanafi">Hanafi</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Hanbali">Hanbali</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Maliki">Maliki</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Shafi">Shafi</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="All Four">All Four</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -499,11 +499,11 @@ export default function BasicInformationForm() {
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem className="text-xs max-w-80" value="Not Practicing Never Prays/Non-Muslim">Not Practicing Never Prays/Non-Muslim</SelectItem>
-                              <SelectItem className="text-xs max-w-80" value="Occasionally Practicing">Occasionally Practicing</SelectItem>
-                              <SelectItem className="text-xs max-w-80" value="Practicing and Trying to Get Better">Practicing and Trying to get Better</SelectItem>
-                              <SelectItem className="text-xs max-w-80" value="Practicing/Fardh">Practicing/Fardh</SelectItem>
-                              <SelectItem className="text-xs max-w-80" value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Not Practicing Never Prays/Non-Muslim">Not Practicing Never Prays/Non-Muslim</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Occasionally Practicing">Occasionally Practicing</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Practicing and Trying to Get Better">Practicing and Trying to get Better</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Practicing/Fardh">Practicing/Fardh</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -527,8 +527,8 @@ export default function BasicInformationForm() {
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem className="text-xs max-w-80" value="true">Born Muslim</SelectItem>
-                              <SelectItem className="text-xs max-w-80" value="false">Reverted to Islam</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="true">Born Muslim</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="false">Reverted to Islam</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -551,8 +551,8 @@ export default function BasicInformationForm() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-xs max-w-80" value="true">Yes</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="false">No</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -578,8 +578,8 @@ export default function BasicInformationForm() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-xs max-w-80" value="true">Yes</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="false">No</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -602,8 +602,8 @@ export default function BasicInformationForm() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-xs max-w-80" value="true">Yes</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="false">No</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -625,8 +625,8 @@ export default function BasicInformationForm() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-xs max-w-80" value="true">Yes</SelectItem>
-                            <SelectItem className="text-xs max-w-80" value="false">No</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
+                            <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
