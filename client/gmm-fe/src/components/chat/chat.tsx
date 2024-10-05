@@ -12,22 +12,38 @@ import { useSocketContext } from '../auth/socket-provider';
 import { MessageBox } from './message';
 import { useGetUserByIdQuery } from '@/lib/auth/api';
 import Loading from '../ui/loading';
+import { User } from '@/lib/schemas/user';
 
-const mergeMessages = (messages: Message[]) => {
-  const allMessageIds = new Set<string>()
+type ExtendedMessage = Message & { pending: boolean, mine: boolean }
 
-  const sortedMessages = []
+const isMine = (message: Message, user?: User) => {
+  return message.senderId === user?.id
+}
 
-  for (const message of messages) {
-    if (allMessageIds.has(message.id)) {
-      continue
-    }
-
-    allMessageIds.add(message.id)
-    sortedMessages.push(message)
+const mergeMessages = (
+  initialMessages: Message[],
+  oldMessages: Message[],
+  liveMessages: Message[],
+  pendingMessages: Message[],
+  user?: User,
+): ExtendedMessage[] => {
+  const combinedMessages: ExtendedMessage[] = []
+  for (const message of initialMessages) {
+    combinedMessages.push({ ...message, mine: isMine(message, user), pending: false })
+  }
+  for (const message of liveMessages) {
+    combinedMessages.push({ ...message, mine: isMine(message, user), pending: false })
   }
 
-  return sortedMessages.sort((a: any, b: any) => Date.parse(a.sentAt) - Date.parse(b.sentAt))
+  for (const message of pendingMessages) {
+    combinedMessages.push({ ...message, mine: isMine(message, user), pending: true })
+  }
+
+  for (const message of oldMessages) {
+    combinedMessages.push({ ...message, mine: isMine(message, user), pending: false })
+  }
+
+  return combinedMessages.sort((a: any, b: any) => Date.parse(a.sentAt) - Date.parse(b.sentAt))
 }
 
 export default function ChatBox({ chat }: { chat: Chat }) {
@@ -43,36 +59,11 @@ export default function ChatBox({ chat }: { chat: Chat }) {
   const lastMessageRef = useRef<HTMLDivElement | null>(null);
 
   const loadedMessages = messagesResponse?.messages;
-
   const messages = useAppSelector((state) => state.chat.messages);
   const pendingMessages = useAppSelector((state) => state.chat.pendingMessages);
   const oldMessages = oldMessagesResult?.data?.messages || []
 
-  const isMine = (message: Message) => {
-    return message.senderId === user?.id
-  }
-
-  let combinedMessages: any[] = []
-
-  if (loadedMessages) {
-    for (const message of loadedMessages) {
-      combinedMessages.push({ ...message, mine: isMine(message), pending: false })
-    }
-  }
-
-  for (const message of messages) {
-    combinedMessages.push({ ...message, mine: isMine(message), pending: false })
-  }
-
-  for (const message of pendingMessages) {
-    combinedMessages.push({ ...message, mine: isMine(message), pending: true })
-  }
-
-  for (const message of oldMessages) {
-    combinedMessages.push({ ...message, mine: isMine(message), pending: false })
-  }
-
-  combinedMessages = mergeMessages(combinedMessages)
+  const combinedMessages = mergeMessages(loadedMessages ?? [], oldMessages ?? [], messages ?? [], pendingMessages ?? [], user)
 
   const handleSend = () => {
     if (!messageBoxRef.current) return
