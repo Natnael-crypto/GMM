@@ -5,3 +5,12 @@ export function formatToAMPM(date: Date) {
     hour12: true,
   });
 }
+
+export function formatLocalizedDate(date: Date) {
+  return date.toLocaleDateString([], {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}

@@ -13,6 +13,8 @@ import { MessageBox } from './message';
 import { useGetUserByIdQuery } from '@/lib/auth/api';
 import Loading from '../ui/loading';
 import { User } from '@/lib/schemas/user';
+import { formatLocalizedDate } from '@/lib/format';
+import DateSeparator from './date-separator';
 
 type ExtendedMessage = Message & { pending: boolean, mine: boolean }
 
@@ -26,8 +28,9 @@ const mergeMessages = (
   liveMessages: Message[],
   pendingMessages: Message[],
   user?: User,
-): ExtendedMessage[] => {
-  const combinedMessages: ExtendedMessage[] = []
+): [string[], ExtendedMessage[][]] => {
+  let combinedMessages: ExtendedMessage[] = []
+
   for (const message of initialMessages) {
     combinedMessages.push({ ...message, mine: isMine(message, user), pending: false })
   }
@@ -43,7 +46,22 @@ const mergeMessages = (
     combinedMessages.push({ ...message, mine: isMine(message, user), pending: false })
   }
 
-  return combinedMessages.sort((a: any, b: any) => Date.parse(a.sentAt) - Date.parse(b.sentAt))
+  combinedMessages = combinedMessages.sort((a: any, b: any) => Date.parse(a.sentAt) - Date.parse(b.sentAt))
+
+  let dates: string[] = []
+  const messageGroups: ExtendedMessage[][] = []
+
+  for (const msg of combinedMessages) {
+    const date = formatLocalizedDate(msg.pending ? new Date() : new Date(msg.sentAt))
+
+    if (dates[dates.length - 1] !== date) {
+      messageGroups.push([])
+      dates.push(date)
+    }
+
+    messageGroups[messageGroups.length - 1].push(msg)
+  }
+  return [dates, messageGroups]
 }
 
 export default function ChatBox({ chat }: { chat: Chat }) {
@@ -63,7 +81,7 @@ export default function ChatBox({ chat }: { chat: Chat }) {
   const pendingMessages = useAppSelector((state) => state.chat.pendingMessages);
   const oldMessages = oldMessagesResult?.data?.messages || []
 
-  const combinedMessages = mergeMessages(loadedMessages ?? [], oldMessages ?? [], messages ?? [], pendingMessages ?? [], user)
+  const [days, messageGroups] = mergeMessages(loadedMessages ?? [], oldMessages ?? [], messages ?? [], pendingMessages ?? [], user)
 
   const handleSend = () => {
     if (!messageBoxRef.current) return
@@ -92,7 +110,8 @@ export default function ChatBox({ chat }: { chat: Chat }) {
     }
   }
 
-  const lastMessageId = combinedMessages[combinedMessages.length - 1]?.id
+  const lastMessageGroup = messageGroups[messageGroups.length - 1]
+  const lastMessageId = lastMessageGroup ? lastMessageGroup[lastMessageGroup.length - 1]?.id : undefined
 
   useEffect(() => {
     if (lastMessageRef.current) {
@@ -147,8 +166,20 @@ export default function ChatBox({ chat }: { chat: Chat }) {
               <Loading />
             </div>
           }
-          {combinedMessages.map((message, index) => (<MessageBox ref={message.id === lastMessageId ? lastMessageRef : undefined} key={index} message={message} sender={message.mine ? user : otherUser} />
-          ))}
+          {
+            messageGroups.flatMap(
+              (messageGroup, index) => {
+                const result = [<DateSeparator key={`message_date_group_${index}`} date={days[index]} />] as JSX.Element[]
+
+                result.push(
+                  ...messageGroup.map((message, index) => {
+                    return <MessageBox ref={message.id === lastMessageId ? lastMessageRef : undefined} key={`message_${index}_${message.id}`} message={message} sender={message.mine ? user : otherUser} />
+                  })
+                )
+
+                return result
+              }
+            )}
         </div>}
 
       <div
