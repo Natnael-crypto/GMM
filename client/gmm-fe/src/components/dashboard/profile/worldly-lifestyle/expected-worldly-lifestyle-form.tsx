@@ -75,7 +75,7 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
     return (
         <div className="bg-muted w-full py-4 px-6 sm:px-16 md:px-24 lg:px-52">
             <h1 className="text-xl font-bold text-primary border-b p-1">
-                Expected Worldly Lifestyle of Your Potential Spouses
+                Your Expected (After Marriage) Worldly Lifestyle from Your Potential Spouse
             </h1>
 
             <Form {...form} >

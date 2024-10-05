@@ -118,7 +118,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
 
         <div className="py-8 px-6 sm:px-16 md:px-24 lg:px-52">
             <h1 className="text-xl font-bold text-secondary border-b p-1">
-                Currently Worldly Lifestyle
+                Your Current Worldly Lifestyle <span className='text-xs'>(that you live)</span>
             </h1>
 
             <Form {...form} >

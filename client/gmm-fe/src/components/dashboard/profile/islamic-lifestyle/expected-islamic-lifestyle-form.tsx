@@ -72,7 +72,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
     return (
         <div className="bg-muted w-full py-4 px-6 sm:px-16 md:px-24 lg:px-52">
             <h1 className="text-xl font-bold text-primary border-b p-1">
-                Expected Islamic Lifestyle of Your Potential Spouses
+                Your Expected (After Marriage) Islamic Lifestyle from Your Potential Spouse
             </h1>
 
             <Form {...form}>
