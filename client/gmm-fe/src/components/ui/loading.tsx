@@ -1,5 +1,5 @@
-import React from 'react';
+import { cn } from '@/lib/utils';
 
-export default function Loading() {
-  return <div className="loader"></div>;
+export default function Loading(props?: any) {
+  return <div className={cn("loader w-[40px]", props?.className ? props.className : '')}></div>;
 }
