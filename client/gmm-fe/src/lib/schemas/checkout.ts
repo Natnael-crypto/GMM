@@ -18,3 +18,14 @@ export const checkoutSchema = z
   .required();
 
 export type Checkout = z.infer<typeof checkoutSchema>;
+
+export const subscriptionSchema = z.object({
+  id: z.string(),
+  status: z.string(),
+  planId: z.string(),
+  currentPeriodStart: z.coerce.date(),
+  amount: z.number(),
+  remainingMatches: z.number(),
+});
+
+export type Subscription = z.infer<typeof subscriptionSchema>;

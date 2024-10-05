@@ -50,7 +50,6 @@ export default function Profile({ user: profileUser }: { user: User }) {
 
           <a
             href={`/${locale}/logout`}
-            onClick={(e) => { localStorage.clear() }}
             className="w-full justify-start bg-background hover:bg-muted text-muted-foreground hover:text-muted-foreground py-1 px-5"
           >
             Logout

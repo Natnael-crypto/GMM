@@ -48,10 +48,9 @@ export function LoginForm() {
     if (response.status === 200) {
       toast({
         title: 'Welcome Back!',
-        description: response.message,
       });
 
-      if (localStorage.getItem('gmm-checkout-status') === 'success') {
+      if (response.subscription) {
         replace('/dashboard');
         return
       }
