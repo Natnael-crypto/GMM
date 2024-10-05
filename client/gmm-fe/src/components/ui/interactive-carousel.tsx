@@ -34,10 +34,10 @@ export default function InteractiveCarousel({
 
   return (
     <div className="w-full">
-      <Carousel setApi={setApi} className="w-full h-full">
+      <Carousel setApi={setApi} className="w-full h-[75vh]">
         <CarouselContent>{children}</CarouselContent>
-        <CarouselPrevious className="w-10 lg:w-20" />
-        <CarouselNext className="end-0 w-10 lg:w-20" />
+        {/* <CarouselPrevious className="w-10 lg:w-20" />
+        <CarouselNext className="end-0 w-10 lg:w-20" /> */}
       </Carousel>
       <div className="w-full py-2 justify-center flex gap-1">
         {Array.from({ length: itemCount }).map((_, index) => {
