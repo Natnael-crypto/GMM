@@ -136,7 +136,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
 
                                             <SelectContent>
                                                 <SelectItem value="Father/Mother (parental involvement)">Father/Mother (parental involvement)</SelectItem>
-                                                <SelectItem value="Brother (above 18, subject to approval)">Brother (above 18, subject to approval)</SelectItem>
+                                                <SelectItem value="Brother (above 18, min 12 years older)">Brother (above 18, min 12 years older)</SelectItem>
                                                 <SelectItem value="Paternal/Maternal Uncle (no father or brother)">Paternal/Maternal Uncle (no father or brother)</SelectItem>
                                                 <SelectItem value="Paternal/Maternal Aunts (no father or brother)">Paternal/Maternal Aunts (no father or brother)</SelectItem>
                                                 <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">Imam/Mosque (Imam/mufti is my guardian/family contact)</SelectItem>
