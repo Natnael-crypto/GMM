@@ -24,7 +24,7 @@ export default function RegistrationOverview() {
           <OurApproachCard
             className="border-none shadow-none lg:w-32"
             imageSrc="/assets/icon_guided-matchmaking.svg"
-            imageClassName="w-24 lg:w-36"
+            imageClassName="w-24 lg:w-28"
             isActive={false}
           >
             {approachT.rich('card.guidedMatching', {
@@ -44,7 +44,7 @@ export default function RegistrationOverview() {
           <OurApproachCard
             className="border-none shadow-none lg:w-32"
             imageSrc="/assets/icon_never-pay-to-compete.svg"
-            imageClassName="w-24 lg:w-36"
+            imageClassName="w-24 lg:w-28"
             isActive={false}
           >
             {approachT.rich('card.neverPayToCompete', {
