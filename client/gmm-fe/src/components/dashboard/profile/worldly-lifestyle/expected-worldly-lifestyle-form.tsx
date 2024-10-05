@@ -387,8 +387,8 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent className='max-w-80'>
-                                                <SelectItem className="text-xs max-w-full" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-full" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-full" value="Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-full" value="No">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -412,9 +412,9 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent className='max-w-80'>
-                                                <SelectItem className="text-xs max-w-full" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-xs max-w-full" value="No">No</SelectItem>
-                                                <SelectItem className="text-xs max-w-full" value="Maybe">Maybe</SelectItem>
+                                                <SelectItem className="text-sm max-w-full" value="Yes">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-full" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-full" value="Maybe">Maybe</SelectItem>
 
                                             </SelectContent>
                                         </Select>
