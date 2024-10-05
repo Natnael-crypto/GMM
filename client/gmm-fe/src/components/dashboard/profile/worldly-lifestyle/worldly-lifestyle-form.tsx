@@ -50,7 +50,7 @@ const professions = [
     "Corporate Trainer", "Health Coach", "Nutritionist", "Baker", "Florist"
 ];
 
-const carBrands = ["Toyota", "Ford", "Honda", "Chevrolet", "Nissan", "BMW", "Mercedes-Benz", "Volkswagen", "Audi", "Hyundai", "Kia", "Subaru", "Tesla", "Volvo", "Jeep", "Lexus", "Mazda", "Dodge", "Porsche", "Land Rover", "Jaguar", "Chrysler", "Fiat", "Mitsubishi", "Mini", "Genesis", "Infiniti", "Acura", "Lincoln", "Alfa Romeo", "Ram", "Saab", "Suzuki", "Hummer", "Peugeot", "Renault", "Skoda", "Citroën", "Tata", "MG", "Smart", "Wiesmann", "Lotus", "Pagani", "Koenigsegg", "Aston Martin", "Ferrari", "Lamborghini"];
+const carBrands = ["Acura", "Alfa Romeo", "Aston Martin", "Audi", "BMW", "Chevrolet", "Chrysler", "Citroën", "Dodge", "Ferrari", "Fiat", "Ford", "Genesis", "Honda", "Hummer", "Hyundai", "Infiniti", "Jaguar", "Jeep", "Kia", "Koenigsegg", "Lamborghini", "Land Rover", "Lincoln", "Lotus", "Mazda", "Mercedes-Benz", "Mini", "Mitsubishi", "Nissan", "Peugeot", "Porsche", "Ram", "Renault", "Saab", "Skoda", "Smart", "Subaru", "Suzuki", "Tata", "Tesla", "Volkswagen", "Volvo", "Wiesmann", "Pagani"];
 
 export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: WorldlyLifestyle }) {
     const form = useForm<WorldlyLifestyle>({
