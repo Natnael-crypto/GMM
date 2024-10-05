@@ -1,7 +1,6 @@
 'use client'
 
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
-import { toast } from '@/components/ui/use-toast';
 import { useAppSelector } from '@/lib/hooks';
 import { useRouter } from '@/lib/navigation';
 import React, { useEffect } from 'react';

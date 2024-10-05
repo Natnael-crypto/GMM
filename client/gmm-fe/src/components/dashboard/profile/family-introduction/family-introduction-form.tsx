@@ -173,7 +173,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
 
                     <div className="space-y-1 col-span-6">
                         <Label className="font-normal text-xs line-clamp-1">{t('guardianInformation.email')}{" "}
-                            {/* {user && (!user.guardian || user.guardian.email !== form.watch('guardianEmail')) && <span className='text-xs font-medium italic'>(Pending Approval)</span>} */}
+                            {user && (!user.guardian || user.guardian.email !== form.watch('guardianEmail')) && <span className='text-xs font-medium italic'>(Pending Approval)</span>}
                         </Label>
                         <FormField
                             name="guardianEmail"
