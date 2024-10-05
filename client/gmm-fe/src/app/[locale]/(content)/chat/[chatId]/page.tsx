@@ -3,24 +3,34 @@
 import Chat from '@/components/chat/chat';
 import GuardianGuide from '@/components/chat/guardian-guide';
 import MatchProfile from '@/components/chat/match-profile';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useGetChatQuery } from '@/lib/chat/api';
 import { useAppSelector } from '@/lib/hooks';
 import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
+import { useRouter } from '@/lib/navigation';
 import { faPeopleRoof, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export default function ChatPage() {
   const user = useAppSelector((state) => state.auth.user);
   const params = useParams<{ chatId: string }>();
-  const { data: currentMatch } = useGetCurrentMatchQuery(undefined, { skip: !user })
+  const { data: currentMatch, isLoading: isCurrentMatchLoading } = useGetCurrentMatchQuery(undefined, { skip: !user })
   const { data: chat, isLoading: isChatLoading } = useGetChatQuery(params.chatId, { skip: !user || !params.chatId });
+  const router = useRouter();
 
   const matchedUser = currentMatch && (user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser);
+
+  useEffect(() => {
+    if (user) {
+      if (!user.isMatched) {
+        router.replace('/dashboard')
+      }
+    }
+  }, [user])
 
   return (
     <div className="flex flex-col justify-between bg-[#c9e2aa]">

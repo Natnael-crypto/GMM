@@ -45,6 +45,7 @@ export default function GuardianGuide({ matchedUser, match }: { matchedUser: Use
 
           <div className="text-xs space-y-3 py-5 border-t">
             <p>Talk to each other and exchange pleasantries</p>
+            <p>Guardians do not have access to your chat. Only you and {matchedUser.firstName} can view the content of this chat.</p>
             <p>
               Please note that you cannot unmatch each other until you proceed
               to [Step 2]
