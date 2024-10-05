@@ -3,7 +3,7 @@
 import { Message } from '@/lib/schemas/chat'
 import { User } from '@/lib/schemas/user'
 import { cn } from '@/lib/utils'
-import { useEffect, useRef } from 'react'
+import { forwardRef, useEffect, useRef } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 import { useGetDownloadUrlQuery } from '@/lib/user/api'
 import Loading from '../ui/loading'
@@ -21,15 +21,10 @@ export function Profile({ user }: { user: User }) {
 }
 
 
-export default function MessageBox({ message, sender }: { message: Message & { mine: boolean }, sender: User }) {
-    const ref = useRef<HTMLDivElement | null>(null);
-
-    useEffect(() => {
-        if (ref.current) {
-            ref.current.scrollIntoView({ behavior: "smooth", block: "end" });
-        }
-    }, []);
-
+export const MessageBox = forwardRef((
+    { message, sender }: { message: Message & { mine: boolean }, sender: User },
+    ref: any
+) => {
     return (
         <div
             ref={ref}
@@ -49,4 +44,5 @@ export default function MessageBox({ message, sender }: { message: Message & { m
             </div>
         </div >
     )
-}
+})
+MessageBox.displayName = 'MessageBox'

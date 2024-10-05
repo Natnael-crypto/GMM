@@ -2,34 +2,57 @@
 
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { useGetMessagesQuery } from '@/lib/chat/api';
+import { useGetMessagesQuery, useLazyGetMessagesQuery } from '@/lib/chat/api';
 import { useAppSelector } from '@/lib/hooks';
 import { Chat, Message } from '@/lib/schemas/chat';
 import { faSmile, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSocketContext } from '../auth/socket-provider';
-import MessageBox from './message';
-import { useGetUserQuery, useGetUserByIdQuery } from '@/lib/auth/api';
+import { MessageBox } from './message';
+import { useGetUserByIdQuery } from '@/lib/auth/api';
+import Loading from '../ui/loading';
+
+const mergeMessages = (messages: Message[]) => {
+  const allMessageIds = new Set<string>()
+
+  const sortedMessages = []
+
+  for (const message of messages) {
+    if (allMessageIds.has(message.id)) {
+      continue
+    }
+
+    allMessageIds.add(message.id)
+    sortedMessages.push(message)
+  }
+
+  return sortedMessages.sort((a: any, b: any) => Date.parse(a.sentAt) - Date.parse(b.sentAt))
+}
 
 export default function ChatBox({ chat }: { chat: Chat }) {
   const user = useAppSelector((state) => state.auth.user);
-  const { data: messagesResponse } = useGetMessagesQuery(chat.id, { skip: !chat.id || !user });
+  const { data: messagesResponse, isLoading: initialLoading } = useGetMessagesQuery({ roomId: chat.id }, { skip: !chat.id || !user });
+  const [trigger, oldMessagesResult, lastPromiseInfo] = useLazyGetMessagesQuery()
+
   const { sendMessage, socket } = useSocketContext();
   const otherUserId = user?.id === chat.user1 ? chat.user2 : chat.user1;
   const { data: otherUser } = useGetUserByIdQuery(otherUserId, { skip: !otherUserId });
   const messageBoxRef = React.useRef<HTMLTextAreaElement>(null);
 
+  const lastMessageRef = useRef<HTMLDivElement | null>(null);
+
   const loadedMessages = messagesResponse?.messages;
 
   const messages = useAppSelector((state) => state.chat.messages);
   const pendingMessages = useAppSelector((state) => state.chat.pendingMessages);
+  const oldMessages = oldMessagesResult?.data?.messages || []
 
   const isMine = (message: Message) => {
     return message.senderId === user?.id
   }
 
-  const combinedMessages = []
+  let combinedMessages: any[] = []
 
   if (loadedMessages) {
     for (const message of loadedMessages) {
@@ -45,7 +68,11 @@ export default function ChatBox({ chat }: { chat: Chat }) {
     combinedMessages.push({ ...message, mine: isMine(message), pending: true })
   }
 
-  combinedMessages.sort((a: any, b: any) => Date.parse(a.sentAt) - Date.parse(b.sentAt))
+  for (const message of oldMessages) {
+    combinedMessages.push({ ...message, mine: isMine(message), pending: false })
+  }
+
+  combinedMessages = mergeMessages(combinedMessages)
 
   const handleSend = () => {
     if (!messageBoxRef.current) return
@@ -55,6 +82,32 @@ export default function ChatBox({ chat }: { chat: Chat }) {
     }
     messageBoxRef.current.value = ''
   }
+
+  const handleLoadOldMessages = (e: React.UIEvent<HTMLDivElement>) => {
+    const element = e.target as HTMLDivElement
+    if (element.scrollTop === 0) {
+      if (!messagesResponse?.lastKey) return
+
+      if (!oldMessagesResult || !oldMessagesResult.data) {
+        trigger(messagesResponse?.lastKey)
+        return
+      }
+
+      if (!oldMessagesResult.data.lastKey) return
+
+      if (lastPromiseInfo?.lastArg?.id === oldMessagesResult.data.lastKey.id) return
+
+      trigger(oldMessagesResult.data.lastKey)
+    }
+  }
+
+  const lastMessageId = combinedMessages[combinedMessages.length - 1]?.id
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [lastMessageId]);
 
   useEffect(() => {
     if (socket && chat && socket.connected) {
@@ -96,10 +149,16 @@ export default function ChatBox({ chat }: { chat: Chat }) {
         </div>
       </div>
 
-      {user && otherUser && <div className="overflow-auto h-72 space-y-2 no-scrollbar">
-        {combinedMessages.map((message, index) => (<MessageBox key={index} message={message} sender={message.mine ? user : otherUser} />
-        ))}
-      </div>}
+      {user && otherUser &&
+        <div className="overflow-auto h-72 space-y-2 no-scrollbar" onScroll={handleLoadOldMessages}>
+          {(oldMessagesResult?.isLoading || initialLoading) &&
+            <div className='w-full flex items-center justify-center'>
+              <Loading />
+            </div>
+          }
+          {combinedMessages.map((message, index) => (<MessageBox ref={message.id === lastMessageId ? lastMessageRef : undefined} key={index} message={message} sender={message.mine ? user : otherUser} />
+          ))}
+        </div>}
 
       <div
         className="relative flex min-h-[80px] 
