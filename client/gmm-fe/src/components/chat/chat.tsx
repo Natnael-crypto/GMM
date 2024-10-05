@@ -149,7 +149,7 @@ export default function ChatBox({ chat }: { chat: Chat }) {
       </div>
 
       {user && otherUser &&
-        <div className="overflow-auto flex-grow space-y-3 no-scrollbar" onScroll={handleLoadOldMessages}>
+        <div className="overflow-auto flex-grow space-y-3 pb-3 no-scrollbar" onScroll={handleLoadOldMessages}>
           {(oldMessagesResult?.isLoading || initialLoading) &&
             <div className='w-full flex items-center justify-center'>
               <Loading />
