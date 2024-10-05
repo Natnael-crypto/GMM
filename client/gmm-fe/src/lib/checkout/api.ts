@@ -34,8 +34,22 @@ export const checkoutApi = createApi({
       }),
       transformResponse: (response: any) => response.data,
     }),
+
+    confirmPayment: builder.mutation<any, { paymentIntentId: string }>({
+      query: (data) => ({
+        url: `payments/checkout/success?payment_intent_id=${data.paymentIntentId}`,
+        method: 'GET',
+      }),
+    }),
+
+    getCurrentSubscription: builder.query<any, string>({
+      query: (userId) => `payments/current-subscription/${userId}`,
+    }),
   }),
 });
 
-export const { useCreateCheckoutMutation, useCreatePaymentIntentMutation } =
-  checkoutApi;
+export const {
+  useCreateCheckoutMutation,
+  useCreatePaymentIntentMutation,
+  useConfirmPaymentMutation,
+} = checkoutApi;

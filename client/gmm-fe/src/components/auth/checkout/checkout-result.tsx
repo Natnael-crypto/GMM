@@ -7,6 +7,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckCircle, faInfoCircle, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "@/lib/navigation";
+import { useAppSelector } from "@/lib/hooks";
+import { useConfirmPaymentMutation } from "@/lib/checkout/api";
+import { toast } from "@/components/ui/use-toast";
 
 const SuccessIcon = <FontAwesomeIcon icon={faCheckCircle} className="text-2xl text-green-500" />;
 const ErrorIcon = <FontAwesomeIcon icon={faXmarkCircle} className="text-2xl text-red-500" />;
@@ -32,14 +35,16 @@ const STATUS_CONTENT_MAP: Record<any, any> = {
 };
 
 export function CheckoutCompletePage() {
+    const user = useAppSelector((state) => state.auth.user);
     const stripe = useStripe();
     const router = useRouter();
 
     const [status, setStatus] = React.useState<any>("processing");
     const [intentId, setIntentId] = React.useState<any>(null);
+    const [confirmPayment, confirmPaymentResult] = useConfirmPaymentMutation()
 
     React.useEffect(() => {
-        if (!stripe) {
+        if (!stripe || !user) {
             return;
         }
 
@@ -62,11 +67,21 @@ export function CheckoutCompletePage() {
             setIntentId(paymentIntent.id);
 
             if (paymentIntent.status === 'succeeded') {
-                localStorage.setItem('gmm-checkout-status', 'success')
-                router.replace('/registration')
+                confirmPayment({ paymentIntentId: paymentIntent.id }).unwrap().then(() => {
+                    if (user.registered) {
+                        router.replace('/dashboard')
+                    } else {
+                        router.replace('/registration')
+                    }
+                }).catch(error => {
+                    toast({
+                        title: "Error",
+                        description: error.message,
+                    })
+                })
             }
         });
-    }, [stripe, router]);
+    }, [stripe, router, user]);
 
     return (
         <div className="flex gap-3 items-center justify-center">
