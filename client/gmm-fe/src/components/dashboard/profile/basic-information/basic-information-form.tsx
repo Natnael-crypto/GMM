@@ -356,7 +356,7 @@ export default function BasicInformationForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <AutoComplete extend={true} onChange={field.onChange} selectedOption={field.value} options={cityOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={cityOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
                                     </FormControl>
                                     <FormMessage className="text-xs" />
                                 </FormItem>)}
