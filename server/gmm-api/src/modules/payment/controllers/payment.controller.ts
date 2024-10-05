@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   Query,
   Req,
   Res,
@@ -18,6 +19,7 @@ import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { User } from '@modules/user/entities/user.entity';
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
+import { UpdateProductDto } from '../dtos/update-product.dto';
 
 @ApiTags('payments')
 @ApiBearerAuth()
@@ -64,6 +66,27 @@ export class PaymentsController {
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         message: 'Failed to retrieve products',
+        error: error.message,
+      });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['products:update']))
+  @Put('products/:productId')
+  async updateProduct(
+    @Param('productId') productId: string,
+    @Body() updateProductDto: UpdateProductDto,
+    @Res() response: Response
+  ) {
+    try {
+      const updatedProduct = await this.paymentService.updateProduct(productId, updateProductDto);
+      return response.status(HttpStatus.OK).json({
+        message: 'Product updated successfully',
+        data: updatedProduct,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to update product',
         error: error.message,
       });
     }
@@ -234,6 +257,31 @@ export class PaymentsController {
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         message: 'Failed to retrieve subscription history',
+        error: error.message,
+      });
+    }
+  }
+
+  @Get('all-subscription-history')
+  @UseGuards(
+    JwtAuthGuard,
+    new PermissionGuard(
+      ['payment:read']
+    ),
+  )
+  async getAllSubscriptionHistory(
+    @Res() response: Response,
+  ) {
+    try {
+      const subscriptions =
+        await this.paymentService.getAllSubscriptionHistory();
+      return response.status(HttpStatus.OK).json({
+        message: 'All subscription history retrieved successfully',
+        data: subscriptions,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to retrieve all subscription history',
         error: error.message,
       });
     }

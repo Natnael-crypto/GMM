@@ -74,6 +74,12 @@ export class PaymentsService {
     return products.data;
   }
 
+  async updateProduct(productId: string, updatedParams: Stripe.ProductUpdateParams): Promise<Stripe.Product> {
+    const updatedProduct = await this.stripe.products.update(productId, updatedParams);
+    return updatedProduct;
+  }
+  
+
   async getCustomers() {
     const customers = await this.stripe.customers.list({});
     return customers.data;
@@ -288,6 +294,15 @@ export class PaymentsService {
   
     const subscriptionHistory = await this.subscriptionHistoryRepository.find({
       where: { user: { id: userId } },
+      order: { periodStart: 'DESC' },
+    });
+  
+    return subscriptionHistory;
+  }
+
+  async getAllSubscriptionHistory(): Promise<SubscriptionHistory[]> {
+    const subscriptionHistory = await this.subscriptionHistoryRepository.find({
+      relations: ['user'],
       order: { periodStart: 'DESC' },
     });
   

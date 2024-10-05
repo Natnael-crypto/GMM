@@ -178,6 +178,18 @@ export class MatchMakingService {
     return await this.matchRepository.find({ where: { isActive: true } });
   }
 
+  async getAllMatches(): Promise<Match[]> {
+    return await this.matchRepository.find();
+  }
+
+  async getPreviousMatches(): Promise<Match[]> {
+    return await this.matchRepository.find({ where: { isActive: false } });
+  }
+
+  async getUsersInMatchPool(): Promise<MatchPool[]> {
+    return await this.matchPoolRepository.find();
+  }
+
   async getMyMatches(userId: string): Promise<Match[]> {
     return await this.matchRepository.find({
       where: [{ maleUserId: userId }, { femaleUserId: userId }],

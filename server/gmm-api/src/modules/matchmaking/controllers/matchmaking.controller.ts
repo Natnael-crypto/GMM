@@ -23,6 +23,7 @@ import {
   FilteringParams,
 } from '@shared/decorators/filter.decorator';
 import { matchFilterableFields } from '../entities/match-pool.entity';
+import { PermissionGuard } from '@modules/auth/guards/permission.guard';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
@@ -108,6 +109,22 @@ export class MatchMakingController {
     }
   }
 
+  @Get('users-in-pool')
+  async getUsersInMatchPool(@Res() response: Response) {
+    try {
+      const matches = await this.matchmakingService.getUsersInMatchPool();
+      return response.status(HttpStatus.OK).json({
+        message: 'Users in match pool fetched successfully',
+        data: matches,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to fetch users in the match pool',
+        error: error.message,
+      });
+    }
+  }
+
   @Get()
   async getMyMatches(@Req() req: Request, @Res() response: Response) {
     try {
@@ -131,6 +148,40 @@ export class MatchMakingController {
       const matches = await this.matchmakingService.getCurrentMatches();
       return response.status(HttpStatus.OK).json({
         message: 'Current Matches fetched successfully',
+        data: matches,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to fetch matches',
+        error: error.message,
+      });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard, new PermissionGuard(["match:read"]))
+  @Get('all-matches')
+  async getAllMatches(@Res() response: Response) {
+    try {
+      const matches = await this.matchmakingService.getAllMatches();
+      return response.status(HttpStatus.OK).json({
+        message: 'Matches fetched successfully',
+        data: matches,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to fetch matches',
+        error: error.message,
+      });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard, new PermissionGuard(["match:read"]))
+  @Get('previous-matches')
+  async getPreviousMatches(@Res() response: Response) {
+    try {
+      const matches = await this.matchmakingService.getPreviousMatches();
+      return response.status(HttpStatus.OK).json({
+        message: 'Previous Matches fetched successfully',
         data: matches,
       });
     } catch (error) {

@@ -33,7 +33,7 @@ export const allPermissions = {
   'payment:delete': 'Allow user to delete payment',
 
   'match:consume': 'Allow user to consume match',
-  'macth:read': 'Allow user to read match',
+  'match:read': 'Allow user to read match',
 
   'notification:write': 'Allow user to create/update notification',
   'notification:read': 'Allow user to read notification',
@@ -43,6 +43,7 @@ export const allPermissions = {
 
   'customers:read': 'Allow user to read customer',
   'products:read': 'Allow user to read product',
+  'products:update': 'Allow user to update product',
 
 };
 
