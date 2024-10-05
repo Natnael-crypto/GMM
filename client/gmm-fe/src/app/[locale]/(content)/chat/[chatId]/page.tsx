@@ -3,9 +3,12 @@
 import Chat from '@/components/chat/chat';
 import GuardianGuide from '@/components/chat/guardian-guide';
 import MatchProfile from '@/components/chat/match-profile';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useGetChatQuery } from '@/lib/chat/api';
 import { useAppSelector } from '@/lib/hooks';
 import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
+import { faPeopleRoof, faUser } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -27,11 +30,33 @@ export default function ChatPage() {
             {matchedUser && <MatchProfile matchedUser={matchedUser} />}
           </div>
           <div className="col-span-10 flex relative">
+            <div className="flex lg:hidden absolute right-3 top-6 gap-2">
+              {matchedUser && <Dialog>
+                <DialogTrigger>
+                  <FontAwesomeIcon icon={faUser} className="rounded-full text-muted-foreground aspect-square w-6 cursor-pointer" />
+                </DialogTrigger>
+                <DialogContent className='h-5/6 p-0 m-0 overflow-auto no-scrollbar bg-transparent border-none outline-none rounded-lg'>
+                  <DialogTitle className="hidden">Match Profile</DialogTitle>
+                  <DialogDescription className="hidden">View the profile of your match</DialogDescription>
+                  <MatchProfile matchedUser={matchedUser} />
+                </DialogContent>
+              </Dialog>}
 
+              {matchedUser && currentMatch && <Dialog>
+                <DialogTrigger className='outline-none focus:ring-0'>
+                  <FontAwesomeIcon icon={faPeopleRoof} className="rounded-full text-muted-foreground aspect-square w-6 cursor-pointer" />
+                </DialogTrigger>
+                <DialogContent className='h-5/6 p-0 m-0 overflow-auto no-scrollbar bg-transparent border-none outline-none rounded-lg'>
+                  <DialogTitle className="hidden">Guardian Guide</DialogTitle>
+                  <DialogDescription className="hidden">View the guardian guide of your match</DialogDescription>
+                  <GuardianGuide matchedUser={matchedUser} match={currentMatch} />
+                </DialogContent>
+              </Dialog>}
+            </div>
             {chat && <Chat chat={chat} />}
           </div>
           <div className="hidden col-span-4 lg:flex">
-            {matchedUser && <GuardianGuide matchedUser={matchedUser} match={currentMatch} />}
+            {matchedUser && currentMatch && <GuardianGuide matchedUser={matchedUser} match={currentMatch} />}
           </div>
         </div>
       </div>
@@ -48,6 +73,6 @@ export default function ChatPage() {
           </div>
         </Link>
       </div>
-    </div>
+    </div >
   );
 }
