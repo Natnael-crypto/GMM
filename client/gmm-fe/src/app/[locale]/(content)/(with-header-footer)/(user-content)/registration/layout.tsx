@@ -17,9 +17,6 @@ export default function ProfileLayout({
   useEffect(() => {
     if (user && user.registered) {
       router.replace('/dashboard');
-      toast({
-        title: 'You’re already registered!',
-      })
     }
   }, [user, router])
 
