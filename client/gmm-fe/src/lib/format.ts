@@ -14,3 +14,17 @@ export function formatLocalizedDate(date: Date) {
     day: 'numeric',
   });
 }
+
+export function uuidToEightDigitNumber(uuid: string) {
+  const cleanedUuid = uuid.replace(/-/g, '');
+
+  const num = BigInt(`0x${cleanedUuid}`);
+
+  const min = BigInt(10000000);
+  const max = BigInt(99999999);
+  const range = max - min + BigInt(1);
+
+  const randomNum = (num % range) + min;
+
+  return randomNum.toString();
+}

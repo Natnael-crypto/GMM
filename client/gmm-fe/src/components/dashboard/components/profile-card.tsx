@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import { useGetDownloadUrlQuery } from '@/lib/user/api';
 import { User } from '@/lib/schemas/user';
+import { uuidToEightDigitNumber } from '@/lib/format';
 
 export default function ProfileCard({ user }: { user: User }) {
   const { data: imageUrl } = useGetDownloadUrlQuery(user?.pictures ? user?.pictures[0] : '', { skip: (!user?.pictures || !user?.pictures[0]) });
@@ -25,7 +26,7 @@ export default function ProfileCard({ user }: { user: User }) {
           {user?.firstName} {user?.lastName}
         </h1>
 
-        <span>User ID #11223344</span>
+        {user && <span>User ID #{uuidToEightDigitNumber(user.id)}</span>}
         <span>{user?.email}</span>
       </div>
     </div>
