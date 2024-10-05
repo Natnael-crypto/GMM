@@ -4,6 +4,7 @@ import { useUpdateProfileContext } from '@/components/dashboard/profile/update-p
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import AutoComplete from '@/components/ui/searchable-select';
 import {
     Select,
     SelectContent,
@@ -48,6 +49,8 @@ const professions = [
     "Anthropologist", "Author", "Novelist", "Screenwriter", "Public Relations Specialist",
     "Corporate Trainer", "Health Coach", "Nutritionist", "Baker", "Florist"
 ];
+
+const carBrands = ["Toyota", "Ford", "Honda", "Chevrolet", "Nissan", "BMW", "Mercedes-Benz", "Volkswagen", "Audi", "Hyundai", "Kia", "Subaru", "Tesla", "Volvo", "Jeep", "Lexus", "Mazda", "Dodge", "Porsche", "Land Rover", "Jaguar", "Chrysler", "Fiat", "Mitsubishi", "Mini", "Genesis", "Infiniti", "Acura", "Lincoln", "Alfa Romeo", "Ram", "Saab", "Suzuki", "Hummer", "Peugeot", "Renault", "Skoda", "Citroën", "Tata", "MG", "Smart", "Wiesmann", "Lotus", "Pagani", "Koenigsegg", "Aston Martin", "Ferrari", "Lamborghini"];
 
 export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: WorldlyLifestyle }) {
     const form = useForm<WorldlyLifestyle>({
@@ -285,6 +288,20 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="space-y-1 col-span-2">
+                        <Label className="line-clamp-1 font-normal text-xs">Vehicle Make</Label>
+
+                        <FormField
+                            name='vehicleMake'
+                            control={form.control}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <AutoComplete onChange={field.onChange} selectedOption={field.value} options={carBrands.map(brand => ({ label: brand, value: brand }))} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                                    <FormMessage className="text-xs" />
+                                </FormItem>)}
+                        />
+                    </div>
+
+                    <div className="space-y-1 col-span-2">
                         <Label className="line-clamp-1 font-normal text-xs">Vehicle Year</Label>
                         <FormField
                             name='vehicleYear'
@@ -296,56 +313,13 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                             <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent ">
                                                 <SelectValue />
                                             </SelectTrigger>
-                                            <SelectContent className='max-h-36'>
+                                            <SelectContent className='max-h-64'>
                                                 {
-                                                    Array.from({ length: 15 }, (_, i) => (
+                                                    Array.from({ length: 40 }, (_, i) => (
                                                         <SelectItem className="text-sm max-w-80" key={i} value={String((new Date().getFullYear()) - i)}>
                                                             {String((new Date().getFullYear()) - i)}
                                                         </SelectItem>))
                                                 }
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Vehicle Make</Label>
-
-                        <FormField
-                            name='vehicleMake'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Toyota">Toyota</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Ford">Ford</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Honda">Honda</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Chevrolet">Chevrolet</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Nissan">Nissan</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="BMW">BMW</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Mercedes-Benz">Mercedes-Benz</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Volkswagen">Volkswagen</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Audi">Audi</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Hyundai">Hyundai</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Kia">Kia</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Subaru">Subaru</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Tesla">Tesla</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Volvo">Volvo</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Jeep">Jeep</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Lexus">Lexus</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Mazda">Mazda</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Dodge">Dodge</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Porsche">Porsche</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Land Rover">Land Rover</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -542,7 +516,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectItem className="text-sm max-w-80" value="2">2</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="3">3</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="4">4</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="5">5</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="5+">5+</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -552,7 +526,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Pets</Label>
+                        <Label className="line-clamp-1 font-normal text-xs">Number of Pets</Label>
                         <FormField
                             name='pets'
                             control={form.control}
@@ -569,7 +543,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectItem className="text-sm max-w-80" value="2">2</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="3">3</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="4">4</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="5">5</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="5">5+</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
