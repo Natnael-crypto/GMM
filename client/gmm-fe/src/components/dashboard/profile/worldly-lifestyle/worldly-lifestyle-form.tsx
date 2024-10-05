@@ -141,7 +141,10 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                     <SelectItem className="text-xs max-w-80" value="0 - 20,000">0 - 20,000</SelectItem>
                                                     <SelectItem className="text-xs max-w-80" value="20,000 - 50,000">20,000 - 50,000</SelectItem>
                                                     <SelectItem className="text-xs max-w-80" value="50,000 - 100,000">50,000 - 100,000</SelectItem>
-                                                    <SelectItem className="text-xs max-w-80" value="> 100,000">&gt; 100,000</SelectItem>
+                                                    <SelectItem className="text-xs max-w-80" value="100,000 - 200,000">100,000 - 200,000</SelectItem>
+                                                    <SelectItem className="text-xs max-w-80" value="200,000 - 350,000">200,000 - 350,000</SelectItem>
+                                                    <SelectItem className="text-xs max-w-80" value="200,000 - 300,000">350,000 - 450,000</SelectItem>
+                                                    <SelectItem className="text-xs max-w-80" value="> 450,000">&gt; 450,000</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
