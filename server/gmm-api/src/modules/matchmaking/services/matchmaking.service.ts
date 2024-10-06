@@ -179,7 +179,10 @@ export class MatchMakingService {
   }
 
   async getAllMatches(): Promise<Match[]> {
-    return await this.matchRepository.find();
+    return await this.matchRepository.find({
+      relations: ['maleUser', 'femaleUser'],
+    });
+    
   }
 
   async getPreviousMatches(): Promise<Match[]> {
@@ -187,7 +190,9 @@ export class MatchMakingService {
   }
 
   async getUsersInMatchPool(): Promise<MatchPool[]> {
-    return await this.matchPoolRepository.find();
+    return await this.matchPoolRepository.find({
+      relations: ['user'],
+    });
   }
 
   async getMyMatches(userId: string): Promise<Match[]> {
