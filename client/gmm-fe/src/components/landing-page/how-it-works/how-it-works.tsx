@@ -15,7 +15,7 @@ export default function HowItWorks() {
       no-scrollbar "
         >
           <div
-            className="m-auto grid grid-cols-4 w-[55rem] gap-x-5 
+            className="m-auto grid grid-cols-4 w-[60rem] gap-x-5 
       px-5
       lg:my-8 
       justify-center

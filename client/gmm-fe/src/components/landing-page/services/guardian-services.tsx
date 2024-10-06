@@ -12,7 +12,7 @@ export default function GuardianServices() {
         <div
           className="m-auto
          grid grid-cols-4 gap-x-5 my-8 
-         w-[55rem]
+         w-[60rem]
          "
         >
           <GuardianServiceCard>{t('bookConsultation')}</GuardianServiceCard>

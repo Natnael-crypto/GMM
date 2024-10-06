@@ -47,7 +47,7 @@ export default function OurApproachCard({
 
       <span
         className={cn(
-          'text-sm font-bold mt-5 text-center transition-colors duration-300 group-hover:text-white',
+          'text-lg font-bold mt-5 text-center transition-colors duration-300 group-hover:text-white',
           isActive ? 'text-white' : 'text-secondary'
         )}
       >

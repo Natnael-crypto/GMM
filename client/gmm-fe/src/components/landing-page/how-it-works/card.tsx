@@ -31,7 +31,7 @@ export default function HowItWorksCard({
         />
       </div>
 
-      <span className={cn('text-xs font-bold mt-5 text-center text-secondary')}>
+      <span className={cn('text-sm font-bold mt-5 text-center text-secondary')}>
         {children}
       </span>
     </Card>

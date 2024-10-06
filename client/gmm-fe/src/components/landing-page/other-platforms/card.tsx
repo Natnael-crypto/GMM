@@ -34,7 +34,7 @@ export default function OtherPlatformCard({
 
       <span
         className={cn(
-          'text-xs font-bold text-center transition-colors duration-300 group-hover:text-primary-foreground',
+          'text-sm mt-5 font-bold text-center transition-colors duration-300 group-hover:text-primary-foreground',
           isActive ? 'text-primary-foreground' : 'text-secondary'
         )}
       >
