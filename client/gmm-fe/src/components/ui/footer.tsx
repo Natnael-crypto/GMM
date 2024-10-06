@@ -41,13 +41,13 @@ export default function Footer() {
       text-xs"
       >
         <div className="flex gap-5 my-5 md:my-0">
-          <Link href="">
+          <Link href="" className="text-md">
             <FontAwesomeIcon icon={faInstagram} />
           </Link>
-          <Link href="">
+          <Link href="" className="text-md">
             <FontAwesomeIcon icon={faTwitter} />
           </Link>
-          <Link href="">
+          <Link href="" className="text-md">
             <FontAwesomeIcon icon={faFacebookF} />
           </Link>
         </div>
