@@ -60,7 +60,7 @@ export default function FamilyIntroductionForm() {
         </span>
       </div>
       <div className="grid grid-cols-12 gap-x-3 gap-y-3 py-4">
-        <div className="space-y-1 col-span-6">
+        <div className="space-y-1 py-2 col-span-6">
           <Label className="font-normal text-md line-clamp-1">
             {t('guardianInformation.fullName')}
           </Label>
@@ -81,7 +81,7 @@ export default function FamilyIntroductionForm() {
           />
         </div>
 
-        <div className="space-y-1 col-span-6">
+        <div className="space-y-1 py-2 col-span-6">
           <Label className="font-normal text-md line-clamp-1">
             {t('guardianInformation.relationship')}
           </Label>
@@ -111,7 +111,7 @@ export default function FamilyIntroductionForm() {
           />
         </div>
 
-        <div className="space-y-1 col-span-6">
+        <div className="space-y-1 py-2 col-span-6">
           <Label className="font-normal text-md line-clamp-1">
             {t('guardianInformation.phoneNumber')}
           </Label>
@@ -132,7 +132,7 @@ export default function FamilyIntroductionForm() {
           />
         </div>
 
-        <div className="space-y-1 col-span-6">
+        <div className="space-y-1 py-2 col-span-6">
           <Label className="font-normal text-md line-clamp-1">{t('guardianInformation.email')}{" "}
           </Label>
           <FormField
@@ -157,7 +157,7 @@ export default function FamilyIntroductionForm() {
           {t('idVerification.title')}
         </h1>
 
-        <div className="space-y-1 col-span-12">
+        <div className="space-y-1 py-2 col-span-12">
           <Label className="font-normal text-md line-clamp-1">
             {t('idVerification.phoneNumber')}
           </Label>
@@ -178,7 +178,7 @@ export default function FamilyIntroductionForm() {
           />
         </div>
 
-        <div className="space-y-1 col-span-12">
+        <div className="space-y-1 py-2 col-span-12">
           <Label className="font-normal text-md line-clamp-1">
             {t('idVerification.id')}
           </Label>

@@ -14,7 +14,7 @@ export default function ChildrenStatus() {
     return (
         <div className="col-span-4 grid grid-cols-8 gap-x-5 gap-y-4">
             {hasChildren &&
-                <div className="space-y-1 col-span-8 sm:col-span-2">
+                <div className="space-y-1 py-2 col-span-8 sm:col-span-2">
                     <Label className="font-normal text-md line-clamp-1">Number of children</Label>
                     <FormField
                         name='numberOfChildren'
@@ -39,7 +39,7 @@ export default function ChildrenStatus() {
                     />
                 </div>
             }{hasChildren &&
-                <div className="space-y-1 col-span-4 sm:col-span-3">
+                <div className="space-y-1 py-2 col-span-4 sm:col-span-3">
                     <Label className="font-normal text-md line-clamp-1">Age of Oldest Child</Label>
                     <FormField
                         name='ageOfOldestChild'
@@ -63,7 +63,7 @@ export default function ChildrenStatus() {
                     />
                 </div>
             }{hasChildren &&
-                <div className="space-y-1 col-span-4 sm:col-span-3">
+                <div className="space-y-1 py-2 col-span-4 sm:col-span-3">
                     <Label className="font-normal text-md line-clamp-1">Age of Youngest Child</Label>
                     <FormField
                         name='ageOfYoungestChild'
