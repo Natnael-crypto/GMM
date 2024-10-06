@@ -89,7 +89,7 @@ export default function VideoUploader({ field }: { field: any }) {
     <Card className="shadow-none text-sm space-y-3">
       <h1 className="font-bold">Video Upload</h1>
 
-      <p className="text-xs">
+      <p className="text-md">
         Upload a minimum 1-2 min video introducing yourself. Make yourself
         clearly Audible and Visible. Without any filters, background music or
         any special effects. Videos with unreasonable amount of make up altering
@@ -99,10 +99,10 @@ export default function VideoUploader({ field }: { field: any }) {
 
       {
         videoUrl && <div className="border border-secondary flex items-center bg-background h-8 px-3 justify-between gap-1 w-full">
-          <Label className="block text-nowrap font-normal text-xs line-clamp-1 max-w-36">
+          <Label className="block text-nowrap font-normal text-md line-clamp-1 max-w-36">
             <div className="w-full truncate">{fileName}</div>
           </Label>
-          <div className='flex gap-2 text-nowrap font-normal text-xs line-clamp-1'>
+          <div className='flex gap-2 text-nowrap font-normal text-md line-clamp-1'>
             <span className="cursor-pointer" onClick={() => console.log('play')}>
               <FontAwesomeIcon icon={faCirclePlay} />
             </span>
@@ -130,12 +130,12 @@ export default function VideoUploader({ field }: { field: any }) {
       </Label>
 
       <div className="flex flex-col sm:flex-row items-center gap-1 flex-wrap">
-        <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-xs h-7 text-secondary")}>
+        <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-md h-7 text-secondary")}>
           Browse Files
           <input type="file" accept="video/*" className='hidden' onChange={(e) => { handleVideoChange(e.target.files); e.target.value = '' }} />
         </Label>
         {isMobile && <><span>or</span>
-          <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-xs h-7 text-secondary")}>
+          <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-md h-7 text-secondary")}>
             Capture Video
             <input type="file" accept="video/*" capture className='hidden' onChange={(e) => { handleVideoChange(e.target.files); e.target.value = '' }} />
           </Label>

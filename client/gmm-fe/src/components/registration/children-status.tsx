@@ -15,7 +15,7 @@ export default function ChildrenStatus() {
         <div className="col-span-4 grid grid-cols-8 gap-x-5 gap-y-4">
             {hasChildren &&
                 <div className="space-y-1 col-span-8 sm:col-span-2">
-                    <Label className="font-normal text-xs line-clamp-1">Number of children</Label>
+                    <Label className="font-normal text-md line-clamp-1">Number of children</Label>
                     <FormField
                         name='numberOfChildren'
                         control={form.control}
@@ -23,7 +23,7 @@ export default function ChildrenStatus() {
                             <FormItem>
                                 <FormControl>
                                     <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                        <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -34,13 +34,13 @@ export default function ChildrenStatus() {
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
-                                <FormMessage className="text-xs" />
+                                <FormMessage className="text-md" />
                             </FormItem>)}
                     />
                 </div>
             }{hasChildren &&
                 <div className="space-y-1 col-span-4 sm:col-span-3">
-                    <Label className="font-normal text-xs line-clamp-1">Age of Oldest Child</Label>
+                    <Label className="font-normal text-md line-clamp-1">Age of Oldest Child</Label>
                     <FormField
                         name='ageOfOldestChild'
                         control={form.control}
@@ -48,7 +48,7 @@ export default function ChildrenStatus() {
                             <FormItem>
                                 <FormControl>
                                     <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                        <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent className='max-h-64'>
@@ -58,13 +58,13 @@ export default function ChildrenStatus() {
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
-                                <FormMessage className="text-xs" />
+                                <FormMessage className="text-md" />
                             </FormItem>)}
                     />
                 </div>
             }{hasChildren &&
                 <div className="space-y-1 col-span-4 sm:col-span-3">
-                    <Label className="font-normal text-xs line-clamp-1">Age of Youngest Child</Label>
+                    <Label className="font-normal text-md line-clamp-1">Age of Youngest Child</Label>
                     <FormField
                         name='ageOfYoungestChild'
                         control={form.control}
@@ -72,7 +72,7 @@ export default function ChildrenStatus() {
                             <FormItem>
                                 <FormControl>
                                     <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                                        <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                        <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                             <SelectValue />
                                         </SelectTrigger>
                                         <SelectContent className='max-h-64'>
@@ -82,7 +82,7 @@ export default function ChildrenStatus() {
                                         </SelectContent>
                                     </Select>
                                 </FormControl>
-                                <FormMessage className="text-xs" />
+                                <FormMessage className="text-md" />
                             </FormItem>)}
                     />
                 </div>

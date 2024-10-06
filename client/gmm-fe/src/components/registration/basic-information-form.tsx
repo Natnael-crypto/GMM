@@ -356,7 +356,7 @@ export default function BasicInformationForm() {
                     </FormItem>)}
                 />
               </div> */}
-              <div className="space-y-1 col-span-4">
+              <div className="space-y-1 col-span-4 sm:col-span-2">
                 <Label className="font-normal text-md line-clamp-1">Language(s) - Max 3</Label>
                 <FormField
                   name='languages'

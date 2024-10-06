@@ -124,10 +124,10 @@ export default function PhotoUploader({ field }: { field: any }) {
     <Card className="shadow-none text-sm space-y-3">
       <div className="flex justify-between items-end">
         <h1 className="font-bold">Photo Upload</h1>
-        <span className="text-xs">Max 8</span>
+        <span className="text-md">Max 8</span>
       </div>
 
-      <p className="text-xs">
+      <p className="text-md">
         Upload at least 5 clear pictures of yourself (without filters). All
         media such as video and pictures of sisters will be approved by sister
         admin(s) only.
@@ -192,18 +192,18 @@ export default function PhotoUploader({ field }: { field: any }) {
 
 
           <div className="flex flex-col sm:flex-row items-center gap-1 flex-wrap">
-            <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-xs h-7 text-secondary")}>
+            <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-md h-7 text-secondary")}>
               Browse Files
               <input type="file" accept="image/*" className='hidden' onChange={(e) => { insertImage(e.target.files); e.target.value = '' }} />
             </Label>
 
             <span>or</span>
 
-            {isMobile ? <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-xs h-7 text-secondary")}>
+            {isMobile ? <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-md h-7 text-secondary")}>
               Capture Image
               <input type="file" accept="image/*" capture="user" className='hidden' onChange={(e) => { insertImage(e.target.files); e.target.value = '' }} />
             </Label> : <Dialog open={isCaptureImageOpen}  >
-              <DialogTrigger className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-xs h-7 text-secondary")} onClick={() => setIsCaptureImageOpen(true)}>
+              <DialogTrigger className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-md h-7 text-secondary")} onClick={() => setIsCaptureImageOpen(true)}>
                 Capture Image
               </DialogTrigger>
               <DialogContent>
