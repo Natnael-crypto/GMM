@@ -53,10 +53,10 @@ export default async function GMMHero() {
 
           {/* Hero text */}
           <div>
-            <h1 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl lg:leading-[3.6rem] font-bold text-primary-foreground text-wrap">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl lg:leading-[3.6rem] font-bold text-primary-foreground text-wrap">
               {t('hero.title')}
             </h1>
-            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font- text-white mt-4 text-wrap">
+            <h2 className="text-xl lg:text-3xl font- text-white mt-4 text-wrap">
               {t('hero.subtitle')}
             </h2>
           </div>
