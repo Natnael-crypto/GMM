@@ -51,7 +51,8 @@ export default function AdminSidebar() {
             <div className='space-y-2'>
                 <SidebarSection title='Users'>
                     <SidebarLink href="/admin/users">All Users</SidebarLink>
-                    <SidebarLink href="">Matches</SidebarLink>
+                    <SidebarLink href="/admin/match-pool">Match Pool</SidebarLink>
+                    <SidebarLink href="/admin/matches">Matches</SidebarLink>
                 </SidebarSection>
 
                 <SidebarSection title='Subscription'>

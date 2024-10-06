@@ -33,8 +33,6 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[],
     isLoading?: boolean,
-    // renderButton: (data: TData, onUpdate: (updatedData: TData) => void) => ReactNode,
-    // onUpdate: (updatedData: TData) => void
 }
 
 export function DataTable<TData, TValue>({

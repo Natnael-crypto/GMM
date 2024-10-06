@@ -3,11 +3,12 @@ import { constants } from '@/config';
 import { RootState } from '../store';
 import { BaseResponse } from '@/types/base-response';
 import { Match } from './types';
+import { UserInMatchPool } from '../schemas/match';
 
 export const matchApi = createApi({
   reducerPath: 'matchApi',
 
-  tagTypes: ['Match', 'MatchCount'],
+  tagTypes: ['Match', 'MatchCount', 'UserInMatchPool'],
 
   baseQuery: fetchBaseQuery({
     baseUrl: constants.apiBaseUrl,
@@ -86,6 +87,42 @@ export const matchApi = createApi({
         return [{ type: 'Match', id: arg }];
       },
     }),
+
+    getMatchPool: builder.query<UserInMatchPool[], undefined>({
+      query: () => 'matchmaking/users-in-pool',
+      transformResponse: (response: BaseResponse<UserInMatchPool[]>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return result
+          ? [
+              { type: 'UserInMatchPool' as const, id: 'LIST' },
+              ...result.map((user) => ({
+                type: 'UserInMatchPool' as const,
+                id: user.userId,
+              })),
+            ]
+          : [{ type: 'UserInMatchPool' as const }];
+      },
+    }),
+
+    getAllMatches: builder.query<Match[], undefined>({
+      query: () => 'matchmaking/all-matches',
+      transformResponse: (response: BaseResponse<Match[]>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return result
+          ? [
+              { type: 'Match' as const, id: 'LIST' },
+              ...result.map((match) => ({
+                type: 'Match' as const,
+                id: match.id,
+              })),
+            ]
+          : [{ type: 'Match' as const }];
+      },
+    }),
   }),
 });
 
@@ -96,4 +133,6 @@ export const {
   useCreateMatchMutation,
   useUnmatchMutation,
   useCountPotentialMatchesQuery,
+  useGetMatchPoolQuery,
+  useGetAllMatchesQuery,
 } = matchApi;
