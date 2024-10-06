@@ -34,7 +34,7 @@ export default function InteractiveCarousel({
 
   return (
     <div className="w-full">
-      <Carousel setApi={setApi} className="w-full h-[75vh]">
+      <Carousel setApi={setApi} className="w-full h-fit">
         <CarouselContent>{children}</CarouselContent>
         {/* <CarouselPrevious className="w-10 lg:w-20" />
         <CarouselNext className="end-0 w-10 lg:w-20" /> */}
