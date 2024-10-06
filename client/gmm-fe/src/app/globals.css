@@ -49,6 +49,14 @@
     line-height: 1.5rem;
   }
 
+  .h-\[65vh\] {
+    height: 65vh
+}
+
+.h-\[55vh\] {
+  height: 55vh
+}
+
   .dark {
     /* --background: 222.2 84% 4.9%; */
     --background: 218.2 30% 5.9%;

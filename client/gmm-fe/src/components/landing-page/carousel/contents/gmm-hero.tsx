@@ -14,11 +14,11 @@ export default async function GMMHero() {
 
   return (
     <div className="relative">
-      <div className="absolute -z-10 lg:z-0 lg:static lg:flex lg:w-full h-[85vh]">
+      <div className="absolute -z-10 lg:z-0 lg:static lg:flex lg:w-full">
         <Image
           src="/assets/hero-image-1.jpg"
           className={cn(
-            'hidden sm:block object-cover w-full h-[75vh]',
+            'hidden sm:block object-cover w-full h-[55vh]',
             localeDirection[locale] === 'rtl' ? '-scale-x-100' : ''
           )}
           width={1920}
@@ -28,7 +28,7 @@ export default async function GMMHero() {
         <Image
           src="/assets/hero-image-green.jpg"
           className={cn(
-            'sm:hidden object-cover w-full h-[75vh]',
+            'sm:hidden object-cover w-full h-[55vh]',
             localeDirection[locale] === 'rtl' ? '-scale-x-100' : ''
           )}
           width={1920}
