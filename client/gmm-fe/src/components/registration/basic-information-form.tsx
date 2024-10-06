@@ -150,13 +150,7 @@ export default function BasicInformationForm() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="col-span-3 grid grid-cols-3 gap-x-4 gap-y-4">
 
-          <div className="hidden lg:block col-span-1"></div>
-          <div className="col-span-3 lg:col-span-2 flex flex-col sm:flex-row justify-between items-center border-b border-b-secondary pb-1">
-            <h1 className="text-primary text-lg font-bold">Basic Information</h1>
-            <span className="text-destructive font-bold text-xs">
-              Please Answer All Questions Accurately
-            </span>
-          </div>
+
 
           <div className="col-span-3 grid grid-cols-3 gap-x-5 gap-y-4 h-fit">
             <div className="relative col-span-3 lg:col-span-1 gap-y-4 gap-x-5 grid grid-cols-4">
@@ -168,7 +162,7 @@ export default function BasicInformationForm() {
                     render={({ field }) => (
                       <FormItem>
                         <PhotoUploader field={field} />
-                        <FormMessage className='text-xs' />
+                        <FormMessage className='text-md' />
                       </FormItem>)}
                   />
                 </div>
@@ -179,7 +173,7 @@ export default function BasicInformationForm() {
                     render={({ field }) => (
                       <FormItem>
                         <VideoUploader field={field} />
-                        <FormMessage className='text-xs' />
+                        <FormMessage className='text-md' />
                       </FormItem>
                     )}
                   />
@@ -189,8 +183,14 @@ export default function BasicInformationForm() {
 
             <div className="hidden md:block lg:hidden col-span-1"></div>
             <div className='col-span-3 lg:col-span-2 grid grid-cols-4 gap-y-4 gap-x-5 h-fit'>
+              <div className="col-span-4 flex flex-col sm:flex-row justify-between items-center border-b border-b-secondary pb-1">
+                <h1 className="text-primary text-lg font-bold">Basic Information</h1>
+                <span className="text-destructive font-bold text-md">
+                  Please Answer All Questions Accurately
+                </span>
+              </div>
               <div className="col-span-4 sm:col-span-2 space-y-1 items-center h-fit">
-                <Label className="text-nowrap font-normal text-xs line-clamp-1">First Name</Label>
+                <Label className="text-nowrap font-normal text-md line-clamp-1">First Name</Label>
                 <FormField
                   name='firstName'
                   control={form.control}
@@ -198,17 +198,17 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Input
-                          className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                          className="text-muted-foreground bg-background text-md shadow rounded-sm"
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
               </div>
 
               <div className="col-span-4 sm:col-span-2 space-y-1 items-center h-fit">
-                <Label className="text-nowrap font-normal text-xs line-clamp-1">Last Name</Label>
+                <Label className="text-nowrap font-normal text-md line-clamp-1">Last Name</Label>
                 <FormField
                   name='lastName'
                   control={form.control}
@@ -216,18 +216,18 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Input
-                          className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                          className="text-muted-foreground bg-background text-md shadow rounded-sm"
                           {...field}
                         />
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
 
               </div>
 
               <div className="space-y-1 col-span-2 lg:col-span-1">
-                <Label className="font-normal text-xs line-clamp-1">Age (Year)</Label>
+                <Label className="font-normal text-md line-clamp-1">Age (Year)</Label>
                 <FormField
                   name='age'
                   control={form.control}
@@ -235,7 +235,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className='max-h-64'>
@@ -245,13 +245,13 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
               </div>
 
               <div className="space-y-1 col-span-2 lg:col-span-1">
-                <Label className="font-normal text-xs line-clamp-1">Gender</Label>
+                <Label className="font-normal text-md line-clamp-1">Gender</Label>
                 <FormField
                   name='gender'
                   control={form.control}
@@ -259,7 +259,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -268,13 +268,13 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
               </div>
 
               <div className="space-y-1 col-span-2 lg:col-span-1">
-                <Label className="font-normal text-xs line-clamp-1">Height</Label>
+                <Label className="font-normal text-md line-clamp-1">Height</Label>
                 <FormField
                   name='height'
                   control={form.control}
@@ -282,7 +282,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className='max-h-64'>
@@ -290,14 +290,14 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
 
               </div>
 
               <div className="space-y-1 col-span-2 lg:col-span-1">
-                <Label className="font-normal text-xs line-clamp-1">Weight</Label>
+                <Label className="font-normal text-md line-clamp-1">Weight</Label>
                 <FormField
                   name='weight'
                   control={form.control}
@@ -305,7 +305,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className='max-h-64'>
@@ -313,27 +313,27 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
               </div>
 
               <div className="space-y-1 col-span-4 sm:col-span-2">
-                <Label className="font-normal text-xs line-clamp-1">Country of Origin</Label>
+                <Label className="font-normal text-md line-clamp-1">Country of Origin</Label>
                 <FormField
                   name='country'
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
               </div>
               {/* <div className="space-y-1 col-span-4 sm:col-span-2">
-                <Label className="font-normal text-xs line-clamp-1">Skin Color</Label>
+                <Label className="font-normal text-md line-clamp-1">Skin Color</Label>
                 <FormField
                   name='skinColor'
                   control={form.control}
@@ -341,7 +341,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -352,58 +352,58 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
               </div> */}
               <div className="space-y-1 col-span-4">
-                <Label className="font-normal text-xs line-clamp-1">Language(s) - Max 3</Label>
+                <Label className="font-normal text-md line-clamp-1">Language(s) - Max 3</Label>
                 <FormField
                   name='languages'
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Multiselect onChange={field.onChange} selectedOptions={field.value} title="Language" max={3} initOptions={languages} placeholder='Select' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                        <Multiselect onChange={field.onChange} selectedOptions={field.value} title="Language" max={3} initOptions={languages} placeholder='Select' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
 
 
               </div>
               <div className="space-y-1 col-span-4 sm:col-span-2">
-                <Label className="font-normal text-xs line-clamp-1">Nationality/Passport</Label>
+                <Label className="font-normal text-md line-clamp-1">Nationality/Passport</Label>
                 <FormField
                   name='nationality'
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
 
               </div>
               <div className="space-y-1 col-span-4 sm:col-span-2">
-                <Label className="font-normal text-xs line-clamp-1">Current City</Label>
+                <Label className="font-normal text-md line-clamp-1">Current City</Label>
                 <FormField
                   name='city'
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={cityOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={cityOptions} placeholder='' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
 
               </div>
               <div className="space-y-1 col-span-4 sm:col-span-2">
-                <Label className="font-normal text-xs line-clamp-1">Marital Status</Label>
+                <Label className="font-normal text-md line-clamp-1">Marital Status</Label>
                 <FormField
                   name='maritalStatus'
                   control={form.control}
@@ -411,7 +411,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -423,14 +423,14 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
 
               </div>
 
               <div className="space-y-1 col-span-4 sm:col-span-2">
-                <Label className="font-normal text-xs line-clamp-1">Do you have children?</Label>
+                <Label className="font-normal text-md line-clamp-1">Do you have children?</Label>
                 <FormField
                   name='hasChildren'
                   control={form.control}
@@ -438,7 +438,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -450,7 +450,7 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>
                   )}
                 />
@@ -460,7 +460,7 @@ export default function BasicInformationForm() {
 
               <div className="col-span-4 grid grid-cols-8 gap-x-5 gap-y-4">
                 <div className="space-y-1 col-span-8 sm:col-span-2">
-                  <Label className="font-normal text-xs line-clamp-1">Sunni-Madhaib</Label>
+                  <Label className="font-normal text-md line-clamp-1">Sunni-Madhaib</Label>
                   <FormField
                     name='sunniMadhaib'
                     control={form.control}
@@ -468,7 +468,7 @@ export default function BasicInformationForm() {
                       <FormItem>
                         <FormControl>
                           <Select onValueChange={field.onChange} value={field.value}>
-                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -480,14 +480,14 @@ export default function BasicInformationForm() {
                             </SelectContent>
                           </Select>
                         </FormControl>
-                        <FormMessage className="text-xs" />
+                        <FormMessage className="text-md" />
                       </FormItem>)}
                   />
 
                 </div>
 
                 <div className="space-y-1 col-span-8 sm:col-span-3">
-                  <Label className="font-normal text-xs line-clamp-1">Religious Practice</Label>
+                  <Label className="font-normal text-md line-clamp-1">Religious Practice</Label>
                   <FormField
                     name='religiousPractice'
                     control={form.control}
@@ -495,7 +495,7 @@ export default function BasicInformationForm() {
                       <FormItem>
                         <FormControl>
                           <Select onValueChange={field.onChange} value={field.value}>
-                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -507,13 +507,13 @@ export default function BasicInformationForm() {
                             </SelectContent>
                           </Select>
                         </FormControl>
-                        <FormMessage className="text-xs" />
+                        <FormMessage className="text-md" />
                       </FormItem>)}
                   />
 
                 </div>
                 <div className="space-y-1 col-span-8 sm:col-span-3">
-                  <Label className="font-normal text-xs line-clamp-1">
+                  <Label className="font-normal text-md line-clamp-1">
                     Born/Reverted to Islam
                   </Label>
                   <FormField
@@ -523,7 +523,7 @@ export default function BasicInformationForm() {
                       <FormItem>
                         <FormControl>
                           <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -532,14 +532,14 @@ export default function BasicInformationForm() {
                             </SelectContent>
                           </Select>
                         </FormControl>
-                        <FormMessage className="text-xs" />
+                        <FormMessage className="text-md" />
                       </FormItem>)}
                   />
                 </div>
               </div>
 
               <div className="space-y-1 col-span-2 sm:col-span-1">
-                <Label className="font-normal text-xs line-clamp-1">Drinks</Label>
+                <Label className="font-normal text-md line-clamp-1">Drinks</Label>
                 <FormField
                   name='drinks'
                   control={form.control}
@@ -547,7 +547,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -556,12 +556,12 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
               </div>
               <div className="space-y-1 col-span-2 sm:col-span-1">
-                <Label className="font-normal text-xs line-clamp-1 text-nowrap">
+                <Label className="font-normal text-md line-clamp-1 text-nowrap">
                   Drugs{' '}
                   <span className="text-[0.6rem] text-nowrap">
                     (Including Cannabis)
@@ -574,7 +574,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -583,12 +583,12 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
               </div>
               <div className="space-y-1 col-span-2 sm:col-span-1">
-                <Label className="font-normal text-xs line-clamp-1">
+                <Label className="font-normal text-md line-clamp-1">
                   Smokes <span className="text-[0.6rem]">(Vapping/Shisha)</span>
                 </Label>
                 <FormField
@@ -598,7 +598,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -607,13 +607,13 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
               </div>
 
               <div className="space-y-1 col-span-2 sm:col-span-1">
-                <Label className="font-normal text-xs line-clamp-1">Tattoo(s)</Label>
+                <Label className="font-normal text-md line-clamp-1">Tattoo(s)</Label>
                 <FormField
                   name='tattoos'
                   control={form.control}
@@ -621,7 +621,7 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -630,7 +630,7 @@ export default function BasicInformationForm() {
                           </SelectContent>
                         </Select>
                       </FormControl>
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>)}
                 />
               </div>

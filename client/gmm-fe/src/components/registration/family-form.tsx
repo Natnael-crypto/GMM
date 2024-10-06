@@ -55,13 +55,13 @@ export default function FamilyIntroductionForm() {
         <h1 className="text-primary text-lg font-bold">
           Family/Guardian Introduction
         </h1>
-        <span className="text-destructive font-bold text-xs">
+        <span className="text-destructive font-bold text-md">
           Please Answer All Questions Accurately
         </span>
       </div>
       <div className="grid grid-cols-12 gap-x-3 gap-y-3 py-4">
         <div className="space-y-1 col-span-6">
-          <Label className="font-normal text-xs line-clamp-1">
+          <Label className="font-normal text-md line-clamp-1">
             {t('guardianInformation.fullName')}
           </Label>
           <FormField
@@ -72,17 +72,17 @@ export default function FamilyIntroductionForm() {
                 <FormControl>
                   <Input
                     {...field}
-                    className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                    className="text-muted-foreground bg-background text-md shadow rounded-sm"
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
         </div>
 
         <div className="space-y-1 col-span-6">
-          <Label className="font-normal text-xs line-clamp-1">
+          <Label className="font-normal text-md line-clamp-1">
             {t('guardianInformation.relationship')}
           </Label>
           <FormField
@@ -92,7 +92,7 @@ export default function FamilyIntroductionForm() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
                     </SelectTrigger>
 
@@ -106,13 +106,13 @@ export default function FamilyIntroductionForm() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>)}
           />
         </div>
 
         <div className="space-y-1 col-span-6">
-          <Label className="font-normal text-xs line-clamp-1">
+          <Label className="font-normal text-md line-clamp-1">
             {t('guardianInformation.phoneNumber')}
           </Label>
           <FormField
@@ -123,17 +123,17 @@ export default function FamilyIntroductionForm() {
                 <FormControl>
                   <Input
                     {...field}
-                    className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                    className="text-muted-foreground bg-background text-md shadow rounded-sm"
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
         </div>
 
         <div className="space-y-1 col-span-6">
-          <Label className="font-normal text-xs line-clamp-1">{t('guardianInformation.email')}{" "}
+          <Label className="font-normal text-md line-clamp-1">{t('guardianInformation.email')}{" "}
           </Label>
           <FormField
             name="guardianEmail"
@@ -143,10 +143,10 @@ export default function FamilyIntroductionForm() {
                 <FormControl>
                   <Input
                     {...field}
-                    className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                    className="text-muted-foreground bg-background text-md shadow rounded-sm"
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -158,7 +158,7 @@ export default function FamilyIntroductionForm() {
         </h1>
 
         <div className="space-y-1 col-span-12">
-          <Label className="font-normal text-xs line-clamp-1">
+          <Label className="font-normal text-md line-clamp-1">
             {t('idVerification.phoneNumber')}
           </Label>
           <FormField
@@ -169,17 +169,17 @@ export default function FamilyIntroductionForm() {
                 <FormControl>
                   <Input
                     {...field}
-                    className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                    className="text-muted-foreground bg-background text-md shadow rounded-sm"
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
         </div>
 
         <div className="space-y-1 col-span-12">
-          <Label className="font-normal text-xs line-clamp-1">
+          <Label className="font-normal text-md line-clamp-1">
             {t('idVerification.id')}
           </Label>
           <FormField
@@ -193,13 +193,13 @@ export default function FamilyIntroductionForm() {
                       type="file"
                       accept="image/*"
                       onChange={(e) => handleImageChange(e.target.files, field)}
-                      className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                      className="text-muted-foreground bg-background text-md shadow rounded-sm"
 
                     />
                   }
 
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
