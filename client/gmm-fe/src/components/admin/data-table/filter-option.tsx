@@ -2,8 +2,9 @@
 
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
+import { setQueryString } from '@/lib/admin/slice'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { FilterRule, UserField, UserQueryParams } from '@/lib/user/types'
-import { useSearchParams } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
 const labels: Record<FilterRule, string> = {
@@ -23,8 +24,10 @@ const labels: Record<FilterRule, string> = {
 
 
 export default function FilterOptionItem({ column, option }: { column: any, option: FilterRule }) {
-    const searchParams = useSearchParams()
-    const initQueryParams = UserQueryParams.fromQueryString(searchParams.toString())
+    const queryString = useAppSelector((state) => state.adminUserFilter.queryString);
+    const dispatch = useAppDispatch()
+
+    const initQueryParams = UserQueryParams.fromQueryString(queryString)
     const filter = initQueryParams.filters[column.id as UserField]?.[option]
     const isActive = filter ? true : false
 
@@ -59,7 +62,7 @@ export default function FilterOptionItem({ column, option }: { column: any, opti
             }
         }
 
-        window.history.replaceState(null, '', `?${queryParams.toQueryString()}`)
+        dispatch(setQueryString(queryParams.toQueryString()))
     }
 
     return <div className='flex gap-2 items-center justify-between flex-nowrap text-nowrap w-full'>

@@ -87,13 +87,14 @@ export const login = async (data: Login) => {
 
   if (!response.ok) {
     if (response.status == 404) {
-      return { status: 200, message: res.message };
+      return { status: 200, token: accessToken, message: res.message };
     }
     return { status: 400, message: 'Unable to login' };
   }
 
   return {
     status: 200,
+    token: accessToken,
     message: res.message,
     subscription: res.data,
   };

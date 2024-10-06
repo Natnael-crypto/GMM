@@ -4,7 +4,7 @@
 import { useTranslations } from 'next-intl';
 
 import { useAppSelector } from '@/lib/hooks';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useCreatePaymentIntentMutation } from '@/lib/checkout/api';
 
 
@@ -28,22 +28,20 @@ export function CheckoutForm() {
 
   const [selectedOption, setSelectedOption] = useState<string | null>('3_months');
 
-  const onPlanChange = async (plan: string) => {
+  const onPlanChange = useCallback(async (plan: string) => {
     try {
       await createPaymentIntent(plan).unwrap();
       setSelectedOption(plan);
     } catch (error) {
       console.error(error);
     }
-  };
+  }, [createPaymentIntent]);
 
   useEffect(() => {
     if (user) {
       onPlanChange('3_months');
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, onPlanChange]);
 
   const appearance: Appearance = {
     theme: 'flat',

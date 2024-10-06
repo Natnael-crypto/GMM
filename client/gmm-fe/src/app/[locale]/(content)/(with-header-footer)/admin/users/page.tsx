@@ -4,21 +4,21 @@ import { DataTable } from '@/components/admin/data-table/data-table'
 import { columns } from '@/components/admin/user-columns'
 import { useAppSelector } from '@/lib/hooks'
 import { useLazyGetUsersQuery } from '@/lib/user/api'
-import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
+import { useDebounce } from 'use-debounce'
 
 export default function AdminPage() {
     const user = useAppSelector((state) => state.auth.user)
-
-    const searchParams = useSearchParams()
+    const queryString = useAppSelector((state) => state.adminUserFilter.queryString);
+    const [debouncedSearchParams] = useDebounce(queryString, 500)
 
     const [trigger, result, lastPromiseInfo] = useLazyGetUsersQuery()
 
     useEffect(() => {
         if (user) {
-            trigger(searchParams.toString())
+            trigger(debouncedSearchParams)
         }
-    }, [user, trigger, searchParams])
+    }, [user, trigger, debouncedSearchParams])
 
     return (
         <div className='p-5 space-y-5'>
