@@ -192,7 +192,7 @@ export default function PhotoUploader({ field }: { field: any }) {
 
 
           <div className="flex flex-col sm:flex-row items-center gap-1 flex-wrap">
-            <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-md h-7 text-secondary")}>
+            <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-sm h-7 text-secondary")}>
               Browse Files
               <input type="file" accept="image/*" className='hidden' onChange={(e) => { insertImage(e.target.files); e.target.value = '' }} />
             </Label>
@@ -203,7 +203,7 @@ export default function PhotoUploader({ field }: { field: any }) {
               Capture Image
               <input type="file" accept="image/*" capture="user" className='hidden' onChange={(e) => { insertImage(e.target.files); e.target.value = '' }} />
             </Label> : <Dialog open={isCaptureImageOpen}  >
-              <DialogTrigger className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-md h-7 text-secondary")} onClick={() => setIsCaptureImageOpen(true)}>
+              <DialogTrigger className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-sm h-7 text-secondary")} onClick={() => setIsCaptureImageOpen(true)}>
                 Capture Image
               </DialogTrigger>
               <DialogContent>

@@ -185,7 +185,7 @@ export default function BasicInformationForm() {
             <div className='col-span-3 lg:col-span-2 grid grid-cols-4 gap-y-4 gap-x-5 h-fit'>
               <div className="col-span-4 flex flex-col sm:flex-row justify-between items-center border-b border-b-secondary pb-1">
                 <h1 className="text-primary text-lg font-bold">Basic Information</h1>
-                <span className="text-destructive font-bold text-md">
+                <span className="text-destructive font-bold text-xs">
                   Please Answer All Questions Accurately
                 </span>
               </div>

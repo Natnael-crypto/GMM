@@ -55,7 +55,7 @@ export default function FamilyIntroductionForm() {
         <h1 className="text-primary text-lg font-bold">
           Family/Guardian Introduction
         </h1>
-        <span className="text-destructive font-bold text-md">
+        <span className="text-destructive font-bold text-xs">
           Please Answer All Questions Accurately
         </span>
       </div>
