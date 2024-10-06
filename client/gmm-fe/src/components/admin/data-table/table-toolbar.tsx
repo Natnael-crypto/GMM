@@ -9,9 +9,10 @@ import { DataTableViewOptions } from "./table-view-options"
 
 import { DataTableFacetedFilter } from "./table-faceted-filter"
 import { useEffect, useState } from "react"
-import { useSearchParams } from "next/navigation"
 import { UserField, UserQueryParams } from "@/lib/user/types"
 import { userToolbarOptions } from "./user-toolbar-options"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { setQueryString } from "@/lib/admin/slice"
 
 interface DataTableToolbarProps<TData> {
     table: Table<TData>
@@ -22,8 +23,9 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
     const isFiltered = table.getState().columnFilters.length > 0
 
-    const searchParams = useSearchParams()
-    const initialSearchValue = UserQueryParams.fromQueryString(searchParams.toString())
+    const queryString = useAppSelector((state) => state.adminUserFilter.queryString);
+    const dispatch = useAppDispatch()
+    const initialSearchValue = UserQueryParams.fromQueryString(queryString)
 
     const [filterKey, setFilterKey] = useState<UserField>('firstName')
     const [searchValue, setSearchValue] = useState<string>('')
@@ -54,8 +56,8 @@ export function DataTableToolbar<TData>({
             }
         }
 
-        window.history.replaceState(null, '', `?${queryParams.toQueryString()}`)
-    }, [searchValue, filterKey])
+        dispatch(setQueryString(queryParams.toQueryString()))
+    }, [searchValue, filterKey, dispatch, initialSearchValue])
 
 
     const handleUpdateSearchFilterKey = (value?: string) => {
@@ -68,7 +70,7 @@ export function DataTableToolbar<TData>({
             }
         }
 
-        window.history.replaceState(null, '', `?${queryParams.toQueryString()}`)
+        dispatch(setQueryString(queryParams.toQueryString()))
         setFilterKey(value as UserField ?? 'firstName')
     }
 

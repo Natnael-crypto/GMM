@@ -16,10 +16,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { useSearchParams } from "next/navigation"
+
 import { FilterRule, UserField, UserQueryParams } from "@/lib/user/types"
 import React from "react"
 import FilterOptionItem from "./filter-option"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { setQueryString } from "@/lib/admin/slice"
 
 interface DataTableColumnHeaderProps<TData, TValue>
     extends React.HTMLAttributes<HTMLDivElement> {
@@ -34,8 +36,9 @@ export function DataTableColumnHeader<TData, TValue>({
     className,
     options
 }: DataTableColumnHeaderProps<TData, TValue>) {
-    const searchParams = useSearchParams()
-    const initQueryParams = UserQueryParams.fromQueryString(searchParams.toString())
+    const queryString = useAppSelector((state) => state.adminUserFilter.queryString);
+    const dispatch = useAppDispatch()
+    const initQueryParams = UserQueryParams.fromQueryString(queryString)
 
     if (!column.getCanSort()) {
         return <div className={cn(className)}>{title}</div>
@@ -53,7 +56,8 @@ export function DataTableColumnHeader<TData, TValue>({
             queryParams.sort = undefined
         }
 
-        window.history.replaceState(null, '', `?${queryParams.toQueryString()}`)
+        dispatch(setQueryString(queryParams.toQueryString()))
+        // window.history.replaceState(null, '', `?${queryParams.toQueryString()}`)
     }
 
     return (

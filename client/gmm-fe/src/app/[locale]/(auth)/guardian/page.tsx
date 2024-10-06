@@ -14,8 +14,6 @@ export default function GuardianRequests() {
     const { data: receivedRequests, isLoading } = useGetReceivedRequestsQuery(undefined, { skip: !user });
     const [acceptRequest] = useAcceptRequestMutation();
 
-    console.log(receivedRequests)
-
     const handleAcceptRequest = async (id: number) => {
         try {
             await acceptRequest(id).unwrap();
