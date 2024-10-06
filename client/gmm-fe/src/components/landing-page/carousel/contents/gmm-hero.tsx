@@ -13,9 +13,6 @@ export default async function GMMHero() {
   const session = await auth();
 
   return (
-    <div>
-      <p>Test</p>
-    </div>>
     <div className="relative">
       <div className="absolute -z-10 lg:z-0 lg:static lg:flex lg:w-full h-[85vh]">
         <Image
