@@ -157,8 +157,8 @@ export class AuthController {
 
       const otpVerificationKey = await this.authService.registerUserWithEmail({
         email,
-        firstname: registrationDto.firstname,
-        lastname: registrationDto.lastname,
+        firstName: registrationDto.firstname,
+        lastName: registrationDto.lastname,
         password: registrationDto.password,
         roleId: guardianRole.name,
       });
