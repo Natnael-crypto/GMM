@@ -11,7 +11,7 @@ export default function AdminPage() {
 
     return (
         <div className='p-5 space-y-5'>
-            <h1 className='text-2xl font-bold'>Users</h1>
+            <h1 className='text-2xl font-bold'>Matches</h1>
 
             {<DataTable
                 data={matches ? matches : []}
