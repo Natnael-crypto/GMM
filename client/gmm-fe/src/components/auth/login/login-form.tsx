@@ -24,6 +24,8 @@ import { toast } from '@/components/ui/use-toast';
 import { useRouter } from '@/lib/navigation';
 import Loading from '@/components/ui/loading';
 import { useSearchParams } from 'next/navigation';
+import { useAppDispatch } from '@/lib/hooks';
+import { setToken } from '@/lib/auth/slice';
 
 export function LoginForm() {
   const t = useTranslations('Auth.login');
@@ -31,6 +33,7 @@ export function LoginForm() {
   const [isLoginInProgress, setLoginInProgress] = useState(false);
   const { replace } = useRouter();
   const searchParams = useSearchParams();
+  const dispatch = useAppDispatch();
 
   const form = useForm<Login>({
     resolver: zodResolver(LoginSchema),
@@ -49,6 +52,8 @@ export function LoginForm() {
       toast({
         title: 'Welcome Back!',
       });
+
+      dispatch(setToken(response.token));
 
       if (response.subscription) {
         replace('/dashboard');
