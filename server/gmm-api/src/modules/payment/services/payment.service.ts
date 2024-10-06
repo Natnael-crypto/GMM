@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
 import { Subscription } from '../entities/subscription.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { User } from '@modules/user/entities/user.entity';
@@ -312,7 +312,7 @@ export class PaymentsService {
 
   async getRemainingMatches(userId: string): Promise<number> {
     const subscription = await this.subscriptionRepository.findOne({
-      where: { user: { id: userId }, status: 'active' },
+      where: { user: { id: userId }, status: In(['active', 'succeeded']) },
     });
 
     if (!subscription) {
