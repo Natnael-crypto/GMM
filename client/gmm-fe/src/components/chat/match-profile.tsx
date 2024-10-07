@@ -88,11 +88,11 @@ export default function MatchProfile({ matchedUser }: { matchedUser: User }) {
             </Link>
             <Link href="/dashboard/compatibility/basic-information" className={cn(buttonVariants({ variant: 'default' }), "bg-secondary text-primary-foreground text-[0.6rem] h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]")}>
               <FontAwesomeIcon icon={faPeopleArrows} />
-              <span>Check Compatibility</span>
+              <span>Compatibility</span>
             </Link>
             <Link href="/dashboard" className={cn(buttonVariants({ variant: 'default' }), "bg-secondary text-primary-foreground text-[0.6rem] h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]")}>
               <FontAwesomeIcon icon={faHome} />
-              <span>Go to Dashboard</span>
+              <span>Dashboard</span>
             </Link>
           </div>
         </div>
