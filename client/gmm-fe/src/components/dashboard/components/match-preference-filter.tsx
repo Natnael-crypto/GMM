@@ -23,8 +23,8 @@ import { setUser } from '@/lib/auth/slice';
 import { useCreateMatchMutation } from '@/lib/matchmaking/api';
 import AutoComplete from '@/components/ui/searchable-select';
 import { countries } from '@/lib/schemas/user';
-import { useSearchParams } from 'next/navigation';
 import { setQueryString } from '@/lib/matchmaking/slice';
+import { cmToFeetInches, kgToPounds } from '@/lib/format';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -40,7 +40,7 @@ export default function MatchPreferenceFilter() {
     defaultValues: {
       preferredAge: user?.preference?.preferredAge || [18, 100],
       preferredHeight: user?.preference?.preferredHeight || [0, 300],
-      preferredWeight: user?.preference?.preferredWeight || [0, 300],
+      preferredWeight: user?.preference?.preferredWeight || [0, 220],
       ethnicOrigin: user?.preference?.ethnicOrigin || '',
       nationality: user?.preference?.nationality || '',
       language: user?.preference?.language || '',
@@ -251,7 +251,7 @@ export default function MatchPreferenceFilter() {
             control={form.control}
             render={({ field }) => (<>
               <Slider value={field.value} onValueChange={field.onChange} min={18} max={100} step={1} />
-              <div className="text-[0.6rem] flex gap-1 text-primary font-bold justify-center">
+              <div className="text-[0.7rem] flex gap-1 text-primary font-bold justify-center">
                 <span>{field.value?.join(' - ')}</span>
               </div>
             </>)}
@@ -271,10 +271,14 @@ export default function MatchPreferenceFilter() {
             control={form.control}
             render={({ field }) => (<>
               <Slider value={field.value} onValueChange={field.onChange} max={300} step={1} />
-              <div className="text-[0.6rem] flex gap-1 text-primary font-bold justify-center">
+              <div className="text-[0.7rem] flex gap-1 text-primary font-bold justify-center">
                 <span>{field.value && field.value[0]} cm </span>
                 <span>-</span>
                 <span>{field.value && field.value[1]} cm</span>
+                |
+                <span>{field.value && cmToFeetInches(field.value[0])} </span>
+                <span>-</span>
+                <span>{field.value && cmToFeetInches(field.value[1])}</span>
               </div>
             </>)}
           />
@@ -293,11 +297,15 @@ export default function MatchPreferenceFilter() {
             control={form.control}
             render={({ field }) => (
               <>
-                <Slider value={field.value} onValueChange={field.onChange} max={300} step={1} />
-                <div className="text-[0.6rem] flex gap-1 text-primary font-bold justify-center">
+                <Slider value={field.value} onValueChange={field.onChange} max={220} step={1} />
+                <div className="text-[0.7rem] flex gap-1 text-primary font-bold justify-center">
                   <span>{field.value && field.value[0]} Kg</span>
                   <span>-</span>
                   <span>{field.value && field.value[1]} Kg</span>
+                  |
+                  <span>{field.value && kgToPounds(field.value[0])}</span>
+                  <span>-</span>
+                  <span>{field.value && kgToPounds(field.value[1])}</span>
                 </div>
               </>)
             }
