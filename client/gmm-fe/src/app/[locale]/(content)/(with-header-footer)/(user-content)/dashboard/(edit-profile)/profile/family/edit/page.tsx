@@ -27,7 +27,7 @@ export default function FamilyIntroductionPage() {
             {t('optionalVerifiable.title')}
           </h1>
 
-          <div className="space-y-3 col-span-12 font-no">
+          <div className="hidden space-y-3 col-span-12">
             <p className="text-muted-foreground">
               {t('optionalVerifiable.p1')}
             </p>
@@ -37,7 +37,7 @@ export default function FamilyIntroductionPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-12 gap-y-3 gap-x-3 text-xs">
+        <div className="hidden grid-cols-12 gap-y-3 gap-x-3 text-xs">
           <div className="col-span-1">
             <Verified />
           </div>
