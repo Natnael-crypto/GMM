@@ -4,6 +4,7 @@ import { useUpdateProfileContext } from '@/components/dashboard/profile/update-p
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import Multiselect from '@/components/ui/multi-select';
 import AutoComplete from '@/components/ui/searchable-select';
 import {
     Select,
@@ -19,7 +20,7 @@ import { WorldlyLifestyle, worldlyLifestyleSchema } from '@/lib/schemas/worldly-
 import { useUpdateWorldlyLifestyleMutation } from '@/lib/user/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const currencies = [
@@ -51,6 +52,8 @@ const professions = [
 ];
 
 const carBrands = ["Acura", "Alfa Romeo", "Aston Martin", "Audi", "BMW", "Chevrolet", "Chrysler", "Citroën", "Dodge", "Ferrari", "Fiat", "Ford", "Genesis", "Honda", "Hummer", "Hyundai", "Infiniti", "Jaguar", "Jeep", "Kia", "Koenigsegg", "Lamborghini", "Land Rover", "Lincoln", "Lotus", "Mazda", "Mercedes-Benz", "Mini", "Mitsubishi", "Nissan", "Peugeot", "Porsche", "Ram", "Renault", "Saab", "Skoda", "Smart", "Subaru", "Suzuki", "Tata", "Tesla", "Volkswagen", "Volvo", "Wiesmann", "Pagani"];
+
+const debtsOptions = ["Car", "Home", "Student Loan", "Personal Loan", "Business Loan"]
 
 export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: WorldlyLifestyle }) {
     const form = useForm<WorldlyLifestyle>({
@@ -96,7 +99,13 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
     }, [worldlyLifestyleFormRef, registerForm]);
 
     const onSubmit = (data: WorldlyLifestyle) => {
-        updateWorldlyStyle({ userId: user!.id, worldlyLifestyle: data });
+        const worldlyLifestyle = data;
+        if (!data.ownsCar) {
+            worldlyLifestyle.vehicleMake = ''
+            worldlyLifestyle.vehicleModel = ''
+            worldlyLifestyle.vehicleYear = 0
+        }
+        updateWorldlyStyle({ userId: user!.id, worldlyLifestyle });
     }
 
     useEffect(() => {
@@ -113,6 +122,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
     }, [updateResult, setSaving])
 
     const hasPreexistingHealthCondition = form.watch('majorPreexistingHealthCondition') === 'Yes';
+    const ownsCar = form.watch('ownsCar') as unknown as string === 'true'
+    const hasDebt = form.watch('applicableDebts') === 'Yes'
 
     return (
 
@@ -236,7 +247,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-3">
+                    <div className="space-y-1 col-span-4">
                         <Label className="line-clamp-1 font-normal text-xs">Type of Residence</Label>
                         <FormField
                             name='typeOfResidence'
@@ -261,7 +272,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-3">
+                    <div className="space-y-1 col-span-4">
                         <Label className="line-clamp-1 font-normal text-xs">Living Situation</Label>
                         <FormField
                             name='livingSituation'
@@ -287,39 +298,21 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Vehicle Make</Label>
-
+                    <div className="space-y-1 col-span-4">
+                        <Label className="line-clamp-1 font-normal text-xs">Do You Own a Car?</Label>
                         <FormField
-                            name='vehicleMake'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <AutoComplete onChange={field.onChange} selectedOption={field.value} options={carBrands.map(brand => ({ label: brand, value: brand }))} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Vehicle Year</Label>
-                        <FormField
-                            name='vehicleYear'
+                            name='ownsCar'
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent ">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
-                                            <SelectContent className='max-h-64'>
-                                                {
-                                                    Array.from({ length: 40 }, (_, i) => (
-                                                        <SelectItem className="text-sm max-w-80" key={i} value={String((new Date().getFullYear()) - i)}>
-                                                            {String((new Date().getFullYear()) - i)}
-                                                        </SelectItem>))
-                                                }
+                                            <SelectContent>
+                                                <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -328,23 +321,66 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Vehicle Model</Label>
-                        <FormField
-                            name='vehicleModel'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
+                    {ownsCar &&
+                        <>
+                            <div className="space-y-1 col-span-2">
+                                <Label className="line-clamp-1 font-normal text-xs">Vehicle Make</Label>
+                                <FormField
+                                    name='vehicleMake'
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <AutoComplete onChange={field.onChange} selectedOption={field.value} options={carBrands.map(brand => ({ label: brand, value: brand }))} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>)}
+                                />
+                            </div>
+
+                            <div className="space-y-1 col-span-2">
+                                <Label className="line-clamp-1 font-normal text-xs">Vehicle Year</Label>
+                                <FormField
+                                    name='vehicleYear'
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                                                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent ">
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent className='max-h-64'>
+                                                        {
+                                                            Array.from({ length: 40 }, (_, i) => (
+                                                                <SelectItem className="text-sm max-w-80" key={i} value={String((new Date().getFullYear()) - i)}>
+                                                                    {String((new Date().getFullYear()) - i)}
+                                                                </SelectItem>))
+                                                        }
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormControl>
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>)}
+                                />
+                            </div>
+
+                            <div className="space-y-1 col-span-2">
+                                <Label className="line-clamp-1 font-normal text-xs">Vehicle Model</Label>
+                                <FormField
+                                    name='vehicleModel'
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>)}
+                                />
+                            </div>
+                        </>}
 
                     <div className="space-y-1 col-span-4">
                         <Label className="line-clamp-1 font-normal text-xs">
@@ -379,7 +415,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Applicable Dept</Label>
+                        <Label className="line-clamp-1 font-normal text-xs">Do you have dept?</Label>
                         <FormField
                             name='applicableDebts'
                             control={form.control}
@@ -401,75 +437,65 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-3">
-                        <Label className="line-clamp-1 font-normal text-xs">Current Debt</Label>
-                        <FormField
-                            name='currentDebts'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value ? field.value[0] : ''}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Car">Car</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Home">Home</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Student Loans">Student Loans</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Personal Loans">Personal Loans</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Business loans">Business loans</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
+                    {hasDebt && <>
+                        <div className="space-y-1 col-span-3">
+                            <Label className="line-clamp-1 font-normal text-xs">Current Debt</Label>
+                            <FormField
+                                name='currentDebts'
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Multiselect onChange={field.onChange} selectedOptions={field.value} title="Language" max={3} initOptions={debtsOptions.map(debt => ({ label: debt, value: debt }))} placeholder='Select' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                                        </FormControl>
+                                        <FormMessage className="text-xs" />
+                                    </FormItem>)}
+                            />
+                        </div>
 
-                    <div className="space-y-1 col-span-3">
-                        <Label className="line-clamp-1 font-normal text-xs">Approximate Debt</Label>
-                        <FormField
-                            name='approximateDebts'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                                            placeholder={`0 ${form.watch('annualIncomeCurrency')}`}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
+                        <div className="space-y-1 col-span-3">
+                            <Label className="line-clamp-1 font-normal text-xs">Approximate Debt</Label>
+                            <FormField
+                                name='approximateDebts'
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                                                placeholder={`0 ${form.watch('annualIncomeCurrency')}`}
+                                            />
+                                        </FormControl>
+                                        <FormMessage className="text-xs" />
+                                    </FormItem>)}
+                            />
+                        </div>
 
-                    <div className="space-y-1 col-span-3">
-                        <Label className="line-clamp-1 font-normal text-xs">
-                            Paying Interest/Riba on Debts?
-                        </Label>
-                        <FormField
-                            name='payingInterestOnDebts'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
+                        <div className="space-y-1 col-span-3">
+                            <Label className="line-clamp-1 font-normal text-xs">
+                                Do you pay Interest/Riba on Debts?
+                            </Label>
+                            <FormField
+                                name='payingInterestOnDebts'
+                                control={form.control}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormControl>
+                                            <Select onValueChange={field.onChange} value={field.value}>
+                                                <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                                    <SelectValue />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                        <FormMessage className="text-xs" />
+                                    </FormItem>)}
+                            />
+                        </div></>}
 
                     <div className="space-y-1 col-span-3">
                         <Label className="line-clamp-1 font-normal text-xs">
@@ -538,12 +564,12 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="None">None</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="1">1</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="2">2</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="3">3</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="4">4</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="5">5+</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="None">Cat</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="1">Dog</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="2">Bird</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="3">Reptiles</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="4">Insects</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="5">Other</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -596,6 +622,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                             <SelectContent>
                                                 <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Limited Assistance">Limited Assistance</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -626,6 +653,6 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>}
                 </form>
             </Form>
-        </div>
+        </div >
     );
 }

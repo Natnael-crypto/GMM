@@ -124,7 +124,7 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
                     </Link>
                     <Link href="" className='flex gap-4 items-center cursor-default'>
                         <div className='rounded-md p-2 aspect-square bg-[#dedede] text-primary-foreground flex items-center justify-center'><FontAwesomeIcon icon={faGlobe} /></div>
-                        <span className='text-xs text-secondary font-bold'>Step 4 Guardian Service</span>
+                        <span className='text-xs text-secondary font-bold'>Step 4 Guardian Service (Coming Soon)</span>
                     </Link>
                 </div>
             </div>

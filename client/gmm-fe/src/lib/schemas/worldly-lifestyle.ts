@@ -20,6 +20,16 @@ export const worldlyLifestyleSchema = z
     livingSituation: z.string({
       required_error: 'Please select your living situation',
     }),
+    ownsCar: z.union([
+      z.boolean({
+        required_error: 'Please specify whether you own a car or not',
+      }),
+      z
+        .string({
+          required_error: 'Please specify whether you own a car or not',
+        })
+        .transform((value) => value === 'true'),
+    ]),
     vehicleYear: z.union([
       z.number(),
       z

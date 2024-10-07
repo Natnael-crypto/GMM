@@ -28,7 +28,7 @@ export default function CompatibilityLayout({
     <div>
       <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
         <div className="relative">
-          <h1 className="text-xl text-center">Profile Compatibility</h1>
+          <h1 className="text-xl text-center">Compatibility</h1>
           <div className="absolute right-0 top-1/2 -translate-y-1/2">
             <Link
               href={`/${locale}/dashboard/profile/basic-information`}
