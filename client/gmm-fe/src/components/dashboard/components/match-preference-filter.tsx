@@ -114,12 +114,12 @@ export default function MatchPreferenceFilter() {
     if (createResult.isSuccess) {
       toast({
         title: 'Success',
-        description: 'Match created successfully',
+        description: 'You have been matched successfully',
       });
     } else if (createResult.isError) {
       toast({
         title: 'Match status',
-        description: 'No match was found. You have been added to a pool.',
+        description: 'Finding you a match message, we will notify you soon.',
       });
     }
   }, [createResult])
