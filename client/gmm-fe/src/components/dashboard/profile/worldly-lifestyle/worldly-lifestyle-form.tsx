@@ -19,7 +19,7 @@ import { WorldlyLifestyle, worldlyLifestyleSchema } from '@/lib/schemas/worldly-
 import { useUpdateWorldlyLifestyleMutation } from '@/lib/user/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const currencies = [
@@ -96,7 +96,13 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
     }, [worldlyLifestyleFormRef, registerForm]);
 
     const onSubmit = (data: WorldlyLifestyle) => {
-        updateWorldlyStyle({ userId: user!.id, worldlyLifestyle: data });
+        const worldlyLifestyle = data;
+        if (!data.ownsCar) {
+            worldlyLifestyle.vehicleMake = ''
+            worldlyLifestyle.vehicleModel = ''
+            worldlyLifestyle.vehicleYear = 0
+        }
+        updateWorldlyStyle({ userId: user!.id, worldlyLifestyle });
     }
 
     useEffect(() => {
@@ -113,6 +119,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
     }, [updateResult, setSaving])
 
     const hasPreexistingHealthCondition = form.watch('majorPreexistingHealthCondition') === 'Yes';
+    const ownsCar = form.watch('ownsCar') as unknown as string === 'true'
 
     return (
 
@@ -236,7 +243,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-3">
+                    <div className="space-y-1 col-span-4">
                         <Label className="line-clamp-1 font-normal text-xs">Type of Residence</Label>
                         <FormField
                             name='typeOfResidence'
@@ -261,7 +268,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-3">
+                    <div className="space-y-1 col-span-4">
                         <Label className="line-clamp-1 font-normal text-xs">Living Situation</Label>
                         <FormField
                             name='livingSituation'
@@ -287,39 +294,21 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Vehicle Make</Label>
-
+                    <div className="space-y-1 col-span-4">
+                        <Label className="line-clamp-1 font-normal text-xs">Do You Own a Car?</Label>
                         <FormField
-                            name='vehicleMake'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <AutoComplete onChange={field.onChange} selectedOption={field.value} options={carBrands.map(brand => ({ label: brand, value: brand }))} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Vehicle Year</Label>
-                        <FormField
-                            name='vehicleYear'
+                            name='ownsCar'
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent ">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
-                                            <SelectContent className='max-h-64'>
-                                                {
-                                                    Array.from({ length: 40 }, (_, i) => (
-                                                        <SelectItem className="text-sm max-w-80" key={i} value={String((new Date().getFullYear()) - i)}>
-                                                            {String((new Date().getFullYear()) - i)}
-                                                        </SelectItem>))
-                                                }
+                                            <SelectContent>
+                                                <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -328,23 +317,66 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Vehicle Model</Label>
-                        <FormField
-                            name='vehicleModel'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Input
-                                            {...field}
-                                            className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
+                    {ownsCar &&
+                        <>
+                            <div className="space-y-1 col-span-2">
+                                <Label className="line-clamp-1 font-normal text-xs">Vehicle Make</Label>
+                                <FormField
+                                    name='vehicleMake'
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <AutoComplete onChange={field.onChange} selectedOption={field.value} options={carBrands.map(brand => ({ label: brand, value: brand }))} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>)}
+                                />
+                            </div>
+
+                            <div className="space-y-1 col-span-2">
+                                <Label className="line-clamp-1 font-normal text-xs">Vehicle Year</Label>
+                                <FormField
+                                    name='vehicleYear'
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                                                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent ">
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent className='max-h-64'>
+                                                        {
+                                                            Array.from({ length: 40 }, (_, i) => (
+                                                                <SelectItem className="text-sm max-w-80" key={i} value={String((new Date().getFullYear()) - i)}>
+                                                                    {String((new Date().getFullYear()) - i)}
+                                                                </SelectItem>))
+                                                        }
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormControl>
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>)}
+                                />
+                            </div>
+
+                            <div className="space-y-1 col-span-2">
+                                <Label className="line-clamp-1 font-normal text-xs">Vehicle Model</Label>
+                                <FormField
+                                    name='vehicleModel'
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormControl>
+                                                <Input
+                                                    {...field}
+                                                    className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>)}
+                                />
+                            </div>
+                        </>}
 
                     <div className="space-y-1 col-span-4">
                         <Label className="line-clamp-1 font-normal text-xs">
@@ -626,6 +658,6 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>}
                 </form>
             </Form>
-        </div>
+        </div >
     );
 }
