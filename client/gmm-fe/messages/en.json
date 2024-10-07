@@ -154,24 +154,24 @@
       "selectMembership": "Select Membership",
       "membershipPackageCard": {
         "monthlyPackage": {
-          "title": "Good for 1 Month",
+          "title": "Bronze",
           "price": "<bold>$249</bold> for",
           "description": "<bold>7</bold> Matches"
         },
         "threeMonthsPackage": {
-          "title": "Good for 3 Months",
+          "title": "Silver",
           "price": "<bold>$459</bold> for",
           "description": "<bold>18</bold> Matches",
           "discount": "<bold>Save 89%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         },
         "sixMonthsPackage": {
-          "title": "Good for 6 Months",
+          "title": "Gold",
           "price": "<bold>$799</bold> for",
           "description": "<bold>36</bold> Matches",
           "discount": "<bold>Save 91%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         },
         "twelveMonthsPackage": {
-          "title": "Good for 12 Months",
+          "title": "Platinum",
           "price": "$<bold>1449</bold> for",
           "description": "<bold>73</bold> Matches",
           "discount": "<bold>Save 92%</bold><br></br>Compared to Leading Premium Matchmaking Services."
