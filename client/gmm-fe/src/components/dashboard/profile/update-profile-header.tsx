@@ -24,12 +24,12 @@ export default function UpdateProfileHeader({
         <span>Hi,</span> <span className="text-primary">{user?.firstName} {user?.lastName}</span>
       </h1>
       <div className="flex gap-3 items-center">
-        <div className="flex gap-1 items-center text-xs">
+        {/* <div className="flex gap-1 items-center text-xs">
           <Input type="checkbox" checked={isAutoSaveEnabled} onChange={(e) => setAutoSave(value => !value)} />
           <Label htmlFor="checkbox" className="text-nowrap">
             Auto Save
           </Label>
-        </div>
+        </div> */}
         <Link
           href={editLink}
           className={cn(
