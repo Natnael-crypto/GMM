@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '@/lib/hooks'
-import { useCreateDownloadUrlMutation, useGetDownloadUrlQuery } from '@/lib/user/api'
+import { useCreateDownloadUrlMutation } from '@/lib/user/api'
 import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '../ui/carousel';
