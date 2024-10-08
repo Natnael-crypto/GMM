@@ -1,6 +1,6 @@
 'use client'
 
-import { useAppSelector } from '@/lib/hooks';
+import { User } from '@/lib/schemas/user';
 import { useGetIslamicLifestyleQuery } from '@/lib/user/api';
 import {
   faChildDress,
@@ -19,8 +19,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
-export default function IslamicLifestyleCard() {
-  const user = useAppSelector((state) => state.auth.user);
+export default function IslamicLifestyleCard({ user }: { user: User }) {
   const { data: islamicLifestyle, isLoading, isSuccess, isError } = useGetIslamicLifestyleQuery(user?.id || '', {
     skip: !user,
   });

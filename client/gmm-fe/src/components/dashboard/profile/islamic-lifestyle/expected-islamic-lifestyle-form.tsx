@@ -235,7 +235,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">Non-Mehram Contract</Label>
+                        <Label className="font-normal text-xs line-clamp-1">Wife&apos;s Non-Mehram Contract</Label>
                         <FormField
                             name='nonMehramContact'
                             control={form.control}
@@ -272,10 +272,10 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Obedience Expected (Prefers a wife who adheres to his decisions)">Obedience Expected (Prefers a wife who adheres to his decisions)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Obedience Expected (Wife must adhere to husband's decisions)">Obedience Expected (Wife must adhere to husband&apos;s decisions)</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="Final Say (Husband has final say, while valuing wife's input)">Final Say (Husband has final say, while valuing wife&apos;s input)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Mutual Compromise (Both spouses compromise and decide together)">Mutual Compromise (Both spouses compromise and decide together)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Valuing Opinions (Will Prioritize the wife's opinions in decision-making)">Valuing Opinions (Will Prioritize the wife&apos;s opinions in decision-making)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Mutual Compromise (Husband and wife decide together)">Mutual Compromise (Husband and wife decide together)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Valuing Opinions (Husband will prioritize wife's opinions in decision-making)">Valuing Opinions (Husband will prioritize wife&apos;s opinions in decision-making)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>

@@ -225,14 +225,34 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                         />
                     </div>
 
+                    <div className="space-y-1 col-span-6">
+                        <Label className="font-normal text-xs">Celebrating Birthdays and Anniversary</Label>
+                        <Select value='Full Islamic Compliance (Non-interest finance, strict halal earning and halal spending)'>
+                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem className="text-sm max-w-80" value="Do not celebrate (Celebrating & Participating in birthdays and anniversaries is Haram with no basis in Shari'ah)">Do not celebrate (Celebrating & Participating in birthdays and anniversaries is Haram with no basis in Shari&apos;ah)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Selectively (Celebrate selectively for family and traditions)">Selectively (Celebrate selectively for family and traditions)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Celebrate & Participate (No issues with birthdays and anniversaries)">Celebrate & Participate (No issues with birthdays and anniversaries)</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                    <div className="space-y-1 col-span-6">
+                        <Label className="font-normal text-xs">Mawlid/Milad-un-Nabi (Prophet Muhammad&apos;s (Pbuh birthday))</Label>
+                        <Select value='Full Islamic Compliance (Non-interest finance, strict halal earning and halal spending)'>
+                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem className="text-sm max-w-80" value="Do Not Celebrate (Mawlid is an innovation. Prophet Muhammad (pbuh) nor his companions celebrated Mawlid)">Do Not Celebrate (Mawlid is an innovation. Prophet Muhammad (pbuh) nor his companions celebrated Mawlid)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Selectively (Celebrate for family and traditions)">Selectively (Celebrate for family and traditions)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Celebrate & Participate (No issues and do participate annually in Mawlid events)">Celebrate & Participate (No issues and do participate annually in Mawlid events)</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
                     <div className="space-y-1 col-span-4">
                         <Label className="font-normal text-xs">Money</Label>
-                        {/* <FormField
-                            name='salat'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl> */}
                         <Select value='Full Islamic Compliance (Non-interest finance, strict halal earning and halal spending)'>
                             <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
                                 <SelectValue />
@@ -244,10 +264,6 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
 
                             </SelectContent>
                         </Select>
-                        {/* </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        /> */}
                     </div>
 
                     <div className="space-y-1 col-span-4">
@@ -275,7 +291,7 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs">Appearance (Beard)</Label>
+                        <Label className="font-normal text-xs">Appearance {user?.gender === 'Male' ? "(Beard)" : "(Makeup/Perfume)"}</Label>
                         <FormField
                             name='appearance'
                             control={form.control}
@@ -286,16 +302,39 @@ export default function IslamicLifestyleForm({ islamicLifestyle }: { islamicLife
                                             <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Have a Beard">Have a Beard</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="No Beard by Choice (personal preference)">No Beard by Choice (personal preference)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="No Beard, Medical Reasons (Lacks a beard due to medical conditions or issues)">No Beard, Medical Reasons (Lacks a beard due to medical conditions or issues)</SelectItem>
-                                            </SelectContent>
+                                            {user?.gender === 'Male' ?
+                                                <SelectContent>
+                                                    <SelectItem className="text-sm max-w-80" value="Have a Beard">Have a Beard</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="No Beard by Choice (personal preference)">No Beard by Choice (personal preference)</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="No Beard, Medical Reasons (Lacks a beard due to medical conditions or issues)">No Beard, Medical Reasons (Lacks a beard due to medical conditions or issues)</SelectItem>
+                                                </SelectContent> :
+                                                <SelectContent>
+                                                    <SelectItem className="text-sm max-w-80" value="No Makeup or Perfume Outside (Wife may not wear makeup or perfume when going outside)">No Makeup or Perfume Outside (Wife may not wear makeup or perfume when going outside)</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="Makeup with Hijab/Niqab, No Perfume (Wife may wear makeup but with Hijab/niqab and no perfume in public)">Makeup with Hijab/Niqab, No Perfume (Wife may wear makeup but with Hijab/niqab and no perfume in public)</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="Subtle Makeup, Light Perfume (Wife may wear a little unnoticeable amount of makeup with light perfume when outside)">Subtle Makeup, Light Perfume (Wife may wear a little unnoticeable amount of makeup with light perfume when outside)</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="Full Makeup, Any Perfume (Wife may wear full face makeup and any choice of perfume)">Full Makeup, Any Perfume (Wife may wear full face makeup and any choice of perfume)</SelectItem>
+                                                </SelectContent>
+                                            }
                                         </Select></FormControl>
                                     <FormMessage className="text-xs" />
                                 </FormItem>)}
                         />
                     </div>
+
+                    {user?.gender === 'Female' && <div className="space-y-1 col-span-4">
+                        <Label className="font-normal text-xs">Hijab</Label>
+                        <Select value='Full Islamic Compliance (Non-interest finance, strict halal earning and halal spending)'>
+                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem className="text-sm max-w-80" value="Advanced Hijab (Niqab or burqa, possibly with gloves, often with eyes not visible)">Advanced Hijab (Niqab or burqa, possibly with gloves, often with eyes not visible)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Minimum Hijab (Basic Islamic attire with long dress/skirt or loose clothing with long sleeves. Face and hands visible)">Minimum Hijab (Basic Islamic attire with long dress/skirt or loose clothing with long sleeves. Face and hands visible)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Partial Hijab (Headscarf like a turban, revealing neck. Tight clothing showing shape of body)">Partial Hijab (Headscarf like a turban, revealing neck. Tight clothing showing shape of body)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="No Hijab">No Hijab</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>}
 
                     <div className="space-y-1 col-span-4">
                         <Label className="font-normal text-xs">Hajj & Umrah</Label>

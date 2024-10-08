@@ -14,7 +14,6 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { ProfileHeaderProps } from '@/types';
 import { useLocale } from 'next-intl';
-import { auth } from '@/lib/auth/utils';
 import { useAppSelector } from '@/lib/hooks';
 
 export default function ProfileHeader({

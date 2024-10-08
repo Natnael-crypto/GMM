@@ -49,8 +49,8 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
     }
 
     return (
-        <div className='grid grid-cols-2 gap-4 h-full'>
-            <div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-full">
+        <div className='grid grid-cols-7 gap-4 h-full'>
+            <div className="rounded-se-3xl col-span-3 rounded-es-3xl overflow-hidden h-full">
                 {imageUrl && <Image
                     src={imageUrl}
                     className="object-cover w-full h-[21rem] object-top"
@@ -62,7 +62,7 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
                 <div className="relative">
                     <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-transparent from-90%  to-muted-foreground"></div>
                     <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
-                        <h2 className="text-background font-semibold text-3xl">{matchedUser.firstName} {matchedUser.lastName}</h2>
+                        <h2 className="text-background font-semibold text-2xl">{matchedUser.firstName} <span className="text-sm">({matchedUser.age})</span></h2>
 
                         <div className="space-y-2 font-thin">
                             <p className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-xs font-semibold px-2 shadow-lg">
@@ -73,7 +73,7 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
                                     src={`/icons/lang/en.svg`}
                                     alt="Language Flag"
                                 />
-                                <span>{matchedUser.nationality} Nationality / Passport</span>
+                                <span>{matchedUser.nationality} Nationality</span>
                             </p>
                             <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
                                 <span>
@@ -101,7 +101,7 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
                 </div>
             </div>
 
-            <div className="rounded-se-3xl rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
+            <div className="rounded-se-3xl col-span-4 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
                 <div className='text-center'>
                     <h1 className="font-bold text-secondary">You&apos;re Matched!</h1>
                     <p className='text-center text-xs text-muted-foreground'>Explore options below to get to know your potential spouse</p>
@@ -128,7 +128,6 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
                     </Link>
                 </div>
             </div>
-
         </div>
     )
 }

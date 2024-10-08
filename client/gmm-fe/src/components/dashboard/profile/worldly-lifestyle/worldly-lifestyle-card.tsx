@@ -1,7 +1,7 @@
 'use client';
 
 import Loading from '@/components/ui/loading';
-import { useAppSelector } from '@/lib/hooks';
+import { User } from '@/lib/schemas/user';
 import { useGetWorldlyLifestyleQuery } from '@/lib/user/api';
 import {
   faBabyCarriage,
@@ -19,8 +19,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
-export default function WorldlyLifestyleCard() {
-  const user = useAppSelector((state) => state.auth.user);
+export default function WorldlyLifestyleCard({ user }: { user: User }) {
   const { data: worldlyLifestyle, isLoading, isSuccess, isError } = useGetWorldlyLifestyleQuery(user?.id || '', {
     skip: !user,
   });

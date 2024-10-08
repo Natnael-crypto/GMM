@@ -14,11 +14,11 @@ export default async function GMMHero() {
 
   return (
     <div className="relative">
-      <div className="absolute -z-10 lg:z-0 lg:static lg:flex lg:w-full">
+      <div className="absolute z-10 lg:z-0 lg:static lg:flex lg:w-full h-[55vh]">
         <Image
           src="/assets/hero-image-1.jpg"
           className={cn(
-            'hidden sm:block object-cover w-full h-[55vh]',
+            'hidden sm:block object-fill sm:object-cover md:object-fill w-full h-full',
             localeDirection[locale] === 'rtl' ? '-scale-x-100' : ''
           )}
           width={1920}
@@ -28,7 +28,7 @@ export default async function GMMHero() {
         <Image
           src="/assets/hero-image-green.jpg"
           className={cn(
-            'sm:hidden object-cover w-full h-[55vh]',
+            'sm:hidden object-fill h-full w-full',
             localeDirection[locale] === 'rtl' ? '-scale-x-100' : ''
           )}
           width={1920}
@@ -37,11 +37,11 @@ export default async function GMMHero() {
         />
       </div>
 
-      <div className="lg:absolute lg:top-0 lg:left-0 w-full h-full">
+      <div className="lg:absolute lg:top-0 lg:left-0 w-full h-full z-50">
         {/* Hero content */}
-        <div className="px-12 sm:px-16 md:px-24 lg:px-48 py-16 lg:w-9/12 gap-8 flex flex-col h-full">
+        <div className="px-12 sm:px-16 md:px-24 lg:ps-[14%] py-8 lg:w-9/12 gap-8 flex flex-col h-full">
           {/* Hero image */}
-          <div className="w-40 md:w-60 lg:w-80">
+          <div className="w-40 md:w-40 lg:w-60 z-20">
             <Image
               className="w-full overflow-hidden"
               src="/assets/guardian-logo-footer.png"
@@ -52,17 +52,17 @@ export default async function GMMHero() {
           </div>
 
           {/* Hero text */}
-          <div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl lg:leading-[3.6rem] font-bold text-primary-foreground text-wrap">
+          <div className='z-20'>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl lg:leading-[3.3rem] sm:max-w-64 md:max-w-72 lg:max-w-96 font-bold text-primary-foreground text-wrap">
               {t('hero.title')}
             </h1>
-            <h2 className="text-xl lg:text-3xl font- text-white mt-4 text-wrap">
+            <h2 className="text-xl lg:text-2xl text-white mt-3 text-wrap">
               {t('hero.subtitle')}
             </h2>
           </div>
 
           {/* Call to action */}
-          <div className="flex gap-4 ">
+          <div className="flex gap-4 z-50">
             {session ? (
               <Link
                 href={session.user.age == null ? `/${locale}/registration` : `/${locale}/dashboard`}
