@@ -1,26 +1,33 @@
 'use client'
 
-import { Button } from '@/components/ui/button';
-import { useAppSelector } from '@/lib/hooks';
-import { useUnmatchMutation } from '@/lib/matchmaking/api';
+import { buttonVariants } from '@/components/ui/button';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { matchApi, useUnmatchMutation } from '@/lib/matchmaking/api';
 import { Match } from '@/lib/matchmaking/types';
 import { useRouter } from '@/lib/navigation';
 import { User } from '@/lib/schemas/user';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
+import { cn } from '@/lib/utils';
+import { setUser } from '@/lib/auth/slice';
 
 export default function GuardianGuide({ matchedUser, match }: { matchedUser: User, match: Match }) {
   const user = useAppSelector(state => state.auth.user);
+  const dispatch = useAppDispatch();
 
   const [unmatch, unmatchResult] = useUnmatchMutation();
   const router = useRouter();
 
   useEffect(() => {
     if (unmatchResult.isSuccess) {
+      dispatch(setUser({ ...user, isMatched: false }))
+      matchApi.util.invalidateTags(['Match'])
       router.replace('/dashboard');
     }
-  }, [unmatchResult, router])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unmatchResult, router, dispatch]);
 
   return (
     <div className="h-full bg-background rounded-lg overflow-hidden" style={{
@@ -58,15 +65,28 @@ export default function GuardianGuide({ matchedUser, match }: { matchedUser: Use
         </div>
 
         <div className="flex justify-end">
-          <Button
-            variant="outline"
-            className="bg-transparent text-muted-foreground h-7 w-fit text-xs"
-            onClick={() => unmatch(match.id)}
-          >
-            Unmatch
-          </Button>
+          <AlertDialog>
+            <AlertDialogTrigger
+              className={cn(buttonVariants({ variant: 'outline' }), "bg-transparent text-muted-foreground h-7 w-fit text-xs")}
+            >
+              Unmatch
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. You will be unmatched with {matchedUser.firstName} and you will not be able to chat with {matchedUser.gender === 'Male' ? "him" : "her"} again.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel className={cn(buttonVariants({ variant: 'outline' }), "bg-transparent text-muted-foreground h-7 w-fit text-xs")}>Cancel</AlertDialogCancel>
+                <AlertDialogAction className={cn(buttonVariants({ variant: 'outline' }), "bg-transparent text-muted-foreground h-7 w-fit text-xs")} onClick={() => unmatch(match.id)}>Unmatch</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+
         </div>
       </div>
-    </div>
+    </div >
   );
 }

@@ -29,15 +29,15 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-7">
-            {isAccountApproved ? (currentMatch ? <MatchedCard matchedUser={user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser} /> : <NoMatchCard />) : <PendingApprovalMessage />}
+            {isAccountApproved ? (user?.isMatched && currentMatch ? <MatchedCard matchedUser={user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser} /> : <NoMatchCard />) : <PendingApprovalMessage />}
           </div>
           <div className="col-span-5">
             <ProfileCompletionCard />
           </div>
         </div>
 
-        <div className={cn("space-y-3 relative", currentMatch ? 'opacity-50' : '')}>
-          {currentMatch && <div className='w-full h-full absolute top-0 left-0 z-[1000]'></div>}
+        <div className={cn("space-y-3 relative", user?.isMatched ? 'opacity-50' : '')}>
+          {user?.isMatched && <div className='w-full h-full absolute top-0 left-0 z-[1000]'></div>}
           <h1 className="text-xl font-bold text-secondary border-b border-secondary col-span-12">
             Match Preferences Filter
           </h1>

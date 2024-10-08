@@ -256,10 +256,10 @@
         "title": "Family Introduction",
 
         "guardianInformation": {
-          "fullName": "Guardian's Full Name",
+          "fullName": "Full Name",
           "relationship": "Relationship to Guardian",
-          "phoneNumber": "Guardian's Phone Number",
-          "email": "Guardian's Email"
+          "phoneNumber": "Phone Number",
+          "email": "Email"
         },
         "idVerification": {
           "title": "Your ID Verification",
