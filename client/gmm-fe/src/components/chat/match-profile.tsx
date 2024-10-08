@@ -13,7 +13,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { useAppSelector } from '@/lib/hooks'
 import { useCreateDownloadUrlMutation } from '@/lib/user/api'
 import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
@@ -21,7 +20,6 @@ import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '../ui/caro
 import { CarouselNext, CarouselPrevious } from '../ui/previous-button';
 
 export default function MatchProfile({ matchedUser }: { matchedUser: User }) {
-  const user = useAppSelector((state) => state.auth.user);
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
 
