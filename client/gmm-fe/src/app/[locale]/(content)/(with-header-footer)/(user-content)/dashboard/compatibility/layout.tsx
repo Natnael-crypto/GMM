@@ -1,11 +1,8 @@
-'use client';
-
 import CompatibilityStepper from '@/components/dashboard/components/stepper/compatibility-stepper';
 import { buttonVariants } from '@/components/ui/button';
-import { usePathname } from '@/lib/navigation';
+import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
-import { useLocale } from 'next-intl';
-import Link from 'next/link';
+
 import React from 'react';
 
 const pageNames: Record<string, string> = {
@@ -21,17 +18,14 @@ export default function CompatibilityLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const locale = useLocale();
-
   return (
     <div>
       <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
         <div className="relative">
           <h1 className="text-xl text-center">Compatibility</h1>
-          <div className="absolute right-0 top-1/2 -translate-y-1/2">
+          <div className="absolute left-0 top-1/2 -translate-y-1/2">
             <Link
-              href={`/${locale}/dashboard/profile/basic-information`}
+              href={`/dashboard`}
               className={cn(
                 buttonVariants({
                   variant: 'outline',
