@@ -532,11 +532,12 @@ export default function MatchPreferenceFilter() {
           </Label>
           <Select>
             <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-              <SelectValue placeholder="No Plans" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
-
-              <SelectItem value="Yes">No Plans</SelectItem>
+              <SelectItem className="text-sm max-w-80" value="Wants children">Wants children</SelectItem>
+              <SelectItem className="text-sm max-w-80" value="Don't want children">Don&apos;t want children</SelectItem>
+              <SelectItem className="text-sm max-w-80" value="Can't Have Children (medical reason)">Can&apos;t Have Children (medical reason)</SelectItem>
             </SelectContent>
           </Select>
         </div>
