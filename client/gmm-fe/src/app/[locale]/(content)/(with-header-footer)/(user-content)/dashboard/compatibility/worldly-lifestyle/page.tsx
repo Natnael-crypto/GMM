@@ -14,6 +14,16 @@ export default function WorldlyLifestyle() {
     skip: !user,
   })
 
+  let matchedUser = null;
+
+  if (user && currentMatch) {
+    if (user.gender === 'Male') {
+      matchedUser = currentMatch.femaleUser
+    } else {
+      matchedUser = currentMatch.maleUser
+    }
+  }
+
   const femaleImage = currentMatch?.femaleUser?.pictures ? currentMatch?.femaleUser?.pictures[0] : ''
   const maleImage = currentMatch?.maleUser?.pictures ? currentMatch?.maleUser?.pictures[0] : ''
 
@@ -24,11 +34,11 @@ export default function WorldlyLifestyle() {
     <div className="grid grid-cols-2 gap-5 mt-3">
       <div className="space-y-5">
         {userImageUrl && user && <ProfileOverview imageUrl={userImageUrl} user={user} />}
-        <WorldlyLifestyleCard />
+        {user && <WorldlyLifestyleCard user={user} />}
       </div>
       <div className="space-y-5">
-        {matchImageUrl && currentMatch && <ProfileOverview imageUrl={matchImageUrl} user={user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser} />}
-        <WorldlyLifestyleCard />
+        {matchImageUrl && matchedUser && <ProfileOverview imageUrl={matchImageUrl} user={matchedUser} />}
+        {matchedUser && <WorldlyLifestyleCard user={matchedUser} />}
       </div>
     </div>
   );
