@@ -3,6 +3,7 @@
 import UpdateProfileStepper from '@/components/dashboard/components/stepper/update-profile-stepper';
 import Banner from '@/components/dashboard/profile/banner';
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
+import UpdateProfileFooter from '@/components/dashboard/profile/update-profile-footer';
 import UpdateProfileHeader from '@/components/dashboard/profile/update-profile-header';
 import { usePathname } from '@/lib/navigation';
 
@@ -43,6 +44,10 @@ export default function UpdateProfileLayout({
             <Banner />
           </div>
           <div>{children}</div>
+
+          <div className="pt-6 px-6 sm:px-16 md:px-24 lg:px-52 space-y-8 mb-4">
+            <UpdateProfileFooter editLink={pathname.slice(0, -5)} />
+          </div>
         </div>
       </>
     </UpdateProfileProvider>
