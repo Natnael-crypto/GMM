@@ -84,13 +84,13 @@ export default function ProfileImages({ user }: { user: User }) {
                   src={`/icons/lang/en.svg`}
                   alt="Language Flag"
                 />
-                <span>{user.nationality} Nationality / Passport</span>
+                <span className='w-full truncate'>{user.nationality} Nationality / Passport</span>
               </p>
-              <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
+              <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white">
                 <span>
                   <FontAwesomeIcon icon={faLocationDot} />
                 </span>
-                <span>{user.city}, {user.country}</span>
+                <span className='w-full truncate'>{user.city}, {user.country}</span>
               </p>
 
               <div className="flex gap-2">
@@ -98,13 +98,13 @@ export default function ProfileImages({ user }: { user: User }) {
                   <span>
                     <FontAwesomeIcon icon={faUpDown} />
                   </span>
-                  <span>{user.height} cm</span>
+                  <span className='w-full truncate'>{user.height} cm</span>
                 </p>
                 <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
                   <span>
                     <FontAwesomeIcon icon={faWeightScale} />
                   </span>
-                  <span>{user.weight} kg </span>
+                  <span className='w-full truncate'>{user.weight} kg </span>
                 </p>
               </div>
             </div>

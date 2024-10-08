@@ -3,6 +3,7 @@
 import ProfileHeader from '@/components/dashboard/components/profile-header';
 import ProfileImages from '@/components/dashboard/components/profile-image-card';
 import ProfileStepper from '@/components/dashboard/components/stepper/stepper';
+import { useAppSelector } from '@/lib/hooks';
 
 import { usePathname } from '@/lib/navigation';
 import { useLocale } from 'next-intl';
@@ -23,6 +24,7 @@ export default function ProfileLayout({
 }) {
   const pathname = usePathname();
   const locale = useLocale();
+  const user = useAppSelector((state) => state.auth.user);
 
   return (
     <div>
@@ -35,11 +37,11 @@ export default function ProfileLayout({
           <ProfileStepper />
         </div>
 
-        <div className="grid grid-cols-3 gap-5 py-8">
-          <div className="hidden md:block col-span-1">
-            <ProfileImages />
+        <div className="grid grid-cols-12 gap-5 py-8">
+          <div className="hidden md:block col-span-3">
+            {user && <ProfileImages user={user} />}
           </div>
-          <div className="col-span-3 lg:col-span-2">{children}</div>
+          <div className="col-span-9">{children}</div>
         </div>
       </div>
     </div>
