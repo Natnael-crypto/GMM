@@ -1,3 +1,5 @@
+'use client'
+
 import { Button, buttonVariants } from '@/components/ui/button';
 import { User } from '@/lib/schemas/user';
 import {
@@ -10,15 +12,48 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '@/lib/hooks'
-import { useGetDownloadUrlQuery } from '@/lib/user/api'
+import { useCreateDownloadUrlMutation, useGetDownloadUrlQuery } from '@/lib/user/api'
 import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '../ui/carousel';
+import { CarouselNext, CarouselPrevious } from '../ui/previous-button';
 
 export default function MatchProfile({ matchedUser }: { matchedUser: User }) {
   const user = useAppSelector((state) => state.auth.user);
-  const { data: imageUrl } = useGetDownloadUrlQuery(matchedUser?.pictures ? matchedUser?.pictures[0] : '', { skip: (!matchedUser?.pictures || !matchedUser?.pictures[0]) });
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
+
+  const [imageUrls, setImageUrls] = useState<string[]>([])
+  const [generateDownloadUrl] = useCreateDownloadUrlMutation();
+
+  useEffect(() => {
+    if (!api) {
+      return;
+    }
+    setCurrent(api.selectedScrollSnap() + 1);
+    api.on('select', () => {
+      setCurrent(api.selectedScrollSnap() + 1);
+    });
+  }, [api]);
+
+  useEffect(() => {
+    async function downloadUrl() {
+      const images = []
+      let url = ''
+      for (const image of matchedUser.pictures) {
+        try {
+          url = await generateDownloadUrl(image).unwrap()
+          images.push(url)
+        } catch (e) {
+          console.error(e)
+        }
+      }
+      setImageUrls([...images])
+    }
+    downloadUrl()
+  }, [generateDownloadUrl, matchedUser.pictures])
 
   return (
     <div className="bg-[#f0f8f8] rounded-lg overflow-hidden h-full flex flex-col items-center"
@@ -32,13 +67,23 @@ export default function MatchProfile({ matchedUser }: { matchedUser: User }) {
       <div className="m-6 flex flex-col item-center justify-between h-full">
         <div className='space-y-3'>
           <div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[21rem]">
-            {imageUrl && <Image
-              src={imageUrl}
-              className="object-cover w-full h-[21rem] object-top"
-              width={1200}
-              height={2000}
-              alt="Hero image"
-            />}
+            {imageUrls && imageUrls.length > 0 && <Carousel setApi={setApi} className="w-full">
+              <CarouselContent>
+                {
+                  imageUrls.map((imageUrl, index) => <CarouselItem key={`profile_pic_${index}`}>
+                    <Image
+                      src={imageUrl}
+                      className="object-cover w-full h-[21rem] object-top"
+                      width={600}
+                      height={1000}
+                      alt="Hero image"
+                    />
+                  </CarouselItem>)
+                }
+              </CarouselContent>
+              <CarouselPrevious className="w-8" />
+              <CarouselNext className="end-0 w-8" />
+            </Carousel>}
 
             <div className="relative">
               <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
@@ -79,6 +124,21 @@ export default function MatchProfile({ matchedUser }: { matchedUser: User }) {
                 </div>
               </div>
             </div>
+          </div>
+
+          <div className="w-full py-2 justify-center flex gap-1">
+            {Array.from({ length: imageUrls.length }).map((_, index) => {
+              return (
+                <div
+                  key={index}
+                  className={cn(
+                    'rounded-full w-2 h-2 cursor-pointer',
+                    index === current - 1 ? 'bg-primary' : 'bg-accent opacity-50'
+                  )}
+                  onClick={() => api?.scrollTo(index)}
+                ></div>
+              );
+            })}
           </div>
 
           <div className="flex gap-2 flex-wrap items-center justify-center">
