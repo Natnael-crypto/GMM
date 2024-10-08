@@ -552,7 +552,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Number of Pets</Label>
+                        <Label className="line-clamp-1 font-normal text-xs">Pets</Label>
                         <FormField
                             name='pets'
                             control={form.control}

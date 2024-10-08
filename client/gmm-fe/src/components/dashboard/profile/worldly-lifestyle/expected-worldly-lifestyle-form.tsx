@@ -23,7 +23,7 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
     const form = useForm<ExpectedWorldlyLifestyle>({
         resolver: zodResolver(expectedWorldlyLifestyleSchema),
         defaultValues: {
-            roleOfWife: expectedWorldlyLifestyle?.roleOfWife || '',
+            roleOfWife: expectedWorldlyLifestyle?.roleOfWife || '', //fixed
             wifeCareer: expectedWorldlyLifestyle?.wifeCareer || '',
             dualIncome: expectedWorldlyLifestyle?.dualIncome || '',
             relocation: expectedWorldlyLifestyle?.relocation || '',
@@ -84,7 +84,21 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid grid-cols-12 gap-x-3 gap-y-4 py-5">
                     <div className="space-y-1 col-span-3">
-                        <Label className="line-clamp-1 font-normal text-xs">Role of Wife</Label>
+                        <Label className="font-normal text-xs">Decision Making & Leadership</Label>
+                        <Select>
+                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem className="text-sm max-w-80" value="Sole Decision-Maker (Husband is Primary decision-maker of the family)">Sole Decision-Maker (Husband is Primary decision-maker of the family)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Consultative Leadership (Husband Leads by consulting the wife but has final say)">Consultative Leadership (Husband Leads by consulting the wife but has final say)</SelectItem>
+                                <SelectItem className="text-sm max-w-80" value="Co-Leadership (Equal joint decision making)">Co-Leadership (Equal joint decision making)</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+
+                    <div className="space-y-1 col-span-3">
+                        <Label className="font-normal text-xs">Role of Wife</Label>
                         <FormField
                             name='roleOfWife'
                             control={form.control}
@@ -97,11 +111,11 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem className="text-sm max-w-80" value="Homemaker (Cleaning, Cooking, Kids, Husband)">Homemaker (Cleaning, Cooking, Kids, Husband)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Homemaker + Assisting In laws">Homemaker + Assisting In laws</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Homemaker + May study from home">Homemaker + May study from home</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Homemakers may work from Home">Homemakers may work from Home</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="May work or study outside home">May work or study outside home</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Requires wife to work or study">Requires wife to work or study</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Assist In-laws + Homemaker">Assist In-laws + Homemaker</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Wife may study from home + Homemaker">Wife may study from home + Homemaker</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Wife may work from Home + Homemaker">Wife may work from Home + Homemaker</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Wife may work or study outside home">Wife may work or study outside home</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Husband requires and expects wife to work or study">Husband requires and expects wife to work or study</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -110,8 +124,8 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Wife&apos;s Career</Label>
+                    <div className="space-y-1 col-span-6">
+                        <Label className="font-normal text-xs">Will Financially Support wife&apos;s education, career or business</Label>
                         <FormField
                             name='wifeCareer'
                             control={form.control}
@@ -126,7 +140,7 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                                 <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="Possibly/May consider it">Possibly/May consider it</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Requires wife to have Career/Business">Requires wife to have Career/Business</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Requires wife to pursue education, Career or Business">Requires wife to pursue education, Career or Business</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -135,8 +149,8 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Dual Income</Label>
+                    <div className="space-y-1 col-span-4">
+                        <Label className="font-normal text-xs">Money in Marriage</Label>
                         <FormField
                             name='dualIncome'
                             control={form.control}
@@ -148,10 +162,8 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent className='max-w-60'>
-                                                <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Possibly/May Consider it">Possibly/May Consider it</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Requires wife to contribute financially to home expenses">Requires wife to contribute financially to home expenses</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Husband Sole Provider (Full financial maintenance of wife and children)">Husband Sole Provider (Full financial maintenance of wife and children)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Dual Income: (Husband & Wife equally share in financial responsibilities)">Dual Income: (Husband & Wife equally share in financial responsibilities)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -160,8 +172,8 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Relocation</Label>
+                    <div className="space-y-1 col-span-4">
+                        <Label className="font-normal text-xs">Wife must relocate to Husbands City</Label>
                         <FormField
                             name='relocation'
                             control={form.control}
@@ -176,7 +188,6 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                                 <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="Maybe">Maybe</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Unsure about relocation">Unsure about relocation</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -185,8 +196,8 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-3">
-                        <Label className="line-clamp-1 font-normal text-xs">Joint Family</Label>
+                    <div className="space-y-1 col-span-4">
+                        <Label className="font-normal text-xs">Wife & Joint Family</Label>
                         <FormField
                             name='jointFamily'
                             control={form.control}
@@ -198,9 +209,10 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Yes (My wife must live with my brother(s) and their wifes in same home)">Yes (My wife must live with my brother(s) and their wifes in same home)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Maybe (this is a possibility in the future where my brothers and their wives may live in the same home)">Maybe (this is a possibility in the future where my brothers and their wives may live in the same home)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="No (my wife will not live with my brother(s) and their wifes in same home)">No (my wife will not live with my brother(s) and their wifes in same home)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Yes (wife to live with husbands brother(s) and their wives in the same home)">Yes (wife to live with husbands brother(s) and their wives in the same home)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Maybe (may require wife to live with husbands brother(s) and their wives in the same home)">Maybe (may require wife to live with husbands brother(s) and their wives in the same home)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="No (wife will never be required to live with non-mehram in-laws)">No (wife will never be required to live with non-mehram in-laws)</SelectItem>
+
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -210,7 +222,7 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="line-clamp-1 font-normal text-xs">
+                        <Label className="font-normal text-xs">
                             Couple&apos;s Living Accommodation
                         </Label>
                         <FormField
@@ -235,7 +247,7 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="line-clamp-1 font-normal text-xs">
+                        <Label className="font-normal text-xs">
                             Husband Open to Live with Wife&apos;s Family
                         </Label>
                         <FormField
@@ -261,8 +273,8 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="line-clamp-1 font-normal text-xs">
-                            Husband Expects Wife to Live with His Family
+                        <Label className="font-normal text-xs">
+                            Wife to live with husbands parents
                         </Label>
                         <FormField
                             name='expectWifeToLiveWithHisFamily'
@@ -277,7 +289,7 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                             <SelectContent>
                                                 <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Maybe/Will consider it">Maybe/Will consider it</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="Possibly">Possibly</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -287,7 +299,7 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                     </div>
 
                     <div className="space-y-1 col-span-3">
-                        <Label className="line-clamp-1 font-normal text-xs">Having Children</Label>
+                        <Label className="font-normal text-xs">Husband & Having Children</Label>
                         <FormField
                             name='havingChildren'
                             control={form.control}
@@ -310,8 +322,8 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-3">
-                        <Label className="line-clamp-1 font-normal text-xs">Number of Children</Label>
+                    <div className="space-y-1 col-span-4">
+                        <Label className="font-normal text-xs">Husband Desired Number of Children</Label>
                         <FormField
                             name='numberOfChildren'
                             control={form.control}
@@ -323,13 +335,11 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="0">Not specified (whatever Allah Azawajal wills)</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="0">Not specified (Tawakkul-Allah)</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="1">1+</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="2">2+</SelectItem>
                                                 <SelectItem className="text-sm max-w-80" value="3">3+</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="4">4+</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="5">5 or more Insha&apos;Allah</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="6">To be discussed</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="4">4+ or more Insha&apos;Allah</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -338,8 +348,8 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-6">
-                        <Label className="line-clamp-1 font-normal text-xs">
+                    <div className="space-y-1 col-span-5">
+                        <Label className="font-normal text-xs">
                             Parenthood Timing After Marriage
                         </Label>
                         <FormField
@@ -354,12 +364,10 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem className="text-sm max-w-80" value="Immediately">Immediately</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="After 8 months">After 8 months</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="1 year">1 year</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="2 years">2 years</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="3 years">3 years</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="4 year">4 year</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="To be discussed">To be discussed</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="After 8 months">8+ months</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="1 year">1+ year</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="2 years">2+ years</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="3 years">3+ years</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -372,9 +380,9 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                         Children from Previous Marriage
                     </h2>
 
-                    <div className="space-y-1 col-span-5">
-                        <Label className="line-clamp-1 font-normal text-xs">
-                            Requires wife to accept/take care of children
+                    <div className="space-y-1 col-span-8">
+                        <Label className="font-normal text-xs">
+                            Wife must accept responsibility of husbands children from previous marriage
                         </Label>
                         <FormField
                             name='requireWifeToAcceptChildren'
@@ -397,9 +405,9 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-5">
-                        <Label className="line-clamp-1 font-normal text-xs">
-                            Willing to accept/take care of wife&apos;s children
+                    <div className="space-y-1 col-span-8">
+                        <Label className="font-normal text-xs">
+                            Husband willing to accept responsibility of wife&apos;s children from previous marriage.
                         </Label>
                         <FormField
                             name='willingToAcceptWifeChildren'
@@ -415,7 +423,6 @@ export function ExpectedWorldlyLifestyleForm({ expectedWorldlyLifestyle }: { exp
                                                 <SelectItem className="text-sm max-w-full" value="Yes">Yes</SelectItem>
                                                 <SelectItem className="text-sm max-w-full" value="No">No</SelectItem>
                                                 <SelectItem className="text-sm max-w-full" value="Maybe">Maybe</SelectItem>
-
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
