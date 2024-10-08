@@ -49,8 +49,8 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
     }
 
     return (
-        <div className='grid grid-cols-2 gap-4 h-full'>
-            <div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-full">
+        <div className='grid grid-cols-7 gap-4 h-full'>
+            <div className="rounded-se-3xl col-span-3 rounded-es-3xl overflow-hidden h-full">
                 {imageUrl && <Image
                     src={imageUrl}
                     className="object-cover w-full h-[21rem] object-top"
@@ -73,7 +73,7 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
                                     src={`/icons/lang/en.svg`}
                                     alt="Language Flag"
                                 />
-                                <span>{matchedUser.nationality} Nationality / Passport</span>
+                                <span>{matchedUser.nationality} Nationality</span>
                             </p>
                             <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
                                 <span>
@@ -101,7 +101,7 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
                 </div>
             </div>
 
-            <div className="rounded-se-3xl rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
+            <div className="rounded-se-3xl col-span-4 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
                 <div className='text-center'>
                     <h1 className="font-bold text-secondary">You&apos;re Matched!</h1>
                     <p className='text-center text-xs text-muted-foreground'>Explore options below to get to know your potential spouse</p>
