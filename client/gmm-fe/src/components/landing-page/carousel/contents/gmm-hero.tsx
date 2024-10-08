@@ -37,7 +37,7 @@ export default async function GMMHero() {
         />
       </div>
 
-      <div className="lg:absolute lg:top-0 lg:left-0 w-full h-full">
+      <div className="lg:absolute lg:top-0 lg:left-0 w-full h-full z-50">
         {/* Hero content */}
         <div className="px-12 sm:px-16 md:px-24 lg:px-48 py-8 lg:w-9/12 gap-8 flex flex-col h-full">
           {/* Hero image */}
