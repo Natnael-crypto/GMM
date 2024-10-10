@@ -7,10 +7,11 @@ import { MatchMakingService } from './services/matchmaking.service';
 import { UserModule } from '@modules/user/user.module';
 import { PaymentsModule } from '@modules/payment/payment.module';
 import { MatchPool } from './entities/match-pool.entity';
+import { StageInvitation } from './entities/match-invitation.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Match, Preference, MatchPool]),
+    TypeOrmModule.forFeature([Match, Preference, MatchPool, StageInvitation]),
     UserModule,
     PaymentsModule,
   ],
