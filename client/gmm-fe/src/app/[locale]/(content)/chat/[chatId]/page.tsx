@@ -38,18 +38,18 @@ export default function ChatPage() {
       <div className='flex h-screen w-full px-5 p-3'>
         <div className="lg:grid grid-cols-18 gap-x-[0.4rem] gap-y-5 h-full w-full">
           <div className="hidden col-span-4 lg:flex">
-            {matchedUser && <MatchProfile matchedUser={matchedUser} />}
+            {matchedUser && currentMatch && <MatchProfile matchedUser={matchedUser} match={currentMatch} />}
           </div>
           <div className="col-span-10 flex relative">
             <div className="flex lg:hidden absolute right-3 top-6 gap-2">
-              {matchedUser && <Dialog>
+              {matchedUser && currentMatch && <Dialog>
                 <DialogTrigger>
                   <FontAwesomeIcon icon={faUser} className="rounded-full text-muted-foreground aspect-square w-6 cursor-pointer" />
                 </DialogTrigger>
                 <DialogContent className='h-5/6 p-0 m-0 overflow-auto no-scrollbar bg-transparent border-none outline-none rounded-lg'>
                   <DialogTitle className="hidden">Match Profile</DialogTitle>
                   <DialogDescription className="hidden">View the profile of your match</DialogDescription>
-                  <MatchProfile matchedUser={matchedUser} />
+                  <MatchProfile matchedUser={matchedUser} match={currentMatch} />
                 </DialogContent>
               </Dialog>}
 
@@ -64,7 +64,7 @@ export default function ChatPage() {
                 </DialogContent>
               </Dialog>}
             </div>
-            {chat && <Chat chat={chat} />}
+            {chat && currentMatch && <Chat chat={chat} match={currentMatch} />}
           </div>
           <div className="hidden col-span-4 lg:flex">
             {matchedUser && currentMatch && <GuardianGuide matchedUser={matchedUser} match={currentMatch} />}
