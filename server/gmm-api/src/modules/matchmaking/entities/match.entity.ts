@@ -5,8 +5,18 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { StageInvitation } from './match-invitation.entity';
+
+export enum MatchStage {
+  BASIC_INFORMATION = 'BASIC_INFORMATION',
+  WORLDLY_LIFESTYLE = 'WORLDLY_LIFESTYLE',
+  ISLAMIC_LIFESTYLE = 'ISLAMIC_LIFESTYLE',
+  MARRIAGE_DISCUSSION = 'MARRIAGE_DISCUSSION',
+  FAMILY_INTRODUCTION = 'FAMILY_INTRODUCTION',
+}
 
 @Entity()
 export class Match {
@@ -32,6 +42,24 @@ export class Match {
   @Column({ default: true })
   isActive: boolean;
 
+  @Column({
+    type: 'enum',
+    enum: MatchStage,
+    default: MatchStage.BASIC_INFORMATION,
+  })
+  stage: MatchStage;
+
+  @OneToMany(() => StageInvitation, (invitation) => invitation.match, {
+    onDelete: 'CASCADE',
+  })
+  invitations: StageInvitation[];
+
   @CreateDateColumn()
   createdAt: Date;
+
+  @Column({
+    type: 'timestamp with time zone',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  lastInvitationAcceptedAt: Date;
 }

@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -8,13 +9,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Preference } from '../entities/preference.entity';
 import { Repository } from 'typeorm';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
-import { Match } from '../entities/match.entity';
+import { Match, MatchStage } from '../entities/match.entity';
 import { UserService } from '@modules/user/services/user.service';
 import { User } from '@modules/user/entities/user.entity';
 import { PaymentsService } from '@modules/payment/services/payment.service';
 import { Filtering } from '@shared/decorators/filter.decorator';
 import { getWhere } from '@shared/decorators/filter.helper';
 import { MatchPool } from '../entities/match-pool.entity';
+import {
+  StageInvitation,
+  StageInvitationStatus,
+} from '../entities/match-invitation.entity';
 
 @Injectable()
 export class MatchMakingService {
@@ -27,6 +32,9 @@ export class MatchMakingService {
 
     @InjectRepository(MatchPool)
     private readonly matchPoolRepository: Repository<MatchPool>,
+
+    @InjectRepository(StageInvitation)
+    private readonly stageInvitationRepository: Repository<StageInvitation>,
 
     private readonly userService: UserService,
     private readonly paymentService: PaymentsService,
@@ -69,6 +77,8 @@ export class MatchMakingService {
       return match.maleUserId;
     });
 
+    previousMatchedUserIds.push(user.id);
+
     const matches = await this.matchPoolRepository.find({
       where: getWhere(filters),
     });
@@ -97,7 +107,6 @@ export class MatchMakingService {
     }
 
     // await this.paymentService.consumeMatch(user.id);
-
     const match = await this.matchRepository.save(newMatch);
 
     await this.userService.userRepository.update(user.id, {
@@ -180,9 +189,8 @@ export class MatchMakingService {
 
   async getAllMatches(): Promise<Match[]> {
     return await this.matchRepository.find({
-      relations: ['maleUser', 'femaleUser'],
+      relations: ['maleUser', 'femaleUser', 'invitations'],
     });
-    
   }
 
   async getPreviousMatches(): Promise<Match[]> {
@@ -198,7 +206,7 @@ export class MatchMakingService {
   async getMyMatches(userId: string): Promise<Match[]> {
     return await this.matchRepository.find({
       where: [{ maleUserId: userId }, { femaleUserId: userId }],
-      relations: ['maleUser', 'femaleUser'],
+      relations: ['maleUser', 'femaleUser', 'invitations'],
     });
   }
 
@@ -217,7 +225,7 @@ export class MatchMakingService {
   async getMatch(matchId: string): Promise<Match> {
     const match = await this.matchRepository.findOne({
       where: { id: matchId },
-      relations: ['maleUser', 'femaleUser'],
+      relations: ['maleUser', 'femaleUser', 'invitations'],
     });
 
     if (!match) {
@@ -225,6 +233,125 @@ export class MatchMakingService {
     }
 
     return match;
+  }
+
+  async inviteToNextStage(matchId: string, user: User) {
+    const match = await this.getMatch(matchId);
+
+    if (!match.isActive) {
+      throw new BadRequestException(
+        'You are no longer matched with this user.',
+      );
+    }
+
+    if (user.id !== match.femaleUserId && user.id !== match.maleUserId) {
+      throw new ForbiddenException();
+    }
+
+    const now = new Date();
+    const lastInvitationTime = match.lastInvitationAcceptedAt;
+
+    const diffInMs = now.getTime() - new Date(lastInvitationTime).getTime();
+    const diffInMinutes = diffInMs / (1000 * 60);
+
+    if (diffInMinutes < 3) {
+      throw new BadRequestException(
+        'Please wait at least 3 minutes before inviting the user to next stage.',
+      );
+    }
+
+    if (match.stage === MatchStage.FAMILY_INTRODUCTION) {
+      throw new BadRequestException('You are already at the last stage');
+    }
+
+    const pendingInvite = await this.stageInvitationRepository.findOne({
+      where: {
+        matchId,
+        status: StageInvitationStatus.PENDING,
+      },
+    });
+
+    if (pendingInvite) {
+      throw new BadRequestException(
+        'You have already invited your match to the next stage.',
+      );
+    }
+
+    const invitation = this.stageInvitationRepository.create({
+      inviterId: user.id,
+      matchId: match.id,
+    });
+
+    return await this.stageInvitationRepository.save(invitation);
+  }
+
+  async acceptOrRejectMatchStageInvitation(
+    invitationId: string,
+    user: User,
+    action: StageInvitationStatus,
+  ) {
+    const invitation = await this.stageInvitationRepository.findOne({
+      where: { id: invitationId },
+      relations: ['match'],
+    });
+
+    if (!invitation) {
+      throw new NotFoundException();
+    }
+
+    if (invitation.status !== StageInvitationStatus.PENDING) {
+      throw new BadRequestException('Invitation has expired');
+    }
+
+    if (invitation.inviterId === user.id) {
+      throw new BadRequestException("Inviter can't accept/reject invitation");
+    }
+
+    if (
+      invitation.match.femaleUserId !== user.id &&
+      invitation.match.maleUserId !== user.id
+    ) {
+      throw new ForbiddenException();
+    }
+
+    const now = new Date();
+    switch (action) {
+      case StageInvitationStatus.ACCEPTED:
+        invitation.status = StageInvitationStatus.ACCEPTED;
+        invitation.acceptedOrRejectedAt = now;
+        invitation.match.lastInvitationAcceptedAt = now;
+
+        let nextStage;
+        switch (invitation.match.stage) {
+          case MatchStage.BASIC_INFORMATION:
+            nextStage = MatchStage.WORLDLY_LIFESTYLE;
+            break;
+          case MatchStage.WORLDLY_LIFESTYLE:
+            nextStage = MatchStage.ISLAMIC_LIFESTYLE;
+            break;
+          case MatchStage.ISLAMIC_LIFESTYLE:
+            nextStage = MatchStage.MARRIAGE_DISCUSSION;
+            break;
+          case MatchStage.MARRIAGE_DISCUSSION:
+            nextStage = MatchStage.FAMILY_INTRODUCTION;
+            break;
+          case MatchStage.FAMILY_INTRODUCTION:
+            throw new BadRequestException('You are already at the last stage');
+          default:
+            throw new BadRequestException('Invalid match stage');
+        }
+        invitation.match.stage = nextStage;
+        await this.matchRepository.save(invitation.match);
+        await this.stageInvitationRepository.save(invitation);
+        break;
+      case StageInvitationStatus.REJECTED:
+        invitation.status = StageInvitationStatus.REJECTED;
+        invitation.acceptedOrRejectedAt = now;
+        await this.stageInvitationRepository.save(invitation);
+        break;
+      default:
+        throw new BadRequestException('Unknown action');
+    }
   }
 
   async unmatchByMatchId(matchId: string) {

@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { MatchMakingService } from '../services/matchmaking.service';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { Request, Response } from 'express';
 import { User } from '@modules/user/entities/user.entity';
@@ -24,6 +24,8 @@ import {
 } from '@shared/decorators/filter.decorator';
 import { matchFilterableFields } from '../entities/match-pool.entity';
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
+import { StageInvitationStatus } from '../entities/match-invitation.entity';
+import { AcceptOrRejectInvitationDto } from '../dtos/invitation.dto';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
@@ -158,7 +160,7 @@ export class MatchMakingController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, new PermissionGuard(["match:read"]))
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['match:read']))
   @Get('all-matches')
   async getAllMatches(@Res() response: Response) {
     try {
@@ -175,7 +177,7 @@ export class MatchMakingController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, new PermissionGuard(["match:read"]))
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['match:read']))
   @Get('previous-matches')
   async getPreviousMatches(@Res() response: Response) {
     try {
@@ -204,6 +206,56 @@ export class MatchMakingController {
       return response.status(HttpStatus.BAD_REQUEST).json({
         message: 'Failed to fetch match',
         error: error.message,
+      });
+    }
+  }
+
+  @Post('matches/:id/stage-invitation')
+  async inviteToNextStage(
+    @Param('id') id: string,
+    @Req() request: Request & { user: User },
+    @Res() response: Response,
+  ) {
+    try {
+      const match = await this.matchmakingService.inviteToNextStage(
+        id,
+        request.user,
+      );
+      return response.status(HttpStatus.OK).json({
+        message: 'You have invited your match to next stage',
+        data: match,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: error.message,
+      });
+    }
+  }
+  @ApiBody({
+    type: AcceptOrRejectInvitationDto,
+  })
+  @Put('matches/:id/stage-invitation')
+  async acceptOrRejectInvitation(
+    @Param('id') id: string,
+    @Body() dto: AcceptOrRejectInvitationDto,
+    @Req() request: Request & { user: User },
+    @Res() response: Response,
+    g,
+  ) {
+    try {
+      const match =
+        await this.matchmakingService.acceptOrRejectMatchStageInvitation(
+          id,
+          request.user,
+          dto.action,
+        );
+      return response.status(HttpStatus.OK).json({
+        message: 'You have invited your match to next stage',
+        data: match,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: error.message,
       });
     }
   }
