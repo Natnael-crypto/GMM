@@ -67,7 +67,7 @@ export default function GuardianGuide({ matchedUser, match }: { matchedUser: Use
           </div>
         </div>
 
-        {stageIndex && stageIndex >= 1 && <div className="flex justify-end">
+        {stageIndex != undefined && stageIndex >= 1 && <div className="flex justify-end">
           <AlertDialog>
             <AlertDialogTrigger
               className={cn(buttonVariants({ variant: 'outline' }), "bg-transparent text-muted-foreground h-7 w-fit text-xs")}
