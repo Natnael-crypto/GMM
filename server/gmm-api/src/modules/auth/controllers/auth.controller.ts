@@ -49,6 +49,12 @@ export class AuthController {
       )!;
 
       res.cookie('access_token', token, { httpOnly: true });
+      res.cookie('ACCESS_TOKEN', token, {
+        httpOnly: true,
+        sameSite: 'strict',
+        // secure: true,
+        domain: this.configService.get<string>('DOMAIN'),
+      });
 
       return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
     } catch (error) {
@@ -134,8 +140,12 @@ export class AuthController {
   }
 
   @Post('request-reset-password')
-  async requestResetPassword(@Body() requestResetPasswordDto: RequestResetPasswordDto) {
-    await this.authService.sendResetPasswordEmail(requestResetPasswordDto.email);
+  async requestResetPassword(
+    @Body() requestResetPasswordDto: RequestResetPasswordDto,
+  ) {
+    await this.authService.sendResetPasswordEmail(
+      requestResetPasswordDto.email,
+    );
     return { message: 'Reset password link has been sent to your email.' };
   }
 

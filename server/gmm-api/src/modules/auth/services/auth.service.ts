@@ -32,8 +32,11 @@ export class AuthService {
   ) {
     this.domain = this.configService.get<string>('DOMAIN')!;
     this.secret = this.configService.get<string>('JWTSECRET')!;
-    this.resetPasswordSecret = this.configService.get<string>('RESET_PASSWORD_SECRET')!;
-    this.resetPasswordExpiration = this.configService.get<number>('RESET_PASSWORD_EXPIRATION') || 3600;
+    this.resetPasswordSecret = this.configService.get<string>(
+      'RESET_PASSWORD_SECRET',
+    )!;
+    this.resetPasswordExpiration =
+      this.configService.get<number>('RESET_PASSWORD_EXPIRATION') || 3600;
   }
 
   generateJwt(payload: any) {
@@ -68,9 +71,9 @@ export class AuthService {
         ...user,
         hasPassword: false,
       });
-  
+
       await this.userRepository.save(newUser);
-  
+
       return this.generateJwt({
         sub: newUser.email,
         email: newUser.email,
@@ -80,7 +83,6 @@ export class AuthService {
       throw new InternalServerErrorException();
     }
   }
-  
 
   async signInWithFacebook(user: User) {
     if (!user) {
@@ -150,28 +152,31 @@ export class AuthService {
 
   async loginWithEmail(user: LoginUserDto) {
     const userExists = await this.findUserByEmail(user.email);
-  
+
     if (!userExists) {
       throw new BadRequestException('Email does not exist');
     }
-  
-    if (!userExists.hasPassword) {
-      const setPasswordLink = await this.generateSetPasswordLink(user.email);
-      return {
-        message: 'You have not set a password yet. Please check your email to set one.',
-        setPasswordLink,
-      };
+
+    if (!userExists.password) {
+      // const setPasswordLink = await this.generateSetPasswordLink(user.email);
+      throw new BadRequestException(
+        'You have not set a password yet. Please check your email to set one.',
+      );
+      // {
+      //   message: 'You have not set a password yet. Please check your email to set one.',
+      //   setPasswordLink,
+      // };
     }
-  
+
     const isPasswordValid = await bcrypt.compare(
       user.password,
       userExists.password,
     );
-  
+
     if (!isPasswordValid) {
       throw new BadRequestException('Invalid credentials');
     }
-  
+
     return this.generateJwt({
       sub: userExists.email,
       id: userExists.id,
@@ -179,7 +184,6 @@ export class AuthService {
       name: userExists.firstName + ' ' + userExists.lastName,
     });
   }
-  
 
   async findUserByEmail(email: string): Promise<User | null> {
     const user = await this.userRepository.findOne({ where: { email } });
@@ -196,33 +200,34 @@ export class AuthService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
-  
+
     const token = this.jwtService.sign(
       { email: user.email },
-      { 
-        secret: this.resetPasswordSecret, 
-        expiresIn: this.resetPasswordExpiration 
-      }
+      {
+        secret: this.resetPasswordSecret,
+        expiresIn: this.resetPasswordExpiration,
+      },
     );
-  
+
     return `${this.domain}/set-password?token=${token}`;
   }
-  
-  
+
   async setPassword(token: string, newPassword: string): Promise<void> {
     try {
-      const decoded = this.jwtService.verify(token, { secret: this.resetPasswordSecret });
+      const decoded = this.jwtService.verify(token, {
+        secret: this.resetPasswordSecret,
+      });
       const email = decoded.email;
-  
+
       const user = await this.findUserByEmail(email);
       if (!user) {
         throw new BadRequestException('Invalid token or user not found');
       }
-  
+
       if (user.hasPassword) {
         throw new BadRequestException('Password already set for this account');
       }
-  
+
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       user.password = hashedPassword;
       user.hasPassword = true;
@@ -231,7 +236,6 @@ export class AuthService {
       throw new BadRequestException('Invalid or expired token');
     }
   }
-  
 
   async generateRegistrationLink(email: string) {
     const token = this.jwtService.sign({ email }, { secret: this.secret });
@@ -273,10 +277,10 @@ export class AuthService {
 
     const token = this.jwtService.sign(
       { email: user.email },
-      { 
+      {
         secret: this.resetPasswordSecret,
         expiresIn: this.resetPasswordExpiration,
-      }
+      },
     );
 
     return `${this.domain}/reset-password?token=${token}`;
@@ -289,14 +293,16 @@ export class AuthService {
     await this.noticeService.sendEmail(
       email,
       'Guardian Match Making: Reset Password Request',
-      `Click the following link to reset your password: <a href="${resetPasswordLink}">Reset Password</a>`
+      `Click the following link to reset your password: <a href="${resetPasswordLink}">Reset Password</a>`,
     );
   }
 
   // Handle Reset Password Request
   async resetPassword(token: string, newPassword: string): Promise<void> {
     try {
-      const decoded = this.jwtService.verify(token, { secret: this.resetPasswordSecret });
+      const decoded = this.jwtService.verify(token, {
+        secret: this.resetPasswordSecret,
+      });
       const email = decoded.email;
 
       const user = await this.findUserByEmail(email);
