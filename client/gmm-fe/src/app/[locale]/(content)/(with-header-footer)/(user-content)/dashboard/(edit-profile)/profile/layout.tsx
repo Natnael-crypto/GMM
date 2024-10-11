@@ -6,14 +6,7 @@ import { UpdateProfileProvider } from '@/components/dashboard/profile/update-pro
 import UpdateProfileFooter from '@/components/dashboard/profile/update-profile-footer';
 import UpdateProfileHeader from '@/components/dashboard/profile/update-profile-header';
 import { usePathname } from '@/lib/navigation';
-
-const pageNames: Record<string, string> = {
-  '/dashboard/profile/basic-information': 'Basic Information',
-  '/dashboard/profile/worldly-lifestyle': 'Worldly Lifestyle',
-  '/dashboard/profile/islamic-lifestyle': 'Islamic Lifestyle',
-  '/dashboard/profile/marriage': 'Marriage Discussion',
-  '/dashboard/profile/family': 'Family Introduction',
-};
+import { useParams } from 'next/navigation';
 
 export default function UpdateProfileLayout({
   children,
@@ -21,6 +14,22 @@ export default function UpdateProfileLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+
+  const params = useParams<{ userId: string }>();
+
+  const basicInfoPath = `/dashboard/profile/${params.userId}/basic-information`
+  const worldlyLifestylePath = `/dashboard/profile/${params.userId}/worldly-lifestyle`
+  const islamicLifestylePath = `/dashboard/profile/${params.userId}/islamic-lifestyle`
+  const marriagePath = `/dashboard/profile/${params.userId}/marriage`
+  const familyPath = `/dashboard/profile/${params.userId}/family`
+
+  const pageNames: Record<string, string> = {
+    [basicInfoPath]: 'Basic Information',
+    [worldlyLifestylePath]: 'Worldly Lifestyle',
+    [islamicLifestylePath]: 'Islamic Lifestyle',
+    [marriagePath]: 'Marriage Discussion',
+    [familyPath]: 'Family Introduction',
+  };
 
   return (
     <UpdateProfileProvider>

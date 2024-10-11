@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 import ProfileImages from '../dashboard/components/profile-image-card';
-import { Match, StageInvitationStatus } from '@/lib/matchmaking/types';
+import { Match, MatchStage, StageInvitationStatus } from '@/lib/matchmaking/types';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../ui/alert-dialog';
 import { useAcceptOrRejectInvitationMutation, useInviteToNextStepMutation } from '@/lib/matchmaking/api';
 import { toast } from '../ui/use-toast';
@@ -21,6 +21,14 @@ enum DialogType {
   SEND_INVITATION = 'send_invitation',
   ACCEPT_OR_REJECT_INVITATION = 'accept_or_reject_invitation',
 }
+
+const stageUrls = [
+  'basic-information',
+  'worldly-lifestyle',
+  'islamic-lifestyle',
+  'marriage',
+  'family',
+]
 
 export default function MatchProfile({ matchedUser, match }: { matchedUser: User, match: Match }) {
   const user = useAppSelector((state) => state.auth.user);
@@ -86,6 +94,8 @@ export default function MatchProfile({ matchedUser, match }: { matchedUser: User
     buttonText = 'Accept/Reject Invitation';
   }
 
+  const stages = Object.keys(MatchStage)
+  const stageIndex = stages.indexOf(match.stage)
 
   return (
     <div className="bg-[#f0f8f8] rounded-lg overflow-hidden h-full flex flex-col items-center"
@@ -101,11 +111,11 @@ export default function MatchProfile({ matchedUser, match }: { matchedUser: User
           <ProfileImages user={matchedUser} />
 
           <div className="flex gap-2 flex-wrap items-center justify-center">
-            <Link href="" className={cn(buttonVariants({ variant: 'default' }), "bg-secondary text-primary-foreground text-[0.6rem] h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]")}>
+            <Link href={`/dashboard/profile/${matchedUser.id}/${stageUrls[stageIndex]}`} className={cn(buttonVariants({ variant: 'default' }), "bg-secondary text-primary-foreground text-[0.6rem] h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]")}>
               <FontAwesomeIcon icon={faUser} />
               <span>View Profile</span>
             </Link>
-            <Link href="/dashboard/compatibility/basic-information" className={cn(buttonVariants({ variant: 'default' }), "bg-secondary text-primary-foreground text-[0.6rem] h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]")}>
+            <Link href={`/dashboard/compatibility/${stageUrls[stageIndex]}`} className={cn(buttonVariants({ variant: 'default' }), "bg-secondary text-primary-foreground text-[0.6rem] h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]")}>
               <FontAwesomeIcon icon={faPeopleArrows} />
               <span>Compatibility</span>
             </Link>

@@ -1,10 +1,16 @@
-import { Button, buttonVariants } from '@/components/ui/button';
+'use client'
+
+import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Link } from '@/lib/navigation';
 import React from 'react';
+import { useParams } from 'next/navigation';
+import { useAppSelector } from '@/lib/hooks';
 
 export default function NoMatchCard() {
+  const user = useAppSelector((state) => state.auth.user);
+
   return (
     <div className="bg-[#e8f3db] rounded-se-3xl rounded-es-3xl overflow-hidden py-5 p-8 text-sm space-y-4  text-muted-foreground">
       <div className="flex flex-col items-center gap-4">
@@ -26,12 +32,12 @@ export default function NoMatchCard() {
           with accurate information.
         </p>
         <div className="flex justify-center">
-          <Link
-            href='/dashboard/profile/basic-information/edit'
+          {user && <Link
+            href={`/dashboard/profile/${user.id}/basic-information/edit`}
             className={cn(buttonVariants({ variant: 'outline' }), "rounded-full text-xs text-primary-foreground bg-primary font-bold h-6")}
           >
             Click Here To Edit Your Profile
-          </Link>
+          </Link>}
         </div>
 
         <div className="flex flex-col justify-center">

@@ -11,10 +11,10 @@ import {
 } from '@/components/ui/breadcrumb';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import { ProfileHeaderProps } from '@/types';
 import { useLocale } from 'next-intl';
 import { useAppSelector } from '@/lib/hooks';
+import { Link } from '@/lib/navigation';
 
 export default function ProfileHeader({
   pageName,

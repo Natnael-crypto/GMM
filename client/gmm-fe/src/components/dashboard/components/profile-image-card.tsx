@@ -48,7 +48,7 @@ export default function ProfileImages({ user }: { user: User }) {
       setImageUrls([...images])
     }
     downloadUrl()
-  }, [generateDownloadUrl, user.pictures])
+  }, [generateDownloadUrl, user.pictures, user])
 
   return (
     <div>

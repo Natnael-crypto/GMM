@@ -108,7 +108,7 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
                 </div>
 
                 <div className='space-y-3'>
-                    <Link href="/dashboard/compatibility/basic-information" className='flex gap-4 items-center'>
+                    <Link href={`/dashboard/profile/${matchedUser.id}/basic-information`} className='flex gap-4 items-center'>
                         <div className='rounded-md bg-primary p-2 aspect-square text-primary-foreground flex items-center justify-center'><FontAwesomeIcon icon={faUser} /></div>
                         <span className='text-xs text-secondary font-bold'>View Profile</span>
                     </Link>

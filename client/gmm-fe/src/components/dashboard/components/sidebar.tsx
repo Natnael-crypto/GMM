@@ -1,17 +1,19 @@
 'use client';
 
-import { useLocale } from 'next-intl';
-
 import { Link, usePathname } from '@/lib/navigation';
 import React from 'react';
 import { cn } from '@/lib/utils';
 import CurrentSubscriptionCard from '../billing/components/current-subscription-card';
+import { useAppSelector } from '@/lib/hooks';
+import Loading from '@/components/ui/loading';
 
 export default function Sidebar() {
-  const locale = useLocale();
   const pathname = usePathname();
+  const user = useAppSelector((state) => state.auth.user);
 
   const isActive = (href: string) => pathname === href;
+
+  if (!user) return <Loading />;
 
   return (
     <div className="text-secondary text-sm space-y-4">
@@ -55,7 +57,7 @@ export default function Sidebar() {
             Dashboard
           </Link>
           <Link
-            href="/dashboard/profile/basic-information"
+            href={`/dashboard/profile/${user.id}/basic-information`}
             className="ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full"
           >
             Profile
