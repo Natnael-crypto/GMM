@@ -48,13 +48,7 @@ export class AuthController {
         'CLIENTAUTHSUCCESSURL',
       )!;
 
-      res.cookie('access_token', token, { httpOnly: true });
-      res.cookie('ACCESS_TOKEN', token, {
-        httpOnly: true,
-        sameSite: 'strict',
-        secure: true,
-        domain: this.configService.get<string>('DOMAIN'),
-      });
+      res.header('ACCESS_TOKEN', token);
 
       return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
     } catch (error) {
@@ -80,7 +74,8 @@ export class AuthController {
         'CLIENTAUTHSUCCESSURL',
       )!;
 
-      res.cookie('access_token', token, { httpOnly: true });
+      res.header('ACCESS_TOKEN', token);
+
       return res.redirect(HttpStatus.PERMANENT_REDIRECT, clientSuccessUrl);
     } catch (error) {
       return res.status(HttpStatus.BAD_REQUEST).json({
