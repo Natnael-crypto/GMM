@@ -7,7 +7,6 @@ import {
   Res,
   UseGuards,
   Body,
-  Query,
   BadRequestException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
