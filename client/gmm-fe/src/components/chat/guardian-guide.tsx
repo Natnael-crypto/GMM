@@ -3,7 +3,7 @@
 import { buttonVariants } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { matchApi, useUnmatchMutation } from '@/lib/matchmaking/api';
-import { Match } from '@/lib/matchmaking/types';
+import { Match, MatchStage } from '@/lib/matchmaking/types';
 import { useRouter } from '@/lib/navigation';
 import { User } from '@/lib/schemas/user';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
@@ -29,6 +29,9 @@ export default function GuardianGuide({ matchedUser, match }: { matchedUser: Use
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unmatchResult, router, dispatch]);
 
+  const stages = Object.keys(MatchStage)
+  const stageIndex = stages.indexOf(match.stage)
+
   return (
     <div className="h-full bg-background rounded-lg overflow-hidden" style={{
       height: 'calc(100vh - 1.50rem)',
@@ -47,7 +50,7 @@ export default function GuardianGuide({ matchedUser, match }: { matchedUser: Use
           </div>
 
           <p className="font-bold text-xs text-center px-10">
-            You are on [Step 1] with {matchedUser.firstName} from {matchedUser.country}
+            You are on [Step {stageIndex + 1}] with {matchedUser.firstName} from {matchedUser.country}
           </p>
 
           <div className="text-xs space-y-3 py-5 border-t">
@@ -64,7 +67,7 @@ export default function GuardianGuide({ matchedUser, match }: { matchedUser: Use
           </div>
         </div>
 
-        <div className="flex justify-end">
+        {stageIndex != undefined && stageIndex >= 1 && <div className="flex justify-end">
           <AlertDialog>
             <AlertDialogTrigger
               className={cn(buttonVariants({ variant: 'outline' }), "bg-transparent text-muted-foreground h-7 w-fit text-xs")}
@@ -85,7 +88,7 @@ export default function GuardianGuide({ matchedUser, match }: { matchedUser: Use
             </AlertDialogContent>
           </AlertDialog>
 
-        </div>
+        </div>}
       </div>
     </div >
   );

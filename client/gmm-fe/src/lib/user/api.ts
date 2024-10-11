@@ -51,6 +51,16 @@ export const userApi = createApi({
   }),
 
   endpoints: (builder) => ({
+    getUser: builder.query<User, string>({
+      query: (id) => `users/${id}`,
+      transformResponse: (response: BaseResponse<User>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'User', id: arg }];
+      },
+    }),
+
     getUsers: builder.query<User[], string>({
       query: (queryString) => `users?${queryString}`,
       transformResponse: (response: BaseResponse<User[]>) => {
@@ -296,6 +306,7 @@ export const userApi = createApi({
 });
 
 export const {
+  useGetUserQuery,
   useLazyGetUsersQuery,
   useUpdatePreferenceMutation,
   useRegisterUserMutation,

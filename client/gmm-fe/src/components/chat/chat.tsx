@@ -16,6 +16,7 @@ import { User } from '@/lib/schemas/user';
 import { formatLocalizedDate } from '@/lib/format';
 import DateSeparator from './date-separator';
 import { StepperItem } from './stepper';
+import { Match, MatchStage } from '@/lib/matchmaking/types';
 
 type ExtendedMessage = Message & { pending: boolean, mine: boolean }
 
@@ -65,7 +66,7 @@ const mergeMessages = (
   return [dates, messageGroups]
 }
 
-export default function ChatBox({ chat }: { chat: Chat }) {
+export default function ChatBox({ chat, match }: { chat: Chat, match: Match }) {
   const user = useAppSelector((state) => state.auth.user);
   const { data: messagesResponse, isLoading: initialLoading } = useGetMessagesQuery({ roomId: chat.id }, { skip: !chat.id || !user });
   const [trigger, oldMessagesResult, lastPromiseInfo] = useLazyGetMessagesQuery()
@@ -126,6 +127,9 @@ export default function ChatBox({ chat }: { chat: Chat }) {
     }
   }, [socket, chat, socket?.connected])
 
+  const stages = Object.keys(MatchStage)
+  const stageIndex = stages.indexOf(match.stage)
+
   return (
     <div className="w-full bg-[#f7f7f7] p-5 rounded-lg flex flex-col justify-between"
       style={{
@@ -138,11 +142,11 @@ export default function ChatBox({ chat }: { chat: Chat }) {
 
         <div className="w-full overflow-auto no-scrollbar">
           <div className="relative grid grid-cols-5 gap-3 py-4 w-[600px] mx-auto">
-            <StepperItem icon={faUser} text="Basic" active={true} />
-            <StepperItem icon={faHouse} text="Worldly/Duniya" />
-            <StepperItem icon={faMosque} text="Islamic/Deen" />
-            <StepperItem icon={faComments} text="Marriage" />
-            <StepperItem icon={faPeopleRoof} text="Family Intro" />
+            <StepperItem icon={faUser} text="Basic" active={stageIndex >= 0} />
+            <StepperItem icon={faHouse} text="Worldly/Duniya" active={stageIndex >= 1} />
+            <StepperItem icon={faMosque} text="Islamic/Deen" active={stageIndex >= 2} />
+            <StepperItem icon={faComments} text="Marriage" active={stageIndex >= 3} />
+            <StepperItem icon={faPeopleRoof} text="Family Intro" active={stageIndex >= 4} />
             <div className="absolute top-1/2 -translate-y-1/2 w-full h-[1px] bg-border"></div>
           </div>
         </div>

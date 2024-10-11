@@ -23,3 +23,13 @@ export const userInMatchPool = z.object({
 });
 
 export type UserInMatchPool = z.infer<typeof userInMatchPool>;
+
+export const matchStageInvitationSchema = z.object({
+  id: z.string(),
+  inviterId: z.string(),
+  matchId: z.string(),
+  status: z.string(),
+  acceptedOrRejectedAt: z.coerce.date(),
+});
+
+export type MatchStageInvitation = z.infer<typeof matchStageInvitationSchema>;
