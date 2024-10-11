@@ -52,7 +52,7 @@ export class AuthController {
       res.cookie('ACCESS_TOKEN', token, {
         httpOnly: true,
         sameSite: 'strict',
-        // secure: true,
+        secure: true,
         domain: this.configService.get<string>('DOMAIN'),
       });
 
