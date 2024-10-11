@@ -13,8 +13,8 @@ export const signUp = async (data: SignUp) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      firstname: data.firstName,
-      lastname: data.lastName,
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       password: data.password,
       confirmPassword: data.confirmPassword,
@@ -22,6 +22,7 @@ export const signUp = async (data: SignUp) => {
   });
 
   const res = await response.json();
+
   if (!response.ok) {
     return {
       status: response.status,
