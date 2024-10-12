@@ -268,5 +268,89 @@
         }
       }
     }
+  },
+
+  "forms": {
+    "marriageDiscussion": {
+      "title": "Marriage Discussion",
+      "description": "<bold>When & How Are You Getting MARRIED!!!</bold> This is where you and your potential spouse have the Marriage Discussion",
+      "questions": [
+        {
+          "question": "Marriage Type",
+          "name": "marriageType",
+          "type": "select",
+          "options": [
+            "Simple Ceremony (straightforward wedding with minimal extravagance)",
+            "Traditional Ceremony (wedding close to tradition)",
+            "Lavish Ceremony (grand and elaborate celebration)",
+            "Intimate Gathering (small ceremony with close friends and family)"
+          ]
+        },
+        {
+          "question": "Marriage Location",
+          "name": "marriageLocation",
+          "type": "select",
+          "options": [
+            "Hometown Celebration (wedding to take place in my home city)",
+            "Spouse Hometown (open to having the wedding in the city of my spouse)",
+            "Destination Wedding (want a wedding in a specific, or significant, location)",
+            "Any Location (not tied to a specific location)"
+          ]
+        },
+        {
+          "question": "Marriage Venue",
+          "name": "marriageVenue",
+          "type": "select",
+          "options": [
+            "Mosque Ceremony (wedding held in a mosque)",
+            "Wedding Hall Celebration (ceremony in a formal wedding hall)",
+            "Outdoor Setting (outdoor wedding, in a garden or on a beach)",
+            "To Be Discussed (we can decide)"
+          ]
+        },
+        {
+          "question": "Marriage Timeline",
+          "name": "marriageTimeline",
+          "type": "select",
+          "options": [
+            "Immediate (wedding as soon as possible)",
+            "Short-Term (3 - 6 months)",
+            "Long-Term Planning (6 months to a year+)"
+          ]
+        },
+        {
+          "question": "Family in Marriage Decision",
+          "name": "familyInMarriageDiscussion",
+          "type": "select",
+          "options": [
+            "Significant Influence (family plays a major role in marriage decision-making)",
+            "Moderate Input (some family input but its my say in the final decision)",
+            "Limited Involvement (family involvement is minimal)",
+            "Independent Decision (marriage decision is mine and my family has no say)"
+          ]
+        },
+        {
+          "question": "Dowry/Mahr",
+          "name": "dowry",
+          "type": "select",
+          "options": [
+            "Symbolic (Minimal, symbolic Mahr, does not have to be money)",
+            "Moderate (Mahr of moderate value to be discussed)",
+            "Substantial Mahr (A significant Mahr to be discussed)"
+          ]
+        },
+        {
+          "question": "Wedding Budget",
+          "name": "weddingBudget",
+          "type": "select",
+          "options": [
+            "Economical: $5,000 - $10,000",
+            "Moderate: $10,000 - $20,000",
+            "Flexible: $20,000 - $30,000",
+            "High-End: $30,000+"
+          ]
+        }
+      ]
+    }
   }
 }
