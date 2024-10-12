@@ -108,7 +108,7 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
               </li>
               <li>
                 Approximate Debts: <span className="font-bold">{
-                  isSuccess && worldlyLifestyle.approximateDebts
+                  isSuccess && `${worldlyLifestyle.approximateDebt} ${worldlyLifestyle.approximateDebtCurrency}`
                 }</span>
               </li>
               <li>
@@ -136,7 +136,7 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
               <li className="font-bold">- {isSuccess && worldlyLifestyle.livingSituation}</li>
               <li className="font-bold">- {isSuccess && worldlyLifestyle.presentFamilyMembers}</li>
               <li className="font-bold">
-                - {isSuccess && worldlyLifestyle.numberOfSibilings} <span className="font-normal">Siblings & </span>{
+                - {isSuccess && worldlyLifestyle.numberOfSiblings} <span className="font-normal">Siblings & </span>{
                   isSuccess && worldlyLifestyle.pets
                 }{' '}
                 <span className="font-normal">Pets</span>
