@@ -1,16 +1,8 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-import { ExpectedIslamicLifestyle, expectedIslamicLifestyleSchema } from '@/lib/schemas/islamic-lifestyle';
+import { Form } from '@/components/ui/form';
+import { MaleExpectedIslamicLifestyle, maleExpectedIslamicLifestyleSchema } from '@/lib/schemas/islamic-lifestyle';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useAppSelector } from '@/lib/hooks';
@@ -18,19 +10,22 @@ import { useAppSelector } from '@/lib/hooks';
 import { useUpdateExpectedIslamicLifestyleMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
 import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
+import Field from '../field';
+import { useTranslations } from 'next-intl';
 
-export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle }: { expectedIslamicLifestyle?: ExpectedIslamicLifestyle }) {
-    const form = useForm<ExpectedIslamicLifestyle>({
-        resolver: zodResolver(expectedIslamicLifestyleSchema),
+export default function ExpectedIslamicLifestyleFormMale({ expectedIslamicLifestyle }: { expectedIslamicLifestyle?: Partial<MaleExpectedIslamicLifestyle> }) {
+    const form = useForm<MaleExpectedIslamicLifestyle>({
+        resolver: zodResolver(maleExpectedIslamicLifestyleSchema),
         defaultValues: {
             salat: expectedIslamicLifestyle?.salat ?? '',
+            obedience: expectedIslamicLifestyle?.obedience ?? '',
             hijab: expectedIslamicLifestyle?.hijab ?? '',
             appearance: expectedIslamicLifestyle?.appearance ?? '',
-            familyStructure: expectedIslamicLifestyle?.familyStructure ?? '',
-            childrenAndUpbringing: expectedIslamicLifestyle?.childrenAndUpbringing ?? '',
+            polygyny: expectedIslamicLifestyle?.polygyny ?? '',
+            islamicEducation: expectedIslamicLifestyle?.islamicEducation ?? '',
             socialMedia: expectedIslamicLifestyle?.socialMedia ?? '',
-            nonMehramContact: expectedIslamicLifestyle?.nonMehramContact ?? '',
-            obedienceToHusband: expectedIslamicLifestyle?.obedienceToHusband ?? '',
+            wifeNonMehramContact: expectedIslamicLifestyle?.wifeNonMehramContact ?? '',
+            husbandNonMehramContact: expectedIslamicLifestyle?.husbandNonMehramContact ?? '',
             obedienceToInLaws: expectedIslamicLifestyle?.obedienceToInLaws ?? ''
         }
     });
@@ -51,7 +46,7 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
         }
     }, [expectedIslamicLifestyleFormRef, registerForm]);
 
-    const onSubmit = (data: ExpectedIslamicLifestyle) => {
+    const onSubmit = (data: MaleExpectedIslamicLifestyle) => {
         updateExpectedIslamicLifestyle({ userId: user!.id, expectedIslamicLifestyle: data });
     }
 
@@ -68,11 +63,13 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
         }
     }, [updateResult])
 
+    const t = useTranslations('forms.expectedIslamicLifestyle.male')
+    const questions = t.raw('questions')
 
     return (
         <div className="bg-muted w-full py-4 px-6 sm:px-16 md:px-24 lg:px-52">
             <h1 className="text-xl font-bold text-primary border-b p-1">
-                Your Expected (After Marriage) Islamic Lifestyle from Your Potential Spouse
+                {t('title')}
             </h1>
 
             <Form {...form}>
@@ -80,234 +77,11 @@ export default function ExpectedIslamicLifestyleForm({ expectedIslamicLifestyle 
                     ref={expectedIslamicLifestyleFormRef}
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid grid-cols-12 gap-x-3 gap-y-4 py-5">
-                    <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">Salat/Prayers</Label>
-                        <FormField
-                            name='salat'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Wife Must Pray Full Daily Prayers + Sunnah (Expects all obligatory and Sunnah prayers)">Wife Must Pray Full Daily Prayers + Sunnah (Expects all obligatory and Sunnah prayers)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Wife May Pray Fardh Only (Expect at least mandatory salat/prayers as a minimum requirement)">Wife May Pray Fardh Only (Expect at least mandatory salat/prayers as a minimum requirement)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Support Prayer Journey (Husband willing to support wife for prayer)">Support Prayer Journey (Husband willing to support wife for prayer)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Flexible Approach (As long as she says she's a Muslim, it does not matter if she prays or not)">Flexible Approach (As long as she says she&apos;s a Muslim, it does not matter if she prays or not)</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">Hijab</Label>
-                        <FormField
-                            name='hijab'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Wife must do Advanced Hijab (Niqab or burqa, possibly with gloves, often with eyes not visible)">Wife must do Advanced Hijab (Niqab or burqa, possibly with gloves, often with eyes not visible)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Wife must do Minimum Hijab (Basic Islamic attire with long dress/skirt, or loose clothing with long sleeves. Face and hands visible)">Wife must do Minimum Hijab (Basic Islamic attire with long dress/skirt, or loose clothing with long sleeves. Face and hands visible)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Wife may do Partial Hijab (Headscarf like a turban revealing neck. Tight clothing showing shape of body)">Wife may do Partial Hijab (Headscarf like a turban revealing neck. Tight clothing showing shape of body)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="No Hijab (Don't need or want wife to wear Hijab)">No Hijab (Don&apos;t need or want wife to wear Hijab)</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">
-                            Appearance (Makeup/Perfume)
-                        </Label>
-                        <FormField
-                            name='appearance'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="No Makeup or Perfume Outside (Wife may not wear makeup or perfume when going outside)">No Makeup or Perfume Outside (Wife may not wear makeup or perfume when going outside)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Makeup with Hijab/Niqab, No Perfume (Wife may wear makeup but with Hijab/niqab and no perfume in public)">Makeup with Hijab/Niqab, No Perfume (Wife may wear makeup but with Hijab/niqab and no perfume in public)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Subtle Makeup, Light Perfume (Wife may wear a little unnoticeable amount of makeup with light perfume when outside)">Subtle Makeup, Light Perfume (Wife may wear a little unnoticeable amount of makeup with light perfume when outside)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Full Makeup, Any Perfume (Wife may wear full face makeup and any choice of perfume)">Full Makeup, Any Perfume (Wife may wear full face makeup and any choice of perfume)</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">
-                            Polygyny/Family Structure
-                        </Label>
-                        <FormField
-                            name='familyStructure'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Monogamous (Prefers only one wife)">Monogamous (Prefers only one wife)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Polygynous (Prefers to have more than one wife in the future)">Polygynous (Prefers to have more than one wife in the future)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Open (Requiring future wife to discuss the possibility of husband having multiple wives)">Open (Requiring future wife to discuss the possibility of husband having multiple wives)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Undecided (Not making any decisions on having multiple wives at this time)">Undecided (Not making any decisions on having multiple wives at this time)</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">Children Upbringing</Label>
-                        <FormField
-                            name='childrenAndUpbringing'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Islamic Education/Environment Priority (Children must have Islamic school/mosque environment)">Islamic Education/Environment Priority (Children must have Islamic school/mosque environment)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Joint Decision (Open to discussing children's Islamic education with future wife)">Joint Decision (Open to discussing children&apos;s Islamic education with future wife)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Undecided (Has not decided yet about the Islamic education of children)">Undecided (Has not decided yet about the Islamic education of children)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Secular Upbringing (Prefers children not to attend Islamic school or masjid; Islamic education not a priority)">Secular Upbringing (Prefers children not to attend Islamic school or masjid; Islamic education not a priority)</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">Social Media</Label>
-                        <FormField
-                            name='socialMedia'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="No Social Media (Prefers a wife who does not use social media or will delete her social media presence)">No Social Media (Prefers a wife who does not use social media or will delete her social media presence)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Private Profile (Comfortable with social media use, provided she does not show her face)">Private Profile (Comfortable with social media use, provided she does not show her face)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Restricted Use (Will accept minimal social media activity, with adherence to Islamic principles such as hijab)">Restricted Use (Will accept minimal social media activity, with adherence to Islamic principles such as hijab)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Unrestricted Use (Have no issues with regular social media activity, regardless of Islamic adherence)">Unrestricted Use (Have no issues with regular social media activity, regardless of Islamic adherence)</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">Wife&apos;s Non-Mehram Contract</Label>
-                        <FormField
-                            name='nonMehramContact'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Mehram Contacts Only (prefers future wife to interact only with her mahrams: father, brothers, son. No Male cousins or male best friends)">Mehram Contacts Only (prefers future wife to interact only with her mahrams: father, brothers, son. No Male cousins or male best friends)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Restrictive Post-Marriage (Understanding of current family dynamic. Expect all Non-Mehram contact to stop after marriage. No Male cousins or male best friends)">Restrictive Post-Marriage (Understanding of current family dynamic. Expect all Non-Mehram contact to stop after marriage. No Male cousins or male best friends)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Limited Non-Mahram Contact (Accepts contact with non-mahram male cousins and male friends with public or supervised interactions)">Limited Non-Mahram Contact (Accepts contact with non-mahram male cousins and male friends with public or supervised interactions)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="No Restrictions (Open to his wife maintaining non-mahram family or friendships without any specific conditions)">No Restrictions (Open to his wife maintaining non-mahram family or friendships without any specific conditions)</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">Obedience to Husband</Label>
-                        <FormField
-                            name='obedienceToHusband'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Obedience Expected (Wife must adhere to husband's decisions)">Obedience Expected (Wife must adhere to husband&apos;s decisions)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Final Say (Husband has final say, while valuing wife's input)">Final Say (Husband has final say, while valuing wife&apos;s input)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Mutual Compromise (Husband and wife decide together)">Mutual Compromise (Husband and wife decide together)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Valuing Opinions (Husband will prioritize wife's opinions in decision-making)">Valuing Opinions (Husband will prioritize wife&apos;s opinions in decision-making)</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
-
-                    <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">Obedience to In-laws</Label>
-                        <FormField
-                            name='obedienceToInLaws'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Full Obedience (Complete respect and adherence to in-laws' guidance and decisions)">Full Obedience (Complete respect and adherence to in-laws&apos; guidance and decisions)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Moderate (Respect in-laws)">Moderate (Respect in-laws)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Independent Relationship (Minimal involvement of in-laws)">Independent Relationship (Minimal involvement of in-laws)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Mutual Respect and Boundaries (Mutual respect with maintaining clear personal boundaries)">Mutual Respect and Boundaries (Mutual respect with maintaining clear personal boundaries)</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>)}
-                        />
-                    </div>
+                    {
+                        questions.map((question: any, index: number) => {
+                            return <Field key={index} type={question.type} label={question.question} name={question.name} options={question.options} />
+                        })
+                    }
                 </form>
             </Form>
         </div>

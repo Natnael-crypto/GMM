@@ -1,6 +1,6 @@
 'use client'
 
-import { ExpectedWorldlyLifestyleForm } from "@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-form";
+import { ExpectedWorldlyLifestyleFormMale } from "@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-form";
 import { ExpectedWorldlyLifestyleFormFemale } from "@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-form-female";
 import { WorldlyLifestyleForm } from "@/components/dashboard/profile/worldly-lifestyle/worldly-lifestyle-form";
 import Loading from "@/components/ui/loading";
@@ -12,13 +12,13 @@ export default function UpdateWorldlyLifestylePage() {
   const { data: worldlyLifestyle, isLoading: isWorldlyLifestyleLoading } = useGetWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
   const { data: expectedWorldlyLifestyle, isLoading: isExpectedWorldlyLifestyleLoading } = useGetExpectedWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
 
-  const ExpectedWorldLifeStyleF = user?.gender === 'Female' ? ExpectedWorldlyLifestyleFormFemale : ExpectedWorldlyLifestyleForm;
+  const ExpectedWorldLifeStyle = user?.gender === 'Female' ? ExpectedWorldlyLifestyleFormFemale : ExpectedWorldlyLifestyleFormMale;
 
 
   return <div>
     {isWorldlyLifestyleLoading && <div className="w-full flex justify-center"><Loading /></div>}
     <WorldlyLifestyleForm worldlyLifestyle={worldlyLifestyle} />
     {isExpectedWorldlyLifestyleLoading && <div className="w-full flex justify-center"><Loading /></div>}
-    {expectedWorldlyLifestyle ? <ExpectedWorldLifeStyleF expectedWorldlyLifestyle={expectedWorldlyLifestyle} /> : <ExpectedWorldLifeStyleF />}
+    <ExpectedWorldLifeStyle expectedWorldlyLifestyle={expectedWorldlyLifestyle} />
   </div>
 }

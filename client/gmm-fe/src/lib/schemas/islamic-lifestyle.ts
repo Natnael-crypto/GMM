@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const islamicLifestyleSchema = z
+export const maleIslamicLifestyleSchema = z
   .object({
     salat: z.string({
       required_error: 'This field is required',
@@ -20,42 +20,94 @@ export const islamicLifestyleSchema = z
     islamAndCulture: z.string({
       required_error: 'This field is required',
     }),
+    celebratingBirthdays: z.string({
+      required_error: 'This field is required',
+    }),
+    celebratingMawlid: z.string({ required_error: 'This field is required' }),
+    money: z.string({
+      required_error: 'This field is required',
+    }),
     islamicEducation: z.string({
       required_error: 'This field is required',
     }),
-    appearance: z.string({ required_error: 'This field is required' }),
-    hajjAndUmrah: z.string({
+    appearance: z.string({
       required_error: 'This field is required',
     }),
-    childrenAndUpbringing: z.union([
-      z.number({ message: 'This field is required' }),
-      z
-        .string({
-          required_error: 'This field is required',
-        })
-        .transform((val) => parseInt(val)),
-    ]),
+    hajjAndUmra: z.string({
+      required_error: 'This field is required',
+    }),
+    childrenAndUpbringing: z.string({
+      required_error: 'This field is required',
+    }),
   })
   .required();
 
-export const expectedIslamicLifestyleSchema = z
+export const femaleIslamicLifestyleSchema = z
   .object({
-    salat: z.string({ required_error: 'Please select your preference' }),
-    hijab: z.string({ required_error: 'Please select your preference' }),
-    appearance: z.string({ required_error: 'Please select your preference' }),
-    familyStructure: z.string({
-      required_error: 'Please select your preference',
+    salat: z.string({
+      required_error: 'This field is required',
+    }),
+    ramadan: z.string({
+      required_error: 'This field is required',
+    }),
+    fasting: z.string({
+      required_error: 'This field is required',
+    }),
+    zakat: z.string({
+      required_error: 'This field is required',
+    }),
+    food: z.string({
+      required_error: 'This field is required',
+    }),
+    islamAndCulture: z.string({
+      required_error: 'This field is required',
+    }),
+    celebratingBirthdays: z.string({
+      required_error: 'This field is required',
+    }),
+    celebratingMawlid: z.string({ required_error: 'This field is required' }),
+    money: z.string({
+      required_error: 'This field is required',
+    }),
+    islamicEducation: z.string({
+      required_error: 'This field is required',
+    }),
+    hijab: z.string({
+      required_error: 'This field is required',
+    }),
+    appearance: z.string({
+      required_error: 'This field is required',
+    }),
+    hajjAndUmra: z.string({
+      required_error: 'This field is required',
     }),
     childrenAndUpbringing: z.string({
+      required_error: 'This field is required',
+    }),
+  })
+  .required();
+
+export const maleExpectedIslamicLifestyleSchema = z
+  .object({
+    salat: z.string({ required_error: 'Please select your preference' }),
+    obedience: z.string({ required_error: 'Please select your preference' }),
+    hijab: z.string({ required_error: 'Please select your preference' }),
+    appearance: z.string({
+      required_error: 'Please select your preference',
+    }),
+    polygyny: z.string({
+      required_error: 'Please select your preference',
+    }),
+    islamicEducation: z.string({
       required_error: 'Please select your preference',
     }),
     socialMedia: z.string({
       required_error: 'Please select your preference',
     }),
-    nonMehramContact: z.string({
+    wifeNonMehramContact: z.string({
       required_error: 'Please select your preference',
     }),
-    obedienceToHusband: z.string({
+    husbandNonMehramContact: z.string({
       required_error: 'Please select your preference',
     }),
     obedienceToInLaws: z.string({
@@ -64,7 +116,44 @@ export const expectedIslamicLifestyleSchema = z
   })
   .required();
 
-export type IslamicLifestyle = z.infer<typeof islamicLifestyleSchema>;
-export type ExpectedIslamicLifestyle = z.infer<
-  typeof expectedIslamicLifestyleSchema
+export const femaleExpectedIslamicLifestyleSchema = z
+  .object({
+    salat: z.string({ required_error: 'Please select your preference' }),
+    hijab: z.string({ required_error: 'Please select your preference' }),
+    socialMedia: z.string({ required_error: 'Please select your preference' }),
+    wifeNonMehramContact: z.string({
+      required_error: 'Please select your preference',
+    }),
+    husbandNonMehramContact: z.string({
+      required_error: 'Please select your preference',
+    }),
+    wifeAppearance: z.string({
+      required_error: 'Please select your preference',
+    }),
+    husbandAppearance: z.string({
+      required_error: 'Please select your preference',
+    }),
+    childrenUpbringing: z.string({
+      required_error: 'Please select your preference',
+    }),
+    polygyny: z.string({
+      required_error: 'Please select your preference',
+    }),
+  })
+  .required();
+
+export type MaleIslamicLifestyle = z.infer<typeof maleIslamicLifestyleSchema>;
+
+export type FemaleIslamicLifestyle = z.infer<
+  typeof femaleIslamicLifestyleSchema
+>;
+
+export type MaleExpectedIslamicLifestyle = z.infer<
+  typeof maleExpectedIslamicLifestyleSchema
+>;
+export type FemaleExpectedIslamicLifestyle = z.infer<
+  typeof femaleExpectedIslamicLifestyleSchema
+>;
+export type ExpectedIslamicLifestyle = Partial<
+  MaleExpectedIslamicLifestyle & FemaleExpectedIslamicLifestyle
 >;

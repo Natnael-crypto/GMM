@@ -268,5 +268,855 @@
         }
       }
     }
+  },
+
+  "forms": {
+    "worldlyLifestyle": {
+      "female": {
+        "title": "Your Current Worldly Lifestyle <sm>(that you live)</sm>",
+        "questions": []
+      },
+      "male": {
+        "title": "Your Current Worldly Lifestyle <sm>(that you live)</sm>",
+        "questions": []
+      }
+    },
+    "expectedWorldlyLifestyle": {
+      "female": {
+        "title": "Your Expected (After Marriage) Worldly Lifestyle from Your Potential Spouse",
+        "questions": [
+          {
+            "question": "Decision Making & Leadership",
+            "name": "decisionMakingAndLeadership",
+            "type": "select",
+            "options": [
+              "Sole Decision-Maker: (Husband is Primary decision-maker of the family)",
+              "Consultative Leadership: (Husband Leads by consulting the wife but has final say)",
+              "Co-Leadership: (Equal joint decision making)"
+            ]
+          },
+          {
+            "question": "Money in Marriage",
+            "name": "moneyInMarriage",
+            "type": "select",
+            "options": [
+              "Husband Sole Provider (Full financial maintenance of wife and children)",
+              "Dual Income: (Husband & Wife equally share in financial responsibilities)"
+            ]
+          },
+          {
+            "question": "Husband to Financially support wife's career, business or education",
+            "name": "willFinanciallySupportWifeEducation",
+            "type": "select",
+            "options": ["Yes", "No", "Maybe"]
+          },
+          {
+            "question": "Husband to relocate to Wife's city",
+            "name": "husbandRelocation",
+            "type": "select",
+            "options": ["Yes", "No", "Maybe", "To be discussed"]
+          },
+          {
+            "question": "Joint Family living",
+            "name": "jointFamily",
+            "type": "select",
+            "options": [
+              "Yes (Wife willing to live with husbands brother(s) and their wives in the same home)",
+              "Maybe (Wife will consider living with husbands brother(s) and their wives in the same home)",
+              "No (Husband will not demand wife to live with non-mehram in-laws)"
+            ]
+          },
+          {
+            "question": "Husband must live alone with wife separate from their families",
+            "name": "husbandMustLiveAloneWithWife",
+            "type": "select",
+            "options": ["Yes", "No", "Maybe"]
+          },
+          {
+            "question": "Husband must be willing to live with wife's family",
+            "name": "husbandWillingToLiveWithWifeFamily",
+            "type": "select",
+            "options": ["Yes", "No", "Maybe"]
+          },
+          {
+            "question": "Requires Husband to accept/financially be responsible for wife's children from previous marriage",
+            "name": "acceptWifesChildren",
+            "type": "select",
+            "options": ["Yes", "No"]
+          },
+          {
+            "question": "Wife willing to accept/take care of husband's children from previous marriage",
+            "name": "acceptHusbandsChildren",
+            "type": "select",
+            "options": ["Yes", "No"]
+          },
+          {
+            "question": "Wife & Having Children",
+            "name": "havingChildren",
+            "type": "select",
+            "options": [
+              "Wants children",
+              "Don't want children",
+              "Can't have children (medical reason)"
+            ]
+          },
+          {
+            "question": "Wife's Desired Number of Children",
+            "name": "desiredNumberOfChildren",
+            "type": "select",
+            "options": [
+              "Not specified (Tawakkul-Allah)",
+              "1+",
+              "2+",
+              "3+",
+              "4+ or more Insha'Allah"
+            ]
+          },
+          {
+            "question": "Parenthood Timing After Marriage",
+            "name": "parenthoodTimingAfterMarriage",
+            "type": "select",
+            "options": [
+              "Immediately",
+              "8+ months",
+              "1+ year",
+              "2+ years",
+              "3+ years"
+            ]
+          }
+        ]
+      },
+      "male": {
+        "title": "Your Expected (After Marriage) Worldly Lifestyle from Your Potential Spouse",
+        "questions": [
+          {
+            "question": "Decision Making & Leadership",
+            "name": "decisionMakingAndLeadership",
+            "type": "select",
+            "options": [
+              "Sole Decision-Maker: (Husband is Primary decision-maker of the family)",
+              "Consultative Leadership: (Husband Leads by consulting the wife but has final say)",
+              "Co-Leadership: (Equal joint decision making)"
+            ]
+          },
+          {
+            "question": "Will Financially Support wife's education, career or business",
+            "name": "willFinanciallySupportWifeEducation",
+            "type": "select",
+            "options": [
+              "Yes",
+              "No",
+              "May consider it",
+              "Requires wife to pursue education, Career or Business"
+            ]
+          },
+          {
+            "question": "Money in Marriage",
+            "name": "moneyInMarriage",
+            "type": "select",
+            "options": [
+              "Husband Sole Provider (Full financial maintenance of wife and children)",
+              "Dual Income: (Husband & Wife equally share in financial responsibilities)"
+            ]
+          },
+          {
+            "question": "Role of Wife",
+            "name": "roleOfWife",
+            "type": "select",
+            "options": [
+              "Homemaker (Cleaning, Cooking, Kids, Husband)",
+              "Assist In-laws + Homemaker",
+              "Wife may study from home + Homemaker",
+              "Wife may work from Home + Homemaker",
+              "Wife may work or study outside home",
+              "Husband requires and expects wife to work or study"
+            ]
+          },
+          {
+            "question": "Wife must relocate to Husband's City",
+            "name": "wifeRelocation",
+            "type": "select",
+            "options": ["Yes", "No", "Maybe"]
+          },
+          {
+            "question": "Wife & Joint Family living",
+            "name": "jointFamily",
+            "type": "select",
+            "options": [
+              "Yes (wife to live with husbands brother(s) and their wives in the same home)",
+              "Maybe (may require wife to live with husbands brother(s) and their wives in the same home)",
+              "No (wife will never be required to live with non-mehram in-laws)"
+            ]
+          },
+          {
+            "question": "Wife to live with husband's parents",
+            "name": "wifeOpenToLiveWithHusbandsParents",
+            "type": "select",
+            "options": ["Yes", "No", "Possibly"]
+          },
+          {
+            "question": "Wife & husband to have their home separate from their families",
+            "name": "haveTheirHomeSeparateFromTheirFamilies",
+            "type": "select",
+            "options": ["Yes", "No"]
+          },
+          {
+            "question": "Husband open to living with wife's family",
+            "name": "husbandOpenToLiveWithWifeFamily",
+            "type": "select",
+            "options": ["Yes", "No", "Will consider it"]
+          },
+          {
+            "question": "Wife must accept responsibility of husband's children from previous marriage",
+            "name": "acceptHusbandsChildren",
+            "type": "select",
+            "options": ["Yes", "No", "Maybe"]
+          },
+          {
+            "question": "Husband willing to accept responsibility of wife's children from previous marriage",
+            "name": "acceptWifesChildren",
+            "type": "select",
+            "options": ["Yes", "No", "Maybe"]
+          },
+          {
+            "question": "Husband & Having Children",
+            "name": "havingChildren",
+            "type": "select",
+            "options": [
+              "Wants children",
+              "Don't want children",
+              "Can't have children (medical reason)"
+            ]
+          },
+          {
+            "question": "Husband Desired Number of Children",
+            "name": "desiredNumberOfChildren",
+            "type": "select",
+            "options": [
+              "Not specified (Tawakkul-Allah)",
+              "1+",
+              "2+",
+              "3+",
+              "4+ or more Insha'Allah"
+            ]
+          },
+          {
+            "question": "Parenthood Timing After Marriage",
+            "name": "parenthoodTimingAfterMarriage",
+            "type": "select",
+            "options": [
+              "Immediately",
+              "8+ months",
+              "1+ year",
+              "2+ years",
+              "3+ years"
+            ]
+          }
+        ]
+      }
+    },
+    "islamicLifestyle": {
+      "female": {
+        "title": "Your Current Islamic Lifestyle <sm>(that you live)</sm>",
+        "description": "<bold>DEEN LIFE!!!</bold> Show Your Potential Spouse The Current Islamic Lifestyle You Currently Live and the Islamic Lifestyle You Expect To Live After Marriage!",
+        "questions": [
+          {
+            "question": "Salah/Prayer",
+            "name": "salat",
+            "type": "select",
+            "options": [
+              "Fardh and Sunnah (Perform 5 Fardh along with Sunnah prayers daily)",
+              "Complete Fardh (All 5 Fardh prayers daily)",
+              "Frequent Salah (Pray 3 or more times daily)",
+              "Occasional Salah (Pray 2 or more times daily)",
+              "Irregular Salah (Pray at least once daily)"
+            ]
+          },
+          {
+            "question": "Ramadan",
+            "name": "ramadan",
+            "type": "select",
+            "options": [
+              "Enhanced Devotion (Embracing Ramadan, increasing worship, and abandoning haram)",
+              "Basic Observance (Only obligatory acts of prayer & fasting, maintaining usual habits)",
+              "Outside Ramadan Routine (Treating Ramadan like any other day, without additional religious or lifestyle changes)"
+            ]
+          },
+          {
+            "question": "Fasting",
+            "name": "fasting",
+            "type": "select",
+            "options": [
+              "Ramadan Only (Fast solely during Ramadan)",
+              "Ramadan + Sunnah (Fast in Ramadan and on Mondays & Thursdays)",
+              "No Fasting (Do not fast at all)"
+            ]
+          },
+          {
+            "question": "Zakah",
+            "name": "zakat",
+            "type": "select",
+            "options": [
+              "Annual Contributor (Give Zakat annually)",
+              "Eligibility-Based (Give Zakat only when financially eligible)",
+              "Constrained by Poverty (Do not give due to personal financial hardships)",
+              "Non-Giver (Choose not to give Zakat or is exempt for other reasons)"
+            ]
+          },
+          {
+            "question": "Food",
+            "name": "food",
+            "type": "select",
+            "options": [
+              "Strictly Halal (Eat only halal)",
+              "Preferably Halal (Prefer halal unless unavailable)",
+              "Indifferent (Do not consider halal or haram in food choices)"
+            ]
+          },
+          {
+            "question": "Islam & Culture",
+            "name": "islamAndCulture",
+            "type": "select",
+            "options": [
+              "Deen Over Culture (Prioritize Islamic principles over cultural practices)",
+              "Combining Deen and Culture (Attempt to integrate Islamic teachings with cultural norms)",
+              "Culture-Focused Islamic Inclusion (Follow cultural norms, includes Islamic elements occasionally)",
+              "Culture-Prioritized (Cultural practices dominant, limited Islamic influence)"
+            ]
+          },
+          {
+            "question": "Celebrating Birthdays and Anniversaries",
+            "name": "celebratingBirthdays",
+            "type": "select",
+            "options": [
+              "Do not celebrate (Celebrating birthdays and anniversaries is Haram)",
+              "Selectively (Celebrate selectively for family and traditions)",
+              "Celebrate & Participate (No issues with birthdays and anniversaries)"
+            ]
+          },
+          {
+            "question": "Mawlid/Milad-un-Nabi (Prophet Muhammad's (Pbuh birthday))",
+            "name": "celebratingMawlid",
+            "type": "select",
+            "options": [
+              "Do Not Celebrate (Mawlid is an innovation. Not celebrated by the Prophet Muhammad or his companions)",
+              "Selectively (Celebrate for family and traditions)",
+              "Celebrate & Participate (No issues and do participate annually in Mawlid events)"
+            ]
+          },
+          {
+            "question": "Money",
+            "name": "money",
+            "type": "select",
+            "options": [
+              "Full Islamic Compliance (Non-interest finance, strict halal earning and spending)",
+              "Mixed Adherence (Strict Halal income with Riba/Interest financing)",
+              "Indifferent Approach (Not following halal/haram guidelines in earnings and spending)"
+            ]
+          },
+          {
+            "question": "Islamic Education",
+            "name": "islamicEducation",
+            "type": "select",
+            "options": [
+              "Self-Study & Qur'an Translation (Independent study, mosque lectures, Qur'an translations)",
+              "Direct Scholar Guidance (Studying under a scholar or imam)",
+              "Institute Education (Enrolled in Islamic institutes for certification/diploma courses)",
+              "University Level Studies (Pursuing higher education in Islamic studies)"
+            ]
+          },
+          {
+            "question": "Hijab",
+            "name": "hijab",
+            "type": "select",
+            "options": [
+              "Advanced Hijab: (Niqab or burqa, possibly with gloves, often with eyes not visible)",
+              "Minimum Hijab (Basic Islamic attire with long dress/skirt or lose clothing with long sleeves. Face and hands visible)",
+              "Partial Hijab (Headscarf like a turban Revealing neck. Tight clothing showing shape of body)",
+              "No Hijab"
+            ]
+          },
+          {
+            "question": "Appearance (Makeup/Perfume)",
+            "name": "appearance",
+            "type": "select",
+            "options": [
+              "No Makeup or Perfume Outside",
+              "Makeup with Hijab/Niqab, No Perfume",
+              "Subtle Makeup & Light Perfume",
+              "Full Makeup, Any Perfume"
+            ]
+          },
+          {
+            "question": "Hajj & Umra",
+            "name": "hajjAndUmra",
+            "type": "select",
+            "options": [
+              "Completed Pilgrimage",
+              "Planning with Priority (Intend to perform Hajj/Umrah soon)",
+              "Future Consideration (Plan to perform Hajj/Umrah)",
+              "No Plans (Currently no plans to perform Hajj or Umrah)"
+            ]
+          },
+          {
+            "question": "Children & Upbringing",
+            "name": "childrenAndUpbringing",
+            "type": "select",
+            "options": [
+              "Children in Islamic Setting (Prioritize Islamic education & environment)",
+              "Plans for Islamic Setting (Intend to provide Islamic setting for future children)",
+              "Children in Mixed Setting (Combine Islamic and non-Islamic environments)",
+              "Undecided for Future Children (No children yet, undecided)",
+              "Non-Islamic Setting for Children (Do not prioritize Islamic environment)"
+            ]
+          }
+        ]
+      },
+      "male": {
+        "title": "Your Current Islamic Lifestyle <sm>(that you live)</sm>",
+        "description": "<bold>DEEN LIFE!!!</bold> Show Your Potential Spouse The Current Islamic Lifestyle You Currently Live and the Islamic Lifestyle You Expect To Live After Marriage!",
+        "questions": [
+          {
+            "question": "Salah/Prayer",
+            "name": "salat",
+            "type": "select",
+            "options": [
+              "Fardh and Sunnah (Perform 5 Fardh along with Sunnah prayers daily)",
+              "Complete Fardh (All 5 Fardh prayers daily)",
+              "Frequent Salah (Pray 3 or more times daily)",
+              "Occasional Salah (Pray 2 or more times daily)",
+              "Irregular Salah (Pray at least once daily)"
+            ]
+          },
+          {
+            "question": "Ramadan",
+            "name": "ramadan",
+            "type": "select",
+            "options": [
+              "Enhanced Devotion (Embracing Ramadan, increasing worship, and abandoning haram)",
+              "Basic Observance (Only obligatory acts of prayer & fasting, maintaining usual habits)",
+              "Outside Ramadan Routine (Treating Ramadan like any other day, without additional religious or lifestyle changes)"
+            ]
+          },
+          {
+            "question": "Fasting",
+            "name": "fasting",
+            "type": "select",
+            "options": [
+              "Ramadan Only (Fast solely during Ramadan)",
+              "Ramadan + Sunnah (Fast in Ramadan and on Mondays & Thursdays)",
+              "No Fasting (Do not fast at all)"
+            ]
+          },
+          {
+            "question": "Zakah",
+            "name": "zakat",
+            "type": "select",
+            "options": [
+              "Annual Contributor (Give Zakat annually)",
+              "Eligibility-Based (Give Zakat only when financially eligible)",
+              "Constrained by Poverty (Do not give due to personal financial hardships)",
+              "Non-Giver (Choose not to give Zakat or is exempt for other reasons)"
+            ]
+          },
+          {
+            "question": "Food",
+            "name": "food",
+            "type": "select",
+            "options": [
+              "Strictly Halal (Eat only halal)",
+              "Preferably Halal (Prefer halal unless unavailable)",
+              "Indifferent (Do not consider halal or haram in food choices)"
+            ]
+          },
+          {
+            "question": "Islam & Culture",
+            "name": "islamAndCulture",
+            "type": "select",
+            "options": [
+              "Deen Over Culture (Prioritize Islamic principles over cultural practices)",
+              "Combining Deen and Culture (Attempt to integrate Islamic teachings with cultural norms)",
+              "Culture-Focused Islamic Inclusion (Follow cultural norms, includes Islamic elements occasionally)",
+              "Culture-Prioritized (Cultural practices dominant, limited Islamic influence)"
+            ]
+          },
+          {
+            "question": "Celebrating Birthdays and Anniversaries",
+            "name": "celebratingBirthdays",
+            "type": "select",
+            "options": [
+              "Do not celebrate (Celebrating birthdays and anniversaries is Haram)",
+              "Selectively (Celebrate selectively for family and traditions)",
+              "Celebrate & Participate (No issues with birthdays and anniversaries)"
+            ]
+          },
+          {
+            "question": "Mawlid/Milad-un-Nabi (Prophet Muhammad’s (Pbuh birthday))",
+            "name": "celebratingMawlid",
+            "type": "select",
+            "options": [
+              "Do Not Celebrate (Mawlid is an innovation. Not celebrated by the Prophet Muhammad or his companions)",
+              "Selectively (Celebrate for family and traditions)",
+              "Celebrate & Participate (No issues and do participate annually in Mawlid events)"
+            ]
+          },
+          {
+            "question": "Money",
+            "name": "money",
+            "type": "select",
+            "options": [
+              "Full Islamic Compliance (Non-interest finance, strict halal earning and spending)",
+              "Mixed Adherence (Strict Halal income with Riba/Interest financing)",
+              "Indifferent Approach (Not following halal/haram guidelines in earnings and spending)"
+            ]
+          },
+          {
+            "question": "Islamic Education",
+            "name": "islamicEducation",
+            "type": "select",
+            "options": [
+              "Self-Study & Qur'an Translation (Independent study, mosque lectures, Qur'an translations)",
+              "Direct Scholar Guidance (Studying under a scholar or imam)",
+              "Institute Education (Enrolled in Islamic institutes for certification/diploma courses)",
+              "University Level Studies (Pursuing higher education in Islamic studies)"
+            ]
+          },
+          {
+            "question": "Appearance Beard",
+            "name": "appearance",
+            "type": "select",
+            "options": [
+              "Have a Beard",
+              "No Beard by Choice (Personal preference)",
+              "No Beard, Medical Reasons (Lacks a beard due to medical conditions)"
+            ]
+          },
+          {
+            "question": "Hajj & Umra",
+            "name": "hajjAndUmra",
+            "type": "select",
+            "options": [
+              "Completed Pilgrimage",
+              "Planning with Priority (Intend to perform Hajj/Umrah soon)",
+              "Future Consideration (Plan to perform Hajj/Umrah)",
+              "No Plans (Currently no plans to perform Hajj or Umrah)"
+            ]
+          },
+          {
+            "question": "Children & Upbringing",
+            "name": "childrenAndUpbringing",
+            "type": "select",
+            "options": [
+              "Children in Islamic Setting (Prioritize Islamic education & environment)",
+              "Plans for Islamic Setting (Intend to provide Islamic setting for future children)",
+              "Children in Mixed Setting (Combine Islamic and non-Islamic environments)",
+              "Undecided for Future Children (No children yet, undecided)",
+              "Non-Islamic Setting for Children (Do not prioritize Islamic environment)"
+            ]
+          }
+        ]
+      }
+    },
+    "expectedIslamicLifestyle": {
+      "female": {
+        "title": "Your Expected (After Marriage) Islamic Lifestyle from Your Potential Spouse",
+        "questions": [
+          {
+            "question": "Salat/Prayer",
+            "name": "salat",
+            "type": "select",
+            "options": [
+              "Must Pray Full Daily Prayers + Sunnah (Husband prays all obligatory and Sunnah prayers)",
+              "Fardh Only (Husband prays mandatory prayers as a minimum requirement)",
+              "Flexible Approach (As long as husband says he’s a Muslim, he does not have to pray)"
+            ]
+          },
+          {
+            "question": "Hijab Acceptance",
+            "name": "hijab",
+            "type": "select",
+            "options": [
+              "Advanced Hijab (husband accepts wife's choice to wear Niqab/burqa)",
+              "Minimum Hijab (husband accepts wife's choice to wear loose clothing. Face and hands visible)",
+              "Partial Hijab (husband accepts wife will wear Headscarf/turban revealing neck. Tight clothing showing shape of body)",
+              "No Hijab (husband accepts wife will not wear Hijab after marriage)"
+            ]
+          },
+          {
+            "question": "Social Media",
+            "name": "socialMedia",
+            "type": "select",
+            "options": [
+              "No Social Media (Husband accepts wife's choice to not use, and delete social media after marriage)",
+              "Private Profile (Husband accepts wife's decision to maintain private social media without showing herself)",
+              "Restricted Use (Husband accepts minimal social media activity, with the hijab)",
+              "Unrestricted Use (Husband accepts no limits on wife's social media activity)"
+            ]
+          },
+          {
+            "question": "Wife's Non-Mehram Contact",
+            "name": "wifesNonMehramContact",
+            "type": "select",
+            "options": [
+              "Mehram Contacts Only (Interaction only with mahrams. No male cousins or male best friends)",
+              "Restricting After-Marriage (Currently in touch with Non-Mehram family. Will cut Non-Mehram contact after marriage. No male cousins or male best friends)",
+              "Limited Non-Mahram Contact (Will remain in contact with non-mahram male cousins and male friends in public or under supervision)",
+              "No Restrictions (Will maintain non-mahram family/friendships without any specific conditions)"
+            ]
+          },
+          {
+            "question": "Husband's Non-Mehram Contact",
+            "name": "husbandsNonMehramContact",
+            "type": "select",
+            "options": [
+              "Mehram Contact (Husband to only have interactions with mahrams. No female cousins or female best friends)",
+              "Restrict After-Marriage (Husband to stop contact with non-mahram family after marriage. No female cousins or female best friends)",
+              "Limited Non-Mahram Contact (Husband may contact non-mahram female cousins and friends only in public)",
+              "No Restrictions (Husband may maintain non-mahram family and friendships)"
+            ]
+          },
+          {
+            "question": "Wife's Makeup/Perfume",
+            "name": "wifeAppearance",
+            "type": "select",
+            "options": [
+              "No Makeup/Perfume Outside (Husband to accept wife's choice not to wear makeup or perfume when going outside)",
+              "Makeup with Hijab/Niqab, No Perfume (Husband to accept wife's choice to wear makeup with hijab but no perfume in public)",
+              "Subtle Makeup, Light Perfume (Husband to accept wife's choice to wear a little unnoticeable amount of makeup with light perfume when outside)",
+              "Full Makeup, Any Perfume (Husband to accept wife's choice to wear full face makeup and any choice of perfume)"
+            ]
+          },
+          {
+            "question": "Husband's Appearance",
+            "name": "husbandsAppearance",
+            "type": "select",
+            "options": [
+              "Have a Beard (Husband must have a beard)",
+              "No Beard by Choice (Personal preference)",
+              "No Beard, Medical Reasons (No beard due to medical conditions or issues)",
+              "Does not matter (Indifferent to beard)"
+            ]
+          },
+          {
+            "question": "Children Upbringing",
+            "name": "childrenUpbringing",
+            "type": "select",
+            "options": [
+              "Islamic Education Priority (Children must have Islamic school/mosque environment)",
+              "Joint Decision (Open to discussing children's Islamic education with husband)",
+              "Undecided (Not decided yet about the Islamic education of children)",
+              "Secular Upbringing (Islamic education not a priority. Children not to attend Islamic school or masjid)"
+            ]
+          },
+          {
+            "question": "Polygyny/Family Structure",
+            "name": "polygyny",
+            "type": "select",
+            "options": [
+              "Monogamous (Wife prefers to be the only wife)",
+              "Polygynous (Acceptable for husband to have more than one wife)",
+              "Open (Willing to discuss the possibility of husband having multiple wives)",
+              "Undecided (Not making any decisions on husband having multiple wives at this time)"
+            ]
+          }
+        ]
+      },
+      "male": {
+        "title": "Your Expected (After Marriage) Islamic Lifestyle from Your Potential Spouse",
+        "questions": [
+          {
+            "question": "Salat/Prayer",
+            "name": "salatPrayer",
+            "type": "select",
+            "options": [
+              "Wife Must Pray all Fardh Salah + Sunnah",
+              "Wife May Pray Fardh Only (mandatory prayers only requirement)",
+              "Support Prayer Journey (Husband willing to support wife for salah)",
+              "Flexible Approach (Wife says she’s a Muslim, it does not matter if she prays or not)"
+            ]
+          },
+          {
+            "question": "Obedience",
+            "name": "obedience",
+            "type": "select",
+            "options": [
+              "Obedience Expected (Wife must adhere to husband's decisions)",
+              "Final Say (Husband has final say, while valuing wife's input)",
+              "Mutual Compromise (Husband and wife decide together)",
+              "Valuing Opinions (Husband will prioritize wife's opinions in decision-making)"
+            ]
+          },
+          {
+            "question": "Hijab",
+            "name": "hijab",
+            "type": "select",
+            "options": [
+              "Wife must do Advanced Hijab (Niqab/burqa, possibly with gloves, often with eyes not visible)",
+              "Wife must do Minimum Hijab (Basic Islamic attire with long dress/skirt, or loose clothing. Face and hands visible)",
+              "Wife may do Partial Hijab (Headscarf like a turban revealing neck. Tight clothing showing shape of body)",
+              "No Hijab (Don’t need or want wife to wear Hijab)"
+            ]
+          },
+          {
+            "question": "Make-Up/Perfume",
+            "name": "appearance",
+            "type": "select",
+            "options": [
+              "No Makeup or Perfume Outside (Wife must not wear makeup or perfume when going outside)",
+              "Makeup with Hijab/Niqab, No Perfume (Wife may wear makeup but with Hijab/niqab and no perfume in public)",
+              "Subtle Makeup, Light Perfume (Wife may wear a little unnoticeable amount of makeup with light perfume when outside)",
+              "Full Makeup, Any Perfume (Wife may wear full face makeup and any choice of perfume)"
+            ]
+          },
+          {
+            "question": "Polygyny",
+            "name": "polygyny",
+            "type": "select",
+            "options": [
+              "Monogamous (Husband Prefers only one wife)",
+              "Polygynous (Husband Prefers to have more than one wife in the future)",
+              "Open (Requiring wife to discuss the possibility of Husband having multiple wives)",
+              "Undecided (Not making any decisions on having multiple wives at this time)"
+            ]
+          },
+          {
+            "question": "Islamic Education/Environment",
+            "name": "islamicEducation",
+            "type": "select",
+            "options": [
+              "Priority (Children must have Islamic school/mosque environment)",
+              "Joint Decision (Open to discussing children's Islamic education with wife)",
+              "Undecided (Not decided yet about Islamic education of children)",
+              "Secular Upbringing (Prefer children not to attend Islamic school or masjid; Islamic education not a priority)"
+            ]
+          },
+          {
+            "question": "Social Media",
+            "name": "socialMedia",
+            "type": "select",
+            "options": [
+              "No Social Media (Wife does not use social media or will delete her social media presence)",
+              "Private Profile (Wife may use social media without showing her face)",
+              "Restricted Use (Husband will accept minimal social media activity, with adherence to Islamic principles such as hijab)",
+              "Unrestricted Use (Husband has no issues with regular social media activity)"
+            ]
+          },
+          {
+            "question": "Wife's Non-Mehram Contact",
+            "name": "wifesNonMehramContact",
+            "type": "select",
+            "options": [
+              "Mehram Contacts Only (Wife to interact only with her mahrams. No Male cousins or male best friends)",
+              "Restrictive Post-Marriage (Understanding of current situation. All Non-Mehram contact stops after marriage. No Male cousins or male best friends)",
+              "Limited Non-Mahram contact (Contact with non-mahram male cousins and male friends with public or supervised interactions)",
+              "No Restrictions (Open to wife talking to non-mahram family/friendships)"
+            ]
+          },
+          {
+            "question": "Husband's Non-Mehram Contact",
+            "name": "husbandsNonMehramContact",
+            "type": "select",
+            "options": [
+              "Mehram Contact (husband to only have interactions with mahrams, no female cousins or female best friends)",
+              "Restrict After-Marriage (husband to stop contact with non-mahram family after marriage no female cousins or female best friends)",
+              "Limited Non-Mahram Contact (husband may contact with non-mahram female cousins and friends only in public)",
+              "No Restrictions (husband may maintain non-mahram family and friendships)"
+            ]
+          },
+          {
+            "question": "Obedience to In-laws",
+            "name": "obedienceToInlaws",
+            "type": "select",
+            "options": [
+              "Full Obedience (Wife must respect and obey in-laws' guidance and decisions)",
+              "Moderate (Respect in-laws only)",
+              "Independent Relationship (Minimal involvement of in-laws)",
+              "Mutual Respect and Boundaries (Mutual respect with maintaining clear personal boundaries)"
+            ]
+          }
+        ]
+      }
+    },
+    "marriageDiscussion": {
+      "title": "Marriage Discussion",
+      "description": "<bold>When & How Are You Getting MARRIED!!!</bold> This is where you and your potential spouse have the Marriage Discussion",
+      "questions": [
+        {
+          "question": "Marriage Type",
+          "name": "marriageType",
+          "type": "select",
+          "options": [
+            "Simple Ceremony (straightforward wedding with minimal extravagance)",
+            "Traditional Ceremony (wedding close to tradition)",
+            "Lavish Ceremony (grand and elaborate celebration)",
+            "Intimate Gathering (small ceremony with close friends and family)"
+          ]
+        },
+        {
+          "question": "Marriage Location",
+          "name": "marriageLocation",
+          "type": "select",
+          "options": [
+            "Hometown Celebration (wedding to take place in my home city)",
+            "Spouse Hometown (open to having the wedding in the city of my spouse)",
+            "Destination Wedding (want a wedding in a specific, or significant, location)",
+            "Any Location (not tied to a specific location)"
+          ]
+        },
+        {
+          "question": "Marriage Venue",
+          "name": "marriageVenue",
+          "type": "select",
+          "options": [
+            "Mosque Ceremony (wedding held in a mosque)",
+            "Wedding Hall Celebration (ceremony in a formal wedding hall)",
+            "Outdoor Setting (outdoor wedding, in a garden or on a beach)",
+            "To Be Discussed (we can decide)"
+          ]
+        },
+        {
+          "question": "Marriage Timeline",
+          "name": "marriageTimeline",
+          "type": "select",
+          "options": [
+            "Immediate (wedding as soon as possible)",
+            "Short-Term (3 - 6 months)",
+            "Long-Term Planning (6 months to a year+)"
+          ]
+        },
+        {
+          "question": "Family in Marriage Decision",
+          "name": "familyInMarriageDiscussion",
+          "type": "select",
+          "options": [
+            "Significant Influence (family plays a major role in marriage decision-making)",
+            "Moderate Input (some family input but its my say in the final decision)",
+            "Limited Involvement (family involvement is minimal)",
+            "Independent Decision (marriage decision is mine and my family has no say)"
+          ]
+        },
+        {
+          "question": "Dowry/Mahr",
+          "name": "dowry",
+          "type": "select",
+          "options": [
+            "Symbolic (Minimal, symbolic Mahr, does not have to be money)",
+            "Moderate (Mahr of moderate value to be discussed)",
+            "Substantial Mahr (A significant Mahr to be discussed)"
+          ]
+        },
+        {
+          "question": "Wedding Budget",
+          "name": "weddingBudget",
+          "type": "select",
+          "options": [
+            "Economical: $5,000 - $10,000",
+            "Moderate: $10,000 - $20,000",
+            "Flexible: $20,000 - $30,000",
+            "High-End: $30,000+"
+          ]
+        }
+      ]
+    }
   }
 }
