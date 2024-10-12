@@ -5,6 +5,7 @@ import Multiselect from '@/components/ui/multi-select'
 import AutoComplete, { Option } from '@/components/ui/searchable-select'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { cn } from '@/lib/utils'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 
@@ -27,6 +28,7 @@ export interface FieldProps {
     label: string,
     name: string,
     options?: FieldOption[],
+    className?: string
 }
 
 export default function Field(props: FieldProps) {
@@ -153,8 +155,8 @@ export default function Field(props: FieldProps) {
             body = null
     }
 
-    return <div className="space-y-1 col-span-4">
-        <Label className="font-normal text-xs line-clamp-1">{props.label}</Label>
+    return <div className={cn("flex flex-col justify-end gap-1 col-span-12 md:col-span-4", props.className)}>
+        <Label className="font-normal text-xs">{props.label}</Label>
         {body}
     </div>
 }

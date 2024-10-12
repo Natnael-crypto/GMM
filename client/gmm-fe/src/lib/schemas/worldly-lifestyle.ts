@@ -95,47 +95,112 @@ export const worldlyLifestyleSchema = z
   })
   .required();
 
-export const expectedWorldlyLifestyleSchema = z
+export const maleExpectedWorldlyLifestyleSchema = z
   .object({
-    roleOfWife: z.string({ required_error: 'Please select your preference' }),
-    wifeCareer: z.string({ required_error: 'Please select your preference' }),
-    dualIncome: z.string({ required_error: 'Please select your preference' }),
-    relocation: z.string({ required_error: 'Please select your preference' }),
-    jointFamily: z.string({ required_error: 'Please select your preference' }),
-    coupleLivingAccomodation: z.string({
-      required_error: 'Please select your preference',
+    decisionMakingAndLeadership: z.string({
+      required_error:
+        'Please select your preference for Decision Making & Leadership',
     }),
-    openToLiveWithWifeFamily: z.string({
-      required_error: "Are you open to living with your wife's famliy",
+    willFinanciallySupportWifeEducation: z.string({
+      required_error:
+        "Please select your preference for Financial Support of Wife's Education",
     }),
-    expectWifeToLiveWithHisFamily: z.string({
-      required_error: 'Do you expect your wife to live with your family?',
+    moneyInMarriage: z.string({
+      required_error: 'Please select your preference for Money in Marriage',
+    }),
+    roleOfWife: z.string({
+      required_error: 'Please select your preference for Role of Wife',
+    }),
+    wifeRelocation: z.string({
+      required_error: 'Please select your preference for Wife Relocation',
+    }),
+    jointFamily: z.string({
+      required_error: 'Please select your preference for Joint Family',
+    }),
+    wifeOpenToLiveWithHusbandsParents: z.string({
+      required_error:
+        "Please select your preference for Wife Living with Husband's Parents",
+    }),
+    haveTheirHomeSeparateFromTheirFamilies: z.string({
+      required_error:
+        'Please select your preference for Separate Living Accommodations',
+    }),
+    husbandOpenToLiveWithWifeFamily: z.string({
+      required_error:
+        "Please select your preference for Husband Living with Wife's Family",
+    }),
+    acceptHusbandsChildren: z.string({
+      required_error:
+        "Please select your preference for Accepting Husband's Children",
+    }),
+    acceptWifesChildren: z.string({
+      required_error:
+        "Please select your preference for Accepting Wife's Children",
     }),
     havingChildren: z.string({
-      required_error: 'Would you prefer to have a child?',
+      required_error: 'Please select your preference for Having Children',
     }),
-    numberOfChildren: z.union([
-      z.number(),
-      z
-        .string({ required_error: 'Please select number of children' })
-        .refine((value) => !isNaN(parseInt(value)), {
-          message: 'Please enter a valid number',
-        })
-        .transform(Number),
-    ]),
+    desiredNumberOfChildren: z.string({
+      required_error: 'Please select your preference for Having Children',
+    }),
     parenthoodTimingAfterMarriage: z.string({
-      required_error: 'Please select your preference',
+      required_error:
+        'Please select your preference for Parenthood Timing After Marriage',
     }),
-    requireWifeToAcceptChildren: z.string({
-      required_error: 'Please select your preference',
+  })
+  .required();
+
+export const femaleExpectedWorldlyLifestyleSchema = z
+  .object({
+    decisionMakingAndLeadership: z.string({
+      required_error:
+        'Please select your preference for Decision Making & Leadership',
     }),
-    willingToAcceptWifeChildren: z.string({
-      required_error: 'Please select your preference',
+    moneyInMarriage: z.string({
+      required_error: 'Please select your preference for Money in Marriage',
+    }),
+    willFinanciallySupportWifeEducation: z.string({
+      required_error:
+        "Please select your preference for Financial Support of Wife's Education",
+    }),
+    husbandRelocation: z.string({
+      required_error: 'Please select your preference for Husband Relocation',
+    }),
+    jointFamily: z.string({
+      required_error: 'Please select your preference for Joint Family',
+    }),
+    husbandMustLiveAloneWithWife: z.string({
+      required_error: 'Please select your preference for Living Accommodations',
+    }),
+    husbandWillingToLiveWithWifeFamily: z.string({
+      required_error:
+        "Please select your preference for Husband Living with Wife's Family",
+    }),
+    acceptWifesChildren: z.string({
+      required_error:
+        "Please select your preference for Accepting Wife's Children",
+    }),
+    acceptHusbandsChildren: z.string({
+      required_error:
+        "Please select your preference for Accepting Husband's Children",
+    }),
+    havingChildren: z.string({
+      required_error: 'Please select your preference for Having Children',
+    }),
+    desiredNumberOfChildren: z.string({
+      required_error: 'Please select your preference for Having Children',
+    }),
+    parenthoodTimingAfterMarriage: z.string({
+      required_error:
+        'Please select your preference for Parenthood Timing After Marriage',
     }),
   })
   .required();
 
 export type WorldlyLifestyle = z.infer<typeof worldlyLifestyleSchema>;
-export type ExpectedWorldlyLifestyle = z.infer<
-  typeof expectedWorldlyLifestyleSchema
+export type MaleExpectedWorldlyLifestyle = z.infer<
+  typeof maleExpectedWorldlyLifestyleSchema
+>;
+export type FemaleExpectedWorldlyLifestyle = z.infer<
+  typeof femaleExpectedWorldlyLifestyleSchema
 >;
