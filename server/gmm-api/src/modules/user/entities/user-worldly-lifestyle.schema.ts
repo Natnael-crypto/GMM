@@ -59,7 +59,11 @@ const UserWorldlyLifestyleSchema = new dynamoose.Schema(
       schema: [String],
       required: false,
     },
-    approximateDebts: {
+    approximateDebt: {
+      type: String,
+      required: false,
+    },
+    approximateDebtCurrency: {
       type: String,
       required: false,
     },
