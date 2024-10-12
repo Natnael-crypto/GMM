@@ -20,16 +20,9 @@ export const worldlyLifestyleSchema = z
     livingSituation: z.string({
       required_error: 'Please select your living situation',
     }),
-    ownsCar: z.union([
-      z.boolean({
-        required_error: 'Please specify whether you own a car or not',
-      }),
-      z
-        .string({
-          required_error: 'Please specify whether you own a car or not',
-        })
-        .transform((value) => value === 'true'),
-    ]),
+    ownsVehicle: z.string({
+      required_error: 'Please select your living situation',
+    }),
     vehicleYear: z.union([
       z.number(),
       z
@@ -53,7 +46,10 @@ export const worldlyLifestyleSchema = z
         .string({ required_error: 'Please select current debts' })
         .transform((value) => [value]),
     ]),
-    approximateDebts: z.string({
+    approximateDebt: z.string({
+      required_error: 'Please select approximate debts',
+    }),
+    approximateDebtCurrency: z.string({
       required_error: 'Please select approximate debts',
     }),
     payingInterestOnDebts: z.string({
@@ -62,7 +58,7 @@ export const worldlyLifestyleSchema = z
     presentFamilyMembers: z.string({
       required_error: 'Please select family members',
     }),
-    numberOfSibilings: z.union([
+    numberOfSiblings: z.union([
       z.number(),
       z
         .string({ required_error: 'Please select siblings' })
@@ -71,23 +67,15 @@ export const worldlyLifestyleSchema = z
         })
         .transform((value) => (value === 'None' ? 0 : Number(value))),
     ]),
-    pets: z.union([
-      z.number(),
-      z
-        .string({ required_error: 'How many pets do you have?' })
-        .refine((value) => value === 'None' || !isNaN(parseInt(value)), {
-          message: 'Please enter a valid number',
-        })
-        .transform((value) => (value === 'None' ? 0 : Number(value))),
-    ]),
+    pets: z.string({
+      required_error: 'Please select pets',
+    }),
     majorPreexistingHealthCondition: z.string({
       required_error: 'Please specify your condition',
     }),
-
     mobilityAssistantRequirement: z.string({
       required_error: 'Please specify your mobility assistant requirement',
     }),
-
     preexistingHealthConditionDescription: z.string({
       required_error:
         'Please specify your preexisting health condition description',

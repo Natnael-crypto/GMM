@@ -271,6 +271,16 @@
   },
 
   "forms": {
+    "worldlyLifestyle": {
+      "female": {
+        "title": "Your Current Worldly Lifestyle <sm>(that you live)</sm>",
+        "questions": []
+      },
+      "male": {
+        "title": "Your Current Worldly Lifestyle <sm>(that you live)</sm>",
+        "questions": []
+      }
+    },
     "expectedWorldlyLifestyle": {
       "female": {
         "title": "Your Expected (After Marriage) Worldly Lifestyle from Your Potential Spouse",

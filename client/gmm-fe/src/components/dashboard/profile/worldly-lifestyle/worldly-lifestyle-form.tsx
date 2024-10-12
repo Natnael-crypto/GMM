@@ -20,7 +20,7 @@ import { WorldlyLifestyle, worldlyLifestyleSchema } from '@/lib/schemas/worldly-
 import { useUpdateWorldlyLifestyleMutation } from '@/lib/user/api';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 
 const currencies = [
@@ -65,17 +65,19 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
             currentOccupationTitle: worldlyLifestyle?.currentOccupationTitle || '',
             typeOfResidence: worldlyLifestyle?.typeOfResidence || '',
             livingSituation: worldlyLifestyle?.livingSituation || '',
+            ownsVehicle: worldlyLifestyle?.ownsVehicle || '',
             vehicleYear: worldlyLifestyle?.vehicleYear || (new Date().getFullYear()),
             vehicleMake: worldlyLifestyle?.vehicleMake || '',
             vehicleModel: worldlyLifestyle?.vehicleModel || '',
             educationQualification: worldlyLifestyle?.educationQualification || '',
             applicableDebts: worldlyLifestyle?.applicableDebts || '',
             currentDebts: worldlyLifestyle?.currentDebts || [],
-            approximateDebts: worldlyLifestyle?.approximateDebts || '',
+            approximateDebt: worldlyLifestyle?.approximateDebt || '',
+            approximateDebtCurrency: worldlyLifestyle?.approximateDebtCurrency || '',
             payingInterestOnDebts: worldlyLifestyle?.payingInterestOnDebts || '',
             presentFamilyMembers: worldlyLifestyle?.presentFamilyMembers || '',
-            numberOfSibilings: worldlyLifestyle?.numberOfSibilings || 0,
-            pets: worldlyLifestyle?.pets || 0,
+            numberOfSiblings: worldlyLifestyle?.numberOfSiblings || 0,
+            pets: worldlyLifestyle?.pets || '',
             majorPreexistingHealthCondition: worldlyLifestyle?.majorPreexistingHealthCondition || '',
             mobilityAssistantRequirement: worldlyLifestyle?.mobilityAssistantRequirement || '',
             preexistingHealthConditionDescription: worldlyLifestyle?.preexistingHealthConditionDescription || '',
@@ -100,7 +102,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
 
     const onSubmit = (data: WorldlyLifestyle) => {
         const worldlyLifestyle = data;
-        if (!data.ownsCar) {
+        if (data.ownsVehicle === 'No') {
             worldlyLifestyle.vehicleMake = ''
             worldlyLifestyle.vehicleModel = ''
             worldlyLifestyle.vehicleYear = 0
@@ -122,7 +124,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
     }, [updateResult, setSaving])
 
     const hasPreexistingHealthCondition = form.watch('majorPreexistingHealthCondition') === 'Yes';
-    const ownsCar = form.watch('ownsCar') as unknown as string === 'true'
+    const ownsCar = form.watch('ownsVehicle') === 'Yes'
     const hasDebt = form.watch('applicableDebts') === 'Yes'
 
     return (
@@ -137,8 +139,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     ref={worldlyLifestyleFormRef}
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid grid-cols-12 gap-x-3 gap-y-4 py-5">
-                    <div className="space-y-1 col-span-4">
-                        <Label className="line-clamp-1 font-normal text-xs">Employment Type</Label>
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                        <Label className="font-normal text-xs">Employment Type</Label>
                         <FormField
                             name='employmentType'
                             control={form.control}
@@ -150,13 +152,13 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Employed">Employed</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Self-Employed">Self-Employed</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Business owner/investor">Business owner/investor</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Not employed">Not employed</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Retired">Retired</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Student">Student</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Homemaker/housewife">Homemaker/housewife</SelectItem>
+                                                <SelectItem value="Employed">Employed</SelectItem>
+                                                <SelectItem value="Self-Employed">Self-Employed</SelectItem>
+                                                <SelectItem value="Business owner/investor">Business owner/investor</SelectItem>
+                                                <SelectItem value="Not employed">Not employed</SelectItem>
+                                                <SelectItem value="Retired">Retired</SelectItem>
+                                                <SelectItem value="Student">Student</SelectItem>
+                                                <SelectItem value="Homemaker/housewife">Homemaker/housewife</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -165,28 +167,28 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-3">
-                        <Label className="line-clamp-1 font-normal text-xs">Annual Income</Label>
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                        <Label className="font-normal text-xs">Annual Income</Label>
 
-                        <div className="grid grid-cols-3 gap-0">
+                        <div className="grid grid-cols-12 md:grid-cols-3 gap-0">
                             <FormField
                                 name='annualIncome'
                                 control={form.control}
                                 render={({ field }) => (
-                                    <FormItem className='col-span-2'>
+                                    <FormItem className='col-span-8 md:col-span-2'>
                                         <FormControl>
                                             <Select onValueChange={field.onChange} value={field.value}>
                                                 <SelectTrigger className="text-muted-foreground bg-background text-xs  rounded-none rounded-ss-sm rounded-es-sm h-8 ring-transparent ring-offset-transparent shadow">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem className="text-sm max-w-80" value="0 - 20,000">0 - 20,000</SelectItem>
-                                                    <SelectItem className="text-sm max-w-80" value="20,000 - 50,000">20,000 - 50,000</SelectItem>
-                                                    <SelectItem className="text-sm max-w-80" value="50,000 - 100,000">50,000 - 100,000</SelectItem>
-                                                    <SelectItem className="text-sm max-w-80" value="100,000 - 200,000">100,000 - 200,000</SelectItem>
-                                                    <SelectItem className="text-sm max-w-80" value="200,000 - 350,000">200,000 - 350,000</SelectItem>
-                                                    <SelectItem className="text-sm max-w-80" value="200,000 - 300,000">350,000 - 450,000</SelectItem>
-                                                    <SelectItem className="text-sm max-w-80" value="> 450,000">&gt; 450,000</SelectItem>
+                                                    <SelectItem value="0 - 20,000">0 - 20,000</SelectItem>
+                                                    <SelectItem value="20,000 - 50,000">20,000 - 50,000</SelectItem>
+                                                    <SelectItem value="50,000 - 100,000">50,000 - 100,000</SelectItem>
+                                                    <SelectItem value="100,000 - 200,000">100,000 - 200,000</SelectItem>
+                                                    <SelectItem value="200,000 - 350,000">200,000 - 350,000</SelectItem>
+                                                    <SelectItem value="200,000 - 300,000">350,000 - 450,000</SelectItem>
+                                                    <SelectItem value="> 450,000">&gt; 450,000</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
@@ -198,7 +200,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                 name='annualIncomeCurrency'
                                 control={form.control}
                                 render={({ field }) => (
-                                    <FormItem className="col-span-1">
+                                    <FormItem className="col-span-4 md:col-span-1">
                                         <FormControl>
                                             <Select onValueChange={field.onChange} value={field.value}>
                                                 <SelectTrigger className="text-muted-foreground bg-background text-xs rounded-none rounded-ee-sm rounded-se-sm h-8 border-s-0 ring-transparent ring-offset-transparent shadow">
@@ -206,7 +208,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     {currencies.map((currency) => (
-                                                        <SelectItem className="text-sm max-w-80" value={currency} key={currency}>
+                                                        <SelectItem value={currency} key={currency}>
                                                             {currency}
                                                         </SelectItem>
                                                     ))}
@@ -219,8 +221,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         </div>
                     </div>
 
-                    <div className="space-y-1 col-span-5">
-                        <Label className="line-clamp-1 font-normal text-xs">
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                        <Label className="font-normal text-xs">
                             Current Occupation Title
                         </Label>
                         <FormField
@@ -247,8 +249,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-4">
-                        <Label className="line-clamp-1 font-normal text-xs">Type of Residence</Label>
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                        <Label className="font-normal text-xs">Type of Residence</Label>
                         <FormField
                             name='typeOfResidence'
                             control={form.control}
@@ -260,10 +262,10 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Apartment (Rent)">Apartment (Rent)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Apartment Owned">Apartment Owned</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="House (Rent)">House (Rent)</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="House (Owned)">House (Owned)</SelectItem>
+                                                <SelectItem value="Apartment (Rent)">Apartment (Rent)</SelectItem>
+                                                <SelectItem value="Apartment Owned">Apartment Owned</SelectItem>
+                                                <SelectItem value="House (Rent)">House (Rent)</SelectItem>
+                                                <SelectItem value="House (Owned)">House (Owned)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -272,8 +274,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-4">
-                        <Label className="line-clamp-1 font-normal text-xs">Living Situation</Label>
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                        <Label className="font-normal text-xs">Living Situation</Label>
                         <FormField
                             name='livingSituation'
                             control={form.control}
@@ -285,11 +287,11 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Living alone">Living alone</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Living with friends/roommates truncate">Living with friends/roommates</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Living with kids">Living with kids</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Living with mother/father">Living with mother/father</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Living in joint family/with brother and his wife">Living in joint family/with brother and his wife</SelectItem>
+                                                <SelectItem value="Living alone">Living alone</SelectItem>
+                                                <SelectItem value="Living with friends/roommates truncate">Living with friends/roommates</SelectItem>
+                                                <SelectItem value="Living with kids">Living with kids</SelectItem>
+                                                <SelectItem value="Living with mother/father">Living with mother/father</SelectItem>
+                                                <SelectItem value="Living in joint family/with brother and his wife">Living in joint family/with brother and his wife</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -298,10 +300,10 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-4">
-                        <Label className="line-clamp-1 font-normal text-xs">Do You Own a Car?</Label>
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                        <Label className="font-normal text-xs">Do You Own a Car?</Label>
                         <FormField
-                            name='ownsCar'
+                            name='ownsVehicle'
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
@@ -311,8 +313,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
+                                                <SelectItem value="Yes">Yes</SelectItem>
+                                                <SelectItem value="No">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -323,8 +325,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
 
                     {ownsCar &&
                         <>
-                            <div className="space-y-1 col-span-2">
-                                <Label className="line-clamp-1 font-normal text-xs">Vehicle Make</Label>
+                            <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-2">
+                                <Label className="font-normal text-xs">Vehicle Make</Label>
                                 <FormField
                                     name='vehicleMake'
                                     control={form.control}
@@ -336,8 +338,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                 />
                             </div>
 
-                            <div className="space-y-1 col-span-2">
-                                <Label className="line-clamp-1 font-normal text-xs">Vehicle Year</Label>
+                            <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-2">
+                                <Label className="font-normal text-xs">Vehicle Year</Label>
                                 <FormField
                                     name='vehicleYear'
                                     control={form.control}
@@ -351,7 +353,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                     <SelectContent className='max-h-64'>
                                                         {
                                                             Array.from({ length: 40 }, (_, i) => (
-                                                                <SelectItem className="text-sm max-w-80" key={i} value={String((new Date().getFullYear()) - i)}>
+                                                                <SelectItem key={i} value={String((new Date().getFullYear()) - i)}>
                                                                     {String((new Date().getFullYear()) - i)}
                                                                 </SelectItem>))
                                                         }
@@ -363,8 +365,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                 />
                             </div>
 
-                            <div className="space-y-1 col-span-2">
-                                <Label className="line-clamp-1 font-normal text-xs">Vehicle Model</Label>
+                            <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                                <Label className="font-normal text-xs">Vehicle Model</Label>
                                 <FormField
                                     name='vehicleModel'
                                     control={form.control}
@@ -382,8 +384,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                             </div>
                         </>}
 
-                    <div className="space-y-1 col-span-4">
-                        <Label className="line-clamp-1 font-normal text-xs">
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                        <Label className="font-normal text-xs">
                             Education Qualification
                         </Label>
                         <FormField
@@ -397,14 +399,14 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="High school">High school</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Diploma">Diploma</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Non-Degree Qualified">Non-Degree Qualified</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Bachelor's degree">Bachelor&apos;s degree</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Masters">Masters</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="PHD/Doctorate">PHD/Doctorate</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Currently Studying">Currently Studying</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="None of the above">None of the above</SelectItem>
+                                                <SelectItem value="High school">High school</SelectItem>
+                                                <SelectItem value="Diploma">Diploma</SelectItem>
+                                                <SelectItem value="Non-Degree Qualified">Non-Degree Qualified</SelectItem>
+                                                <SelectItem value="Bachelor's degree">Bachelor&apos;s degree</SelectItem>
+                                                <SelectItem value="Masters">Masters</SelectItem>
+                                                <SelectItem value="PHD/Doctorate">PHD/Doctorate</SelectItem>
+                                                <SelectItem value="Currently Studying">Currently Studying</SelectItem>
+                                                <SelectItem value="None of the above">None of the above</SelectItem>
 
                                             </SelectContent>
                                         </Select>
@@ -414,8 +416,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Do you have debt?</Label>
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                        <Label className="font-normal text-xs">Do you have debt?</Label>
                         <FormField
                             name='applicableDebts'
                             control={form.control}
@@ -427,8 +429,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
+                                                <SelectItem value="Yes">Yes</SelectItem>
+                                                <SelectItem value="No">No</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -438,8 +440,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     {hasDebt && <>
-                        <div className="space-y-1 col-span-3">
-                            <Label className="line-clamp-1 font-normal text-xs">Current Debt</Label>
+                        <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                            <Label className="font-normal text-xs">Current Debt</Label>
                             <FormField
                                 name='currentDebts'
                                 control={form.control}
@@ -453,27 +455,62 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                             />
                         </div>
 
-                        <div className="space-y-1 col-span-3">
-                            <Label className="line-clamp-1 font-normal text-xs">Approximate Debt</Label>
-                            <FormField
-                                name='approximateDebts'
-                                control={form.control}
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormControl>
-                                            <Input
-                                                {...field}
-                                                className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                                                placeholder={`0 ${form.watch('annualIncomeCurrency')}`}
-                                            />
-                                        </FormControl>
-                                        <FormMessage className="text-xs" />
-                                    </FormItem>)}
-                            />
+                        <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
+                            <Label className="font-normal text-xs">Approximate Debt</Label>
+
+                            <div className="grid grid-cols-12 md:grid-cols-3 gap-0">
+                                <FormField
+                                    name='approximateDebt'
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem className='col-span-8 md:col-span-2'>
+                                            <FormControl>
+                                                <Select onValueChange={field.onChange} value={field.value}>
+                                                    <SelectTrigger className="text-muted-foreground bg-background text-xs  rounded-none rounded-ss-sm rounded-es-sm h-8 ring-transparent ring-offset-transparent shadow">
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="0 - 20,000">0 - 20,000</SelectItem>
+                                                        <SelectItem value="20,000 - 50,000">20,000 - 50,000</SelectItem>
+                                                        <SelectItem value="50,000 - 100,000">50,000 - 100,000</SelectItem>
+                                                        <SelectItem value="100,000 - 200,000">100,000 - 200,000</SelectItem>
+                                                        <SelectItem value="200,000 - 350,000">200,000 - 350,000</SelectItem>
+                                                        <SelectItem value="200,000 - 300,000">350,000 - 450,000</SelectItem>
+                                                        <SelectItem value="> 450,000">&gt; 450,000</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormControl>
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>)}
+                                />
+
+                                <FormField
+                                    name='approximateDebtCurrency'
+                                    control={form.control}
+                                    render={({ field }) => (
+                                        <FormItem className="col-span-4 md:col-span-1">
+                                            <FormControl>
+                                                <Select onValueChange={field.onChange} value={field.value}>
+                                                    <SelectTrigger className="text-muted-foreground bg-background text-xs rounded-none rounded-ee-sm rounded-se-sm h-8 border-s-0 ring-transparent ring-offset-transparent shadow">
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {currencies.map((currency) => (
+                                                            <SelectItem value={currency} key={currency}>
+                                                                {currency}
+                                                            </SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </FormControl>
+                                            <FormMessage className="text-xs" />
+                                        </FormItem>)}
+                                />
+                            </div>
                         </div>
 
-                        <div className="space-y-1 col-span-3">
-                            <Label className="line-clamp-1 font-normal text-xs">
+                        <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-3">
+                            <Label className="font-normal text-xs">
                                 Do you pay Interest/Riba on Debts?
                             </Label>
                             <FormField
@@ -487,8 +524,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
-                                                    <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
+                                                    <SelectItem value="Yes">Yes</SelectItem>
+                                                    <SelectItem value="No">No</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
@@ -497,8 +534,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                             />
                         </div></>}
 
-                    <div className="space-y-1 col-span-3">
-                        <Label className="line-clamp-1 font-normal text-xs">
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-3">
+                        <Label className="font-normal text-xs">
                             Present Family Members
                         </Label>
                         <FormField
@@ -512,10 +549,10 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Both Parents Present">Both Parents Present</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Only Father">Only Father</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Only Mother">Only Mother</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Other">Other</SelectItem>
+                                                <SelectItem value="Both Parents Present">Both Parents Present</SelectItem>
+                                                <SelectItem value="Only Father">Only Father</SelectItem>
+                                                <SelectItem value="Only Mother">Only Mother</SelectItem>
+                                                <SelectItem value="Other">Other</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -524,10 +561,10 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Number of Siblings</Label>
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-3">
+                        <Label className="font-normal text-xs">Number of Siblings</Label>
                         <FormField
-                            name='numberOfSibilings'
+                            name='numberOfSiblings'
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
@@ -537,12 +574,12 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="None">None</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="1">1</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="2">2</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="3">3</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="4">4</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="5+">5+</SelectItem>
+                                                <SelectItem value="None">None</SelectItem>
+                                                <SelectItem value="1">1</SelectItem>
+                                                <SelectItem value="2">2</SelectItem>
+                                                <SelectItem value="3">3</SelectItem>
+                                                <SelectItem value="4">4</SelectItem>
+                                                <SelectItem value="5+">5+</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -551,26 +588,26 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Pets</Label>
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-3">
+                        <Label className="font-normal text-xs">Pets</Label>
                         <FormField
                             name='pets'
                             control={form.control}
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value ? (field.value === 0 ? "None" : field.value.toString()) : 'None'}>
+                                        <Select onValueChange={field.onChange} value={field.value}>
                                             <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent text-start">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="None">No</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="1">Cats</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="2">Dog</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="3">Bird</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="4">Reptiles</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="5">Insects</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="6">Other</SelectItem>
+                                                <SelectItem value="None">No</SelectItem>
+                                                <SelectItem value="Cats">Cats</SelectItem>
+                                                <SelectItem value="Dog">Dog</SelectItem>
+                                                <SelectItem value="Bird">Bird</SelectItem>
+                                                <SelectItem value="Reptiles">Reptiles</SelectItem>
+                                                <SelectItem value="Insects">Insects</SelectItem>
+                                                <SelectItem value="Other">Other</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -581,8 +618,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
 
                     <h2 className="col-span-12 font-bold mt-2">Health Conditions</h2>
 
-                    <div className="space-y-1 col-span-5">
-                        <Label className="line-clamp-1 font-normal text-xs">
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-5">
+                        <Label className="font-normal text-xs">
                             Major Pre-Existing Health Conditions and/or Disabilities
                         </Label>
                         <FormField
@@ -606,8 +643,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    <div className="space-y-1 col-span-3">
-                        <Label className="line-clamp-1 font-normal text-xs">
+                    <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-3">
+                        <Label className="font-normal text-xs">
                             Do your require mobility assistant?
                         </Label>
                         <FormField
@@ -621,9 +658,9 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Yes">Yes</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="No">No</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Limited Assistance">Limited Assistance</SelectItem>
+                                                <SelectItem value="Yes">Yes</SelectItem>
+                                                <SelectItem value="No">No</SelectItem>
+                                                <SelectItem value="Limited Assistance">Limited Assistance</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -632,8 +669,8 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         />
                     </div>
 
-                    {hasPreexistingHealthCondition && <div className="space-y-1 col-span-12">
-                        <Label className="line-clamp-1 font-normal text-xs">
+                    {hasPreexistingHealthCondition && <div className="flex flex-col gap-1 justify-end col-span-12">
+                        <Label className="font-normal text-xs">
                             Describe your pre-existing conditions and/or disabilities
                             (Example: STD, Disabilities, Cancer, etc)
                         </Label>
