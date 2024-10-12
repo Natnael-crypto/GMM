@@ -59,21 +59,34 @@ export default function MarriageDiscussionForm({ marriageDiscussion }: { marriag
         setSaving(updateResult.isLoading);
     }, [updateResult, setSaving])
 
-    const discussion = useTranslations('forms.marriageDiscussion')
-    const questions = discussion.raw('questions')
+    const t = useTranslations('forms.marriageDiscussion')
+    const questions = t.raw('questions')
 
     return (
-        <Form {...form}>
-            <form
-                ref={marriageDiscussionFormRef}
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="grid grid-cols-12 gap-x-3 gap-y-3 py-5">
-                {
-                    questions.map((question: any, index: number) => {
-                        return <Field key={index} type={question.type} label={question.question} name={question.name} options={question.options} />
-                    })
+        <div className="py-8 px-6 sm:px-16 md:px-24 lg:px-52">
+            <h1 className="text-xl font-bold text-secondary border-b p-1">
+                {t('title')}
+            </h1>
+
+            <div className='py-4 text-center text-sm'>
+                {t.rich('description', {
+                    bold: (text) => <span className="font-bold">{text}</span>,
                 }
-            </form>
-        </Form>
+                )}
+            </div>
+
+            <Form {...form}>
+                <form
+                    ref={marriageDiscussionFormRef}
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="grid grid-cols-12 gap-x-3 gap-y-3 py-5">
+                    {
+                        questions.map((question: any, index: number) => {
+                            return <Field key={index} type={question.type} label={question.question} name={question.name} options={question.options} />
+                        })
+                    }
+                </form>
+            </Form>
+        </div>
     )
 }

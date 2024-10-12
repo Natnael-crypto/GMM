@@ -415,7 +415,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="space-y-1 col-span-2">
-                        <Label className="line-clamp-1 font-normal text-xs">Do you have dept?</Label>
+                        <Label className="line-clamp-1 font-normal text-xs">Do you have debt?</Label>
                         <FormField
                             name='applicableDebts'
                             control={form.control}
@@ -564,12 +564,13 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="None">Cat</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="1">Dog</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="2">Bird</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="3">Reptiles</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="4">Insects</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="5">Other</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="None">No</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="1">Cats</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="2">Dog</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="3">Bird</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="4">Reptiles</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="5">Insects</SelectItem>
+                                                <SelectItem className="text-sm max-w-80" value="6">Other</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </FormControl>

@@ -75,6 +75,13 @@ export default function IslamicLifestyleFormFemale({ islamicLifestyle }: { islam
                 }
             </h1>
 
+            <div className='py-4 text-center text-sm'>
+                {t.rich('description', {
+                    bold: (text) => <span className="font-bold">{text}</span>,
+                }
+                )}
+            </div>
+
             <Form {...form}>
                 <form
                     ref={islamicLifestyleFormRef}
