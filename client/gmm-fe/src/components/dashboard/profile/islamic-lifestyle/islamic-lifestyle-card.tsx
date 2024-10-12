@@ -189,7 +189,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
           <div className="col-span-8 space-y-2">
             <span>
               Hajj & Umra:{' '}
-              <span className="font-bold">{islamicLifestyle?.hajjAndUmrah.split('(')[0]}</span>
+              <span className="font-bold">{islamicLifestyle?.hajjAndUmra.split('(')[0]}</span>
               <br />
               <span className="text-xs">
                 {/* (Already performed Hajj and/or Umrah) */}
