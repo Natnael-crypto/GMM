@@ -192,3 +192,5 @@ export type MaleExpectedWorldlyLifestyle = z.infer<
 export type FemaleExpectedWorldlyLifestyle = z.infer<
   typeof femaleExpectedWorldlyLifestyleSchema
 >;
+export type ExpectedWorldlyLifestyle = MaleExpectedWorldlyLifestyle &
+  FemaleExpectedWorldlyLifestyle;

@@ -154,6 +154,7 @@ export type MaleExpectedIslamicLifestyle = z.infer<
 export type FemaleExpectedIslamicLifestyle = z.infer<
   typeof femaleExpectedIslamicLifestyleSchema
 >;
-export type ExpectedIslamicLifestyle = Partial<
-  MaleExpectedIslamicLifestyle & FemaleExpectedIslamicLifestyle
->;
+export type ExpectedIslamicLifestyle = MaleExpectedIslamicLifestyle &
+  FemaleExpectedIslamicLifestyle;
+
+export type IslamicLifestyle = MaleIslamicLifestyle & FemaleIslamicLifestyle;

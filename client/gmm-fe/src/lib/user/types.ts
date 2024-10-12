@@ -1,12 +1,18 @@
 import { FamilyIntroduction } from '../schemas/family-introduction';
 import {
   ExpectedIslamicLifestyle,
+  FemaleExpectedIslamicLifestyle,
+  FemaleIslamicLifestyle,
   IslamicLifestyle,
+  MaleExpectedIslamicLifestyle,
+  MaleIslamicLifestyle,
 } from '../schemas/islamic-lifestyle';
 import { MarriageDiscussion } from '../schemas/marriage-discussion';
 import { User } from '../schemas/user';
 import {
   ExpectedWorldlyLifestyle,
+  FemaleExpectedWorldlyLifestyle,
+  MaleExpectedWorldlyLifestyle,
   WorldlyLifestyle,
 } from '../schemas/worldly-lifestyle';
 
@@ -198,17 +204,21 @@ export interface UpdateWorldlyLifestyle {
 
 export interface UpdateExpectedWorldlyLifestyle {
   userId: string;
-  expectedWorldlyLifestyle: ExpectedWorldlyLifestyle;
+  expectedWorldlyLifestyle:
+    | MaleExpectedWorldlyLifestyle
+    | FemaleExpectedWorldlyLifestyle;
 }
 
 export interface UpdateIslamicLifestyle {
   userId: string;
-  islamicLifestyle: IslamicLifestyle;
+  islamicLifestyle: MaleIslamicLifestyle | FemaleIslamicLifestyle;
 }
 
 export interface UpdateExpectedIslamicLifestyle {
   userId: string;
-  expectedIslamicLifestyle: ExpectedIslamicLifestyle;
+  expectedIslamicLifestyle:
+    | MaleExpectedIslamicLifestyle
+    | FemaleExpectedIslamicLifestyle;
 }
 
 export interface UpdateMarriageDiscussion {

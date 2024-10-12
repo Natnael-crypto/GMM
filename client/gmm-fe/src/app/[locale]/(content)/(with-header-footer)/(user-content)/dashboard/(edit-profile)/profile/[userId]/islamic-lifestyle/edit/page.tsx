@@ -19,7 +19,7 @@ export default function IslamicLifestyle() {
   return (
     <div>
       <IslamicForm islamicLifestyle={islamicLifestyle} />
-      <ExpectedIslamicForm expectedIslamicLifestyle={expectedIslamicLifestyle as unknown as any} />
+      <ExpectedIslamicForm expectedIslamicLifestyle={expectedIslamicLifestyle} />
     </div>
   );
 }

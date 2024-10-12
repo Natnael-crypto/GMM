@@ -1,15 +1,7 @@
 'use client'
 
 import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
+import { Form } from '@/components/ui/form';
 import { toast } from '@/components/ui/use-toast';
 import { useAppSelector } from '@/lib/hooks';
 import { FemaleExpectedWorldlyLifestyle, femaleExpectedWorldlyLifestyleSchema } from '@/lib/schemas/worldly-lifestyle';
