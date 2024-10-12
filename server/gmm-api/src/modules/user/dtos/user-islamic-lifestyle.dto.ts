@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsOptional } from 'class-validator';
 
 export class UserIslamicLifestyleDto {
   @ApiProperty({ example: 'string' })
@@ -35,6 +35,21 @@ export class UserIslamicLifestyleDto {
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
+  celebratingBirthdays?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  celebratingMawlid?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  money?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
   islamicEducation?: string;
 
   @ApiProperty({ example: 'string' })
@@ -45,10 +60,15 @@ export class UserIslamicLifestyleDto {
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  hajjAndUmrah?: string;
+  hajjAndUmra?: string;
 
-  @ApiProperty({ example: 2 })
+  @ApiProperty({ example: 'string' })
   @IsOptional()
-  @IsNumber()
-  childrenAndUpbringing?: number;
+  @IsString()
+  childrenAndUpbringing?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  hijab?: string;
 }

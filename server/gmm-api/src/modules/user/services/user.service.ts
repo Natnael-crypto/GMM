@@ -5,13 +5,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm/repository/Repository';
 import { UserDto } from '../dtos/user.dto';
-import { ExpectedIslamicLifestyleModel } from '../entities/expected-islamic-lifestyle.schema';
+import { HusbandExpectedIslamicLifestyleModel } from '../entities/husband-expected-islamic-lifestyle.schema';
 import { ExpectedIslamicLifestyleDto } from '../dtos/expected-islamic-lifestyle.dto';
 import { UserWorldlyLifestyleModel } from '../entities/user-worldly-lifestyle.schema';
-import { UserIslamicLifestyleModel } from '../entities/user-islamic-lifestyle.schema';
+import { HusbandIslamicLifestyleModel } from '../entities/husband-islamic-lifestyle.schema';
 import { UserIslamicLifestyleDto } from '../dtos/user-islamic-lifestyle.dto';
 import { UserWorldlyLifestyleDto } from '../dtos/user-worldly-lifestyle.dto';
-import { ExpectedWorldlyLifestyleModel } from '../entities/expected-worldly-lifestyle.schema';
+import { HusbandExpectedWorldlyLifestyleModel } from '../entities/husband-expected-worldly-lifestyle.schema';
+import { WifeExpectedWorldlyLifestyleModel } from '../entities/wife-expected-worldly-lifestyle.schema';
 import { ExpectedWorldlyLifestyleDto } from '../dtos/expected-worldly-lifestyle.dto';
 import { UserMarriageDiscussionModel } from '../entities/user-marriage-discussion.schema';
 import { UserMarriageDiscussionDto } from '../dtos/user-marriage-discussion.dto';
@@ -26,6 +27,8 @@ import { Filtering } from '@shared/decorators/filter.decorator';
 import { getWhere, getOrder } from '@shared/decorators/filter.helper';
 import { ExpressRegistrationDto } from '../dtos/express-registration';
 import { GuardianService } from '../services/guardian.service';
+import { WifeIslamicLifestyleModel } from '../entities/wife-islamic-lifestyle.schema';
+import { WifeExpectedIslamicLifestyleModel } from '../entities/wife-expected-islamic-lifestyle.schema';
 
 @Injectable()
 export class UserService implements EmailLists {
@@ -195,7 +198,12 @@ export class UserService implements EmailLists {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    const lifestyle = await ExpectedWorldlyLifestyleModel.get(userId);
+    let lifestyle;
+    if (user.gender === 'Male') {
+      lifestyle = await HusbandExpectedWorldlyLifestyleModel.get(userId);
+    } else {
+      lifestyle = await WifeExpectedWorldlyLifestyleModel.get(userId);
+    }
 
     if (!lifestyle) {
       throw new NotFoundException(
@@ -216,9 +224,17 @@ export class UserService implements EmailLists {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    let lifestyle = await ExpectedWorldlyLifestyleModel.get(userId);
-    if (!lifestyle) {
-      lifestyle = new ExpectedWorldlyLifestyleModel({ id: userId });
+    let lifestyle;
+    if (user.gender === 'Male') {
+      lifestyle = await HusbandExpectedWorldlyLifestyleModel.get(userId);
+      if (!lifestyle) {
+        lifestyle = new HusbandExpectedWorldlyLifestyleModel({ id: userId });
+      }
+    } else {
+      lifestyle = await WifeExpectedWorldlyLifestyleModel.get(userId);
+      if (!lifestyle) {
+        lifestyle = new WifeExpectedWorldlyLifestyleModel({ id: userId });
+      }
     }
 
     Object.assign(lifestyle, updateDto);
@@ -234,7 +250,12 @@ export class UserService implements EmailLists {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    const lifestyle = await UserIslamicLifestyleModel.get(userId);
+    let lifestyle;
+    if (user.gender === 'Male') {
+      lifestyle = await HusbandIslamicLifestyleModel.get(userId);
+    } else {
+      lifestyle = await WifeIslamicLifestyleModel.get(userId);
+    }
 
     if (!lifestyle) {
       throw new NotFoundException('Islamic lifestyle information not found');
@@ -253,9 +274,17 @@ export class UserService implements EmailLists {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    let lifestyle = await UserIslamicLifestyleModel.get(userId);
-    if (!lifestyle) {
-      lifestyle = new UserIslamicLifestyleModel({ id: userId });
+    let lifestyle;
+    if (user.gender === 'Male') {
+      lifestyle = await HusbandIslamicLifestyleModel.get(userId);
+      if (!lifestyle) {
+        lifestyle = new HusbandIslamicLifestyleModel({ id: userId });
+      }
+    } else {
+      lifestyle = await WifeIslamicLifestyleModel.get(userId);
+      if (!lifestyle) {
+        lifestyle = new WifeIslamicLifestyleModel({ id: userId });
+      }
     }
 
     Object.assign(lifestyle, updateDto);
@@ -271,7 +300,12 @@ export class UserService implements EmailLists {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    const lifestyle = await ExpectedIslamicLifestyleModel.get(userId);
+    let lifestyle;
+    if (user.gender === 'Male') {
+      lifestyle = await HusbandExpectedIslamicLifestyleModel.get(userId);
+    } else {
+      lifestyle = await WifeExpectedIslamicLifestyleModel.get(userId);
+    }
 
     if (!lifestyle) {
       throw new NotFoundException(
@@ -292,9 +326,17 @@ export class UserService implements EmailLists {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    let lifestyle = await ExpectedIslamicLifestyleModel.get(userId);
-    if (!lifestyle) {
-      lifestyle = new ExpectedIslamicLifestyleModel({ id: userId });
+    let lifestyle;
+    if (user.gender === 'Male') {
+      lifestyle = await HusbandExpectedIslamicLifestyleModel.get(userId);
+      if (!lifestyle) {
+        lifestyle = new HusbandExpectedIslamicLifestyleModel({ id: userId });
+      }
+    } else {
+      lifestyle = await WifeExpectedIslamicLifestyleModel.get(userId);
+      if (!lifestyle) {
+        lifestyle = new WifeExpectedIslamicLifestyleModel({ id: userId });
+      }
     }
 
     Object.assign(lifestyle, updateDto);

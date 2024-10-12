@@ -1,7 +1,22 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsOptional } from 'class-validator';
 
 export class ExpectedWorldlyLifestyleDto {
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  decisionMakingAndLeadership?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  willFinanciallySupportWifeEducation?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  moneyInMarriage?: string;
+
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
@@ -10,17 +25,7 @@ export class ExpectedWorldlyLifestyleDto {
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  wifeCareer?: string;
-
-  @ApiProperty({ example: 'string' })
-  @IsOptional()
-  @IsString()
-  dualIncome?: string;
-
-  @ApiProperty({ example: 'string' })
-  @IsOptional()
-  @IsString()
-  relocation?: string;
+  wifeRelocation?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()
@@ -30,27 +35,37 @@ export class ExpectedWorldlyLifestyleDto {
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  coupleLivingAccomodation?: string;
+  wifeOpenToLiveWithHusbandsParents?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  openToLiveWithWifeFamily?: string;
+  haveTheirHomeSeparateFromTheirFamilies?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  expectWifeToLiveWithHisFamily?: string;
+  husbandOpenToLiveWithWifeFamily?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  acceptHusbandsChildren?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  acceptWifesChildren?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
   havingChildren?: string;
 
-  @ApiProperty({ example: 2 })
+  @ApiProperty({ example: 'string' })
   @IsOptional()
-  @IsNumber()
-  numberOfChildren?: number;
+  @IsString()
+  desiredNumberOfChildren?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()
@@ -60,10 +75,15 @@ export class ExpectedWorldlyLifestyleDto {
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  requireWifeToAcceptChildren?: string;
+  husbandRelocation?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  willingToAcceptWifeChildren?: string;
+  husbandMustLiveAloneWithWife?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  husbandWillingToLiveWithWifeFamily?: string;
 }

@@ -32,6 +32,11 @@ export class UserWorldlyLifestyleDto {
   @IsString()
   livingSituation?: string;
 
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  ownsVehicle?: string;
+
   @ApiProperty({ example: 2020 })
   @IsOptional()
   @IsNumber()
@@ -85,8 +90,8 @@ export class UserWorldlyLifestyleDto {
 
   @ApiProperty({ example: 2 })
   @IsOptional()
-  @IsNumber()
-  pets?: number;
+  @IsString()
+  pets?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()

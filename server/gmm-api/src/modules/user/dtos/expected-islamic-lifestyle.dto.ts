@@ -10,6 +10,11 @@ export class ExpectedIslamicLifestyleDto {
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
+  obedience?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
   hijab?: string;
 
   @ApiProperty({ example: 'string' })
@@ -20,12 +25,12 @@ export class ExpectedIslamicLifestyleDto {
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  familyStructure?: string;
+  polygyny?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  childrenAndUpbringing?: string;
+  islamicEducation?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()
@@ -35,15 +40,30 @@ export class ExpectedIslamicLifestyleDto {
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  nonMehramContact?: string;
+  wifeNonMehramContact?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  obedienceToHusband?: string;
-  
+  husbandNonMehramContact?: string;
+
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
   obedienceToInLaws?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  wifeAppearance?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  husbandAppearance?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  childrenUpbringing?: string;
 }
