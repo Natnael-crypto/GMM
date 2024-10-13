@@ -62,6 +62,10 @@
   height: 55vh
 }
 
+.hover-disabled {
+  pointer-events: none;
+}
+
   .dark {
     /* --background: 222.2 84% 4.9%; */
     --background: 218.2 30% 5.9%;
