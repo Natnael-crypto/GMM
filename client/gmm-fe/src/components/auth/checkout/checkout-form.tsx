@@ -70,14 +70,14 @@ export function CheckoutForm() {
 
   return (
     <div>
-      <div className="space-y-5 text-sm">
+      <div className="space-y-5">
         <div className="space-y-1">
-          <Label className="text-xs">{t('email')}</Label>
+          <Label className="text-md">{t('email')}</Label>
           <Input className="text-sm placeholder:text-xs" value={user?.email ?? ''} disabled />
         </div>
 
         <div className="space-y-1">
-          <div className="text-xs"> {t('selectMembership')}</div>
+          <div className="text-md"> {t('selectMembership')}</div>
 
           <div className="grid grid-cols-2 gap-x-2 gap-y-5 px-3">
             <RadioButton

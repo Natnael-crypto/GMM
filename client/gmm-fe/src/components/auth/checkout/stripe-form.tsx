@@ -82,7 +82,7 @@ export default function StripeForm({ user }: { user: User }) {
         <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)} className="w-full space-y-5 mt-4">
                 <div className="space-y-1">
-                    <FormLabel className="text-xs">{t('billingInfo.title')}</FormLabel>
+                    <FormLabel className="text-md">{t('billingInfo.title')}</FormLabel>
                     <div>
                         <FormField
                             name="name"
