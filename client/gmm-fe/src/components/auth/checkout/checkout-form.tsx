@@ -77,7 +77,7 @@ export function CheckoutForm() {
         </div>
 
         <div className="space-y-1">
-          <div className="text-md"> {t('selectMembership')}</div>
+          <div className="text-md font-bold"> {t('selectMembership')}</div>
 
           <div className="grid grid-cols-2 gap-x-2 gap-y-5 px-3">
             <RadioButton

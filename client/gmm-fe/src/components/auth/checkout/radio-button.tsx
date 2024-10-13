@@ -16,7 +16,7 @@ export const RadioButton = forwardRef(
     );
 
     return (
-      <div className="text-xs">
+      <div>
         <input
           className="peer text-sm placeholder:text-xs opacity-100 pointer-events-none hidden"
           type="radio"
@@ -74,7 +74,7 @@ export const RadioButton = forwardRef(
 
               {name !== 'monthlyPackage' && (
                 <p
-                  className={cn("peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground text-center border-t mx-2 text-[0.5rem] leading-tight pt-1 mt-1",
+                  className={cn("peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground text-center border-t mx-2 text-[0.65rem] leading-tight pt-1 mt-1",
                     selected ? 'text-primary-foreground' : ''
                   )}
                 >
