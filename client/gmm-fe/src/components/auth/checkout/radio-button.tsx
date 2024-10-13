@@ -74,7 +74,7 @@ export const RadioButton = forwardRef(
 
               {name !== 'monthlyPackage' && (
                 <p
-                  className={cn("peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground text-center border-t mx-2 text-[0.65rem] leading-tight pt-1 mt-1",
+                  className={cn("peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground text-center border-t mx-2 text-[0.65rem] leading-tight pt-2 mt-2 font-normal",
                     selected ? 'text-primary-foreground' : ''
                   )}
                 >
