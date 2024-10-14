@@ -99,8 +99,8 @@ export class UpdateUserDto {
   religiousPractice?: string;
 
   @IsOptional()
-  @IsBoolean()
-  bornMuslim?: boolean;
+  @IsString()
+  bornOrRevertToIslam?: string;
 
   @IsOptional()
   @IsBoolean()

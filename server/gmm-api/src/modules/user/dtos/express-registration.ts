@@ -91,8 +91,8 @@ export class ExpressRegistrationDto {
   religiousPractice: string;
 
   @ApiProperty()
-  @IsBoolean()
-  bornMuslim: boolean;
+  @IsString()
+  bornOrRevertToIslam: string;
 
   @ApiProperty()
   @IsBoolean()

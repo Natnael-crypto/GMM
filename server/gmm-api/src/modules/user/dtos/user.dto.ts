@@ -129,10 +129,10 @@ export class UserDto {
   @IsString()
   religiousPractice?: string;
 
-  @ApiProperty({ example: true, required: false })
+  @ApiProperty({ example: 'Born Muslim', required: false })
   @IsOptional()
-  @IsBoolean()
-  bornMuslim?: boolean;
+  @IsString()
+  bornOrRevertToIslam?: string;
 
   @ApiProperty({ example: true, required: false })
   @IsOptional()
