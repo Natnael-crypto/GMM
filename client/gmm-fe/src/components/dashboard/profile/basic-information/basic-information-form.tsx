@@ -149,7 +149,7 @@ export default function BasicInformationForm() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="col-span-12 lg:col-span-2 grid grid-cols-4 gap-x-5 gap-y-4 h-fit">
                     <div className="col-span-4 md:col-span-2 flex gap-5 items-center h-fit">
-                        <Label className="text-nowrap font-normal text-xs line-clamp-1">First Name</Label>
+                        <Label>First Name</Label>
                         <FormField
                             name='firstName'
                             control={form.control}
@@ -169,7 +169,7 @@ export default function BasicInformationForm() {
                     </div>
 
                     <div className="col-span-4 md:col-span-2 flex gap-5 items-center h-fit">
-                        <Label className="text-nowrap font-normal text-xs line-clamp-1">Last Name</Label>
+                        <Label>Last Name</Label>
                         <FormField
                             name='lastName'
                             control={form.control}
@@ -189,7 +189,7 @@ export default function BasicInformationForm() {
                     </div>
 
                     <div className="space-y-1 col-span-2 lg:col-span-1">
-                        <Label className="font-normal text-xs line-clamp-1">Age (Year)</Label>
+                        <Label>Age (Year)</Label>
                         <FormField
                             name='age'
                             control={form.control}
@@ -213,7 +213,7 @@ export default function BasicInformationForm() {
                     </div>
 
                     <div className="space-y-1 col-span-2 lg:col-span-1">
-                        <Label className="font-normal text-xs line-clamp-1">Gender</Label>
+                        <Label>Gender</Label>
                         <FormField
                             name='gender'
                             control={form.control}
@@ -236,7 +236,7 @@ export default function BasicInformationForm() {
                     </div>
 
                     <div className="space-y-1 col-span-2 lg:col-span-1">
-                        <Label className="font-normal text-xs line-clamp-1">Height</Label>
+                        <Label>Height</Label>
                         <FormField
                             name='height'
                             control={form.control}
@@ -259,7 +259,7 @@ export default function BasicInformationForm() {
                     </div>
 
                     <div className="space-y-1 col-span-2 lg:col-span-1">
-                        <Label className="font-normal text-xs line-clamp-1">Weight</Label>
+                        <Label>Weight</Label>
                         <FormField
                             name='weight'
                             control={form.control}
@@ -281,7 +281,7 @@ export default function BasicInformationForm() {
                     </div>
 
                     <div className="space-y-1 col-span-2">
-                        <Label className="font-normal text-xs line-clamp-1">Country of Origin</Label>
+                        <Label>Country of Origin</Label>
                         <FormField
                             name='country'
                             control={form.control}
@@ -295,7 +295,7 @@ export default function BasicInformationForm() {
                         />
                     </div>
                     {/* <div className="space-y-1 col-span-2">
-                        <Label className="font-normal text-xs line-clamp-1">Skin Color</Label>
+                        <Label>Skin Color</Label>
                         <FormField
                             name='skinColor'
                             control={form.control}
@@ -319,7 +319,7 @@ export default function BasicInformationForm() {
                         />
                     </div> */}
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">Language(s) - Max 3</Label>
+                        <Label>Language(s) - Max 3</Label>
                         <FormField
                             name='languages'
                             control={form.control}
@@ -334,7 +334,7 @@ export default function BasicInformationForm() {
 
                     </div>
                     <div className="space-y-1 col-span-2">
-                        <Label className="font-normal text-xs line-clamp-1">Nationality/Passport</Label>
+                        <Label>Nationality/Passport</Label>
                         <FormField
                             name='nationality'
                             control={form.control}
@@ -349,7 +349,7 @@ export default function BasicInformationForm() {
 
                     </div>
                     <div className="space-y-1 col-span-2">
-                        <Label className="font-normal text-xs line-clamp-1">Current City</Label>
+                        <Label>Current City</Label>
                         <FormField
                             name='city'
                             control={form.control}
@@ -364,7 +364,7 @@ export default function BasicInformationForm() {
 
                     </div>
                     <div className="space-y-1 col-span-2">
-                        <Label className="font-normal text-xs line-clamp-1">Marital Status</Label>
+                        <Label>Marital Status</Label>
                         <FormField
                             name='maritalStatus'
                             control={form.control}
@@ -391,7 +391,7 @@ export default function BasicInformationForm() {
                     </div>
 
                     <div className="space-y-1 col-span-2">
-                        <Label className="font-normal text-xs line-clamp-1">Do you have children?</Label>
+                        <Label>Do you have children?</Label>
                         <FormField
                             name='hasChildren'
                             control={form.control}
@@ -421,7 +421,7 @@ export default function BasicInformationForm() {
 
                     <div className="col-span-4 grid grid-cols-4 lg:grid-cols-8 gap-x-5 gap-y-4">
                         <div className="space-y-1 col-span-4 lg:col-span-2">
-                            <Label className="font-normal text-xs line-clamp-1">Sunni-Madhaib</Label>
+                            <Label>Sunni-Madhaib</Label>
                             <FormField
                                 name='sunniMadhaib'
                                 control={form.control}
@@ -448,7 +448,7 @@ export default function BasicInformationForm() {
                         </div>
 
                         <div className="space-y-1 col-span-4 lg:col-span-3">
-                            <Label className="font-normal text-xs line-clamp-1">Religious Practice</Label>
+                            <Label>Religious Practice</Label>
                             <FormField
                                 name='religiousPractice'
                                 control={form.control}
@@ -474,7 +474,7 @@ export default function BasicInformationForm() {
 
                         </div>
                         <div className="space-y-1 col-span-4 lg:col-span-3">
-                            <Label className="font-normal text-xs line-clamp-1">
+                            <Label>
                                 Born/Reverted to Islam
                             </Label>
                             <FormField
@@ -500,7 +500,7 @@ export default function BasicInformationForm() {
                     </div>
 
                     <div className="space-y-1 col-span-2 lg:col-span-1">
-                        <Label className="font-normal text-xs line-clamp-1">Drinks</Label>
+                        <Label>Drinks</Label>
                         <FormField
                             name='drinks'
                             control={form.control}
@@ -522,7 +522,7 @@ export default function BasicInformationForm() {
                         />
                     </div>
                     <div className="space-y-1 col-span-2 lg:col-span-1">
-                        <Label className="font-normal text-xs line-clamp-1 text-nowrap">
+                        <Label>
                             Drugs{' '}
                             <span className="text-[0.6rem] text-nowrap">
                                 (Including Cannabis)
@@ -549,7 +549,7 @@ export default function BasicInformationForm() {
                         />
                     </div>
                     <div className="space-y-1 col-span-2 lg:col-span-1">
-                        <Label className="font-normal text-xs line-clamp-1">
+                        <Label>
                             Smokes <span className="text-[0.6rem]">(Vapping/Shisha)</span>
                         </Label>
                         <FormField
@@ -574,7 +574,7 @@ export default function BasicInformationForm() {
                     </div>
 
                     <div className="space-y-1 col-span-2 lg:col-span-1">
-                        <Label className="font-normal text-xs line-clamp-1">Tattoo(s)</Label>
+                        <Label>Tattoo(s)</Label>
                         <FormField
                             name='tattoos'
                             control={form.control}

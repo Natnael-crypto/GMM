@@ -52,7 +52,7 @@ export default function FamilyIntroductionForm() {
   return (
     <div>
       <div className="col-span-2 flex flex-col sm:flex-row justify-between items-center border-b border-b-secondary pb-1">
-        <h1 className="text-primary text-lg font-bold">
+        <h1 className="text-primary text-xl font-bold">
           Family/Guardian Introduction
         </h1>
         <span className="text-destructive font-bold text-xs">
@@ -61,7 +61,7 @@ export default function FamilyIntroductionForm() {
       </div>
       <div className="grid grid-cols-12 gap-x-3 gap-y-3 py-4">
         <div className="space-y-1 py-2 col-span-6">
-          <Label className="font-normal text-md line-clamp-1">
+          <Label>
             {t('guardianInformation.fullName')}
           </Label>
           <FormField
@@ -82,7 +82,7 @@ export default function FamilyIntroductionForm() {
         </div>
 
         <div className="space-y-1 py-2 col-span-6">
-          <Label className="font-normal text-md line-clamp-1">
+          <Label>
             {t('guardianInformation.relationship')}
           </Label>
           <FormField
@@ -112,7 +112,7 @@ export default function FamilyIntroductionForm() {
         </div>
 
         <div className="space-y-1 py-2 col-span-6">
-          <Label className="font-normal text-md line-clamp-1">
+          <Label>
             {t('guardianInformation.phoneNumber')}
           </Label>
           <FormField
@@ -133,7 +133,7 @@ export default function FamilyIntroductionForm() {
         </div>
 
         <div className="space-y-1 py-2 col-span-6">
-          <Label className="font-normal text-md line-clamp-1">{t('guardianInformation.email')}{" "}
+          <Label>{t('guardianInformation.email')}{" "}
           </Label>
           <FormField
             name="guardianEmail"
@@ -153,12 +153,12 @@ export default function FamilyIntroductionForm() {
         </div>
 
 
-        <h1 className="text-xl font-bold text-secondary border-b p-1 col-span-12">
+        <h1 className="text-lg font-bold text-secondary border-b p-1 col-span-12">
           {t('idVerification.title')}
         </h1>
 
         <div className="space-y-1 py-2 col-span-12">
-          <Label className="font-normal text-md line-clamp-1">
+          <Label>
             {t('idVerification.phoneNumber')}
           </Label>
           <FormField
@@ -179,7 +179,7 @@ export default function FamilyIntroductionForm() {
         </div>
 
         <div className="space-y-1 py-2 col-span-12">
-          <Label className="font-normal text-md line-clamp-1">
+          <Label>
             {t('idVerification.id')}
           </Label>
           <FormField
