@@ -52,6 +52,11 @@
     color: var(--foreground);
   }
 
+  .text-md {
+    font-size: 0.9375rem;
+    line-height: 1.5rem;
+  }
+
   .h-\[65vh\] {
     height: 65vh
 }
