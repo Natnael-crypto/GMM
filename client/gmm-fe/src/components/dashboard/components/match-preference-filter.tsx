@@ -245,7 +245,7 @@ export default function MatchPreferenceFilter() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="col-span-9 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary">
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('preferredAge', [18, 100])}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('preferredAge', [18, 100])}>
             <span className="font-bold line-clamp-1">Preferred Age</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isAgeAny} onChange={() => { }} />
@@ -257,7 +257,7 @@ export default function MatchPreferenceFilter() {
             control={form.control}
             render={({ field }) => (<>
               <Slider value={field.value} onValueChange={field.onChange} min={18} max={100} step={1} />
-              <div className="text-[0.7rem] flex gap-1 text-primary font-bold justify-center">
+              <div className="text-sm flex gap-1 text-primary font-bold justify-center">
                 <span>{field.value?.join(' - ')}</span>
               </div>
             </>)}
@@ -265,7 +265,7 @@ export default function MatchPreferenceFilter() {
 
         </div>
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('preferredHeight', [0, 300])}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('preferredHeight', [0, 300])}>
             <span className="font-bold line-clamp-1 ">Height</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isHeightAny} onChange={() => { }} />
@@ -277,7 +277,7 @@ export default function MatchPreferenceFilter() {
             control={form.control}
             render={({ field }) => (<>
               <Slider value={field.value} onValueChange={field.onChange} max={300} step={1} />
-              <div className="text-[0.7rem] flex gap-1 text-primary font-bold justify-center">
+              <div className="text-sm flex gap-1 text-primary font-bold justify-center">
                 <span>{field.value && field.value[0]} cm </span>
                 <span>-</span>
                 <span>{field.value && field.value[1]} cm</span>
@@ -291,7 +291,7 @@ export default function MatchPreferenceFilter() {
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => { form.setValue('preferredWeight', [0, 300]) }}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => { form.setValue('preferredWeight', [0, 300]) }}>
             <span className="font-bold line-clamp-1 ">Weight</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isWeightAny} onChange={() => { }} />
@@ -304,7 +304,7 @@ export default function MatchPreferenceFilter() {
             render={({ field }) => (
               <>
                 <Slider value={field.value} onValueChange={field.onChange} max={220} step={1} />
-                <div className="text-[0.7rem] flex gap-1 text-primary font-bold justify-center">
+                <div className="text-sm flex gap-1 text-primary font-bold justify-center">
                   <span>{field.value && field.value[0]} Kg</span>
                   <span>-</span>
                   <span>{field.value && field.value[1]} Kg</span>
@@ -319,7 +319,7 @@ export default function MatchPreferenceFilter() {
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('nationality', '')}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('nationality', '')}>
             <span className="font-bold line-clamp-1">Nationality/Passport</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isNationalityAny} onChange={() => { }} />
@@ -332,15 +332,15 @@ export default function MatchPreferenceFilter() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                  <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent" />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('language', '')}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('language', '')}>
             <span className="font-bold line-clamp-1">Languages</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isLanguageAny} onChange={() => { }} />
@@ -354,7 +354,7 @@ export default function MatchPreferenceFilter() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -362,13 +362,13 @@ export default function MatchPreferenceFilter() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('countryOfOrigin', '')}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('countryOfOrigin', '')}>
             <span className="font-bold line-clamp-1">Country of Origin</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isCountryOfOriginAny} onChange={() => { }} />
@@ -381,15 +381,15 @@ export default function MatchPreferenceFilter() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                  <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent" />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('martialStatus', '')}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('martialStatus', '')}>
             <span className="font-bold line-clamp-1">Martial Status</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isMartialStatusAny} onChange={() => { }} />
@@ -402,15 +402,15 @@ export default function MatchPreferenceFilter() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <AutoComplete onChange={field.onChange} selectedOption={field.value} options={martialStatusOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                  <AutoComplete onChange={field.onChange} selectedOption={field.value} options={martialStatusOptions} placeholder='' className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent" />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center">
+          <Label className="text-sm flex justify-between items-center">
             <span className="font-bold line-clamp-1">Salat/Prayer</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" />
@@ -418,7 +418,7 @@ export default function MatchPreferenceFilter() {
             </span>
           </Label>
           <Select>
-            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+            <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
               <SelectValue placeholder="Combining Deen and Culture" />
             </SelectTrigger>
             <SelectContent>
@@ -429,7 +429,7 @@ export default function MatchPreferenceFilter() {
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('bornOrRevert', '')}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('bornOrRevert', '')}>
             <span className="font-bold line-clamp-1">Born/Reverted</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isBornOrRevertAny} onChange={() => { }} />
@@ -443,7 +443,7 @@ export default function MatchPreferenceFilter() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -453,13 +453,13 @@ export default function MatchPreferenceFilter() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('hijab', '')}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('hijab', '')}>
             <span className="font-bold line-clamp-1">Hijab</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isHijabAny} onChange={() => { }} />
@@ -473,7 +473,7 @@ export default function MatchPreferenceFilter() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -485,13 +485,13 @@ export default function MatchPreferenceFilter() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('children', '')}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('children', '')}>
             <span className="font-bold line-clamp-1">Children</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isChildrenAny} onChange={() => { }} />
@@ -505,7 +505,7 @@ export default function MatchPreferenceFilter() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -517,13 +517,13 @@ export default function MatchPreferenceFilter() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('wantsChildren', '')}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('wantsChildren', '')}>
             <span className="font-bold line-clamp-1">Wants Children</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isWantsChildrenAny} onChange={() => { }} />
@@ -531,7 +531,7 @@ export default function MatchPreferenceFilter() {
             </span>
           </Label>
           <Select>
-            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+            <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -543,7 +543,7 @@ export default function MatchPreferenceFilter() {
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('education', '')}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('education', '')}>
             <span className="font-bold line-clamp-1">Education</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isEducationAny} onChange={() => { }} />
@@ -557,7 +557,7 @@ export default function MatchPreferenceFilter() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -571,13 +571,13 @@ export default function MatchPreferenceFilter() {
                       <SelectItem className="text-sm max-w-80" value="None of the above">None of the above</SelectItem>
                     </SelectContent>
                   </Select></FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-3">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('profession', '')}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('profession', '')}>
             <span className="font-bold line-clamp-1">Profession</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isProfessionAny} onChange={() => { }} />
@@ -591,7 +591,7 @@ export default function MatchPreferenceFilter() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -607,13 +607,13 @@ export default function MatchPreferenceFilter() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
 
         <div className="space-y-2 col-span-9 md:col-span-2">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('drinking', ('' as unknown as boolean))}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('drinking', ('' as unknown as boolean))}>
             <span className="font-bold line-clamp-1">Drinking</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isDrinkingAny} onChange={() => { }} />
@@ -627,7 +627,7 @@ export default function MatchPreferenceFilter() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -636,12 +636,12 @@ export default function MatchPreferenceFilter() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
         <div className="space-y-2 col-span-9 md:col-span-2">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('smoking', ('' as unknown as boolean))}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('smoking', ('' as unknown as boolean))}>
             <span className="font-bold line-clamp-1">Smoking</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isSmokingAny} onChange={() => { }} />
@@ -655,7 +655,7 @@ export default function MatchPreferenceFilter() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -664,12 +664,12 @@ export default function MatchPreferenceFilter() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
         <div className="space-y-2 col-span-9 md:col-span-2">
-          <Label className="text-xs flex justify-between items-center" onClick={() => form.setValue('tattoos', ('' as unknown as boolean))}>
+          <Label className="text-sm flex justify-between items-center" onClick={() => form.setValue('tattoos', ('' as unknown as boolean))}>
             <span className="font-bold line-clamp-1">Tattoo(s)</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input type="checkbox" className="p-0 m-0 h-fit" checked={isTattooAny} onChange={() => { }} />
@@ -683,7 +683,7 @@ export default function MatchPreferenceFilter() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -692,7 +692,7 @@ export default function MatchPreferenceFilter() {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>)}
           />
         </div>
