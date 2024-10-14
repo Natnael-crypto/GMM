@@ -119,7 +119,7 @@ export default function BasicInformationForm() {
     }, [updateResult, setSaving])
 
     return (
-        <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-12 lg:grid-cols-3 gap-x-5 gap-y-4 py-8 text-md">
+        <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-12 lg:grid-cols-4 gap-x-5 gap-y-4 py-8 text-md">
             <div className="col-span-12 md:col-span-8 lg:col-span-1">
                 <FormField
                     name="pictures"
@@ -147,7 +147,7 @@ export default function BasicInformationForm() {
                 <form
                     ref={basicInfoFormRef}
                     onSubmit={form.handleSubmit(onSubmit)}
-                    className="col-span-12 lg:col-span-2 grid grid-cols-4 gap-x-5 gap-y-4 h-fit">
+                    className="col-span-12 lg:col-span-3 grid grid-cols-4 gap-x-5 gap-y-4 h-fit">
                     <div className="col-span-4 md:col-span-2 flex gap-5 items-center h-fit">
                         <Label>First Name</Label>
                         <FormField
