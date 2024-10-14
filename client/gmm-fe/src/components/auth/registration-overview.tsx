@@ -20,9 +20,9 @@ export default function RegistrationOverview() {
       </div>
 
       <div className="mt-20 overflow-auto no-scrollbar">
-        <div className="flex gap-4 justify-between">
+        <div className="col-count-[3]">
           <OurApproachCard
-            className="border-none shadow-none hover-disabled bg-transparent"
+            className="border-none shadow-none hover-disabled bg-transparent inline-flex"
             imageSrc="/assets/icon_guided-matchmaking.svg"
             imageClassName="w-24 lg:w-28"
             isActive={false}
@@ -32,7 +32,7 @@ export default function RegistrationOverview() {
             })}
           </OurApproachCard>
           <OurApproachCard
-            className="border-none shadow-none hover-disabled bg-transparent"
+            className="border-none shadow-none hover-disabled bg-transparent inline-flex"
             imageSrc="/assets/icon_match-guarantee.svg"
             imageClassName="w-24 lg:w-28"
             isActive={false}
@@ -42,7 +42,7 @@ export default function RegistrationOverview() {
             })}
           </OurApproachCard>
           <OurApproachCard
-            className="border-none shadow-none hover-disabled bg-transparent"
+            className="border-none shadow-none hover-disabled bg-transparent inline-flex"
             imageSrc="/assets/icon_never-pay-to-compete.svg"
             imageClassName="w-24 lg:w-28"
             isActive={false}
@@ -52,7 +52,7 @@ export default function RegistrationOverview() {
             })}
           </OurApproachCard>
           <OurApproachCard
-            className="md:hidden border-none shadow-none hover-disabled bg-transparent"
+            className="border-none shadow-none hover-disabled bg-transparent inline-flex"
             imageSrc="/assets/icon_guardian-family-involvement.svg"
             imageClassName="w-20 lg:w-24"
             isActive={false}
@@ -62,7 +62,7 @@ export default function RegistrationOverview() {
             })}
           </OurApproachCard>
           <OurApproachCard
-            className="md:hidden border-none shadow-none hover-disabled bg-transparent"
+            className="border-none shadow-none hover-disabled bg-transparent inline-flex"
             imageSrc="/assets/icon_1-on-1-chats.svg"
             imageClassName="w-24"
             isActive={false}
@@ -73,28 +73,6 @@ export default function RegistrationOverview() {
           </OurApproachCard>
         </div>
 
-        <div className="hidden md:flex gap-8 justify-between px-32">
-          <OurApproachCard
-            className="border-none shadow-none hover-disabled bg-transparent"
-            imageSrc="/assets/icon_guardian-family-involvement.svg"
-            imageClassName="w-20 lg:w-24"
-            isActive={false}
-          >
-            {approachT.rich('card.guardianFamilyInvolvement', {
-              br: () => <br />,
-            })}
-          </OurApproachCard>
-          <OurApproachCard
-            className="border-none shadow-none hover-disabled bg-transparent"
-            imageSrc="/assets/icon_1-on-1-chats.svg"
-            imageClassName="w-24"
-            isActive={false}
-          >
-            {approachT.rich('card.oneOnOneChats', {
-              br: () => <br />,
-            })}
-          </OurApproachCard>
-        </div>
       </div>
     </div>
   );

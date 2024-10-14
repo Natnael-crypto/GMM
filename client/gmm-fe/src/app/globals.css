@@ -61,6 +61,10 @@
     justify-content: space-evenly;
   }
 
+  .col-count-\[3\] {
+    column-count: 3;
+  }
+
   .h-\[65vh\] {
     height: 65vh
 }
