@@ -1,8 +1,8 @@
 'use client';
 
-import { useGetUserQuery } from '@/lib/auth/api';
 import { setToken, setUser } from '@/lib/auth/slice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { useLazyGetUserQuery } from '@/lib/auth/api';
 import React, { useEffect } from 'react';
 
 export default function AuthProvider({
@@ -13,19 +13,23 @@ export default function AuthProvider({
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.auth.token);
 
-  const { data: user, error } = useGetUserQuery(undefined, {
-    skip: !token,
-  });
+  const [trigger, result] = useLazyGetUserQuery();
 
   useEffect(() => {
-    if (error) {
+    if (token) {
+      trigger();
+    }
+  }, [trigger, token]);
+
+  useEffect(() => {
+    if (result.error) {
       dispatch(setToken(null));
     }
 
-    if (user) {
-      dispatch(setUser(user));
+    if (result.data) {
+      dispatch(setUser(result.data));
     }
-  }, [user, error, dispatch]);
+  }, [result, dispatch]);
 
   useEffect(() => {
     fetch('/api/auth', {

@@ -1,23 +1,19 @@
-'use client'
-
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
-import { useAppSelector } from '@/lib/hooks';
-import { useRouter } from '@/lib/navigation';
-import React, { useEffect } from 'react';
+import { auth } from '@/lib/auth/utils';
+import { redirect } from '@/lib/navigation';
+import React from 'react';
 
-export default function ProfileLayout({
+export default async function ProfileLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = useAppSelector((state) => state.auth.user);
-  const router = useRouter();
+  const session = await auth()
 
-  useEffect(() => {
-    if (user && user.registered) {
-      router.replace('/dashboard');
-    }
-  }, [user, router])
+  if (session && session.user && session.user.registered) {
+    console.log(session.user)
+    return redirect('/dashboard')
+  }
 
   return (
     <div className="px-6 sm:px-16 md:px-[8%] lg:px-[15%] py-6 space-y-8">
