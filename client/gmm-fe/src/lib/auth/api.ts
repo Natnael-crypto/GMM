@@ -31,4 +31,5 @@ export const authApi = createApi({
   }),
 });
 
-export const { useGetUserQuery, useGetUserByIdQuery } = authApi;
+export const { useGetUserQuery, useLazyGetUserQuery, useGetUserByIdQuery } =
+  authApi;

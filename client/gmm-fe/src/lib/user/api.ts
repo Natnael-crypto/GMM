@@ -307,6 +307,7 @@ export const userApi = createApi({
 
 export const {
   useGetUserQuery,
+  useLazyGetUserQuery,
   useLazyGetUsersQuery,
   useUpdatePreferenceMutation,
   useRegisterUserMutation,
