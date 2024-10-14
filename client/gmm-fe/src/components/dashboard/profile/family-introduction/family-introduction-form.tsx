@@ -98,7 +98,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                 className="pb-8 px-6 sm:px-16 md:px-24 lg:px-52">
                 <div className="grid grid-cols-12 gap-x-3 gap-y-3 py-4">
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">
+                        <Label>
                             {t('guardianInformation.fullName')}
                         </Label>
                         <FormField
@@ -120,7 +120,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">
+                        <Label>
                             {t('guardianInformation.relationship')}
                         </Label>
                         <FormField
@@ -150,7 +150,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                     </div>
 
                     <div className="space-y-1 col-span-4">
-                        <Label className="font-normal text-xs line-clamp-1">
+                        <Label>
                             {t('guardianInformation.phoneNumber')}
                         </Label>
                         <FormField
@@ -172,7 +172,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                     </div>
 
                     <div className="space-y-1 col-span-6">
-                        <Label className="font-normal text-xs line-clamp-1">{t('guardianInformation.email')}{" "}
+                        <Label>{t('guardianInformation.email')}{" "}
                             {user && (!user.guardian || user.guardian.email !== form.watch('guardianEmail')) && <span className='text-xs font-medium italic'>(Pending Approval)</span>}
                         </Label>
                         <FormField
@@ -194,7 +194,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                     </div>
 
                     {/* <div className="space-y-1 col-span-6">
-                        <Label className="font-normal text-xs line-clamp-1">
+                        <Label>
                             {t('idVerification.id')}
                         </Label>
                         <Input
@@ -208,7 +208,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                     </h1>
 
                     <div className="space-y-1 col-span-6">
-                        <Label className="font-normal text-xs line-clamp-1">
+                        <Label>
                             {t('idVerification.phoneNumber')}
                         </Label>
                         <Input
@@ -219,7 +219,7 @@ export default function FamilyIntroductionForm({ familyIntroduction }: { familyI
                     </div>
 
                     <div className="space-y-1 col-span-6">
-                        <Label className="font-normal text-xs line-clamp-1">
+                        <Label>
                             {t('idVerification.id')}
                         </Label>
                         <Input

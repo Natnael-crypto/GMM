@@ -119,7 +119,7 @@ export default function BasicInformationForm() {
     }, [updateResult, setSaving])
 
     return (
-        <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-12 lg:grid-cols-3 gap-x-5 gap-y-4 py-8 text-xs">
+        <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-12 lg:grid-cols-3 gap-x-5 gap-y-4 py-8 text-md">
             <div className="col-span-12 md:col-span-8 lg:col-span-1">
                 <FormField
                     name="pictures"
@@ -162,7 +162,7 @@ export default function BasicInformationForm() {
                                             disabled
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
 
@@ -182,7 +182,7 @@ export default function BasicInformationForm() {
                                             disabled
                                         />
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
 
@@ -197,7 +197,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent className='max-h-64'>
@@ -207,7 +207,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
                     </div>
@@ -221,7 +221,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -230,7 +230,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
                     </div>
@@ -244,7 +244,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent className='max-h-64'>
@@ -252,7 +252,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
 
@@ -267,7 +267,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent className='max-h-64'>
@@ -275,7 +275,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
                     </div>
@@ -288,9 +288,9 @@ export default function BasicInformationForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
                     </div>
@@ -303,7 +303,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -314,7 +314,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
                     </div> */}
@@ -326,9 +326,9 @@ export default function BasicInformationForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <Multiselect onChange={field.onChange} selectedOptions={field.value} title="Language" max={3} initOptions={languages} placeholder='Select' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                                        <Multiselect onChange={field.onChange} selectedOptions={field.value} title="Language" max={3} initOptions={languages} placeholder='Select' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
 
@@ -341,9 +341,9 @@ export default function BasicInformationForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
 
@@ -356,9 +356,9 @@ export default function BasicInformationForm() {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormControl>
-                                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={cityOptions} placeholder='' className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={cityOptions} placeholder='' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
 
@@ -372,7 +372,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -384,7 +384,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
 
@@ -399,7 +399,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -411,7 +411,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>
                             )}
                         />
@@ -429,7 +429,7 @@ export default function BasicInformationForm() {
                                     <FormItem>
                                         <FormControl>
                                             <Select onValueChange={field.onChange} value={field.value}>
-                                                <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                                <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
@@ -441,7 +441,7 @@ export default function BasicInformationForm() {
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
-                                        <FormMessage className="text-xs" />
+                                        <FormMessage className="text-md" />
                                     </FormItem>)}
                             />
 
@@ -456,7 +456,7 @@ export default function BasicInformationForm() {
                                     <FormItem>
                                         <FormControl>
                                             <Select onValueChange={field.onChange} value={field.value}>
-                                                <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                                <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
@@ -468,7 +468,7 @@ export default function BasicInformationForm() {
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
-                                        <FormMessage className="text-xs" />
+                                        <FormMessage className="text-md" />
                                     </FormItem>)}
                             />
 
@@ -484,7 +484,7 @@ export default function BasicInformationForm() {
                                     <FormItem>
                                         <FormControl>
                                             <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                                                <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                                <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
@@ -493,7 +493,7 @@ export default function BasicInformationForm() {
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>
-                                        <FormMessage className="text-xs" />
+                                        <FormMessage className="text-md" />
                                     </FormItem>)}
                             />
                         </div>
@@ -508,7 +508,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -517,7 +517,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
                     </div>
@@ -535,7 +535,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -544,7 +544,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
                     </div>
@@ -559,7 +559,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -568,7 +568,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
                     </div>
@@ -582,7 +582,7 @@ export default function BasicInformationForm() {
                                 <FormItem>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value?.toString()}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -591,7 +591,7 @@ export default function BasicInformationForm() {
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
-                                    <FormMessage className="text-xs" />
+                                    <FormMessage className="text-md" />
                                 </FormItem>)}
                         />
                     </div>

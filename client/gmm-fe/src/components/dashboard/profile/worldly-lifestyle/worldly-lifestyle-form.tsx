@@ -140,7 +140,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="grid grid-cols-12 gap-x-3 gap-y-4 py-5">
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                        <Label className="font-normal text-xs">Employment Type</Label>
+                        <Label>Employment Type</Label>
                         <FormField
                             name='employmentType'
                             control={form.control}
@@ -168,7 +168,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                        <Label className="font-normal text-xs">Annual Income</Label>
+                        <Label>Annual Income</Label>
 
                         <div className="grid grid-cols-12 md:grid-cols-3 gap-0">
                             <FormField
@@ -222,7 +222,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                        <Label className="font-normal text-xs">
+                        <Label>
                             Current Occupation Title
                         </Label>
                         <FormField
@@ -250,7 +250,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                        <Label className="font-normal text-xs">Type of Residence</Label>
+                        <Label>Type of Residence</Label>
                         <FormField
                             name='typeOfResidence'
                             control={form.control}
@@ -275,7 +275,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                        <Label className="font-normal text-xs">Living Situation</Label>
+                        <Label>Living Situation</Label>
                         <FormField
                             name='livingSituation'
                             control={form.control}
@@ -301,7 +301,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                        <Label className="font-normal text-xs">Do You Own a Car?</Label>
+                        <Label>Do You Own a Car?</Label>
                         <FormField
                             name='ownsVehicle'
                             control={form.control}
@@ -326,7 +326,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     {ownsCar &&
                         <>
                             <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-2">
-                                <Label className="font-normal text-xs">Vehicle Make</Label>
+                                <Label>Vehicle Make</Label>
                                 <FormField
                                     name='vehicleMake'
                                     control={form.control}
@@ -339,7 +339,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                             </div>
 
                             <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-2">
-                                <Label className="font-normal text-xs">Vehicle Year</Label>
+                                <Label>Vehicle Year</Label>
                                 <FormField
                                     name='vehicleYear'
                                     control={form.control}
@@ -366,7 +366,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                             </div>
 
                             <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                                <Label className="font-normal text-xs">Vehicle Model</Label>
+                                <Label>Vehicle Model</Label>
                                 <FormField
                                     name='vehicleModel'
                                     control={form.control}
@@ -385,7 +385,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         </>}
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                        <Label className="font-normal text-xs">
+                        <Label>
                             Education Qualification
                         </Label>
                         <FormField
@@ -417,7 +417,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                        <Label className="font-normal text-xs">Do you have debt?</Label>
+                        <Label>Do you have debt?</Label>
                         <FormField
                             name='applicableDebts'
                             control={form.control}
@@ -441,7 +441,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
 
                     {hasDebt && <>
                         <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                            <Label className="font-normal text-xs">Current Debt</Label>
+                            <Label>Current Debt</Label>
                             <FormField
                                 name='currentDebts'
                                 control={form.control}
@@ -456,7 +456,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         </div>
 
                         <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-4">
-                            <Label className="font-normal text-xs">Approximate Debt</Label>
+                            <Label>Approximate Debt</Label>
 
                             <div className="grid grid-cols-12 md:grid-cols-3 gap-0">
                                 <FormField
@@ -510,7 +510,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         </div>
 
                         <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-3">
-                            <Label className="font-normal text-xs">
+                            <Label>
                                 Do you pay Interest/Riba on Debts?
                             </Label>
                             <FormField
@@ -535,7 +535,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                         </div></>}
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-3">
-                        <Label className="font-normal text-xs">
+                        <Label>
                             Present Family Members
                         </Label>
                         <FormField
@@ -562,7 +562,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-3">
-                        <Label className="font-normal text-xs">Number of Siblings</Label>
+                        <Label>Number of Siblings</Label>
                         <FormField
                             name='numberOfSiblings'
                             control={form.control}
@@ -589,7 +589,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-3">
-                        <Label className="font-normal text-xs">Pets</Label>
+                        <Label>Pets</Label>
                         <FormField
                             name='pets'
                             control={form.control}
@@ -619,7 +619,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     <h2 className="col-span-12 font-bold mt-2">Health Conditions</h2>
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-5">
-                        <Label className="font-normal text-xs">
+                        <Label>
                             Major Pre-Existing Health Conditions and/or Disabilities
                         </Label>
                         <FormField
@@ -644,7 +644,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     <div className="flex flex-col gap-1 justify-end col-span-12 md:col-span-3">
-                        <Label className="font-normal text-xs">
+                        <Label>
                             Do your require mobility assistant?
                         </Label>
                         <FormField
@@ -670,7 +670,7 @@ export function WorldlyLifestyleForm({ worldlyLifestyle }: { worldlyLifestyle?: 
                     </div>
 
                     {hasPreexistingHealthCondition && <div className="flex flex-col gap-1 justify-end col-span-12">
-                        <Label className="font-normal text-xs">
+                        <Label>
                             Describe your pre-existing conditions and/or disabilities
                             (Example: STD, Disabilities, Cancer, etc)
                         </Label>
