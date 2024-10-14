@@ -49,7 +49,7 @@ export type UserField =
   | 'ageOfYoungestChild'
   | 'sunniMadhaib'
   | 'religiousPractice'
-  | 'bornMuslim'
+  | 'bornOrRevertToIslam'
   | 'drinks'
   | 'smokes'
   | 'drugs'
@@ -107,7 +107,7 @@ export class UserQueryParams {
       'ageOfYoungestChild',
       'sunniMadhaib',
       'religiousPractice',
-      'bornMuslim',
+      'bornOrRevertToIslam',
       'drinks',
       'smokes',
       'drugs',

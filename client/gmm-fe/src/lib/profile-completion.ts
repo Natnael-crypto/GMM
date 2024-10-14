@@ -33,7 +33,7 @@ export const basicInformationCompletion = (user: User): number => {
     'ageOfYoungestChild',
     'sunniMadhaib',
     'religiousPractice',
-    'bornMuslim',
+    'bornOrRevertToIslam',
     'drinks',
     'drugs',
     'smokes',

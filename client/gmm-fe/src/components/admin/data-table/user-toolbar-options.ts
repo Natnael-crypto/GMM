@@ -76,7 +76,7 @@ export const userToolbarOptions = [
     label: 'Religious Practice',
   },
   {
-    value: 'bornMuslim',
+    value: 'bornOrRevertToIslam',
     label: 'Born Muslim',
   },
   {

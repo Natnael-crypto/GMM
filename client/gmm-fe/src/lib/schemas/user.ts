@@ -152,16 +152,9 @@ export const userBasicInformationSchema = z
       })
       .min(1, { message: 'Please specify your religious practice' }),
 
-    bornMuslim: z.union([
-      z.boolean({
-        required_error: 'Please specify if you were born Muslim',
-      }),
-      z
-        .string({
-          required_error: 'Please specify if you were born Muslim (true/false)',
-        })
-        .transform((value) => value === 'true'),
-    ]),
+    bornOrRevertToIslam: z.string({
+      required_error: 'Please specify your religious practice',
+    }),
 
     drinks: z.union([
       z.boolean({
@@ -393,16 +386,9 @@ export const baseUserSchema = z
       required_error: 'Please specify your religious practice',
     }),
 
-    bornMuslim: z.union([
-      z.boolean({
-        required_error: 'Please specify if you were born Muslim',
-      }),
-      z
-        .string({
-          required_error: 'Please specify if you were born Muslim (true/false)',
-        })
-        .transform((value) => value === 'true'),
-    ]),
+    bornOrRevertToIslam: z.string({
+      required_error: 'Please specify your religious practice',
+    }),
 
     drinks: z.union([
       z.boolean({

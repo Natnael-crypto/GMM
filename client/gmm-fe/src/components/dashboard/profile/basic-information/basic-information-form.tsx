@@ -53,7 +53,7 @@ export default function BasicInformationForm() {
             ageOfYoungestChild: user?.ageOfYoungestChild ?? 0,
             sunniMadhaib: user?.sunniMadhaib ?? '',
             religiousPractice: user?.religiousPractice ?? '',
-            bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
+            bornOrRevertToIslam: user?.bornOrRevertToIslam ?? '',
             drinks: user?.drinks ?? false,
             drugs: user?.drugs ?? false,
             smokes: user?.smokes ?? false,
@@ -72,7 +72,6 @@ export default function BasicInformationForm() {
             ...user,
             languages: user?.languages ?? [],
             pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
-            bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
         })
 
         if (user?.pictures && user.pictures.length < 8) {
@@ -478,18 +477,18 @@ export default function BasicInformationForm() {
                                 Born/Reverted to Islam
                             </Label>
                             <FormField
-                                name='bornMuslim'
+                                name='bornOrRevertToIslam'
                                 control={form.control}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormControl>
-                                            <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                                            <Select onValueChange={field.onChange} value={field.value}>
                                                 <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem className="text-sm max-w-80" value="true">Born Muslim</SelectItem>
-                                                    <SelectItem className="text-sm max-w-80" value="false">Reverted to Islam</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="Born Muslim">Born Muslim</SelectItem>
+                                                    <SelectItem className="text-sm max-w-80" value="Reverted to Islam">Reverted to Islam</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </FormControl>

@@ -322,7 +322,7 @@ export const columns: ColumnDef<User>[] = [
         enableHiding: true,
     },
     {
-        accessorKey: 'bornMuslim',
+        accessorKey: 'bornOrRevertToIslam',
         header: ({ column }) => {
             return (
                 <DataTableColumnHeader column={column} title="Born Muslim" options={['eq', 'neq', 'isnull', 'isnotnull']} />

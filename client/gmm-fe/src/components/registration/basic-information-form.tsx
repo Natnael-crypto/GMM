@@ -20,6 +20,7 @@ import VideoUploader from '@/components/registration/video-uploader';
 import FamilyIntroductionForm from '@/components/registration/family-form';
 import ChildrenStatus from './children-status';
 import AutoComplete from '../ui/searchable-select';
+import { useRouter } from '@/lib/navigation';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -54,7 +55,7 @@ export default function BasicInformationForm() {
       ageOfYoungestChild: user?.ageOfYoungestChild ?? 0,
       sunniMadhaib: user?.sunniMadhaib ?? '',
       religiousPractice: user?.religiousPractice ?? '',
-      bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
+      bornOrRevertToIslam: user?.bornOrRevertToIslam ?? '',
       drinks: user?.drinks ?? false,
       drugs: user?.drugs ?? false,
       smokes: user?.smokes ?? false,
@@ -107,7 +108,7 @@ export default function BasicInformationForm() {
         tattoos: user?.tattoos ?? false,
         email: user?.email ?? '',
         maritalStatus: user?.maritalStatus ?? '',
-        bornMuslim: (user as unknown as any)?.bornOrRevertToIslam ?? true,
+        bornOrRevertToIslam: user.bornOrRevertToIslam ?? '',
         pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
         video: user?.video ?? '',
         phoneNumber: user?.phoneNumber ?? '',
@@ -121,9 +122,16 @@ export default function BasicInformationForm() {
     } catch (error) { console.log(error) }
   }
 
+  const router = useRouter();
+
   useEffect(() => {
     if (registrationResult.isSuccess) {
       dispatch(setUser({ ...user, ...registrationResult.data }));
+      toast({
+        title: 'Success',
+        description: 'You have been registered successfully',
+      });
+      router.replace('/dashboard');
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -517,18 +525,18 @@ export default function BasicInformationForm() {
                     Born/Reverted to Islam
                   </Label>
                   <FormField
-                    name='bornMuslim'
+                    name='bornOrRevertToIslam'
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem className="text-sm max-w-80" value="true">Born Muslim</SelectItem>
-                              <SelectItem className="text-sm max-w-80" value="false">Reverted to Islam</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Born Muslim">Born Muslim</SelectItem>
+                              <SelectItem className="text-sm max-w-80" value="Reverted to Islam">Reverted to Islam</SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
