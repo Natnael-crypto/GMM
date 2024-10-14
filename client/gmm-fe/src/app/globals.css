@@ -42,15 +42,13 @@
     --ring: #00000000;
 
     --radius: 0.5rem;
-  }
 
-  .text-md {
-    font-size: 0.9375rem;
-    line-height: 1.5rem;
   }
 
   label {
-    font-weight: 600 !important;
+    font-size: 0.9375rem;
+    line-height: 1.5rem;
+    font-weight: 600;
     color: var(--foreground);
   }
 
