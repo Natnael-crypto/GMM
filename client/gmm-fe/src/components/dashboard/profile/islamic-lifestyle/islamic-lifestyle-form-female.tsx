@@ -70,7 +70,7 @@ export default function IslamicLifestyleFormFemale({ islamicLifestyle }: { islam
             <h1 className="text-xl font-bold text-secondary border-b p-1">
                 {
                     t.rich('title', {
-                        sm: (text) => <span className='text-xs'>{text}</span>
+                        sm: (text) => <span className='text-md'>{text}</span>
                     })
                 }
             </h1>

@@ -41,21 +41,21 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
                 Salah/Prayer:{' '}
                 <span className="font-bold">{islamicLifestyle?.salat.split('(')[0]}</span>
                 <br />
-                <span className="text-xs">
+                <span className="text-md">
                   ({islamicLifestyle?.salat.split('(')[1]}
                 </span>
               </li>
               <li>
                 Ramadan: <span className="font-bold">{islamicLifestyle?.ramadan.split('(')[0]}</span>
                 <br />
-                <span className="text-xs">
+                <span className="text-md">
                   ({islamicLifestyle?.ramadan.split('(')[1]}
                 </span>
               </li>
               <li>
                 Fasting: <span className="font-bold">{islamicLifestyle?.fasting.split('(')[0]}</span>
                 <br />
-                <span className="text-xs">({islamicLifestyle?.fasting.split('(')[1]}</span>
+                <span className="text-md">({islamicLifestyle?.fasting.split('(')[1]}</span>
               </li>
             </ul>
           </div>
@@ -73,7 +73,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
             <span>
               Zakat: <span className="font-bold"> {islamicLifestyle?.zakat?.split('(')[0]}</span>
               <br />
-              <span className="text-xs">
+              <span className="text-md">
                 {"("}{islamicLifestyle?.zakat?.split('(')[1]}
               </span>
             </span>
@@ -92,7 +92,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
             <span>
               Food: <span className="font-bold">{islamicLifestyle?.food.split('(')[0]}</span>
               <br />
-              {/* <span className="text-xs">(Eats only halal)</span> */}
+              {/* <span className="text-md">(Eats only halal)</span> */}
             </span>
           </div>
         </div>
@@ -110,7 +110,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
               Islam & Culture:
               <span className="font-bold">{islamicLifestyle?.islamAndCulture.split('(')[0]}</span>
               <br />
-              <span className="text-xs">
+              <span className="text-md">
                 {/* (Prioritizes Islamic principles over cultural practices) */}
               </span>
             </span>
@@ -129,7 +129,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
             <span>
               Money: <span className="font-bold">Full Islamic Compliance</span>
               <br />
-              <span className="text-xs">
+              <span className="text-md">
                 (Non-interest finance, strict halal earning and halal spending)
               </span>
             </span>
@@ -151,7 +151,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
                 {islamicLifestyle?.islamicEducation.split('(')[0]}
               </span>
               <br />
-              <span className="text-xs">
+              <span className="text-md">
                 {/* (Independent study, occasional mosque lectures,
                 listening/reading Qur&apos;an translations) */}
               </span>
@@ -171,7 +171,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
             <span>
               Appearance: <span className="font-bold">{islamicLifestyle?.appearance.split('(')[0]}</span>
               <br />
-              <span className="text-xs">
+              <span className="text-md">
                 {/* (Maintaining a beard is an obligatory Islamic practice) */}
               </span>
             </span>
@@ -191,7 +191,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
               Hajj & Umra:{' '}
               <span className="font-bold">{islamicLifestyle?.hajjAndUmra.split('(')[0]}</span>
               <br />
-              <span className="text-xs">
+              <span className="text-md">
                 {/* (Already performed Hajj and/or Umrah) */}
               </span>
             </span>
@@ -211,7 +211,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
               Children & Upbringing:{' '}
               <span className="font-bold">Children in Islamic Setting</span>
               <br />
-              <span className="text-xs">
+              <span className="text-md">
                 (Prioritizes Islamic education/environment for children)
               </span>
             </span>
@@ -240,7 +240,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
                   Must Pray Full Daily Prayers + Sunnah
                 </span>
                 <br />
-                <span className="text-xs">
+                <span className="text-md">
                   (Expects all obligatory and Sunnah prayers)
                 </span>
               </span>
@@ -261,7 +261,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
                 <li>
                   Hijab: <span className="font-bold">Advanced Hijab</span>
                   <br />
-                  <span className="text-xs">
+                  <span className="text-md">
                     (Niqab or burqa, possibly with gloves, often with eyes not
                     visible)
                   </span>
@@ -272,7 +272,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
                     No Makeup or Perfume Outside
                   </span>
                   <br />
-                  <span className="text-xs">
+                  <span className="text-md">
                     (May not wear makeup or perfume when going outside)
                   </span>
                 </li>
@@ -295,7 +295,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
                   Polygyny/Family Structure:{' '}
                   <span className="font-bold">Monogamous</span>
                   <br />
-                  <span className="text-xs">(Prefers only one wife)</span>
+                  <span className="text-md">(Prefers only one wife)</span>
                 </li>
 
                 <li>
@@ -304,7 +304,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
                     Islamic Education/Environment Priority
                   </span>
                   <br />
-                  <span className="text-xs">
+                  <span className="text-md">
                     (Children must have Islamic school/mosque environment)
                   </span>
                 </li>
@@ -313,7 +313,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
                   Non-Mehram Contact:{' '}
                   <span className="font-bold">Mehram Contacts Only</span>
                   <br />
-                  <span className="text-xs">
+                  <span className="text-md">
                     (Currently prefers future wife to interact only with her
                     mehrams (father, brother, son). No male cousins or male best
                     friends)
@@ -324,7 +324,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
                   Obedience to Husband:{' '}
                   <span className="font-bold">Obedience Expected</span>
                   <br />
-                  <span className="text-xs">
+                  <span className="text-md">
                     (Prefers a wife who adheres to his decisions)
                   </span>
                 </li>
@@ -333,7 +333,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
                   Obedience to Inlaws:{' '}
                   <span className="font-bold">Full Obedience</span>
                   <br />
-                  <span className="text-xs">
+                  <span className="text-md">
                     (Complete respect and adherence to in-laws&apos; guidance
                     and decisions)
                   </span>
@@ -354,7 +354,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
               <span>
                 Social Media: <span className="font-bold">No Social Media</span>
                 <br />
-                <span className="text-xs">
+                <span className="text-md">
                   (Prefers a wife who does not use social media or will delete
                   her social media presence)
                 </span>

@@ -24,7 +24,7 @@ export default function MarriageDiscussionCard() {
             <span>
               Marriage Type: <span className="font-bold">Simple Ceremony</span>
               <br />
-              <span className="text-xs">
+              <span className="text-md">
                 (Modest and straightforward wedding with minimal extravagance)
               </span>
             </span>
@@ -45,7 +45,7 @@ export default function MarriageDiscussionCard() {
                 Marriage Location:{' '}
                 <span className="font-bold">Hometown Celebration</span>
                 <br />
-                <span className="text-xs">
+                <span className="text-md">
                   (I prefer the wedding to take place in my home city)
                 </span>
               </li>
@@ -53,7 +53,7 @@ export default function MarriageDiscussionCard() {
                 Marriage Venue:{' '}
                 <span className="font-bold">Mosque Ceremony</span>
                 <br />
-                <span className="text-xs">
+                <span className="text-md">
                   (I prefer a wedding held in a mosque)
                 </span>
               </li>
@@ -74,7 +74,7 @@ export default function MarriageDiscussionCard() {
               Marriage Timeline:{' '}
               <span className="font-bold">Immediate Wedding</span>
               <br />
-              <span className="text-xs">(As soon as possible)</span>
+              <span className="text-md">(As soon as possible)</span>
             </span>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function MarriageDiscussionCard() {
               Family in Marriage Decision:
               <span className="font-bold">Significant Influence</span>
               <br />
-              <span className="text-xs">
+              <span className="text-md">
                 (Family plays a major role in marriage decision-making)
               </span>
             </span>
@@ -112,7 +112,7 @@ export default function MarriageDiscussionCard() {
               <li>
                 Dowry/Mahr: <span className="font-bold">Symbolic</span>
                 <br />
-                <span className="text-xs">
+                <span className="text-md">
                   (Non-interest finance, strict halal earning and halal
                   spending)
                 </span>
