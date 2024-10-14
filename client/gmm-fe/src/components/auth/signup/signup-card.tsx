@@ -11,16 +11,16 @@ export default function SignUpCard() {
 
   return (
     <Card className="w-[22rem] bg-background px-8 py-6 mt-2 h-fit">
-      <div className="flex gap-5 justify-between px-8 mb-6 text-muted-foreground">
+      <div className="flex gap-5 justify-evenly mb-6 text-muted-foreground">
         <Link
           href={`/${locale}/login`}
-          className={cn('border-primary px-5 pb-1')}
+          className={cn('border-primary pb-1')}
         >
           {t('login.title')}
         </Link>
         <Link
           href={`/${locale}/signup`}
-          className={cn('border-primary px-5 pb-1', 'border-b-[3px]')}
+          className={cn('border-primary pb-1', 'border-b-[3px]')}
         >
           {t('signup.title')}
         </Link>

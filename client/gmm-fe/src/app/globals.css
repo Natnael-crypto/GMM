@@ -57,6 +57,10 @@
     line-height: 1.5rem;
   }
 
+  .justify-evenly {
+    justify-content: space-evenly;
+  }
+
   .h-\[65vh\] {
     height: 65vh
 }
