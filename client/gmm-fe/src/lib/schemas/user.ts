@@ -460,11 +460,16 @@ export const userSchema = baseUserSchema.extend({
 });
 
 export const userRegistrationSchema = userBasicInformationSchema.extend({
-  guardianFullName: z
+  guardianFirstName: z
     .string({
-      required_error: "Please enter guardian's full name",
+      required_error: "Please enter guardian's first name",
     })
-    .min(1, { message: "Please enter guardian's full name" }),
+    .min(1, { message: "Please enter guardian's first name" }),
+  guardianLastName: z
+    .string({
+      required_error: "Please enter guardian's last name",
+    })
+    .min(1, { message: "Please enter guardian's last name" }),
   relationshipToGuardian: z
     .string({
       required_error: 'Please enter your relationship to guardian',

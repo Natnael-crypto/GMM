@@ -115,7 +115,8 @@ export const familyIntroductionCompletion = (
   familyIntroduction: any
 ): number => {
   const fields = [
-    'guardianFullName',
+    'guardianFirstName',
+    'guardianLastName',
     'relationshipToGuardian',
     'guardianPhoneNumber',
     'guardianEmail',

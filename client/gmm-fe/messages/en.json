@@ -153,6 +153,12 @@
       "email": "Email",
       "selectMembership": "Select Membership",
       "membershipPackageCard": {
+        "freePackage": {
+          "title": "Free",
+          "price": "<bold>$0</bold> for",
+          "description": "<bold>7</bold> Matches",
+          "discount": "Free package for a month"
+        },
         "monthlyPackage": {
           "title": "Bronze",
           "price": "<bold>$249</bold> for",
@@ -256,7 +262,8 @@
         "title": "Family Introduction",
 
         "guardianInformation": {
-          "fullName": "Full Name",
+          "firstName": "First Name",
+          "lastName": "Last Name",
           "relationship": "Relationship to Guardian",
           "phoneNumber": "Phone Number",
           "email": "Email"
