@@ -21,7 +21,7 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { Preference, preferenceSchema } from '@/lib/schemas/preference';
 import { useUpdatePreferenceMutation } from '@/lib/user/api';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useUpdateProfileContext } from '../profile/update-profile-context';
 import { toast } from '@/components/ui/use-toast';
@@ -32,6 +32,7 @@ import { countries } from '@/lib/schemas/user';
 import { setQueryString } from '@/lib/matchmaking/slice';
 import { cmToFeetInches, kgToPounds } from '@/lib/format';
 import { languages } from '@/config/locales';
+import { useDebounce } from 'use-debounce';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -195,72 +196,95 @@ export default function MatchPreferenceFilter() {
   const isSmokingAny = form.watch('smoking') === ('' as unknown as boolean);
   const isTattooAny = form.watch('tattoos') === ('' as unknown as boolean);
 
-  const getQueryString = (data: Preference) => {
-    const filter = [];
+  const getQueryString = useCallback(
+    (data: Preference) => {
+      const filter = [];
 
-    if (user) {
-      filter.push(`gender:neq:${user.gender}`);
-    }
+      if (user) {
+        filter.push(`gender:neq:${user.gender}`);
+      }
 
-    if (!isAgeAny) {
-      const [minAge, maxAge] = data.preferredAge;
-      filter.push(`age:lte:${maxAge},age:gte:${minAge}`);
-    }
+      if (!isAgeAny) {
+        const [minAge, maxAge] = data.preferredAge;
+        filter.push(`age:lte:${maxAge},age:gte:${minAge}`);
+      }
 
-    if (!isHeightAny) {
-      const [minHeight, maxHeight] = data.preferredHeight;
-      filter.push(`height:lte:${maxHeight},height:gte:${minHeight}`);
-    }
+      if (!isHeightAny) {
+        const [minHeight, maxHeight] = data.preferredHeight;
+        filter.push(`height:lte:${maxHeight},height:gte:${minHeight}`);
+      }
 
-    if (!isWeightAny) {
-      const [minWeight, maxWeight] = data.preferredWeight;
-      filter.push(`weight:lte:${maxWeight},weight:gte:${minWeight}`);
-    }
+      if (!isWeightAny) {
+        const [minWeight, maxWeight] = data.preferredWeight;
+        filter.push(`weight:lte:${maxWeight},weight:gte:${minWeight}`);
+      }
 
-    if (!isEthniOriginAny) {
-      filter.push(`ethnicOrigin:like:${data.ethnicOrigin}`);
-    }
+      if (!isEthniOriginAny) {
+        filter.push(`ethnicOrigin:like:${data.ethnicOrigin}`);
+      }
 
-    if (!isNationalityAny) {
-      filter.push(`nationality:like:${data.nationality}`);
-    }
+      if (!isNationalityAny) {
+        filter.push(`nationality:like:${data.nationality}`);
+      }
 
-    if (!isLanguageAny) {
-      filter.push(`language:like:${data.language}`);
-    }
+      if (!isLanguageAny) {
+        filter.push(`language:like:${data.language}`);
+      }
 
-    if (!isCountryOfOriginAny) {
-      filter.push(`country:like:${data.countryOfOrigin}`);
-    }
+      if (!isCountryOfOriginAny) {
+        filter.push(`country:like:${data.countryOfOrigin}`);
+      }
 
-    if (!isMartialStatusAny) {
-      filter.push(`martialStatus:like:${data.martialStatus}`);
-    }
+      if (!isMartialStatusAny) {
+        filter.push(`martialStatus:like:${data.martialStatus}`);
+      }
 
-    if (!isBornOrRevertAny) {
-      filter.push(`bornOrRevert:like:${data.bornOrRevert}`);
-    }
+      if (!isBornOrRevertAny) {
+        filter.push(`bornOrRevert:like:${data.bornOrRevert}`);
+      }
 
-    if (!isHijabAny) {
-      filter.push(`hijab:like:${data.hijab}`);
-    }
+      if (!isHijabAny) {
+        filter.push(`hijab:like:${data.hijab}`);
+      }
 
-    if (!isDrinkingAny) {
-      filter.push(`drinks:eq:${data.drinking}`);
-    }
+      if (!isDrinkingAny) {
+        filter.push(`drinks:eq:${data.drinking}`);
+      }
 
-    if (!isSmokingAny) {
-      filter.push(`smokes:eq:${data.smoking}`);
-    }
+      if (!isSmokingAny) {
+        filter.push(`smokes:eq:${data.smoking}`);
+      }
 
-    if (!isTattooAny) {
-      filter.push(`tattoos:eq:${data.tattoos}`);
-    }
+      if (!isTattooAny) {
+        filter.push(`tattoos:eq:${data.tattoos}`);
+      }
 
-    return `filter=${filter.join(',')}`;
-  };
+      return `filter=${filter.join(',')}`;
+    },
+    [
+      isAgeAny,
+      isBornOrRevertAny,
+      isCountryOfOriginAny,
+      isDrinkingAny,
+      isEthniOriginAny,
+      isHeightAny,
+      isHijabAny,
+      isLanguageAny,
+      isMartialStatusAny,
+      isNationalityAny,
+      isSmokingAny,
+      isTattooAny,
+      isWeightAny,
+      user,
+    ]
+  );
 
-  dispatch(setQueryString(getQueryString(form.getValues())));
+  const formValues = form.watch();
+  const [debouncedFormValues] = useDebounce(formValues, 300);
+
+  useEffect(() => {
+    dispatch(setQueryString(getQueryString(debouncedFormValues)));
+  }, [debouncedFormValues, dispatch, getQueryString]);
 
   return (
     <Form {...form}>
