@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { constants } from '@/config';
 import { RootState } from '../store';
 import { BaseResponse } from '@/types/base-response';
-import { Match, StageInvitationStatus } from './types';
+import { Match, MatchPreference, StageInvitationStatus } from './types';
 import { UserInMatchPool } from '../schemas/match';
 
 export const matchApi = createApi({
@@ -62,11 +62,20 @@ export const matchApi = createApi({
       },
     }),
 
-    createMatch: builder.mutation<Match, string>({
-      query: (queryString) => ({
-        url: 'matchmaking?' + queryString,
-        method: 'POST',
-      }),
+    createMatch: builder.mutation<Match, MatchPreference>({
+      query: ({ queryString, fuzzyMatchThreshold }) => {
+        if (!fuzzyMatchThreshold) {
+          return {
+            url: 'matchmaking?' + queryString,
+            method: 'POST',
+          };
+        } else {
+          return {
+            url: `matchmaking?${queryString}&fuzzyThreshold=${fuzzyMatchThreshold}`,
+            method: 'POST',
+          };
+        }
+      },
       transformResponse: (response: BaseResponse<Match>) => {
         return response.data;
       },
