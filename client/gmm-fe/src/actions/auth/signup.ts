@@ -26,7 +26,7 @@ export const signUp = async (data: SignUp) => {
   if (!response.ok) {
     return {
       status: response.status,
-      message: res.data.otpVerificationKey.message,
+      message: res?.message ?? "Couldn't sign up. Please try again later.",
     };
   }
 
