@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import ProfileCard from './profile-card';
@@ -8,28 +8,50 @@ import { buttonVariants } from '@/components/ui/button';
 import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 import { useAppSelector } from '@/lib/hooks';
-import { basicInformationCompletion, familyIntroductionCompletion, islamicLifestyleCompletion, marriageDiscussionCompletion, worldlyLifestyleCompletion } from '@/lib/profile-completion';
+import {
+  basicInformationCompletion,
+  familyIntroductionCompletion,
+  islamicLifestyleCompletion,
+  marriageDiscussionCompletion,
+  worldlyLifestyleCompletion,
+} from '@/lib/profile-completion';
 import { useGetWorldlyLifestyleQuery } from '@/lib/user/api';
 import { useGetIslamicLifestyleQuery } from '@/lib/user/api';
 import { useGetMarriageDiscussionQuery } from '@/lib/user/api';
 import { useGetFamilyIntroductionQuery } from '@/lib/user/api';
 
 export default function ProfileCompletionCard() {
-  const user = useAppSelector((state) => state.auth.user)
-  const { data: worldlyLifestyle, isLoading: isWorldlyLifestyleLoading, isError: isWorldlyLifestyleError } = useGetWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
-  const { data: islamicLifestyle, isLoading: isIslamicLifestyleLoading, isError: isIslamicLifestyleError } = useGetIslamicLifestyleQuery(user?.id ?? '', { skip: !user });
-  const { data: marriageDiscussion, isLoading: isMarriageDiscussionLoading, isError: isMarriageDiscussionError } = useGetMarriageDiscussionQuery(user?.id ?? '', { skip: !user });
-  const { data: familyIntroduction, isLoading: isFamilyIntroductionLoading, isError: isFamilyIntroductionError } = useGetFamilyIntroductionQuery(user?.id ?? '', { skip: !user });
+  const user = useAppSelector((state) => state.auth.user);
+  const {
+    data: worldlyLifestyle,
+    isLoading: isWorldlyLifestyleLoading,
+    isError: isWorldlyLifestyleError,
+  } = useGetWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
+  const {
+    data: islamicLifestyle,
+    isLoading: isIslamicLifestyleLoading,
+    isError: isIslamicLifestyleError,
+  } = useGetIslamicLifestyleQuery(user?.id ?? '', { skip: !user });
+  const {
+    data: marriageDiscussion,
+    isLoading: isMarriageDiscussionLoading,
+    isError: isMarriageDiscussionError,
+  } = useGetMarriageDiscussionQuery(user?.id ?? '', { skip: !user });
+  const {
+    data: familyIntroduction,
+    isLoading: isFamilyIntroductionLoading,
+    isError: isFamilyIntroductionError,
+  } = useGetFamilyIntroductionQuery(user?.id ?? '', { skip: !user });
 
   // const [completion, setCompletion] = useState<{ criteria: string, error: boolean, loading: boolean, source: any, progressCalc: (source: any) => number }[]>([])
 
-  const completion =
-    [{
+  const completion = [
+    {
       criteria: 'Basic Information',
       loading: !user,
       error: false,
       source: user,
-      progressCalc: basicInformationCompletion
+      progressCalc: basicInformationCompletion,
     },
     {
       criteria: 'Worldly Lifestyle',
@@ -50,59 +72,71 @@ export default function ProfileCompletionCard() {
       loading: isMarriageDiscussionLoading,
       error: isMarriageDiscussionError,
       source: marriageDiscussion,
-      progressCalc: marriageDiscussionCompletion
+      progressCalc: marriageDiscussionCompletion,
     },
     {
       criteria: 'Family Introduction',
       loading: isFamilyIntroductionLoading,
       error: isFamilyIntroductionError,
       source: familyIntroduction,
-      progressCalc: familyIntroductionCompletion
-    }
-    ]
+      progressCalc: familyIntroductionCompletion,
+    },
+  ];
 
   return (
-    <div
-      className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 text-xs space-y-5"
-    >
+    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 text-xs space-y-5">
       {user && <ProfileCard user={user} />}
 
       <div className="space-y-3">
-        {
-          completion.map(({ criteria, error, loading, source, progressCalc }, index) => {
-            if (loading) { return <Loading key={`loading_${index}`} /> }
+        {completion.map(
+          ({ criteria, error, loading, source, progressCalc }, index) => {
+            if (loading) {
+              return <Loading key={`loading_${index}`} />;
+            }
             if (error) {
-              return <ProfileCompletionProgress
-                key={index}
-                progress={0}
-                criteria={criteria}
-              />
+              return (
+                <ProfileCompletionProgress
+                  key={index}
+                  progress={0}
+                  criteria={criteria}
+                />
+              );
             }
             if (source) {
-              return <ProfileCompletionProgress
-                key={index}
-                progress={progressCalc(source)}
-                criteria={criteria}
-              />
+              return (
+                <ProfileCompletionProgress
+                  key={index}
+                  progress={progressCalc(source)}
+                  criteria={criteria}
+                />
+              );
             }
-          })
-        }
+          }
+        )}
       </div>
 
       <div className="flex justify-end gap-1">
-        {user && !user.isMatched && <Link
-          href={`/dashboard/profile/${user.id}/basic-information/edit`}
-          className={cn(buttonVariants({ variant: 'outline' }), "rounded-full text-xs text-secondary h-6")}
-        >
-          Edit Profile
-        </Link>}
+        {user && !user.isMatched && (
+          <Link
+            href={`/dashboard/profile/${user.id}/basic-information/edit`}
+            className={cn(
+              buttonVariants({ variant: 'outline' }),
+              'rounded-full h-8 text-secondary'
+            )}
+          >
+            Edit Profile
+          </Link>
+        )}
         <Link
           href={`/dashboard/profile/${user?.id}/basic-information`}
-          className={cn(buttonVariants({ variant: 'outline' }), "rounded-full text-xs text-secondary h-6")}
+          className={cn(
+            buttonVariants({ variant: 'outline' }),
+            'rounded-full h-8 text-secondary'
+          )}
         >
           View Profile
         </Link>
       </div>
-    </div >
+    </div>
   );
 }

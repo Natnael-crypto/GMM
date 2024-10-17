@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { Button } from '@/components/ui/button';
 import { useAppSelector } from '@/lib/hooks';
@@ -22,7 +22,9 @@ export default function PersonalInfo() {
         <div className="flex justify-between items-center py-2 pt-3">
           <div className="flex flex-col gap-1">
             <span className="font-bold">Full Name</span>
-            <span>{user?.firstName} {user?.lastName}</span>
+            <span>
+              {user?.firstName} {user?.lastName}
+            </span>
           </div>
         </div>
 
@@ -37,12 +39,10 @@ export default function PersonalInfo() {
               </span>
             </span>
           </div>
-
-
         </div>
         <div className="flex justify-between items-center py-2 pt-3">
           <div className="flex flex-col gap-1">
-            <span className="font-bold">Relationship to Applicant</span>
+            <span className="font-bold">Relationship</span>
             <span className="flex gap-3 items-center">
               {user?.email}{' '}
               <span className="text-destructive text-[0.6rem] gap-1 flex items-center justify-center">
@@ -51,8 +51,6 @@ export default function PersonalInfo() {
               </span>
             </span>
           </div>
-
-
         </div>
 
         <div className="flex justify-between items-center py-2 pt-3">
@@ -66,8 +64,6 @@ export default function PersonalInfo() {
               </span>
             </span>
           </div>
-
-
         </div>
 
         <div className="flex justify-between items-center py-2 pt-3">
@@ -91,8 +87,6 @@ export default function PersonalInfo() {
             </Button>
           </div>
         </div>
-
-
 
         <div className="h-24"></div>
       </div>

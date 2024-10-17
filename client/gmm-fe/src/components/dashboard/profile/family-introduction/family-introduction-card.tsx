@@ -31,7 +31,7 @@ export default function FamilyIntroductionCard() {
                 <span className="font-bold">Some name</span>
               </span>
               <span>
-                Relationship to Guardian:{' '}
+                Relationship:{' '}
                 <span className="font-bold">
                   Revert care (Appoint for me a guardian)
                 </span>

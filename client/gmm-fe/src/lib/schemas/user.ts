@@ -463,10 +463,10 @@ export const userRegistrationSchema = userBasicInformationSchema.extend({
     .min(1, { message: "Please enter guardian's last name" }),
   relationshipToGuardian: z
     .string({
-      required_error: 'Please enter your relationship to guardian',
+      required_error: 'Please enter your relationship',
     })
     .min(1, {
-      message: 'Please enter your relationship to guardian',
+      message: 'Please enter your relationship',
     }),
   guardianPhoneNumber: z
     .string({

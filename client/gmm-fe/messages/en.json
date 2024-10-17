@@ -264,7 +264,7 @@
         "guardianInformation": {
           "firstName": "First Name",
           "lastName": "Last Name",
-          "relationship": "Relationship to Guardian",
+          "relationship": "Relationship",
           "phoneNumber": "Phone Number",
           "email": "Email"
         },
