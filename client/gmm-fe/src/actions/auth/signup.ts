@@ -16,6 +16,7 @@ export const signUp = async (data: SignUp) => {
       firstName: data.firstName,
       lastName: data.lastName,
       email: data.email,
+      gender: data.gender,
       password: data.password,
       confirmPassword: data.confirmPassword,
     }),
@@ -26,7 +27,7 @@ export const signUp = async (data: SignUp) => {
   if (!response.ok) {
     return {
       status: response.status,
-      message: res.data.otpVerificationKey.message,
+      message: res?.message ?? "Couldn't sign up. Please try again later.",
     };
   }
 

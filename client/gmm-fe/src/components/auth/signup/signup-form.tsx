@@ -25,6 +25,7 @@ import { useRouter } from '@/lib/navigation';
 import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 export function SignUpForm() {
   const { replace } = useRouter();
@@ -36,6 +37,7 @@ export function SignUpForm() {
       firstName: '',
       lastName: '',
       email: '',
+      gender: 'Male',
       password: '',
       confirmPassword: '',
       agreeToTerms: false,
@@ -120,6 +122,25 @@ export function SignUpForm() {
                 <FormMessage className="text-xs" />
               </FormItem>
             )}
+          />
+          <FormField
+            name='gender'
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="text-xs text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectValue className='text-xs' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem className="text-xs max-w-80" value="Male">Male</SelectItem>
+                      <SelectItem className="text-xs max-w-80" value="Female">Female</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>)}
           />
           <FormField
             control={form.control}

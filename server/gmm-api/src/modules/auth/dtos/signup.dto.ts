@@ -19,6 +19,10 @@ export class SignUpUserDto {
   @ApiProperty()
   @MinLength(6)
   password: string;
+
+  @IsNotEmpty()
+  @ApiProperty()
+  gender: string;
 }
 
 export class RegisterAsGuardian {
