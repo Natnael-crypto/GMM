@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { PaymentsService } from '../services/payment.service';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
@@ -76,10 +76,13 @@ export class PaymentsController {
   async updateProduct(
     @Param('productId') productId: string,
     @Body() updateProductDto: UpdateProductDto,
-    @Res() response: Response
+    @Res() response: Response,
   ) {
     try {
-      const updatedProduct = await this.paymentService.updateProduct(productId, updateProductDto);
+      const updatedProduct = await this.paymentService.updateProduct(
+        productId,
+        updateProductDto,
+      );
       return response.status(HttpStatus.OK).json({
         message: 'Product updated successfully',
         data: updatedProduct,
@@ -141,6 +144,7 @@ export class PaymentsController {
     }
   }
 
+  @ApiQuery({ name: 'payment_intent_id', required: false })
   @Get('checkout/success')
   @UseGuards(JwtAuthGuard)
   async handlePaymentSuccess(
@@ -150,7 +154,11 @@ export class PaymentsController {
   ) {
     try {
       const userId = req.user.id;
-      await this.paymentService.handlePaymentSuccess(paymentIntentId, userId);
+      if (!paymentIntentId) {
+        await this.paymentService.handleFreeCheckout(req.user);
+      } else {
+        await this.paymentService.handlePaymentSuccess(paymentIntentId, userId);
+      }
 
       return response.status(HttpStatus.OK).json({
         message: 'Subscription successfully created and stored',
@@ -263,15 +271,8 @@ export class PaymentsController {
   }
 
   @Get('all-subscription-history')
-  @UseGuards(
-    JwtAuthGuard,
-    new PermissionGuard(
-      ['payment:read']
-    ),
-  )
-  async getAllSubscriptionHistory(
-    @Res() response: Response,
-  ) {
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['payment:read']))
+  async getAllSubscriptionHistory(@Res() response: Response) {
     try {
       const subscriptions =
         await this.paymentService.getAllSubscriptionHistory();
