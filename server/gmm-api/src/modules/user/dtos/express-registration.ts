@@ -121,7 +121,11 @@ export class ExpressRegistrationDto {
 
   @ApiProperty()
   @IsString()
-  guardianFullName: string;
+  guardianFirstName: string;
+  
+  @ApiProperty()
+  @IsString()
+  guardianLastName: string;
 
   @ApiProperty()
   @IsString()
