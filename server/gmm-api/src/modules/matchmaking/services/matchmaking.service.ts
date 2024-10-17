@@ -59,7 +59,11 @@ export class MatchMakingService {
     });
   }
 
-  async matchUser(user: User, filters: Filtering[]): Promise<Match> {
+  async matchUser(
+    user: User,
+    filters: Filtering[],
+    fuzzyThreshold: number = 0,
+  ): Promise<Match> {
     const previousMatches = await this.getMyMatches(user.id);
     for (const previousMatch of previousMatches) {
       if (previousMatch.isActive) {
@@ -79,9 +83,18 @@ export class MatchMakingService {
 
     previousMatchedUserIds.push(user.id);
 
-    const matches = await this.matchPoolRepository.find({
-      where: getWhere(filters),
-    });
+    let matches;
+    if (fuzzyThreshold === 0) {
+      matches = await this.matchPoolRepository.find({
+        where: getWhere(filters),
+      });
+    } else {
+      matches = await this.matchPoolRepository.find({
+        where: {
+          gender: user.gender === 'Male' ? 'Female' : 'Male',
+        },
+      });
+    }
 
     const validMatches = matches.filter(
       (match) => !previousMatchedUserIds.includes(match.userId),
@@ -91,10 +104,17 @@ export class MatchMakingService {
       throw new NotFoundException('No matches found');
     }
 
-    const randomIndex = Math.floor(Math.random() * matches.length);
-    const matchedUserId = validMatches[randomIndex].userId;
+    let matchedUserId;
+    if (fuzzyThreshold === 0) {
+      const randomIndex = Math.floor(Math.random() * matches.length);
+      matchedUserId = validMatches[randomIndex].userId;
+    } else {
+      matchedUserId = this.chooseMatch(validMatches, filters, fuzzyThreshold);
+    }
 
-    await this.userService.getUserById(matches[randomIndex].userId);
+    if (!matchedUserId) {
+      throw new NotFoundException('No matches found');
+    }
 
     const newMatch = new Match();
 
@@ -116,12 +136,32 @@ export class MatchMakingService {
       isMatched: true,
     });
 
-    await this.matchPoolRepository.delete([
-      matches[randomIndex].userId,
-      user.id,
-    ]);
+    await this.matchPoolRepository.delete([matchedUserId, user.id]);
 
     return match;
+  }
+
+  chooseMatch(matches, filters, fuzzyThreshold) {
+    const validMatches = matches.filter((match) => {
+      return this.calculateMatchScore(match, filters) >= fuzzyThreshold;
+    });
+
+    if (validMatches.length === 0) {
+      return null;
+    }
+
+    const randomIndex = Math.floor(Math.random() * validMatches.length);
+    return validMatches[randomIndex].userId;
+  }
+
+  calculateMatchScore(match, filters) {
+    let penalty = 0;
+    for (const key of Object.keys(filters)) {
+      if (match[key] !== filters[key]) {
+        penalty++;
+      }
+    }
+    return 1 - penalty / Object.keys(match).length;
   }
 
   async createUserPreference(id: string): Promise<Preference> {

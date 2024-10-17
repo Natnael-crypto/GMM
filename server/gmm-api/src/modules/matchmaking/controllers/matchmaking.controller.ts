@@ -6,8 +6,10 @@ import {
   Get,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
+  Query,
   Req,
   Res,
   UseGuards,
@@ -83,13 +85,25 @@ export class MatchMakingController {
     required: false,
     description: 'Filter parameters (e.g. filter=field:rule:value,field:rule)',
   })
+  @ApiQuery({
+    name: 'fuzzyThreshold',
+    required: false,
+    description: 'Fuzzy search threshold',
+  })
   @Post()
   async createMatches(
     @FilteringParams(matchFilterableFields) filters: Filtering[],
+    @Query('fuzzyThreshold')
+    fuzzyThreshold: string,
     @Req() req: Request & { user: User },
   ) {
     try {
-      const match = await this.matchmakingService.matchUser(req.user, filters);
+      const threshold = parseFloat(fuzzyThreshold);
+      const match = await this.matchmakingService.matchUser(
+        req.user,
+        filters,
+        isNaN(threshold) ? 0 : threshold,
+      );
       return {
         message: 'Matched successfully',
         data: match,
