@@ -217,18 +217,9 @@ export const userBasicInformationSchema = z
         }
       ),
 
-    video: z
-      .string({
-        required_error: 'Please upload a video',
-      })
-      .refine(
-        (value) => {
-          return value.length > 1;
-        },
-        {
-          message: 'Please upload a video',
-        }
-      ),
+    video: z.string({
+      required_error: 'Please upload a video',
+    }),
   })
   .required();
 

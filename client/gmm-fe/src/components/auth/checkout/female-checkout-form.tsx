@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   FamilyIntroduction,
   familyIntroductionSchema,
+  guardianRegistration,
 } from '@/lib/schemas/family-introduction';
 import {
   Form,
@@ -24,24 +25,66 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useTranslations } from 'next-intl';
+import { useUpdateFamilyIntroductionMutation } from '@/lib/user/api';
+import { useRouter } from '@/lib/navigation';
+import { useAppSelector } from '@/lib/hooks';
+import { Button } from '@/components/ui/button';
+import Loading from '@/components/ui/loading';
+import { useConfirmFreeSubscriptionMutation } from '@/lib/checkout/api';
+import { toast } from '@/components/ui/use-toast';
 
 export default function FemaleCheckoutForm() {
+  const user = useAppSelector((state) => state.auth.user);
+
   const t = useTranslations('Dashboard.updateProfile.familyIntroduction');
 
   const form = useForm<FamilyIntroduction>({
-    resolver: zodResolver(familyIntroductionSchema),
+    resolver: zodResolver(guardianRegistration),
     defaultValues: {
       guardianFirstName: '',
       guardianLastName: '',
       relationshipToGuardian: '',
       guardianPhoneNumber: '',
       guardianEmail: '',
+      
     },
   });
 
+  const router = useRouter();
+
+  const [updateFamilyIntroduction, updateResult] =
+    useUpdateFamilyIntroductionMutation();
+
+  const [confirmFreeSubscription, freeSubscriptionResult] =
+    useConfirmFreeSubscriptionMutation();
+
   const onSubmit = (data: FamilyIntroduction) => {
-    //
+    if (updateResult.isLoading) return;
+    if (!user) return;
+
+    updateFamilyIntroduction({ userId: user.id, familyIntroduction: data });
   };
+
+  useEffect(() => {
+    if (updateResult.isSuccess) {
+      confirmFreeSubscription()
+        .unwrap()
+        .then(() => {
+          if (user?.registered) {
+            router.replace('/dashboard');
+          } else {
+            router.replace('/registration');
+          }
+        })
+        .catch((error) => {
+          toast({
+            title: 'Error',
+            description: error.message,
+          });
+        });
+      router.push('/dashboard');
+    }
+  }, [updateResult, router, confirmFreeSubscription, user]);
 
   return (
     <div className="space-y-10">
@@ -132,6 +175,25 @@ export default function FemaleCheckoutForm() {
               />
             </div>
 
+            <div className="space-y-1 py-2 col-span-6">
+              <Label>{t('guardianInformation.email')} </Label>
+              <FormField
+                name="guardianEmail"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="text-muted-foreground bg-background text-md shadow rounded-sm"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
             <div className="space-y-1 col-span-4">
               <Label>{t('guardianInformation.phoneNumber')}</Label>
               <FormField
@@ -151,6 +213,14 @@ export default function FemaleCheckoutForm() {
               />
             </div>
           </div>
+
+          <Button
+            type="submit"
+            className="h-9 bg-primary text-primary-foreground font-bold w-full"
+            disabled={updateResult.isLoading}
+          >
+            {updateResult.isLoading ? <Loading /> : 'Submit'}
+          </Button>
         </form>
       </Form>
     </div>
