@@ -138,7 +138,8 @@ export class UserService implements EmailLists {
 
       this.updateFamilyIntroduction(userId, {
         guardianEmail: dto.guardianEmail,
-        guardianFullName: dto.guardianFullName,
+        guardianFirstName: dto.guardianFirstName,
+        guardianLastName: dto.guardianLastName,
         guardianPhoneNumber: dto.guardianPhoneNumber,
         relationshipToGuardian: dto.relationshipToGuardian,
       }),

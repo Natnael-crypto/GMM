@@ -5,7 +5,12 @@ export class UserFamilyIntroductionDto {
   @ApiProperty({ example: 'string' })
   @IsOptional()
   @IsString()
-  guardianFullName?: string;
+  guardianFirstName?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsOptional()
+  @IsString()
+  guardianLastName?: string;
 
   @ApiProperty({ example: 'string' })
   @IsOptional()
