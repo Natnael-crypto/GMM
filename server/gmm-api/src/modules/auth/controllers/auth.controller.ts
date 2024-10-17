@@ -164,6 +164,7 @@ export class AuthController {
         firstName: registrationDto.firstname,
         lastName: registrationDto.lastname,
         password: registrationDto.password,
+        gender: 'Male',
         roleId: guardianRole.name,
       });
       return res.status(HttpStatus.OK).json({
