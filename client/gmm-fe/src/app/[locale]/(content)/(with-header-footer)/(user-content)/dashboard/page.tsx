@@ -1,5 +1,6 @@
-'use client'
+'use client';
 
+import MatchFuzzinessSelector from '@/components/dashboard/components/match-fuzziness-selector';
 import MatchMeCard from '@/components/dashboard/components/match-me-card';
 import MatchPreferenceFilter from '@/components/dashboard/components/match-preference-filter';
 import MatchedCard from '@/components/dashboard/components/matched-card';
@@ -18,9 +19,11 @@ export default function Dashboard() {
   let isAccountApproved = true;
   // isAccountApproved = false;
 
-  const user = useAppSelector((state) => state.auth.user)
+  const user = useAppSelector((state) => state.auth.user);
 
-  const { data: currentMatch } = useGetCurrentMatchQuery(undefined, { skip: !user })
+  const { data: currentMatch } = useGetCurrentMatchQuery(undefined, {
+    skip: !user,
+  });
 
   return (
     <UpdateProfileProvider autoSave={false}>
@@ -29,15 +32,36 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-7">
-            {isAccountApproved ? (user?.isMatched && currentMatch ? <MatchedCard matchedUser={user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser} /> : <NoMatchCard />) : <PendingApprovalMessage />}
+            {isAccountApproved ? (
+              user?.isMatched && currentMatch ? (
+                <MatchedCard
+                  matchedUser={
+                    user?.gender === 'Male'
+                      ? currentMatch.femaleUser
+                      : currentMatch.maleUser
+                  }
+                />
+              ) : (
+                <NoMatchCard />
+              )
+            ) : (
+              <PendingApprovalMessage />
+            )}
           </div>
           <div className="col-span-5">
             <ProfileCompletionCard />
           </div>
         </div>
 
-        <div className={cn("space-y-3 relative", user?.isMatched ? 'opacity-50' : '')}>
-          {user?.isMatched && <div className='w-full h-full absolute top-0 left-0 z-[1000]'></div>}
+        <div
+          className={cn(
+            'space-y-3 relative',
+            user?.isMatched ? 'opacity-50' : ''
+          )}
+        >
+          {user?.isMatched && (
+            <div className="w-full h-full absolute top-0 left-0 z-[1000]"></div>
+          )}
           <h1 className="text-xl font-bold text-secondary border-b border-secondary col-span-12">
             Match Preferences Filter
           </h1>
@@ -46,6 +70,7 @@ export default function Dashboard() {
             <MatchPreferenceFilter />
             <div className="md:col-span-3 flex gap-3 sm:flex-col md:gap-y-5">
               <MatchMeCard />
+              <MatchFuzzinessSelector />
               <OutsideFilterCard />
             </div>
           </div>
