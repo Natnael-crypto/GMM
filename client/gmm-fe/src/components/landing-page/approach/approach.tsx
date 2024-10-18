@@ -5,6 +5,7 @@ import OurApproachCard from './card';
 import { useTranslations } from 'next-intl';
 import OurApproachSlideContent from './slide-content';
 import OurApproachSlide from './approach-slide';
+import MobileApproachCards from './approach-card-mobile';
 
 export default function OurApproach() {
   const t = useTranslations('Landing.ourApproach');
@@ -45,7 +46,7 @@ export default function OurApproach() {
     <div className="lg:ps-[12%] my-5 relative">
       <div>
         {/* Title */}
-        <h1 className="z-20 flex flex-col px-8 lg:ps-0 md:px-20">
+        <h1 className="text-center sm:text-start z-20 flex flex-col px-8 lg:ps-0 md:px-20">
           <span className="z-20 uppercase font-bold text-primary">
             {t('title')}
           </span>
@@ -59,7 +60,7 @@ export default function OurApproach() {
         </h1>
 
         {/* Cards */}
-        <div className="overflow-auto no-scrollbar">
+        <div className="hidden sm:block overflow-auto no-scrollbar">
           <div
             className=" 
         grid grid-cols-5 w-[60rem] gap-x-3
@@ -121,6 +122,8 @@ export default function OurApproach() {
           </div>
         </div>
       </div>
+
+      <MobileApproachCards />
 
       <OurApproachSlide
         selected={current}

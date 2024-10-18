@@ -9,6 +9,8 @@ const completionCalculator = (fields: string[], object: any): number => {
       object[field] !== ''
     ) {
       return true;
+    } else {
+      console.log(field);
     }
   });
 
@@ -24,13 +26,9 @@ export const basicInformationCompletion = (user: User): number => {
     'height',
     'weight',
     'country',
-    'skinColor',
     'languages',
     'nationality',
     'city',
-    'numberOfChildren',
-    'ageOfOldestChild',
-    'ageOfYoungestChild',
     'sunniMadhaib',
     'religiousPractice',
     'bornOrRevertToIslam',
@@ -44,6 +42,10 @@ export const basicInformationCompletion = (user: User): number => {
     'video',
     'phoneNumber',
   ];
+
+  if (user.hasChildren === 'Yes') {
+    fields.push('numberOfChildren', 'ageOfOldestChild', 'ageOfYoungestChild');
+  }
 
   return completionCalculator(fields, user);
 };
