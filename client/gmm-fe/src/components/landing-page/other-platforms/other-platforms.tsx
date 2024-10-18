@@ -5,6 +5,7 @@ import OtherPlatformCard from './card';
 import { useTranslations } from 'next-intl';
 import OtherPlatformContent from './slide-content';
 import OtherPlatform from './other-platform-slide';
+import MobileOtherPlatformsCards from './other-platforms-mobile';
 
 export default function OtherPlatforms() {
   const t = useTranslations('Landing.otherPlatforms');
@@ -45,7 +46,7 @@ export default function OtherPlatforms() {
     <div className="lg:pe-[6%] my-5 relative">
       <div className="flex flex-col lg:items-end z-10">
         {/* Title */}
-        <h1 className="px-8 lg:max-w-[30rem] lg:ps-0 md:ps-20 md:me-10 flex flex-col z-20 text-secondary">
+        <h1 className="text-center sm:text-start px-8 lg:max-w-[30rem] lg:ps-0 md:ps-20 md:me-10 flex flex-col z-20 text-secondary">
           <span className="z-20 uppercase font-bold text-primary">
             {t('title')}
           </span>
@@ -59,7 +60,7 @@ export default function OtherPlatforms() {
         </h1>
 
         {/* Cards */}
-        <div className="overflow-auto no-scrollbar z-20">
+        <div className="hidden sm:block overflow-auto no-scrollbar z-20">
           <div
             className="
           grid
@@ -145,6 +146,8 @@ export default function OtherPlatforms() {
           </div>
         </div>
       </div>
+
+      <MobileOtherPlatformsCards />
 
       <OtherPlatform
         selected={current}

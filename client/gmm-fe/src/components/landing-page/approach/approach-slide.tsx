@@ -23,8 +23,8 @@ export default function OurApproachSlide({
   return (
     <div
       className={cn(
-        `z-10
-    flex flex-col justify-between bg-muted 
+        `hidden z-10
+    sm:flex flex-col justify-between bg-muted 
     mt-5
     px-8 md:px-20
     py-8 lg:py-0

@@ -23,8 +23,7 @@ export default function OtherPlatformSlide({
   return (
     <div
       className={cn(
-        `
-      flex flex-col justify-between
+        `hidden sm:flex flex-col justify-between
     lg:absolute lg:start-0 lg:top-0
     mt-5
     px-8 md:px-20 lg:px-0 lg:pe-44 lg:ps-[8%]

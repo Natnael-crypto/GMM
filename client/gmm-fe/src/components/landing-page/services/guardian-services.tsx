@@ -11,8 +11,8 @@ export default function GuardianServices() {
       <div className="overflow-auto lg:overflow-visible no-scrollbar w-full">
         <div
           className="m-auto
-         grid grid-cols-4 gap-x-5 my-8 
-         w-[60rem]
+         grid sm:grid-cols-4 gap-5 my-8 
+         sm:w-[60rem]
          "
         >
           <GuardianServiceCard>{t('bookConsultation')}</GuardianServiceCard>
