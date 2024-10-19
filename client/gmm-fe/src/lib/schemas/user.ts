@@ -153,7 +153,7 @@ export const userBasicInformationSchema = z
       .min(1, { message: 'Please specify your religious practice' }),
 
     bornOrRevertToIslam: z.string({
-      required_error: 'Please specify your religious practice',
+      required_error: 'Please specify',
     }),
 
     drinks: z.union([

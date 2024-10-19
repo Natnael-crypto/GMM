@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-
+import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import ExternalAuthenticator from '@/components/auth/external-authenticator';
 import OrSeparator from '@/components/auth/or-separator';
@@ -25,7 +25,20 @@ import { useRouter } from '@/lib/navigation';
 import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { CalendarIcon } from 'lucide-react';
 
 export function SignUpForm() {
   const { replace } = useRouter();
@@ -38,6 +51,7 @@ export function SignUpForm() {
       lastName: '',
       email: '',
       gender: 'Male',
+      bornOrRevertToIslam: '',
       password: '',
       confirmPassword: '',
       agreeToTerms: false,
@@ -124,24 +138,117 @@ export function SignUpForm() {
             )}
           />
           <FormField
-            name='gender'
+            name="gender"
             control={form.control}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="text-xs text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue className='text-xs' />
+                      <SelectValue placeholder="Gender" className="text-xs" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem className="text-xs max-w-80" value="Male">Male</SelectItem>
-                      <SelectItem className="text-xs max-w-80" value="Female">Female</SelectItem>
+                      <SelectItem className="text-xs max-w-80" value="Male">
+                        Male
+                      </SelectItem>
+                      <SelectItem className="text-xs max-w-80" value="Female">
+                        Female
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
                 <FormMessage className="text-xs" />
-              </FormItem>)}
+              </FormItem>
+            )}
           />
+
+          <FormField
+            control={form.control}
+            name="dateOfBirth"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={'outline'}
+                        className={cn(
+                          'w-full pl-3 text-left font-normal h-8 rounded-sm text-xs text-muted-foreground'
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, 'PPP')
+                        ) : (
+                          <span>Date of Birth</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <div className="relative h-72 overflow-auto p-2">
+                      <Select
+                        onValueChange={(value) => {
+                          field.onChange(new Date(value));
+                        }}
+                      >
+                        <SelectTrigger className="z-50 sticky top-0 bg-background h-10 py-1">
+                          <SelectValue placeholder="Select Year" />
+                        </SelectTrigger>
+                        <SelectContent position="popper">
+                          <SelectItem value="2000">2000</SelectItem>
+                          <SelectItem value="2001">2001</SelectItem>
+                          <SelectItem value="2002">2002</SelectItem>
+                          <SelectItem value="2003">2003</SelectItem>
+                          <SelectItem value="2024">2004</SelectItem>
+                          <SelectItem value="2025">2025</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      <Calendar
+                        key={field.value?.toString() ?? 'date_of_birth'}
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date('1900-01-01')
+                        }
+                        defaultMonth={field.value}
+                      />
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            name="bornOrRevertToIslam"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectValue placeholder="Born or Revert to Islam" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem className="text-xs" value="Born Muslim">
+                        Born Muslim
+                      </SelectItem>
+                      <SelectItem className="text-xs" value="Reverted to Islam">
+                        Reverted to Islam
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
           <FormField
             control={form.control}
             name="password"

@@ -22,6 +22,14 @@ export const SignUpSchema = z
       message: 'Please enter a valid email address',
     }),
     gender: z.enum(['Male', 'Female']),
+    dateOfBirth: z.date({
+      required_error: 'A date of birth is required.',
+    }),
+    bornOrRevertToIslam: z
+      .string({
+        required_error: 'Please specify',
+      })
+      .min(1, 'Please specify'),
     password: z.string().min(8, {
       message: 'Password must be at least 8 characters',
     }),
