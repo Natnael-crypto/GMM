@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { EmailLists } from '@shared/config';
 import { EMAIL_LISTS_ID } from '../user.module';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -29,20 +29,26 @@ import { ExpressRegistrationDto } from '../dtos/express-registration';
 import { GuardianService } from '../services/guardian.service';
 import { WifeIslamicLifestyleModel } from '../entities/wife-islamic-lifestyle.schema';
 import { WifeExpectedIslamicLifestyleModel } from '../entities/wife-expected-islamic-lifestyle.schema';
+import { BaseRepository } from '@shared/base-repository';
+import { DataSource } from 'typeorm';
+import { Request } from 'express';
+import { REQUEST } from '@nestjs/core';
 
-@Injectable()
-export class UserService implements EmailLists {
+@Injectable({ scope: Scope.REQUEST })
+export class UserService extends BaseRepository implements EmailLists {
   constructor(
-    @InjectRepository(User)
-    public readonly userRepository: Repository<User>,
     private readonly noticeService: NoticeService,
     private readonly guardianService: GuardianService,
-  ) {}
+    @Inject(REQUEST) req: Request,
+    dataSource: DataSource,
+  ) {
+    super(dataSource, req);
+  }
 
   async getList(id: string): Promise<string[]> {
     switch (id) {
       case EMAIL_LISTS_ID.All_Registered_Users:
-        const users = await this.userRepository.find();
+        const users = await this.getRepository(User).find();
         return users.map((user) => user.email);
     }
     return [];
@@ -56,7 +62,7 @@ export class UserService implements EmailLists {
     const where = getWhere(filter);
     const order = getOrder(sort);
 
-    const [users, total] = await this.userRepository.findAndCount({
+    const [users, total] = await this.getRepository(User).findAndCount({
       where,
       order,
       take: limit,
@@ -72,7 +78,7 @@ export class UserService implements EmailLists {
   }
 
   async findAll() {
-    const users = await this.userRepository.find();
+    const users = await this.getRepository(User).find();
     return Promise.all(
       users.map(async (user) => {
         const { password, ...userWithoutPassword } = user;
@@ -104,7 +110,7 @@ export class UserService implements EmailLists {
     }
 
     try {
-      const user = await this.userRepository.findOne({
+      const user = await this.getRepository(User).findOne({
         where: { id },
         relations: ['guardian'],
       });
@@ -118,14 +124,16 @@ export class UserService implements EmailLists {
   }
 
   async create(createUserDto: UserDto) {
-    return this.userRepository.save({
+    return this.getRepository(User).save({
       ...createUserDto,
       createdAt: new Date(),
     });
   }
 
   async expressRegistration(userId: string, dto: ExpressRegistrationDto) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
     if (!user) {
       throw new NotFoundException('User not found');
     }
@@ -134,7 +142,7 @@ export class UserService implements EmailLists {
     updatedUser.registered = true;
 
     return await Promise.all([
-      this.userRepository.save(updatedUser),
+      this.getRepository(User).save(updatedUser),
 
       this.updateFamilyIntroduction(userId, {
         guardianEmail: dto.guardianEmail,
@@ -152,11 +160,13 @@ export class UserService implements EmailLists {
   }
 
   async updateUser(user: User) {
-    return await this.userRepository.save(user);
+    return await this.getRepository(User).save(user);
   }
 
   async getWorldlyLifestyle(userId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -175,7 +185,9 @@ export class UserService implements EmailLists {
     userId: string,
     updateDto: UserWorldlyLifestyleDto,
   ) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -193,7 +205,9 @@ export class UserService implements EmailLists {
   }
 
   async getExpectedWorldlyLifestyle(userId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -219,7 +233,9 @@ export class UserService implements EmailLists {
     userId: string,
     updateDto: ExpectedWorldlyLifestyleDto,
   ) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -245,7 +261,9 @@ export class UserService implements EmailLists {
   }
 
   async getIslamicLifestyle(userId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -269,7 +287,9 @@ export class UserService implements EmailLists {
     userId: string,
     updateDto: UserIslamicLifestyleDto,
   ) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -295,7 +315,9 @@ export class UserService implements EmailLists {
   }
 
   async getExpectedIslamicLifestyle(userId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -321,7 +343,9 @@ export class UserService implements EmailLists {
     userId: string,
     updateDto: ExpectedIslamicLifestyleDto,
   ) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -347,7 +371,9 @@ export class UserService implements EmailLists {
   }
 
   async getMarriageDiscussion(userId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -368,7 +394,9 @@ export class UserService implements EmailLists {
     userId: string,
     updateDto: UserMarriageDiscussionDto,
   ) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -386,7 +414,9 @@ export class UserService implements EmailLists {
   }
 
   async getOptionalVerifiable(userId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -407,7 +437,9 @@ export class UserService implements EmailLists {
     userId: string,
     updateDto: UserOptionalVerifiableDto,
   ) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -425,7 +457,9 @@ export class UserService implements EmailLists {
   }
 
   async getFamilyIntroduction(userId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
@@ -446,7 +480,9 @@ export class UserService implements EmailLists {
     userId: string,
     updateDto: UserFamilyIntroductionDto,
   ) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);

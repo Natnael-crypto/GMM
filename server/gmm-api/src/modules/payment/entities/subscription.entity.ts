@@ -1,7 +1,11 @@
-
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from '../../user/entities/user.entity';
-
 
 @Entity('subscriptions')
 export class Subscription {

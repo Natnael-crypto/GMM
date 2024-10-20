@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { PaymentsService } from '../services/payment.service';
-import { ApiBearerAuth, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
