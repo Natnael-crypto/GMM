@@ -23,6 +23,7 @@ import { guardianRole } from '@modules/seeds/role.seed';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { RequestResetPasswordDto } from '../dtos/request-reset-password.dto';
 import { SetPasswordDto } from '../dtos/set-password.dto';
+import { Gender } from '@modules/user/enums/user.enum';
 
 @ApiTags('auth')
 @Controller({ version: ApiVersion.V1, path: 'auth' })
@@ -164,7 +165,7 @@ export class AuthController {
         firstName: registrationDto.firstname,
         lastName: registrationDto.lastname,
         password: registrationDto.password,
-        gender: 'Male',
+        gender: Gender.MALE,
         roleId: guardianRole.name,
       });
       return res.status(HttpStatus.OK).json({

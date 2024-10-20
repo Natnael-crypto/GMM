@@ -13,13 +13,7 @@ import { Role } from '@modules/auth/entities/role.entity';
 import { Subscription } from '@modules/payment/entities/subscription.entity';
 import { SubscriptionHistory } from '@modules/payment/entities/subscription-history.entity';
 import { Exclude } from 'class-transformer';
-
-export enum AccountStatus {
-  PENDING = 'pending',
-  APPROVED = 'approved',
-  DENIED = 'denied',
-  SUSPENDED = 'suspended',
-}
+import { AccountStatus, Gender } from '../enums/user.enum';
 
 @Entity()
 export class User {
@@ -63,14 +57,11 @@ export class User {
   @Column({ nullable: true })
   country: string;
 
-  @Column({ nullable: true })
-  countryOfOrigin: string;
-
   @Column({ nullable: true, type: 'int' })
   age: number;
 
-  @Column({ nullable: true })
-  gender: string;
+  @Column({ type: 'enum', enum: Gender, nullable: false })
+  gender: Gender;
 
   @Column({ nullable: true, type: 'float' })
   height: number;
@@ -172,9 +163,6 @@ export class User {
 
   @Column({ type: 'enum', enum: AccountStatus, default: AccountStatus.PENDING })
   accountStatus: AccountStatus;
-
-  @Column({ nullable: true, default: false })
-  isMatched: boolean;
 }
 
 export const userFilterableFields = [

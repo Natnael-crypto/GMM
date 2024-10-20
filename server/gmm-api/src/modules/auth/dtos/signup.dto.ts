@@ -1,5 +1,12 @@
+import { Gender } from '@modules/user/enums/user.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import {
+  IsDateString,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  MinLength,
+} from 'class-validator';
 
 export class SignUpUserDto {
   @IsNotEmpty()
@@ -20,9 +27,9 @@ export class SignUpUserDto {
   @MinLength(6)
   password: string;
 
-  @IsNotEmpty()
   @ApiProperty()
-  gender: string;
+  @IsEnum(Gender)
+  gender: Gender;
 }
 
 export class RegisterAsGuardian {

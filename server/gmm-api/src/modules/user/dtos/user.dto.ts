@@ -10,7 +10,7 @@ import {
   IsNumber,
   IsEnum,
 } from 'class-validator';
-import { AccountStatus } from '../entities/user.entity';
+import { AccountStatus, Gender } from '../enums/user.enum';
 
 export class UserDto {
   @ApiProperty({ example: 'string' })
@@ -53,10 +53,10 @@ export class UserDto {
   @IsInt()
   age?: number;
 
-  @ApiProperty({ example: 'string', required: false })
+  @ApiProperty({ example: 'Male', required: false })
   @IsOptional()
-  @IsString()
-  gender?: string;
+  @IsEnum(Gender)
+  gender?: Gender;
 
   @ApiProperty({ example: 180, required: false })
   @IsOptional()
