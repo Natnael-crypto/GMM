@@ -69,6 +69,10 @@
     height: 15rem;
   } 
 
+  .h-\[20rem\] {
+    height: 20rem;
+  }
+
   .h-\[65vh\] {
     height: 65vh
   }
