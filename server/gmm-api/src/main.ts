@@ -6,6 +6,8 @@ import { NoticeService } from '@modules/notice/services/notice.service';
 import { NoticeInterceptor } from '@shared/interceptors/notice.interceptor';
 import { ConfigService } from '@nestjs/config';
 import { IoAdapter } from '@nestjs/platform-socket.io';
+import { TransactionInterceptor } from '@shared/interceptors/transaction.interceptor';
+import { DataSource } from 'typeorm';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -29,6 +31,7 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalInterceptors(new TransactionInterceptor(app.get(DataSource)));
 
   const config = new DocumentBuilder()
     .setTitle('Guardian / Wali Documentation')
