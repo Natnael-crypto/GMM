@@ -7,6 +7,7 @@ import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { ConfigService } from '@nestjs/config';
 import { ClientConfig } from '@shared/config';
+import { GuardianRequestedEvent } from '@modules/user/events/guardian.events';
 
 @Injectable()
 export class NoticeService {
@@ -36,6 +37,24 @@ export class NoticeService {
       event.email,
       subject,
       message(event.token, this.domain),
+    );
+  }
+
+  @OnEvent(GuardianRequestedEvent.name, { async: true })
+  async handleGuardianRequestedEvent(event: GuardianRequestedEvent) {
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/guardian-request');
+
+    await this.sendEmail(
+      event.guardianEmail,
+      subject,
+      message(
+        event.user.firstName + ' ' + event.user.lastName,
+
+        this.domain,
+      ),
     );
   }
 
