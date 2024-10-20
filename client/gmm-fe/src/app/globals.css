@@ -89,6 +89,12 @@
     pointer-events: none;
   }
 
+  .gmm-icon {
+    max-height: 70px;
+    width: 100%;
+    height: auto;
+  }
+
   .dark {
     /* --background: 222.2 84% 4.9%; */
     --background: 218.2 30% 5.9%;
