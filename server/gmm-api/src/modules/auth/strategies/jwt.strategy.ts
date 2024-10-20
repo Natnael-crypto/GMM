@@ -1,12 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Scope, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
-import { User } from '../../user/entities/user.entity';
 import { AuthConfig } from '@shared/config';
+import { CookieName } from '../enums/auth.enum';
+import { AuthRepository } from '../services/auth.repository';
 
 export type JwtPayload = {
   sub: string;
@@ -20,32 +19,26 @@ export type JwtPayload = {
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     configService: ConfigService,
-    @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly authRepo: AuthRepository,
   ) {
-    const extractJwtFromCookie = (req) => {
+    const extractJwtFromRequest = (req) => {
       let token = null;
       if (req && req.cookies) {
-        token = req.cookies['access_token'];
+        token = req.cookies[CookieName.ACCESS_TOKEN];
       }
-
       return token || ExtractJwt.fromAuthHeaderAsBearerToken()(req);
     };
 
     super({
       ignoreExpiration: false,
       secretOrKey: configService.get<AuthConfig>('auth')?.jwt.secret,
-      jwtFromRequest: extractJwtFromCookie,
+      jwtFromRequest: extractJwtFromRequest,
     });
   }
 
   async validate(payload: JwtPayload) {
-    // find user using email
-    const user = await this.userRepository.findOne({
-      where: { email: payload.email },
-    });
-
-    if (!user) throw new UnauthorizedException('auth_error');
-
+    const user = await this.authRepo.findUserByEmail(payload.email);
+    if (!user) throw new UnauthorizedException();
     return user;
   }
 }

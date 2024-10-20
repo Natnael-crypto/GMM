@@ -11,7 +11,12 @@ export interface DatabaseConfig {
 export interface JwtConfig {
   secret: string;
   accessTokenExpiration: string;
+  refreshTokenSecret: string;
   refreshTokenExpiration: string;
+  resetPasswordTokenSecret: string;
+  resetPasswordTokenExpiration: string;
+  registrationTokenSecret: string;
+  registrationTokenExpiration: string;
 }
 
 export interface GoogleOAuthConfig {
@@ -50,6 +55,7 @@ export interface StripeConfig {
 export interface ClientConfig {
   url: string;
   authSuccessUrl: string;
+  authFailureUrl: string;
 }
 
 export interface AwsConfig {
@@ -67,6 +73,7 @@ export interface EmailConfig {
   host: string;
   username: string;
   password: string;
+  transport: string;
 }
 
 export interface AppConfiguration {
@@ -98,7 +105,12 @@ const envSchema = z
     //   JWT
     JWT_SECRET: z.string(),
     ACCESS_TOKEN_EXPIRATION: z.string(),
+    REFRESH_TOKEN_SECRET: z.string(),
     REFRESH_TOKEN_EXPIRATION: z.string(),
+    RESET_PASSWORD_TOKEN_SECRET: z.string(),
+    RESET_PASSWORD_TOKEN_EXPIRATION: z.string(),
+    REGISTRATION_TOKEN_SECRET: z.string(),
+    REGISTRATION_TOKEN_EXPIRATION: z.string(),
 
     //   OAuth
     GOOGLE_CLIENT_ID: z.string(),
@@ -155,7 +167,12 @@ export default (): AppConfiguration => {
       jwt: {
         secret: parsedEnv.JWT_SECRET,
         accessTokenExpiration: parsedEnv.ACCESS_TOKEN_EXPIRATION,
+        refreshTokenSecret: parsedEnv.REFRESH_TOKEN_SECRET,
         refreshTokenExpiration: parsedEnv.REFRESH_TOKEN_EXPIRATION,
+        resetPasswordTokenSecret: parsedEnv.RESET_PASSWORD_TOKEN_SECRET,
+        resetPasswordTokenExpiration: parsedEnv.RESET_PASSWORD_TOKEN_EXPIRATION,
+        registrationTokenSecret: parsedEnv.REGISTRATION_TOKEN_SECRET,
+        registrationTokenExpiration: parsedEnv.REGISTRATION_TOKEN_EXPIRATION,
       },
 
       oauth: {
@@ -181,6 +198,7 @@ export default (): AppConfiguration => {
     client: {
       url: parsedEnv.CLIENT_URL,
       authSuccessUrl: parsedEnv.CLIENT_AUTH_SUCCESS_URL,
+      authFailureUrl: parsedEnv.CLIENT_AUTH_FAILURE_URL,
     },
 
     aws: {
@@ -203,6 +221,7 @@ export default (): AppConfiguration => {
       host: parsedEnv.EMAIL_HOST,
       username: parsedEnv.EMAIL_USER,
       password: parsedEnv.EMAIL_PASSWORD,
+      transport: parsedEnv.EMAIL_SMTP_CONNECTION,
     },
   };
 };

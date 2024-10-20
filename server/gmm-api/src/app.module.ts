@@ -10,9 +10,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { NoticeModule } from './modules/notice/notice.module';
-import { UserService } from './modules/user/services/user.service';
 import { LoggerMiddleware } from '@shared/utils/logger';
-import { OTPModule } from '@modules/otp/otp.module';
 import { PaymentsModule } from '@modules/payment/payment.module';
 import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { StorageModule } from '@modules/storage/storage.module';
@@ -45,13 +43,7 @@ import config, { DatabaseConfig } from '@shared/config';
     EventEmitterModule.forRoot(),
     UserModule,
     AuthModule,
-    NoticeModule.forRootAsync({
-      listsProvider: UserService,
-      listsImports: [UserModule],
-      envTransport: 'EMAIL_SMTP_CONNECTION',
-      from: 'Guardian / Wali',
-    }),
-    OTPModule,
+    NoticeModule.forRootAsync(),
     PaymentsModule,
     DynamooseModule,
     StorageModule,

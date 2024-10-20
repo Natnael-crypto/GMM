@@ -13,7 +13,11 @@ import { Role } from '@modules/auth/entities/role.entity';
 import { Subscription } from '@modules/payment/entities/subscription.entity';
 import { SubscriptionHistory } from '@modules/payment/entities/subscription-history.entity';
 import { Exclude } from 'class-transformer';
-import { AccountStatus, Gender } from '../enums/user.enum';
+import {
+  AccountStatus,
+  AccountVerificationStatus,
+  Gender,
+} from '../enums/user.enum';
 
 @Entity()
 export class User {
@@ -54,7 +58,7 @@ export class User {
   @Column({ nullable: true, type: 'int' })
   age: number;
 
-  @Column({ type: 'enum', enum: Gender, nullable: false })
+  @Column({ type: 'enum', enum: Gender, nullable: true })
   gender: Gender;
 
   @Column({ nullable: true, type: 'float' })
@@ -155,8 +159,19 @@ export class User {
   @JoinColumn({ name: 'roleId' })
   role: Role;
 
-  @Column({ type: 'enum', enum: AccountStatus, default: AccountStatus.PENDING })
+  @Column({
+    type: 'enum',
+    enum: AccountStatus,
+    default: AccountStatus.PENDING,
+  })
   accountStatus: AccountStatus;
+
+  @Column({
+    type: 'enum',
+    enum: AccountVerificationStatus,
+    default: AccountVerificationStatus.UNVERIFIED,
+  })
+  verificationStatus: AccountVerificationStatus;
 }
 
 export const userFilterableFields = [

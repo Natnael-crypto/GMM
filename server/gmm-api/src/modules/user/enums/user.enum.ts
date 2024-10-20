@@ -6,6 +6,11 @@ export enum AccountStatus {
   SUSPENDED = 'Suspended',
 }
 
+export enum AccountVerificationStatus {
+  VERIFIED = 'Verified',
+  UNVERIFIED = 'Unverified',
+}
+
 export enum Gender {
   MALE = 'Male',
   FEMALE = 'Female',

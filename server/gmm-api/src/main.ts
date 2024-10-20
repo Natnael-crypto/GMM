@@ -2,8 +2,6 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { NoticeService } from '@modules/notice/services/notice.service';
-import { NoticeInterceptor } from '@shared/interceptors/notice.interceptor';
 import { ConfigService } from '@nestjs/config';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 import { TransactionInterceptor } from '@shared/interceptors/transaction.interceptor';
@@ -43,10 +41,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
-  const noticeService = app.get(NoticeService);
-  const reflector = app.get(Reflector);
-  app.useGlobalInterceptors(new NoticeInterceptor(noticeService, reflector));
 
   await app.listen(port);
 }
