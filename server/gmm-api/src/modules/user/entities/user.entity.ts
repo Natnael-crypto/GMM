@@ -20,9 +20,6 @@ export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ default: false })
-  registered: boolean;
-
   @Column({ nullable: true })
   firstName: string;
 
@@ -38,9 +35,6 @@ export class User {
   @Column({ nullable: true })
   @Exclude()
   password: string;
-
-  @Column({ default: false })
-  hasPassword: boolean;
 
   @Column({ nullable: true })
   idCardImage: string;

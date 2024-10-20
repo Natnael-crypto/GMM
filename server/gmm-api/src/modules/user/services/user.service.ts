@@ -1,5 +1,4 @@
 import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import { EmailLists } from '@shared/config';
 import { EMAIL_LISTS_ID } from '../user.module';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
@@ -33,9 +32,10 @@ import { BaseRepository } from '@shared/base-repository';
 import { DataSource } from 'typeorm';
 import { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
+import { AccountStatus } from '../enums/user.enum';
 
 @Injectable({ scope: Scope.REQUEST })
-export class UserService extends BaseRepository implements EmailLists {
+export class UserService extends BaseRepository {
   constructor(
     private readonly noticeService: NoticeService,
     private readonly guardianService: GuardianService,
@@ -43,15 +43,6 @@ export class UserService extends BaseRepository implements EmailLists {
     dataSource: DataSource,
   ) {
     super(dataSource, req);
-  }
-
-  async getList(id: string): Promise<string[]> {
-    switch (id) {
-      case EMAIL_LISTS_ID.All_Registered_Users:
-        const users = await this.getRepository(User).find();
-        return users.map((user) => user.email);
-    }
-    return [];
   }
 
   async getUsers(
@@ -139,7 +130,7 @@ export class UserService extends BaseRepository implements EmailLists {
     }
 
     const updatedUser = Object.assign(user, dto);
-    updatedUser.registered = true;
+    updatedUser.accountStatus = AccountStatus.PENDING;
 
     return await Promise.all([
       this.getRepository(User).save(updatedUser),

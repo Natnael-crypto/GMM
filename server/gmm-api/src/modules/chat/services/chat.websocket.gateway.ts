@@ -14,6 +14,7 @@ import { UserService } from '@modules/user/services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { ChatService } from './chat.service';
+import { AuthConfig } from '@shared/config';
 
 @WebSocketGateway({
   cors: {
@@ -37,7 +38,7 @@ export class ChatWebsocketGateway
   async validateUser(token: string): Promise<any> {
     try {
       const decoded = this.jwtService.verify(token, {
-        secret: this.configService.get('JWTSECRET'),
+        secret: this.configService.get<AuthConfig>('auth')?.jwt.secret,
       });
 
       const user = await this.userService.getUserById(decoded.id);

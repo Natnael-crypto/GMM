@@ -69,7 +69,7 @@ export class AuthService {
     try {
       const newUser = this.userRepository.create({
         ...user,
-        hasPassword: false,
+        // hasPassword: false,
       });
 
       await this.userRepository.save(newUser);
@@ -106,7 +106,7 @@ export class AuthService {
     try {
       const newUser = this.userRepository.create({
         ...user,
-        hasPassword: false,
+        // hasPassword: false,
       });
 
       return this.generateJwt({
@@ -224,13 +224,13 @@ export class AuthService {
         throw new BadRequestException('Invalid token or user not found');
       }
 
-      if (user.hasPassword) {
-        throw new BadRequestException('Password already set for this account');
-      }
+      // if (user.hasPassword) {
+      //   throw new BadRequestException('Password already set for this account');
+      // }
 
       const hashedPassword = await bcrypt.hash(newPassword, 10);
       user.password = hashedPassword;
-      user.hasPassword = true;
+      // user.hasPassword = true;
       await this.userRepository.save(user);
     } catch (e) {
       throw new BadRequestException('Invalid or expired token');

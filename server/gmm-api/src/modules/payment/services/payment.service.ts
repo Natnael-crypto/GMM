@@ -14,6 +14,7 @@ import { UserService } from '@modules/user/services/user.service';
 import { BaseRepository } from '@shared/base-repository';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
+import { StripeConfig } from '@shared/config';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PaymentsService extends BaseRepository {
@@ -30,7 +31,7 @@ export class PaymentsService extends BaseRepository {
     super(dataSource, req);
 
     this.stripe = new Stripe(
-      configService.get<string>('STRIPE_API_SECRET_KEY')!,
+      configService.get<StripeConfig>('stripe')?.apiKey!,
     );
   }
 
@@ -332,13 +333,8 @@ export class PaymentsService extends BaseRepository {
   }
 
   verifyStripeWebhook(body: any, signature: string): Stripe.Event {
-    const webhookSecret = this.configService.get<string>(
-      'STRIPE_WEBHOOK_SECRET',
-    );
-
-    if (!webhookSecret) {
-      throw new Error('Missing Stripe Webhook Secret');
-    }
+    const webhookSecret =
+      this.configService.get<StripeConfig>('stripe')?.webhookSecret!;
 
     let event: Stripe.Event;
 

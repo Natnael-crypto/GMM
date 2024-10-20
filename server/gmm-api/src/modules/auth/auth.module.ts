@@ -17,6 +17,7 @@ import { Permission } from './entities/permission.entity';
 import { Role } from './entities/role.entity';
 import { RoleService } from './services/role.service';
 import { RoleController } from './controllers/roles.controller';
+import { AuthConfig } from '@shared/config';
 
 @Module({
   imports: [
@@ -25,10 +26,11 @@ import { RoleController } from './controllers/roles.controller';
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
+        const jwtConfig = configService.get<AuthConfig>('auth')?.jwt;
         return {
-          secret: configService.get<string>('JWTSECRET'),
+          secret: jwtConfig?.secret,
           signOptions: {
-            expiresIn: configService.get<string>('JWT_EXPIRATION'),
+            expiresIn: jwtConfig?.accessTokenExpiration,
           },
         };
       },

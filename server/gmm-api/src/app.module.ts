@@ -20,28 +20,26 @@ import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
 import { ChatModule } from '@modules/chat/chat.module';
 import { ChatWebsocketGateway } from '@modules/chat/services/chat.websocket.gateway';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-
+import config, { DatabaseConfig } from '@shared/config';
 
 @Module({
   imports: [
     // set the env file path from NODE_ENV
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
-    }),
+    ConfigModule.forRoot({ isGlobal: true, load: [config] }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DATABASE_HOST'),
-        port: configService.get<number>('DATABASE_PORT') || 5432,
-        username: configService.get<string>('DATABASE_USERNAME'),
-        password: configService.get<string>('DATABASE_PASSWORD'),
-        database: configService.get<string>('DATABASE_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts}'],
-        synchronize: true,
-        autoLoadEntities: true,
-      }),
+      useFactory: (configService: ConfigService) => {
+        const dbConfig = configService.get<DatabaseConfig>('database') ?? {};
+
+        return {
+          type: 'postgres',
+          ...dbConfig,
+          entities: [__dirname + '/**/*.entity{.ts}'],
+          synchronize: true,
+          autoLoadEntities: true,
+        };
+      },
       inject: [ConfigService],
     }),
     EventEmitterModule.forRoot(),
