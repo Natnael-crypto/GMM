@@ -6,7 +6,9 @@ import {
   IsInt,
   IsArray,
   IsNumber,
+  IsEnum,
 } from 'class-validator';
+import { Gender } from '../enums/user.enum';
 
 export class UpdateUserDto {
   @IsOptional()
@@ -38,8 +40,8 @@ export class UpdateUserDto {
   age?: number;
 
   @IsOptional()
-  @IsString()
-  gender?: string;
+  @IsEnum(Gender)
+  gender?: Gender;
 
   @IsOptional()
   @IsNumber()

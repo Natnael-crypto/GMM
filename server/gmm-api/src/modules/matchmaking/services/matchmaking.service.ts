@@ -2,120 +2,118 @@ import {
   BadRequestException,
   ConflictException,
   ForbiddenException,
+  Inject,
   Injectable,
   NotFoundException,
+  Scope,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+
 import { Preference } from '../entities/preference.entity';
-import { Repository } from 'typeorm';
+import { And, DataSource, Not } from 'typeorm';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
-import { Match, MatchStage } from '../entities/match.entity';
+import { Match } from '../entities/match.entity';
 import { UserService } from '@modules/user/services/user.service';
 import { User } from '@modules/user/entities/user.entity';
 import { PaymentsService } from '@modules/payment/services/payment.service';
 import { Filtering } from '@shared/decorators/filter.decorator';
 import { getWhere } from '@shared/decorators/filter.helper';
 import { MatchPool } from '../entities/match-pool.entity';
+import { Gender } from '@modules/user/enums/user.enum';
+import { ExtendedUser, Matchmaker } from '../core/matchmaker';
+import { BaseRepository } from '@shared/base-repository';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
 import {
-  StageInvitation,
-  StageInvitationStatus,
-} from '../entities/match-invitation.entity';
+  InvitationToMatchStageStatus,
+  MatchStage,
+} from '../enums/matchmaking.enum';
+import { InvitationToMatchStage } from '../entities/invitation-to-match-stage.entity';
 
-@Injectable()
-export class MatchMakingService {
+@Injectable({ scope: Scope.REQUEST })
+export class MatchMakingService extends BaseRepository {
   constructor(
-    @InjectRepository(Preference)
-    private readonly preferenceRepository: Repository<Preference>,
-
-    @InjectRepository(Match)
-    private readonly matchRepository: Repository<Match>,
-
-    @InjectRepository(MatchPool)
-    private readonly matchPoolRepository: Repository<MatchPool>,
-
-    @InjectRepository(StageInvitation)
-    private readonly stageInvitationRepository: Repository<StageInvitation>,
-
     private readonly userService: UserService,
     private readonly paymentService: PaymentsService,
-  ) {}
+    @Inject(REQUEST) req: Request,
+    dataSource: DataSource,
+  ) {
+    super(dataSource, req);
+  }
 
   async getUserPreference(id: string): Promise<Preference> {
-    const preference = await this.preferenceRepository.findOne({
+    const preference = await this.getRepository(Preference).findOne({
       where: { userId: id },
     });
 
     if (!preference) {
       const p = new Preference();
-      return await this.preferenceRepository.save(p);
+      return await this.getRepository(Preference).save(p);
     }
 
     return preference;
   }
 
   async countMatches(filters: Filtering[]): Promise<number> {
-    return await this.matchPoolRepository.count({
+    return await this.getRepository(MatchPool).count({
       where: getWhere(filters),
     });
   }
 
-  async matchUser(
-    user: User,
-    filters: Filtering[],
-    fuzzyThreshold: number = 0,
-  ): Promise<Match> {
-    const previousMatches = await this.getMyMatches(user.id);
+  async loadFullUserData(user: User): Promise<ExtendedUser> {
+    let worldlyLifestyle;
+    let islamicLifestyle;
+
+    try {
+      worldlyLifestyle = await this.userService.getWorldlyLifestyle(user.id);
+    } catch (e) {}
+    try {
+      islamicLifestyle = await this.userService.getIslamicLifestyle(user.id);
+    } catch (e) {}
+
+    return {
+      ...user,
+      ...worldlyLifestyle,
+      ...islamicLifestyle,
+    };
+  }
+
+  async loadCandidates(user: User): Promise<ExtendedUser[]> {
+    const previousMatches = await this.getUserMatches(user.id);
     for (const previousMatch of previousMatches) {
       if (previousMatch.isActive) {
         throw new ConflictException('You already have an active match');
       }
     }
 
-    await this.addToMatchingPool(user);
-
     const previousMatchedUserIds = previousMatches.map((match) => {
-      if (user.gender === 'Male') {
+      if (user.gender === Gender.MALE) {
         return match.femaleUserId;
       }
 
       return match.maleUserId;
     });
 
-    previousMatchedUserIds.push(user.id);
-
-    let matches;
-    if (fuzzyThreshold === 0) {
-      matches = await this.matchPoolRepository.find({
-        where: getWhere(filters),
-      });
-    } else {
-      matches = await this.matchPoolRepository.find({
-        where: {
-          gender: user.gender === 'Male' ? 'Female' : 'Male',
+    const matchPool = await this.getRepository(MatchPool).find({
+      where: {
+        user: {
+          gender: Not(user.gender),
         },
-      });
-    }
+        userId: And(
+          Not(user.id),
+          ...previousMatchedUserIds.map((id) => Not(id)),
+        ),
+      },
+      relations: ['user'],
+    });
 
-    const validMatches = matches.filter(
-      (match) => !previousMatchedUserIds.includes(match.userId),
+    const candidates = Promise.all<ExtendedUser>(
+      matchPool.map((candidate) => this.loadFullUserData(candidate.user)),
     );
 
-    if (!validMatches || validMatches.length === 0) {
-      throw new NotFoundException('No matches found');
-    }
+    return candidates;
+  }
 
-    let matchedUserId;
-    if (fuzzyThreshold === 0) {
-      const randomIndex = Math.floor(Math.random() * matches.length);
-      matchedUserId = validMatches[randomIndex].userId;
-    } else {
-      matchedUserId = this.chooseMatch(validMatches, filters, fuzzyThreshold);
-    }
-
-    if (!matchedUserId) {
-      throw new NotFoundException('No matches found');
-    }
-
+  async assignMatch(user: User, matchedUserId: string): Promise<Match> {
     const newMatch = new Match();
 
     if (user.gender === 'Male') {
@@ -126,132 +124,91 @@ export class MatchMakingService {
       newMatch.maleUserId = matchedUserId;
     }
 
-    // await this.paymentService.consumeMatch(user.id);
-    const match = await this.matchRepository.save(newMatch);
+    await this.paymentService.consumeMatch(user.id);
 
-    await this.userService.userRepository.update(user.id, {
-      isMatched: true,
-    });
-    await this.userService.userRepository.update(matchedUserId, {
-      isMatched: true,
-    });
-
-    await this.matchPoolRepository.delete([matchedUserId, user.id]);
+    const match = await this.getRepository(Match).save(newMatch);
+    await this.getRepository(MatchPool).delete([matchedUserId, user.id]);
+    await this.inviteToNextStage(match.id, user);
 
     return match;
   }
 
-  chooseMatch(matches, filters, fuzzyThreshold) {
-    const validMatches = matches.filter((match) => {
-      return this.calculateMatchScore(match, filters) >= fuzzyThreshold;
+  async matchUser(user: User, tolerance: number = 0): Promise<Match | null> {
+    const candidates = await this.loadCandidates(user);
+
+    const matchmaker = new Matchmaker(await this.loadFullUserData(user));
+
+    const score = matchmaker.score(candidates);
+
+    const qualifiedCandidates = score.filter((match) => {
+      if (tolerance === 0) {
+        return match.score === 1;
+      } else {
+        return 1 - match.score >= tolerance;
+      }
     });
 
-    if (validMatches.length === 0) {
+    if (qualifiedCandidates.length === 0) {
+      await this.addToMatchingPool(user);
       return null;
     }
 
-    const randomIndex = Math.floor(Math.random() * validMatches.length);
-    return validMatches[randomIndex].userId;
-  }
+    const randomIndex = Math.floor(Math.random() * qualifiedCandidates.length);
+    const matchedUserId = qualifiedCandidates[randomIndex].user.id;
 
-  calculateMatchScore(match, filters) {
-    let penalty = 0;
-    for (const key of Object.keys(filters)) {
-      if (match[key] !== filters[key]) {
-        penalty++;
-      }
-    }
-    return 1 - penalty / Object.keys(match).length;
+    return await this.assignMatch(user, matchedUserId);
   }
 
   async createUserPreference(id: string): Promise<Preference> {
     const p = new Preference();
     p.userId = id;
 
-    return await this.preferenceRepository.save(p);
+    return await this.getRepository(Preference).save(p);
   }
 
   async updateUserPreference(
     id: string,
     data: UpdatePreferenceDto,
   ): Promise<Preference> {
-    return await this.preferenceRepository.save({ userId: id, ...data });
+    return await this.getRepository(Preference).save({ userId: id, ...data });
   }
 
   async addToMatchingPool(user: User) {
-    return await this.matchPoolRepository.save({ ...user, userId: user.id });
+    return await this.getRepository(MatchPool).save({
+      ...user,
+      userId: user.id,
+    });
   }
 
-  async createMatch(user: User) {
-    const potentialMatches = await this.filterUsersByPreference(user);
-    const previousMatches = await this.getMyMatches(user.id);
-    const previousMatchIds = previousMatches.map((match) => match.femaleUserId);
-
-    for (const match of previousMatches) {
-      if (match.isActive) {
-        throw new ConflictException('You already have an active match');
-      }
-    }
-
-    if (potentialMatches.length === 0) {
-      throw new NotFoundException('No potential matches found');
-    }
-
-    for (const matchedUser of potentialMatches) {
-      if (previousMatchIds.includes(matchedUser.id)) {
-        continue;
-      }
-
-      const newMatch = new Match();
-      newMatch.maleUserId = user.id;
-      newMatch.femaleUserId = matchedUser.id;
-
-      await this.paymentService.consumeMatch(user.id);
-
-      const match = await this.matchRepository.save(newMatch);
-
-      await this.userService.userRepository.update(user.id, {
-        isMatched: true,
-      });
-      await this.userService.userRepository.update(matchedUser.id, {
-        isMatched: true,
-      });
-
-      return match;
-    }
-
-    throw new NotFoundException('No potential matches found');
-  }
-
-  async getCurrentMatches(): Promise<Match[]> {
-    return await this.matchRepository.find({ where: { isActive: true } });
+  async getActiveMatches(): Promise<Match[]> {
+    return await this.getRepository(Match).find({ where: { isActive: true } });
   }
 
   async getAllMatches(): Promise<Match[]> {
-    return await this.matchRepository.find({
+    return await this.getRepository(Match).find({
       relations: ['maleUser', 'femaleUser', 'invitations'],
     });
   }
 
   async getPreviousMatches(): Promise<Match[]> {
-    return await this.matchRepository.find({ where: { isActive: false } });
+    return await this.getRepository(Match).find({ where: { isActive: false } });
   }
 
   async getUsersInMatchPool(): Promise<MatchPool[]> {
-    return await this.matchPoolRepository.find({
+    return await this.getRepository(MatchPool).find({
       relations: ['user'],
     });
   }
 
-  async getMyMatches(userId: string): Promise<Match[]> {
-    return await this.matchRepository.find({
+  async getUserMatches(userId: string): Promise<Match[]> {
+    return await this.getRepository(Match).find({
       where: [{ maleUserId: userId }, { femaleUserId: userId }],
       relations: ['maleUser', 'femaleUser', 'invitations'],
     });
   }
 
-  async getCurrentMatch(userId: string): Promise<Match> {
-    const matches = await this.getMyMatches(userId);
+  async getActiveMatch(userId: string): Promise<Match> {
+    const matches = await this.getUserMatches(userId);
 
     for (const match of matches) {
       if (match.isActive) {
@@ -263,7 +220,7 @@ export class MatchMakingService {
   }
 
   async getMatch(matchId: string): Promise<Match> {
-    const match = await this.matchRepository.findOne({
+    const match = await this.getRepository(Match).findOne({
       where: { id: matchId },
       relations: ['maleUser', 'femaleUser', 'invitations'],
     });
@@ -278,6 +235,7 @@ export class MatchMakingService {
   async inviteToNextStage(matchId: string, user: User) {
     const match = await this.getMatch(matchId);
 
+    // Rule 1: Match must be active
     if (!match.isActive) {
       throw new BadRequestException(
         'You are no longer matched with this user.',
@@ -288,65 +246,88 @@ export class MatchMakingService {
       throw new ForbiddenException();
     }
 
-    const now = new Date();
-    const lastInvitationTime = match.lastInvitationAcceptedAt;
+    // Rule 2: There must be no pending invitation
+    const pendingInvite = match.invitations.filter(
+      (invitation) =>
+        invitation.status === InvitationToMatchStageStatus.PENDING,
+    );
 
-    const diffInMs = now.getTime() - new Date(lastInvitationTime).getTime();
-    const diffInMinutes = diffInMs / (1000 * 60);
-
-    if (diffInMinutes < 3) {
-      throw new BadRequestException(
-        'Please wait at least 3 minutes before inviting the user to next stage.',
-      );
-    }
-
-    if (match.stage === MatchStage.FAMILY_INTRODUCTION) {
-      throw new BadRequestException('You are already at the last stage');
-    }
-
-    const pendingInvite = await this.stageInvitationRepository.findOne({
-      where: {
-        matchId,
-        status: StageInvitationStatus.PENDING,
-      },
-    });
-
-    if (pendingInvite) {
+    if (pendingInvite.length > 0) {
       throw new BadRequestException(
         'You have already invited your match to the next stage.',
       );
     }
 
-    const invitation = this.stageInvitationRepository.create({
+    // Rule 3: User must wait at least 3 minutes before inviting the user to next stage
+    const sortedInvitations = match.invitations
+      .filter(
+        (invitation) =>
+          invitation.status === InvitationToMatchStageStatus.ACCEPTED,
+      )
+      .sort((a, b) => {
+        return (
+          new Date(b.acceptedOrRejectedAt).getTime() -
+          new Date(a.acceptedOrRejectedAt).getTime()
+        );
+      });
+
+    const lastAcceptedInvitation = sortedInvitations[0];
+
+    if (lastAcceptedInvitation) {
+      const now = new Date();
+      const lastInvitationTime = lastAcceptedInvitation.acceptedOrRejectedAt;
+      const diffInMs = now.getTime() - new Date(lastInvitationTime).getTime();
+      const diffInMinutes = diffInMs / (1000 * 60);
+
+      if (diffInMinutes < 3) {
+        throw new BadRequestException(
+          'Please wait at least 3 minutes before inviting the user to next stage.',
+        );
+      }
+    }
+
+    // Rule 4: User not must be at the last stage
+    if (match.stage === MatchStage.FAMILY_INTRODUCTION) {
+      throw new BadRequestException('You are already at the last stage');
+    }
+
+    const invitationRepo = this.getRepository(InvitationToMatchStage);
+
+    const invitation = invitationRepo.create({
       inviterId: user.id,
-      matchId: match.id,
+      matchId: matchId,
     });
 
-    return await this.stageInvitationRepository.save(invitation);
+    return await invitationRepo.save(invitation);
   }
 
   async acceptOrRejectMatchStageInvitation(
     invitationId: string,
     user: User,
-    action: StageInvitationStatus,
+    action: InvitationToMatchStageStatus,
   ) {
-    const invitation = await this.stageInvitationRepository.findOne({
-      where: { id: invitationId },
-      relations: ['match'],
-    });
+    const invitation = await this.getRepository(InvitationToMatchStage).findOne(
+      {
+        where: { id: invitationId },
+        relations: ['match'],
+      },
+    );
 
     if (!invitation) {
       throw new NotFoundException();
     }
 
-    if (invitation.status !== StageInvitationStatus.PENDING) {
+    // Rule 1: Invitation must be pending
+    if (invitation.status !== InvitationToMatchStageStatus.PENDING) {
       throw new BadRequestException('Invitation has expired');
     }
 
+    // Rule 2: Inviter can't accept/reject invitation
     if (invitation.inviterId === user.id) {
       throw new BadRequestException("Inviter can't accept/reject invitation");
     }
 
+    // Rule 3: User must be part of the match
     if (
       invitation.match.femaleUserId !== user.id &&
       invitation.match.maleUserId !== user.id
@@ -354,12 +335,30 @@ export class MatchMakingService {
       throw new ForbiddenException();
     }
 
+    // Rule 4: User can't accept/reject invitation if match is inactive
+    if (!invitation.match.isActive) {
+      throw new BadRequestException('Match is already inactive');
+    }
+
+    // Rule 5: Invitation will expire in 24 hrs
     const now = new Date();
+    const diffInMs = now.getTime() - invitation.sentAt.getTime();
+    const diffInHrs = diffInMs / (1000 * 60 * 60);
+
+    if (diffInHrs > 24) {
+      await this.getRepository(InvitationToMatchStage).update(invitation.id, {
+        status: InvitationToMatchStageStatus.EXPIRED,
+      });
+
+      return {
+        result: 'Invitation has expired',
+      };
+    }
+
     switch (action) {
-      case StageInvitationStatus.ACCEPTED:
-        invitation.status = StageInvitationStatus.ACCEPTED;
+      case InvitationToMatchStageStatus.ACCEPTED:
+        invitation.status = InvitationToMatchStageStatus.ACCEPTED;
         invitation.acceptedOrRejectedAt = now;
-        invitation.match.lastInvitationAcceptedAt = now;
 
         let nextStage;
         switch (invitation.match.stage) {
@@ -381,13 +380,12 @@ export class MatchMakingService {
             throw new BadRequestException('Invalid match stage');
         }
         invitation.match.stage = nextStage;
-        await this.matchRepository.save(invitation.match);
-        await this.stageInvitationRepository.save(invitation);
+        await this.getRepository(Match).save(invitation.match);
+        await this.getRepository(InvitationToMatchStage).save(invitation);
         break;
-      case StageInvitationStatus.REJECTED:
-        invitation.status = StageInvitationStatus.REJECTED;
+      case InvitationToMatchStageStatus.REJECTED:
+        invitation.status = InvitationToMatchStageStatus.REJECTED;
         invitation.acceptedOrRejectedAt = now;
-        await this.stageInvitationRepository.save(invitation);
         break;
       default:
         throw new BadRequestException('Unknown action');
@@ -403,153 +401,14 @@ export class MatchMakingService {
 
     match.isActive = false;
 
-    await this.userService.userRepository.update(match.maleUserId, {
-      isMatched: false,
-    });
-    await this.userService.userRepository.update(match.femaleUserId, {
-      isMatched: false,
-    });
-
-    return await this.matchRepository.save(match);
+    return await this.getRepository(Match).save(match);
   }
 
   async unmatchByUserId(userId: string) {
-    const match = await this.getCurrentMatch(userId);
+    const match = await this.getActiveMatch(userId);
 
     match.isActive = false;
 
-    await this.userService.userRepository.update(match.maleUserId, {
-      isMatched: false,
-    });
-    await this.userService.userRepository.update(match.femaleUserId, {
-      isMatched: false,
-    });
-
-    return await this.matchRepository.save(match);
-  }
-
-  async filterUsersByPreference(origUser: User) {
-    const preference = await this.getUserPreference(origUser.id);
-
-    const users = await this.userService.findAll();
-    const matches: any[] = [];
-
-    for (const user of users) {
-      if (user.id === origUser.id || user.gender === origUser.gender) {
-        continue;
-      }
-
-      if (preference.minAge) {
-        if (user.age < preference.minAge) {
-          continue;
-        }
-      }
-
-      if (preference.maxAge) {
-        if (user.age > preference.maxAge) {
-          continue;
-        }
-      }
-
-      if (preference.minHeight) {
-        if (user.height < preference.minHeight) {
-          continue;
-        }
-      }
-
-      if (preference.maxHeight) {
-        if (user.height > preference.maxHeight) {
-          continue;
-        }
-      }
-
-      if (preference.minWeight) {
-        if (user.weight < preference.minWeight) {
-          continue;
-        }
-      }
-
-      if (preference.maxWeight) {
-        if (user.weight > preference.maxWeight) {
-          continue;
-        }
-      }
-
-      if (preference.nationality) {
-        if (user.nationality !== preference.nationality) {
-          continue;
-        }
-      }
-
-      if (preference.language && user.languages) {
-        if (!user.languages.includes(preference.language)) {
-          continue;
-        }
-      }
-
-      if (preference.countryOfOrigin) {
-        if (user.countryOfOrigin !== preference.countryOfOrigin) {
-          continue;
-        }
-      }
-
-      if (preference.martialStatus) {
-        if (user.maritalStatus !== preference.martialStatus) {
-          continue;
-        }
-      }
-
-      if (preference.salat) {
-        if (user.salat !== preference.salat) {
-          continue;
-        }
-      }
-
-      if (preference.bornOrRevert) {
-        if (user.bornOrRevertToIslam !== preference.bornOrRevert) {
-          continue;
-        }
-      }
-
-      if (preference.hijab) {
-        if (user.hijab !== preference.hijab) {
-          continue;
-        }
-      }
-
-      if (preference.education) {
-        if (user.education !== preference.education) {
-          continue;
-        }
-      }
-
-      if (preference.profession) {
-        if (user.profession !== preference.profession) {
-          continue;
-        }
-      }
-
-      if (preference.drinking != null || preference.drinking != undefined) {
-        if (user.drinks !== preference.drinking) {
-          continue;
-        }
-      }
-
-      if (preference.smoking != null || preference.smoking != undefined) {
-        if (user.smokes !== preference.smoking) {
-          continue;
-        }
-      }
-
-      if (preference.tattoos != null || preference.tattoos != undefined) {
-        if (user.tattoos !== preference.tattoos) {
-          continue;
-        }
-      }
-
-      matches.push(user);
-    }
-
-    return matches;
+    return await this.getRepository(Match).save(match);
   }
 }

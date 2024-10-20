@@ -38,7 +38,7 @@ export class Preference {
   language: string;
 
   @Column({ nullable: true })
-  countryOfOrigin: string;
+  country: string;
 
   @Column({ nullable: true })
   martialStatus: string;

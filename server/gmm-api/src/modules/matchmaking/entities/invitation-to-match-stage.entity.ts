@@ -1,4 +1,3 @@
-import { User } from '@modules/user/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,15 +7,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Match } from './match.entity';
-
-export enum StageInvitationStatus {
-  PENDING = 'PENDING',
-  ACCEPTED = 'ACCEPTED',
-  REJECTED = 'REJECTED',
-}
+import { InvitationToMatchStageStatus } from '../enums/matchmaking.enum';
 
 @Entity()
-export class StageInvitation {
+export class InvitationToMatchStage {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -35,10 +29,10 @@ export class StageInvitation {
 
   @Column({
     type: 'enum',
-    enum: StageInvitationStatus,
-    default: StageInvitationStatus.PENDING,
+    enum: InvitationToMatchStageStatus,
+    default: InvitationToMatchStageStatus.PENDING,
   })
-  status: StageInvitationStatus;
+  status: InvitationToMatchStageStatus;
 
   @Column({
     type: 'timestamp with time zone',

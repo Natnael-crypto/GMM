@@ -50,7 +50,7 @@ export class UpdatePreferenceDto {
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  countryOfOrigin?: string;
+  country?: string;
 
   @ApiProperty({ example: 'string' })
   @IsString()

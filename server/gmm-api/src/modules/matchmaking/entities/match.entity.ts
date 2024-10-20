@@ -8,15 +8,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { StageInvitation } from './match-invitation.entity';
-
-export enum MatchStage {
-  BASIC_INFORMATION = 'BASIC_INFORMATION',
-  WORLDLY_LIFESTYLE = 'WORLDLY_LIFESTYLE',
-  ISLAMIC_LIFESTYLE = 'ISLAMIC_LIFESTYLE',
-  MARRIAGE_DISCUSSION = 'MARRIAGE_DISCUSSION',
-  FAMILY_INTRODUCTION = 'FAMILY_INTRODUCTION',
-}
+import { InvitationToMatchStage } from './invitation-to-match-stage.entity';
+import { MatchStage } from '../enums/matchmaking.enum';
 
 @Entity()
 export class Match {
@@ -49,17 +42,11 @@ export class Match {
   })
   stage: MatchStage;
 
-  @OneToMany(() => StageInvitation, (invitation) => invitation.match, {
+  @OneToMany(() => InvitationToMatchStage, (invitation) => invitation.match, {
     onDelete: 'CASCADE',
   })
-  invitations: StageInvitation[];
+  invitations: InvitationToMatchStage[];
 
   @CreateDateColumn()
   createdAt: Date;
-
-  @Column({
-    type: 'timestamp with time zone',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  lastInvitationAcceptedAt: Date;
 }
