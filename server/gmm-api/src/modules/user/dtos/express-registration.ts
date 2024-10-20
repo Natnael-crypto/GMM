@@ -6,7 +6,9 @@ import {
   IsInt,
   IsArray,
   IsNumber,
+  IsEnum,
 } from 'class-validator';
+import { Gender } from '../enums/user.enum';
 
 export class ExpressRegistrationDto {
   @ApiProperty()
@@ -30,8 +32,8 @@ export class ExpressRegistrationDto {
   age: number;
 
   @ApiProperty()
-  @IsString()
-  gender: string;
+  @IsEnum(Gender)
+  gender: Gender;
 
   @ApiProperty()
   @IsNumber()
@@ -122,7 +124,7 @@ export class ExpressRegistrationDto {
   @ApiProperty()
   @IsString()
   guardianFirstName: string;
-  
+
   @ApiProperty()
   @IsString()
   guardianLastName: string;
