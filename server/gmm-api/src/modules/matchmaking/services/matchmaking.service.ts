@@ -128,7 +128,6 @@ export class MatchMakingService extends BaseRepository {
 
     const match = await this.getRepository(Match).save(newMatch);
     await this.getRepository(MatchPool).delete([matchedUserId, user.id]);
-    await this.inviteToNextStage(match.id, user);
 
     return match;
   }
@@ -317,6 +316,8 @@ export class MatchMakingService extends BaseRepository {
       throw new NotFoundException();
     }
 
+    // TOOD: Refactor rules later
+
     // Rule 1: Invitation must be pending
     if (invitation.status !== InvitationToMatchStageStatus.PENDING) {
       throw new BadRequestException('Invitation has expired');
@@ -380,12 +381,14 @@ export class MatchMakingService extends BaseRepository {
             throw new BadRequestException('Invalid match stage');
         }
         invitation.match.stage = nextStage;
+
         await this.getRepository(Match).save(invitation.match);
         await this.getRepository(InvitationToMatchStage).save(invitation);
         break;
       case InvitationToMatchStageStatus.REJECTED:
         invitation.status = InvitationToMatchStageStatus.REJECTED;
         invitation.acceptedOrRejectedAt = now;
+        await this.getRepository(InvitationToMatchStage).save(invitation);
         break;
       default:
         throw new BadRequestException('Unknown action');

@@ -23,7 +23,7 @@ export class InvitationToMatchStage {
   @Column({ type: 'uuid' })
   matchId: string;
 
-  @ManyToOne(() => Match, (match) => match.invitations)
+  @ManyToOne(() => Match, (match) => match.invitations, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'matchId' })
   match: Match;
 

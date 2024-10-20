@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -44,15 +45,15 @@ export class MatchMakingController {
         preference,
       );
 
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'User preference updated successfully',
         data: pref,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      return {
         message: 'Failed to update user preference',
         error: error.message,
-      });
+      };
     }
   }
 
@@ -85,85 +86,101 @@ export class MatchMakingController {
   async inviteToNextStage(
     @Param('id') id: string,
     @Req() request: Request & { user: User },
-    @Res() response: Response,
   ) {
     try {
       const match = await this.matchmakingService.inviteToNextStage(
         id,
         request.user,
       );
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'You have invited your match to next stage',
         data: match,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      return {
         message: error.message,
-      });
+      };
     }
   }
 
   @Get()
-  async getUserMatches(@Req() req: Request, @Res() response: Response) {
+  async getUserMatches(@Req() req: Request) {
     try {
       const matches = await this.matchmakingService.getUserMatches(
         (req.user as User).id,
       );
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'Matches fetched successfully',
         data: matches,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      return {
         message: 'Failed to fetch matches',
         error: error.message,
-      });
+      };
     }
   }
 
   @Get('current-match')
-  async getMyActiveMatch(@Req() req: Request, @Res() response: Response) {
+  async getMyActiveMatch(@Req() req: Request) {
     try {
       const match = await this.matchmakingService.getActiveMatch(
         (req.user as User).id,
       );
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'Current match fetched successfully',
         data: match,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      return {
         message: 'Failed to fetch current match',
         error: error.message,
-      });
+      };
+    }
+  }
+
+  @Delete('current-match')
+  async unmatch(@Req() req: Request) {
+    try {
+      const match = await this.matchmakingService.unmatchByUserId(
+        (req.user as User).id,
+      );
+      return {
+        message: 'Successfully unmatched',
+        data: match,
+      };
+    } catch (error) {
+      return {
+        message: 'Failed to unmatch',
+        error: error.message,
+      };
     }
   }
 
   @Get('matches/:id')
-  async getMatch(@Param('id') id: string, @Res() response: Response, g) {
+  async getMatch(@Param('id') id: string) {
     try {
       const match = await this.matchmakingService.getMatch(id);
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'Match fetched successfully',
         data: match,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      return {
         message: 'Failed to fetch match',
         error: error.message,
-      });
+      };
     }
   }
 
   @ApiBody({
     type: AcceptOrRejectInvitationDto,
   })
-  @Put('matches/:id/invitations')
+  @Put('matches/invitations/:id')
   async acceptOrRejectInvitation(
     @Param('id') id: string,
     @Body() dto: AcceptOrRejectInvitationDto,
     @Req() request: Request & { user: User },
-    @Res() response: Response,
   ) {
     try {
       const match =
@@ -172,14 +189,14 @@ export class MatchMakingController {
           request.user,
           dto.action,
         );
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'You have invited your match to next stage',
         data: match,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      return {
         message: error.message,
-      });
+      };
     }
   }
 
@@ -189,15 +206,15 @@ export class MatchMakingController {
   async getAllMatches(@Res() response: Response) {
     try {
       const matches = await this.matchmakingService.getAllMatches();
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'Matches fetched successfully',
         data: matches,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      return {
         message: 'Failed to fetch matches',
         error: error.message,
-      });
+      };
     }
   }
 
@@ -205,15 +222,15 @@ export class MatchMakingController {
   async getActiveMatches(@Res() response: Response) {
     try {
       const matches = await this.matchmakingService.getActiveMatches();
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'Current Matches fetched successfully',
         data: matches,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      return {
         message: 'Failed to fetch matches',
         error: error.message,
-      });
+      };
     }
   }
 
@@ -221,15 +238,15 @@ export class MatchMakingController {
   async getUsersInMatchPool(@Res() response: Response) {
     try {
       const matches = await this.matchmakingService.getUsersInMatchPool();
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'Users in match pool fetched successfully',
         data: matches,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      return {
         message: 'Failed to fetch users in the match pool',
         error: error.message,
-      });
+      };
     }
   }
 }
