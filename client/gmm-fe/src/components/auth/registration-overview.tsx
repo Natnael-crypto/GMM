@@ -12,19 +12,19 @@ export default function RegistrationOverview() {
   const t = useTranslations('Auth');
 
   return (
-    <div>
+    <div className="w-full">
       <div className="text-center md:text-start lg:text-primary-foreground mt-8">
-        <h1 className="text-2xl md:text-3xl lg:text-4xl">
+        <h1 className="text-2xl md:text-3xl">
           {t.rich('common.title', {
             bold: (text) => <span className="font-bold">{text}</span>,
           })}
         </h1>
-        <h2 className="my-2 text-xl md:text-2xl lg:text-3xl font-">
+        <h2 className="my-2 text-xl md:text-2xl font-">
           {t('common.subtitle')}
         </h2>
       </div>
 
-      <div className="mt-20 overflow-auto no-scrollbar">
+      <div className="md:mt-20 overflow-auto no-scrollbar">
         <div className="grid md:grid-cols-3 lg:grid-cols-2 text-center">
           <HoverCard>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">

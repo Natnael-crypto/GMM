@@ -61,10 +61,6 @@
     justify-content: space-evenly;
   }
 
-  .col-count-\[3\] {
-    column-count: 3;
-  }
-
   .grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -75,15 +71,19 @@
 
   .h-\[65vh\] {
     height: 65vh
-}
+  }
 
-.h-\[55vh\] {
-  height: 55vh
-}
+  .h-\[55vh\] {
+    height: 55vh
+  }
 
-.hover-disabled {
-  pointer-events: none;
-}
+  .lg\:mt-8{
+    margin-top:2rem
+  }
+
+  .hover-disabled {
+    pointer-events: none;
+  }
 
   .dark {
     /* --background: 222.2 84% 4.9%; */
