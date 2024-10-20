@@ -65,6 +65,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .xl\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .xl\:h-\[15rem\] {
     height: 15rem;
   } 
@@ -89,7 +93,7 @@
     pointer-events: none;
   }
 
-  .gmm-icon {
+  .gmm-icon img{
     max-height: 70px;
     width: 100%;
     height: auto;

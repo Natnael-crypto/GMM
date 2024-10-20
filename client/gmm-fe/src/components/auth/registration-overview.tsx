@@ -25,7 +25,7 @@ export default function RegistrationOverview() {
       </div>
 
       <div className="md:mt-20 overflow-auto no-scrollbar">
-        <div className="grid md:grid-cols-3 lg:grid-cols-2 text-center">
+        <div className="grid md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 text-center">
           <HoverCard>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
