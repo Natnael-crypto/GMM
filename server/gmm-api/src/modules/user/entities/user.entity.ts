@@ -162,7 +162,7 @@ export class User {
   @Column({
     type: 'enum',
     enum: AccountStatus,
-    default: AccountStatus.PENDING,
+    default: AccountStatus.INCOMPLETE_REGISTRATION,
   })
   accountStatus: AccountStatus;
 

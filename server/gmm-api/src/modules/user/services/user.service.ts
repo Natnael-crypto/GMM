@@ -133,7 +133,10 @@ export class UserService extends BaseRepository {
     updatedUser.accountStatus = AccountStatus.PENDING;
 
     return await Promise.all([
-      this.getRepository(User).save(updatedUser),
+      this.getRepository(User).save({
+        ...updatedUser,
+        accountStatus: AccountStatus.PENDING,
+      }),
 
       this.updateFamilyIntroduction(userId, {
         guardianEmail: dto.guardianEmail,
