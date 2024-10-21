@@ -33,7 +33,7 @@ export default function MatchMeCard() {
         <p className="lg:text-lg text-center">Potential Matches</p>
       </div>
       <Button
-        className="text-sm font-semibold hover:bg-background hover:text-secondary w-full bg-background text-secondary truncate"
+        className="text-sm font-semibold hover:bg-background hover:text-secondary w-full bg-background text-secondary truncate cta"
         onClick={onSave}
         disabled={isSaving}
       >

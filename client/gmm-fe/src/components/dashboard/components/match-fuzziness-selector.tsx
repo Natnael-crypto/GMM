@@ -26,7 +26,7 @@ export default function MatchFuzzinessSelector() {
     <div className="flex flex-col gap-2 max-w-48">
       <Button
         className={cn(
-          'text-xs w-full h-8 hover:bg-primary',
+          'text-xs w-full h-8 hover:bg-primary cta',
           fuzzyMatchThreshold === 0.1 ? 'bg-primary' : ''
         )}
         variant="secondary"
@@ -36,7 +36,7 @@ export default function MatchFuzzinessSelector() {
       </Button>
       <Button
         className={cn(
-          'text-xs w-full h-8 hover:bg-primary',
+          'text-xs w-full h-8 hover:bg-primary cta',
           fuzzyMatchThreshold === 0.2 ? 'bg-primary' : ''
         )}
         variant="secondary"

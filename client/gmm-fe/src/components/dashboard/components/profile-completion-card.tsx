@@ -121,7 +121,7 @@ export default function ProfileCompletionCard() {
             href={`/dashboard/profile/${user.id}/basic-information/edit`}
             className={cn(
               buttonVariants({ variant: 'outline' }),
-              'rounded-full h-8 text-secondary'
+              'rounded-full h-8 text-secondary cta'
             )}
           >
             Edit Profile
@@ -131,7 +131,7 @@ export default function ProfileCompletionCard() {
           href={`/dashboard/profile/${user?.id}/basic-information`}
           className={cn(
             buttonVariants({ variant: 'outline' }),
-            'rounded-full h-8 text-secondary'
+            'rounded-full h-8 text-secondary cta'
           )}
         >
           View Profile

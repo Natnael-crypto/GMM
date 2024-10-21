@@ -34,7 +34,7 @@ export default function NoMatchCard() {
         <div className="flex justify-center">
           {user && <Link
             href={`/dashboard/profile/${user.id}/basic-information/edit`}
-            className={cn(buttonVariants({ variant: 'outline' }), "rounded-full text-xs text-primary-foreground bg-primary font-bold h-6")}
+            className={cn(buttonVariants({ variant: 'outline' }), "rounded-full text-xs text-primary-foreground bg-primary font-bold h-6 cta")}
           >
             Click Here To Edit Your Profile
           </Link>}
