@@ -58,3 +58,8 @@ export function poundsToKg(pounds: number) {
 
   return `${kg.toFixed(2)} kg`;
 }
+
+export const getEighteenYearsAgo = () => {
+  const today = new Date();
+  return new Date(today.setFullYear(today.getFullYear() - 18));
+};

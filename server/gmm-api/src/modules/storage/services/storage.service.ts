@@ -12,20 +12,29 @@ import {
   UnsupportedFileTypeException,
 } from './exceptions';
 import { PresignedUploadUrlDto } from '../dtos/presigned-upload-url.dto';
+import { AwsConfig } from '@shared/config';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class StorageService {
-  constructor(private readonly s3: S3Client) {}
+  private awsConfig: AwsConfig;
+
+  constructor(
+    private readonly s3: S3Client,
+    configService: ConfigService,
+  ) {
+    this.awsConfig = configService.get<AwsConfig>('aws')!;
+  }
 
   async generatePresignedDownloadUrl(fileId: string) {
     const command = new GetObjectCommand({
-      Bucket: process.env.AWS_BUCKET_NAME!,
+      Bucket: this.awsConfig.s3.bucketName,
       Key: fileId,
     });
 
     try {
       const signedUrl = await getSignedUrl(this.s3, command, {
-        expiresIn: +process.env.PRESIGNED_URL_EXPIRATION!,
+        expiresIn: this.awsConfig.s3.presignedUrlTTL,
       });
       return signedUrl;
     } catch (e) {
@@ -42,14 +51,14 @@ export class StorageService {
     const normalizedFileName = `${randomUUID()}${ext}`;
 
     const command = new PutObjectCommand({
-      Bucket: process.env.AWS_BUCKET_NAME!,
+      Bucket: this.awsConfig.s3.bucketName,
       Key: normalizedFileName,
       ContentType: file.type,
       ContentLength: file.size,
     });
 
     const url = await getSignedUrl(this.s3, command, {
-      expiresIn: +process.env.PRESIGNED_URL_EXPIRATION!,
+      expiresIn: this.awsConfig.s3.presignedUrlTTL,
       signingDate: new Date(),
     });
 

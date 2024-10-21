@@ -1,16 +1,21 @@
-import { auth } from "@/lib/auth/utils"
-import { redirect } from "@/lib/navigation"
+import { auth } from '@/lib/auth/utils';
+import { redirect } from '@/lib/navigation';
+import { AccountStatus } from '@/lib/schemas/user';
 
 export default async function DashboardGuard({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    const session = await auth()
+  const session = await auth();
 
-    if (session && session.user && !session.user.registered) {
-        return redirect('/registration')
-    }
+  if (
+    session &&
+    session.user &&
+    session.user.accountStatus === AccountStatus.INCOMPLETE_REGISTRATION
+  ) {
+    return redirect('/registration');
+  }
 
-    return children
+  return children;
 }

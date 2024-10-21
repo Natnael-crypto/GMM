@@ -2,21 +2,29 @@ import { Module } from '@nestjs/common';
 import { S3Client } from '@aws-sdk/client-s3';
 import { StorageController } from './controllers/storage.controller';
 import { StorageService } from './services/storage.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AwsConfig } from '@shared/config';
 
 @Module({
+  imports: [ConfigModule],
+
   providers: [
     {
       provide: S3Client,
-      useFactory: () => {
+      useFactory: async (configService: ConfigService) => {
+        const { accessKeyId, secretAccessKey, region } =
+          configService.get<AwsConfig>('aws')!;
+
         return new S3Client({
           credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+            accessKeyId: accessKeyId,
+            secretAccessKey: secretAccessKey,
           },
-          region: process.env.AWS_REGION,
+          region: region,
           forcePathStyle: true,
         });
       },
+      inject: [ConfigService],
     },
 
     StorageService,

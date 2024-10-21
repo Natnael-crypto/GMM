@@ -43,6 +43,7 @@ import {
   FilteringParams,
 } from '@shared/decorators/filter.decorator';
 import { ExpressRegistrationDto } from '../dtos/express-registration';
+import { UpdateUserDto } from '../dtos/update-user.dto';
 
 @ApiTags('User')
 @ApiBearerAuth()
@@ -58,12 +59,14 @@ export class UserController {
     if (!req.user || !req.user.id) {
       throw new UnauthorizedException('Invalid user');
     }
+
     const userId = req.user.id;
     const user = await this.userService.getUserById(userId);
+    const isMatched = await this.userService.isUserMatched(userId);
 
     return {
       message: 'User retrieved successfully',
-      data: user,
+      data: { ...user, isMatched },
     };
   }
 
@@ -170,7 +173,7 @@ export class UserController {
     new PermissionGuard(['user:write'], (req) => req.user.id === req.params.id),
   )
   @Put(':id')
-  async updateUser(@Param('id') id: string, @Body() userDto: Partial<UserDto>) {
+  async updateUser(@Param('id') id: string, @Body() userDto: UpdateUserDto) {
     const user = await this.userRepository.findOne({ where: { id } });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
@@ -184,10 +187,6 @@ export class UserController {
       if (emailExists && emailExists.id !== id) {
         throw new UnauthorizedException('Email already exists');
       }
-    }
-
-    if (userDto.password) {
-      userDto.password = await bcrypt.hash(userDto.password, 10);
     }
 
     this.userRepository.merge(user, userDto);

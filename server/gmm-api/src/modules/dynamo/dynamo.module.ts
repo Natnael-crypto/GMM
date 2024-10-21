@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AwsConfig } from '@shared/config';
 import * as dynamoose from 'dynamoose';
 
 @Module({
@@ -8,13 +9,13 @@ import * as dynamoose from 'dynamoose';
     {
       provide: 'DYNAMOOSE',
       useFactory: (configService: ConfigService) => {
-        
-        const accessKeyId = configService.get<string>('AWS_ACCESS_KEY_ID');
-        const secretAccessKey = configService.get<string>('AWS_SECRET_ACCESS_KEY');
-        const region = configService.get<string>('AWS_REGION');
+        const { accessKeyId, secretAccessKey, region } =
+          configService.get<AwsConfig>('aws')!;
 
         if (!accessKeyId || !secretAccessKey || !region) {
-          throw new Error('Missing necessary AWS configuration in environment variables.');
+          throw new Error(
+            'Missing necessary AWS configuration in environment variables.',
+          );
         }
 
         const dynamoDBClient = new dynamoose.aws.ddb.DynamoDB({

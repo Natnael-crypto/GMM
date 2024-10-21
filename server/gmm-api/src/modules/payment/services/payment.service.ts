@@ -1,35 +1,37 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, Scope } from '@nestjs/common';
 import Stripe from 'stripe';
 
 import { ConfigService } from '@nestjs/config';
 import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
 import { Subscription } from '../entities/subscription.entity';
-import { In, Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { DataSource, In } from 'typeorm';
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { User } from '@modules/user/entities/user.entity';
 import { SubscriptionTiers } from '../entities/tiers';
 import { SubscriptionHistory } from '../entities/subscription-history.entity';
 import { randomUUID } from 'crypto';
 import { UserService } from '@modules/user/services/user.service';
+import { BaseRepository } from '@shared/base-repository';
+import { REQUEST } from '@nestjs/core';
+import { Request } from 'express';
+import { StripeConfig } from '@shared/config';
 
-@Injectable()
-export class PaymentsService {
+@Injectable({ scope: Scope.REQUEST })
+export class PaymentsService extends BaseRepository {
   private stripe: Stripe;
 
   constructor(
     private readonly configService: ConfigService,
-    @InjectRepository(Subscription)
-    private readonly subscriptionRepository: Repository<Subscription>,
-    @InjectRepository(SubscriptionHistory)
-    private readonly subscriptionHistoryRepository: Repository<SubscriptionHistory>,
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
     private readonly userService: UserService,
     private readonly noticeService: NoticeService,
+
+    @Inject(REQUEST) req: Request,
+    dataSource: DataSource,
   ) {
+    super(dataSource, req);
+
     this.stripe = new Stripe(
-      configService.get<string>('STRIPE_API_SECRET_KEY')!,
+      configService.get<StripeConfig>('stripe')?.apiKey!,
     );
   }
 
@@ -44,7 +46,9 @@ export class PaymentsService {
       throw new Error('Invalid plan name');
     }
 
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
     if (!user) {
       throw new Error('User not found.');
     }
@@ -56,7 +60,7 @@ export class PaymentsService {
       });
 
       user.stripeCustomerId = customer.id;
-      await this.userRepository.save(user);
+      await this.getRepository(User).save(user);
     }
 
     try {
@@ -102,11 +106,11 @@ export class PaymentsService {
     });
 
     user.stripeCustomerId = customer.id;
-    await this.userRepository.save(user);
+    await this.getRepository(User).save(user);
   }
 
   async getCurrentSubscription(userId: string): Promise<Subscription | null> {
-    const subscription = await this.subscriptionRepository.findOne({
+    const subscription = await this.getRepository(Subscription).findOne({
       where: { user: { id: userId.toString() } },
     });
     return subscription;
@@ -117,7 +121,7 @@ export class PaymentsService {
       // Retrieve the payment intent from Stripe
       const paymentIntent =
         await this.stripe.paymentIntents.retrieve(paymentIntentId);
-      console.log(paymentIntent);
+
       if (!paymentIntent || paymentIntent.status !== 'succeeded') {
         throw new Error('Payment intent is not successful.');
       }
@@ -148,15 +152,19 @@ export class PaymentsService {
       }
 
       // Find the user in your database
-      const user = await this.userRepository.findOne({ where: { id: userId } });
+      const user = await this.getRepository(User).findOne({
+        where: { id: userId },
+      });
       if (!user) {
         throw new Error('User not found.');
       }
 
       // Check if the user already has a subscription
-      let existingSubscription = await this.subscriptionRepository.findOne({
-        where: { user: { id: userId } },
-      });
+      let existingSubscription = await this.getRepository(Subscription).findOne(
+        {
+          where: { user: { id: userId } },
+        },
+      );
 
       // Update existing subscription or create a new one
       if (existingSubscription) {
@@ -166,7 +174,7 @@ export class PaymentsService {
         existingSubscription.amount = tier.amount;
         existingSubscription.remainingMatches = tier.matches;
       } else {
-        existingSubscription = this.subscriptionRepository.create({
+        existingSubscription = this.getRepository(Subscription).create({
           id: randomUUID(),
           user,
           status: paymentIntent.status,
@@ -179,7 +187,7 @@ export class PaymentsService {
 
       // Save the subscription to the repository
       const result =
-        await this.subscriptionRepository.save(existingSubscription);
+        await this.getRepository(Subscription).save(existingSubscription);
 
       // Save a record in subscription history
       await this.saveSubscriptionHistory(user, existingSubscription);
@@ -195,7 +203,7 @@ export class PaymentsService {
       if (!user) {
         throw new BadRequestException('User not found.');
       }
-      console.log(user);
+
       if (user.gender !== 'Female') {
         throw new BadRequestException(
           'Only females are eligible for free subscription.',
@@ -207,7 +215,9 @@ export class PaymentsService {
         throw new BadRequestException('Guardian not found.');
       }
 
-      const existingSubscription = await this.subscriptionRepository.findOne({
+      const existingSubscription = await this.getRepository(
+        Subscription,
+      ).findOne({
         where: { user: { id: user.id } },
       });
 
@@ -219,17 +229,17 @@ export class PaymentsService {
 
       const tier = SubscriptionTiers.free;
 
-      const subscription = this.subscriptionRepository.create({
+      const subscription = this.getRepository(Subscription).create({
         id: randomUUID(),
         user,
-        status: 'succeeded',
+        status: 'active',
         planId: tier.priceId,
         currentPeriodStart: new Date(),
         amount: tier.amount,
         remainingMatches: tier.matches,
       });
 
-      await this.subscriptionRepository.save(subscription);
+      await this.getRepository(Subscription).save(subscription);
 
       await this.saveSubscriptionHistory(user, subscription);
     } catch (error) {
@@ -238,7 +248,7 @@ export class PaymentsService {
   }
 
   async consumeMatch(userId: string): Promise<void> {
-    const subscription = await this.subscriptionRepository.findOne({
+    const subscription = await this.getRepository(Subscription).findOne({
       where: { user: { id: userId }, status: 'active' },
       relations: ['user'], // Include the user relation
     });
@@ -257,7 +267,7 @@ export class PaymentsService {
       await this.renewSubscription(subscription, userId);
     }
 
-    await this.subscriptionRepository.save(subscription);
+    await this.getRepository(Subscription).save(subscription);
   }
 
   async renewSubscription(
@@ -265,7 +275,9 @@ export class PaymentsService {
     userId: string,
   ): Promise<void> {
     const { planId } = subscription;
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new Error('User not found.');
@@ -278,7 +290,7 @@ export class PaymentsService {
       });
 
       user.stripeCustomerId = stripeCustomer.id;
-      await this.userRepository.save(user);
+      await this.getRepository(User).save(user);
     }
 
     const newStripeSubscription = await this.stripe.subscriptions.create({
@@ -294,7 +306,7 @@ export class PaymentsService {
     );
     subscription.status = newStripeSubscription.status;
 
-    await this.subscriptionRepository.save(subscription);
+    await this.getRepository(Subscription).save(subscription);
 
     await this.saveSubscriptionHistory(user, subscription);
   }
@@ -307,7 +319,9 @@ export class PaymentsService {
   }
 
   async notifyUserOfRenewal(userId: string) {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (user && user.email) {
       await this.noticeService.sendEmail(
@@ -319,13 +333,8 @@ export class PaymentsService {
   }
 
   verifyStripeWebhook(body: any, signature: string): Stripe.Event {
-    const webhookSecret = this.configService.get<string>(
-      'STRIPE_WEBHOOK_SECRET',
-    );
-
-    if (!webhookSecret) {
-      throw new Error('Missing Stripe Webhook Secret');
-    }
+    const webhookSecret =
+      this.configService.get<StripeConfig>('stripe')?.webhookSecret!;
 
     let event: Stripe.Event;
 
@@ -346,7 +355,7 @@ export class PaymentsService {
     user: User,
     subscription: Subscription,
   ): Promise<void> {
-    const subscriptionHistory = this.subscriptionHistoryRepository.create({
+    const subscriptionHistory = this.getRepository(SubscriptionHistory).create({
       user,
       status: subscription.status,
       planId: subscription.planId,
@@ -355,17 +364,21 @@ export class PaymentsService {
       remainingMatches: subscription.remainingMatches,
     });
 
-    await this.subscriptionHistoryRepository.save(subscriptionHistory);
+    await this.getRepository(SubscriptionHistory).save(subscriptionHistory);
   }
 
   async getSubscriptionHistory(userId: string): Promise<SubscriptionHistory[]> {
-    const user = await this.userRepository.findOne({ where: { id: userId } });
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
 
     if (!user) {
       throw new Error('User not found.');
     }
 
-    const subscriptionHistory = await this.subscriptionHistoryRepository.find({
+    const subscriptionHistory = await this.getRepository(
+      SubscriptionHistory,
+    ).find({
       where: { user: { id: userId } },
       order: { periodStart: 'DESC' },
     });
@@ -374,7 +387,9 @@ export class PaymentsService {
   }
 
   async getAllSubscriptionHistory(): Promise<SubscriptionHistory[]> {
-    const subscriptionHistory = await this.subscriptionHistoryRepository.find({
+    const subscriptionHistory = await this.getRepository(
+      SubscriptionHistory,
+    ).find({
       relations: ['user'],
       order: { periodStart: 'DESC' },
     });
@@ -383,7 +398,7 @@ export class PaymentsService {
   }
 
   async getRemainingMatches(userId: string): Promise<number> {
-    const subscription = await this.subscriptionRepository.findOne({
+    const subscription = await this.getRepository(Subscription).findOne({
       where: { user: { id: userId }, status: In(['active', 'succeeded']) },
     });
 

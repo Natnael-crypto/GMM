@@ -32,11 +32,20 @@ export const login = async (data: Login) => {
     return { status: 400, message: 'Unable to login' };
   }
 
-  const accessToken = res.data.accessToken;
+  const { accessToken, refreshToken } = res;
 
   cookies().set({
     name: cookieNames.accessToken,
     value: accessToken,
+    httpOnly: true,
+    sameSite: 'strict',
+    secure: true,
+    expires: new Date(Date.now() + constants.accessTokenMaxAge),
+  });
+
+  cookies().set({
+    name: cookieNames.refreshToken,
+    value: refreshToken,
     httpOnly: true,
     sameSite: 'strict',
     secure: true,

@@ -1,7 +1,9 @@
 import {
+  LoggerService,
   MiddlewareConsumer,
   Module,
   OnApplicationBootstrap,
+  RequestMethod,
 } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,9 +12,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { NoticeModule } from './modules/notice/notice.module';
-import { UserService } from './modules/user/services/user.service';
-import { LoggerMiddleware } from '@shared/utils/logger';
-import { OTPModule } from '@modules/otp/otp.module';
 import { PaymentsModule } from '@modules/payment/payment.module';
 import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { StorageModule } from '@modules/storage/storage.module';
@@ -20,40 +19,35 @@ import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
 import { ChatModule } from '@modules/chat/chat.module';
 import { ChatWebsocketGateway } from '@modules/chat/services/chat.websocket.gateway';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-
+import config, { DatabaseConfig } from '@shared/config';
+import { LoggerFactory, LoggerMiddleware } from '@shared/utils/logger';
+import { WinstonModule } from 'nest-winston';
+import { transports } from 'winston';
 
 @Module({
   imports: [
     // set the env file path from NODE_ENV
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
-    }),
+    ConfigModule.forRoot({ isGlobal: true, load: [config] }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DATABASE_HOST'),
-        port: configService.get<number>('DATABASE_PORT') || 5432,
-        username: configService.get<string>('DATABASE_USERNAME'),
-        password: configService.get<string>('DATABASE_PASSWORD'),
-        database: configService.get<string>('DATABASE_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts}'],
-        synchronize: true,
-        autoLoadEntities: true,
-      }),
+      useFactory: (configService: ConfigService) => {
+        const dbConfig = configService.get<DatabaseConfig>('database') ?? {};
+
+        return {
+          type: 'postgres',
+          ...dbConfig,
+          entities: [__dirname + '/**/*.entity{.ts}'],
+          synchronize: true,
+          autoLoadEntities: true,
+        };
+      },
       inject: [ConfigService],
     }),
     EventEmitterModule.forRoot(),
     UserModule,
     AuthModule,
-    NoticeModule.forRootAsync({
-      listsProvider: UserService,
-      listsImports: [UserModule],
-      envTransport: 'EMAIL_SMTP_CONNECTION',
-      from: 'Guardian / Wali',
-    }),
-    OTPModule,
+    NoticeModule.forRootAsync(),
     PaymentsModule,
     DynamooseModule,
     StorageModule,
@@ -67,7 +61,9 @@ export class AppModule implements OnApplicationBootstrap {
   constructor(private readonly appService: AppService) {}
 
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 
   async onApplicationBootstrap() {

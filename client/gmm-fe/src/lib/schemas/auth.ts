@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { getEighteenYearsAgo } from '../format';
 
 export const LoginSchema = z.object({
   email: z.string().email({
@@ -22,9 +23,13 @@ export const SignUpSchema = z
       message: 'Please enter a valid email address',
     }),
     gender: z.enum(['Male', 'Female']),
-    dateOfBirth: z.date({
-      required_error: 'A date of birth is required.',
-    }),
+    dateOfBirth: z
+      .date({
+        required_error: 'A date of birth is required.',
+      })
+      .refine((date) => date <= getEighteenYearsAgo(), {
+        message: 'You must be at least 18 years old.',
+      }),
     bornOrRevertToIslam: z
       .string({
         required_error: 'Please specify',

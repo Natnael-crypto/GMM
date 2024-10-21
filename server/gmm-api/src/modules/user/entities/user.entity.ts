@@ -13,21 +13,16 @@ import { Role } from '@modules/auth/entities/role.entity';
 import { Subscription } from '@modules/payment/entities/subscription.entity';
 import { SubscriptionHistory } from '@modules/payment/entities/subscription-history.entity';
 import { Exclude } from 'class-transformer';
-
-export enum AccountStatus {
-  PENDING = 'pending',
-  APPROVED = 'approved',
-  DENIED = 'denied',
-  SUSPENDED = 'suspended',
-}
+import {
+  AccountStatus,
+  AccountVerificationStatus,
+  Gender,
+} from '../enums/user.enum';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ default: false })
-  registered: boolean;
 
   @Column({ nullable: true })
   firstName: string;
@@ -45,9 +40,6 @@ export class User {
   @Exclude()
   password: string;
 
-  @Column({ default: false })
-  hasPassword: boolean;
-
   @Column({ nullable: true })
   idCardImage: string;
 
@@ -63,14 +55,11 @@ export class User {
   @Column({ nullable: true })
   country: string;
 
-  @Column({ nullable: true })
-  countryOfOrigin: string;
+  @Column({ type: 'date', nullable: true })
+  dateOfBirth: Date;
 
-  @Column({ nullable: true, type: 'int' })
-  age: number;
-
-  @Column({ nullable: true })
-  gender: string;
+  @Column({ type: 'enum', enum: Gender, nullable: true })
+  gender: Gender;
 
   @Column({ nullable: true, type: 'float' })
   height: number;
@@ -170,11 +159,19 @@ export class User {
   @JoinColumn({ name: 'roleId' })
   role: Role;
 
-  @Column({ type: 'enum', enum: AccountStatus, default: AccountStatus.PENDING })
+  @Column({
+    type: 'enum',
+    enum: AccountStatus,
+    default: AccountStatus.INCOMPLETE_REGISTRATION,
+  })
   accountStatus: AccountStatus;
 
-  @Column({ nullable: true, default: false })
-  isMatched: boolean;
+  @Column({
+    type: 'enum',
+    enum: AccountVerificationStatus,
+    default: AccountVerificationStatus.UNVERIFIED,
+  })
+  verificationStatus: AccountVerificationStatus;
 }
 
 export const userFilterableFields = [

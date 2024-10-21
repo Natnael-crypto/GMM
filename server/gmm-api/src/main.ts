@@ -1,14 +1,23 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Logger,
+  ValidationPipe,
+} from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { NoticeService } from '@modules/notice/services/notice.service';
-import { NoticeInterceptor } from '@shared/interceptors/notice.interceptor';
 import { ConfigService } from '@nestjs/config';
 import { IoAdapter } from '@nestjs/platform-socket.io';
+import { TransactionInterceptor } from '@shared/interceptors/transaction.interceptor';
+import { DataSource } from 'typeorm';
+import { LoggerFactory } from '@shared/utils/logger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const winstonLogger = LoggerFactory('Guardian/Wali');
+
+  const app = await NestFactory.create(AppModule, {
+    logger: winstonLogger,
+  });
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') || 3000;
@@ -29,6 +38,7 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalInterceptors(new TransactionInterceptor(app.get(DataSource)));
 
   const config = new DocumentBuilder()
     .setTitle('Guardian / Wali Documentation')
@@ -40,10 +50,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
-  const noticeService = app.get(NoticeService);
-  const reflector = app.get(Reflector);
-  app.useGlobalInterceptors(new NoticeInterceptor(noticeService, reflector));
 
   await app.listen(port);
 }

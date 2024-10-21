@@ -1,8 +1,8 @@
 import * as crypto from 'crypto';
 
-export function encode(data: string): Promise<string> {
+export function encode(data: string, encryptionKey: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    const key = Buffer.from(process.env.CRYPTO_KEY!, 'hex');
+    const key = Buffer.from(encryptionKey, 'hex');
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
     let crypted = cipher.update(data, 'utf8', 'hex');
@@ -12,9 +12,9 @@ export function encode(data: string): Promise<string> {
   });
 }
 
-export function decode(data: string): Promise<string> {
+export function decode(data: string, encryptionKey: string): Promise<string> {
   return new Promise((resolve, reject) => {
-    const key = Buffer.from(process.env.CRYPTO_KEY!, 'hex');
+    const key = Buffer.from(encryptionKey, 'hex');
     const [ivHex, encryptedData] = data.split(':');
     const iv = Buffer.from(ivHex, 'hex');
     const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);

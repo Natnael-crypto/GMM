@@ -15,7 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
 import { Otp, OtpSchema } from '@/lib/schemas/auth';
-import { verifyOtp } from '@/actions/auth/otp';
+import { resendOtp, verifyOtp } from '@/actions/auth/otp';
 import { useRouter } from '@/lib/navigation';
 import Loading from '@/components/ui/loading';
 import { useToast } from '@/components/ui/use-toast';
@@ -29,7 +29,8 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
 
   const params = useSearchParams();
 
-  const [isOtpVerificationInProgress, setOtpVerificationInProgress] = useState(false);
+  const [isOtpVerificationInProgress, setOtpVerificationInProgress] =
+    useState(false);
 
   const form = useForm<Otp>({
     resolver: zodResolver(OtpSchema),
@@ -47,7 +48,7 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
         replace('/guardian');
         return;
       }
-      replace('/login?redirect=/checkout');
+      replace('/checkout');
     } else {
       toast({
         title: 'OTP Verification',
@@ -55,6 +56,30 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
       });
     }
     setOtpVerificationInProgress(false);
+  }
+
+  async function handleResendOtp() {
+    try {
+      const res = await resendOtp();
+
+      if (res.status === 200) {
+        toast({
+          title: 'OTP Resent',
+          description: 'We have resent the OTP to your email.',
+        });
+      } else {
+        toast({
+          title: 'OTP Resent',
+          description: 'An error occurred. Please try again later.',
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      toast({
+        title: 'OTP Resent',
+        description: 'An error occurred. Please try again later.',
+      });
+    }
   }
 
   return (
@@ -90,6 +115,8 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
           <Button
             variant={'outline'}
             className="h-9 text-xs text-muted-foreground"
+            type="button"
+            onClick={handleResendOtp}
           >
             {t('resend')}
           </Button>

@@ -6,7 +6,58 @@ import {
   IsInt,
   IsArray,
   IsNumber,
+  IsEnum,
+  IsDateString,
 } from 'class-validator';
+import { Gender } from '../enums/user.enum';
+
+import {
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  ValidationArguments,
+  registerDecorator,
+  ValidationOptions,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+
+@ValidatorConstraint({ async: false })
+export class IsAdultConstraint implements ValidatorConstraintInterface {
+  validate(dateOfBirthString: string, args: ValidationArguments) {
+    const birthDate = new Date(dateOfBirthString);
+    if (isNaN(birthDate.getTime())) {
+      return false; // Invalid date
+    }
+
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    return age >= 18; // Return true if 18 or older
+  }
+
+  defaultMessage(args: ValidationArguments) {
+    return 'User must be at least 18 years old';
+  }
+}
+
+export function IsAdult(validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: IsAdultConstraint,
+    });
+  };
+}
 
 export class ExpressRegistrationDto {
   @ApiProperty()
@@ -26,12 +77,13 @@ export class ExpressRegistrationDto {
   phoneNumber: string;
 
   @ApiProperty()
-  @IsInt()
-  age: number;
+  @IsDateString()
+  @IsAdult({ message: 'User must be at least 18 years old' })
+  dateOfBirth: Date;
 
   @ApiProperty()
-  @IsString()
-  gender: string;
+  @IsEnum(Gender)
+  gender: Gender;
 
   @ApiProperty()
   @IsNumber()
@@ -122,7 +174,7 @@ export class ExpressRegistrationDto {
   @ApiProperty()
   @IsString()
   guardianFirstName: string;
-  
+
   @ApiProperty()
   @IsString()
   guardianLastName: string;
