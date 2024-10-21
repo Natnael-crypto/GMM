@@ -20,7 +20,7 @@ export default function UpdateProfileFooter({ editLink }: { editLink: string }) 
               variant: 'outline',
               size: 'sm',
             }),
-            'rounded-full text-xs text-secondary h-6'
+            'rounded-full text-xs text-secondary h-6 cta'
           )}
         >
           View Profile
@@ -32,7 +32,7 @@ export default function UpdateProfileFooter({ editLink }: { editLink: string }) 
               variant: 'default',
               size: 'sm',
             }),
-            'bg-primary rounded-full text-xs text-primary-foreground h-6'
+            'bg-primary rounded-full text-xs text-primary-foreground h-6 cta'
           )}
           disabled={isSaving}
         >

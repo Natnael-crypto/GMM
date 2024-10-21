@@ -37,7 +37,7 @@ export default function UpdateProfileHeader({
               variant: 'outline',
               size: 'sm',
             }),
-            'rounded-full text-xs text-secondary h-6'
+            'rounded-full text-xs text-secondary h-6 cta'
           )}
         >
           View Profile
@@ -49,7 +49,7 @@ export default function UpdateProfileHeader({
               variant: 'outline',
               size: 'sm',
             }),
-            'rounded-full text-xs text-secondary h-6'
+            'rounded-full text-xs text-secondary h-6 cta'
           )}
         >
           Cancel
@@ -61,7 +61,7 @@ export default function UpdateProfileHeader({
               variant: 'default',
               size: 'sm',
             }),
-            'bg-primary rounded-full text-xs text-primary-foreground h-6'
+            'bg-primary rounded-full text-xs text-primary-foreground h-6 cta'
           )}
           disabled={isSaving}
         >
