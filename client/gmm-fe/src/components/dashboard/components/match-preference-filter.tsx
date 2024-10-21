@@ -291,9 +291,9 @@ export default function MatchPreferenceFilter() {
       <form
         ref={preferenceFormRef}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="col-span-9 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary"
+        className="col-span-10 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary"
       >
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('preferredAge', [18, 100])}
@@ -328,7 +328,7 @@ export default function MatchPreferenceFilter() {
             )}
           />
         </div>
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-4">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('preferredHeight', [0, 300])}
@@ -368,7 +368,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => {
@@ -410,7 +410,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('nationality', '')}
@@ -446,7 +446,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('language', '')}
@@ -491,7 +491,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('countryOfOrigin', '')}
@@ -527,7 +527,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('martialStatus', '')}
@@ -563,7 +563,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label className="text-sm flex justify-between items-center">
             <span className="font-bold line-clamp-1">Salat/Prayer</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
@@ -581,7 +581,7 @@ export default function MatchPreferenceFilter() {
           </Select>
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('bornOrRevert', '')}
@@ -622,7 +622,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-8">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('hijab', '')}
@@ -674,7 +674,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-8">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('children', '')}
@@ -727,7 +727,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('wantsChildren', '')}
@@ -767,7 +767,7 @@ export default function MatchPreferenceFilter() {
           </Select>
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('education', '')}
@@ -845,7 +845,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('profession', '')}
@@ -895,7 +895,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-9 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('drinking', '' as unknown as boolean)}
@@ -935,7 +935,7 @@ export default function MatchPreferenceFilter() {
             )}
           />
         </div>
-        <div className="space-y-2 col-span-9 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('smoking', '' as unknown as boolean)}
@@ -975,7 +975,7 @@ export default function MatchPreferenceFilter() {
             )}
           />
         </div>
-        <div className="space-y-2 col-span-9 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-2">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('tattoos', '' as unknown as boolean)}
