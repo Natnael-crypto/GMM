@@ -43,8 +43,8 @@ jobs:
             git pull origin ${{ github.ref_name }}
 
             # Set the NODE_ENV environment variable based on the branch
-            export NODE_ENV=${{ github.ref_name }}
-            echo "NODE_ENV set to $NODE_ENV"            
+            # export NODE_ENV=${{ github.ref_name }}
+            # echo "NODE_ENV set to $NODE_ENV"
 
             # Install dependencies and build the project
             npm install
