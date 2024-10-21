@@ -27,7 +27,7 @@ export default function RegistrationOverview() {
       <div className="md:mt-20 overflow-auto no-scrollbar">
         <div className="grid md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 text-center">
           <HoverCard>
-            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
+            <HoverCardTrigger className="border shadow-md outline-none rounded-tr-3xl rounded-bl-3xl block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
                 imageSrc="/assets/icon_guided-matchmaking.svg"
@@ -49,7 +49,7 @@ export default function RegistrationOverview() {
           </HoverCard>
 
           <HoverCard>
-            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
+            <HoverCardTrigger className="border shadow-md outline-none rounded-tr-3xl rounded-bl-3xl block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
                 imageSrc="/assets/icon_match-guarantee.svg"
@@ -76,7 +76,7 @@ export default function RegistrationOverview() {
           </HoverCard>
 
           <HoverCard>
-            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
+            <HoverCardTrigger className="border shadow-md outline-none rounded-tr-3xl rounded-bl-3xl block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
                 imageSrc="/assets/icon_never-pay-to-compete.svg"
@@ -98,7 +98,7 @@ export default function RegistrationOverview() {
           </HoverCard>
 
           <HoverCard>
-            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
+            <HoverCardTrigger className="border shadow-md outline-none rounded-tr-3xl rounded-bl-3xl block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
                 imageSrc="/assets/icon_guardian-family-involvement.svg"
@@ -120,7 +120,7 @@ export default function RegistrationOverview() {
           </HoverCard>
 
           <HoverCard>
-            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
+            <HoverCardTrigger className="border shadow-md outline-none rounded-tr-3xl rounded-bl-3xl block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
                 imageSrc="/assets/icon_1-on-1-chats.svg"
