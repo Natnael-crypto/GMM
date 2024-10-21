@@ -1,13 +1,32 @@
-'use client'
+'use client';
 
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
 import Multiselect from '@/components/ui/multi-select';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { countries, heights, weights, userRegistrationSchema, UserRegistration, User } from '@/lib/schemas/user';
+import {
+  countries,
+  heights,
+  weights,
+  userRegistrationSchema,
+  UserRegistration,
+  User,
+} from '@/lib/schemas/user';
 import { useForm } from 'react-hook-form';
 import { useRegisterUserMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
@@ -21,27 +40,35 @@ import FamilyIntroductionForm from '@/components/registration/family-form';
 import ChildrenStatus from './children-status';
 import AutoComplete from '../ui/searchable-select';
 import { useRouter } from '@/lib/navigation';
+import { Calendar } from '../ui/calendar';
+import { CalendarIcon } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
+import { Button } from '../ui/button';
+import { cn } from '@/lib/utils';
+import { format } from 'date-fns';
+import { getEighteenYearsAgo } from '@/lib/format';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
-  value: country
+  value: country,
 }));
 
-const cityOptions = Object.keys(countries).flatMap(country => countries[country].map(city => ({
-  label: `${city}, ${country}`,
-  value: `${city}, ${country}`
-})));
-
+const cityOptions = Object.keys(countries).flatMap((country) =>
+  countries[country].map((city) => ({
+    label: `${city}, ${country}`,
+    value: `${city}, ${country}`,
+  }))
+);
 
 export default function BasicInformationForm() {
-  const user = useAppSelector(state => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
   const form = useForm<UserRegistration>({
     resolver: zodResolver(userRegistrationSchema),
     defaultValues: {
       id: user?.id ?? '',
       firstName: user?.firstName ?? '',
       lastName: user?.lastName ?? '',
-      age: user?.age ?? 0,
+      dateOfBirth: user?.dateOfBirth ?? getEighteenYearsAgo(),
       gender: user?.gender ?? '',
       height: user?.height ?? 0,
       weight: user?.weight ?? 0,
@@ -66,9 +93,8 @@ export default function BasicInformationForm() {
       video: user?.video ?? '',
       phoneNumber: user?.phoneNumber ?? '',
       idCardImage: user?.idCardImage ?? '',
-    }
+    },
   });
-
 
   const registrationFormRef = useRef<HTMLFormElement>(null);
   const { registerForm, setSaving } = useUpdateProfileContext();
@@ -87,7 +113,7 @@ export default function BasicInformationForm() {
         id: user?.id ?? '',
         firstName: user?.firstName ?? '',
         lastName: user?.lastName ?? '',
-        age: user?.age ?? 0,
+        dateOfBirth: user?.dateOfBirth ?? getEighteenYearsAgo(),
         gender: user?.gender ?? '',
         height: user?.height ?? 0,
         weight: user?.weight ?? 0,
@@ -112,15 +138,17 @@ export default function BasicInformationForm() {
         pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
         video: user?.video ?? '',
         phoneNumber: user?.phoneNumber ?? '',
-      })
+      });
     }
   }, [form, user]);
 
   const onSubmit = (data: UserRegistration) => {
     try {
       registerUser(data);
-    } catch (error) { console.log(error) }
-  }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const router = useRouter();
 
@@ -132,23 +160,34 @@ export default function BasicInformationForm() {
         description: 'You have been registered successfully',
       });
       router.replace('/dashboard');
+    } else {
+      toast({
+        title: 'Error',
+        description: 'An error occurred while registering',
+      });
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [registrationResult, dispatch])
+  }, [registrationResult, dispatch]);
 
   useEffect(() => {
     setSaving(registrationResult.isLoading);
-  }, [registrationResult, setSaving])
+  }, [registrationResult, setSaving]);
 
   useEffect(() => {
-    if (form.formState.errors && Object.keys(form.formState.errors).length > 0) {
+    if (
+      form.formState.errors &&
+      Object.keys(form.formState.errors).length > 0
+    ) {
       toast({
         title: 'Error',
-        description: 'Please fill all required fields (' + Object.keys(form.formState.errors).join(', ') + ')',
+        description:
+          'Please fill all required fields (' +
+          Object.keys(form.formState.errors).join(', ') +
+          ')',
       });
     }
-  }, [form, form.formState.errors])
+  }, [form, form.formState.errors]);
 
   return (
     <Form {...form}>
@@ -156,10 +195,8 @@ export default function BasicInformationForm() {
         <form
           ref={registrationFormRef}
           onSubmit={form.handleSubmit(onSubmit)}
-          className="col-span-3 grid grid-cols-3 gap-x-4 gap-y-4">
-
-
-
+          className="col-span-3 grid grid-cols-3 gap-x-4 gap-y-4"
+        >
           <div className="col-span-3 grid grid-cols-3 gap-x-5 gap-y-4 h-fit">
             <div className="relative col-span-3 lg:col-span-1 gap-y-4 gap-x-5 grid grid-cols-4">
               <div className="lg:absolute top-0 col-span-4 sm:col-span-2 md:col-span-4 gap-y-4 gap-x-5 flex flex-col md:flex-row lg:flex-col items-start w-full">
@@ -170,8 +207,9 @@ export default function BasicInformationForm() {
                     render={({ field }) => (
                       <FormItem>
                         <PhotoUploader field={field} />
-                        <FormMessage className='text-md' />
-                      </FormItem>)}
+                        <FormMessage className="text-md" />
+                      </FormItem>
+                    )}
                   />
                 </div>
                 <div className="w-full">
@@ -181,7 +219,7 @@ export default function BasicInformationForm() {
                     render={({ field }) => (
                       <FormItem>
                         <VideoUploader field={field} />
-                        <FormMessage className='text-md' />
+                        <FormMessage className="text-md" />
                       </FormItem>
                     )}
                   />
@@ -190,9 +228,11 @@ export default function BasicInformationForm() {
             </div>
 
             <div className="hidden md:block lg:hidden col-span-1"></div>
-            <div className='col-span-3 lg:col-span-2 grid grid-cols-4 gap-y-4 gap-x-5 h-fit'>
+            <div className="col-span-3 lg:col-span-2 grid grid-cols-4 gap-y-4 gap-x-5 h-fit">
               <div className="col-span-4 flex flex-col sm:flex-row justify-between items-center border-b border-b-secondary pb-1">
-                <h1 className="text-primary text-xl font-bold">Basic Information</h1>
+                <h1 className="text-primary text-xl font-bold">
+                  Basic Information
+                </h1>
                 <span className="text-destructive font-bold text-xs">
                   Please Answer All Questions Accurately
                 </span>
@@ -200,7 +240,7 @@ export default function BasicInformationForm() {
               <div className="col-span-4 sm:col-span-2 space-y-1 py-2 items-center h-fit">
                 <Label>First Name</Label>
                 <FormField
-                  name='firstName'
+                  name="firstName"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
@@ -208,17 +248,19 @@ export default function BasicInformationForm() {
                         <Input
                           className="text-muted-foreground bg-background text-md shadow rounded-sm"
                           {...field}
+                          disabled
                         />
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
               </div>
 
               <div className="col-span-4 sm:col-span-2 space-y-1 py-2 items-center h-fit">
                 <Label>Last Name</Label>
                 <FormField
-                  name='lastName'
+                  name="lastName"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
@@ -226,118 +268,211 @@ export default function BasicInformationForm() {
                         <Input
                           className="text-muted-foreground bg-background text-md shadow rounded-sm"
                           {...field}
+                          disabled
                         />
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
-
               </div>
 
               <div className="space-y-1 py-2 col-span-2 lg:col-span-1">
-                <Label>Age (Year)</Label>
+                <Label>Date of Birth</Label>
                 <FormField
-                  name='age'
                   control={form.control}
+                  name="dateOfBirth"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent className='max-h-64'>
-                            {
-                              Array.from({ length: 73 }, (_, i) => i + 18).map(i => <SelectItem className="text-sm max-w-80" key={i} value={i.toString()}>{i}</SelectItem>)
-                            }
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage className="text-md" />
-                    </FormItem>)}
+                    <FormItem className="flex flex-col">
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'shadow w-full pl-3 text-left font-normal h-8 rounded-sm text-xs text-muted-foreground'
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, 'PPP')
+                              ) : (
+                                <span>Date of Birth</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <div className="relative h-72 overflow-auto p-2">
+                            <Select
+                              onValueChange={(value) => {
+                                field.onChange(getEighteenYearsAgo());
+                              }}
+                            >
+                              <SelectTrigger className="z-50 sticky top-0 bg-background h-10 py-1">
+                                <SelectValue placeholder="Select Year" />
+                              </SelectTrigger>
+                              <SelectContent position="popper">
+                                {Array.from(
+                                  { length: 100 },
+                                  (_, i) =>
+                                    getEighteenYearsAgo().getFullYear() - i
+                                ).map((year) => (
+                                  <SelectItem
+                                    key={year}
+                                    value={year.toString()}
+                                  >
+                                    {year}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+
+                            <Calendar
+                              key={field.value?.toString() ?? 'date_of_birth'}
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              disabled={(date) =>
+                                date > getEighteenYearsAgo() ||
+                                date < new Date('1900-01-01')
+                              }
+                              defaultMonth={field.value}
+                            />
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
                 />
               </div>
 
               <div className="space-y-1 py-2 col-span-2 lg:col-span-1">
                 <Label>Gender</Label>
                 <FormField
-                  name='gender'
+                  name="gender"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-sm max-w-80" value="Male">Male</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="Female">Female</SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Male"
+                            >
+                              Male
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Female"
+                            >
+                              Female
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
               </div>
 
               <div className="space-y-1 py-2 col-span-2 lg:col-span-1">
                 <Label>Height</Label>
                 <FormField
-                  name='height'
+                  name="height"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value ? field.value.toString() : ''}
+                        >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
-                          <SelectContent className='max-h-64'>
-                            {Object.keys(heights).map((h, i) => <SelectItem className="text-sm max-w-80" key={i} value={h}>{heights[h]}</SelectItem>)}
+                          <SelectContent className="max-h-64">
+                            {Object.keys(heights).map((h, i) => (
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                key={i}
+                                value={h}
+                              >
+                                {heights[h]}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
-
               </div>
 
               <div className="space-y-1 py-2 col-span-2 lg:col-span-1">
                 <Label>Weight</Label>
                 <FormField
-                  name='weight'
+                  name="weight"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value ? field.value.toString() : ''}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value ? field.value.toString() : ''}
+                        >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
-                          <SelectContent className='max-h-64'>
-                            {Object.keys(weights).map((w, i) => <SelectItem className="text-sm max-w-80" key={i} value={w}>{weights[w]}</SelectItem>)}
+                          <SelectContent className="max-h-64">
+                            {Object.keys(weights).map((w, i) => (
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                key={i}
+                                value={w}
+                              >
+                                {weights[w]}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
               </div>
 
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Country of Origin</Label>
                 <FormField
-                  name='country'
+                  name="country"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                        <AutoComplete
+                          onChange={field.onChange}
+                          selectedOption={field.value}
+                          options={countryOptions}
+                          placeholder=""
+                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                        />
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
               </div>
               {/* <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
@@ -367,94 +502,169 @@ export default function BasicInformationForm() {
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Language(s) - Max 3</Label>
                 <FormField
-                  name='languages'
+                  name="languages"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Multiselect onChange={field.onChange} selectedOptions={field.value} title="Language" max={3} initOptions={languages} placeholder='Select' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                        <Multiselect
+                          onChange={field.onChange}
+                          selectedOptions={field.value}
+                          title="Language"
+                          max={3}
+                          initOptions={languages}
+                          placeholder="Select"
+                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                        />
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
-
-
               </div>
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Nationality/Passport</Label>
                 <FormField
-                  name='nationality'
+                  name="nationality"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={countryOptions} placeholder='' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                        <AutoComplete
+                          onChange={field.onChange}
+                          selectedOption={field.value}
+                          options={countryOptions}
+                          placeholder=""
+                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                        />
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
-
               </div>
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Current City</Label>
                 <FormField
-                  name='city'
+                  name="city"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <AutoComplete onChange={field.onChange} selectedOption={field.value} options={cityOptions} placeholder='' className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent" />
+                        <AutoComplete
+                          onChange={field.onChange}
+                          selectedOption={field.value}
+                          options={cityOptions}
+                          placeholder=""
+                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                        />
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
-
               </div>
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Marital Status</Label>
                 <FormField
-                  name='maritalStatus'
+                  name="maritalStatus"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-sm max-w-80" value="Single/Never Married">Single/Never Married</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="Single/Legally Divorced">Single/Legally Divorced</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="Single/Islamically-Divorced">Single/Islamically-Divorced</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="Widowed">Widowed</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="Other">Other</SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Single/Never Married"
+                            >
+                              Single/Never Married
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Single/Legally Divorced"
+                            >
+                              Single/Legally Divorced
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Single/Islamically-Divorced"
+                            >
+                              Single/Islamically-Divorced
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Widowed"
+                            >
+                              Widowed
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Other"
+                            >
+                              Other
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
-
               </div>
 
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Do you have children?</Label>
                 <FormField
-                  name='hasChildren'
+                  name="hasChildren"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-sm max-w-80" value="No kids">No kids</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="Yes but not with me">Yes but not with me</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="Yes 20%+ Shared parenting">Yes 20%+ Shared Parenting</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="Yes: 50%+ Joint-Shared Parenting">Yes: 50%+ Joint-Shared Parenting</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="Yes Full-Time Single Parent">Yes Full-Time Single Parent</SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="No kids"
+                            >
+                              No kids
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Yes but not with me"
+                            >
+                              Yes but not with me
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Yes 20%+ Shared parenting"
+                            >
+                              Yes 20%+ Shared Parenting
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Yes: 50%+ Joint-Shared Parenting"
+                            >
+                              Yes: 50%+ Joint-Shared Parenting
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="Yes Full-Time Single Parent"
+                            >
+                              Yes Full-Time Single Parent
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
@@ -470,78 +680,146 @@ export default function BasicInformationForm() {
                 <div className="space-y-1 py-2 col-span-8 sm:col-span-2">
                   <Label>Sunni-Madhaib</Label>
                   <FormField
-                    name='sunniMadhaib'
+                    name="sunniMadhaib"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Select onValueChange={field.onChange} value={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
                             <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem className="text-sm max-w-80" value="Hanafi">Hanafi</SelectItem>
-                              <SelectItem className="text-sm max-w-80" value="Hanbali">Hanbali</SelectItem>
-                              <SelectItem className="text-sm max-w-80" value="Maliki">Maliki</SelectItem>
-                              <SelectItem className="text-sm max-w-80" value="Shafi">Shafi</SelectItem>
-                              <SelectItem className="text-sm max-w-80" value="All Four">All Four</SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Hanafi"
+                              >
+                                Hanafi
+                              </SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Hanbali"
+                              >
+                                Hanbali
+                              </SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Maliki"
+                              >
+                                Maliki
+                              </SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Shafi"
+                              >
+                                Shafi
+                              </SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="All Four"
+                              >
+                                All Four
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
                         <FormMessage className="text-md" />
-                      </FormItem>)}
+                      </FormItem>
+                    )}
                   />
-
                 </div>
 
                 <div className="space-y-1 py-2 col-span-8 sm:col-span-3">
                   <Label>Religious Practice</Label>
                   <FormField
-                    name='religiousPractice'
+                    name="religiousPractice"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Select onValueChange={field.onChange} value={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
                             <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem className="text-sm max-w-80" value="Not Practicing Never Prays/Non-Muslim">Not Practicing Never Prays/Non-Muslim</SelectItem>
-                              <SelectItem className="text-sm max-w-80" value="Occasionally Practicing">Occasionally Practicing</SelectItem>
-                              <SelectItem className="text-sm max-w-80" value="Practicing and Trying to Get Better">Practicing and Trying to get Better</SelectItem>
-                              <SelectItem className="text-sm max-w-80" value="Practicing/Fardh">Practicing/Fardh</SelectItem>
-                              <SelectItem className="text-sm max-w-80" value="Very Practicing/Sunnah Nawafil Included">Very Practicing/Sunnah Nawafil Included</SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Not Practicing Never Prays/Non-Muslim"
+                              >
+                                Not Practicing Never Prays/Non-Muslim
+                              </SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Occasionally Practicing"
+                              >
+                                Occasionally Practicing
+                              </SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Practicing and Trying to Get Better"
+                              >
+                                Practicing and Trying to get Better
+                              </SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Practicing/Fardh"
+                              >
+                                Practicing/Fardh
+                              </SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Very Practicing/Sunnah Nawafil Included"
+                              >
+                                Very Practicing/Sunnah Nawafil Included
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
                         <FormMessage className="text-md" />
-                      </FormItem>)}
+                      </FormItem>
+                    )}
                   />
-
                 </div>
                 <div className="space-y-1 py-2 col-span-8 sm:col-span-3">
-                  <Label>
-                    Born/Reverted to Islam
-                  </Label>
+                  <Label>Born/Reverted to Islam</Label>
                   <FormField
-                    name='bornOrRevertToIslam'
+                    name="bornOrRevertToIslam"
                     control={form.control}
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Select onValueChange={field.onChange} value={field.value}>
+                          <Select
+                            onValueChange={field.onChange}
+                            value={field.value}
+                          >
                             <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem className="text-sm max-w-80" value="Born Muslim">Born Muslim</SelectItem>
-                              <SelectItem className="text-sm max-w-80" value="Reverted to Islam">Reverted to Islam</SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Born Muslim"
+                              >
+                                Born Muslim
+                              </SelectItem>
+                              <SelectItem
+                                className="text-sm max-w-80"
+                                value="Reverted to Islam"
+                              >
+                                Reverted to Islam
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
                         <FormMessage className="text-md" />
-                      </FormItem>)}
+                      </FormItem>
+                    )}
                   />
                 </div>
               </div>
@@ -549,23 +827,37 @@ export default function BasicInformationForm() {
               <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
                 <Label>Drinks</Label>
                 <FormField
-                  name='drinks'
+                  name="drinks"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value?.toString()}
+                        >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="true"
+                            >
+                              Yes
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="false"
+                            >
+                              No
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
               </div>
               <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
@@ -576,23 +868,37 @@ export default function BasicInformationForm() {
                   </span>
                 </Label>
                 <FormField
-                  name='drugs'
+                  name="drugs"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value?.toString()}
+                        >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="true"
+                            >
+                              Yes
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="false"
+                            >
+                              No
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
               </div>
               <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
@@ -600,53 +906,80 @@ export default function BasicInformationForm() {
                   Smokes <span className="text-[0.6rem]">(Vapping/Shisha)</span>
                 </Label>
                 <FormField
-                  name='smokes'
+                  name="smokes"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value?.toString()}
+                        >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="true"
+                            >
+                              Yes
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="false"
+                            >
+                              No
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
               </div>
 
               <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
                 <Label>Tattoo(s)</Label>
                 <FormField
-                  name='tattoos'
+                  name="tattoos"
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value?.toString()}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value?.toString()}
+                        >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-sm max-w-80" value="true">Yes</SelectItem>
-                            <SelectItem className="text-sm max-w-80" value="false">No</SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="true"
+                            >
+                              Yes
+                            </SelectItem>
+                            <SelectItem
+                              className="text-sm max-w-80"
+                              value="false"
+                            >
+                              No
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </FormControl>
                       <FormMessage className="text-md" />
-                    </FormItem>)}
+                    </FormItem>
+                  )}
                 />
               </div>
-
             </div>
           </div>
         </form>
-        <div className='hidden md:block md:col-span-1'></div>
+        <div className="hidden md:block md:col-span-1"></div>
         <div className="col-span-3 lg:col-span-2 mt-8">
           <FamilyIntroductionForm />
         </div>

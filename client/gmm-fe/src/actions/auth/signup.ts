@@ -17,6 +17,8 @@ export const signUp = async (data: SignUp) => {
       lastName: data.lastName,
       email: data.email,
       gender: data.gender,
+      dateOfBirth: data.dateOfBirth,
+      bornOrRevertToIslam: data.bornOrRevertToIslam,
       password: data.password,
       confirmPassword: data.confirmPassword,
     }),
@@ -40,14 +42,16 @@ export const signUp = async (data: SignUp) => {
 
   cookies().set({
     name: cookieNames.otpVerificationKey,
-    value: res.data.otpVerificationKey.otpDetails,
+    value: res.otpVerificationKey,
     httpOnly: true,
+    sameSite: 'strict',
     path: '/',
   });
 
   return {
     status: 200,
-    message: res.message,
+    message:
+      'We have sent a one time password to your email. Please check your email.',
   };
 };
 

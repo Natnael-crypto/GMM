@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { preferenceSchema } from './preference';
+import { getEighteenYearsAgo } from '../format';
 
 export const userBasicInformationSchema = z
   .object({
@@ -23,15 +24,14 @@ export const userBasicInformationSchema = z
       })
       .min(1, { message: 'Please enter your phone number' }),
 
-    age: z.union([
-      z
-        .string({ required_error: 'Please enter your age' })
-        .refine((value) => !isNaN(parseInt(value)))
-        .transform(Number),
-      z.number({
-        required_error: 'Please enter your age',
+    dateOfBirth: z
+      .date({
+        required_error: 'A date of birth is required.',
+      })
+      .refine((date) => date <= getEighteenYearsAgo(), {
+        message: 'You must be at least 18 years old.',
       }),
-    ]),
+
     gender: z
       .string({ required_error: 'Please enter your gender' })
       .min(1, { message: 'Please enter your gender' }),
@@ -239,15 +239,13 @@ export const baseUserSchema = z
     phoneNumber: z.string({
       required_error: 'Please enter your phone number',
     }),
-    age: z.union([
-      z
-        .string({ required_error: 'Please enter your age' })
-        .refine((value) => !isNaN(parseInt(value)))
-        .transform(Number),
-      z.number({
-        required_error: 'Please enter your age',
+    dateOfBirth: z
+      .date({
+        required_error: 'A date of birth is required.',
+      })
+      .refine((date) => date <= getEighteenYearsAgo(), {
+        message: 'You must be at least 18 years old.',
       }),
-    ]),
     gender: z.string({ required_error: 'Please enter your gender' }),
     height: z.union([
       z

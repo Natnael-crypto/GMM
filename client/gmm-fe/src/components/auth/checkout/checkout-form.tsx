@@ -23,7 +23,7 @@ const stripePromise = loadStripe(constants.stripe.publicKey);
 export function CheckoutForm() {
   const t = useTranslations('Auth.checkout');
 
-  const user = useAppSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);  
   const [createPaymentIntent, result] = useCreatePaymentIntentMutation();
 
   const [selectedOption, setSelectedOption] = useState<string | null>(
@@ -40,13 +40,15 @@ export function CheckoutForm() {
       }
 
       try {
-        await createPaymentIntent(plan).unwrap();
-        setSelectedOption(plan);
+        if (user) {
+          await createPaymentIntent(plan).unwrap();
+          setSelectedOption(plan);
+        }
       } catch (error) {
         console.error(error);
       }
     },
-    [createPaymentIntent]
+    [createPaymentIntent, user]
   );
 
   const handleGuardianCheckbox = () => {

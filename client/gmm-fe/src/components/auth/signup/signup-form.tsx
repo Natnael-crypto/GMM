@@ -39,6 +39,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { CalendarIcon } from 'lucide-react';
+import { getEighteenYearsAgo } from '@/lib/format';
 
 export function SignUpForm() {
   const { replace } = useRouter();
@@ -196,12 +197,14 @@ export function SignUpForm() {
                           <SelectValue placeholder="Select Year" />
                         </SelectTrigger>
                         <SelectContent position="popper">
-                          <SelectItem value="2000">2000</SelectItem>
-                          <SelectItem value="2001">2001</SelectItem>
-                          <SelectItem value="2002">2002</SelectItem>
-                          <SelectItem value="2003">2003</SelectItem>
-                          <SelectItem value="2024">2004</SelectItem>
-                          <SelectItem value="2025">2025</SelectItem>
+                          {Array.from(
+                            { length: 100 },
+                            (_, i) => new Date().getFullYear() - i
+                          ).map((year) => (
+                            <SelectItem key={year} value={year.toString()}>
+                              {year}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
 
@@ -211,7 +214,8 @@ export function SignUpForm() {
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) =>
-                          date > new Date() || date < new Date('1900-01-01')
+                          date > getEighteenYearsAgo() ||
+                          date < new Date('1900-01-01')
                         }
                         defaultMonth={field.value}
                       />
