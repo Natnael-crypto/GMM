@@ -77,6 +77,7 @@ export interface EmailConfig {
 }
 
 export interface AppConfiguration {
+  env: string;
   port: number;
   database: DatabaseConfig;
   email: EmailConfig;
@@ -89,6 +90,7 @@ export interface AppConfiguration {
 const envSchema = z
   .object({
     //   Server
+    NODE_ENV: z.enum(['dev', 'stage', 'main']),
     DOMAIN: z.string(),
     PORT: z.string().transform((val) => parseInt(val, 10)),
 
@@ -154,6 +156,7 @@ export default (): AppConfiguration => {
   const parsedEnv = envSchema.parse(env);
 
   return {
+    env: parsedEnv.NODE_ENV,
     port: parsedEnv.PORT,
     database: {
       host: parsedEnv.DATABASE_HOST,
