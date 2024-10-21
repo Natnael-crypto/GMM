@@ -310,7 +310,7 @@ export function SignUpForm() {
         <div className="w-full flex flex-col items-center gap-3">
           <Button
             type="submit"
-            className="w-52 h-9 bg-primary text-primary-foreground font-bold"
+            className="w-52 h-9 bg-primary text-primary-foreground font-bold cta"
             disabled={isSignUpInProgress}
           >
             {isSignUpInProgress ? <Loading /> : t('signup.cta')}

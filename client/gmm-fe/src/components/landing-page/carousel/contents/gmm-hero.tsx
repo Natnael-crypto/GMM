@@ -68,7 +68,7 @@ export default async function GMMHero() {
                 href={session.user.age == null ? `/${locale}/registration` : `/${locale}/dashboard`}
                 className={cn(
                   buttonVariants({ variant: 'default' }),
-                  'font-bold px-14'
+                  'font-bold px-14 cta'
                 )}
               >
                 {t('hero.getStarted')}
@@ -78,7 +78,7 @@ export default async function GMMHero() {
                 href={`/${locale}/login`}
                 className={cn(
                   buttonVariants({ variant: 'default' }),
-                  'font-bold px-14'
+                  'font-bold px-14 cta'
                 )}
               >
                 {t('hero.cta')}
