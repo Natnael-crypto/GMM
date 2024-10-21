@@ -14,44 +14,44 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Set NODE_ENV
-      run: echo "NODE_ENV=${{ github.ref_name }}" >> $GITHUB_ENV
+      - name: Set NODE_ENV
+        run: echo "NODE_ENV=${{ github.ref_name }}" >> $GITHUB_ENV
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-    - name: Save SSH key to file
-      run: |
-        echo "${{ secrets.EC2_KEY }}" > /tmp/ec2_key.pem
-        chmod 600 /tmp/ec2_key.pem
+      - name: Save SSH key to file
+        run: |
+          echo "${{ secrets.EC2_KEY }}" > /tmp/ec2_key.pem
+          chmod 600 /tmp/ec2_key.pem
 
-    - name: Deploy to EC2
-      env:
-        NODE_ENV: ${{ github.ref_name }}
-      run: |
-        ssh -tt -o StrictHostKeyChecking=no -i /tmp/ec2_key.pem ec2-user@${{secrets.EC2_HOST}} << 'EOF'
-          cd GMM/server/gmm-api
-          
-          # Fetch and checkout the correct branch
-          git fetch origin
-          git checkout ${{ github.ref_name }}
-          git pull origin ${{ github.ref_name }}
+      - name: Deploy to EC2
+        env:
+          NODE_ENV: ${{ github.ref_name }}
+        run: |
+          ssh -tt -o StrictHostKeyChecking=no -i /tmp/ec2_key.pem ec2-user@${{secrets.EC2_HOST}} << 'EOF'            
+            cd deployment/${{ github.ref_name }}/GMM/server/gmm-api
+            
+            # Fetch and checkout the correct branch
+            git fetch origin
+            git checkout ${{ github.ref_name }}
+            git pull origin ${{ github.ref_name }}
 
-          # Set the NODE_ENV environment variable based on the branch
-          export NODE_ENV=${{ github.ref_name }}
-          echo "NODE_ENV set to $NODE_ENV"
+            # Set the NODE_ENV environment variable based on the branch
+            export NODE_ENV=${{ github.ref_name }}
+            echo "NODE_ENV set to $NODE_ENV"            
 
-          # Install dependencies and build the project
-          npm install
-          npm run build
-
-          # Restart the specific PM2 app based on the branch
-          pm2 restart gmm-api-${{ github.ref_name }}
-          echo "Deployment complete"
-          exit 0
-        EOF
+            # Install dependencies and build the project
+            npm install
+            npm run build
+            
+            # Restart the specific PM2 app based on the branch
+            pm2 restart gmm-api-${{ github.ref_name }}
+            echo "Deployment complete"
+            exit 0
+          EOF
