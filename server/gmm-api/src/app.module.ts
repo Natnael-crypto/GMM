@@ -1,7 +1,9 @@
 import {
+  LoggerService,
   MiddlewareConsumer,
   Module,
   OnApplicationBootstrap,
+  RequestMethod,
 } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -10,7 +12,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { NoticeModule } from './modules/notice/notice.module';
-import { LoggerMiddleware } from '@shared/utils/logger';
 import { PaymentsModule } from '@modules/payment/payment.module';
 import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { StorageModule } from '@modules/storage/storage.module';
@@ -19,6 +20,9 @@ import { ChatModule } from '@modules/chat/chat.module';
 import { ChatWebsocketGateway } from '@modules/chat/services/chat.websocket.gateway';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import config, { DatabaseConfig } from '@shared/config';
+import { LoggerFactory, LoggerMiddleware } from '@shared/utils/logger';
+import { WinstonModule } from 'nest-winston';
+import { transports } from 'winston';
 
 @Module({
   imports: [
@@ -57,7 +61,9 @@ export class AppModule implements OnApplicationBootstrap {
   constructor(private readonly appService: AppService) {}
 
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('*');
+    consumer
+      .apply(LoggerMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 
   async onApplicationBootstrap() {

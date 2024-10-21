@@ -43,14 +43,34 @@ export class Matchmaker {
 
   constructor(private readonly user: ExtendedUser) {}
 
+  age(dateOfBirth: Date): number {
+    if (!dateOfBirth) {
+      return 0;
+    }
+
+    const today = new Date();
+    let age = today.getFullYear() - dateOfBirth.getFullYear();
+    const monthDiff = today.getMonth() - dateOfBirth.getMonth();
+
+    // Adjust age if the birthday hasn't occurred yet this year
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < dateOfBirth.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  }
+
   countConflict(candidate: ExtendedUser, pref: Preference): number {
     let penalty = 0;
 
-    if (pref.minAge && candidate.age < pref.minAge) {
+    if (pref.minAge && this.age(candidate.dateOfBirth) < pref.minAge) {
       penalty += 1;
     }
 
-    if (pref.maxAge && candidate.age > pref.maxAge) {
+    if (pref.maxAge && this.age(candidate.dateOfBirth) > pref.maxAge) {
       penalty += 1;
     }
 

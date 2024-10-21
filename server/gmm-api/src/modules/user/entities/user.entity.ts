@@ -55,8 +55,8 @@ export class User {
   @Column({ nullable: true })
   country: string;
 
-  @Column({ nullable: true, type: 'int' })
-  age: number;
+  @Column({ type: 'date', nullable: true })
+  dateOfBirth: Date;
 
   @Column({ type: 'enum', enum: Gender, nullable: true })
   gender: Gender;

@@ -1,14 +1,23 @@
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Logger,
+  ValidationPipe,
+} from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 import { TransactionInterceptor } from '@shared/interceptors/transaction.interceptor';
 import { DataSource } from 'typeorm';
+import { LoggerFactory } from '@shared/utils/logger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const winstonLogger = LoggerFactory('Guardian/Wali');
+
+  const app = await NestFactory.create(AppModule, {
+    logger: winstonLogger,
+  });
 
   const configService = app.get(ConfigService);
   const port = configService.get<number>('PORT') || 3000;
