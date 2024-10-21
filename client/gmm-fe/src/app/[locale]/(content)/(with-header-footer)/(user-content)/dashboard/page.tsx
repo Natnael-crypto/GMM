@@ -11,15 +11,15 @@ import ProfileCompletionCard from '@/components/dashboard/components/profile-com
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
 import { useAppSelector } from '@/lib/hooks';
 import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
+import { AccountStatus } from '@/lib/schemas/user';
 import { cn } from '@/lib/utils';
 
 import React from 'react';
 
 export default function Dashboard() {
-  let isAccountApproved = true;
-  // isAccountApproved = false;
-
   const user = useAppSelector((state) => state.auth.user);
+
+  const isAccountApproved = user?.accountStatus === AccountStatus.APPROVED;
 
   const { data: currentMatch } = useGetCurrentMatchQuery(undefined, {
     skip: !user,
@@ -62,18 +62,23 @@ export default function Dashboard() {
           {user?.isMatched && (
             <div className="w-full h-full absolute top-0 left-0 z-[1000]"></div>
           )}
-          <h1 className="text-xl font-bold text-secondary border-b border-secondary col-span-12">
-            Match Preferences Filter
-          </h1>
 
-          <div className="flex flex-col md:grid md:grid-cols-12 gap-4 py-4">
-            <MatchPreferenceFilter />
-            <div className="md:col-span-2 flex gap-3 sm:flex-col md:gap-y-5">
-              <MatchMeCard />
-              <MatchFuzzinessSelector />
-              <OutsideFilterCard />
-            </div>
-          </div>
+          {isAccountApproved && (
+            <>
+              <h1 className="text-xl font-bold text-secondary border-b border-secondary col-span-12">
+                Match Preferences Filter
+              </h1>
+
+              <div className="flex flex-col md:grid md:grid-cols-12 gap-4 py-4">
+                <MatchPreferenceFilter />
+                <div className="md:col-span-3 flex gap-3 sm:flex-col md:gap-y-5">
+                  <MatchMeCard />
+                  <MatchFuzzinessSelector />
+                  <OutsideFilterCard />
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </UpdateProfileProvider>

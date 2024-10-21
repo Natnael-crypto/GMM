@@ -29,10 +29,11 @@ import { GuardianService } from '../services/guardian.service';
 import { WifeIslamicLifestyleModel } from '../entities/wife-islamic-lifestyle.schema';
 import { WifeExpectedIslamicLifestyleModel } from '../entities/wife-expected-islamic-lifestyle.schema';
 import { BaseRepository } from '@shared/base-repository';
-import { DataSource } from 'typeorm';
+import { DataSource, Or } from 'typeorm';
 import { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
 import { AccountStatus } from '../enums/user.enum';
+import { Match } from '@modules/matchmaking/entities/match.entity';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService extends BaseRepository {
@@ -119,6 +120,17 @@ export class UserService extends BaseRepository {
       ...createUserDto,
       createdAt: new Date(),
     });
+  }
+
+  async isUserMatched(userId: string) {
+    const match = await this.getRepository(Match).findOne({
+      where: [
+        { maleUserId: userId, isActive: true },
+        { femaleUserId: userId, isActive: true },
+      ],
+    });
+
+    return !!match;
   }
 
   async expressRegistration(userId: string, dto: ExpressRegistrationDto) {

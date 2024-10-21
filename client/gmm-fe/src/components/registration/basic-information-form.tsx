@@ -25,7 +25,6 @@ import {
   weights,
   userRegistrationSchema,
   UserRegistration,
-  User,
 } from '@/lib/schemas/user';
 import { useForm } from 'react-hook-form';
 import { useRegisterUserMutation } from '@/lib/user/api';

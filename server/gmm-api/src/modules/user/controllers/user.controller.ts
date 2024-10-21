@@ -59,12 +59,14 @@ export class UserController {
     if (!req.user || !req.user.id) {
       throw new UnauthorizedException('Invalid user');
     }
+
     const userId = req.user.id;
     const user = await this.userService.getUserById(userId);
+    const isMatched = await this.userService.isUserMatched(userId);
 
     return {
       message: 'User retrieved successfully',
-      data: user,
+      data: { ...user, isMatched },
     };
   }
 

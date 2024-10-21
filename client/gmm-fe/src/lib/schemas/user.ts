@@ -2,6 +2,19 @@ import { z } from 'zod';
 import { preferenceSchema } from './preference';
 import { getEighteenYearsAgo } from '../format';
 
+export enum AccountStatus {
+  INCOMPLETE_REGISTRATION = 'Incomplete Registration',
+  PENDING = 'Pending',
+  APPROVED = 'Approved',
+  DENIED = 'Denied',
+  SUSPENDED = 'Suspended',
+}
+
+export enum AccountVerificationStatus {
+  VERIFIED = 'Verified',
+  UNVERIFIED = 'Unverified',
+}
+
 export const userBasicInformationSchema = z
   .object({
     id: z.string(),
@@ -440,6 +453,17 @@ export const baseUserSchema = z
       .optional(),
 
     preference: preferenceSchema.optional().nullable(),
+
+    accountStatus: z
+      .enum([
+        AccountStatus.INCOMPLETE_REGISTRATION,
+        AccountStatus.PENDING,
+        AccountStatus.APPROVED,
+        AccountStatus.DENIED,
+        AccountStatus.SUSPENDED,
+      ])
+      .optional(),
+
     isMatched: z.boolean().default(false).optional().nullable(),
   })
   .required();
