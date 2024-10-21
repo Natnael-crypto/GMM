@@ -27,11 +27,11 @@ export default function RegistrationOverview() {
       <div className="md:mt-20 overflow-auto no-scrollbar">
         <div className="grid md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 text-center">
           <HoverCard>
-            <HoverCardTrigger className="border shadow-md outline-none rounded-tr-3xl rounded-bl-3xl block overflow-hidden cursor-pointer">
+            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
                 imageSrc="/assets/icon_guided-matchmaking.svg"
-                imageClassName="gmm-icon"
+                imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
                 {approachT.rich('card.guidedMatching', {
@@ -49,11 +49,11 @@ export default function RegistrationOverview() {
           </HoverCard>
 
           <HoverCard>
-            <HoverCardTrigger className="border shadow-md outline-none rounded-tr-3xl rounded-bl-3xl block overflow-hidden cursor-pointer">
+            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
                 imageSrc="/assets/icon_match-guarantee.svg"
-                imageClassName="gmm-icon"
+                imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
                 {approachT.rich('card.matchGuarantee', {
@@ -76,11 +76,11 @@ export default function RegistrationOverview() {
           </HoverCard>
 
           <HoverCard>
-            <HoverCardTrigger className="border shadow-md outline-none rounded-tr-3xl rounded-bl-3xl block overflow-hidden cursor-pointer">
+            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
                 imageSrc="/assets/icon_never-pay-to-compete.svg"
-                imageClassName="gmm-icon"
+                imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
                 {approachT.rich('card.neverPayToCompete', {
@@ -98,11 +98,11 @@ export default function RegistrationOverview() {
           </HoverCard>
 
           <HoverCard>
-            <HoverCardTrigger className="border shadow-md outline-none rounded-tr-3xl rounded-bl-3xl block overflow-hidden cursor-pointer">
+            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
                 imageSrc="/assets/icon_guardian-family-involvement.svg"
-                imageClassName="gmm-icon"
+                imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
                 {approachT.rich('card.guardianFamilyInvolvement', {
@@ -120,11 +120,11 @@ export default function RegistrationOverview() {
           </HoverCard>
 
           <HoverCard>
-            <HoverCardTrigger className="border shadow-md outline-none rounded-tr-3xl rounded-bl-3xl block overflow-hidden cursor-pointer">
+            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
                 imageSrc="/assets/icon_1-on-1-chats.svg"
-                imageClassName="gmm-icon"
+                imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
                 {approachT.rich('card.oneOnOneChats', {
