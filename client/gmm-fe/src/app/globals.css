@@ -98,10 +98,10 @@
   }
 
   .cta {
-    font-weight: 800;
+    font-weight: 700 !important;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    padding: 1.3em 3em;
+    padding: 1em !important;
   }
 
   .dark {
