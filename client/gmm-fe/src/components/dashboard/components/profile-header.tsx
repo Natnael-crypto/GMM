@@ -49,7 +49,7 @@ export default function ProfileHeader({
               variant: 'outline',
               size: 'sm',
             }),
-            'rounded-full text-xs text-secondary h-6'
+            'rounded-full text-xs text-secondary h-6 cta'
           )}
         >
           Edit Profile

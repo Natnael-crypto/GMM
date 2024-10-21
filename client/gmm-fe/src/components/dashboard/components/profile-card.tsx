@@ -26,8 +26,8 @@ export default function ProfileCard({ user }: { user: User }) {
           {user?.firstName} {user?.lastName}
         </h1>
 
-        {user && <span>User ID #{uuidToEightDigitNumber(user.id)}</span>}
-        <span>{user?.email}</span>
+        {user && <span className="font-bold text-md">User ID #{uuidToEightDigitNumber(user.id)}</span>}
+        
       </div>
     </div>
   );
