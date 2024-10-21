@@ -368,7 +368,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-4">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => {

@@ -68,7 +68,7 @@ export default function Dashboard() {
 
           <div className="flex flex-col md:grid md:grid-cols-12 gap-4 py-4">
             <MatchPreferenceFilter />
-            <div className="md:col-span-3 flex gap-3 sm:flex-col md:gap-y-5">
+            <div className="md:col-span-2 flex gap-3 sm:flex-col md:gap-y-5">
               <MatchMeCard />
               <MatchFuzzinessSelector />
               <OutsideFilterCard />
