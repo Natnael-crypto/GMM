@@ -20,7 +20,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
 export default function WorldlyLifestyleCard({ user }: { user: User }) {
-  const { data: worldlyLifestyle, isLoading, isSuccess, isError } = useGetWorldlyLifestyleQuery(user?.id || '', {
+  const {
+    data: worldlyLifestyle,
+    isLoading,
+    isSuccess,
+    isError,
+  } = useGetWorldlyLifestyleQuery(user?.id || '', {
     skip: !user,
   });
 
@@ -78,7 +83,8 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
           </div>
           <div className="col-span-11 space-y-3 ">
             <h1 className="font-bold">
-              {isSuccess && `${worldlyLifestyle.vehicleYear} ${worldlyLifestyle.vehicleMake} ${worldlyLifestyle.vehicleModel}`}
+              {isSuccess &&
+                `${worldlyLifestyle.vehicleYear} ${worldlyLifestyle.vehicleMake} ${worldlyLifestyle.vehicleModel}`}
               {isLoading && <Loading />}
             </h1>
           </div>
@@ -95,21 +101,23 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
           <div className="col-span-11 space-y-3 ">
             <ul className="flex flex-col gap-2 text-sm ">
               <li>
-                Applicable Debts: <span className="font-bold">
+                Applicable Debts:{' '}
+                <span className="font-bold">
                   {isSuccess && worldlyLifestyle.applicableDebts}
                 </span>
               </li>
               <li>
-                Current Debts: <span className="font-bold">
-                  {
-                    isSuccess && worldlyLifestyle.currentDebts
-                  }
+                Current Debts:{' '}
+                <span className="font-bold">
+                  {isSuccess && worldlyLifestyle.currentDebts}
                 </span>
               </li>
               <li>
-                Approximate Debts: <span className="font-bold">{
-                  isSuccess && `${worldlyLifestyle.approximateDebt} ${worldlyLifestyle.approximateDebtCurrency}`
-                }</span>
+                Approximate Debts:{' '}
+                <span className="font-bold">
+                  {isSuccess &&
+                    `${worldlyLifestyle.approximateDebt} ${worldlyLifestyle.approximateDebtCurrency}`}
+                </span>
               </li>
               <li>
                 Paying Interest/Riba on Debts:{' '}
@@ -132,13 +140,19 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
           <div className="col-span-11 space-y-2">
             <h1>Living Accommodation:</h1>
             <ul className="flex flex-col gap-2 text-sm ">
-              <li className="font-bold">- {isSuccess && worldlyLifestyle.typeOfResidence}</li>
-              <li className="font-bold">- {isSuccess && worldlyLifestyle.livingSituation}</li>
-              <li className="font-bold">- {isSuccess && worldlyLifestyle.presentFamilyMembers}</li>
               <li className="font-bold">
-                - {isSuccess && worldlyLifestyle.numberOfSiblings} <span className="font-normal">Siblings & </span>{
-                  isSuccess && worldlyLifestyle.pets
-                }{' '}
+                - {isSuccess && worldlyLifestyle.typeOfResidence}
+              </li>
+              <li className="font-bold">
+                - {isSuccess && worldlyLifestyle.livingSituation}
+              </li>
+              <li className="font-bold">
+                - {isSuccess && worldlyLifestyle.presentFamilyMembers}
+              </li>
+              <li className="font-bold">
+                - {isSuccess && worldlyLifestyle.numberOfSiblings}{' '}
+                <span className="font-normal">Siblings & </span>
+                {isSuccess && worldlyLifestyle.pets}{' '}
                 <span className="font-normal">Pets</span>
               </li>
             </ul>
@@ -157,17 +171,23 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
             <ul className="flex flex-col gap-2 text-sm ">
               <li>
                 Major Pre-Existing Health Conditions and/or Disability:{' '}
-                <span className="font-bold">{isSuccess && worldlyLifestyle.majorPreexistingHealthCondition}</span>
+                <span className="font-bold">
+                  {isSuccess &&
+                    worldlyLifestyle.majorPreexistingHealthCondition}
+                </span>
               </li>
               <li>
                 Mobility Assistance Required:{' '}
-                <span className="font-bold">{isSuccess && worldlyLifestyle.mobilityAssistantRequirement}</span>
+                <span className="font-bold">
+                  {isSuccess && worldlyLifestyle.mobilityAssistantRequirement}
+                </span>
               </li>
               <li>
                 Pre-existing health conditions and/or disabilities:
                 <br />
                 <span className="font-bold text-muted-foreground leading-relaxed">
-                  {isSuccess && worldlyLifestyle.preexistingHealthConditionDescription}
+                  {isSuccess &&
+                    worldlyLifestyle.preexistingHealthConditionDescription}
                 </span>
               </li>
             </ul>

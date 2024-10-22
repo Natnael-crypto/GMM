@@ -17,6 +17,7 @@ const allStages = [
 ];
 
 export function hasAccessToStage(currentStage: MatchStage, stage: MatchStage) {
+  console.log(currentStage, stage);
   return allStages.indexOf(stage) <= allStages.indexOf(currentStage);
 }
 

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { User } from '@/lib/schemas/user';
 import { useGetIslamicLifestyleQuery } from '@/lib/user/api';
@@ -20,7 +20,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 
 export default function IslamicLifestyleCard({ user }: { user: User }) {
-  const { data: islamicLifestyle, isLoading, isSuccess, isError } = useGetIslamicLifestyleQuery(user?.id || '', {
+  const {
+    data: islamicLifestyle,
+    isLoading,
+    isSuccess,
+    isError,
+  } = useGetIslamicLifestyleQuery(user?.id || '', {
     skip: !user,
   });
 
@@ -39,23 +44,33 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
             <ul className="flex flex-col gap-2 text-sm ">
               <li>
                 Salah/Prayer:{' '}
-                <span className="font-bold">{islamicLifestyle?.salat.split('(')[0]}</span>
+                <span className="font-bold">
+                  {islamicLifestyle?.salat.split('(')[0]}
+                </span>
                 <br />
                 <span className="text-md">
-                  ({islamicLifestyle?.salat.split('(')[1]}
+                  {islamicLifestyle?.salat.split('(')[1]}
                 </span>
               </li>
               <li>
-                Ramadan: <span className="font-bold">{islamicLifestyle?.ramadan.split('(')[0]}</span>
+                Ramadan:{' '}
+                <span className="font-bold">
+                  {islamicLifestyle?.ramadan.split('(')[0]}
+                </span>
                 <br />
                 <span className="text-md">
-                  ({islamicLifestyle?.ramadan.split('(')[1]}
+                  {islamicLifestyle?.ramadan.split('(')[1]}
                 </span>
               </li>
               <li>
-                Fasting: <span className="font-bold">{islamicLifestyle?.fasting.split('(')[0]}</span>
+                Fasting:{' '}
+                <span className="font-bold">
+                  {islamicLifestyle?.fasting.split('(')[0]}
+                </span>
                 <br />
-                <span className="text-md">({islamicLifestyle?.fasting.split('(')[1]}</span>
+                <span className="text-md">
+                  {islamicLifestyle?.fasting.split('(')[1]}
+                </span>
               </li>
             </ul>
           </div>
@@ -71,10 +86,14 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
           </div>
           <div className="col-span-8 space-y-2">
             <span>
-              Zakat: <span className="font-bold"> {islamicLifestyle?.zakat?.split('(')[0]}</span>
+              Zakat:{' '}
+              <span className="font-bold">
+                {' '}
+                {islamicLifestyle?.zakat?.split('(')[0]}
+              </span>
               <br />
               <span className="text-md">
-                {"("}{islamicLifestyle?.zakat?.split('(')[1]}
+                {islamicLifestyle?.zakat?.split('(')[1]}
               </span>
             </span>
           </div>
@@ -90,7 +109,10 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
           </div>
           <div className="col-span-8 space-y-2">
             <span>
-              Food: <span className="font-bold">{islamicLifestyle?.food.split('(')[0]}</span>
+              Food:{' '}
+              <span className="font-bold">
+                {islamicLifestyle?.food.split('(')[0]}
+              </span>
               <br />
               {/* <span className="text-md">(Eats only halal)</span> */}
             </span>
@@ -108,7 +130,9 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
           <div className="col-span-8 space-y-2">
             <span>
               Islam & Culture:
-              <span className="font-bold">{islamicLifestyle?.islamAndCulture.split('(')[0]}</span>
+              <span className="font-bold">
+                {islamicLifestyle?.islamAndCulture.split('(')[0]}
+              </span>
               <br />
               <span className="text-md">
                 {/* (Prioritizes Islamic principles over cultural practices) */}
@@ -169,7 +193,10 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
           </div>
           <div className="col-span-8 space-y-2">
             <span>
-              Appearance: <span className="font-bold">{islamicLifestyle?.appearance.split('(')[0]}</span>
+              Appearance:{' '}
+              <span className="font-bold">
+                {islamicLifestyle?.appearance.split('(')[0]}
+              </span>
               <br />
               <span className="text-md">
                 {/* (Maintaining a beard is an obligatory Islamic practice) */}
@@ -189,7 +216,9 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
           <div className="col-span-8 space-y-2">
             <span>
               Hajj & Umra:{' '}
-              <span className="font-bold">{islamicLifestyle?.hajjAndUmra.split('(')[0]}</span>
+              <span className="font-bold">
+                {islamicLifestyle?.hajjAndUmra.split('(')[0]}
+              </span>
               <br />
               <span className="text-md">
                 {/* (Already performed Hajj and/or Umrah) */}

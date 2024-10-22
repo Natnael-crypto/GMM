@@ -6,7 +6,7 @@ import { hasAccessToStage, MatchStage } from '../schemas/match';
 import { useParams } from 'next/navigation';
 import { useGetUserByIdQuery } from '../auth/api';
 
-export function useProfileView() {
+export function useProfileView(stage: MatchStage) {
   const params = useParams<{ userId: string }>();
   const loggedInUser = useAppSelector((state) => state.auth.user);
   const { data: currentMatch } = useGetCurrentMatchQuery(undefined, {
@@ -24,8 +24,7 @@ export function useProfileView() {
 
   const showInfo =
     isMyInformation ||
-    (isMyMatchInformation &&
-      hasAccessToStage(currentMatch.stage, MatchStage.BASIC_INFORMATION));
+    (isMyMatchInformation && hasAccessToStage(currentMatch.stage, stage));
 
   const requestedUser = isMyInformation ? loggedInUser : fetchedUser;
 

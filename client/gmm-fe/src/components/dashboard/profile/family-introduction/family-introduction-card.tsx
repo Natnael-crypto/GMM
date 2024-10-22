@@ -1,19 +1,20 @@
-import Unverified from '@/components/dashboard/profile/marriage/unverified';
-import Verified from '@/components/dashboard/profile/marriage/verfied';
-import { buttonVariants } from '@/components/ui/button';
-import { Link } from '@/lib/navigation';
-import { cn } from '@/lib/utils';
-import { faPeopleRoof, faUser } from '@fortawesome/free-solid-svg-icons';
+'use client';
+
+import { faPeopleRoof } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslations } from 'next-intl';
 import React from 'react';
+import { User } from '@/lib/schemas/user';
+import { useGetFamilyIntroductionQuery } from '@/lib/user/api';
 
-export default function FamilyIntroductionCard() {
+export default function FamilyIntroductionCard({ user }: { user: User }) {
   const t = useTranslations('Dashboard.updateProfile.marriageDiscussion');
+
+  const { data: familyIntroduction, isLoading: isFamilyIntroductionLoading } =
+    useGetFamilyIntroductionQuery(user?.id ?? '', { skip: !user });
 
   return (
     <div className="space-y-6">
-
       <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 divide-y">
         <div className="grid grid-cols-12 py-3">
           <div className="col-span-1">
@@ -28,21 +29,28 @@ export default function FamilyIntroductionCard() {
             <div className="flex flex-col gap-2 text-sm">
               <span>
                 Full Name:{' '}
-                <span className="font-bold">Some name</span>
+                <span className="font-bold">
+                  {familyIntroduction?.guardianFirstName}{' '}
+                  {familyIntroduction?.guardianLastName}
+                </span>
               </span>
               <span>
                 Relationship:{' '}
                 <span className="font-bold">
-                  Revert care (Appoint for me a guardian)
+                  {familyIntroduction?.relationshipToGuardian}
                 </span>
               </span>
               <span>
                 Phone Number:{' '}
-                <span className="font-bold">+1-123-456-7890</span>
+                <span className="font-bold">
+                  {familyIntroduction?.guardianPhoneNumber}
+                </span>
               </span>
               <span>
                 Email:{' '}
-                <span className="font-bold">email@email.com</span>
+                <span className="font-bold">
+                  {familyIntroduction?.guardianEmail}
+                </span>
               </span>
             </div>
           </div>

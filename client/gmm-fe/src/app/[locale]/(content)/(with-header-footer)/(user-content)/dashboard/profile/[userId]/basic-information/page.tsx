@@ -5,10 +5,12 @@ import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import HideProfile from '@/components/dashboard/profile/hide-profile';
 import { useProfileView } from '@/lib/hooks/use-match';
+import { MatchStage } from '@/lib/schemas/match';
 
 export default function BasicInformation() {
-  const { loggedInUser, requestedUser, showInfo, matchedUser } =
-    useProfileView();
+  const { loggedInUser, requestedUser, showInfo, matchedUser } = useProfileView(
+    MatchStage.BASIC_INFORMATION
+  );
 
   return (
     <div className="min-h-[40vh] relative">
