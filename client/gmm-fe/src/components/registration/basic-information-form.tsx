@@ -305,7 +305,7 @@ export default function BasicInformationForm() {
                           <div className="relative h-72 overflow-auto p-2">
                             <Select
                               onValueChange={(value) => {
-                                field.onChange(getEighteenYearsAgo());
+                                field.onChange(value);
                               }}
                             >
                               <SelectTrigger className="z-50 sticky top-0 bg-background h-10 py-1">

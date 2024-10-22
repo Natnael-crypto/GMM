@@ -52,6 +52,7 @@ export function SignUpForm() {
       lastName: '',
       email: '',
       gender: 'Male',
+      dateOfBirth: getEighteenYearsAgo(),
       bornOrRevertToIslam: '',
       password: '',
       confirmPassword: '',
@@ -190,7 +191,7 @@ export function SignUpForm() {
                     <div className="relative h-72 overflow-auto p-2">
                       <Select
                         onValueChange={(value) => {
-                          field.onChange(new Date(value));
+                          field.onChange(value);
                         }}
                       >
                         <SelectTrigger className="z-50 sticky top-0 bg-background h-10 py-1">
@@ -199,7 +200,7 @@ export function SignUpForm() {
                         <SelectContent position="popper">
                           {Array.from(
                             { length: 100 },
-                            (_, i) => new Date().getFullYear() - i
+                            (_, i) => getEighteenYearsAgo().getFullYear() - i
                           ).map((year) => (
                             <SelectItem key={year} value={year.toString()}>
                               {year}
