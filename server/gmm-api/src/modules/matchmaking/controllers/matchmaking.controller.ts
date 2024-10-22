@@ -36,8 +36,7 @@ export class MatchMakingController {
   @Put('preference')
   async updatePreference(
     @Body() preference: UpdatePreferenceDto,
-    @Req() req: Request,
-    @Res() response: Response,
+    @Req() req: Request,    
   ) {
     try {
       const pref = await this.matchmakingService.updateUserPreference(
