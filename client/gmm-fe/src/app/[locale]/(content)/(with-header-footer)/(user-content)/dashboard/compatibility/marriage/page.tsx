@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import ProfileOverview from '@/components/dashboard/compatibility/components/profile-overview-card';
 import MarriageDiscussionCard from '@/components/dashboard/profile/marriage/marriage-discussion-card';
@@ -12,24 +12,44 @@ export default function Marriage() {
   const user = useAppSelector((state) => state.auth.user);
   const { data: currentMatch } = useGetCurrentMatchQuery(undefined, {
     skip: !user,
-  })
+  });
 
-  const femaleImage = currentMatch?.femaleUser?.pictures ? currentMatch?.femaleUser?.pictures[0] : ''
-  const maleImage = currentMatch?.maleUser?.pictures ? currentMatch?.maleUser?.pictures[0] : ''
+  const femaleImage = currentMatch?.femaleUser?.pictures
+    ? currentMatch?.femaleUser?.pictures[0]
+    : '';
+  const maleImage = currentMatch?.maleUser?.pictures
+    ? currentMatch?.maleUser?.pictures[0]
+    : '';
 
-  const { data: userImageUrl } = useGetDownloadUrlQuery(user?.pictures ? user?.pictures[0] : '', { skip: (!user?.pictures || !user?.pictures[0]) });
-  const { data: matchImageUrl } = useGetDownloadUrlQuery(user?.gender === 'Male' ? femaleImage : maleImage, { skip: (!user?.pictures || !user?.pictures[0]) });
-
+  const { data: userImageUrl } = useGetDownloadUrlQuery(
+    user?.pictures ? user?.pictures[0] : '',
+    { skip: !user?.pictures || !user?.pictures[0] }
+  );
+  const { data: matchImageUrl } = useGetDownloadUrlQuery(
+    user?.gender === 'Male' ? femaleImage : maleImage,
+    { skip: !user?.pictures || !user?.pictures[0] }
+  );
 
   return (
     <div className="grid grid-cols-2 gap-5 mt-3">
       <div className="space-y-5">
-        {userImageUrl && user && <ProfileOverview imageUrl={userImageUrl} user={user} />}
-        <MarriageDiscussionCard />
+        {userImageUrl && user && (
+          <ProfileOverview imageUrl={userImageUrl} user={user} />
+        )}
+        {user && <MarriageDiscussionCard user={user} />}
       </div>
       <div className="space-y-5">
-        {matchImageUrl && currentMatch && <ProfileOverview imageUrl={matchImageUrl} user={user?.gender === 'Male' ? currentMatch.femaleUser : currentMatch.maleUser} />}
-        <MarriageDiscussionCard />
+        {matchImageUrl && currentMatch && (
+          <ProfileOverview
+            imageUrl={matchImageUrl}
+            user={
+              user?.gender === 'Male'
+                ? currentMatch.femaleUser
+                : currentMatch.maleUser
+            }
+          />
+        )}
+        {user && <MarriageDiscussionCard user={user} />}
       </div>
     </div>
   );
