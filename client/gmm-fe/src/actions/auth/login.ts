@@ -4,6 +4,9 @@ import { cookies } from 'next/headers';
 import { constants } from '@/config';
 import { Login } from '@/lib/schemas/auth';
 import { cookieNames } from '@/types/cookie-names';
+import { loadUser, nextStep } from '@/lib/auth/utils';
+import { loadUserSubscription } from '@/lib/checkout/checkout';
+import { Role } from '@/lib/schemas/role';
 
 export const login = async (data: Login) => {
   let response = await fetch(`${constants.apiBaseUrl}/auth/login`, {
@@ -52,60 +55,19 @@ export const login = async (data: Login) => {
     expires: new Date(Date.now() + constants.refreshTokenMaxAge),
   });
 
-  // get user data
-  response = await fetch(`${constants.apiBaseUrl}/users/me`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  try {
-    res = await response.json();
-  } catch (e) {
-    return { status: 400, message: 'Invalid JSON response' };
-  }
-
-  if (!response.ok) {
-    if (res.message) {
-      return { status: 400, message: res.message };
-    }
+  const user = await loadUser(accessToken);
+  if (!user) {
     return { status: 400, message: 'Unable to login' };
   }
 
-  const userId = res.data.id;
-
-  // get user subscription
-  response = await fetch(
-    `${constants.apiBaseUrl}/payments/current-subscription/${userId}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
-      },
-    }
-  );
-
-  try {
-    res = await response.json();
-  } catch (e) {
-    return { status: 400, message: 'Invalid JSON response' };
-  }
-
-  if (!response.ok) {
-    if (response.status == 404) {
-      return { status: 200, token: accessToken, message: res.message };
-    }
-    return { status: 400, message: 'Unable to login' };
-  }
+  const subscription = await loadUserSubscription(user.id);
+  const redirectUrl = nextStep(user, !!subscription);
 
   return {
     status: 200,
     token: accessToken,
-    message: res.message,
-    subscription: res.data,
+    user: user,
+    redirectUrl,
   };
 };
 

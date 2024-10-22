@@ -1,7 +1,7 @@
 import createMiddleware from 'next-intl/middleware';
 import { constants, locales } from '@/config';
 import { NextRequest, NextResponse } from 'next/server';
-import { cookieNames } from './types/cookie-names';
+import { cookieNames, headerNames } from './types/cookie-names';
 
 export const intlMiddleware = createMiddleware({
   locales: locales,
@@ -33,16 +33,24 @@ export const refreshTokenMiddleware = async (
       try {
         const { accessToken } = await apiResponse.json();
 
+        res.headers.set(headerNames.accessToken, accessToken);
+
         res.cookies.set(cookieNames.accessToken, accessToken, {
           httpOnly: true,
           sameSite: 'strict',
           secure: true,
           expires: new Date(Date.now() + constants.accessTokenMaxAge),
         });
+
+        return res;
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     }
+  }
+
+  if (accessToken) {
+    res.headers.set(headerNames.accessToken, accessToken);
   }
 
   return res;
@@ -50,7 +58,15 @@ export const refreshTokenMiddleware = async (
 
 export async function middleware(req: NextRequest) {
   const intlResponse = intlMiddleware(req);
-  return await refreshTokenMiddleware(req, intlResponse);
+  const response = await refreshTokenMiddleware(req, intlResponse);
+
+  const { pathname } = req.nextUrl;
+  const locale = req.cookies.get(cookieNames.locale)?.value ?? '';
+  const pathWithoutLocale = pathname.slice(locale.length + 1);
+
+  response.headers.set(headerNames.pathname, pathWithoutLocale);
+
+  return response;
 }
 
 export const config = {

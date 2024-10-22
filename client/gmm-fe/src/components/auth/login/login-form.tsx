@@ -55,12 +55,7 @@ export function LoginForm() {
 
       dispatch(setToken(response.token));
 
-      if (response.subscription) {
-        replace('/dashboard');
-        return
-      }
-
-      replace(searchParams.get('redirect') ?? '/checkout');
+      replace(searchParams.get('redirect') ?? response.redirectUrl ?? '/');
     } else {
       toast({
         title: 'Error',
