@@ -63,18 +63,11 @@ export const matchApi = createApi({
     }),
 
     createMatch: builder.mutation<Match, MatchPreference>({
-      query: ({ queryString, fuzzyMatchThreshold }) => {
-        if (!fuzzyMatchThreshold) {
-          return {
-            url: 'matchmaking?' + queryString,
-            method: 'POST',
-          };
-        } else {
-          return {
-            url: `matchmaking?${queryString}&fuzzyThreshold=${fuzzyMatchThreshold}`,
-            method: 'POST',
-          };
-        }
+      query: ({ tolerance }) => {
+        return {
+          url: `matchmaking?&min_requirement=${tolerance}`,
+          method: 'POST',
+        };
       },
       transformResponse: (response: BaseResponse<Match>) => {
         return response.data;

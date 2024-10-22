@@ -4,12 +4,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export type PreferenceState = {
   queryString: string;
-  fuzzyMatchThreshold: number;
+  tolerance: number;
 };
 
 export const preferenceInitialState: PreferenceState = {
   queryString: '',
-  fuzzyMatchThreshold: 0,
+  tolerance: 0,
 };
 
 const authSlice = createSlice({
@@ -20,12 +20,12 @@ const authSlice = createSlice({
       state.queryString = action.payload;
     },
 
-    setFuzzyMatchThreshold(state, action: { payload: number }) {
-      state.fuzzyMatchThreshold = action.payload;
+    setMatchTolerance(state, action: { payload: number }) {
+      state.tolerance = action.payload;
     },
   },
 });
 
-export const { setQueryString, setFuzzyMatchThreshold } = authSlice.actions;
+export const { setQueryString, setMatchTolerance } = authSlice.actions;
 
 export default authSlice.reducer;

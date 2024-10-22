@@ -1,13 +1,5 @@
-import { MatchStageInvitation } from '../schemas/match';
+import { MatchStage, MatchStageInvitation } from '../schemas/match';
 import { User } from '../schemas/user';
-
-export enum MatchStage {
-  BASIC_INFORMATION = 'BASIC_INFORMATION',
-  WORLDLY_LIFESTYLE = 'WORLDLY_LIFESTYLE',
-  ISLAMIC_LIFESTYLE = 'ISLAMIC_LIFESTYLE',
-  MARRIAGE_DISCUSSION = 'MARRIAGE_DISCUSSION',
-  FAMILY_INTRODUCTION = 'FAMILY_INTRODUCTION',
-}
 
 export enum StageInvitationStatus {
   PENDING = 'PENDING',
@@ -28,15 +20,14 @@ export interface Match {
 }
 
 export interface MatchPreference {
-  queryString: string;
   /*  
-  The threshold for fuzzyMatching 
+  The tolerance of difference for matching. 
   
-  The threshold is a number between 0 and 1. 
+  The tolerance is a number between 0 and 1. 
   The smaller the threshold, the more similar the matches 
   will be.
 
-  fuzzyMatchThreshold: 0 means exact match.
+  tolerance: 0 means exact match.
   */
-  fuzzyMatchThreshold: number;
+  tolerance: number;
 }

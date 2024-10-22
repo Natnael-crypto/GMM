@@ -1,5 +1,4 @@
-'use client'
-
+'use client';
 
 import { User } from '@/lib/schemas/user';
 import {
@@ -10,16 +9,25 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
-import { useCreateDownloadUrlMutation } from '@/lib/user/api'
+import { useCreateDownloadUrlMutation } from '@/lib/user/api';
 import { cn } from '@/lib/utils';
-import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
-import { CarouselNext, CarouselPrevious } from '@/components/ui/previous-button';
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
+import {
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/previous-button';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ProfileImages({ user }: { user: User }) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
 
-  const [imageUrls, setImageUrls] = useState<string[]>([])
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [generateDownloadUrl] = useCreateDownloadUrlMutation();
 
   useEffect(() => {
@@ -34,83 +42,95 @@ export default function ProfileImages({ user }: { user: User }) {
 
   useEffect(() => {
     async function downloadUrl() {
-      const images = []
-      let url = ''
+      const images = [];
+      let url = '';
       for (const image of user.pictures) {
         try {
-          if (image === '') continue
-          url = await generateDownloadUrl(image).unwrap()
-          images.push(url)
+          if (image === '') continue;
+          url = await generateDownloadUrl(image).unwrap();
+          images.push(url);
         } catch (e) {
-          console.error(e)
+          console.error(e);
         }
       }
-      setImageUrls([...images])
+      setImageUrls([...images]);
     }
-    downloadUrl()
-  }, [generateDownloadUrl, user.pictures, user])
+    downloadUrl();
+  }, [generateDownloadUrl, user.pictures, user]);
 
   return (
-    <div>
-      <div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[21rem]">
-        {imageUrls && imageUrls.length > 0 && <Carousel setApi={setApi} className="w-full">
-          <CarouselContent>
-            {
-              imageUrls.map((imageUrl, index) => <CarouselItem key={`profile_pic_${index}`}>
-                <Image
-                  src={imageUrl}
-                  className="object-cover w-full h-[21rem] object-top"
-                  width={600}
-                  height={1000}
-                  alt="Hero image"
-                />
-              </CarouselItem>)
-            }
-          </CarouselContent>
-          <CarouselPrevious className="w-8" />
-          <CarouselNext className="end-0 w-8" />
-        </Carousel>}
+    <div className="min-h-[25rem]">
+      <AnimatePresence>
+        {imageUrls && (
+          <motion.div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[21rem]">
+            {imageUrls && imageUrls.length > 0 && (
+              <Carousel setApi={setApi} className="w-full">
+                <CarouselContent>
+                  {imageUrls.map((imageUrl, index) => (
+                    <CarouselItem key={`profile_pic_${index}`}>
+                      <Image
+                        src={imageUrl}
+                        className="object-cover w-full h-[21rem] object-top"
+                        width={600}
+                        height={1000}
+                        alt="Hero image"
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="w-8" />
+                <CarouselNext className="end-0 w-8" />
+              </Carousel>
+            )}
 
-        <div className="relative">
-          <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
-            <h2 className="text-background font-semibold text-2xl">{user.firstName}</h2>
+            <div className="relative">
+              <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
+                <h2 className="text-background font-semibold text-2xl">
+                  {user.firstName}
+                </h2>
 
-            <div className="space-y-2 font-thin">
-              <p className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-[0.6rem] font-semibold px-2 shadow-lg items-center">
-                <Image
-                  className="w-4 h-4"
-                  width={512}
-                  height={512}
-                  src={`/icons/lang/en.svg`}
-                  alt="Language Flag"
-                />
-                <span className='w-full truncate'>{user.nationality} Nationality / Passport</span>
-              </p>
-              <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white">
-                <span>
-                  <FontAwesomeIcon icon={faLocationDot} />
-                </span>
-                <span className='w-full truncate'>{user.city}, {user.country}</span>
-              </p>
+                <div className="space-y-2 font-thin">
+                  <p className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-[0.6rem] font-semibold px-2 shadow-lg items-center">
+                    <Image
+                      className="w-4 h-4"
+                      width={512}
+                      height={512}
+                      src={`/icons/lang/en.svg`}
+                      alt="Language Flag"
+                    />
+                    <span className="w-full truncate">
+                      {user.nationality} Nationality / Passport
+                    </span>
+                  </p>
+                  <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white">
+                    <span>
+                      <FontAwesomeIcon icon={faLocationDot} />
+                    </span>
+                    <span className="w-full truncate">
+                      {user.city}, {user.country}
+                    </span>
+                  </p>
 
-              <div className="flex gap-2">
-                <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
-                  <span>
-                    <FontAwesomeIcon icon={faUpDown} />
-                  </span>
-                  <span className='w-full truncate'>{user.height} cm</span>
-                </p>
-                <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
-                  <span>
-                    <FontAwesomeIcon icon={faWeightScale} />
-                  </span>
-                  <span className='w-full truncate'>{user.weight} kg </span>
-                </p>
+                  <div className="flex gap-2">
+                    <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
+                      <span>
+                        <FontAwesomeIcon icon={faUpDown} />
+                      </span>
+                      <span className="w-full truncate">{user.height} cm</span>
+                    </p>
+                    <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
+                      <span>
+                        <FontAwesomeIcon icon={faWeightScale} />
+                      </span>
+                      <span className="w-full truncate">{user.weight} kg </span>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="w-full py-2 justify-center flex gap-1">
         {Array.from({ length: imageUrls.length }).map((_, index) => {
