@@ -155,7 +155,7 @@ export class PaymentsController {
     try {
       const userId = req.user.id;
       if (!paymentIntentId) {
-        await this.paymentService.handleFreeCheckout(req.user);
+        await this.paymentService.handleFreeCheckout(userId);
       } else {
         await this.paymentService.handlePaymentSuccess(paymentIntentId, userId);
       }

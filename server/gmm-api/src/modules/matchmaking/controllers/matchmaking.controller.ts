@@ -36,7 +36,7 @@ export class MatchMakingController {
   @Put('preference')
   async updatePreference(
     @Body() preference: UpdatePreferenceDto,
-    @Req() req: Request,    
+    @Req() req: Request,
   ) {
     try {
       const pref = await this.matchmakingService.updateUserPreference(
@@ -59,7 +59,7 @@ export class MatchMakingController {
   @ApiQuery({
     name: 'min_requirement',
     required: false,
-    description: 'Fuzzy search threshold',
+    description: 'Mismatch Tolerance',
   })
   @Post()
   async match(
@@ -69,7 +69,7 @@ export class MatchMakingController {
     try {
       const threshold = parseFloat(minRequirement);
       const match = await this.matchmakingService.matchUser(
-        req.user,
+        req.user.id,
         isNaN(threshold) ? 0 : threshold,
       );
       return {

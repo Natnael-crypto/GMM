@@ -198,8 +198,12 @@ export class PaymentsService extends BaseRepository {
     }
   }
 
-  async handleFreeCheckout(user: User): Promise<void> {
+  async handleFreeCheckout(userId: string): Promise<void> {
     try {
+      const user = await this.getRepository(User).findOne({
+        where: { id: userId },
+      });
+
       if (!user) {
         throw new BadRequestException('User not found.');
       }
@@ -232,7 +236,7 @@ export class PaymentsService extends BaseRepository {
       const subscription = this.getRepository(Subscription).create({
         id: randomUUID(),
         user,
-        status: 'active',
+        status: 'succeeded',
         planId: tier.priceId,
         currentPeriodStart: new Date(),
         amount: tier.amount,
@@ -249,7 +253,7 @@ export class PaymentsService extends BaseRepository {
 
   async consumeMatch(userId: string): Promise<void> {
     const subscription = await this.getRepository(Subscription).findOne({
-      where: { user: { id: userId }, status: 'active' },
+      where: { user: { id: userId }, status: 'succeeded' },
       relations: ['user'], // Include the user relation
     });
 
@@ -399,7 +403,7 @@ export class PaymentsService extends BaseRepository {
 
   async getRemainingMatches(userId: string): Promise<number> {
     const subscription = await this.getRepository(Subscription).findOne({
-      where: { user: { id: userId }, status: In(['active', 'succeeded']) },
+      where: { user: { id: userId }, status: 'succeeded' },
     });
 
     if (!subscription) {

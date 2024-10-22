@@ -18,7 +18,6 @@ import {
   registerDecorator,
   ValidationOptions,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 
 @ValidatorConstraint({ async: false })
 export class IsAdultConstraint implements ValidatorConstraintInterface {

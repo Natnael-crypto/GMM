@@ -132,7 +132,9 @@ export class MatchMakingService extends BaseRepository {
     return match;
   }
 
-  async matchUser(user: User, tolerance: number = 0): Promise<Match | null> {
+  async matchUser(userId: string, tolerance: number = 0): Promise<any> {
+    const user = await this.userService.getUserById(userId);
+
     const candidates = await this.loadCandidates(user);
 
     const matchmaker = new Matchmaker(await this.loadFullUserData(user));
@@ -149,13 +151,13 @@ export class MatchMakingService extends BaseRepository {
 
     if (qualifiedCandidates.length === 0) {
       await this.addToMatchingPool(user);
-      return null;
+      return { match: null, score };
     }
 
     const randomIndex = Math.floor(Math.random() * qualifiedCandidates.length);
     const matchedUserId = qualifiedCandidates[randomIndex].user.id;
 
-    return await this.assignMatch(user, matchedUserId);
+    return { match: await this.assignMatch(user, matchedUserId), score };
   }
 
   async createUserPreference(id: string): Promise<Preference> {
