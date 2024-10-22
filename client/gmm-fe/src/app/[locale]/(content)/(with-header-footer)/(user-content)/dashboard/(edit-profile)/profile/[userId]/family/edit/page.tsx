@@ -1,24 +1,29 @@
-'use client'
+'use client';
 
-import FamilyIntroductionForm from "@/components/dashboard/profile/family-introduction/family-introduction-form";
-import Loading from "@/components/ui/loading";
-import { useAppSelector } from "@/lib/hooks";
+import FamilyIntroductionForm from '@/components/dashboard/profile/family-introduction/family-introduction-form';
+import Loading from '@/components/ui/loading';
+import { useAppSelector } from '@/lib/hooks';
 import Unverified from '@/components/dashboard/profile/marriage/unverified';
 import Verified from '@/components/dashboard/profile/marriage/verfied';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Link } from '@/lib/navigation';
-import { useGetFamilyIntroductionQuery } from "@/lib/user/api";
+import { useGetFamilyIntroductionQuery } from '@/lib/user/api';
 import { useTranslations } from 'next-intl';
 
 export default function FamilyIntroductionPage() {
-  const user = useAppSelector(state => state.auth.user);
-  const { data: familyIntroduction, isLoading: isFamilyIntroductionLoading } = useGetFamilyIntroductionQuery(user?.id ?? '', { skip: !user });
+  const user = useAppSelector((state) => state.auth.user);
+  const { data: familyIntroduction, isLoading: isFamilyIntroductionLoading } =
+    useGetFamilyIntroductionQuery(user?.id ?? '', { skip: !user });
   const t = useTranslations('Dashboard.updateProfile.marriageDiscussion');
 
   return (
     <div>
-      {isFamilyIntroductionLoading && <div className="w-full flex justify-center"><Loading /></div>}
+      {isFamilyIntroductionLoading && (
+        <div className="w-full flex justify-center">
+          <Loading />
+        </div>
+      )}
       <FamilyIntroductionForm familyIntroduction={familyIntroduction} />
 
       <div className="pb-8 px-6 sm:px-16 md:px-24 lg:px-52 ">

@@ -1,6 +1,6 @@
 'use client';
 
-import MatchFuzzinessSelector from '@/components/dashboard/components/match-fuzziness-selector';
+import MatchToleranceSelector from '@/components/dashboard/components/match-fuzziness-selector';
 import MatchMeCard from '@/components/dashboard/components/match-me-card';
 import MatchPreferenceFilter from '@/components/dashboard/components/match-preference-filter';
 import MatchedCard from '@/components/dashboard/components/matched-card';
@@ -73,7 +73,7 @@ export default function Dashboard() {
                 <MatchPreferenceFilter />
                 <div className="md:col-span-3 flex gap-3 sm:flex-col md:gap-y-5">
                   <MatchMeCard />
-                  <MatchFuzzinessSelector />
+                  <MatchToleranceSelector />
                   <OutsideFilterCard />
                 </div>
               </div>

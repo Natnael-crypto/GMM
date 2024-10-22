@@ -52,9 +52,7 @@ const martialStatusOptions = [
 
 export default function MatchPreferenceFilter() {
   const user = useAppSelector((state) => state.auth.user);
-  const fuzzyMatchThreshold = useAppSelector(
-    (state) => state.preference.fuzzyMatchThreshold
-  );
+  const tolerance = useAppSelector((state) => state.preference.tolerance);
 
   const dispatch = useAppDispatch();
 
@@ -128,8 +126,7 @@ export default function MatchPreferenceFilter() {
       });
       dispatch(setUser({ ...user, preference: updateResult.data }));
       createMatch({
-        queryString: getQueryString(form.getValues()),
-        fuzzyMatchThreshold: fuzzyMatchThreshold ?? 0,
+        tolerance: tolerance ?? 0,
       });
     }
 

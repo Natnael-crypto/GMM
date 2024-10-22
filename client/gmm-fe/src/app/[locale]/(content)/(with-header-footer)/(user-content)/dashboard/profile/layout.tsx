@@ -10,7 +10,6 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 import { useGetUserQuery } from '@/lib/user/api';
 
-
 export default function ProfileLayout({
   children,
 }: {
@@ -21,13 +20,15 @@ export default function ProfileLayout({
 
   const params = useParams<{ userId: string }>();
 
-  const { data: fetchedUser } = useGetUserQuery(params.userId, { skip: !user || user.id === params.userId });
+  const { data: fetchedUser } = useGetUserQuery(params.userId, {
+    skip: !user || user.id === params.userId,
+  });
 
-  const basicInfoPath = `/dashboard/profile/${params.userId}/basic-information`
-  const worldlyLifestylePath = `/dashboard/profile/${params.userId}/worldly-lifestyle`
-  const islamicLifestylePath = `/dashboard/profile/${params.userId}/islamic-lifestyle`
-  const marriagePath = `/dashboard/profile/${params.userId}/marriage`
-  const familyPath = `/dashboard/profile/${params.userId}/family`
+  const basicInfoPath = `/dashboard/profile/${params.userId}/basic-information`;
+  const worldlyLifestylePath = `/dashboard/profile/${params.userId}/worldly-lifestyle`;
+  const islamicLifestylePath = `/dashboard/profile/${params.userId}/islamic-lifestyle`;
+  const marriagePath = `/dashboard/profile/${params.userId}/marriage`;
+  const familyPath = `/dashboard/profile/${params.userId}/family`;
 
   const pageNames: Record<string, string> = {
     [basicInfoPath]: 'Basic Information',
@@ -37,6 +38,8 @@ export default function ProfileLayout({
     [familyPath]: 'Family Introduction',
   };
 
+  const data = params.userId === user?.id ? user : fetchedUser;
+
   return (
     <div>
       <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
@@ -44,13 +47,13 @@ export default function ProfileLayout({
           editLink={`${pathname}/edit`}
           pageName={pageNames[pathname]}
         />
-        <div className='sticky top-0 bg-background pb-8 pt-3 z-50'>
+        <div className="sticky top-0 bg-background pb-8 pt-3 z-50">
           <ProfileStepper />
         </div>
 
         <div className="grid grid-cols-12 gap-5 py-8">
           <div className="hidden md:block col-span-3">
-            {user && <ProfileImages user={fetchedUser ?? user} />}
+            {data && <ProfileImages key={data.id} user={data} />}
           </div>
           <div className="col-span-9">{children}</div>
         </div>

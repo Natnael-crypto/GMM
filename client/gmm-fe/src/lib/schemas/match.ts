@@ -1,5 +1,25 @@
 import { z } from 'zod';
 
+export enum MatchStage {
+  BASIC_INFORMATION = 'Basic Information',
+  WORLDLY_LIFESTYLE = 'Worldly Lifestyle',
+  ISLAMIC_LIFESTYLE = 'Islamic Lifestyle',
+  MARRIAGE_DISCUSSION = 'Marriage Discussion',
+  FAMILY_INTRODUCTION = 'Family Introduction',
+}
+
+const allStages = [
+  MatchStage.BASIC_INFORMATION,
+  MatchStage.WORLDLY_LIFESTYLE,
+  MatchStage.ISLAMIC_LIFESTYLE,
+  MatchStage.MARRIAGE_DISCUSSION,
+  MatchStage.FAMILY_INTRODUCTION,
+];
+
+export function hasAccessToStage(currentStage: MatchStage, stage: MatchStage) {
+  return allStages.indexOf(stage) <= allStages.indexOf(currentStage);
+}
+
 export const userInMatchPool = z.object({
   userId: z.string(),
   country: z.string(),

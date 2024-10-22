@@ -2,23 +2,19 @@
 
 import { Button } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { setFuzzyMatchThreshold } from '@/lib/matchmaking/slice';
+import { setMatchTolerance } from '@/lib/matchmaking/slice';
 import React from 'react';
-import { useUpdateProfileContext } from '../profile/update-profile-context';
-import Loading from '@/components/ui/loading';
 import { cn } from '@/lib/utils';
 
-export default function MatchFuzzinessSelector() {
+export default function MatchToleranceSelector() {
   const dispatch = useAppDispatch();
-  const fuzzyMatchThreshold = useAppSelector(
-    (state) => state.preference.fuzzyMatchThreshold
-  );
+  const matchTolerance = useAppSelector((state) => state.preference.tolerance);
 
   const handleChange = (value: number) => {
-    if (fuzzyMatchThreshold !== value) {
-      dispatch(setFuzzyMatchThreshold(value));
+    if (matchTolerance !== value) {
+      dispatch(setMatchTolerance(value));
     } else {
-      dispatch(setFuzzyMatchThreshold(0));
+      dispatch(setMatchTolerance(0));
     }
   };
 
@@ -27,7 +23,7 @@ export default function MatchFuzzinessSelector() {
       <Button
         className={cn(
           'text-xs w-full h-8 hover:bg-primary cta',
-          fuzzyMatchThreshold === 0.1 ? 'bg-primary' : ''
+          matchTolerance === 0.1 ? 'bg-primary' : ''
         )}
         variant="secondary"
         onClick={() => handleChange(0.1)}
@@ -37,7 +33,7 @@ export default function MatchFuzzinessSelector() {
       <Button
         className={cn(
           'text-xs w-full h-8 hover:bg-primary cta',
-          fuzzyMatchThreshold === 0.2 ? 'bg-primary' : ''
+          matchTolerance === 0.2 ? 'bg-primary' : ''
         )}
         variant="secondary"
         onClick={() => handleChange(0.2)}

@@ -46,6 +46,7 @@ import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { getEighteenYearsAgo } from '@/lib/format';
+import { FamilyIntroduction } from '@/lib/schemas/family-introduction';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -59,7 +60,11 @@ const cityOptions = Object.keys(countries).flatMap((country) =>
   }))
 );
 
-export default function BasicInformationForm() {
+export default function BasicInformationForm({
+  familyIntroduction,
+}: {
+  familyIntroduction?: FamilyIntroduction;
+}) {
   const user = useAppSelector((state) => state.auth.user);
   const form = useForm<UserRegistration>({
     resolver: zodResolver(userRegistrationSchema),
@@ -67,7 +72,9 @@ export default function BasicInformationForm() {
       id: user?.id ?? '',
       firstName: user?.firstName ?? '',
       lastName: user?.lastName ?? '',
-      dateOfBirth: user?.dateOfBirth ?? getEighteenYearsAgo(),
+      dateOfBirth: user?.dateOfBirth
+        ? new Date(user?.dateOfBirth)
+        : getEighteenYearsAgo(),
       gender: user?.gender ?? '',
       height: user?.height ?? 0,
       weight: user?.weight ?? 0,
@@ -95,6 +102,19 @@ export default function BasicInformationForm() {
     },
   });
 
+  useEffect(() => {
+    if (familyIntroduction) {
+      form.reset({
+        ...form.getValues(),
+        guardianEmail: familyIntroduction.guardianEmail,
+        guardianFirstName: familyIntroduction.guardianFirstName,
+        guardianLastName: familyIntroduction.guardianLastName,
+        guardianPhoneNumber: familyIntroduction.guardianPhoneNumber,
+        relationshipToGuardian: familyIntroduction.relationshipToGuardian,
+      });
+    }
+  }, [form, familyIntroduction]);
+
   const registrationFormRef = useRef<HTMLFormElement>(null);
   const { registerForm, setSaving } = useUpdateProfileContext();
   const [registerUser, registrationResult] = useRegisterUserMutation();
@@ -109,10 +129,13 @@ export default function BasicInformationForm() {
   useEffect(() => {
     if (user) {
       form.reset({
+        ...form.getValues(),
         id: user?.id ?? '',
         firstName: user?.firstName ?? '',
         lastName: user?.lastName ?? '',
-        dateOfBirth: user?.dateOfBirth ?? getEighteenYearsAgo(),
+        dateOfBirth: user?.dateOfBirth
+          ? new Date(user?.dateOfBirth)
+          : getEighteenYearsAgo(),
         gender: user?.gender ?? '',
         height: user?.height ?? 0,
         weight: user?.weight ?? 0,
@@ -159,7 +182,7 @@ export default function BasicInformationForm() {
         description: 'You have been registered successfully',
       });
       router.replace('/dashboard');
-    } else {
+    } else if (registrationResult.isError) {
       toast({
         title: 'Error',
         description: 'An error occurred while registering',

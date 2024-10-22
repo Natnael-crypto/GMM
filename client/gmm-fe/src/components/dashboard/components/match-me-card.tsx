@@ -18,7 +18,7 @@ export default function MatchMeCard() {
   });
 
   const fuzzyMatchThreshold = useAppSelector(
-    (state) => state.preference.fuzzyMatchThreshold
+    (state) => state.preference.tolerance
   );
 
   const matchMeText =
