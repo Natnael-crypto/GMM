@@ -1,7 +1,8 @@
-import AuthGuard from '@/components/providers/auth-guard'
+import AuthGuard from '@/components/auth/guard/auth-guard';
+import { Role } from '@/lib/schemas/role';
 
 function UserLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-    return children
+  return children;
 }
 
-export default AuthGuard({ Component: UserLayout, allowedRoles: ['User'] })
+export default AuthGuard({ Component: UserLayout, allowedRoles: [Role.User] });

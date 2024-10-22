@@ -464,6 +464,7 @@ export const baseUserSchema = z
       ])
       .optional(),
 
+    roleId: z.string(),
     isMatched: z.boolean().default(false).optional().nullable(),
   })
   .required();
