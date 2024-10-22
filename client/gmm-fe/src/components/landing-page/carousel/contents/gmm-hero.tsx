@@ -1,6 +1,7 @@
 import { buttonVariants } from '@/components/ui/button';
 import { localeDirection } from '@/config';
 import { auth } from '@/lib/auth/utils';
+import { AccountStatus } from '@/lib/schemas/user';
 import { cn } from '@/lib/utils';
 import { getLocale, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
@@ -52,7 +53,7 @@ export default async function GMMHero() {
           </div>
 
           {/* Hero text */}
-          <div className='z-20'>
+          <div className="z-20">
             <h1 className="text-2xl md:text-3xl lg:text-4xl lg:leading-[3.3rem] sm:max-w-64 md:max-w-72 lg:max-w-96 font-bold text-primary-foreground text-wrap">
               {t('hero.title')}
             </h1>
@@ -65,7 +66,12 @@ export default async function GMMHero() {
           <div className="flex gap-4 z-50">
             {session ? (
               <Link
-                href={session.user.age == null ? `/${locale}/registration` : `/${locale}/dashboard`}
+                href={
+                  session.user.accountStatus ===
+                  AccountStatus.INCOMPLETE_REGISTRATION
+                    ? `/${locale}/registration`
+                    : `/${locale}/dashboard`
+                }
                 className={cn(
                   buttonVariants({ variant: 'default' }),
                   'font-bold px-14 cta'
