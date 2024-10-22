@@ -23,6 +23,13 @@ export class AuthRepository extends BaseRepository {
     });
   }
 
+  async findUserById(id: string) {
+    return await this.getRepository(User).findOne({
+      where: { id },
+      select: ['id', 'email', 'roleId', 'password', 'verificationStatus'],
+    });
+  }
+
   async findUserRefreshToken(userId: string) {
     return await this.getRepository(RefreshToken).findOne({
       where: { userId },

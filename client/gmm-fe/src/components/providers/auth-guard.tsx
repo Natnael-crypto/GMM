@@ -1,4 +1,3 @@
-import { refreshToken } from '@/actions/auth/login';
 import { auth } from '@/lib/auth/utils';
 import { redirect } from '@/lib/navigation';
 
@@ -24,7 +23,6 @@ export default function AuthGuard({ Component, allowedRoles }: AuthGuardProps) {
       if ((session?.user as any)?.roleId === 'Guardian') {
         return redirect('/guardian');
       }
-
       redirect('/login');
     }
 

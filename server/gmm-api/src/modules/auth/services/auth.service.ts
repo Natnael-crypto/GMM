@@ -69,18 +69,23 @@ export class NewAuthService {
   }
 
   async validateRefreshToken(token: string, userId: string) {
-    const user = await this.authRepo.findUserRefreshToken(userId);
+    const refreshToken = await this.authRepo.findUserRefreshToken(userId);
 
-    if (!user) {
+    if (!refreshToken) {
       throw new UnauthorizedException();
     }
 
-    const isRefreshTokenValid = await bcrypt.compare(token, user.hashedToken);
+    const isRefreshTokenValid = await bcrypt.compare(
+      token,
+      refreshToken.hashedToken,
+    );
 
     if (!isRefreshTokenValid) {
       throw new UnauthorizedException();
     }
 
+    const user = await this.authRepo.findUserById(userId);
+    if (!user) throw new UnauthorizedException();
     return user;
   }
 
