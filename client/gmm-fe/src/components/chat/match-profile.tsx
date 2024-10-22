@@ -29,7 +29,7 @@ import {
 } from '@/lib/matchmaking/api';
 import { toast } from '../ui/use-toast';
 import { useAppSelector } from '@/lib/hooks';
-import { MatchStage } from '@/lib/schemas/match';
+import { allMatchStages, MatchStage } from '@/lib/schemas/match';
 
 enum DialogType {
   SEND_INVITATION = 'send_invitation',
@@ -121,8 +121,7 @@ export default function MatchProfile({
     buttonText = 'Accept/Reject Invitation';
   }
 
-  const stages = Object.keys(MatchStage);
-  const stageIndex = stages.indexOf(match.stage);
+  const stageIndex = allMatchStages.indexOf(match.stage);
 
   return (
     <div

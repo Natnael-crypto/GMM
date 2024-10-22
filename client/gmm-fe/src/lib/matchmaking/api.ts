@@ -79,7 +79,7 @@ export const matchApi = createApi({
 
     inviteToNextStep: builder.mutation<Match, { matchId: string }>({
       query: ({ matchId }) => ({
-        url: `matchmaking/matches/${matchId}/stage-invitation`,
+        url: `matchmaking/matches/${matchId}/invitations`,
         method: 'POST',
       }),
       transformResponse: (response: BaseResponse<Match>) => {
@@ -95,7 +95,7 @@ export const matchApi = createApi({
       { invitationId: string; action: StageInvitationStatus }
     >({
       query: ({ invitationId, action }) => ({
-        url: `matchmaking/matches/${invitationId}/stage-invitation`,
+        url: `matchmaking/matches/invitations/${invitationId}`,
         method: 'PUT',
         body: { action: action },
       }),

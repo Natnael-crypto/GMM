@@ -49,7 +49,15 @@ export default function FamilyDiscussion() {
             }
           />
         )}
-        {user && <FamilyIntroductionCard user={user} />}
+        {currentMatch && (
+          <FamilyIntroductionCard
+            user={
+              user?.gender === 'Male'
+                ? currentMatch.femaleUser
+                : currentMatch.maleUser
+            }
+          />
+        )}
       </div>
     </div>
   );

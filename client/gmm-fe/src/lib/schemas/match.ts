@@ -8,7 +8,7 @@ export enum MatchStage {
   FAMILY_INTRODUCTION = 'Family Introduction',
 }
 
-const allStages = [
+export const allMatchStages = [
   MatchStage.BASIC_INFORMATION,
   MatchStage.WORLDLY_LIFESTYLE,
   MatchStage.ISLAMIC_LIFESTYLE,
@@ -18,7 +18,7 @@ const allStages = [
 
 export function hasAccessToStage(currentStage: MatchStage, stage: MatchStage) {
   console.log(currentStage, stage);
-  return allStages.indexOf(stage) <= allStages.indexOf(currentStage);
+  return allMatchStages.indexOf(stage) <= allMatchStages.indexOf(currentStage);
 }
 
 export const userInMatchPool = z.object({
