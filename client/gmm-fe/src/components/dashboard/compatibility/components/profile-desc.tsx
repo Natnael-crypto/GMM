@@ -1,3 +1,4 @@
+import { convertDateToAge } from '@/lib/format';
 import { User } from '@/lib/schemas/user';
 import {
   faLocationDot,
@@ -12,7 +13,12 @@ export default function ProfileDescription({ user }: { user: User }) {
   return (
     <div className="w-full h-full rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted p-5 space-y-3">
       <h1 className="text-xl font-bold text-muted-foreground">
-        {user.firstName} {user.lastName} <span className="text-sm">(35)</span>
+        {user.firstName} {user.lastName}{' '}
+        {user && user.dateOfBirth && (
+          <span className="text-sm">
+            ({convertDateToAge(user.dateOfBirth)})
+          </span>
+        )}
       </h1>
 
       <div className="space-y-2 font-thin">
@@ -30,7 +36,9 @@ export default function ProfileDescription({ user }: { user: User }) {
           <span>
             <FontAwesomeIcon icon={faLocationDot} />
           </span>
-          <span>{user.city}, {user.country}</span>
+          <span>
+            {user.city}, {user.country}
+          </span>
         </p>
 
         <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">

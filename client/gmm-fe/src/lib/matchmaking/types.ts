@@ -2,9 +2,10 @@ import { MatchStage, MatchStageInvitation } from '../schemas/match';
 import { User } from '../schemas/user';
 
 export enum StageInvitationStatus {
-  PENDING = 'PENDING',
-  ACCEPTED = 'ACCEPTED',
-  REJECTED = 'REJECTED',
+  PENDING = 'Pending',
+  ACCEPTED = 'Accepted',
+  REJECTED = 'Rejected',
+  EXPIRED = 'Expired',
 }
 
 export interface Match {

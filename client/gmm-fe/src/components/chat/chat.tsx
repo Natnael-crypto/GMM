@@ -25,7 +25,7 @@ import { formatLocalizedDate } from '@/lib/format';
 import DateSeparator from './date-separator';
 import { StepperItem } from './stepper';
 import { Match } from '@/lib/matchmaking/types';
-import { MatchStage } from '@/lib/schemas/match';
+import { allMatchStages, MatchStage } from '@/lib/schemas/match';
 
 type ExtendedMessage = Message & { pending: boolean; mine: boolean };
 
@@ -172,8 +172,7 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
     }
   }, [socket, chat, socket?.connected]);
 
-  const stages = Object.keys(MatchStage);
-  const stageIndex = stages.indexOf(match.stage);
+  const stageIndex = allMatchStages.indexOf(match.stage);
 
   return (
     <div

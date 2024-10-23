@@ -22,7 +22,7 @@ import {
 } from '../ui/alert-dialog';
 import { cn } from '@/lib/utils';
 import { setUser } from '@/lib/auth/slice';
-import { MatchStage } from '@/lib/schemas/match';
+import { allMatchStages, MatchStage } from '@/lib/schemas/match';
 
 export default function GuardianGuide({
   matchedUser,
@@ -46,8 +46,7 @@ export default function GuardianGuide({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unmatchResult, router, dispatch]);
 
-  const stages = Object.keys(MatchStage);
-  const stageIndex = stages.indexOf(match.stage);
+  const stageIndex = allMatchStages.indexOf(match.stage);
 
   return (
     <div

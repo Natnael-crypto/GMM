@@ -49,7 +49,15 @@ export default function Marriage() {
             }
           />
         )}
-        {user && <MarriageDiscussionCard user={user} />}
+        {currentMatch && (
+          <MarriageDiscussionCard
+            user={
+              user?.gender === 'Male'
+                ? currentMatch.femaleUser
+                : currentMatch.maleUser
+            }
+          />
+        )}
       </div>
     </div>
   );
