@@ -26,7 +26,7 @@ import {
   weights,
 } from '@/lib/schemas/user';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 import { useUpdateUserMutation } from '@/lib/user/api';
@@ -148,6 +148,8 @@ export default function BasicInformationForm() {
     setSaving(updateResult.isLoading);
   }, [updateResult, setSaving]);
 
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
   return (
     <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-12 lg:grid-cols-4 gap-x-5 gap-y-4 py-8 text-md">
       <div className="col-span-12 md:col-span-8 lg:col-span-1">
@@ -227,7 +229,10 @@ export default function BasicInformationForm() {
               name="dateOfBirth"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <Popover>
+                  <Popover
+                    open={isCalendarOpen}
+                    onOpenChange={setIsCalendarOpen}
+                  >
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
@@ -249,7 +254,7 @@ export default function BasicInformationForm() {
                       <div className="relative h-72 overflow-auto p-2">
                         <Select
                           onValueChange={(value) => {
-                            field.onChange(getEighteenYearsAgo());
+                            field.onChange(new Date(value));
                           }}
                         >
                           <SelectTrigger className="z-50 sticky top-0 bg-background h-10 py-1">
@@ -271,7 +276,10 @@ export default function BasicInformationForm() {
                           key={field.value?.toString() ?? 'date_of_birth'}
                           mode="single"
                           selected={field.value}
-                          onSelect={field.onChange}
+                          onSelect={(value) => {
+                            field.onChange(value);
+                            setIsCalendarOpen(false);
+                          }}
                           disabled={(date) =>
                             date > getEighteenYearsAgo() ||
                             date < new Date('1900-01-01')
@@ -296,7 +304,11 @@ export default function BasicInformationForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      disabled
+                    >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>

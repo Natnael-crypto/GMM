@@ -9,8 +9,6 @@ const completionCalculator = (fields: string[], object: any): number => {
       object[field] !== ''
     ) {
       return true;
-    } else {
-      console.log(field);
     }
   });
 

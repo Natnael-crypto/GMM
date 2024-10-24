@@ -8,18 +8,15 @@ export default async function ProfileLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth()
+  const session = await auth();
 
   if (session && session.user && session.user.registered) {
-    console.log(session.user)
-    return redirect('/dashboard')
+    return redirect('/dashboard');
   }
 
   return (
     <div className="px-6 sm:px-16 md:px-[8%] lg:px-[15%] py-6 space-y-8">
-      <UpdateProfileProvider autoSave={false}>
-        {children}
-      </UpdateProfileProvider>
+      <UpdateProfileProvider autoSave={false}>{children}</UpdateProfileProvider>
     </div>
   );
 }

@@ -13,7 +13,6 @@ import { useAppSelector } from '@/lib/hooks';
 import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
 import { AccountStatus } from '@/lib/schemas/user';
 import { cn } from '@/lib/utils';
-
 import React from 'react';
 
 export default function Dashboard() {
@@ -71,7 +70,7 @@ export default function Dashboard() {
 
               <div className="flex flex-col md:grid md:grid-cols-12 gap-4 py-4">
                 <MatchPreferenceFilter />
-                <div className="md:col-span-3 flex gap-3 sm:flex-col md:gap-y-5">
+                <div className="md:col-span-3 flex gap-3 sm:flex-col md:gap-y-5 items-center">
                   <MatchMeCard />
                   <MatchToleranceSelector />
                   <OutsideFilterCard />

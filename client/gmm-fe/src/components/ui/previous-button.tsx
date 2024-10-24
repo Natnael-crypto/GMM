@@ -38,7 +38,7 @@ const CarouselPrevious = React.forwardRef<
       {...props}
     >
       <FontAwesomeIcon
-        className="text-3xl text-background ms-4"
+        className="text-3xl text-background ms-1"
         icon={faChevronLeft}
       />
       <span className="sr-only">Previous slide</span>
@@ -73,7 +73,7 @@ const CarouselNext = React.forwardRef<
       {...props}
     >
       <FontAwesomeIcon
-        className="text-3xl text-background mr-4"
+        className="text-3xl text-background mr-1"
         icon={faChevronRight}
       />
       <span className="sr-only">Nextious slide</span>

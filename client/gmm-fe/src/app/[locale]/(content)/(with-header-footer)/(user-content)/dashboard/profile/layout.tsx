@@ -38,6 +38,14 @@ export default function ProfileLayout({
     [familyPath]: 'Family Introduction',
   };
 
+  const compatibilityPaths: Record<string, string> = {
+    [basicInfoPath]: '/dashboard/compatibility/basic-information',
+    [worldlyLifestylePath]: '/dashboard/compatibility/worldly-lifestyle',
+    [islamicLifestylePath]: '/dashboard/compatibility/islamic-lifestyle',
+    [marriagePath]: '/dashboard/compatibility/marriage',
+    [familyPath]: '/dashboard/compatibility/family',
+  };
+
   const data = params.userId === user?.id ? user : fetchedUser;
 
   return (
@@ -45,6 +53,7 @@ export default function ProfileLayout({
       <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
         <ProfileHeader
           editLink={`${pathname}/edit`}
+          compatibilityPath={compatibilityPaths[pathname]}
           pageName={pageNames[pathname]}
         />
         <div className="sticky top-0 bg-background pb-8 pt-3 z-50">

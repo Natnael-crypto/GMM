@@ -288,9 +288,9 @@ export default function MatchPreferenceFilter() {
       <form
         ref={preferenceFormRef}
         onSubmit={form.handleSubmit(onSubmit)}
-        className="col-span-10 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary"
+        className="col-span-9 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary"
       >
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('preferredAge', [18, 100])}
@@ -318,14 +318,14 @@ export default function MatchPreferenceFilter() {
                   max={100}
                   step={1}
                 />
-                <div className="text-sm flex gap-1 text-primary font-bold justify-center">
+                <div className="text-xs flex gap-1 text-primary font-bold justify-center">
                   <span>{field.value?.join(' - ')}</span>
                 </div>
               </>
             )}
           />
         </div>
-        <div className="space-y-2 col-span-10 md:col-span-4">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('preferredHeight', [0, 300])}
@@ -352,20 +352,25 @@ export default function MatchPreferenceFilter() {
                   max={300}
                   step={1}
                 />
-                <div className="text-sm flex gap-1 text-primary font-bold justify-center">
-                  <span>{field.value && field.value[0]} cm </span>
-                  <span>-</span>
-                  <span>{field.value && field.value[1]} cm</span>|
-                  <span>{field.value && cmToFeetInches(field.value[0])} </span>
-                  <span>-</span>
-                  <span>{field.value && cmToFeetInches(field.value[1])}</span>
+                <div className="text-xs flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
+                  <span>
+                    <span>{field.value && field.value[0]} cm </span>{' '}
+                    <span>-</span>{' '}
+                    <span>{field.value && field.value[1]} cm</span>
+                  </span>
+                  <span className="block md:hidden lg:block">|</span>
+                  <span>
+                    <span>{field.value && cmToFeetInches(field.value[0])}</span>{' '}
+                    <span>-</span>{' '}
+                    <span>{field.value && cmToFeetInches(field.value[1])}</span>
+                  </span>
                 </div>
               </>
             )}
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-4">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => {
@@ -394,20 +399,25 @@ export default function MatchPreferenceFilter() {
                   max={220}
                   step={1}
                 />
-                <div className="text-sm flex gap-1 text-primary font-bold justify-center">
-                  <span>{field.value && field.value[0]} Kg</span>
-                  <span>-</span>
-                  <span>{field.value && field.value[1]} Kg</span>|
-                  <span>{field.value && kgToPounds(field.value[0])}</span>
-                  <span>-</span>
-                  <span>{field.value && kgToPounds(field.value[1])}</span>
+                <div className="text-xs flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
+                  <span>
+                    <span>{field.value && field.value[0]} Kg</span>{' '}
+                    <span>-</span>{' '}
+                    <span>{field.value && field.value[1]} Kg</span>
+                  </span>
+                  <span className="block md:hidden lg:block">|</span>
+                  <span>
+                    <span>{field.value && kgToPounds(field.value[0])}</span>{' '}
+                    <span>-</span>{' '}
+                    <span>{field.value && kgToPounds(field.value[1])}</span>
+                  </span>
                 </div>
               </>
             )}
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('nationality', '')}
@@ -443,7 +453,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('language', '')}
@@ -488,7 +498,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('countryOfOrigin', '')}
@@ -524,7 +534,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('martialStatus', '')}
@@ -560,7 +570,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label className="text-sm flex justify-between items-center">
             <span className="font-bold line-clamp-1">Salat/Prayer</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
@@ -578,7 +588,7 @@ export default function MatchPreferenceFilter() {
           </Select>
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('bornOrRevert', '')}
@@ -619,7 +629,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-8">
+        <div className="space-y-2 col-span-10 md:col-span-9">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('hijab', '')}
@@ -671,7 +681,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-8">
+        <div className="space-y-2 col-span-10 md:col-span-9">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('children', '')}
@@ -724,7 +734,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('wantsChildren', '')}
@@ -764,7 +774,7 @@ export default function MatchPreferenceFilter() {
           </Select>
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('education', '')}
@@ -842,7 +852,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('profession', '')}
@@ -892,7 +902,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('drinking', '' as unknown as boolean)}
@@ -932,7 +942,7 @@ export default function MatchPreferenceFilter() {
             )}
           />
         </div>
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('smoking', '' as unknown as boolean)}
@@ -972,7 +982,7 @@ export default function MatchPreferenceFilter() {
             )}
           />
         </div>
-        <div className="space-y-2 col-span-10 md:col-span-2">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('tattoos', '' as unknown as boolean)}
