@@ -84,6 +84,8 @@ export function SignUpForm() {
     setSignUpInProgress(false);
   }
 
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
@@ -169,7 +171,7 @@ export function SignUpForm() {
             name="dateOfBirth"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <Popover>
+                <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
@@ -191,7 +193,7 @@ export function SignUpForm() {
                     <div className="relative h-72 overflow-auto p-2">
                       <Select
                         onValueChange={(value) => {
-                          field.onChange(value);
+                          field.onChange(new Date(value));
                         }}
                       >
                         <SelectTrigger className="z-50 sticky top-0 bg-background h-10 py-1">
@@ -213,7 +215,10 @@ export function SignUpForm() {
                         key={field.value?.toString() ?? 'date_of_birth'}
                         mode="single"
                         selected={field.value}
-                        onSelect={field.onChange}
+                        onSelect={(value) => {
+                          field.onChange(value);
+                          setIsCalendarOpen(false);
+                        }}
                         disabled={(date) =>
                           date > getEighteenYearsAgo() ||
                           date < new Date('1900-01-01')
@@ -235,7 +240,11 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value}
+                    disabled
+                  >
                     <SelectTrigger className="text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue placeholder="Born or Revert to Islam" />
                     </SelectTrigger>
@@ -253,6 +262,11 @@ export function SignUpForm() {
               </FormItem>
             )}
           />
+
+          <div className="text-sm pt-2 pb-3 text-center">
+            The above fields can not be updated after sign up. Please verify
+            your details before proceeding.
+          </div>
 
           <FormField
             control={form.control}

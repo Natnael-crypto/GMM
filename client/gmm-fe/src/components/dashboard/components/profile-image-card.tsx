@@ -22,6 +22,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/previous-button';
 import { motion, AnimatePresence } from 'framer-motion';
+import { convertDateToAge } from '@/lib/format';
 
 export default function ProfileImages({ user }: { user: User }) {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -59,18 +60,18 @@ export default function ProfileImages({ user }: { user: User }) {
   }, [generateDownloadUrl, user.pictures, user]);
 
   return (
-    <div className="min-h-[25rem]">
+    <div className="min-h-[25rem] flex flex-col items-center">
       <AnimatePresence>
         {imageUrls && (
-          <motion.div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[21rem]">
+          <motion.div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[21rem] aspect-[9/16]">
             {imageUrls && imageUrls.length > 0 && (
-              <Carousel setApi={setApi} className="w-full">
+              <Carousel setApi={setApi}>
                 <CarouselContent>
-                  {imageUrls.map((imageUrl, index) => (
+                  {imageUrls.map((image, index) => (
                     <CarouselItem key={`profile_pic_${index}`}>
                       <Image
-                        src={imageUrl}
-                        className="object-cover w-full h-[21rem] object-top"
+                        src={image}
+                        className="object-cover h-[21rem] object-top"
                         width={600}
                         height={1000}
                         alt="Hero image"
@@ -86,7 +87,10 @@ export default function ProfileImages({ user }: { user: User }) {
             <div className="relative">
               <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
                 <h2 className="text-background font-semibold text-2xl">
-                  {user.firstName}
+                  {user.firstName}{' '}
+                  <span className="text-xs">
+                    ({convertDateToAge(user.dateOfBirth)})
+                  </span>
                 </h2>
 
                 <div className="space-y-2 font-thin">

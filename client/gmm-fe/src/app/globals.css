@@ -42,7 +42,6 @@
     --ring: #00000000;
 
     --radius: 0.5rem;
-
   }
 
   label {
@@ -71,29 +70,29 @@
 
   .xl\:h-\[15rem\] {
     height: 15rem;
-  } 
+  }
 
   .h-\[20rem\] {
     height: 20rem;
   }
 
   .h-\[65vh\] {
-    height: 65vh
+    height: 65vh;
   }
 
   .h-\[55vh\] {
-    height: 55vh
+    height: 55vh;
   }
 
-  .lg\:mt-8{
-    margin-top:2rem
+  .lg\:mt-8 {
+    margin-top: 2rem;
   }
 
   .hover-disabled {
     pointer-events: none;
   }
 
-  .gmm-icon img{
+  .gmm-icon img {
     max-width: 100px;
   }
 

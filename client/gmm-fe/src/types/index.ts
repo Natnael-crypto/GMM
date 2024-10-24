@@ -77,6 +77,7 @@ export interface GuardianServiceCardProps {
 export interface ProfileHeaderProps {
   pageName: string;
   editLink: string;
+  compatibilityPath: string;
 }
 
 export interface ProfileCompletionProgressProps {
