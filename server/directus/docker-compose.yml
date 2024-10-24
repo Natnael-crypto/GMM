@@ -1,0 +1,28 @@
+version: "3"
+services:
+  directus:
+    extra_hosts:
+        - host.docker.internal:host-gateway
+    image: directus/directus:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./uploads:/directus/uploads
+      - ./extensions:/directus/extensions    
+    environment:
+      PORT: 80
+      KEY: ${DIRECTUS_KEY}
+      SECRET: ${DIRECTUS_SECRET}
+      ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD}
+      DB_CLIENT: "pg"
+      DB_HOST: host.docker.internal
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_SSL: false
+      DB_SSL__REJECT_UNAUTHORIZED: false
+      WEBSOCKETS_ENABLED: true
+    env_file:
+      - ../gmm-api/.env.dev
