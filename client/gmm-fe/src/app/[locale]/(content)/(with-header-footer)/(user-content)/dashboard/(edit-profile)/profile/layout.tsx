@@ -17,11 +17,11 @@ export default function UpdateProfileLayout({
 
   const params = useParams<{ userId: string }>();
 
-  const basicInfoPath = `/dashboard/profile/${params.userId}/basic-information`
-  const worldlyLifestylePath = `/dashboard/profile/${params.userId}/worldly-lifestyle`
-  const islamicLifestylePath = `/dashboard/profile/${params.userId}/islamic-lifestyle`
-  const marriagePath = `/dashboard/profile/${params.userId}/marriage`
-  const familyPath = `/dashboard/profile/${params.userId}/family`
+  const basicInfoPath = `/dashboard/profile/${params.userId}/basic-information`;
+  const worldlyLifestylePath = `/dashboard/profile/${params.userId}/worldly-lifestyle`;
+  const islamicLifestylePath = `/dashboard/profile/${params.userId}/islamic-lifestyle`;
+  const marriagePath = `/dashboard/profile/${params.userId}/marriage`;
+  const familyPath = `/dashboard/profile/${params.userId}/family`;
 
   const pageNames: Record<string, string> = {
     [basicInfoPath]: 'Basic Information',
@@ -36,16 +36,13 @@ export default function UpdateProfileLayout({
       <>
         <div className="pb-6 relative h-screen overflow-auto no-scrollbar">
           <div className="pt-6 px-6 sm:px-16 md:px-24 lg:px-52 space-y-8 mb-4">
-            <UpdateProfileHeader
-              editLink={pathname.slice(0, -5)}
-              pageName={pageNames[pathname]}
-            />
+            <UpdateProfileHeader editLink={pathname.slice(0, -5)} />
             <div className="flex items-center justify-center">
               <h1 className="text-2xl">Update Profile</h1>
             </div>
           </div>
 
-          <div className='sticky top-0 backdrop-blur-md pb-10 pt-3 z-50'>
+          <div className="sticky top-0 backdrop-blur-md pb-10 pt-3 z-50">
             <UpdateProfileStepper />
           </div>
 

@@ -19,7 +19,7 @@ const config = {
     },
     extend: {
       aspectRatio: {
-        '9/16': 9 / 16,
+        '9/16': '9 / 16',
       },
       colors: {
         border: 'var(--border)',
