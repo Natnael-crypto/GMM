@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { signUpWithLink } from '@/actions/auth/signup';
 import { Button, buttonVariants } from '@/components/ui/button';
@@ -21,6 +21,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { useSearchParams } from 'next/navigation';
+import { PhoneInput } from '@/components/ui/phone-input';
 
 export default function GuardianRegistrationPage() {
   const t = useTranslations('Auth');
@@ -28,7 +29,7 @@ export default function GuardianRegistrationPage() {
   const { replace } = useRouter();
 
   const user = useAppSelector((state) => state.auth.user);
-  const params = useSearchParams()
+  const params = useSearchParams();
 
   const form = useForm<SignUpWithLink>({
     resolver: zodResolver(signUpWithLinkSchema),
@@ -58,12 +59,12 @@ export default function GuardianRegistrationPage() {
     }
   }
 
-
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="rounded-xl bg-background shadow-lg p-5 space-y-4 text-sm">
+        className="rounded-xl bg-background shadow-lg p-5 space-y-4 text-sm"
+      >
         <div className="flex justify-between items-end">
           <h1 className="text-xl">Guardian&apos;s Registration</h1>
           <span>User ID #11223344</span>
@@ -74,7 +75,7 @@ export default function GuardianRegistrationPage() {
             <div className="flex flex-col gap-1">
               <span className="font-bold">Full Name</span>
 
-              <div className='flex gap-2'>
+              <div className="flex gap-2">
                 <FormField
                   control={form.control}
                   name="firstName"
@@ -116,7 +117,7 @@ export default function GuardianRegistrationPage() {
           <div className="flex justify-between items-center py-2 pt-3">
             <div className="flex flex-col gap-1">
               <span className="font-bold">Password</span>
-              <div className='flex gap-2'>
+              <div className="flex gap-2">
                 <FormField
                   control={form.control}
                   name="password"
@@ -134,10 +135,9 @@ export default function GuardianRegistrationPage() {
                       <FormMessage className="text-xs" />
                     </FormItem>
                   )}
-                /></div>
+                />
+              </div>
             </div>
-
-
           </div>
           {/* <div className="flex justify-between items-center py-2 pt-3">
             <div className="flex flex-col gap-1">
@@ -160,15 +160,12 @@ export default function GuardianRegistrationPage() {
                 <FormControl>
                   <Input
                     className="text-sm placeholder:text-xs"
-                    placeholder='Phone number'
+                    placeholder="Phone number"
                   />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
-
             </div>
-
-
           </div>
 
           <div className="flex justify-between items-center py-2 pt-3">
@@ -184,22 +181,39 @@ export default function GuardianRegistrationPage() {
             </div>
 
             <div className="flex gap-2">
-              <label className={cn(buttonVariants({ variant: "outline" }), "text-secondary h-7 text-xs")}>
+              <label
+                className={cn(
+                  buttonVariants({ variant: 'outline' }),
+                  'text-secondary h-7 text-xs'
+                )}
+              >
                 Upload Document
-                <input type='file' className='hidden' />
+                <input type="file" className="hidden" />
               </label>
-              <label className={cn(buttonVariants({ variant: "outline" }), "text-secondary h-7 text-xs")}>
+              <label
+                className={cn(
+                  buttonVariants({ variant: 'outline' }),
+                  'text-secondary h-7 text-xs'
+                )}
+              >
                 View Document
-                <input type='file' className='hidden' />
+                <input type="file" className="hidden" />
               </label>
             </div>
           </div>
 
           <div className="h-24">
-            <Button className={cn(buttonVariants({ variant: "outline" }), "text-secondary h-7 text-xs")}>Register</Button>
+            <Button
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'text-secondary h-7 text-xs'
+              )}
+            >
+              Register
+            </Button>
           </div>
         </div>
       </form>
-    </Form >
+    </Form>
   );
 }

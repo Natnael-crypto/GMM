@@ -32,6 +32,7 @@ import { Button } from '@/components/ui/button';
 import Loading from '@/components/ui/loading';
 import { useConfirmFreeSubscriptionMutation } from '@/lib/checkout/api';
 import { toast } from '@/components/ui/use-toast';
+import { PhoneInput } from '@/components/ui/phone-input';
 
 export default function FemaleCheckoutForm() {
   const user = useAppSelector((state) => state.auth.user);
@@ -46,7 +47,6 @@ export default function FemaleCheckoutForm() {
       relationshipToGuardian: '',
       guardianPhoneNumber: '',
       guardianEmail: '',
-      
     },
   });
 
@@ -101,6 +101,16 @@ export default function FemaleCheckoutForm() {
                     <FormControl>
                       <Input
                         {...field}
+                        onChange={(e) => {
+                          if (
+                            /[0-9\(\)\[\]\{\}\+\-\*/%=!@#$^&_|`~<>.,?":;'\\]/.test(
+                              e.target.value
+                            )
+                          ) {
+                            return;
+                          }
+                          field.onChange(e.target.value);
+                        }}
                         className="text-muted-foreground bg-background text-xs rounded-sm"
                       />
                     </FormControl>
@@ -120,6 +130,16 @@ export default function FemaleCheckoutForm() {
                     <FormControl>
                       <Input
                         {...field}
+                        onChange={(e) => {
+                          if (
+                            /[0-9\(\)\[\]\{\}\+\-\*/%=!@#$^&_|`~<>.,?":;'\\]/.test(
+                              e.target.value
+                            )
+                          ) {
+                            return;
+                          }
+                          field.onChange(e.target.value);
+                        }}
                         className="text-muted-foreground bg-background text-xs rounded-sm"
                       />
                     </FormControl>
@@ -202,9 +222,9 @@ export default function FemaleCheckoutForm() {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input
+                      <PhoneInput
                         {...field}
-                        className="text-muted-foreground bg-background text-xs rounded-sm"
+                        className="text-muted-foreground bg-background text-md rounded-sm"
                       />
                     </FormControl>
                     <FormMessage className="text-xs" />
