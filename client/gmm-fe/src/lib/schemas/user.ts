@@ -15,7 +15,7 @@ export enum AccountVerificationStatus {
   UNVERIFIED = 'Unverified',
 }
 
-export const userBasicInformationSchema = z
+export const _userBasicInformationSchema = z
   .object({
     id: z.string(),
     email: z
@@ -235,6 +235,24 @@ export const userBasicInformationSchema = z
     }),
   })
   .required();
+
+export const userBasicInformationSchema =
+  _userBasicInformationSchema.superRefine((data, ctx) => {
+    if (data.hasChildren && data.ageOfOldestChild < data.ageOfYoungestChild) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['ageOfOldestChild'],
+        message:
+          'Age of oldest child must be greater than age of youngest child',
+      });
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['ageOfYoungestChild'],
+        message:
+          'Age of youngest child must be less than age of youngest child',
+      });
+    }
+  });
 
 export const baseUserSchema = z
   .object({
@@ -473,38 +491,51 @@ export const userSchema = baseUserSchema.extend({
   guardian: baseUserSchema.optional().nullable(),
 });
 
-export const userRegistrationSchema = userBasicInformationSchema.extend({
-  guardianFirstName: z
-    .string({
-      required_error: "Please enter guardian's first name",
-    })
-    .min(1, { message: "Please enter guardian's first name" }),
-  guardianLastName: z
-    .string({
-      required_error: "Please enter guardian's last name",
-    })
-    .min(1, { message: "Please enter guardian's last name" }),
-  relationshipToGuardian: z
-    .string({
-      required_error: 'Please enter your relationship',
-    })
-    .min(1, {
-      message: 'Please enter your relationship',
-    }),
-  guardianPhoneNumber: z
-    .string({
-      required_error: 'Please enter guardian phone number',
-    })
-    .min(1, { message: 'Please enter guardian phone number' }),
+export const userRegistrationSchema = _userBasicInformationSchema
+  .extend({
+    guardianFirstName: z
+      .string({
+        required_error: "Please enter guardian's first name",
+      })
+      .min(1, { message: "Please enter guardian's first name" }),
+    guardianLastName: z
+      .string({
+        required_error: "Please enter guardian's last name",
+      })
+      .min(1, { message: "Please enter guardian's last name" }),
+    relationshipToGuardian: z
+      .string({
+        required_error: 'Please enter your relationship',
+      })
+      .min(1, {
+        message: 'Please enter your relationship',
+      }),
+    guardianPhoneNumber: z
+      .string({
+        required_error: 'Please enter guardian phone number',
+      })
+      .min(1, { message: 'Please enter guardian phone number' }),
 
-  guardianEmail: z
-    .string({ required_error: "Please enter guardian's email" })
-    .email({ message: 'Please enter a valid email' }),
-});
+    guardianEmail: z
+      .string({ required_error: "Please enter guardian's email" })
+      .email({ message: 'Please enter a valid email' }),
+  })
+  .superRefine((data, ctx) => {
+    if (data.hasChildren && data.ageOfOldestChild < data.ageOfYoungestChild) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['ageOfOldestChild', 'ageOfYoungestChild'],
+        message:
+          'Age of oldest child must be greater than age of youngest child',
+      });
+      return z.NEVER;
+    }
+    return z.NEVER;
+  });
 
 export type UserRegistration = z.infer<typeof userRegistrationSchema>;
 export type User = z.infer<typeof userSchema>;
-export type UserBasicInformation = z.infer<typeof userBasicInformationSchema>;
+export type UserBasicInformation = z.infer<typeof _userBasicInformationSchema>;
 
 export const heights: Record<string, string> = {
   '140': "4'7'' (140 cm)",

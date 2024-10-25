@@ -11,7 +11,7 @@ export default async function ProfileLayout({
   const session = await auth();
 
   if (session && session.user && session.user.registered) {
-    return redirect('/dashboard');
+    // return redirect('/dashboard');
   }
 
   return (

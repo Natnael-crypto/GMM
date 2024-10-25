@@ -101,6 +101,16 @@ export function SignUpForm() {
                     placeholder={t('signup.firstName')}
                     autoComplete="given-name"
                     {...field}
+                    onChange={(e) => {
+                      if (
+                        /[0-9\(\)\[\]\{\}\+\-\*/%=!@#$^&_|`~<>.,?":;'\\]/.test(
+                          e.target.value
+                        )
+                      ) {
+                        return;
+                      }
+                      field.onChange(e.target.value);
+                    }}
                   />
                 </FormControl>
                 <FormMessage className="text-xs" />
@@ -118,6 +128,16 @@ export function SignUpForm() {
                     className="text-sm placeholder:text-xs"
                     placeholder={t('signup.lastName')}
                     {...field}
+                    onChange={(e) => {
+                      if (
+                        /[0-9\(\)\[\]\{\}\+\-\*/%=!@#$^&_|`~<>.,?":;'\\]/.test(
+                          e.target.value
+                        )
+                      ) {
+                        return;
+                      }
+                      field.onChange(e.target.value);
+                    }}
                   />
                 </FormControl>
                 <FormMessage className="text-xs" />
@@ -240,11 +260,7 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    disabled
-                  >
+                  <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue placeholder="Born or Revert to Islam" />
                     </SelectTrigger>

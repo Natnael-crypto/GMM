@@ -21,6 +21,7 @@ import { useCreateUploadUrlMutation } from '@/lib/user/api';
 import { useState } from 'react';
 import Image from 'next/image';
 import Loading from '../ui/loading';
+import { PhoneInput } from '../ui/phone-input';
 
 export default function FamilyIntroductionForm() {
   const t = useTranslations('Dashboard.updateProfile.familyIntroduction');
@@ -152,7 +153,7 @@ export default function FamilyIntroductionForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
+                  <PhoneInput
                     {...field}
                     className="text-muted-foreground bg-background text-md shadow rounded-sm"
                   />

@@ -27,6 +27,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { useSendRequestMutation } from '@/lib/guardian/api';
+import { PhoneInput } from '@/components/ui/phone-input';
 
 export default function FamilyIntroductionForm({
   familyIntroduction,
@@ -207,10 +208,9 @@ export default function FamilyIntroductionForm({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
+                    <PhoneInput
                       {...field}
-                      disabled
-                      className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                      className="text-muted-foreground bg-background text-md shadow rounded-sm"
                     />
                   </FormControl>
                   <FormMessage className="text-xs" />

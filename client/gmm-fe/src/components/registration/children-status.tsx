@@ -23,6 +23,8 @@ export default function ChildrenStatus() {
 
   if (!hasChildren) return;
 
+  console.log(form.formState.errors);
+
   return (
     <div className="col-span-4 grid grid-cols-8 gap-x-5 gap-y-4">
       {hasChildren && (
@@ -83,15 +85,21 @@ export default function ChildrenStatus() {
                       <SelectItem className="text-sm max-w-80" value="0">
                         Under 1 year
                       </SelectItem>
-                      {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => (
-                        <SelectItem
-                          className="text-sm max-w-80"
-                          key={i}
-                          value={i.toString()}
-                        >
-                          {i}
-                        </SelectItem>
-                      ))}
+                      {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => {
+                        if (parseInt(form.watch('ageOfOldestChild')) < i) {
+                          return null;
+                        }
+
+                        return (
+                          <SelectItem
+                            className="text-sm max-w-80"
+                            key={i}
+                            value={i.toString()}
+                          >
+                            {i}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -121,15 +129,20 @@ export default function ChildrenStatus() {
                       <SelectItem className="text-sm max-w-80" value="0">
                         Under 1 year
                       </SelectItem>
-                      {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => (
-                        <SelectItem
-                          className="text-sm max-w-80"
-                          key={i}
-                          value={i.toString()}
-                        >
-                          {i}
-                        </SelectItem>
-                      ))}
+                      {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => {
+                        if (parseInt(form.watch('ageOfYoungestChild')) > i) {
+                          return null;
+                        }
+                        return (
+                          <SelectItem
+                            className="text-sm max-w-80"
+                            key={i}
+                            value={i.toString()}
+                          >
+                            {i}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                 </FormControl>
