@@ -24,5 +24,3 @@ services:
       DB_SSL: false
       DB_SSL__REJECT_UNAUTHORIZED: false
       WEBSOCKETS_ENABLED: true
-    env_file:
-      - ../gmm-api/.env.dev
