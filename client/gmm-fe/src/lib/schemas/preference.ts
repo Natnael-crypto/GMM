@@ -52,6 +52,18 @@ export const preferenceSchema = z
           .transform((value) => value === 'true'),
       ])
       .optional(),
+    drugs: z
+      .union([
+        z.boolean({
+          required_error: 'Please specify your preference on drugs',
+        }),
+        z
+          .string({
+            required_error: 'Please specify your preference on drugs',
+          })
+          .transform((value) => value === 'true'),
+      ])
+      .optional(),
   })
   .required();
 
