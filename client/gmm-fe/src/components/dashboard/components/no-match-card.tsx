@@ -1,12 +1,11 @@
 'use client';
 
-import { buttonVariants } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { Link } from '@/lib/navigation';
 import React from 'react';
-import { useParams } from 'next/navigation';
 import { useAppSelector } from '@/lib/hooks';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function NoMatchCard() {
   const user = useAppSelector((state) => state.auth.user);
@@ -15,13 +14,20 @@ export default function NoMatchCard() {
     <div className="bg-[#e8f3db] rounded-se-3xl rounded-es-3xl overflow-hidden py-5 p-8 text-sm space-y-4  text-muted-foreground">
       <div className="flex flex-col items-center gap-4">
         <div className="w-24">
-          <Image
-            className="w-full"
-            src={'/assets/woman-hijab.svg'}
-            width={221}
-            height={234}
-            alt=""
-          />
+          {user?.gender === 'Male' ? (
+            <Image
+              className="w-full"
+              src={'/assets/woman-hijab.svg'}
+              width={221}
+              height={234}
+              alt=""
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faUser}
+              className="w-full h-full aspect-square text-primary text-9xl"
+            />
+          )}
         </div>
         <h1 className="text-bold font-bold text-xl">No Match Found!</h1>
         <p className="text-center">
