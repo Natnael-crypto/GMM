@@ -1,0 +1,71 @@
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from 'react';
+
+type SubField = {
+  label: string;
+  value?: string | number | boolean | null;
+};
+
+type Field = {
+  icon: IconDefinition;
+  label: string;
+  value?: string | SubField[] | null;
+};
+
+interface FieldViewerProps<T> {
+  getFields: (entity: T) => Field[];
+  title?: string;
+  entity: T;
+}
+
+export default function FieldViewer<T>({
+  getFields,
+  title,
+  entity,
+}: FieldViewerProps<T>) {
+  const fields = getFields(entity);
+
+  return (
+    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted border border-muted text-sm">
+      {title && (
+        <h1 className="text-primary font-bold text-xl p-5 px-8">{title}</h1>
+      )}
+
+      {fields &&
+        fields.map((field, index) => (
+          <div
+            key={index}
+            className="grid grid-cols-12 py-3 px-8 even:bg-white"
+          >
+            <div className="col-span-1">
+              <FontAwesomeIcon
+                icon={field.icon}
+                size="xl"
+                className="text-primary"
+              />
+            </div>
+            <div className="col-span-11 space-y-3">
+              {Array.isArray(field.value) ? (
+                <ul className="flex flex-col gap-2 text-sm">
+                  {field.value.map((subField, subIndex) => (
+                    <li key={subIndex}>
+                      {subField.label}:{' '}
+                      <span className="font-bold">
+                        {subField.value || 'N/A'}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="col-span-11 flex gap-2 items-center">
+                  <h1>{field.label}</h1>
+                  <h1 className="font-bold">{field.value || 'N/A'}</h1>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+    </div>
+  );
+}

@@ -1,7 +1,7 @@
 'use client';
 
 import { languages } from '@/config/locales';
-import {  User } from '@/lib/schemas/user';
+import { User } from '@/lib/schemas/user';
 import {
   faUser,
   faLanguage,
@@ -97,12 +97,15 @@ export default function BasicInformationCard({ user }: { user: User }) {
   return (
     <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted text-sm">
       {userFields.map(({ icon, label, value }) => (
-        <div key={label} className="grid grid-cols-12 py-3 px-8 odd:bg-[#fff]">
+        <div
+          key={label}
+          className="grid grid-cols-12 py-3 px-8 odd:bg-background"
+        >
           <div className="col-span-1">
             <FontAwesomeIcon icon={icon} size="xl" className="text-primary" />
           </div>
-          <div className="col-span-11  flex gap-2 items-center">
-            <h1 className="">{label}</h1>
+          <div className="col-span-11 flex gap-2 items-center">
+            <h1>{label}</h1>
             <h1 className="font-bold">{value}</h1>
           </div>
         </div>
