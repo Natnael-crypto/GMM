@@ -1,7 +1,7 @@
 'use client';
 
 import { languages } from '@/config/locales';
-import { countries, User } from '@/lib/schemas/user';
+import {  User } from '@/lib/schemas/user';
 import {
   faUser,
   faLanguage,
@@ -16,7 +16,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
-import flags from 'react-phone-number-input/flags';
 
 const languageMap: Record<string, string> = languages.reduce(
   (acc, lang) => ({ ...acc, [lang.value]: lang.label }),
