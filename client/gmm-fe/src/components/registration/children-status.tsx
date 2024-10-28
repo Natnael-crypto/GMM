@@ -21,9 +21,9 @@ export default function ChildrenStatus() {
 
   const hasChildren = form.watch('hasChildren') !== 'No kids';
 
-  if (!hasChildren) return;
+  const numberOfChildren = form.watch('numberOfChildren');
 
-  console.log(form.formState.errors);
+  if (!hasChildren) return;
 
   return (
     <div className="col-span-4 grid grid-cols-8 gap-x-5 gap-y-4">
@@ -44,13 +44,13 @@ export default function ChildrenStatus() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {Array.from({ length: 15 }, (_, i) => i).map((i) => (
+                      {Array.from({ length: 15 }, (_, i) => i + 1).map((i) => (
                         <SelectItem
                           className="text-sm max-w-80"
                           key={i}
                           value={i.toString()}
                         >
-                          {i + 1}
+                          {i}
                         </SelectItem>
                       ))}
                       <SelectItem className="text-sm max-w-80" value="15">
@@ -67,7 +67,7 @@ export default function ChildrenStatus() {
       )}
       {hasChildren && (
         <div className="space-y-1 py-2 col-span-4 sm:col-span-3">
-          <Label>Age of Youngest Child</Label>
+          <Label>Age of {numberOfChildren > 1 ? 'Youngest' : ''} Child</Label>
           <FormField
             name="ageOfYoungestChild"
             control={form.control}
@@ -109,7 +109,7 @@ export default function ChildrenStatus() {
           />
         </div>
       )}
-      {hasChildren && (
+      {hasChildren && numberOfChildren > 1 && (
         <div className="space-y-1 py-2 col-span-4 sm:col-span-3">
           <Label>Age of Oldest Child</Label>
           <FormField
@@ -120,7 +120,7 @@ export default function ChildrenStatus() {
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
-                    value={field.value ? field.value.toString() : ''}
+                    value={field.value ? field.value.toString() : '0'}
                   >
                     <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
