@@ -708,22 +708,12 @@ export default function MatchPreferenceFilter() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Islamic Education/Environment Priority (Children must have Islamic school/mosque environment)">
-                        Islamic Education/Environment Priority (Children must
-                        have Islamic school/mosque environment)
+                      <SelectItem value="Has Children">Has Children</SelectItem>
+                      <SelectItem value="Doesn't have children">
+                        Doesn&apos;t have children
                       </SelectItem>
-                      <SelectItem value="Joint Decision (Open to discussing children's Islamic education with future wife)">
-                        Joint Decision (Open to discussing children&apos;s
-                        Islamic education with future wife)
-                      </SelectItem>
-                      <SelectItem value="Undecided (Has not decided yet about the Islamic education of children)">
-                        Undecided (Has not decided yet about the Islamic
-                        education of children)
-                      </SelectItem>
-                      <SelectItem value="Secular Upbringing (Prefers children not to attend Islamic school or masjid; Islamic education not a priority)">
-                        Secular Upbringing (Prefers children not to attend
-                        Islamic school or masjid; Islamic education not a
-                        priority)
+                      <SelectItem value="Doesn't matter">
+                        Doesn&apos;t matter
                       </SelectItem>
                     </SelectContent>
                   </Select>
