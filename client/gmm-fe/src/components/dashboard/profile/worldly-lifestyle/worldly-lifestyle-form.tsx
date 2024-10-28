@@ -714,8 +714,7 @@ export function WorldlyLifestyleForm({
                         <Multiselect
                           onChange={field.onChange}
                           selectedOptions={field.value}
-                          title="Language"
-                          max={3}
+                          title="Current Debts"
                           initOptions={debtsOptions.map((debt) => ({
                             label: debt,
                             value: debt,
