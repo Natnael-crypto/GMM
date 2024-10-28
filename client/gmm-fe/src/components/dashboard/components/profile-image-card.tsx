@@ -98,7 +98,7 @@ export default function ProfileImages({ user }: { user: User }) {
                 </h2>
 
                 <div className="space-y-2 font-thin">
-                  <p className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-[0.6rem] font-semibold px-2 shadow-lg items-center">
+                  <div className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-[0.6rem] font-semibold px-2 shadow-lg items-center">
                     <div className="w-4 h-4 flex items-center justify-center">
                       {NationalityFlag && (
                         <NationalityFlag title={user.nationality} />
@@ -107,7 +107,7 @@ export default function ProfileImages({ user }: { user: User }) {
                     <span className="w-full truncate">
                       {user.nationality} Nationality / Passport
                     </span>
-                  </p>
+                  </div>
                   <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white">
                     <span>
                       <FontAwesomeIcon icon={faLocationDot} />
