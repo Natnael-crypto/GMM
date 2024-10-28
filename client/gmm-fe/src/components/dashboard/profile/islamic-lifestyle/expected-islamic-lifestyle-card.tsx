@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMosque,
   faChildDress,
@@ -16,7 +15,7 @@ import FieldViewer from '../field-viewer';
 import { useGetExpectedIslamicLifestyleQuery } from '@/lib/user/api';
 import { User } from '@/lib/schemas/user';
 
-const maleFields = (lifestyle: MaleExpectedIslamicLifestyle) => [
+const maleFields = (lifestyle?: MaleExpectedIslamicLifestyle) => [
   {
     icon: faMosque,
     label: 'Salat/Prayer',
@@ -69,7 +68,7 @@ const maleFields = (lifestyle: MaleExpectedIslamicLifestyle) => [
   },
 ];
 
-const femaleFields = (lifestyle: FemaleExpectedIslamicLifestyle) => [
+const femaleFields = (lifestyle?: FemaleExpectedIslamicLifestyle) => [
   {
     icon: faMosque,
     label: 'Salat/Prayer',

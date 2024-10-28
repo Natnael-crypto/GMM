@@ -14,9 +14,9 @@ type Field = {
 };
 
 interface FieldViewerProps<T> {
-  getFields: (entity: T) => Field[];
+  getFields: (entity?: T) => Field[];
   title?: string;
-  entity: T;
+  entity?: T;
 }
 
 export default function FieldViewer<T>({

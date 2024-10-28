@@ -8,14 +8,11 @@ import { User } from '@/lib/schemas/user';
 import { useGetIslamicLifestyleQuery } from '@/lib/user/api';
 import {
   faBirthdayCake,
-  faChildDress,
   faChildren,
   faCircleDollarToSlot,
-  faComments,
   faFemale,
   faGraduationCap,
   faHandHoldingDollar,
-  faHouse,
   faKaaba,
   faMosque,
   faPerson,
@@ -23,12 +20,10 @@ import {
   faStarAndCrescent,
   faUtensils,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import FieldViewer from '../field-viewer';
-import Loading from '@/components/ui/loading';
 
-const maleFields = (lifestyle: MaleIslamicLifestyle) => [
+const maleFields = (lifestyle?: MaleIslamicLifestyle) => [
   {
     icon: faMosque,
     label: 'Salah/Prayer',
@@ -76,7 +71,7 @@ const maleFields = (lifestyle: MaleIslamicLifestyle) => [
   },
 ];
 
-const femaleFields = (lifestyle: FemaleIslamicLifestyle) => [
+const femaleFields = (lifestyle?: FemaleIslamicLifestyle) => [
   {
     icon: faMosque,
     label: 'Salah/Prayer',

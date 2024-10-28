@@ -14,7 +14,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import FieldViewer from '../field-viewer';
 
-const getFields = (worldlyLifestyle: WorldlyLifestyle) => [
+const getFields = (worldlyLifestyle?: WorldlyLifestyle) => [
   {
     icon: faBriefcase,
     label: 'Employment',

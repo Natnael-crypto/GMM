@@ -16,7 +16,7 @@ import {
 import React from 'react';
 import FieldViewer from '../field-viewer';
 
-const maleFields = (lifestyle: MaleExpectedWorldlyLifestyle) => [
+const maleFields = (lifestyle?: MaleExpectedWorldlyLifestyle) => [
   {
     icon: faPerson,
     label: 'Decision Making & Leadership',
@@ -93,7 +93,7 @@ const maleFields = (lifestyle: MaleExpectedWorldlyLifestyle) => [
   },
 ];
 
-const femaleFields = (lifestyle: FemaleExpectedWorldlyLifestyle) => [
+const femaleFields = (lifestyle?: FemaleExpectedWorldlyLifestyle) => [
   {
     icon: faPerson,
     label: 'Decision Making & Leadership',
