@@ -12,7 +12,7 @@ import {
   faWeightScale,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useRouter } from '@/lib/navigation';
-import { User } from '@/lib/schemas/user';
+import { User, countryToCountryCode } from '@/lib/schemas/user';
 import { useGetDownloadUrlQuery } from '@/lib/user/api';
 import { useInitiateChatMutation, useGetChatsQuery } from '@/lib/chat/api';
 import { cn } from '@/lib/utils';
@@ -21,6 +21,7 @@ import { useAppSelector } from '@/lib/hooks';
 import { toast } from '@/components/ui/use-toast';
 import Loading from '@/components/ui/loading';
 import { convertDateToAge } from '@/lib/format';
+import flags from 'react-phone-number-input/flags';
 
 export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
   const user = useAppSelector((state) => state.auth.user);
@@ -63,6 +64,11 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
     }
   };
 
+  const code = countryToCountryCode[
+    matchedUser.nationality
+  ] as keyof typeof flags;
+  const NationalityFlag = flags[code];
+
   return (
     <div className="grid grid-cols-7 gap-4 h-full">
       <div className="rounded-se-3xl col-span-3 rounded-es-3xl overflow-hidden h-full">
@@ -87,13 +93,11 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
 
             <div className="space-y-2 font-thin">
               <p className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-xs font-semibold px-2 shadow-lg">
-                <Image
-                  className="w-4 h-4"
-                  width={512}
-                  height={512}
-                  src={`/icons/lang/en.svg`}
-                  alt="Language Flag"
-                />
+                <div className="w-4 h-4 flex items-center justify-center">
+                  {NationalityFlag && (
+                    <NationalityFlag title={matchedUser.nationality} />
+                  )}
+                </div>
                 <span>{matchedUser.nationality} Nationality</span>
               </p>
               <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
