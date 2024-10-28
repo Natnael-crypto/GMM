@@ -28,7 +28,15 @@ import { toast } from '@/components/ui/use-toast';
 import { setUser } from '@/lib/auth/slice';
 import { useCreateMatchMutation } from '@/lib/matchmaking/api';
 import AutoComplete from '@/components/ui/searchable-select';
-import { countries } from '@/lib/schemas/user';
+import {
+  countries,
+  minAge,
+  maxAge,
+  minHeight,
+  maxHeight,
+  minWeight,
+  maxWeight,
+} from '@/lib/schemas/user';
 import { setQueryString } from '@/lib/matchmaking/slice';
 import { cmToFeetInches, kgToPounds } from '@/lib/format';
 import { languages } from '@/config/locales';
@@ -59,9 +67,15 @@ export default function MatchPreferenceFilter() {
   const form = useForm<Preference>({
     resolver: zodResolver(preferenceSchema),
     defaultValues: {
-      preferredAge: user?.preference?.preferredAge || [18, 100],
-      preferredHeight: user?.preference?.preferredHeight || [0, 300],
-      preferredWeight: user?.preference?.preferredWeight || [0, 220],
+      preferredAge: user?.preference?.preferredAge || [minAge, maxAge],
+      preferredHeight: user?.preference?.preferredHeight || [
+        minHeight,
+        maxHeight,
+      ],
+      preferredWeight: user?.preference?.preferredWeight || [
+        minWeight,
+        maxWeight,
+      ],
       ethnicOrigin: user?.preference?.ethnicOrigin || '',
       nationality: user?.preference?.nationality || '',
       language: user?.preference?.language || '',
@@ -83,9 +97,15 @@ export default function MatchPreferenceFilter() {
   useEffect(() => {
     if (user && user.preference) {
       form.reset({
-        preferredAge: user?.preference?.preferredAge || [18, 100],
-        preferredHeight: user?.preference?.preferredHeight || [0, 300],
-        preferredWeight: user?.preference?.preferredWeight || [0, 300],
+        preferredAge: user?.preference?.preferredAge || [minAge, maxAge],
+        preferredHeight: user?.preference?.preferredHeight || [
+          minHeight,
+          maxHeight,
+        ],
+        preferredWeight: user?.preference?.preferredWeight || [
+          minWeight,
+          maxWeight,
+        ],
         ethnicOrigin: user?.preference?.ethnicOrigin || '',
         nationality: user?.preference?.nationality || '',
         language: user?.preference?.language || '',
@@ -172,14 +192,14 @@ export default function MatchPreferenceFilter() {
   };
 
   const isWeightAny =
-    form.watch('preferredWeight')?.[0] === 0 &&
-    form.watch('preferredWeight')?.[1] === 300;
+    form.watch('preferredWeight')?.[0] === minWeight &&
+    form.watch('preferredWeight')?.[1] === maxWeight;
   const isHeightAny =
-    form.watch('preferredHeight')?.[0] === 0 &&
-    form.watch('preferredHeight')?.[1] === 300;
+    form.watch('preferredHeight')?.[0] === minHeight &&
+    form.watch('preferredHeight')?.[1] === maxHeight;
   const isAgeAny =
-    form.watch('preferredAge')?.[0] === 18 &&
-    form.watch('preferredAge')?.[1] === 100;
+    form.watch('preferredAge')?.[0] === minAge &&
+    form.watch('preferredAge')?.[1] === maxAge;
   const isLanguageAny = form.watch('language') === '';
   const isEthniOriginAny = form.watch('ethnicOrigin') === '';
   const isNationalityAny = form.watch('nationality') === '';
@@ -296,7 +316,7 @@ export default function MatchPreferenceFilter() {
         <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
-            onClick={() => form.setValue('preferredAge', [18, 100])}
+            onClick={() => form.setValue('preferredAge', [minAge, maxAge])}
           >
             <span className="font-bold line-clamp-1">Preferred Age</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
@@ -316,9 +336,21 @@ export default function MatchPreferenceFilter() {
               <>
                 <Slider
                   value={field.value}
-                  onValueChange={field.onChange}
-                  min={18}
-                  max={100}
+                  minStepsBetweenThumbs={1}
+                  onValueChange={(value) => {
+                    const [prevMin, prevMax] = field.value;
+                    const [newMin, newMax] = value;
+
+                    const minChanged = prevMin !== newMin;
+                    const maxChanged = prevMax !== newMax;
+
+                    if (minChanged && maxChanged)
+                      return field.onChange(field.value);
+
+                    field.onChange(value);
+                  }}
+                  min={minAge}
+                  max={maxAge}
                   step={1}
                 />
                 <div className="text-xs flex gap-1 text-primary font-bold justify-center">
@@ -331,7 +363,9 @@ export default function MatchPreferenceFilter() {
         <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
-            onClick={() => form.setValue('preferredHeight', [0, 300])}
+            onClick={() =>
+              form.setValue('preferredHeight', [minHeight, maxHeight])
+            }
           >
             <span className="font-bold line-clamp-1 ">Height</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
@@ -351,8 +385,21 @@ export default function MatchPreferenceFilter() {
               <>
                 <Slider
                   value={field.value}
-                  onValueChange={field.onChange}
-                  max={300}
+                  minStepsBetweenThumbs={5}
+                  onValueChange={(value) => {
+                    const [prevMin, prevMax] = field.value;
+                    const [newMin, newMax] = value;
+
+                    const minChanged = prevMin !== newMin;
+                    const maxChanged = prevMax !== newMax;
+
+                    if (minChanged && maxChanged)
+                      return field.onChange(field.value);
+
+                    field.onChange(value);
+                  }}
+                  min={minHeight}
+                  max={maxHeight}
                   step={1}
                 />
                 <div className="text-xs flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
@@ -377,7 +424,7 @@ export default function MatchPreferenceFilter() {
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => {
-              form.setValue('preferredWeight', [0, 300]);
+              form.setValue('preferredWeight', [minWeight, maxWeight]);
             }}
           >
             <span className="font-bold line-clamp-1 ">Weight</span>
@@ -398,8 +445,21 @@ export default function MatchPreferenceFilter() {
               <>
                 <Slider
                   value={field.value}
-                  onValueChange={field.onChange}
-                  max={220}
+                  minStepsBetweenThumbs={10}
+                  onValueChange={(value) => {
+                    const [prevMin, prevMax] = field.value;
+                    const [newMin, newMax] = value;
+
+                    const minChanged = prevMin !== newMin;
+                    const maxChanged = prevMax !== newMax;
+
+                    if (minChanged && maxChanged)
+                      return field.onChange(field.value);
+
+                    field.onChange(value);
+                  }}
+                  min={minWeight}
+                  max={maxWeight}
                   step={1}
                 />
                 <div className="text-xs flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">

@@ -537,39 +537,26 @@ export type UserRegistration = z.infer<typeof userRegistrationSchema>;
 export type User = z.infer<typeof userSchema>;
 export type UserBasicInformation = z.infer<typeof _userBasicInformationSchema>;
 
-export const heights: Record<string, string> = {
-  '140': "4'7'' (140 cm)",
-  '142': "4'8'' (142 cm)",
-  '145': "4'9'' (145 cm)",
-  '147': "4'10'' (147 cm)",
-  '150': "4'11'' (150 cm)",
-  '152': "5'0'' (152 cm)",
-  '155': "5'1'' (155 cm)",
-  '157': "5'2'' (157 cm)",
-  '160': "5'3'' (160 cm)",
-  '162': "5'4'' (162 cm)",
-  '165': "5'5'' (165 cm)",
-  '168': "5'6'' (168 cm)",
-  '170': "5'7'' (170 cm)",
-  '173': "5'8'' (173 cm)",
-  '175': "5'9'' (175 cm)",
-  '178': "5'10'' (178 cm)",
-  '180': "5'11'' (180 cm)",
-  '183': "6'0'' (183 cm)",
-  '185': "6'1'' (185 cm)",
-  '188': "6'2'' (188 cm)",
-  '191': "6'3'' (191 cm)",
-  '193': "6'4'' (193 cm)",
-  '196': "6'5'' (196 cm)",
-  '198': "6'6'' (198 cm)",
-  '201': "6'7'' (201 cm)",
-  '203': "6'8'' (203 cm)",
-  '206': "6'9'' (206 cm)",
-  '208': "6'10'' (208 cm)",
-  '211': "6'11'' (211 cm)",
-  '213': "7'0'' (213 cm)",
-  '216': "7'1'' (216 cm)",
-  '218': "7'2'' (218 cm)",
+const generateHeights = () => {
+  const heights: Record<string, string> = {};
+  const startFeet = 3;
+  const endFeet = 7;
+  const startInches = 9;
+  const endInches = 2;
+
+  for (let feet = startFeet; feet <= endFeet; feet++) {
+    for (
+      let inches = feet === startFeet ? startInches : 0;
+      inches <= (feet === endFeet ? endInches : 11);
+      inches++
+    ) {
+      const totalInches = feet * 12 + inches;
+      const cm = Math.round(totalInches * 2.54);
+      heights[cm.toString()] = `${feet}'${inches}'' (${cm} cm)`;
+    }
+  }
+
+  return heights;
 };
 
 const generateWeights = () => {
@@ -581,7 +568,15 @@ const generateWeights = () => {
   return weights;
 };
 
+export const heights: Record<string, string> = generateHeights();
 export const weights: Record<string, string> = generateWeights();
+
+export const minHeight = Math.min(...Object.keys(heights).map(Number));
+export const maxHeight = Math.max(...Object.keys(heights).map(Number));
+export const minWeight = Math.min(...Object.keys(weights).map(Number));
+export const maxWeight = Math.max(...Object.keys(weights).map(Number));
+export const minAge = 18;
+export const maxAge = 100;
 
 export const countries: Record<string, string[]> = {
   Afghanistan: ['Kabul', 'Herat', 'Kandahar', 'Mazar-i-Sharif', 'Jalalabad'],
