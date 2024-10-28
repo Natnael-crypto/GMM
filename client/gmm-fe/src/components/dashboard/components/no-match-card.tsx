@@ -11,8 +11,8 @@ export default function NoMatchCard() {
   const user = useAppSelector((state) => state.auth.user);
 
   return (
-    <div className="bg-[#e8f3db] rounded-se-3xl rounded-es-3xl overflow-hidden py-5 p-8 text-sm space-y-4  text-muted-foreground">
-      <div className="flex flex-col items-center gap-4">
+    <div className="bg-[#e8f3db] rounded-se-3xl rounded-es-3xl overflow-hidden py-5 p-8 text-sm space-y-4 text-muted-foreground h-full flex items-center">
+      <div className="flex flex-col items-center justify-center gap-4">
         <div className="w-24">
           {user?.gender === 'Male' ? (
             <Image
@@ -37,19 +37,6 @@ export default function NoMatchCard() {
           </span>{' '}
           with accurate information.
         </p>
-
-        <div className="flex flex-col justify-center">
-          <span className="text-center">Do you need any help?</span>
-          <span className="text-center">
-            <Link href="" className="font-semibold text-primary">
-              Watch this video
-            </Link>{' '}
-            or visit our{' '}
-            <Link href="" className="font-semibold text-primary">
-              Help Center
-            </Link>
-          </span>
-        </div>
       </div>
     </div>
   );
