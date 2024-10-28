@@ -76,6 +76,7 @@ export default function MatchPreferenceFilter() {
       drinking: user?.preference?.drinking || false,
       smoking: user?.preference?.smoking || false,
       tattoos: user?.preference?.tattoos || false,
+      drugs: user?.preference?.drugs || false,
     },
   });
 
@@ -99,6 +100,7 @@ export default function MatchPreferenceFilter() {
         drinking: user?.preference?.drinking || false,
         smoking: user?.preference?.smoking || false,
         tattoos: user?.preference?.tattoos || false,
+        drugs: user?.preference?.drugs || false,
       });
     }
   }, [form, user]);
@@ -192,6 +194,7 @@ export default function MatchPreferenceFilter() {
   const isDrinkingAny = form.watch('drinking') === ('' as unknown as boolean);
   const isSmokingAny = form.watch('smoking') === ('' as unknown as boolean);
   const isTattooAny = form.watch('tattoos') === ('' as unknown as boolean);
+  const isDrugsAny = form.watch('drugs') === ('' as unknown as boolean);
 
   const getQueryString = useCallback(
     (data: Preference) => {
@@ -932,6 +935,7 @@ export default function MatchPreferenceFilter() {
             )}
           />
         </div>
+
         <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
@@ -972,6 +976,7 @@ export default function MatchPreferenceFilter() {
             )}
           />
         </div>
+
         <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
@@ -990,6 +995,47 @@ export default function MatchPreferenceFilter() {
           </Label>
           <FormField
             name="tattoos"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value?.toString()}
+                  >
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="true">Yes</SelectItem>
+                      <SelectItem value="false">No</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage className="text-sm" />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="space-y-2 col-span-10 md:col-span-3">
+          <Label
+            className="text-sm flex justify-between items-center"
+            onClick={() => form.setValue('drugs', '' as unknown as boolean)}
+          >
+            <span className="font-bold line-clamp-1">Drug(s)</span>
+            <span className="flex gap-1 items-center justify-center text-[0.65rem]">
+              <Input
+                type="checkbox"
+                className="p-0 m-0 h-fit"
+                checked={isDrugsAny}
+                onChange={() => {}}
+              />
+              <span>Any</span>
+            </span>
+          </Label>
+          <FormField
+            name="drugs"
             control={form.control}
             render={({ field }) => (
               <FormItem>
