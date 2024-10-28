@@ -13,7 +13,6 @@ import {
   faHouse,
 } from '@fortawesome/free-solid-svg-icons';
 import FieldViewer from '../field-viewer';
-import ExpectedWorldlyLifestyleCard from './expected-worldly-lifestyle-card';
 
 const getFields = (worldlyLifestyle: WorldlyLifestyle) => [
   {
@@ -120,12 +119,10 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
   });
 
   return (
-    <div className="space-y-6">
+    <>
       {worldlyLifestyle && (
         <FieldViewer getFields={getFields} entity={worldlyLifestyle} />
       )}
-
-      {user && <ExpectedWorldlyLifestyleCard user={user} />}
-    </div>
+    </>
   );
 }
