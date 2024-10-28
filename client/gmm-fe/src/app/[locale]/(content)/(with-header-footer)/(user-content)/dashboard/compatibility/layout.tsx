@@ -13,6 +13,7 @@ import { toast } from '@/components/ui/use-toast';
 import Loading from '@/components/ui/loading';
 
 import React from 'react';
+import Footer from '@/components/ui/footer';
 
 const pageNames: Record<string, string> = {
   '/dashboard/compatibility/basic-information': 'Basic Information',
@@ -131,6 +132,7 @@ export default function CompatibilityLayout({
 
         <div className="py-3">{children}</div>
       </div>
+      <Footer />
     </div>
   );
 }

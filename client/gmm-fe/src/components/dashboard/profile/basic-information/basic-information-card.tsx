@@ -22,7 +22,7 @@ const languageMap: Record<string, string> = languages.reduce(
   {}
 );
 
-const fields = (user: User) =>
+const fields = (user?: User) =>
   [
     {
       icon: faLanguage,
@@ -87,9 +87,7 @@ const fields = (user: User) =>
       label: 'Marital Status',
       value: user?.maritalStatus,
     },
-  ].filter(
-    (field) => field.value != null || field.value !== '' || field.value !== 0
-  );
+  ].filter((field) => field.value && field.value !== '' && field.value !== 0);
 
 export default function BasicInformationCard({ user }: { user: User }) {
   return <FieldViewer getFields={fields} entity={user} />;

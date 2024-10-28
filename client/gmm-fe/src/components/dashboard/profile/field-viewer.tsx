@@ -36,7 +36,7 @@ export default function FieldViewer<T>({
         fields.map((field, index) => (
           <div
             key={index}
-            className="grid grid-cols-12 py-3 px-8 even:bg-white"
+            className="grid grid-cols-12 gap-x-5 py-3 px-8 even:bg-white"
           >
             <div className="col-span-1">
               <FontAwesomeIcon
@@ -47,20 +47,22 @@ export default function FieldViewer<T>({
             </div>
             <div className="col-span-11 space-y-3">
               {Array.isArray(field.value) ? (
-                <ul className="flex flex-col gap-2 text-sm">
+                <ul className="flex flex-col gap-3 text-sm">
                   {field.value.map((subField, subIndex) => (
-                    <li key={subIndex}>
-                      {subField.label}:{' '}
-                      <span className="font-bold">
+                    <li key={subIndex} className="grid grid-cols-11 gap-x-4">
+                      <span className="col-span-4">{subField.label}</span>
+                      <span className="col-span-7 font-bold">
                         {subField.value || 'N/A'}
                       </span>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <div className="col-span-11 flex gap-2 items-center">
-                  <h1>{field.label}</h1>
-                  <h1 className="font-bold">{field.value || 'N/A'}</h1>
+                <div className="col-span-11 grid grid-cols-11 gap-2 items-center">
+                  <h1 className="col-span-4">{field.label}</h1>
+                  <h1 className="col-span-7 font-bold">
+                    {field.value || 'N/A'}
+                  </h1>
                 </div>
               )}
             </div>
