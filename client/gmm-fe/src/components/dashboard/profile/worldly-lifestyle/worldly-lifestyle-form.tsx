@@ -31,39 +31,40 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
+import flags from 'react-phone-number-input/flags';
 
-const currencies = [
-  'USD',
-  'CAD',
-  'EUR',
-  'GBP',
-  'JPY',
-  'AUD',
-  'CHF',
-  'CNY',
-  'INR',
-  'MXN',
-  'BRL',
-  'ZAR',
-  'RUB',
-  'KRW',
-  'HKD',
-  'SGD',
-  'NZD',
-  'SEK',
-  'NOK',
-  'DKK',
-  'TRY',
-  'PLN',
-  'THB',
-  'IDR',
-  'PHP',
-  'MYR',
-  'VND',
-  'AED',
-  'SAR',
-  'ILS',
-];
+const currencies = {
+  USD: 'US',
+  CAD: 'CA',
+  EUR: 'EU',
+  GBP: 'GB',
+  JPY: 'JP',
+  AUD: 'AU',
+  CHF: 'CH',
+  CNY: 'CN',
+  INR: 'IN',
+  MXN: 'MX',
+  BRL: 'BR',
+  ZAR: 'ZA',
+  RUB: 'RU',
+  KRW: 'KR',
+  HKD: 'HK',
+  SGD: 'SG',
+  NZD: 'NZ',
+  SEK: 'SE',
+  NOK: 'NO',
+  DKK: 'DK',
+  TRY: 'TR',
+  PLN: 'PL',
+  THB: 'TH',
+  IDR: 'ID',
+  PHP: 'PH',
+  MYR: 'MY',
+  VND: 'VN',
+  AED: 'AE',
+  SAR: 'SA',
+  ILS: 'IL',
+};
 
 const professions = [
   'Web & Graphic Designer',
@@ -397,11 +398,27 @@ export function WorldlyLifestyleForm({
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          {currencies.map((currency) => (
-                            <SelectItem value={currency} key={currency}>
-                              {currency}
-                            </SelectItem>
-                          ))}
+                          {Object.entries(currencies).map(
+                            ([currency, countryCode]) => {
+                              const Flag =
+                                flags[countryCode as keyof typeof flags];
+
+                              return (
+                                <SelectItem
+                                  value={currency}
+                                  key={currency}
+                                  className="px-3"
+                                >
+                                  <div className="flex gap-4 items-center justify-center">
+                                    <div className="w-5">
+                                      {Flag && <Flag title={currency} />}
+                                    </div>{' '}
+                                    <div>{currency}</div>
+                                  </div>
+                                </SelectItem>
+                              );
+                            }
+                          )}
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -774,11 +791,27 @@ export function WorldlyLifestyleForm({
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              {currencies.map((currency) => (
-                                <SelectItem value={currency} key={currency}>
-                                  {currency}
-                                </SelectItem>
-                              ))}
+                              {Object.entries(currencies).map(
+                                ([currency, countryCode]) => {
+                                  const Flag =
+                                    flags[countryCode as keyof typeof flags];
+
+                                  return (
+                                    <SelectItem
+                                      value={currency}
+                                      key={currency}
+                                      className="px-3"
+                                    >
+                                      <div className="flex gap-4 items-center justify-center">
+                                        <div className="w-5">
+                                          {Flag && <Flag title={currency} />}
+                                        </div>{' '}
+                                        <div>{currency}</div>
+                                      </div>
+                                    </SelectItem>
+                                  );
+                                }
+                              )}
                             </SelectContent>
                           </Select>
                         </FormControl>
