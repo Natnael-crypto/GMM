@@ -6,7 +6,6 @@ import {
   faWeightScale,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
 import React from 'react';
 import flags from 'react-phone-number-input/flags';
 
