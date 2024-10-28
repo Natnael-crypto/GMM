@@ -574,24 +574,6 @@ export default function MatchPreferenceFilter() {
         </div>
 
         <div className="space-y-2 col-span-10 md:col-span-3">
-          <Label className="text-sm flex justify-between items-center">
-            <span className="font-bold line-clamp-1">Salat/Prayer</span>
-            <span className="flex gap-1 items-center justify-center text-[0.65rem]">
-              <Input type="checkbox" className="p-0 m-0 h-fit" />
-              <span>Any</span>
-            </span>
-          </Label>
-          <Select>
-            <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
-              <SelectValue placeholder="Combining Deen and Culture" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="honda">Combining Deen and Culture</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('bornOrRevert', '')}
@@ -632,59 +614,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-9">
-          <Label
-            className="text-sm flex justify-between items-center"
-            onClick={() => form.setValue('hijab', '')}
-          >
-            <span className="font-bold line-clamp-1">Hijab</span>
-            <span className="flex gap-1 items-center justify-center text-[0.65rem]">
-              <Input
-                type="checkbox"
-                className="p-0 m-0 h-fit"
-                checked={isHijabAny}
-                onChange={() => {}}
-              />
-              <span>Any</span>
-            </span>
-          </Label>
-          <FormField
-            name="hijab"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Wife must do Advanced Hijab (Niqab or burqa, possibly with gloves, often with eyes not visible)">
-                        Wife must do Advanced Hijab (Niqab or burqa, possibly
-                        with gloves, often with eyes not visible)
-                      </SelectItem>
-                      <SelectItem value="Wife must do Minimum Hijab (Basic Islamic attire with long dress/skirt, or loose clothing with long sleeves. Face and hands visible)">
-                        Wife must do Minimum Hijab (Basic Islamic attire with
-                        long dress/skirt, or loose clothing with long sleeves.
-                        Face and hands visible)
-                      </SelectItem>
-                      <SelectItem value="Wife may do Partial Hijab (Headscarf like a turban revealing neck. Tight clothing showing shape of body)">
-                        Wife may do Partial Hijab (Headscarf like a turban
-                        revealing neck. Tight clothing showing shape of body)
-                      </SelectItem>
-                      <SelectItem value="No Hijab (Don't need or want wife to wear Hijab)">
-                        No Hijab (Don&apos;t need or want wife to wear Hijab)
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-sm" />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="space-y-2 col-span-10 md:col-span-9">
+        <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
             onClick={() => form.setValue('children', '')}
@@ -765,6 +695,87 @@ export default function MatchPreferenceFilter() {
               </SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        <div className="space-y-2 col-span-10 md:col-span-6">
+          <Label className="text-sm flex justify-between items-center">
+            <span className="font-bold line-clamp-1">Salat/Prayer</span>
+            <span className="flex gap-1 items-center justify-center text-[0.65rem]">
+              <Input type="checkbox" className="p-0 m-0 h-fit" />
+              <span>Any</span>
+            </span>
+          </Label>
+          <Select>
+            <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Must Pray Full Daily Prayers + Sunnah (Husband prays all obligatory and Sunnah prayers)">
+                Must Pray Full Daily Prayers + Sunnah (Husband prays all
+                obligatory and Sunnah prayers)
+              </SelectItem>
+              <SelectItem value="Fardh Only (Husband prays mandatory prayers as a minimum requirement)">
+                Fardh Only (Husband prays mandatory prayers as a minimum
+                requirement)
+              </SelectItem>
+              <SelectItem value="Flexible Approach (As long as husband says he's a Muslim, he does not have to pray)">
+                Flexible Approach (As long as husband says he&apos;s a Muslim,
+                he does not have to pray)
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2 col-span-10 md:col-span-9">
+          <Label
+            className="text-sm flex justify-between items-center"
+            onClick={() => form.setValue('hijab', '')}
+          >
+            <span className="font-bold line-clamp-1">Hijab</span>
+            <span className="flex gap-1 items-center justify-center text-[0.65rem]">
+              <Input
+                type="checkbox"
+                className="p-0 m-0 h-fit"
+                checked={isHijabAny}
+                onChange={() => {}}
+              />
+              <span>Any</span>
+            </span>
+          </Label>
+          <FormField
+            name="hijab"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Wife must do Advanced Hijab (Niqab or burqa, possibly with gloves, often with eyes not visible)">
+                        Wife must do Advanced Hijab (Niqab or burqa, possibly
+                        with gloves, often with eyes not visible)
+                      </SelectItem>
+                      <SelectItem value="Wife must do Minimum Hijab (Basic Islamic attire with long dress/skirt, or loose clothing with long sleeves. Face and hands visible)">
+                        Wife must do Minimum Hijab (Basic Islamic attire with
+                        long dress/skirt, or loose clothing with long sleeves.
+                        Face and hands visible)
+                      </SelectItem>
+                      <SelectItem value="Wife may do Partial Hijab (Headscarf like a turban revealing neck. Tight clothing showing shape of body)">
+                        Wife may do Partial Hijab (Headscarf like a turban
+                        revealing neck. Tight clothing showing shape of body)
+                      </SelectItem>
+                      <SelectItem value="No Hijab (Don't need or want wife to wear Hijab)">
+                        No Hijab (Don&apos;t need or want wife to wear Hijab)
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage className="text-sm" />
+              </FormItem>
+            )}
+          />
         </div>
 
         <div className="space-y-2 col-span-10 md:col-span-3">
