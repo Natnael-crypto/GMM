@@ -36,11 +36,13 @@ import {
   maxHeight,
   minWeight,
   maxWeight,
+  countryToCountryCode,
 } from '@/lib/schemas/user';
 import { setQueryString } from '@/lib/matchmaking/slice';
 import { cmToFeetInches, kgToPounds } from '@/lib/format';
 import { languages } from '@/config/locales';
 import { useDebounce } from 'use-debounce';
+import flags from 'react-phone-number-input/flags';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -505,7 +507,16 @@ export default function MatchPreferenceFilter() {
                   <AutoComplete
                     onChange={field.onChange}
                     selectedOption={field.value}
-                    options={countryOptions}
+                    options={countryOptions.map((c) => {
+                      const countryCode = countryToCountryCode[c.value];
+                      const Flag = flags[countryCode as keyof typeof flags];
+                      const icon = (
+                        <div className="w-5">
+                          {Flag && <Flag title={c.label} />}
+                        </div>
+                      );
+                      return { label: c.label, value: c.value, icon: icon };
+                    })}
                     placeholder=""
                     className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent"
                   />
@@ -586,7 +597,16 @@ export default function MatchPreferenceFilter() {
                   <AutoComplete
                     onChange={field.onChange}
                     selectedOption={field.value}
-                    options={countryOptions}
+                    options={countryOptions.map((c) => {
+                      const countryCode = countryToCountryCode[c.value];
+                      const Flag = flags[countryCode as keyof typeof flags];
+                      const icon = (
+                        <div className="w-5">
+                          {Flag && <Flag title={c.label} />}
+                        </div>
+                      );
+                      return { label: c.label, value: c.value, icon: icon };
+                    })}
                     placeholder=""
                     className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent"
                   />
