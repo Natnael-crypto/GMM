@@ -67,7 +67,9 @@ export default function ChildrenStatus() {
       )}
       {hasChildren && (
         <div className="space-y-1 py-2 col-span-4 sm:col-span-3">
-          <Label>Age of {numberOfChildren > 1 ? 'Youngest' : ''} Child</Label>
+          <Label>
+            {numberOfChildren > 1 ? 'Age of Youngest Child' : 'Age of Child'}
+          </Label>
           <FormField
             name="ageOfYoungestChild"
             control={form.control}
