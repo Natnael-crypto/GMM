@@ -10,7 +10,7 @@ type SubField = {
 type Field = {
   icon: IconDefinition;
   label: string;
-  value?: string | SubField[] | null;
+  value?: string | number | boolean | SubField[] | null;
 };
 
 interface FieldViewerProps<T> {

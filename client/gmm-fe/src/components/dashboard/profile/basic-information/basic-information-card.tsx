@@ -14,8 +14,8 @@ import {
   faSmoking,
   faPaintBrush,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import FieldViewer from '../field-viewer';
 
 const languageMap: Record<string, string> = languages.reduce(
   (acc, lang) => ({ ...acc, [lang.value]: lang.label }),
@@ -92,24 +92,5 @@ const fields = (user: User) =>
   );
 
 export default function BasicInformationCard({ user }: { user: User }) {
-  const userFields = fields(user);
-
-  return (
-    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted text-sm">
-      {userFields.map(({ icon, label, value }) => (
-        <div
-          key={label}
-          className="grid grid-cols-12 py-3 px-8 odd:bg-background"
-        >
-          <div className="col-span-1">
-            <FontAwesomeIcon icon={icon} size="xl" className="text-primary" />
-          </div>
-          <div className="col-span-11 flex gap-2 items-center">
-            <h1>{label}</h1>
-            <h1 className="font-bold">{value}</h1>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
+  return <FieldViewer getFields={fields} entity={user} />;
 }
