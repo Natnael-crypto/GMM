@@ -1,5 +1,4 @@
 import { Card } from '@/components/ui/card';
-import { useTranslations } from 'next-intl';
 import React from 'react';
 import { OtpForm } from './otp-form';
 
@@ -8,8 +7,6 @@ export default function OtpCard({
 }: {
   userIdentifier: string;
 }) {
-  const t = useTranslations('Auth.otp');
-
   return (
     <div className="flex flex-col items-center justify-self-center">
       <Card className="w-full sm:min-w-96 sm:w-1/4 bg-background p-8 py-6">

@@ -79,3 +79,32 @@ export const signUpWithLinkSchema = z.object({
 });
 
 export type SignUpWithLink = z.infer<typeof signUpWithLinkSchema>;
+
+export const passwordResetRequestSchema = z.object({
+  email: z.string().email({
+    message: 'Please enter a valid email address',
+  }),
+});
+
+export type PasswordResetRequest = z.infer<typeof passwordResetRequestSchema>;
+
+export const passwordResetSchema = z
+  .object({
+    password: z.string().min(8, {
+      message: 'Password must be at least 8 characters',
+    }),
+    confirmPassword: z.string().min(8, {
+      message: 'Password must be at least 8 characters',
+    }),
+  })
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (password !== confirmPassword) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['confirmPassword'],
+        message: 'The passwords did not match',
+      });
+    }
+  });
+
+export type PasswordResetSchema = z.infer<typeof passwordResetSchema>;
