@@ -23,7 +23,12 @@ const getFields = (worldlyLifestyle?: WorldlyLifestyle) => [
   {
     icon: faHandHoldingDollar,
     label: 'Annual Income',
-    value: worldlyLifestyle?.annualIncome,
+    value:
+      worldlyLifestyle?.annualIncome && worldlyLifestyle?.annualIncomeCurrency
+        ? worldlyLifestyle?.annualIncome +
+          ' ' +
+          worldlyLifestyle?.annualIncomeCurrency
+        : undefined,
   },
   {
     icon: faGraduationCap,
