@@ -116,7 +116,7 @@ export function LoginForm() {
             {isLoginInProgress ? <Loading /> : t('cta')}
           </Button>
           <Link
-            href={`/${locale}/signup`}
+            href={`/${locale}/auth/forgot-password`}
             className="text-xs text-primary font-semibold"
           >
             {t('forgotPassword')}

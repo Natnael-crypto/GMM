@@ -29,6 +29,14 @@ export const authApi = createApi({
       transformResponse: (response: BaseResponse<User>) => response.data,
     }),
 
+    requestPasswordReset: builder.mutation<void, { email: string }>({
+      query: ({ email }) => ({
+        url: 'auth/password-reset',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
+
     resetPassword: builder.mutation<
       void,
       { newPassword: string; token: string }
@@ -47,4 +55,5 @@ export const {
   useLazyGetUserQuery,
   useGetUserByIdQuery,
   useResetPasswordMutation,
+  useRequestPasswordResetMutation,
 } = authApi;
