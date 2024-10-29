@@ -45,10 +45,12 @@ export default function StripeForm({ user }: { user: User }) {
       addressOne: '',
       addressTwo: '',
       city: user.city,
-      postcode: '',
+      // postcode: '',
       region: '',
     },
   });
+
+  console.log(form.formState.errors);
 
   const locale = useLocale();
 
