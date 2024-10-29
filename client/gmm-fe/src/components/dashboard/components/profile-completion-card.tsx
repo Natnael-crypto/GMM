@@ -21,6 +21,7 @@ import { useGetMarriageDiscussionQuery } from '@/lib/user/api';
 import { useGetFamilyIntroductionQuery } from '@/lib/user/api';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProfileCardSkeleton from './skeletons/profile-card-skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ProfileCompletionCard() {
   const user = useAppSelector((state) => state.auth.user);
@@ -127,15 +128,18 @@ export default function ProfileCompletionCard() {
             Edit Profile
           </Link>
         )}
-        <Link
-          href={`/dashboard/profile/${user?.id}/basic-information`}
-          className={cn(
-            buttonVariants({ variant: 'outline' }),
-            'rounded-full h-8 text-secondary cta'
-          )}
-        >
-          View Profile
-        </Link>
+        {!user && <Skeleton className="w-44 h-10 rounded-full" />}
+        {user && (
+          <Link
+            href={`/dashboard/profile/${user?.id}/basic-information`}
+            className={cn(
+              buttonVariants({ variant: 'outline' }),
+              'rounded-full h-8 text-secondary cta'
+            )}
+          >
+            View Profile
+          </Link>
+        )}
       </div>
     </div>
   );

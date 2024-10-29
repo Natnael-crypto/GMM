@@ -6,6 +6,7 @@ import MatchMeCard from '@/components/dashboard/components/match-me-card';
 import MatchPreferenceFilter from '@/components/dashboard/components/match-preference-filter';
 import OutsideFilterCard from '@/components/dashboard/components/outside-filter-card';
 import ProfileCompletionCard from '@/components/dashboard/components/profile-completion-card';
+import MatchFilterSkeleton from '@/components/dashboard/components/skeletons/match-filter-skeleton';
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
 import Footer from '@/components/ui/footer';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -45,6 +46,8 @@ export default function Dashboard() {
             {user?.isMatched && (
               <div className="w-full h-full absolute top-0 left-0 z-[1000]"></div>
             )}
+
+            {!user && <MatchFilterSkeleton />}
 
             {isAccountApproved && (
               <>
