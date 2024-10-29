@@ -9,6 +9,7 @@ import { usePathname } from '@/lib/navigation';
 import React from 'react';
 import { useParams } from 'next/navigation';
 import { useGetUserQuery } from '@/lib/user/api';
+import Footer from '@/components/ui/footer';
 
 export default function ProfileLayout({
   children,
@@ -67,6 +68,7 @@ export default function ProfileLayout({
           <div className="col-span-9">{children}</div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

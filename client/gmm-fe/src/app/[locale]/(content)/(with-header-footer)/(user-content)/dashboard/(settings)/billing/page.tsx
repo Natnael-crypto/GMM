@@ -15,7 +15,6 @@ export default function Billing() {
     <div className="rounded-xl bg-background shadow-lg p-5 space-y-7 text-sm">
       <div className="flex justify-between items-end">
         <h1 className="text-xl">Billing Information</h1>
-        <span>User ID #11223344</span>
       </div>
 
       <div className="space-y-4">

@@ -1,10 +1,7 @@
-'use client'
+'use client';
 
 import { Button } from '@/components/ui/button';
-import { uuidToEightDigitNumber } from '@/lib/format';
 import { useAppSelector } from '@/lib/hooks';
-// import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslations } from 'next-intl';
 
 export default function PersonalInfo() {
@@ -18,14 +15,15 @@ export default function PersonalInfo() {
     <div className="rounded-xl bg-background shadow-lg p-5 space-y-4 text-sm">
       <div className="flex justify-between items-end">
         <h1 className="text-xl">Profile Information</h1>
-        {user && <span>User ID #{uuidToEightDigitNumber(user.id)}</span>}
       </div>
 
       <div className="divide-y space-y-2">
         <div className="flex justify-between items-center py-2 pt-3">
           <div className="flex flex-col gap-1">
             <span className="font-bold">Full Name</span>
-            <span>{user?.firstName} {user?.lastName}</span>
+            <span>
+              {user?.firstName} {user?.lastName}
+            </span>
           </div>
         </div>
 

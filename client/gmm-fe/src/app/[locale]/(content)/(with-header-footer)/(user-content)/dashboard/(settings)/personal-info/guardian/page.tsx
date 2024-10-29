@@ -15,7 +15,6 @@ export default function PersonalInfo() {
     <div className="rounded-xl bg-background shadow-lg p-5 space-y-4 text-sm">
       <div className="flex justify-between items-end">
         <h1 className="text-xl">Guardian&apos;s Profile Information</h1>
-        <span>User ID #11223344</span>
       </div>
 
       <div className="divide-y space-y-2">

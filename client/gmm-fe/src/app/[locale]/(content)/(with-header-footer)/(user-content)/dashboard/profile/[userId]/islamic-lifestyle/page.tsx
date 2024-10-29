@@ -7,6 +7,7 @@ import HideProfile from '@/components/dashboard/profile/hide-profile';
 import { useProfileView } from '@/lib/hooks/use-match';
 import { MatchStage } from '@/lib/schemas/match';
 import { cn } from '@/lib/utils';
+import ExpectedIslamicLifestyleCard from '@/components/dashboard/profile/islamic-lifestyle/expected-islamic-lifestyle-card';
 
 export default function IslamicLifestyle() {
   const { loggedInUser, requestedUser, showInfo, matchedUser } = useProfileView(
@@ -34,8 +35,10 @@ export default function IslamicLifestyle() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
+            className="space-y-6"
           >
             <IslamicLifestyleCard user={requestedUser} />
+            <ExpectedIslamicLifestyleCard user={requestedUser} />
           </motion.div>
         )}
       </AnimatePresence>

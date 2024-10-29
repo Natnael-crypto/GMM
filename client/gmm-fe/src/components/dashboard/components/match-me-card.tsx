@@ -6,6 +6,7 @@ import { useUpdateProfileContext } from '../profile/update-profile-context';
 import Loading from '@/components/ui/loading';
 import { useCountPotentialMatchesQuery } from '@/lib/matchmaking/api';
 import { useAppSelector } from '@/lib/hooks';
+import { cn } from '@/lib/utils';
 
 export default function MatchMeCard() {
   const { onSave, isSaving } = useUpdateProfileContext();
@@ -33,7 +34,10 @@ export default function MatchMeCard() {
         <p className="lg:text-lg text-center">Potential Matches</p>
       </div>
       <Button
-        className="text-sm font-semibold hover:bg-background hover:text-secondary w-full bg-background text-secondary truncate cta"
+        className={cn(
+          'text-sm font-semibold hover:bg-background hover:text-secondary w-full bg-background text-secondary truncate',
+          fuzzyMatchThreshold === 0 ? 'cta' : ''
+        )}
         onClick={onSave}
         disabled={isSaving}
       >

@@ -1,15 +1,18 @@
 import { convertDateToAge } from '@/lib/format';
-import { User } from '@/lib/schemas/user';
+import { countryToCountryCode, User } from '@/lib/schemas/user';
 import {
   faLocationDot,
   faUpDown,
   faWeightScale,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
 import React from 'react';
+import flags from 'react-phone-number-input/flags';
 
 export default function ProfileDescription({ user }: { user: User }) {
+  const code = countryToCountryCode[user.nationality] as keyof typeof flags;
+  const NationalityFlag = flags[code];
+
   return (
     <div className="w-full h-full rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted p-5 space-y-3">
       <h1 className="text-xl font-bold text-muted-foreground">
@@ -23,13 +26,7 @@ export default function ProfileDescription({ user }: { user: User }) {
 
       <div className="space-y-2 font-thin">
         <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
-          <Image
-            className="w-4 h-4"
-            width={512}
-            height={512}
-            src={`/icons/lang/en.svg`}
-            alt="Language Flag"
-          />
+          {NationalityFlag && <NationalityFlag title={user.nationality} />}
           <span>{user.nationality} Nationality / Passport</span>
         </p>
         <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">

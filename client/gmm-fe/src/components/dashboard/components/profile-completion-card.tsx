@@ -19,6 +19,9 @@ import { useGetWorldlyLifestyleQuery } from '@/lib/user/api';
 import { useGetIslamicLifestyleQuery } from '@/lib/user/api';
 import { useGetMarriageDiscussionQuery } from '@/lib/user/api';
 import { useGetFamilyIntroductionQuery } from '@/lib/user/api';
+import { AnimatePresence, motion } from 'framer-motion';
+import ProfileCardSkeleton from './skeletons/profile-card-skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ProfileCompletionCard() {
   const user = useAppSelector((state) => state.auth.user);
@@ -42,8 +45,6 @@ export default function ProfileCompletionCard() {
     isLoading: isFamilyIntroductionLoading,
     isError: isFamilyIntroductionError,
   } = useGetFamilyIntroductionQuery(user?.id ?? '', { skip: !user });
-
-  // const [completion, setCompletion] = useState<{ criteria: string, error: boolean, loading: boolean, source: any, progressCalc: (source: any) => number }[]>([])
 
   const completion = [
     {
@@ -85,32 +86,32 @@ export default function ProfileCompletionCard() {
 
   return (
     <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 text-xs space-y-5">
-      {user && <ProfileCard user={user} />}
+      <AnimatePresence mode="wait">
+        {user && <ProfileCard user={user} />}
+        {!user && (
+          <motion.div
+            key="profile-card-skeleton"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <ProfileCardSkeleton />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="space-y-3">
         {completion.map(
           ({ criteria, error, loading, source, progressCalc }, index) => {
-            if (loading) {
-              return <Loading key={`loading_${index}`} />;
-            }
-            if (error) {
-              return (
-                <ProfileCompletionProgress
-                  key={index}
-                  progress={0}
-                  criteria={criteria}
-                />
-              );
-            }
-            if (source) {
-              return (
-                <ProfileCompletionProgress
-                  key={index}
-                  progress={progressCalc(source)}
-                  criteria={criteria}
-                />
-              );
-            }
+            return (
+              <ProfileCompletionProgress
+                loading={loading}
+                key={index}
+                progress={source ? progressCalc(source) : 0}
+                criteria={criteria}
+              />
+            );
           }
         )}
       </div>
@@ -127,15 +128,18 @@ export default function ProfileCompletionCard() {
             Edit Profile
           </Link>
         )}
-        <Link
-          href={`/dashboard/profile/${user?.id}/basic-information`}
-          className={cn(
-            buttonVariants({ variant: 'outline' }),
-            'rounded-full h-8 text-secondary cta'
-          )}
-        >
-          View Profile
-        </Link>
+        {!user && <Skeleton className="w-44 h-10 rounded-full" />}
+        {user && (
+          <Link
+            href={`/dashboard/profile/${user?.id}/basic-information`}
+            className={cn(
+              buttonVariants({ variant: 'outline' }),
+              'rounded-full h-8 text-secondary cta'
+            )}
+          >
+            View Profile
+          </Link>
+        )}
       </div>
     </div>
   );

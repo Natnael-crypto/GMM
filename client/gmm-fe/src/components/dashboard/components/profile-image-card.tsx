@@ -1,6 +1,6 @@
 'use client';
 
-import { User } from '@/lib/schemas/user';
+import { User, countryToCountryCode } from '@/lib/schemas/user';
 import {
   faLocationDot,
   faUpDown,
@@ -23,6 +23,8 @@ import {
 } from '@/components/ui/previous-button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { convertDateToAge } from '@/lib/format';
+import flags from 'react-phone-number-input/flags';
+import DynamicBlur from '@/components/ui/dynamic-blur';
 
 export default function ProfileImages({ user }: { user: User }) {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -59,6 +61,9 @@ export default function ProfileImages({ user }: { user: User }) {
     downloadUrl();
   }, [generateDownloadUrl, user.pictures, user]);
 
+  const code = countryToCountryCode[user.nationality] as keyof typeof flags;
+  const NationalityFlag = flags[code];
+
   return (
     <div className="min-h-[25rem] flex flex-col items-center">
       <AnimatePresence>
@@ -69,7 +74,7 @@ export default function ProfileImages({ user }: { user: User }) {
                 <CarouselContent>
                   {imageUrls.map((image, index) => (
                     <CarouselItem key={`profile_pic_${index}`}>
-                      <Image
+                      <DynamicBlur
                         src={image}
                         className="object-cover h-[21rem] object-top"
                         width={600}
@@ -94,18 +99,16 @@ export default function ProfileImages({ user }: { user: User }) {
                 </h2>
 
                 <div className="space-y-2 font-thin">
-                  <p className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-[0.6rem] font-semibold px-2 shadow-lg items-center">
-                    <Image
-                      className="w-4 h-4"
-                      width={512}
-                      height={512}
-                      src={`/icons/lang/en.svg`}
-                      alt="Language Flag"
-                    />
+                  <div className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-[0.6rem] font-semibold px-2 shadow-lg items-center">
+                    <div className="w-4 h-4 flex items-center justify-center">
+                      {NationalityFlag && (
+                        <NationalityFlag title={user.nationality} />
+                      )}
+                    </div>
                     <span className="w-full truncate">
                       {user.nationality} Nationality / Passport
                     </span>
-                  </p>
+                  </div>
                   <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white">
                     <span>
                       <FontAwesomeIcon icon={faLocationDot} />

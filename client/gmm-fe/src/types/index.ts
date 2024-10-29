@@ -83,4 +83,5 @@ export interface ProfileHeaderProps {
 export interface ProfileCompletionProgressProps {
   criteria: string;
   progress: number;
+  loading: boolean;
 }

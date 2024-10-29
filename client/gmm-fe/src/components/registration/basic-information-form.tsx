@@ -25,6 +25,7 @@ import {
   weights,
   userRegistrationSchema,
   UserRegistration,
+  countryToCountryCode,
 } from '@/lib/schemas/user';
 import { useForm } from 'react-hook-form';
 import { useRegisterUserMutation } from '@/lib/user/api';
@@ -47,6 +48,7 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { getEighteenYearsAgo } from '@/lib/format';
 import { FamilyIntroduction } from '@/lib/schemas/family-introduction';
+import flags from 'react-phone-number-input/flags';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -496,7 +498,21 @@ export default function BasicInformationForm({
                         <AutoComplete
                           onChange={field.onChange}
                           selectedOption={field.value}
-                          options={countryOptions}
+                          options={countryOptions.map((c) => {
+                            const countryCode = countryToCountryCode[c.value];
+                            const Flag =
+                              flags[countryCode as keyof typeof flags];
+                            const icon = (
+                              <div className="w-5">
+                                {Flag && <Flag title={c.label} />}
+                              </div>
+                            );
+                            return {
+                              label: c.label,
+                              value: c.value,
+                              icon: icon,
+                            };
+                          })}
                           placeholder=""
                           className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                         />
@@ -564,7 +580,21 @@ export default function BasicInformationForm({
                         <AutoComplete
                           onChange={field.onChange}
                           selectedOption={field.value}
-                          options={countryOptions}
+                          options={countryOptions.map((c) => {
+                            const countryCode = countryToCountryCode[c.value];
+                            const Flag =
+                              flags[countryCode as keyof typeof flags];
+                            const icon = (
+                              <div className="w-5">
+                                {Flag && <Flag title={c.label} />}
+                              </div>
+                            );
+                            return {
+                              label: c.label,
+                              value: c.value,
+                              icon: icon,
+                            };
+                          })}
                           placeholder=""
                           className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                         />

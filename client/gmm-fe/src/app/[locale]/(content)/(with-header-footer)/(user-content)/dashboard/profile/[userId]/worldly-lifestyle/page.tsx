@@ -7,6 +7,7 @@ import HideProfile from '@/components/dashboard/profile/hide-profile';
 import { useProfileView } from '@/lib/hooks/use-match';
 import { MatchStage } from '@/lib/schemas/match';
 import { cn } from '@/lib/utils';
+import ExpectedWorldlyLifestyleCard from '@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-card';
 
 export default function WorldlyLifestyle() {
   const { loggedInUser, requestedUser, showInfo, matchedUser } = useProfileView(
@@ -34,8 +35,10 @@ export default function WorldlyLifestyle() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
+            className="space-y-6"
           >
             <WorldlyLifestyleCard user={requestedUser} />
+            <ExpectedWorldlyLifestyleCard user={requestedUser} />
           </motion.div>
         )}
       </AnimatePresence>

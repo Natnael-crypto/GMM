@@ -67,7 +67,6 @@ export default function GuardianRegistrationPage() {
       >
         <div className="flex justify-between items-end">
           <h1 className="text-xl">Guardian&apos;s Registration</h1>
-          <span>User ID #11223344</span>
         </div>
 
         <div className="divide-y space-y-2">
