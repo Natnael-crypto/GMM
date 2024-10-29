@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import { useGetDownloadUrlQuery } from '@/lib/user/api';
 import { User } from '@/lib/schemas/user';
+import DynamicBlur from '@/components/ui/dynamic-blur';
 
 export default function ProfileCard({ user }: { user: User }) {
   const { data: imageUrl } = useGetDownloadUrlQuery(
@@ -15,7 +16,7 @@ export default function ProfileCard({ user }: { user: User }) {
     <div className="flex gap-4">
       <div className="rounded-full w-16 h-16 aspect-square overflow-hidden">
         {imageUrl && (
-          <Image
+          <DynamicBlur
             src={imageUrl}
             className="object-cover w-full h-full object-top"
             width={300}

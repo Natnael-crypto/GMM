@@ -1,29 +1,22 @@
 'use client';
 
+import DashboardLeftCards from '@/components/dashboard/components/dashboard-left-cards';
 import MatchToleranceSelector from '@/components/dashboard/components/match-fuzziness-selector';
 import MatchMeCard from '@/components/dashboard/components/match-me-card';
 import MatchPreferenceFilter from '@/components/dashboard/components/match-preference-filter';
-import MatchedCard from '@/components/dashboard/components/matched-card';
-import NoMatchCard from '@/components/dashboard/components/no-match-card';
 import OutsideFilterCard from '@/components/dashboard/components/outside-filter-card';
-import PendingApprovalMessage from '@/components/dashboard/components/pending-approval-message';
 import ProfileCompletionCard from '@/components/dashboard/components/profile-completion-card';
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
 import Footer from '@/components/ui/footer';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useAppSelector } from '@/lib/hooks';
-import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
 import { AccountStatus } from '@/lib/schemas/user';
 import { cn } from '@/lib/utils';
 import React from 'react';
 
 export default function Dashboard() {
   const user = useAppSelector((state) => state.auth.user);
-
   const isAccountApproved = user?.accountStatus === AccountStatus.APPROVED;
-
-  const { data: currentMatch } = useGetCurrentMatchQuery(undefined, {
-    skip: !user,
-  });
 
   return (
     <UpdateProfileProvider autoSave={false}>
@@ -33,20 +26,9 @@ export default function Dashboard() {
 
           <div className="grid grid-cols-12 gap-4">
             <div className="col-span-7">
-              {isAccountApproved ? (
-                user?.isMatched && currentMatch ? (
-                  <MatchedCard
-                    matchedUser={
-                      user?.gender === 'Male'
-                        ? currentMatch.femaleUser
-                        : currentMatch.maleUser
-                    }
-                  />
-                ) : (
-                  <NoMatchCard />
-                )
-              ) : (
-                <PendingApprovalMessage />
+              {user && <DashboardLeftCards user={user} />}
+              {!user && (
+                <Skeleton className="bg-[#e8f3db] rounded-se-3xl rounded-es-3xl w-full h-full" />
               )}
             </div>
             <div className="col-span-5">

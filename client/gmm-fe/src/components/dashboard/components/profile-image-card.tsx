@@ -24,6 +24,7 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { convertDateToAge } from '@/lib/format';
 import flags from 'react-phone-number-input/flags';
+import DynamicBlur from '@/components/ui/dynamic-blur';
 
 export default function ProfileImages({ user }: { user: User }) {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -73,7 +74,7 @@ export default function ProfileImages({ user }: { user: User }) {
                 <CarouselContent>
                   {imageUrls.map((image, index) => (
                     <CarouselItem key={`profile_pic_${index}`}>
-                      <Image
+                      <DynamicBlur
                         src={image}
                         className="object-cover h-[21rem] object-top"
                         width={600}
