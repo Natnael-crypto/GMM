@@ -264,11 +264,7 @@ export default function FamilyIntroductionForm({
 
           <div className="space-y-1 col-span-6">
             <Label>{t('idVerification.phoneNumber')}</Label>
-            <Input
-              className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-              placeholder="1234567890"
-              disabled
-            />
+            <PhoneInput className="text-muted-foreground bg-background text-md shadow rounded-sm" />
           </div>
 
           <div className="space-y-1 col-span-6">

@@ -179,4 +179,11 @@
       background-position: 0% 50%, 50% 50%, 100% 100%;
     }
   }
+
+  .animate-in {
+    animation-duration: 50ms;
+  }
+  .animate-out {
+    animation-duration: 50ms;
+  }
 }

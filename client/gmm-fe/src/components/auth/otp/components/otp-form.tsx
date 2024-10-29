@@ -21,11 +21,14 @@ import Loading from '@/components/ui/loading';
 import { useToast } from '@/components/ui/use-toast';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useAppDispatch } from '@/lib/hooks';
+import { setToken } from '@/lib/auth/slice';
 
 export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
   const t = useTranslations('Auth.otp');
-  const { replace } = useRouter();
+  const { push, replace } = useRouter();
   const { toast } = useToast();
+  const dispatch = useAppDispatch();
 
   const params = useSearchParams();
 
@@ -44,11 +47,12 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
     const res = await verifyOtp(data);
 
     if (res.status === 200) {
+      dispatch(setToken(res.token));
       if (params.get('account') === 'guardian') {
         replace('/guardian');
         return;
       }
-      replace('/checkout');
+      return push('/checkout');
     } else {
       toast({
         title: 'OTP Verification',

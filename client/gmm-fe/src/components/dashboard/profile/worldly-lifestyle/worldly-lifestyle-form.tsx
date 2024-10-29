@@ -202,6 +202,406 @@ const carBrands = [
   'Pagani',
 ];
 
+const carData: Record<string, { models: string[] }> = {
+  Acura: {
+    models: [
+      'ILX',
+      'MDX',
+      'RDX',
+      'TLX',
+      'NSX',
+      'RLX',
+      'ZDX',
+      'Legend',
+      'CL',
+      'Integra',
+    ],
+  },
+  'Alfa Romeo': {
+    models: [
+      'Giulia',
+      'Stelvio',
+      '4C Spider',
+      '4C Coupe',
+      '8C',
+      'Spider',
+      'Brera',
+      'Mito',
+      'GT',
+      '159',
+    ],
+  },
+  'Aston Martin': {
+    models: [
+      'DB11',
+      'Vantage',
+      'DBX',
+      'DB9',
+      'Rapide',
+      'Vanquish',
+      'DBS',
+      'Cygnet',
+      'Virage',
+      'Vulcan',
+    ],
+  },
+  Audi: {
+    models: ['A3', 'A4', 'Q5', 'Q7', 'A6', 'A8', 'Q3', 'Q8', 'TT', 'R8'],
+  },
+  BMW: {
+    models: [
+      '3 Series',
+      '5 Series',
+      'X5',
+      'X3',
+      'X7',
+      '2 Series',
+      '4 Series',
+      '7 Series',
+      'Z4',
+      'i8',
+    ],
+  },
+  Chevrolet: {
+    models: [
+      'Camaro',
+      'Silverado',
+      'Equinox',
+      'Malibu',
+      'Impala',
+      'Tahoe',
+      'Suburban',
+      'Traverse',
+      'Colorado',
+      'Corvette',
+    ],
+  },
+  Chrysler: {
+    models: [
+      '300',
+      'Pacifica',
+      'Voyager',
+      'Aspen',
+      'Concorde',
+      'Crossfire',
+      'LHS',
+      'PT Cruiser',
+      'Sebring',
+      '200',
+    ],
+  },
+  Citroën: {
+    models: [
+      'C3',
+      'C4',
+      'C5',
+      'C6',
+      'C1',
+      'C2',
+      'DS3',
+      'DS4',
+      'Berlingo',
+      'Jumpy',
+    ],
+  },
+  Dodge: {
+    models: [
+      'Charger',
+      'Challenger',
+      'Durango',
+      'Journey',
+      'Grand Caravan',
+      'Avenger',
+      'Dakota',
+      'Dart',
+      'Nitro',
+      'Viper',
+    ],
+  },
+  Ferrari: {
+    models: [
+      '488',
+      'Portofino',
+      'Roma',
+      '812',
+      'California',
+      'GTC4Lusso',
+      'F8',
+      'LaFerrari',
+      '458',
+      'FF',
+    ],
+  },
+  Fiat: {
+    models: [
+      '500',
+      '500X',
+      '500L',
+      'Panda',
+      'Tipo',
+      '124 Spider',
+      'Bravo',
+      'Ducato',
+      'Punto',
+      'Doblo',
+    ],
+  },
+  Ford: {
+    models: [
+      'Mustang',
+      'F-150',
+      'Explorer',
+      'Escape',
+      'Edge',
+      'Expedition',
+      'Ranger',
+      'Bronco',
+      'Fusion',
+      'Focus',
+    ],
+  },
+  Genesis: {
+    models: ['G70', 'G80', 'G90', 'GV70', 'GV80'],
+  },
+  Honda: {
+    models: [
+      'Civic',
+      'Accord',
+      'CR-V',
+      'Pilot',
+      'Odyssey',
+      'Ridgeline',
+      'Fit',
+      'HR-V',
+      'Passport',
+      'Insight',
+    ],
+  },
+  Hummer: {
+    models: ['H1', 'H2', 'H3', 'EV'],
+  },
+  Hyundai: {
+    models: [
+      'Elantra',
+      'Santa Fe',
+      'Tucson',
+      'Sonata',
+      'Palisade',
+      'Kona',
+      'Veloster',
+      'Accent',
+      'Venue',
+      'Genesis',
+    ],
+  },
+  Infiniti: {
+    models: [
+      'Q50',
+      'Q60',
+      'QX50',
+      'QX60',
+      'QX80',
+      'Q30',
+      'QX70',
+      'M37',
+      'Q40',
+      'EX35',
+    ],
+  },
+  Jaguar: {
+    models: [
+      'F-Pace',
+      'E-Pace',
+      'I-Pace',
+      'XF',
+      'XJ',
+      'XE',
+      'F-Type',
+      'S-Type',
+      'XK',
+      'X-Type',
+    ],
+  },
+  Jeep: {
+    models: [
+      'Wrangler',
+      'Grand Cherokee',
+      'Cherokee',
+      'Compass',
+      'Renegade',
+      'Gladiator',
+      'Patriot',
+      'Commander',
+      'Liberty',
+      'Wagoneer',
+    ],
+  },
+  Kia: {
+    models: [
+      'Soul',
+      'Sorento',
+      'Sportage',
+      'Optima',
+      'Rio',
+      'Seltos',
+      'Telluride',
+      'Stinger',
+      'Forte',
+      'Sedona',
+    ],
+  },
+  Koenigsegg: {
+    models: ['Agera', 'Regera', 'Jesko', 'Gemera', 'CCX'],
+  },
+  Lamborghini: {
+    models: [
+      'Huracan',
+      'Aventador',
+      'Urus',
+      'Gallardo',
+      'Murcielago',
+      'Diablo',
+      'Veneno',
+      'Sian',
+      'Reventon',
+      'Countach',
+    ],
+  },
+  'Land Rover': {
+    models: [
+      'Range Rover',
+      'Discovery',
+      'Defender',
+      'Freelander',
+      'LR2',
+      'LR3',
+      'LR4',
+      'Range Rover Evoque',
+      'Range Rover Sport',
+      'Discovery Sport',
+    ],
+  },
+  Lincoln: {
+    models: [
+      'Navigator',
+      'Aviator',
+      'Corsair',
+      'MKZ',
+      'Continental',
+      'MKC',
+      'MKS',
+      'MKT',
+      'Town Car',
+      'Mark LT',
+    ],
+  },
+  Lotus: {
+    models: ['Elise', 'Exige', 'Evora', 'Emira', 'Esprit'],
+  },
+  Mazda: {
+    models: ['Mazda3', 'Mazda6', 'CX-5', 'CX-30', 'MX-5 Miata'],
+  },
+  'Mercedes-Benz': {
+    models: [
+      'C-Class',
+      'E-Class',
+      'S-Class',
+      'GLC',
+      'GLE',
+      'A-Class',
+      'GLA',
+      'CLA',
+      'SL',
+      'AMG GT',
+    ],
+  },
+  Mini: {
+    models: ['Cooper', 'Countryman', 'Clubman', 'Paceman', 'Convertible'],
+  },
+  Mitsubishi: {
+    models: ['Outlander', 'Eclipse Cross', 'Mirage', 'RVR', 'Lancer'],
+  },
+  Nissan: {
+    models: [
+      'Altima',
+      'Maxima',
+      'Sentra',
+      'Rogue',
+      'Murano',
+      'Titan',
+      'Frontier',
+      '370Z',
+      'Juke',
+      'Pathfinder',
+    ],
+  },
+  Peugeot: {
+    models: [
+      '208',
+      '308',
+      '508',
+      '3008',
+      '5008',
+      '2008',
+      'Partner',
+      'Traveller',
+      'Rifter',
+    ],
+  },
+  Porsche: {
+    models: [
+      '911',
+      'Cayenne',
+      'Macan',
+      'Panamera',
+      'Boxster',
+      'Cayman',
+      'Taycan',
+      '918 Spyder',
+      'Carrera GT',
+    ],
+  },
+  Ram: {
+    models: ['1500', '2500', '3500', 'ProMaster City', 'ProMaster'],
+  },
+  Renault: {
+    models: ['Clio', 'Captur', 'Megane', 'Koleos', 'Talisman'],
+  },
+  Saab: {
+    models: ['9-3', '9-5', '9-4X', 'Sonett', '95'],
+  },
+  Skoda: {
+    models: ['Octavia', 'Fabia', 'Superb', 'Kodiaq', 'Kamiq'],
+  },
+  Smart: {
+    models: ['Fortwo', 'Forfour', 'Roadster'],
+  },
+  Subaru: {
+    models: ['Outback', 'Forester', 'Crosstrek', 'Legacy', 'Impreza'],
+  },
+  Suzuki: {
+    models: ['Vitara', 'SX4', 'Swift', 'Baleno', 'Jimny'],
+  },
+  Tata: {
+    models: ['Nexon', 'Harrier', 'Safari', 'Altroz', 'Tiago'],
+  },
+  Tesla: {
+    models: ['Model S', 'Model 3', 'Model X', 'Model Y', 'Roadster'],
+  },
+  Volkswagen: {
+    models: ['Golf', 'Passat', 'Jetta', 'Tiguan', 'Atlas'],
+  },
+  Volvo: {
+    models: ['XC40', 'XC60', 'XC90', 'S60', 'S90'],
+  },
+  Wiesmann: {
+    models: ['MF3', 'MF4', 'GT', 'Spyder'],
+  },
+  Pagani: {
+    models: ['Zonda', 'Huayra'],
+  },
+};
+
 const debtsOptions = [
   'Car',
   'Home',
@@ -290,6 +690,12 @@ export function WorldlyLifestyleForm({
     form.watch('majorPreexistingHealthCondition') === 'Yes';
   const ownsCar = form.watch('ownsVehicle') === 'Yes';
   const hasDebt = form.watch('applicableDebts') === 'Yes';
+
+  const carMake = carData[form.watch('vehicleMake')] || { models: [] };
+  const carModels = carMake.models.map((model) => ({
+    label: model,
+    value: model,
+  }));
 
   return (
     <div className="py-8 px-6 sm:px-16 md:px-24 lg:px-52">
@@ -570,7 +976,7 @@ export function WorldlyLifestyleForm({
                       <AutoComplete
                         onChange={field.onChange}
                         selectedOption={field.value}
-                        options={carBrands.map((brand) => ({
+                        options={Object.keys(carData).map((brand) => ({
                           label: brand,
                           value: brand,
                         }))}
@@ -599,7 +1005,7 @@ export function WorldlyLifestyleForm({
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="max-h-64">
-                            {Array.from({ length: 40 }, (_, i) => (
+                            {Array.from({ length: 20 }, (_, i) => (
                               <SelectItem
                                 key={i}
                                 value={String(new Date().getFullYear() - i)}
@@ -624,10 +1030,16 @@ export function WorldlyLifestyleForm({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
-                          {...field}
-                          className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                        />
+                        <FormItem>
+                          <AutoComplete
+                            onChange={field.onChange}
+                            selectedOption={field.value}
+                            options={carModels}
+                            placeholder=""
+                            className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent"
+                          />
+                          <FormMessage className="text-xs" />
+                        </FormItem>
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>

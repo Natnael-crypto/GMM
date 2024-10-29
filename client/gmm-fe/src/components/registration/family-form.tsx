@@ -195,12 +195,12 @@ export default function FamilyIntroductionForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
+                  <PhoneInput
                     {...field}
                     className="text-muted-foreground bg-background text-md shadow rounded-sm"
                   />
                 </FormControl>
-                <FormMessage className="text-md" />
+                <FormMessage className="text-xs" />
               </FormItem>
             )}
           />

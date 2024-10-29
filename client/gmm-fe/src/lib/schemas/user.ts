@@ -101,11 +101,10 @@ export const _userBasicInformationSchema = z
             .filter((lang) => lang.length > 0)
         ),
     ]),
-    idCardImage: z
-      .string({
-        required_error: 'Please upload your ID',
-      })
-      .min(1, { message: 'Please upload your ID' }),
+    idCardImage: z.string({
+      required_error: 'Please upload your ID',
+    }),
+
     nationality: z
       .string({
         required_error: 'Please enter your nationality',

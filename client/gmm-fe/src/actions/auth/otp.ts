@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { constants } from '@/config';
 import { Otp } from '@/lib/schemas/auth';
 import { cookieNames } from '@/types/cookie-names';
+import { revalidatePath } from 'next/cache';
 
 export const verifyOtp = async (data: Otp) => {
   const userIdentifier = cookies().get(cookieNames.userIdentifier)?.value;
@@ -52,7 +53,7 @@ export const verifyOtp = async (data: Otp) => {
 
   cookies().delete(cookieNames.otpVerificationKey);
 
-  return { status: 200 };
+  return { status: 200, token: accessToken };
 };
 
 export const resendOtp = async () => {
