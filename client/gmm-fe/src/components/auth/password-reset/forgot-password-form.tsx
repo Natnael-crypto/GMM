@@ -1,0 +1,115 @@
+'use client';
+
+import { Card } from '@/components/ui/card';
+import React from 'react';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  PasswordResetRequest,
+  passwordResetRequestSchema,
+} from '@/lib/schemas/auth';
+import { Input } from '@/components/ui/input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from '@/components/ui/use-toast';
+import { useRouter } from '@/lib/navigation';
+import { Button } from '@/components/ui/button';
+import Loading from '@/components/ui/loading';
+import { useRequestPasswordResetMutation } from '@/lib/auth/api';
+
+export default function ForgotPasswordForm() {
+  const form = useForm<PasswordResetRequest>({
+    resolver: zodResolver(passwordResetRequestSchema),
+    defaultValues: {
+      email: '',
+    },
+  });
+
+  const [requestResetLink, requestResult] = useRequestPasswordResetMutation();
+
+  const onSubmit = async (data: PasswordResetRequest) => {
+    try {
+      await requestResetLink({
+        email: data.email,
+      }).unwrap();
+
+      toast({
+        title: 'Password reset link has been sent. Please check your email.',
+      });
+    } catch (e) {
+      toast({
+        title: 'Password Reset Failed',
+      });
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-self-center">
+      <Card className="w-full sm:min-w-96 sm:w-1/4 bg-background p-8 py-6">
+        <p className="mb-8 text-sm">
+          Enter your email address and we will send you a link to reset your
+          password
+        </p>
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full space-y-5"
+          >
+            <div className="space-y-2">
+              <FormLabel>Email</FormLabel>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        autoComplete="email"
+                        className="text-sm placeholder:text-xs"
+                        placeholder="Email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="w-full flex items-center gap-3">
+              <Button
+                type="submit"
+                className="h-9 px-5 bg-primary text-primary-foreground font-bold text-xs"
+                disabled={requestResult.isLoading}
+              >
+                {requestResult.isLoading ? (
+                  <Loading />
+                ) : (
+                  'Send Password Reset Link'
+                )}
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </Card>
+
+      <div className="w-full sm:min-w-96 sm:w-1/4 bg-background text-wrap flex flex-col items-center gap-3 mt-6">
+        <p className="text-xs font-light text-center">
+          Guardian/Wali Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Necessitatibus praesentium odio porro!
+        </p>
+
+        <p className="text-xs font-semibold text-center text-muted-foreground">
+          Copyright &copy; 2024 Guardian/Wali Project. All Rights Reserved.{' '}
+        </p>
+      </div>
+    </div>
+  );
+}

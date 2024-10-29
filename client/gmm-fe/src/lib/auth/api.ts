@@ -28,8 +28,32 @@ export const authApi = createApi({
       query: (id) => `users/${id}`,
       transformResponse: (response: BaseResponse<User>) => response.data,
     }),
+
+    requestPasswordReset: builder.mutation<void, { email: string }>({
+      query: ({ email }) => ({
+        url: 'auth/password-reset',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
+
+    resetPassword: builder.mutation<
+      void,
+      { newPassword: string; token: string }
+    >({
+      query: ({ newPassword, token }) => ({
+        url: 'auth/password-reset',
+        method: 'PUT',
+        body: { newPassword, token },
+      }),
+    }),
   }),
 });
 
-export const { useGetUserQuery, useLazyGetUserQuery, useGetUserByIdQuery } =
-  authApi;
+export const {
+  useGetUserQuery,
+  useLazyGetUserQuery,
+  useGetUserByIdQuery,
+  useResetPasswordMutation,
+  useRequestPasswordResetMutation,
+} = authApi;

@@ -74,6 +74,11 @@ export default function ProfileImages({ user }: { user: User }) {
     },
   };
 
+  const overlayName = {
+    hidden: { opacity: 1, y: 12 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <motion.div
       initial="visible"
@@ -105,17 +110,17 @@ export default function ProfileImages({ user }: { user: User }) {
 
             <motion.div className="relative">
               <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
-                <h2 className="text-background font-semibold text-2xl">
+                <motion.h2
+                  variants={overlayName}
+                  className="text-background font-semibold text-2xl"
+                >
                   {user.firstName}{' '}
                   <span className="text-xs">
                     ({convertDateToAge(user.dateOfBirth)})
                   </span>
-                </h2>
+                </motion.h2>
 
-                <motion.div
-                  className="space-y-2 font-thin"
-                  variants={overlayInfo}
-                >
+                <motion.div className="space-y-2 font-thin">
                   <motion.div
                     variants={overlayInfo}
                     className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-[0.6rem] font-semibold px-2 shadow-lg items-center"
@@ -130,10 +135,7 @@ export default function ProfileImages({ user }: { user: User }) {
                     </span>
                   </motion.div>
 
-                  <motion.p
-                    variants={overlayInfo}
-                    className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white"
-                  >
+                  <motion.p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white">
                     <span>
                       <FontAwesomeIcon icon={faLocationDot} />
                     </span>
