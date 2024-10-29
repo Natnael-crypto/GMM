@@ -39,7 +39,7 @@ export default function RegistrationOverview() {
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
-            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl">
+            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
                 {approachT.rich('slide.guidedMatching.description', {
                   bold: (text) => <span className="font-bold">{text}</span>,
@@ -61,7 +61,7 @@ export default function RegistrationOverview() {
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
-            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl">
+            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
                 {approachT.rich('slide.matchGuarantee.description.p1', {
                   bold: (text) => <span className="font-bold">{text}</span>,
@@ -88,7 +88,7 @@ export default function RegistrationOverview() {
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
-            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl">
+            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
                 {approachT.rich('slide.neverPayToCompete.description', {
                   bold: (text) => <span className="font-bold">{text}</span>,
@@ -110,7 +110,7 @@ export default function RegistrationOverview() {
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
-            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl">
+            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
                 {approachT.rich('slide.guardianFamilyInvolvement.description', {
                   bold: (text) => <span className="font-bold">{text}</span>,
@@ -132,7 +132,7 @@ export default function RegistrationOverview() {
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
-            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl">
+            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
                 {approachT.rich('slide.oneOnOneChats.description.p1', {
                   bold: (text) => <span className="font-bold">{text}</span>,
