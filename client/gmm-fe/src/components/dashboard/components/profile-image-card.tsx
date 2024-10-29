@@ -64,8 +64,22 @@ export default function ProfileImages({ user }: { user: User }) {
   const code = countryToCountryCode[user.nationality] as keyof typeof flags;
   const NationalityFlag = flags[code];
 
+  const overlayInfo = {
+    hidden: { opacity: 0, height: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
   return (
-    <div className="min-h-[25rem] flex flex-col items-center">
+    <motion.div
+      initial="visible"
+      whileHover="hidden"
+      className="min-h-[25rem] flex flex-col items-center"
+    >
       <AnimatePresence>
         {imageUrls && (
           <motion.div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[21rem] aspect-[9/16]">
@@ -89,7 +103,7 @@ export default function ProfileImages({ user }: { user: User }) {
               </Carousel>
             )}
 
-            <div className="relative">
+            <motion.div className="relative">
               <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
                 <h2 className="text-background font-semibold text-2xl">
                   {user.firstName}{' '}
@@ -98,8 +112,14 @@ export default function ProfileImages({ user }: { user: User }) {
                   </span>
                 </h2>
 
-                <div className="space-y-2 font-thin">
-                  <div className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-[0.6rem] font-semibold px-2 shadow-lg items-center">
+                <motion.div
+                  className="space-y-2 font-thin"
+                  variants={overlayInfo}
+                >
+                  <motion.div
+                    variants={overlayInfo}
+                    className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-[0.6rem] font-semibold px-2 shadow-lg items-center"
+                  >
                     <div className="w-4 h-4 flex items-center justify-center">
                       {NationalityFlag && (
                         <NationalityFlag title={user.nationality} />
@@ -108,17 +128,21 @@ export default function ProfileImages({ user }: { user: User }) {
                     <span className="w-full truncate">
                       {user.nationality} Nationality / Passport
                     </span>
-                  </div>
-                  <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white">
+                  </motion.div>
+
+                  <motion.p
+                    variants={overlayInfo}
+                    className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white"
+                  >
                     <span>
                       <FontAwesomeIcon icon={faLocationDot} />
                     </span>
                     <span className="w-full truncate">
                       {user.city}, {user.country}
                     </span>
-                  </p>
+                  </motion.p>
 
-                  <div className="flex gap-2">
+                  <motion.div variants={overlayInfo} className="flex gap-2">
                     <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
                       <span>
                         <FontAwesomeIcon icon={faUpDown} />
@@ -131,10 +155,10 @@ export default function ProfileImages({ user }: { user: User }) {
                       </span>
                       <span className="w-full truncate">{user.weight} kg </span>
                     </p>
-                  </div>
-                </div>
+                  </motion.div>
+                </motion.div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -153,6 +177,6 @@ export default function ProfileImages({ user }: { user: User }) {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }
