@@ -21,9 +21,17 @@ import { Input } from '@/components/ui/input';
 import { useForm } from 'react-hook-form';
 import { Checkout, checkoutSchema } from '@/lib/schemas/checkout';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { User } from '@/lib/schemas/user';
+import { countries, User } from '@/lib/schemas/user';
 import { toast } from '@/components/ui/use-toast';
 import { constants } from '@/config';
+import AutoComplete from '@/components/ui/searchable-select';
+
+const cityOptions = Object.keys(countries).flatMap((country) =>
+  countries[country].map((city) => ({
+    label: `${city}, ${country}`,
+    value: `${city}, ${country}`,
+  }))
+);
 
 export default function StripeForm({ user }: { user: User }) {
   const t = useTranslations('Auth.checkout');
@@ -135,15 +143,18 @@ export default function StripeForm({ user }: { user: User }) {
 
             <FormField
               name="city"
+              control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <Input
+                  <AutoComplete
+                    onChange={field.onChange}
+                    selectedOption={field.value}
+                    options={cityOptions}
                     placeholder={t('billingInfo.city')}
-                    className="text-xs placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent"
-                    {...field}
+                    className="text-xs placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent h-8"
                   />
 
-                  <FormMessage className="text-xs" />
+                  <FormMessage className="text-md" />
                 </FormItem>
               )}
             />

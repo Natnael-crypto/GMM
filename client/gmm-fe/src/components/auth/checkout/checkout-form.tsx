@@ -23,7 +23,7 @@ const stripePromise = loadStripe(constants.stripe.publicKey);
 export function CheckoutForm() {
   const t = useTranslations('Auth.checkout');
 
-  const user = useAppSelector((state) => state.auth.user);  
+  const user = useAppSelector((state) => state.auth.user);
   const [createPaymentIntent, result] = useCreatePaymentIntentMutation();
 
   const [selectedOption, setSelectedOption] = useState<string | null>(
@@ -97,6 +97,8 @@ export function CheckoutForm() {
     clientSecret: result?.data?.clientSecret,
     appearance,
   };
+
+  console.log(user, user?.email);
 
   return (
     <div>
