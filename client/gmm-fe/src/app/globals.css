@@ -96,6 +96,10 @@
     max-width: 100px;
   }
 
+  .footer-container .logo {
+    max-width: 200px;
+  }
+
   .cta {
     font-weight: 700 !important;
     text-transform: uppercase;

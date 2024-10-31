@@ -11,9 +11,9 @@ import React from 'react';
 export default function Footer() {
   return (
     <div className="py-6 px-6 sm:px-16 md:px-24 bg-tertiary text-tertiary-foreground items-center">
-      <div className="block sm:flex w-full justify-between sm:items-center gap-5">
+      <div className="footer-container block sm:flex w-full justify-between sm:items-center gap-8">
             <Image
-            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse w-40"
+            className="logo flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse w-60"
             src="/assets/guardian-logo-footer.png"
             width={537}
             height={70}
@@ -40,8 +40,7 @@ export default function Footer() {
                 </li>
             </ul>
         </div>
-      <hr className="my-6 sm:mx-auto" />
-      <span className="block text-sm sm:text-center ">
+      <span className="block text-xs mt-4">
         Copyright &copy; {(new Date().getFullYear())} Guardian/Wali Project. All Rights Reserved.{' '}
       </span>
     </div>
