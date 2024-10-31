@@ -10,70 +10,40 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-16 bg-tertiary text-tertiary-foreground md:grid md:grid-cols-12 text-sm">
-      <div className="flex flex-col gap-10 md:col-span-6 lg:col-span-5 overflow-hidden">
-        <div className="w-40 md:w-60">
-          <Image
-            className="w-full overflow-hidden"
+    <div className="py-6 px-6 sm:px-16 md:px-24 bg-tertiary text-tertiary-foreground flex justify-between items-center">
+      <div className="sm:flex sm:items-center sm:justify-between">
+            <Image
+            className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
             src="/assets/guardian-logo-footer.png"
             width={537}
             height={70}
             alt="Guardian logo"
-          />
+            />
+            <ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+                <li>
+                    <Link href="" className="hover:underline me-4 md:me-6">Support</Link>
+                </li>
+                <li>
+                    <Link href="" className="hover:underline me-4 md:me-6">FAQ</Link>
+                </li>
+                <li>
+                    <Link href="" className="hover:underline me-4 md:me-6">Affiiates</Link>
+                </li>
+                <li>
+                    <Link href="" className="hover:underline me-4 md:me-6">Terms of Use</Link>
+                </li>
+                <li>
+                    <Link href="" className="hover:underline me-4 md:me-6">Privacy Policy</Link>
+                </li>
+                <li>
+                    <Link href="" className="hover:underline">Community Guidelines</Link>
+                </li>
+            </ul>
         </div>
-
-        <p>
-          Guardian/Wali Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Necessitatibus praesentium odio porro!
-        </p>
-
-        <p className="hidden md:block text-xs font-thin">
-          Copyright &copy; {(new Date().getFullYear())} Guardian/Wali Project. All Rights Reserved.{' '}
-        </p>
-      </div>
-
-      <div
-        className="               
-        md:mt-0
-      md:col-start-8 md:col-span-5 
-      lg:col-start-9 lg:col-span-4 
-      flex flex-col justify-between md:items-end 
-      text-xs"
-      >
-        <div className="flex gap-5 my-5 md:my-0">
-          <Link href="" className="text-md">
-            <FontAwesomeIcon icon={faInstagram} />
-          </Link>
-          <Link href="" className="text-md">
-            <FontAwesomeIcon icon={faTwitter} />
-          </Link>
-          <Link href="" className="text-md">
-            <FontAwesomeIcon icon={faFacebookF} />
-          </Link>
-        </div>
-
-        <div
-          className="
-        flex flex-col gap-2 
-        sm:grid sm:grid-cols-2        
-        "
-        >
-          <div className="flex flex-col gap-2">
-            <Link href="">Support</Link>
-            <Link href="">FAQ</Link>
-            <Link href="">Affiliates</Link>
-          </div>
-          <div className="flex flex-col gap-2">
-            <Link href="">Term of Use</Link>
-            <Link href="">Privacy of Policy</Link>
-            <Link href="">Community Guidelines</Link>
-          </div>
-        </div>
-      </div>
-
-      <p className="md:hidden text-xs font-thin mt-5">
+      <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+      <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
         Copyright &copy; {(new Date().getFullYear())} Guardian/Wali Project. All Rights Reserved.{' '}
-      </p>
+      </span>
     </div>
   );
 }
