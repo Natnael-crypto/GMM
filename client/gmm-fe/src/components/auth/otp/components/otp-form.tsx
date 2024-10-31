@@ -111,14 +111,14 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
         <div className="w-full flex items-center gap-3">
           <Button
             type="submit"
-            className="h-9 px-5 bg-primary text-primary-foreground font-bold text-xs"
+            className="h-9 px-5 bg-primary text-primary-foreground font-bold text-xs cta"
             disabled={isOtpVerificationInProgress}
           >
             {isOtpVerificationInProgress ? <Loading /> : t('submit')}
           </Button>
           <Button
             variant={'outline'}
-            className="h-9 text-xs text-muted-foreground"
+            className="h-9 text-xs text-muted-foreground cta"
             type="button"
             onClick={handleResendOtp}
           >
