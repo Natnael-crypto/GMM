@@ -13,7 +13,7 @@ export default function RegistrationOverview() {
 
   return (
     <div className="w-full">
-      <div className="text-center md:text-start lg:text-primary-foreground mt-8">
+      <div className="text-center md:text-start lg:text-primary-foreground">
         <h1 className="text-2xl md:text-3xl">
           {t.rich('common.title', {
             bold: (text) => <span className="font-bold">{text}</span>,

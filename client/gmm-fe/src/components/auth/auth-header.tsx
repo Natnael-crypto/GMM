@@ -18,8 +18,7 @@ export default function AuthHeader() {
       ></div>
 
       <div
-        className="pt-8 px-6 sm:px-16 md:px-24 lg:px-52 
-    flex justify-between items-center"
+        className="py-6 px-6 sm:px-16 md:px-24 lg:px-52 flex justify-between items-center"
       >
         <div className="w-40 md:w-60">
           <Link href="/" className="w-40 md:w-60">
