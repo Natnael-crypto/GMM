@@ -10,7 +10,7 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <div className="py-6 px-6 sm:px-16 md:px-24 bg-tertiary text-tertiary-foreground flex justify-between items-center">
+    <div className="py-6 px-6 sm:px-16 md:px-24 bg-tertiary text-tertiary-foreground items-center">
       <div className="flex w-full justify-between sm:items-center">
             <Image
             className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse w-40 md:w-60"
