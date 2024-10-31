@@ -10,7 +10,7 @@ export default function OurApproachSlideContent({
       <h1 className="text-2xl text-primary font-bold">{title}</h1>
 
       {Children.map(children, (child, index) => (
-        <p key={index} className="text-muted-foreground mb-1">
+        <p key={index} className="text-muted-foreground mb-1 text-lg">
           {child}
         </p>
       ))}

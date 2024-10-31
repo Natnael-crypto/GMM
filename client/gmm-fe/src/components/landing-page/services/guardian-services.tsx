@@ -6,7 +6,7 @@ export default function GuardianServices() {
   const t = useTranslations('Landing.guardianServices');
   return (
     <div className="flex flex-col items-center justify-center px-6 text-center overflow-hidden">
-      <h2 className="text-2xl">{t('title')}</h2>
+      <h2 className="text-2xl font-bold text-secondary">{t('title')}</h2>
 
       <div className="overflow-auto lg:overflow-visible no-scrollbar w-full">
         <div

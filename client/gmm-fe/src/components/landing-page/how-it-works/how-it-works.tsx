@@ -8,7 +8,7 @@ export default function HowItWorks() {
     <>
       <div className="h-[1px] mt-8  bg-border mx-6 sm:mx-16 md:mx-24 lg:mx-52"></div>
       <div className="flex flex-col items-center justify-center pt-8 text-center">
-        <h2 className="text-3xl font-bold">{t('title')}</h2>
+        <h2 className="text-2xl font-bold text-secondary">{t('title')}</h2>
 
         <div
           className="overflow-auto lg:overflow-visible w-full

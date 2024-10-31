@@ -42,7 +42,7 @@ export default function OurApproachSlide({
 
       <div
         className={cn(
-          'flex items-center gap-2 text-gray-400 text-sm mt-5 md:mt-0',
+          'flex items-center gap-2 text-gray-400 text-md mt-5 md:mt-0',
           dir === 'rtl' ? 'flex-row-reverse' : ''
         )}
       >

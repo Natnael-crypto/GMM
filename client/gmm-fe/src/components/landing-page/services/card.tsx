@@ -7,7 +7,7 @@ export default function GuardianServiceCard({
 }: GuardianServiceCardProps) {
   return (
     <Card
-      className="w-full sm:w-[12rem] col text-md font-bold      
+      className="w-full sm:w-[14rem] col text-sm font-bold      
     bg-background text-secondary hover:text-primary hover:border-primary     
     shadow-none border-secondary border-2 cursor-pointer flex items-center justify-center"
     >

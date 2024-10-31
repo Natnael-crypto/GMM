@@ -97,7 +97,7 @@ export function SignUpForm() {
               <FormItem>
                 <FormControl>
                   <Input
-                    className="text-sm placeholder:text-xs"
+                    className="text-sm placeholder:text-md"
                     placeholder={t('signup.firstName')}
                     autoComplete="given-name"
                     {...field}
@@ -113,7 +113,7 @@ export function SignUpForm() {
                     }}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -125,7 +125,7 @@ export function SignUpForm() {
                 <FormControl>
                   <Input
                     autoComplete="family-name"
-                    className="text-sm placeholder:text-xs"
+                    className="text-sm placeholder:text-md"
                     placeholder={t('signup.lastName')}
                     {...field}
                     onChange={(e) => {
@@ -140,7 +140,7 @@ export function SignUpForm() {
                     }}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -152,12 +152,12 @@ export function SignUpForm() {
                 <FormControl>
                   <Input
                     autoComplete="email"
-                    className="text-sm placeholder:text-xs"
+                    className="text-sm placeholder:text-md"
                     placeholder={t('signup.email')}
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -168,20 +168,20 @@ export function SignUpForm() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="text-xs text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue placeholder="Gender" className="text-xs" />
+                    <SelectTrigger className="text-md text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectValue placeholder="Gender" className="text-md" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem className="text-xs max-w-80" value="Male">
+                      <SelectItem className="text-md max-w-80" value="Male">
                         Male
                       </SelectItem>
-                      <SelectItem className="text-xs max-w-80" value="Female">
+                      <SelectItem className="text-md max-w-80" value="Female">
                         Female
                       </SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -197,7 +197,7 @@ export function SignUpForm() {
                       <Button
                         variant={'outline'}
                         className={cn(
-                          'w-full pl-3 text-left font-normal h-8 rounded-sm text-xs text-muted-foreground'
+                          'w-full pl-3 text-left font-normal h-8 rounded-sm text-md text-muted-foreground'
                         )}
                       >
                         {field.value ? (
@@ -249,7 +249,7 @@ export function SignUpForm() {
                   </PopoverContent>
                 </Popover>
 
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -261,20 +261,20 @@ export function SignUpForm() {
               <FormItem>
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                    <SelectTrigger className="text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue placeholder="Born or Revert to Islam" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem className="text-xs" value="Born Muslim">
+                      <SelectItem className="text-md" value="Born Muslim">
                         Born Muslim
                       </SelectItem>
-                      <SelectItem className="text-xs" value="Reverted to Islam">
+                      <SelectItem className="text-md" value="Reverted to Islam">
                         Reverted to Islam
                       </SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -292,13 +292,13 @@ export function SignUpForm() {
                 <FormControl>
                   <Input
                     autoComplete="new-password"
-                    className="text-sm placeholder:text-xs"
+                    className="text-sm placeholder:text-md"
                     placeholder={t('signup.password')}
                     type="password"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -309,13 +309,13 @@ export function SignUpForm() {
               <FormItem>
                 <FormControl>
                   <Input
-                    className="text-sm placeholder:text-xs"
+                    className="text-sm placeholder:text-md"
                     placeholder={t('signup.confirmPassword')}
                     type="password"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -332,12 +332,12 @@ export function SignUpForm() {
                     />
                   </FormControl>
 
-                  <FormLabel className="text-xs text-muted-foreground">
-                    I agree to terms and conditions
+                  <FormLabel className="text-sm text-muted-foreground">
+                    I agree to <Link href="" className="text-sm text-primary font-semibold">terms and conditions</Link>
                   </FormLabel>
                 </div>
 
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -355,11 +355,11 @@ export function SignUpForm() {
 
           <ExternalAuthenticator />
 
-          <div className="text-xs">
+          <div className="text-sm">
             {t('signup.alreadyHaveAccount')}{' '}
             <Link
               href="/en/login"
-              className="text-xs text-primary font-semibold"
+              className="text-sm text-primary font-semibold"
             >
               {t('login.cta')}
             </Link>

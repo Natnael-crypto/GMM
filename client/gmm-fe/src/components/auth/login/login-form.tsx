@@ -79,12 +79,12 @@ export function LoginForm() {
                 <FormControl>
                   <Input
                     autoComplete="email"
-                    className="text-sm placeholder:text-xs"
+                    className="text-sm placeholder:text-md"
                     placeholder={t('email')}
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -96,13 +96,13 @@ export function LoginForm() {
                 <FormControl>
                   <Input
                     autoComplete="current-password"
-                    className="text-sm placeholder:text-xs"
+                    className="text-sm placeholder:text-md"
                     placeholder={t('password')}
                     type="password"
                     {...field}
                   />
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-md" />
               </FormItem>
             )}
           />
@@ -117,7 +117,7 @@ export function LoginForm() {
           </Button>
           <Link
             href={`/${locale}/auth/forgot-password`}
-            className="text-xs text-primary font-semibold"
+            className="text-sm text-primary font-semibold"
           >
             {t('forgotPassword')}
           </Link>
@@ -126,11 +126,11 @@ export function LoginForm() {
 
           <ExternalAuthenticator />
 
-          <div className="text-xs">
+          <div className="text-sm">
             {t('dontHaveAccount')}{' '}
             <Link
               href={`/${locale}/signup`}
-              className="text-xs text-primary font-semibold"
+              className="text-sm text-primary font-semibold"
             >
               {t('signup')}
             </Link>

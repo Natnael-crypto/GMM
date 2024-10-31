@@ -10,7 +10,7 @@ import React from 'react';
 
 export default function Footer() {
   return (
-    <div className="py-6 px-6 sm:px-16 md:px-24 lg:px-52 bg-tertiary text-tertiary-foreground items-center">
+    <div className="py-6 px-6 sm:px-16 md:px-24 lg:px-52 mt-6 bg-tertiary text-tertiary-foreground items-center">
       <div className="footer-container block sm:flex w-full justify-between sm:items-center gap-8">
             <Link href="/">
               <Image
@@ -42,7 +42,7 @@ export default function Footer() {
                 </li>
             </ul>
         </div>
-      <span className="block text-xs mt-4">
+      <span className="block text-xs mt-6">
         Copyright &copy; {(new Date().getFullYear())} Guardian/Wali Project. All Rights Reserved.{' '}
       </span>
     </div>

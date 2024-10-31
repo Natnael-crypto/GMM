@@ -14,7 +14,7 @@ export default function HowItWorksCard({
   return (
     <Card
       className={cn(
-        'z-10 flex flex-col justify-between items-center w-full sm:w-[12rem] h-[10rem] bg-background relative'
+        'z-10 flex flex-col justify-between items-center w-full sm:w-[12rem] h-[10rem] sm:h-[12rem] bg-background relative'
       )}
       onClick={onClick}
     >
@@ -31,7 +31,7 @@ export default function HowItWorksCard({
         />
       </div>
 
-      <span className={cn('text-sm font-bold mt-5 text-center text-secondary')}>
+      <span className={cn('text-md font-bold mt-5 text-center text-secondary')}>
         {children}
       </span>
     </Card>
