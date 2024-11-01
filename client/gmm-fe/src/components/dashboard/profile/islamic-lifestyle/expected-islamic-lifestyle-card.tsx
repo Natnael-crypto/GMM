@@ -130,7 +130,7 @@ export default function ExpectedIslamicLifestyleCard({ user }: { user: User }) {
     return (
       <FieldViewer
         getFields={maleFields}
-        title="Expected Islamic Lifestyle of Your Potential Spouse"
+        title="Your Expected (After Marriage) Islamic Lifestyle from Your Potential Spouse"
         entity={expectedIslamicLifestyle as MaleExpectedIslamicLifestyle}
       />
     );
@@ -138,7 +138,7 @@ export default function ExpectedIslamicLifestyleCard({ user }: { user: User }) {
     return (
       <FieldViewer
         getFields={femaleFields}
-        title="Expected Islamic Lifestyle of Your Potential Spouse"
+        title="Your Expected (After Marriage) Islamic Lifestyle from Your Potential Spouse"
         entity={expectedIslamicLifestyle as FemaleExpectedIslamicLifestyle}
       />
     );

@@ -61,6 +61,7 @@ export default function MarriageDiscussionCard({ user }: { user: User }) {
   return (
     <>
       <FieldViewer
+        title="Marriage Discussion"
         getFields={marriageDiscussionFields}
         entity={marriageDiscussion}
       />
