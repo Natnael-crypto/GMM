@@ -90,11 +90,13 @@ export default function VideoUploader({ field }: { field: any }) {
       <h1 className="font-bold">Video Upload</h1>
 
       <p className="text-md">
-        Upload a minimum 1-2 min video introducing yourself. Make yourself
+        Upload a <span className="underline font-bold">minimum 1-2 minutes video</span> introducing yourself. Make yourself
         clearly Audible and Visible. Without any filters, background music or
         any special effects. Videos with unreasonable amount of make up altering
-        the appearance of any users will be rejected. All media such as videos
-        and pictures of sisters will be approved by sister admin(s) only.
+        the appearance of any users will be rejected. 
+      </p>
+      <p className="underline font-bold">
+        All media such as videos and pictures of sisters will be approved by sister admin(s) only.
       </p>
 
       {
@@ -134,7 +136,7 @@ export default function VideoUploader({ field }: { field: any }) {
           Browse Files
           <input type="file" accept="video/*" className='hidden' onChange={(e) => { handleVideoChange(e.target.files); e.target.value = '' }} />
         </Label>
-        {isMobile && <><span>or</span>
+        {isMobile && <><span className="px-1">or</span>
           <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-md h-7 text-secondary")}>
             Capture Video
             <input type="file" accept="video/*" capture className='hidden' onChange={(e) => { handleVideoChange(e.target.files); e.target.value = '' }} />

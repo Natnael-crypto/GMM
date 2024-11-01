@@ -124,13 +124,13 @@ export default function PhotoUploader({ field }: { field: any }) {
     <Card className="shadow-none text-sm space-y-3">
       <div className="flex justify-between items-end">
         <h1 className="font-bold">Photo Upload</h1>
-        <span className="text-md">Max 8</span>
+        <span className="text-destructive font-bold text-xs">Max 8</span>
       </div>
 
       <p className="text-md">
-        Upload at least 5 clear pictures of yourself (without filters). All
-        media such as video and pictures of sisters will be approved by sister
-        admin(s) only.
+        Upload at least <span className="underline font-bold">5 clear pictures of yourself</span> (without filters).  
+      </p>
+      <p className="underline font-bold">All media such as video and pictures of sisters will be approved by sister admin(s) only.
       </p>
 
       <div className="grid grid-cols-4 gap-1">
@@ -197,7 +197,7 @@ export default function PhotoUploader({ field }: { field: any }) {
               <input type="file" accept="image/*" className='hidden' onChange={(e) => { insertImage(e.target.files); e.target.value = '' }} />
             </Label>
 
-            <span>or</span>
+            <span className="px-1">or</span>
 
             {isMobile ? <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-md h-7 text-secondary")}>
               Capture Image
