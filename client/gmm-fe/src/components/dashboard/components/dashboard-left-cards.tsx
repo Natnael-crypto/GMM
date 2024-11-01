@@ -45,6 +45,7 @@ export default function DashboardLeftCards({ user }: DashboardLeftCardsProps) {
             className="h-full"
           >
             <MatchedCard
+              match={currentMatch}
               matchedUser={
                 user?.gender === 'Male'
                   ? currentMatch.femaleUser
