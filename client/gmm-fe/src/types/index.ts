@@ -1,3 +1,5 @@
+import { User } from '@/lib/schemas/user';
+
 export interface LocaleProps {
   params: {
     locale: string;
@@ -68,6 +70,7 @@ export interface HowItWorksCardProps {
 export interface CreateAccountProps {
   variant?: 'default' | 'filled';
   margin?: 'default' | 'wide';
+  user?: User;
 }
 
 export interface GuardianServiceCardProps {

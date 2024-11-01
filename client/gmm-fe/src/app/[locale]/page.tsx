@@ -34,10 +34,10 @@ export default async function Home() {
       </div>
       <HeroCarousel />
       <OurApproach />
-      {!session && <CreateAccount />}
+      <CreateAccount user={session?.user}/>
       <OtherPlatforms />
       <HowItWorks />
-      {!session && <CreateAccount variant="filled" margin="wide" />}
+      <CreateAccount variant="filled" margin="wide" user={session?.user} />
       <GuardianServices />
       <Footer />
     </main>

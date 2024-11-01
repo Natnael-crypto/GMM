@@ -1,9 +1,11 @@
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
 import { CreateAccountProps } from '@/types';
+import { Link } from '@/lib/navigation';
+import { AccountStatus } from '@/lib/schemas/user';
 
 const createAccountVariants = cva('py-8 text-center', {
   variants: {
@@ -22,23 +24,37 @@ const createAccountVariants = cva('py-8 text-center', {
   },
 });
 
-export default function CreateAccount({ variant, margin }: CreateAccountProps) {
+export default function CreateAccount({
+  variant,
+  margin,
+  user,
+}: CreateAccountProps) {
   const t = useTranslations('Landing.createAccount');
+
+  const title = user ? t('loggedInTitle') : t('loggedOutTitle');
+  const cta = user ? t('loggedInCta') : t('loggedOutCta');
 
   return (
     <div className={cn(createAccountVariants({ variant, margin }))}>
-      <h2 className="text-xl lg:text-2xl">{t('title')}</h2>
-      <Button
-        variant="default"
+      <h2 className="text-xl lg:text-2xl">{title}</h2>
+      <Link
+        href={
+          !user
+            ? '/signup'
+            : user.accountStatus === AccountStatus.INCOMPLETE_REGISTRATION
+            ? '/registration'
+            : '/dashboard'
+        }
         className={cn(
+          buttonVariants({ variant: 'default' }),
           'mt-3 font-bold cta',
           variant === 'filled'
             ? 'bg-primary-foreground text-primary'
             : 'bg-primary text-primary-foreground'
         )}
       >
-        {t('cta')}
-      </Button>
+        {cta}
+      </Link>
     </div>
   );
 }
