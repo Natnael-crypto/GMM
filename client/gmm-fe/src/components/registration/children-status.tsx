@@ -88,7 +88,10 @@ export default function ChildrenStatus() {
                         Under 1 year
                       </SelectItem>
                       {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => {
-                        if (parseInt(form.watch('ageOfOldestChild')) < i) {
+                        if (
+                          numberOfChildren > 1 &&
+                          parseInt(form.watch('ageOfOldestChild')) < i
+                        ) {
                           return null;
                         }
 
