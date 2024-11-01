@@ -107,16 +107,16 @@ export const matchApi = createApi({
       },
     }),
 
-    unmatch: builder.mutation<Match, string>({
-      query: (id) => ({
-        url: `matchmaking/matches/${id}`,
+    unmatch: builder.mutation<Match, void>({
+      query: () => ({
+        url: `matchmaking/current-match`,
         method: 'DELETE',
       }),
       transformResponse: (response: BaseResponse<Match>) => {
         return response.data;
       },
       invalidatesTags(result, error, arg, meta) {
-        return [{ type: 'Match', id: arg }];
+        return [{ type: 'Match' }];
       },
     }),
 

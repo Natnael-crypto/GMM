@@ -22,7 +22,7 @@ import {
 } from '../ui/alert-dialog';
 import { cn } from '@/lib/utils';
 import { setUser } from '@/lib/auth/slice';
-import { allMatchStages, MatchStage } from '@/lib/schemas/match';
+import { allMatchStages } from '@/lib/schemas/match';
 
 export default function GuardianGuide({
   matchedUser,
@@ -124,7 +124,7 @@ export default function GuardianGuide({
                       buttonVariants({ variant: 'outline' }),
                       'bg-transparent text-muted-foreground h-7 w-fit text-xs'
                     )}
-                    onClick={() => unmatch(match.id)}
+                    onClick={() => unmatch()}
                   >
                     Unmatch
                   </AlertDialogAction>
