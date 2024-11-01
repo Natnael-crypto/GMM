@@ -155,8 +155,7 @@ export default function StripeForm({ user }: { user: User }) {
                     placeholder={t('billingInfo.city')}
                     className="text-xs placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent h-8"
                   />
-
-                  <FormMessage className="text-md" />
+                  <FormMessage className="text-xs" />
                 </FormItem>
               )}
             />

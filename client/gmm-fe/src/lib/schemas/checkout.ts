@@ -7,7 +7,12 @@ export const checkoutSchema = z
     name: z.string().min(1, 'Name is required'),
     addressOne: z.string().min(1, 'Address is required'),
     addressTwo: z.string().optional(),
-    city: z.string().min(1, 'City is required'),
+    city: z
+      .string({
+        required_error: 'City is required',
+        message: 'City is required',
+      })
+      .min(1, 'City is required'),
     // postcode: z.string().min(1, 'Postcode is required'),
     region: z.string().min(1, 'Region is required'),
     // country: z.string().min(1, 'Country is required'),
