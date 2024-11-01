@@ -1,11 +1,9 @@
 'use client';
 
-import ProfileOverview from '@/components/dashboard/compatibility/components/profile-overview-card';
 import WorldlyLifestyleCard from '@/components/dashboard/profile/worldly-lifestyle/worldly-lifestyle-card';
 import React from 'react';
 import { useAppSelector } from '@/lib/hooks';
 import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
-import { useGetDownloadUrlQuery } from '@/lib/user/api';
 import HideProfile from '@/components/dashboard/profile/hide-profile';
 import { AnimatePresence, motion } from 'framer-motion';
 import ExpectedWorldlyLifestyleCard from '@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-card';
@@ -28,37 +26,14 @@ export default function WorldlyLifestyle() {
     }
   }
 
-  const femaleImage = currentMatch?.femaleUser?.pictures
-    ? currentMatch?.femaleUser?.pictures[0]
-    : '';
-  const maleImage = currentMatch?.maleUser?.pictures
-    ? currentMatch?.maleUser?.pictures[0]
-    : '';
-
-  const { data: userImageUrl } = useGetDownloadUrlQuery(
-    user?.pictures ? user?.pictures[0] : '',
-    { skip: !user?.pictures || !user?.pictures[0] }
-  );
-  const { data: matchImageUrl } = useGetDownloadUrlQuery(
-    user?.gender === 'Male' ? femaleImage : maleImage,
-    { skip: !user?.pictures || !user?.pictures[0] }
-  );
-
   return (
     <div className="grid grid-cols-2 gap-5 mt-3">
       <div className="space-y-5">
-        {userImageUrl && user && (
-          <ProfileOverview imageUrl={userImageUrl} user={user} />
-        )}
         {user && <WorldlyLifestyleCard user={user} />}
         {user && <ExpectedWorldlyLifestyleCard user={user} />}
       </div>
 
       <div className="space-y-5">
-        {matchImageUrl && matchedUser && (
-          <ProfileOverview imageUrl={matchImageUrl} user={matchedUser} />
-        )}
-
         {currentMatch && matchedUser && (
           <div
             className={cn(

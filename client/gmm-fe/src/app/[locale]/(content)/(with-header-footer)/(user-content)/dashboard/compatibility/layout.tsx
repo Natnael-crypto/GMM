@@ -8,12 +8,13 @@ import { useAppSelector } from '@/lib/hooks';
 import { useInitiateChatMutation, useGetChatsQuery } from '@/lib/chat/api';
 import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
 import { Chat } from '@/lib/schemas/chat';
-import { useParams } from 'next/navigation';
+import { useGetDownloadUrlQuery } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
 import Loading from '@/components/ui/loading';
 
 import React from 'react';
 import Footer from '@/components/ui/footer';
+import ProfileOverview from '@/components/dashboard/compatibility/components/profile-overview-card';
 
 const pageNames: Record<string, string> = {
   '/dashboard/compatibility/basic-information': 'Basic Information',
@@ -37,6 +38,22 @@ export default function CompatibilityLayout({
   const matchedUser =
     user?.gender === 'Male' ? currentMatch?.femaleUser : currentMatch?.maleUser;
   const { data: chats } = useGetChatsQuery(undefined, { skip: !user });
+
+  const femaleImage = currentMatch?.femaleUser?.pictures
+    ? currentMatch?.femaleUser?.pictures[0]
+    : '';
+  const maleImage = currentMatch?.maleUser?.pictures
+    ? currentMatch?.maleUser?.pictures[0]
+    : '';
+
+  const { data: userImageUrl } = useGetDownloadUrlQuery(
+    user?.pictures ? user?.pictures[0] : '',
+    { skip: !user?.pictures || !user?.pictures[0] }
+  );
+  const { data: matchImageUrl } = useGetDownloadUrlQuery(
+    user?.gender === 'Male' ? femaleImage : maleImage,
+    { skip: !user?.pictures || !user?.pictures[0] }
+  );
 
   const [initiateChat, chatInitiationResult] = useInitiateChatMutation();
   const router = useRouter();
@@ -128,7 +145,31 @@ export default function CompatibilityLayout({
           </div>
         </div>
 
-        <CompatibilityStepper />
+        <div className="sticky top-0 space-y-8 bg-background z-[999]">
+          <CompatibilityStepper />
+
+          <div className="pt-3 z-[999]">
+            <div className="grid grid-cols-2 gap-5 mt-3">
+              <div className="space-y-5">
+                {userImageUrl && user && (
+                  <ProfileOverview imageUrl={userImageUrl} user={user} />
+                )}
+              </div>
+              <div className="space-y-5">
+                {matchImageUrl && currentMatch && (
+                  <ProfileOverview
+                    imageUrl={matchImageUrl}
+                    user={
+                      user?.gender === 'Male'
+                        ? currentMatch.femaleUser
+                        : currentMatch.maleUser
+                    }
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className="py-3">{children}</div>
       </div>
