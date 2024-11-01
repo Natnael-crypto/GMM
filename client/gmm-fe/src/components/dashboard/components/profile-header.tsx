@@ -81,21 +81,18 @@ export default function ProfileHeader({
 
   return (
     <div className="flex justify-between items-center">
-      <Breadcrumb>
-        <BreadcrumbList className="gap-1.5 sm:gap-1.5 text-xs">
-          <BreadcrumbItem>
-            <BreadcrumbLink href={`/${locale}/dashboard`}>
-              Dashboard
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator>
-            <span>/</span>
-          </BreadcrumbSeparator>
-          <BreadcrumbItem>
-            <BreadcrumbPage>{pageName}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <Link
+        href="/dashboard"
+        className={cn(
+          buttonVariants({
+            variant: 'outline',
+            size: 'sm',
+          }),
+          'rounded-full text-xs text-secondary h-6 cta'
+        )}
+      >
+        Your Dashboard
+      </Link>
       <div>
         {user && !user.isMatched && (
           <Link
