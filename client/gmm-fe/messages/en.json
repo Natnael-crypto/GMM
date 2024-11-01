@@ -52,8 +52,10 @@
       }
     },
     "createAccount": {
-      "title": "Create Your Account to Find Your Potential Spouse",
-      "cta": "Sign Up For An Account"
+      "loggedInTitle": "Find Your Potential Spouse",
+      "loggedOutTitle": "Create Your Account to Find Your Potential Spouse",
+      "loggedInCta": "Get Started",
+      "loggedOutCta": "Sign Up For An Account"
     },
     "otherPlatforms": {
       "title": "Other platforms",

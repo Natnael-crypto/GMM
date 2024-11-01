@@ -180,7 +180,7 @@ export default function ExpectedWorldlyLifestyleCard({ user }: { user: User }) {
     return (
       <FieldViewer
         getFields={maleFields}
-        title="Expected Worldly Lifestyle of Your Potential Spouse"
+        title="Your Expected (After Marriage) Worldly Lifestyle from Your Potential Spouse"
         entity={expectedWorldlyLifestyle as MaleExpectedWorldlyLifestyle}
       />
     );
@@ -188,7 +188,7 @@ export default function ExpectedWorldlyLifestyleCard({ user }: { user: User }) {
     return (
       <FieldViewer
         getFields={femaleFields}
-        title="Expected Worldly Lifestyle of Your Potential Spouse"
+        title="Your Expected (After Marriage) Worldly Lifestyle from Your Potential Spouse"
         entity={expectedWorldlyLifestyle as FemaleExpectedWorldlyLifestyle}
       />
     );

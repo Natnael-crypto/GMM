@@ -61,9 +61,11 @@ export default function ProfileLayout({
           <ProfileStepper />
         </div>
 
-        <div className="grid grid-cols-12 gap-5 py-8">
+        <div className="grid grid-cols-12 gap-5 py-8 sticky top-0">
           <div className="hidden md:block col-span-3">
-            {data && <ProfileImages key={data.id} user={data} />}
+            <div className="sticky top-40">
+              {data && <ProfileImages key={data.id} user={data} />}
+            </div>
           </div>
           <div className="col-span-9">{children}</div>
         </div>

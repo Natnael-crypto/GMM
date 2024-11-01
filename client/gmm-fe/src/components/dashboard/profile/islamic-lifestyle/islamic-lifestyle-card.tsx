@@ -147,6 +147,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
   if (user?.gender === 'Male') {
     return (
       <FieldViewer
+        title="Your Current Islamic Lifestyle (that you live)"
         getFields={maleFields}
         entity={islamicLifestyle as MaleIslamicLifestyle}
       />
@@ -154,6 +155,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
   } else if (user?.gender === 'Female') {
     return (
       <FieldViewer
+        title="Your Current Islamic Lifestyle (that you live)"
         getFields={femaleFields}
         entity={islamicLifestyle as FemaleIslamicLifestyle}
       />

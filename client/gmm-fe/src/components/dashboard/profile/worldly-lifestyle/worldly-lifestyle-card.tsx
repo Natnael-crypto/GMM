@@ -126,7 +126,11 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
   return (
     <>
       {worldlyLifestyle && (
-        <FieldViewer getFields={getFields} entity={worldlyLifestyle} />
+        <FieldViewer
+          title="Your Current Worldly Lifestyle (that you live)"
+          getFields={getFields}
+          entity={worldlyLifestyle}
+        />
       )}
     </>
   );

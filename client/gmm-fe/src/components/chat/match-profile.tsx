@@ -29,7 +29,7 @@ import {
 } from '@/lib/matchmaking/api';
 import { toast } from '../ui/use-toast';
 import { useAppSelector } from '@/lib/hooks';
-import { allMatchStages, MatchStage } from '@/lib/schemas/match';
+import { allMatchStages } from '@/lib/schemas/match';
 
 enum DialogType {
   SEND_INVITATION = 'send_invitation',

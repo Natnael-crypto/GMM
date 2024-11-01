@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faComment,
@@ -23,8 +22,24 @@ import Loading from '@/components/ui/loading';
 import { convertDateToAge } from '@/lib/format';
 import flags from 'react-phone-number-input/flags';
 import DynamicBlur from '@/components/ui/dynamic-blur';
+import { Match } from '@/lib/matchmaking/types';
+import { allMatchStages } from '@/lib/schemas/match';
 
-export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
+const stageUrls = [
+  'basic-information',
+  'worldly-lifestyle',
+  'islamic-lifestyle',
+  'marriage',
+  'family',
+];
+
+export default function MatchedCard({
+  matchedUser,
+  match,
+}: {
+  matchedUser: User;
+  match: Match;
+}) {
   const user = useAppSelector((state) => state.auth.user);
   const { data: imageUrl } = useGetDownloadUrlQuery(
     matchedUser?.pictures ? matchedUser?.pictures[0] : '',
@@ -69,6 +84,8 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
     matchedUser.nationality
   ] as keyof typeof flags;
   const NationalityFlag = flags[code];
+
+  const stageIndex = allMatchStages.indexOf(match.stage);
 
   return (
     <div className="grid grid-cols-7 gap-4 h-full">
@@ -171,7 +188,7 @@ export default function MatchedCard({ matchedUser }: { matchedUser: User }) {
             </span>
           </button>
           <Link
-            href="/dashboard/compatibility/basic-information"
+            href={`/dashboard/compatibility/${stageUrls[stageIndex]}`}
             className="flex gap-4 items-center"
           >
             <div className="rounded-md bg-primary p-2 aspect-square text-primary-foreground flex items-center justify-center">
