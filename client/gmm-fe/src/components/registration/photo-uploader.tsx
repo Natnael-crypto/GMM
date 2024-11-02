@@ -177,7 +177,7 @@ export default function PhotoUploader({ field }: { field: any }) {
         showDragAndDropImage &&
         <>
           <Label className=
-            {cn("w-full h-20 border border-secondary border-dashed flex flex-col items-center justify-center bg-background cursor-pointer text-gray-300 gap-y-2",
+            {cn("w-full h-20 border border-secondary border-dashed flex flex-col items-center justify-center bg-background cursor-pointer text-gray-500 gap-y-2",
               draggedOnTop ? "border-primary" : "border-secondary"
             )}
             onDragOver={handleDrag}
