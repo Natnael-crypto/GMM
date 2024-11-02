@@ -887,7 +887,7 @@ export default function BasicInformationForm({
               </div>
 
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
-                <Label>Alcoholic Drinks</Label>
+                <Label>Drinks/Alcohol</Label>
                 <FormField
                   name="drinks"
                   control={form.control}
@@ -926,7 +926,7 @@ export default function BasicInformationForm({
                 <Label>
                   Drugs{' '}
                   <span className="text-nowrap">
-                    (Including Cannabis &amp; Cocaine)
+                    (Cannabis/Cocaine)
                   </span>
                 </Label>
                 <FormField
@@ -965,7 +965,7 @@ export default function BasicInformationForm({
               </div>
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>
-                  Smokes <span>(Including Vape &amp; Shisha)</span>
+                  Smokes <span>(Vapes/Shisha)</span>
                 </Label>
                 <FormField
                   name="smokes"

@@ -240,7 +240,7 @@ export default function BasicInformationForm() {
                         <Button
                           variant={'outline'}
                           className={cn(
-                            'shadow w-full pl-3 text-left font-normal h-8 rounded-sm text-xs text-muted-foreground'
+                            'shadow w-full pl-3 text-left font-normal h-8 rounded-sm text-md text-muted-foreground'
                           )}
                         >
                           {field.value ? (
@@ -778,7 +778,7 @@ export default function BasicInformationForm() {
           </div>
 
           <div className="space-y-1 col-span-2 lg:col-span-1">
-            <Label>Alcoholic Drinks</Label>
+            <Label>Drinks/Alcohol</Label>
             <FormField
               name="drinks"
               control={form.control}
@@ -810,8 +810,8 @@ export default function BasicInformationForm() {
           <div className="space-y-1 col-span-2 lg:col-span-1">
             <Label>
               Drugs{' '}
-              <span className="text-[0.6rem] text-nowrap">
-                (Including Cannabis &amp; Cocaine)
+              <span className="text-nowrap">
+                (Cannabis/Cocaine)
               </span>
             </Label>
             <FormField
@@ -844,7 +844,7 @@ export default function BasicInformationForm() {
           </div>
           <div className="space-y-1 col-span-2 lg:col-span-1">
             <Label>
-              Smokes <span>(Including Vape &amp; Shisha)</span>
+              Smokes <span>(Vapes/Shisha)</span>
             </Label>
             <FormField
               name="smokes"

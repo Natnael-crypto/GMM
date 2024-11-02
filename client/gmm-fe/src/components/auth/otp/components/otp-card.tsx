@@ -14,11 +14,7 @@ export default function OtpCard({
       </Card>
 
       <div className="w-full sm:min-w-96 sm:w-1/4 bg-background text-wrap flex flex-col items-center gap-3 mt-6">
-        <p className="text-xs font-light text-center">
-          Guardian/Wali Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Necessitatibus praesentium odio porro!
-        </p>
-
+        
         <p className="text-xs font-semibold text-center text-muted-foreground">
           Copyright &copy; 2024 Guardian/Wali Project. All Rights Reserved.{' '}
         </p>
