@@ -64,8 +64,8 @@ export default function FamilyIntroductionForm() {
           Please Answer All Questions Accurately
         </span>
       </div>
-      <div className="grid grid-cols-12 gap-x-3 gap-y-3 py-4">
-        <div className="space-y-1 py-2 col-span-6">
+      <div className="grid grid-cols-2 gap-x-3 gap-y-3 py-4">
+        <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
           <Label>{t('guardianInformation.firstName')}</Label>
           <FormField
             name="guardianFirstName"
@@ -84,7 +84,7 @@ export default function FamilyIntroductionForm() {
           />
         </div>
 
-        <div className="space-y-1 py-2 col-span-6">
+        <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
           <Label>{t('guardianInformation.lastName')}</Label>
           <FormField
             name="guardianLastName"
@@ -103,7 +103,7 @@ export default function FamilyIntroductionForm() {
           />
         </div>
 
-        <div className="space-y-1 py-2 col-span-6">
+        <div className="space-y-1 py-2 col-span-2">
           <Label>{t('guardianInformation.relationship')}</Label>
           <FormField
             name="relationshipToGuardian"
@@ -145,7 +145,7 @@ export default function FamilyIntroductionForm() {
           />
         </div>
 
-        <div className="space-y-1 py-2 col-span-6">
+        <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
           <Label>{t('guardianInformation.phoneNumber')}</Label>
           <FormField
             name="guardianPhoneNumber"
@@ -164,7 +164,7 @@ export default function FamilyIntroductionForm() {
           />
         </div>
 
-        <div className="space-y-1 py-2 col-span-6">
+        <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
           <Label>{t('guardianInformation.email')} </Label>
           <FormField
             name="guardianEmail"
@@ -183,11 +183,11 @@ export default function FamilyIntroductionForm() {
           />
         </div>
 
-        <h1 className="text-lg font-bold text-secondary border-b p-1 col-span-12">
+        <h1 className="text-lg font-bold text-secondary border-b p-1 col-span-2">
           {t('idVerification.title')}
         </h1>
 
-        <div className="space-y-1 py-2 col-span-12">
+        <div className="space-y-1 py-2 col-span-2">
           <Label>{t('idVerification.phoneNumber')}</Label>
           <FormField
             name="phoneNumber"
@@ -206,7 +206,7 @@ export default function FamilyIntroductionForm() {
           />
         </div>
 
-        <div className="space-y-1 py-2 col-span-12">
+        <div className="space-y-1 py-2 col-span-2">
           <Label>{t('idVerification.id')}</Label>
           <FormField
             name="idCardImage"

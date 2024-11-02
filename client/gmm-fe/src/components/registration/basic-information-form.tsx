@@ -303,7 +303,7 @@ export default function BasicInformationForm({
                 />
               </div>
 
-              <div className="space-y-1 py-2 col-span-2 lg:col-span-1">
+              <div className="space-y-1 py-2 col-span-4 lg:col-span-1">
                 <Label>Date of Birth</Label>
                 <FormField
                   control={form.control}
@@ -319,7 +319,7 @@ export default function BasicInformationForm({
                             <Button
                               variant={'outline'}
                               className={cn(
-                                'shadow w-full pl-3 text-left font-normal h-8 rounded-sm text-xs text-muted-foreground'
+                                'shadow w-full pl-3 text-left font-normal h-8 rounded-sm text-md text-muted-foreground'
                               )}
                             >
                               {field.value ? (
@@ -345,7 +345,7 @@ export default function BasicInformationForm({
                                 {Array.from(
                                   { length: 100 },
                                   (_, i) =>
-                                    getEighteenYearsAgo().getFullYear() - i
+                                    getEighteenYearsAgo().getFullYear()
                                 ).map((year) => (
                                   <SelectItem
                                     key={year}
@@ -375,13 +375,13 @@ export default function BasicInformationForm({
                         </PopoverContent>
                       </Popover>
 
-                      <FormMessage className="text-xs" />
+                      <FormMessage className="text-md" />
                     </FormItem>
                   )}
                 />
               </div>
 
-              <div className="space-y-1 py-2 col-span-2 lg:col-span-1">
+              <div className="space-y-1 py-2 col-span-4 lg:col-span-1">
                 <Label>Gender</Label>
                 <FormField
                   name="gender"
@@ -419,7 +419,7 @@ export default function BasicInformationForm({
                 />
               </div>
 
-              <div className="space-y-1 py-2 col-span-2 lg:col-span-1">
+              <div className="space-y-1 py-2 col-span-4 lg:col-span-1">
                 <Label>Height</Label>
                 <FormField
                   name="height"
@@ -453,7 +453,7 @@ export default function BasicInformationForm({
                 />
               </div>
 
-              <div className="space-y-1 py-2 col-span-2 lg:col-span-1">
+              <div className="space-y-1 py-2 col-span-4 lg:col-span-1">
                 <Label>Weight</Label>
                 <FormField
                   name="weight"

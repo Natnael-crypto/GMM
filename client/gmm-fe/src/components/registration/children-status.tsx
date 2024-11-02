@@ -66,7 +66,7 @@ export default function ChildrenStatus() {
         </div>
       )}
       {hasChildren && (
-        <div className="space-y-1 py-2 col-span-4 sm:col-span-3">
+        <div className="space-y-1 py-2 col-span-8 sm:col-span-3">
           <Label>
             {numberOfChildren > 1 ? 'Age of Youngest Child' : 'Age of Child'}
           </Label>
@@ -115,7 +115,7 @@ export default function ChildrenStatus() {
         </div>
       )}
       {hasChildren && numberOfChildren > 1 && (
-        <div className="space-y-1 py-2 col-span-4 sm:col-span-3">
+        <div className="space-y-1 py-2 col-span-8 sm:col-span-3">
           <Label>Age of Oldest Child</Label>
           <FormField
             name="ageOfOldestChild"
