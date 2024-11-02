@@ -46,14 +46,14 @@ export default function ChildrenStatus() {
                     <SelectContent>
                       {Array.from({ length: 15 }, (_, i) => i + 1).map((i) => (
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-md max-w-80"
                           key={i}
                           value={i.toString()}
                         >
                           {i}
                         </SelectItem>
                       ))}
-                      <SelectItem className="text-sm max-w-80" value="15">
+                      <SelectItem className="text-md max-w-80" value="15">
                         More than 15
                       </SelectItem>
                     </SelectContent>
@@ -84,7 +84,7 @@ export default function ChildrenStatus() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="max-h-64">
-                      <SelectItem className="text-sm max-w-80" value="0">
+                      <SelectItem className="text-md max-w-80" value="0">
                         Under 1 year
                       </SelectItem>
                       {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => {
@@ -97,7 +97,7 @@ export default function ChildrenStatus() {
 
                         return (
                           <SelectItem
-                            className="text-sm max-w-80"
+                            className="text-md max-w-80"
                             key={i}
                             value={i.toString()}
                           >
@@ -131,7 +131,7 @@ export default function ChildrenStatus() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="max-h-64">
-                      <SelectItem className="text-sm max-w-80" value="0">
+                      <SelectItem className="text-md max-w-80" value="0">
                         Under 1 year
                       </SelectItem>
                       {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => {
@@ -140,7 +140,7 @@ export default function ChildrenStatus() {
                         }
                         return (
                           <SelectItem
-                            className="text-sm max-w-80"
+                            className="text-md max-w-80"
                             key={i}
                             value={i.toString()}
                           >
