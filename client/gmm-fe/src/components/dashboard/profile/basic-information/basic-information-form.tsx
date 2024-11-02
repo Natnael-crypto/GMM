@@ -182,9 +182,9 @@ export default function BasicInformationForm() {
         <form
           ref={basicInfoFormRef}
           onSubmit={form.handleSubmit(onSubmit)}
-          className="col-span-12 lg:col-span-3 grid grid-cols-4 gap-x-5 gap-y-4 h-fit"
+          className="col-span-12 sm:col-span-3 grid grid-cols-4 gap-x-5 gap-y-4 h-fit"
         >
-          <div className="col-span-4 md:col-span-2 flex gap-5 items-center h-fit">
+          <div className="col-span-4 sm:col-span-2 flex gap-5 items-center h-fit">
             <Label>First Name</Label>
             <FormField
               name="firstName"
@@ -204,7 +204,7 @@ export default function BasicInformationForm() {
             />
           </div>
 
-          <div className="col-span-4 md:col-span-2 flex gap-5 items-center h-fit">
+          <div className="col-span-4 sm:col-span-2 flex gap-5 items-center h-fit">
             <Label>Last Name</Label>
             <FormField
               name="lastName"
@@ -224,7 +224,7 @@ export default function BasicInformationForm() {
             />
           </div>
 
-          <div className="space-y-1 col-span-2 lg:col-span-1">
+          <div className="space-y-1 col-span-4 sm:col-span-1">
             <Label>Date of Birth</Label>
             <FormField
               control={form.control}
@@ -298,7 +298,7 @@ export default function BasicInformationForm() {
             />
           </div>
 
-          <div className="space-y-1 col-span-2 lg:col-span-1">
+          <div className="space-y-1 col-span-4 sm:col-span-1">
             <Label>Gender</Label>
             <FormField
               name="gender"
@@ -330,7 +330,7 @@ export default function BasicInformationForm() {
             />
           </div>
 
-          <div className="space-y-1 col-span-2 lg:col-span-1">
+          <div className="space-y-1 col-span-4 sm:col-span-1">
             <Label>Height</Label>
             <FormField
               name="height"
@@ -364,7 +364,7 @@ export default function BasicInformationForm() {
             />
           </div>
 
-          <div className="space-y-1 col-span-2 lg:col-span-1">
+          <div className="space-y-1 col-span-4 sm:col-span-1">
             <Label>Weight</Label>
             <FormField
               name="weight"
@@ -398,7 +398,7 @@ export default function BasicInformationForm() {
             />
           </div>
 
-          <div className="space-y-1 col-span-2">
+          <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>Country of Origin</Label>
             <FormField
               name="country"
@@ -452,7 +452,7 @@ export default function BasicInformationForm() {
                                 </FormItem>)}
                         />
                     </div> */}
-          <div className="space-y-1 col-span-4">
+          <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>Language(s) - Max 3</Label>
             <FormField
               name="languages"
@@ -475,7 +475,7 @@ export default function BasicInformationForm() {
               )}
             />
           </div>
-          <div className="space-y-1 col-span-2">
+          <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>Nationality/Passport</Label>
             <FormField
               name="nationality"
@@ -505,7 +505,7 @@ export default function BasicInformationForm() {
               )}
             />
           </div>
-          <div className="space-y-1 col-span-2">
+          <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>Current City</Label>
             <FormField
               name="city"
@@ -526,7 +526,7 @@ export default function BasicInformationForm() {
               )}
             />
           </div>
-          <div className="space-y-1 col-span-2">
+          <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>Marital Status</Label>
             <FormField
               name="maritalStatus"
@@ -575,7 +575,7 @@ export default function BasicInformationForm() {
             />
           </div>
 
-          <div className="space-y-1 col-span-2">
+          <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>Do you have children?</Label>
             <FormField
               name="hasChildren"
@@ -629,8 +629,8 @@ export default function BasicInformationForm() {
 
           <ChildrenStatus />
 
-          <div className="col-span-4 grid grid-cols-4 lg:grid-cols-8 gap-x-5 gap-y-4">
-            <div className="space-y-1 col-span-4 lg:col-span-2">
+          <div className="col-span-4 grid grid-cols-4 sm:grid-cols-8 gap-x-5 gap-y-4">
+            <div className="space-y-1 col-span-4 sm:col-span-2">
               <Label>Sunni-Madhaib</Label>
               <FormField
                 name="sunniMadhaib"
@@ -685,7 +685,7 @@ export default function BasicInformationForm() {
               />
             </div>
 
-            <div className="space-y-1 col-span-4 lg:col-span-3">
+            <div className="space-y-1 col-span-4 sm:col-span-3">
               <Label>Religious Practice</Label>
               <FormField
                 name="religiousPractice"
@@ -739,7 +739,7 @@ export default function BasicInformationForm() {
                 )}
               />
             </div>
-            <div className="space-y-1 col-span-4 lg:col-span-3">
+            <div className="space-y-1 col-span-4 sm:col-span-3">
               <Label>Born/Reverted to Islam</Label>
               <FormField
                 name="bornOrRevertToIslam"
@@ -777,7 +777,7 @@ export default function BasicInformationForm() {
             </div>
           </div>
 
-          <div className="space-y-1 col-span-2 lg:col-span-1">
+          <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>Drinks/Alcohol</Label>
             <FormField
               name="drinks"
@@ -807,7 +807,7 @@ export default function BasicInformationForm() {
               )}
             />
           </div>
-          <div className="space-y-1 col-span-2 lg:col-span-1">
+          <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>
               Drugs{' '}
               <span className="text-nowrap">
@@ -842,7 +842,7 @@ export default function BasicInformationForm() {
               )}
             />
           </div>
-          <div className="space-y-1 col-span-2 lg:col-span-1">
+          <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>
               Smokes <span>(Vapes/Shisha)</span>
             </Label>
@@ -875,7 +875,7 @@ export default function BasicInformationForm() {
             />
           </div>
 
-          <div className="space-y-1 col-span-2 lg:col-span-1">
+          <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>Tattoo(s)</Label>
             <FormField
               name="tattoos"
