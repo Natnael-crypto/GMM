@@ -98,8 +98,6 @@ export function CheckoutForm() {
     appearance,
   };
 
-  console.log(user, user?.email);
-
   return (
     <div>
       <div className="space-y-5">
