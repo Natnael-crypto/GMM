@@ -886,8 +886,8 @@ export default function BasicInformationForm({
                 </div>
               
 
-              <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
-                <Label>Drinks</Label>
+              <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
+                <Label>Alcoholic Drinks</Label>
                 <FormField
                   name="drinks"
                   control={form.control}
@@ -922,11 +922,11 @@ export default function BasicInformationForm({
                   )}
                 />
               </div>
-              <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
+              <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>
                   Drugs{' '}
-                  <span className="text-[0.6rem] text-nowrap">
-                    (Including Cannabis)
+                  <span className="text-nowrap">
+                    (Including Cannabis &amp; Cocaine)
                   </span>
                 </Label>
                 <FormField
@@ -963,9 +963,9 @@ export default function BasicInformationForm({
                   )}
                 />
               </div>
-              <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
+              <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>
-                  Smokes <span className="text-[0.6rem]">(Vapping/Shisha)</span>
+                  Smokes <span>(Including Vape &amp; Shisha)</span>
                 </Label>
                 <FormField
                   name="smokes"
@@ -1002,7 +1002,7 @@ export default function BasicInformationForm({
                 />
               </div>
 
-              <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
+              <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Tattoo(s)</Label>
                 <FormField
                   name="tattoos"

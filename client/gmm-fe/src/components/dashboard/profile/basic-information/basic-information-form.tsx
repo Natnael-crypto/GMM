@@ -778,7 +778,7 @@ export default function BasicInformationForm() {
           </div>
 
           <div className="space-y-1 col-span-2 lg:col-span-1">
-            <Label>Drinks</Label>
+            <Label>Alcoholic Drinks</Label>
             <FormField
               name="drinks"
               control={form.control}
@@ -811,7 +811,7 @@ export default function BasicInformationForm() {
             <Label>
               Drugs{' '}
               <span className="text-[0.6rem] text-nowrap">
-                (Including Cannabis)
+                (Including Cannabis &amp; Cocaine)
               </span>
             </Label>
             <FormField
@@ -844,7 +844,7 @@ export default function BasicInformationForm() {
           </div>
           <div className="space-y-1 col-span-2 lg:col-span-1">
             <Label>
-              Smokes <span className="text-[0.6rem]">(Vapping/Shisha)</span>
+              Smokes <span>(Including Vape &amp; Shisha)</span>
             </Label>
             <FormField
               name="smokes"
