@@ -273,7 +273,7 @@
         "idVerification": {
           "title": "Your ID Verification",
           "phoneNumber": "Your Phone Number",
-          "id": "Your ID (Drivers License, Passport, or Citizen Card)"
+          "id": "Your Government Issued ID (Drivers License, Passport, or Proof of Citizenship)"
         }
       }
     }
