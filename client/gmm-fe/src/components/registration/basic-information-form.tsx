@@ -737,7 +737,7 @@ export default function BasicInformationForm({
 
               <ChildrenStatus />
 
-              
+              <div className="col-span-4 grid grid-cols-8 gap-x-5 gap-y-4">
                 <div className="space-y-1 py-2 col-span-8 sm:col-span-2">
                   <Label>Sunni-Madhaib</Label>
                   <FormField
@@ -884,7 +884,7 @@ export default function BasicInformationForm({
                     )}
                   />
                 </div>
-              
+              </div>
 
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Alcoholic Drinks</Label>
