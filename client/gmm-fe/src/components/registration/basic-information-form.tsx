@@ -345,7 +345,7 @@ export default function BasicInformationForm({
                                 {Array.from(
                                   { length: 100 },
                                   (_, i) =>
-                                    getEighteenYearsAgo().getFullYear()
+                                    getEighteenYearsAgo().getFullYear() - i
                                 ).map((year) => (
                                   <SelectItem
                                     key={year}

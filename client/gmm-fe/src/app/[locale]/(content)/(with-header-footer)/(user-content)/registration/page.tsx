@@ -61,7 +61,7 @@ export default function Registration() {
                     variant: 'default',
                     size: 'sm',
                   }),
-                  'bg-primary rounded-full text-xs text-primary-foreground h-6'
+                  'bg-primary rounded-full text-md text-primary-foreground h-6 cta'
                 )}
                 disabled={isSaving}
               >
