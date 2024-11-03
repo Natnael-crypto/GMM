@@ -18,10 +18,11 @@ import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from '@/components/ui/use-toast';
-import { useRouter } from '@/lib/navigation';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import Loading from '@/components/ui/loading';
 import { useRequestPasswordResetMutation } from '@/lib/auth/api';
+import { Link } from '@/lib/navigation';
+import { cn } from '@/lib/utils';
 
 export default function ForgotPasswordForm() {
   const form = useForm<PasswordResetRequest>({
@@ -95,13 +96,23 @@ export default function ForgotPasswordForm() {
                   'Send Password Reset Link'
                 )}
               </Button>
+              {!requestResult.isLoading && (
+                <Link
+                  href="/"
+                  className={cn(
+                    buttonVariants({ variant: 'default' }),
+                    'h-9 px-5 bg-primary text-primary-foreground font-bold text-xs cta'
+                  )}
+                >
+                  Cancel
+                </Link>
+              )}
             </div>
           </form>
         </Form>
       </Card>
 
       <div className="w-full sm:min-w-96 sm:w-1/4 bg-background text-wrap flex flex-col items-center gap-3 mt-6">
-        
         <p className="text-xs font-semibold text-center text-muted-foreground">
           Copyright &copy; 2024 Guardian/Wali Project. All Rights Reserved.{' '}
         </p>
