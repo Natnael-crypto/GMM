@@ -27,6 +27,4 @@ services:
     deploy:
       resources:
         limits:
-          memory: 300M
-        reservations:
-          memory-swap: 3G
+          memory: 300M        
