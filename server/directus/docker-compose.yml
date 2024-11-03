@@ -24,3 +24,9 @@ services:
       DB_SSL: false
       DB_SSL__REJECT_UNAUTHORIZED: false
       WEBSOCKETS_ENABLED: true
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+        reservations:
+          memory-swap: 3G
