@@ -10,7 +10,7 @@ export default function PendingApprovalMessage() {
         Your application has been submitted for review
       </span>
 
-      <div className="text-sm text-center text-secondary flex flex-col gap-4 px-3">
+      <div className="text-md font-bold text-center text-secondary flex flex-col gap-4 px-3">
         <p>
           An email receipt including the details about your
           <br /> order has been sent to the email address provided.

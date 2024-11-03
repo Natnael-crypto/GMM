@@ -53,7 +53,7 @@ function CheckoutLayout({
             </div>
           </div>
         </div>
-        <div className="flex justify-center mb-8 w-full">{children}</div>
+        <div className="flex justify-center mb-8">{children}</div>
       </div>
       <Footer />
     </div>

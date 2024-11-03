@@ -85,7 +85,7 @@ export default function ProfileCompletionCard() {
   ];
 
   return (
-    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 text-xs space-y-5">
+    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 text-md font-medium space-y-5">
       <AnimatePresence mode="wait">
         {user && <ProfileCard user={user} />}
         {!user && (

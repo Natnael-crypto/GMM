@@ -14,7 +14,7 @@ export default function ProfileCompletionProgress({
         {!loading && <span>{progress}%</span>}
       </div>
 
-      <div className="w-full bg-white h-1">
+      <div className="w-full bg-white h-2">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}

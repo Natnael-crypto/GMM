@@ -25,7 +25,15 @@ export default function RegistrationOverview() {
       </div>
 
       <div className="md:mt-20 overflow-auto no-scrollbar">
-        <div className="grid md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 text-center">
+      <h1 className="text-center sm:text-start z-20 flex flex-col px-8 lg:ps-0 md:px-20">
+          <span className="z-20 uppercase font-bold text-primary">
+           Our approach for
+          </span>
+          <span className="z-20 text-lg sm:text-xl md:text-2xl lg:text-3xl text-accent">
+          Guardian Muslim Marriage
+          </span>
+        </h1>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-4 text-center">
           <HoverCard>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
