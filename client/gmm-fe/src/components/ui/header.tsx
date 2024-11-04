@@ -34,9 +34,6 @@ export default async function Header() {
         <FontAwesomeIcon icon={faBell} />
         <div className="px-2">
           {session && <Profile user={session.user} />}
-          <FontAwesomeIcon
-              icon={faChevronDown}
-            />
         </div>
       </div>
     </div>
