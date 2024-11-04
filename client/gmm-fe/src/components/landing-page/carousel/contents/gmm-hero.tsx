@@ -38,11 +38,11 @@ export default async function GMMHero() {
         />
       </div>
 
-      <div className="lg:absolute lg:top-0 lg:left-0 w-full h-full z-50">
+      <div className="lg:absolute lg:top-0 lg:left-0 w-full h-full z-50 hero-container">
         {/* Hero content */}
         <div className="px-12 sm:px-16 md:px-24 lg:ps-[12%] py-8 lg:w-9/12 gap-8 flex flex-col h-full">
           {/* Hero image */}
-          <div className="w-40 md:w-40 lg:w-60 z-20">
+          <div className="z-20">
             <Image
               className="w-full overflow-hidden logo"
               src="/assets/guardian-logo-footer.png"

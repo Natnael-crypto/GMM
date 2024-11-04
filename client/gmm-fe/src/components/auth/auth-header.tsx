@@ -18,10 +18,10 @@ export default function AuthHeader() {
       ></div>
 
       <div
-        className="py-6 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] flex justify-between items-center"
+        className="registration py-6 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] flex justify-between items-center"
       >
-        <div className="w-40 md:w-60">
-          <Link href="/" className="w-40 md:w-60">
+        <div>
+          <Link href="/">
             <Image
               className="w-full overflow-hidden logo"
               src="/assets/guardian-logo.png"

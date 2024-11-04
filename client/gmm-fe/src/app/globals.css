@@ -97,6 +97,14 @@
     pointer-events: none;
   }
 
+  .hero-container .logo, .registration .logo {
+    width: 300px;
+  }
+
+  .hero-container h1 {
+    line-height: 1.15;
+  }
+
   .gmm-icon img {
     max-width: 100px;
   }

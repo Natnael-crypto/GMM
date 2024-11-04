@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import LanguageSelector from './language-selector';
 import Profile from './profile';
 import { Link } from '@/lib/navigation';
@@ -34,6 +34,9 @@ export default async function Header() {
         <FontAwesomeIcon icon={faBell} />
         <div className="px-2">
           {session && <Profile user={session.user} />}
+          <FontAwesomeIcon
+              icon={faChevronDown}
+            />
         </div>
       </div>
     </div>
