@@ -44,7 +44,7 @@ export default async function GMMHero() {
           {/* Hero image */}
           <div className="w-40 md:w-40 lg:w-60 z-20">
             <Image
-              className="w-full overflow-hidden"
+              className="w-full overflow-hidden logo"
               src="/assets/guardian-logo-footer.png"
               width={537}
               height={70}

@@ -81,6 +81,10 @@
     height: 55vh;
   }
 
+  .mt-\[3rem\]{
+    margin-top: 3rem;
+  }
+
   .lg\:mt-8 {
     margin-top: 2rem;
   }

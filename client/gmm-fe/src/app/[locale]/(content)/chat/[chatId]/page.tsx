@@ -75,7 +75,7 @@ export default function ChatPage() {
         <Link href="/">
           <div className="w-40 md:w-60">
             <Image
-              className="w-full overflow-hidden"
+              className="w-full overflow-hidden logo"
               src="/assets/guardian-logo.png"
               width={537}
               height={70}
