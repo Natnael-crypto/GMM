@@ -87,7 +87,7 @@ export default function ProfileImages({ user }: { user: User }) {
     >
       <AnimatePresence>
         {imageUrls && (
-          <motion.div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[21rem] aspect-[9/16]">
+          <motion.div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[30rem] w-full aspect-[9/16]">
             {imageUrls && imageUrls.length > 0 && (
               <Carousel setApi={setApi}>
                 <CarouselContent>

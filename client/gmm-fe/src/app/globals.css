@@ -113,6 +113,10 @@
     max-width: 200px;
   }
 
+  .h-\[30rem\]{
+    height: 30rem;
+  }
+
   .cta {
     font-weight: 700 !important;
     text-transform: uppercase;
