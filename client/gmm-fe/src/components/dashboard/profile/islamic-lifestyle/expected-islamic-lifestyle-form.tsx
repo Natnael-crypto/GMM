@@ -67,7 +67,7 @@ export default function ExpectedIslamicLifestyleFormMale({ expectedIslamicLifest
     const questions = t.raw('questions')
 
     return (
-        <div className="bg-muted w-full py-4 px-6 sm:px-16 md:px-24 lg:px-52">
+        <div className="bg-muted w-full py-4 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem]">
             <h1 className="text-xl font-bold text-primary border-b p-1">
                 {t('title')}
             </h1>

@@ -26,7 +26,7 @@ export default function FamilyIntroductionPage() {
       )}
       <FamilyIntroductionForm familyIntroduction={familyIntroduction} />
 
-      <div className="pb-8 px-6 sm:px-16 md:px-24 lg:px-52 ">
+      <div className="pb-8 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] ">
         <div className="grid grid-cols-12 gap-x-3 gap-y-3 py-5">
           <h1 className="text-xl font-bold text-secondary border-b p-1 col-span-12">
             {t('optionalVerifiable.title')}

@@ -153,7 +153,7 @@ export default function BasicInformationForm() {
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   return (
-    <div className="px-6 sm:px-16 md:px-24 lg:px-52 grid grid-cols-12 lg:grid-cols-4 gap-x-5 gap-y-4 py-8 text-md">
+    <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] grid grid-cols-12 lg:grid-cols-4 gap-x-5 gap-y-4 py-8 text-md">
       <div className="col-span-12 md:col-span-8 lg:col-span-1">
         <FormField
           name="pictures"

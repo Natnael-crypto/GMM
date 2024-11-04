@@ -15,7 +15,8 @@ const config = {
       padding: '2rem',
       screens: {
         'xl': '1440px',
-        '2xl': '2560px',
+        '2xl': '1600px',
+        '3xl': '1900px',
       },
     },
     extend: {
@@ -92,6 +93,7 @@ const config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       gridTemplateColumns: {
+        '5': 'repeat(5, minmax(0, 1fr))',
         '16': 'repeat(16, minmax(0, 1fr))',
         '17': 'repeat(17, minmax(0, 1fr))',
         '18': 'repeat(18, minmax(0, 1fr))',

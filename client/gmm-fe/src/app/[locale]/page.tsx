@@ -18,7 +18,7 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col">
-      <div className="px-6 sm:px-16 md:px-24 lg:px-52 bg-tertiary text-tertiary-foreground flex justify-end items-center">
+      <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] bg-tertiary text-tertiary-foreground flex justify-end items-center">
         <LanguageSelector
           text="Language"
           className="text-tertiary-foreground hover:text-tertiary-foreground"

@@ -22,7 +22,7 @@ export default function Dashboard() {
   return (
     <UpdateProfileProvider autoSave={false}>
       <>
-        <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
+        <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] py-6 space-y-8">
           <h1 className="text-xl text-center font-medium">Your Dashboard</h1>
 
           <div className="grid grid-cols-12 gap-4">

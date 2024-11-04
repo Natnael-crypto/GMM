@@ -51,7 +51,7 @@ export default function ProfileLayout({
 
   return (
     <div>
-      <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
+      <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] py-6 space-y-8">
         <ProfileHeader
           editLink={`${pathname}/edit`}
           compatibilityPath={compatibilityPaths[pathname]}

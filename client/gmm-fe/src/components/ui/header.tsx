@@ -13,7 +13,7 @@ export default async function Header() {
 
   return (
     <div
-      className="py-3 px-6 sm:px-16 md:px-24 lg:px-52 
+      className="py-3 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] 
     bg-primary text-primary-foreground 
     flex justify-between items-center"
     >

@@ -92,7 +92,7 @@ export default function CompatibilityLayout({
 
   return (
     <div>
-      <div className="px-6 sm:px-16 md:px-24 lg:px-52 py-6 space-y-8">
+      <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] py-6 space-y-8">
         <div className="relative">
           <h1 className="text-2xl text-center font-semibold">Compatibility</h1>
           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full flex justify-between">

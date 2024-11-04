@@ -66,7 +66,7 @@ export default function IslamicLifestyleFormFemale({ islamicLifestyle }: { islam
     const questions = t.raw('questions')
 
     return (
-        <div className="py-8 px-6 sm:px-16 md:px-24 lg:px-52">
+        <div className="py-8 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem]">
             <h1 className="text-xl font-bold text-secondary border-b p-1">
                 {
                     t.rich('title', {
