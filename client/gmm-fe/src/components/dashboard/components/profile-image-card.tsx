@@ -95,7 +95,7 @@ export default function ProfileImages({ user }: { user: User }) {
                     <CarouselItem key={`profile_pic_${index}`}>
                       <DynamicBlur
                         src={image}
-                        className="object-cover h-[21rem] object-top"
+                        className="object-cover h-[30rem] object-top"
                         width={600}
                         height={1000}
                         alt="Hero image"
