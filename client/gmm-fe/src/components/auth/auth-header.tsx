@@ -10,7 +10,7 @@ export default function AuthHeader() {
   return (
     <div className="relative">
       <div
-        className="absolute w-full h-[20rem] xl:h-[15rem] -z-10"
+        className="absolute w-full h-[15rem] -z-10"
         style={{
           backgroundImage: 'url("/assets/hero-image-green.jpg")',
           transform: localeDirection[locale] === 'rtl' ? 'scaleX(-1)' : '',

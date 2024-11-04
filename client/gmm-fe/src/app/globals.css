@@ -68,12 +68,9 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .xl\:h-\[15rem\] {
-    height: 15rem;
-  }
 
-  .h-\[20rem\] {
-    height: 20rem;
+  .h-\[15rem\] {
+    height: 15rem;
   }
 
   .h-\[65vh\] {
@@ -86,6 +83,10 @@
 
   .lg\:mt-8 {
     margin-top: 2rem;
+  }
+
+  .xl\:mt-20 {
+    margin-top: 5rem;
   }
 
   .hover-disabled {

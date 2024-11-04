@@ -15,7 +15,7 @@ export default async function GMMHero() {
 
   return (
     <div className="relative">
-      <div className="absolute z-10 lg:z-0 lg:static lg:flex lg:w-full h-[55vh]">
+      <div className="absolute z-10 lg:z-0 lg:static lg:flex lg:w-full h-[60vh]">
         <Image
           src="/assets/hero-image-1.jpg"
           className={cn(
@@ -40,7 +40,7 @@ export default async function GMMHero() {
 
       <div className="lg:absolute lg:top-0 lg:left-0 w-full h-full z-50">
         {/* Hero content */}
-        <div className="px-12 sm:px-16 md:px-24 lg:ps-[14%] py-8 lg:w-9/12 gap-8 flex flex-col h-full">
+        <div className="px-12 sm:px-16 md:px-24 lg:ps-[12%] py-8 lg:w-9/12 gap-8 flex flex-col h-full">
           {/* Hero image */}
           <div className="w-40 md:w-40 lg:w-60 z-20">
             <Image
@@ -54,10 +54,10 @@ export default async function GMMHero() {
 
           {/* Hero text */}
           <div className="z-20">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl lg:leading-[3.3rem] sm:max-w-64 md:max-w-72 lg:max-w-96 font-bold text-primary-foreground text-wrap">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl lg:leading-[3.3rem] sm:max-w-64 md:max-w-72 lg:max-w-96 font-bold text-primary-foreground text-wrap">
               {t('hero.title')}
             </h1>
-            <h2 className="text-xl lg:text-2xl text-white mt-3 text-wrap">
+            <h2 className="text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl text-white mt-3 text-wrap">
               {t('hero.subtitle')}
             </h2>
           </div>

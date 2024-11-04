@@ -49,14 +49,14 @@ export default function MobileApproachCards() {
       >
         <OurApproachCard
           imageSrc="/assets/icon_guided-matchmaking.svg"
-          imageClassName="w-24 lg:w-32"
+          imageClassName=""
           isActive={false}
           onClick={() => {}}
         >
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                'text-lg w-full h-16 font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
               {t.rich('card.guidedMatching', {
@@ -73,14 +73,14 @@ export default function MobileApproachCards() {
         </OurApproachCard>
         <OurApproachCard
           imageSrc="/assets/icon_match-guarantee.svg"
-          imageClassName="w-24 lg:w-28"
+          imageClassName=""
           isActive={false}
           onClick={() => {}}
         >
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                'text-lg w-full h-16 font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
               {t.rich('card.matchGuarantee', {
@@ -102,14 +102,14 @@ export default function MobileApproachCards() {
         </OurApproachCard>
         <OurApproachCard
           imageSrc="/assets/icon_1-on-1-chats.svg"
-          imageClassName="w-24"
+          imageClassName=""
           isActive={false}
           onClick={() => {}}
         >
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                'text-lg w-full h-16 font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
               {t.rich('card.oneOnOneChats', {
@@ -131,14 +131,14 @@ export default function MobileApproachCards() {
         </OurApproachCard>
         <OurApproachCard
           imageSrc="/assets/icon_never-pay-to-compete.svg"
-          imageClassName="w-24 lg:w-32"
+          imageClassName=""
           isActive={false}
           onClick={() => {}}
         >
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                'text-lg w-full h-16 font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
               {t.rich('card.neverPayToCompete', {
@@ -155,14 +155,14 @@ export default function MobileApproachCards() {
         </OurApproachCard>
         <OurApproachCard
           imageSrc="/assets/icon_guardian-family-involvement.svg"
-          imageClassName="w-20 lg:w-24"
+          imageClassName=""
           isActive={false}
           onClick={() => {}}
         >
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                'text-lg w-full h-16 font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
               {t.rich('card.guardianFamilyInvolvement', {

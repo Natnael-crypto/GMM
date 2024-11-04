@@ -13,8 +13,8 @@ export default function RegistrationOverview() {
 
   return (
     <div className="w-full">
-      <div className="text-center md:text-start lg:text-primary-foreground">
-        <h1 className="text-2xl md:text-3xl">
+      <div className="text-center lg:text-start lg:text-primary-foreground text-accent">
+        <h1 className="text-2xl md:text-3xl text-primary lg:text-primary-foreground">
           {t.rich('common.title', {
             bold: (text) => <span className="font-bold">{text}</span>,
           })}
@@ -24,12 +24,12 @@ export default function RegistrationOverview() {
         </h2>
       </div>
 
-      <div className="md:mt-20 overflow-auto no-scrollbar">
-      <h1 className="text-center sm:text-start z-20 flex flex-col px-8 lg:ps-0 md:px-20">
-          <span className="z-20 uppercase font-bold text-primary">
+      <div className="lg:mt-8 xl:mt-20 overflow-auto no-scrollbar">
+      <h1 className="sm:text-start z-20 flex flex-col px-8 lg:ps-0 md:px-20 mb-6 pt-3 hidden lg:flex">
+          <span className="z-20 uppercase font-bold text-primary text-center lg:text-left">
            Our approach for
           </span>
-          <span className="z-20 text-lg sm:text-xl md:text-2xl lg:text-3xl text-accent">
+          <span className="z-20 text-lg sm:text-xl md:text-2xl lg:text-3xl text-accent text-center lg:text-left">
           Guardian Muslim Marriage
           </span>
         </h1>

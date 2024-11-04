@@ -49,7 +49,7 @@ export default function MobileOtherPlatformsCards() {
       >
         <OtherPlatformsCard
           imageSrc="/assets/puzzle-piece-solid.svg"
-          imageClassName="w-24 lg:w-32"
+          imageClassName="w-12"
           isActive={false}
           onClick={() => {}}
         >
@@ -73,7 +73,7 @@ export default function MobileOtherPlatformsCards() {
         </OtherPlatformsCard>
         <OtherPlatformsCard
           imageSrc="/assets/comment-slash-solid.svg"
-          imageClassName="w-24 lg:w-28"
+          imageClassName="w-12"
           isActive={false}
           onClick={() => {}}
         >
@@ -97,7 +97,7 @@ export default function MobileOtherPlatformsCards() {
         </OtherPlatformsCard>
         <OtherPlatformsCard
           imageSrc="/assets/ban-solid.svg"
-          imageClassName="w-24 lg:w-28"
+          imageClassName="w-12"
           isActive={false}
           onClick={() => {}}
         >
@@ -121,7 +121,7 @@ export default function MobileOtherPlatformsCards() {
         </OtherPlatformsCard>
         <OtherPlatformsCard
           imageSrc="/assets/repeat-solid.svg"
-          imageClassName="w-24"
+          imageClassName="w-12"
           isActive={false}
           onClick={() => {}}
         >
@@ -145,7 +145,7 @@ export default function MobileOtherPlatformsCards() {
         </OtherPlatformsCard>
         <OtherPlatformsCard
           imageSrc="/assets/user-large-slash-solid.svg"
-          imageClassName="w-24 lg:w-32"
+          imageClassName="w-12"
           isActive={false}
           onClick={() => {}}
         >
@@ -169,7 +169,7 @@ export default function MobileOtherPlatformsCards() {
         </OtherPlatformsCard>
         <OtherPlatformsCard
           imageSrc="/assets/heart-crack-solid.svg"
-          imageClassName="w-20 lg:w-24"
+          imageClassName="w-12"
           isActive={false}
           onClick={() => {}}
         >
@@ -193,7 +193,7 @@ export default function MobileOtherPlatformsCards() {
         </OtherPlatformsCard>
         <OtherPlatformsCard
           imageSrc="/assets/comments-dollar-solid.svg"
-          imageClassName="w-20 lg:w-24"
+          imageClassName="w-12"
           isActive={false}
           onClick={() => {}}
         >
