@@ -106,7 +106,7 @@ export default function FamilyIntroductionForm({
   useEffect(() => {
     setSaving(updateResult.isLoading);
   }, [updateResult, setSaving]);
-
+  const bornMuslim = user?.bornOrRevertToIslam === 'Born Muslim';
   return (
     <Form {...form}>
       <form
@@ -184,13 +184,18 @@ export default function FamilyIntroductionForm({
                         <SelectItem value="Paternal/Maternal Aunts (no father or brother)">
                           Paternal/Maternal Aunts (no father or brother)
                         </SelectItem>
-                        <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">
-                          Imam/Mosque (Imam/mufti is my guardian/family contact)
-                        </SelectItem>
-                        <SelectItem value="Revert Care appoint guardian/wali (option only for reverts subject to interview and approval)">
-                          Revert Care appoint guardian/wali (option only for
-                          reverts subject to interview and approval)
-                        </SelectItem>
+                        {!bornMuslim && (
+                          <>
+                            <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">
+                              Imam/Mosque (Imam/mufti is my guardian/family
+                              contact)
+                            </SelectItem>
+                            <SelectItem value="Revert Care appoint guardian/wali (option only for reverts subject to interview and approval)">
+                              Revert Care appoint guardian/wali (option only for
+                              reverts subject to interview and approval)
+                            </SelectItem>{' '}
+                          </>
+                        )}
                       </SelectContent>
                     </Select>
                   </FormControl>

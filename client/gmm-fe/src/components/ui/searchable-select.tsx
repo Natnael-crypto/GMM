@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useDebounce } from 'use-debounce';
 import {
   DropdownMenu,
@@ -47,14 +47,14 @@ export default function AutoComplete({
     const map = new Map<string, string>();
     _options.forEach((option) => map.set(option.value, option.label));
     if (selectedOption && !map.get(selectedOption)) {
-      map.set(selectedOption, selectedOption);
-      _options.push({
-        value: selectedOption,
-        label: selectedOption,
-      });
+      // map.set(selectedOption, selectedOption);
+      // _options.push({
+      //   value: selectedOption,
+      //   label: selectedOption,
+      // });
     }
     return map;
-  }, [options, selectedOption, extend, searchTerm]);
+  }, [_options, selectedOption]);
 
   const filteredOptions = useMemo(() => {
     return _options.filter((option) =>

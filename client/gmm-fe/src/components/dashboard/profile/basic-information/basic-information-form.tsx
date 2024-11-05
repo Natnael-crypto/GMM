@@ -229,6 +229,7 @@ export default function BasicInformationForm() {
             <FormField
               control={form.control}
               name="dateOfBirth"
+              disabled={true}
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <Popover
@@ -809,10 +810,7 @@ export default function BasicInformationForm() {
           </div>
           <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>
-              Drugs{' '}
-              <span className="text-nowrap">
-                (Cannabis/Cocaine)
-              </span>
+              Drugs <span className="text-nowrap">(Cannabis/Cocaine)</span>
             </Label>
             <FormField
               name="drugs"
