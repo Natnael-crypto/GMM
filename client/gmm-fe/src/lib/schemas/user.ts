@@ -1277,7 +1277,7 @@ export const countryCodeToCountry = {
   UA: 'Ukraine',
   UG: 'Uganda',
   UM: 'U.S. Minor Outlying Islands',
-  US: 'United States',
+  US: 'United States of America',
   UY: 'Uruguay',
   UZ: 'Uzbekistan',
   VA: 'Vatican City',
