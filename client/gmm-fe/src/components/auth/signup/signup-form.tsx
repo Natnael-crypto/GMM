@@ -97,7 +97,7 @@ export function SignUpForm() {
               <FormItem>
                 <FormControl>
                   <Input
-                    className="text-sm placeholder:text-md"
+                    className=""
                     placeholder={t('signup.firstName')}
                     autoComplete="given-name"
                     {...field}
@@ -125,7 +125,7 @@ export function SignUpForm() {
                 <FormControl>
                   <Input
                     autoComplete="family-name"
-                    className="text-sm placeholder:text-md"
+                    className=""
                     placeholder={t('signup.lastName')}
                     {...field}
                     onChange={(e) => {
@@ -152,7 +152,7 @@ export function SignUpForm() {
                 <FormControl>
                   <Input
                     autoComplete="email"
-                    className="text-sm placeholder:text-md"
+                    className=""
                     placeholder={t('signup.email')}
                     {...field}
                   />
@@ -169,7 +169,7 @@ export function SignUpForm() {
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="text-md text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue placeholder="Gender" className="text-md" />
+                      <SelectValue placeholder="Gender"/>
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem className="text-md max-w-80" value="Male">
@@ -216,7 +216,7 @@ export function SignUpForm() {
                           field.onChange(new Date(value));
                         }}
                       >
-                        <SelectTrigger className="z-50 sticky top-0 bg-background h-10 py-1">
+                        <SelectTrigger className="z-50 top-0 bg-background h-10 py-1">
                           <SelectValue placeholder="Select Year" />
                         </SelectTrigger>
                         <SelectContent position="popper">
@@ -292,7 +292,7 @@ export function SignUpForm() {
                 <FormControl>
                   <Input
                     autoComplete="new-password"
-                    className="text-sm placeholder:text-md"
+                    className=""
                     placeholder={t('signup.password')}
                     type="password"
                     {...field}
@@ -309,7 +309,7 @@ export function SignUpForm() {
               <FormItem>
                 <FormControl>
                   <Input
-                    className="text-sm placeholder:text-md"
+                    className=""
                     placeholder={t('signup.confirmPassword')}
                     type="password"
                     {...field}
