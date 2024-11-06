@@ -6,7 +6,6 @@ import { Login } from '@/lib/schemas/auth';
 import { cookieNames } from '@/types/cookie-names';
 import { loadUser, nextStep } from '@/lib/auth/utils';
 import { loadUserSubscription } from '@/lib/checkout/checkout';
-import { Role } from '@/lib/schemas/role';
 
 export const login = async (data: Login) => {
   let response = await fetch(`${constants.apiBaseUrl}/auth/login`, {
@@ -34,7 +33,6 @@ export const login = async (data: Login) => {
     }
     return { status: 400, message: 'Unable to login' };
   }
-
   const { accessToken, refreshToken } = res;
 
   cookies().set({

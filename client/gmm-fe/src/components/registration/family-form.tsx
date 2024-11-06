@@ -22,10 +22,12 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Loading from '../ui/loading';
 import { PhoneInput } from '../ui/phone-input';
+import { useAppSelector } from '@/lib/hooks';
 
 export default function FamilyIntroductionForm() {
   const t = useTranslations('Dashboard.updateProfile.familyIntroduction');
   const form = useFormContext();
+  const user = useAppSelector((state) => state.auth.user);
 
   const [image, setImage] = useState<string | undefined>(undefined);
   const [generateUploadUrl, uploadResult] = useCreateUploadUrlMutation();
@@ -53,6 +55,8 @@ export default function FamilyIntroductionForm() {
       }
     }
   };
+
+  const bornMuslim = user?.bornOrRevertToIslam === 'Born Muslim';
 
   return (
     <div>
@@ -129,13 +133,18 @@ export default function FamilyIntroductionForm() {
                       <SelectItem value="Paternal/Maternal Aunts (no father or brother)">
                         Paternal/Maternal Aunts (no father or brother)
                       </SelectItem>
-                      <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">
-                        Imam/Mosque (Imam/mufti is my guardian/family contact)
-                      </SelectItem>
-                      <SelectItem value="Revert Care appoint guardian/wali (option only for reverts subject to interview and approval)">
-                        Revert Care appoint guardian/wali (option only for
-                        reverts subject to interview and approval)
-                      </SelectItem>
+                      {!bornMuslim && (
+                        <>
+                          <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">
+                            Imam/Mosque (Imam/mufti is my guardian/family
+                            contact)
+                          </SelectItem>
+                          <SelectItem value="Revert Care appoint guardian/wali (option only for reverts subject to interview and approval)">
+                            Revert Care appoint guardian/wali (option only for
+                            reverts subject to interview and approval)
+                          </SelectItem>{' '}
+                        </>
+                      )}
                     </SelectContent>
                   </Select>
                 </FormControl>

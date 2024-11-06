@@ -65,6 +65,8 @@ export default function FemaleCheckoutForm() {
     updateFamilyIntroduction({ userId: user.id, familyIntroduction: data });
   };
 
+  const bornMuslim = user?.bornOrRevertToIslam === 'Born Muslim';
+
   useEffect(() => {
     if (updateResult.isSuccess) {
       confirmFreeSubscription()
@@ -178,14 +180,18 @@ export default function FemaleCheckoutForm() {
                           <SelectItem value="Paternal/Maternal Aunts (no father or brother)">
                             Paternal/Maternal Aunts (no father or brother)
                           </SelectItem>
-                          <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">
-                            Imam/Mosque (Imam/mufti is my guardian/family
-                            contact)
-                          </SelectItem>
-                          <SelectItem value="Revert Care appoint guardian/wali (option only for reverts subject to interview and approval)">
-                            Revert Care appoint guardian/wali (option only for
-                            reverts subject to interview and approval)
-                          </SelectItem>
+                          {!bornMuslim && (
+                            <>
+                              <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">
+                                Imam/Mosque (Imam/mufti is my guardian/family
+                                contact)
+                              </SelectItem>
+                              <SelectItem value="Revert Care appoint guardian/wali (option only for reverts subject to interview and approval)">
+                                Revert Care appoint guardian/wali (option only
+                                for reverts subject to interview and approval)
+                              </SelectItem>{' '}
+                            </>
+                          )}
                         </SelectContent>
                       </Select>
                     </FormControl>

@@ -125,7 +125,7 @@ export default function ChildrenStatus() {
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
-                    value={field.value ? field.value.toString() : '0'}
+                    value={field.value ? field.value.toString() : ''}
                   >
                     <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />

@@ -1,6 +1,9 @@
+'use client';
+
 import { z } from 'zod';
 import { preferenceSchema } from './preference';
 import { getEighteenYearsAgo } from '../format';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 export enum AccountStatus {
   INCOMPLETE_REGISTRATION = 'Incomplete Registration',
@@ -35,7 +38,10 @@ export const _userBasicInformationSchema = z
       .string({
         required_error: 'Please enter your phone number',
       })
-      .min(1, { message: 'Please enter your phone number' }),
+      .min(1, { message: 'Please enter your phone number' })
+      .refine((value) => isValidPhoneNumber(value ?? ''), {
+        message: 'Please enter a valid phone number',
+      }),
 
     dateOfBirth: z
       .date({
@@ -266,9 +272,13 @@ export const baseUserSchema = z
     lastName: z.string({
       required_error: 'Please enter your last name',
     }),
-    phoneNumber: z.string({
-      required_error: 'Please enter your phone number',
-    }),
+    phoneNumber: z
+      .string({
+        required_error: 'Please enter your phone number',
+      })
+      .refine((value) => isValidPhoneNumber(value ?? ''), {
+        message: 'Please enter a valid phone number',
+      }),
     dateOfBirth: z
       .date({
         required_error: 'A date of birth is required.',
@@ -513,7 +523,10 @@ export const userRegistrationSchema = _userBasicInformationSchema
       .string({
         required_error: 'Please enter guardian phone number',
       })
-      .min(1, { message: 'Please enter guardian phone number' }),
+      .min(1, { message: 'Please enter guardian phone number' })
+      .refine((value) => isValidPhoneNumber(value ?? ''), {
+        message: 'Please enter a valid phone number',
+      }),
 
     guardianEmail: z
       .string({ required_error: "Please enter guardian's email" })
