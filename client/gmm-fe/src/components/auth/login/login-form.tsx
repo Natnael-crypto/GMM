@@ -55,7 +55,7 @@ export function LoginForm() {
       });
 
       dispatch(setToken(response.token));
-      console.log(response);
+
       replace(searchParams.get('redirect') ?? response.redirectUrl ?? '/');
     } else {
       toast({

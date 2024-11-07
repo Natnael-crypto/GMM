@@ -16,17 +16,6 @@ import {
   Select,
   SelectItem,
 } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { Preference, preferenceSchema } from '@/lib/schemas/preference';
-import { useUpdatePreferenceMutation } from '@/lib/user/api';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useCallback, useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { useUpdateProfileContext } from '../profile/update-profile-context';
-import { toast } from '@/components/ui/use-toast';
-import { setUser } from '@/lib/auth/slice';
-import { useCreateMatchMutation } from '@/lib/matchmaking/api';
 import AutoComplete from '@/components/ui/searchable-select';
 import {
   countries,
@@ -43,6 +32,10 @@ import { cmToFeetInches, kgToPounds } from '@/lib/format';
 import { languages } from '@/config/locales';
 import { useDebounce } from 'use-debounce';
 import flags from 'react-phone-number-input/flags';
+import { Slider } from '@/components/ui/slider';
+import MatchFilterSlider from './match-filter-slider';
+import { usePreference } from '@/lib/hooks/match/preference-hook';
+import { useMatch } from '@/lib/hooks/match/match-hook';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -61,423 +54,98 @@ const martialStatusOptions = [
 }));
 
 export default function MatchPreferenceFilter() {
-  const user = useAppSelector((state) => state.auth.user);
-  const tolerance = useAppSelector((state) => state.preference.tolerance);
-
-  const dispatch = useAppDispatch();
-
-  const form = useForm<Preference>({
-    resolver: zodResolver(preferenceSchema),
-    defaultValues: {
-      preferredAge: user?.preference?.preferredAge || [minAge, maxAge],
-      preferredHeight: user?.preference?.preferredHeight || [
-        minHeight,
-        maxHeight,
-      ],
-      preferredWeight: user?.preference?.preferredWeight || [
-        minWeight,
-        maxWeight,
-      ],
-      ethnicOrigin: user?.preference?.ethnicOrigin || '',
-      nationality: user?.preference?.nationality || '',
-      language: user?.preference?.language || '',
-      countryOfOrigin: user?.preference?.countryOfOrigin || '',
-      martialStatus: user?.preference?.martialStatus || '',
-      bornOrRevert: user?.preference?.bornOrRevert || '',
-      hijab: user?.preference?.hijab || '',
-      children: user?.preference?.children || '',
-      wantsChildren: user?.preference?.wantsChildren || '',
-      education: user?.preference?.education || '',
-      profession: user?.preference?.profession || '',
-      drinking: user?.preference?.drinking || false,
-      smoking: user?.preference?.smoking || false,
-      tattoos: user?.preference?.tattoos || false,
-      drugs: user?.preference?.drugs || false,
-    },
-  });
-
-  useEffect(() => {
-    if (user && user.preference) {
-      form.reset({
-        preferredAge: user?.preference?.preferredAge || [minAge, maxAge],
-        preferredHeight: user?.preference?.preferredHeight || [
-          minHeight,
-          maxHeight,
-        ],
-        preferredWeight: user?.preference?.preferredWeight || [
-          minWeight,
-          maxWeight,
-        ],
-        ethnicOrigin: user?.preference?.ethnicOrigin || '',
-        nationality: user?.preference?.nationality || '',
-        language: user?.preference?.language || '',
-        countryOfOrigin: user?.preference?.countryOfOrigin || '',
-        martialStatus: user?.preference?.martialStatus || '',
-        bornOrRevert: user?.preference?.bornOrRevert || '',
-        hijab: user?.preference?.hijab || '',
-        children: user?.preference?.children || '',
-        wantsChildren: user?.preference?.wantsChildren || '',
-        education: user?.preference?.education || '',
-        profession: user?.preference?.profession || '',
-        drinking: user?.preference?.drinking || false,
-        smoking: user?.preference?.smoking || false,
-        tattoos: user?.preference?.tattoos || false,
-        drugs: user?.preference?.drugs || false,
-      });
-    }
-  }, [form, user]);
-
-  const preferenceFormRef = useRef<HTMLFormElement>(null);
-  const { registerForm, setSaving } = useUpdateProfileContext();
-  useEffect(() => {
-    if (preferenceFormRef && preferenceFormRef.current) {
-      registerForm('preferenceForm', preferenceFormRef.current);
-    }
-  }, [preferenceFormRef, registerForm]);
-
-  const [updatePreference, updateResult] = useUpdatePreferenceMutation();
-  const [createMatch, createResult] = useCreateMatchMutation();
-
-  useEffect(() => {
-    setSaving(updateResult.isLoading || createResult.isLoading);
-  }, [updateResult, createResult, setSaving]);
-
-  useEffect(() => {
-    if (updateResult.isSuccess) {
-      toast({
-        title: 'Success',
-        description: 'Preference updated successfully',
-      });
-      dispatch(setUser({ ...user, preference: updateResult.data }));
-      createMatch({
-        tolerance: tolerance ?? 0,
-      });
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [updateResult, dispatch]);
-
-  useEffect(() => {
-    if (createResult.isSuccess) {
-      toast({
-        title: 'Success',
-        description: 'You have been matched successfully',
-      });
-    } else if (createResult.isError) {
-      toast({
-        title: 'Match status',
-        description: 'Finding you a match message, we will notify you soon.',
-      });
-    }
-  }, [createResult]);
-
-  const onSubmit = (data: Preference) => {
-    updatePreference({
-      preferredAge: isAgeAny ? null : data.preferredAge,
-      preferredHeight: isHeightAny ? null : data.preferredHeight,
-      preferredWeight: isWeightAny ? null : data.preferredWeight,
-      ethnicOrigin: isEthniOriginAny ? null : data.ethnicOrigin,
-      nationality: isNationalityAny ? null : data.nationality,
-      language: isLanguageAny ? null : data.language,
-      countryOfOrigin: isCountryOfOriginAny ? null : data.countryOfOrigin,
-      martialStatus: isMartialStatusAny ? null : data.martialStatus,
-      bornOrRevert: isBornOrRevertAny ? null : data.bornOrRevert,
-      hijab: isHijabAny ? null : data.hijab,
-      children: isChildrenAny ? null : data.children,
-      wantsChildren: isWantsChildrenAny ? null : data.wantsChildren,
-      education: isEducationAny ? null : data.education,
-      profession: isProfessionAny ? null : data.profession,
-      drinking: isDrinkingAny ? null : data.drinking,
-      smoking: isSmokingAny ? null : data.smoking,
-      tattoos: isTattooAny ? null : data.tattoos,
-    } as unknown as any);
-  };
-
-  const isWeightAny =
-    form.watch('preferredWeight')?.[0] === minWeight &&
-    form.watch('preferredWeight')?.[1] === maxWeight;
-  const isHeightAny =
-    form.watch('preferredHeight')?.[0] === minHeight &&
-    form.watch('preferredHeight')?.[1] === maxHeight;
-  const isAgeAny =
-    form.watch('preferredAge')?.[0] === minAge &&
-    form.watch('preferredAge')?.[1] === maxAge;
-  const isLanguageAny = form.watch('language') === '';
-  const isEthniOriginAny = form.watch('ethnicOrigin') === '';
-  const isNationalityAny = form.watch('nationality') === '';
-  const isCountryOfOriginAny = form.watch('countryOfOrigin') === '';
-  const isMartialStatusAny = form.watch('martialStatus') === '';
-  const isBornOrRevertAny = form.watch('bornOrRevert') === '';
-  const isHijabAny = form.watch('hijab') === '';
-  const isChildrenAny = form.watch('children') === '';
-  const isWantsChildrenAny = form.watch('wantsChildren') === '';
-  const isEducationAny = form.watch('education') === '';
-  const isProfessionAny = form.watch('profession') === '';
-  const isDrinkingAny = form.watch('drinking') === ('' as unknown as boolean);
-  const isSmokingAny = form.watch('smoking') === ('' as unknown as boolean);
-  const isTattooAny = form.watch('tattoos') === ('' as unknown as boolean);
-  const isDrugsAny = form.watch('drugs') === ('' as unknown as boolean);
-
-  const getQueryString = useCallback(
-    (data: Preference) => {
-      const filter = [];
-
-      if (user) {
-        filter.push(`gender:neq:${user.gender}`);
-      }
-
-      if (!isAgeAny) {
-        const [minAge, maxAge] = data.preferredAge;
-        filter.push(`age:lte:${maxAge},age:gte:${minAge}`);
-      }
-
-      if (!isHeightAny) {
-        const [minHeight, maxHeight] = data.preferredHeight;
-        filter.push(`height:lte:${maxHeight},height:gte:${minHeight}`);
-      }
-
-      if (!isWeightAny) {
-        const [minWeight, maxWeight] = data.preferredWeight;
-        filter.push(`weight:lte:${maxWeight},weight:gte:${minWeight}`);
-      }
-
-      if (!isEthniOriginAny) {
-        filter.push(`ethnicOrigin:like:${data.ethnicOrigin}`);
-      }
-
-      if (!isNationalityAny) {
-        filter.push(`nationality:like:${data.nationality}`);
-      }
-
-      if (!isLanguageAny) {
-        filter.push(`language:like:${data.language}`);
-      }
-
-      if (!isCountryOfOriginAny) {
-        filter.push(`country:like:${data.countryOfOrigin}`);
-      }
-
-      if (!isMartialStatusAny) {
-        filter.push(`martialStatus:like:${data.martialStatus}`);
-      }
-
-      if (!isBornOrRevertAny) {
-        filter.push(`bornOrRevert:like:${data.bornOrRevert}`);
-      }
-
-      if (!isHijabAny) {
-        filter.push(`hijab:like:${data.hijab}`);
-      }
-
-      if (!isDrinkingAny) {
-        filter.push(`drinks:eq:${data.drinking}`);
-      }
-
-      if (!isSmokingAny) {
-        filter.push(`smokes:eq:${data.smoking}`);
-      }
-
-      if (!isTattooAny) {
-        filter.push(`tattoos:eq:${data.tattoos}`);
-      }
-
-      return `filter=${filter.join(',')}`;
-    },
-    [
-      isAgeAny,
-      isBornOrRevertAny,
-      isCountryOfOriginAny,
-      isDrinkingAny,
-      isEthniOriginAny,
-      isHeightAny,
-      isHijabAny,
-      isLanguageAny,
-      isMartialStatusAny,
-      isNationalityAny,
-      isSmokingAny,
-      isTattooAny,
-      isWeightAny,
-      user,
-    ]
-  );
-
-  const formValues = form.watch();
-  const [debouncedFormValues] = useDebounce(formValues, 300);
-
-  useEffect(() => {
-    dispatch(setQueryString(getQueryString(debouncedFormValues)));
-  }, [debouncedFormValues, dispatch, getQueryString]);
+  const {
+    form,
+    preferenceUpdateResult,
+    isFilterInactive,
+    debouncedSavePreference,
+  } = usePreference();
+  const { findNewMatch } = useMatch();
 
   return (
     <Form {...form}>
-      <form
-        ref={preferenceFormRef}
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="col-span-9 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary"
-      >
+      <form className="col-span-9 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary">
         <div className="space-y-2 col-span-10 md:col-span-3">
-          <Label
-            className="text-sm flex justify-between items-center"
-            onClick={() => form.setValue('preferredAge', [minAge, maxAge])}
-          >
-            <span className="font-bold line-clamp-1">Preferred Age</span>
-            <span className="flex gap-1 items-center justify-center text-[0.65rem]">
-              <Input
-                type="checkbox"
-                className="p-0 m-0 h-fit"
-                checked={isAgeAny}
-                onChange={() => {}}
-              />
-              <span>Any</span>
-            </span>
-          </Label>
-          <FormField
+          <MatchFilterSlider
             name="preferredAge"
-            control={form.control}
-            render={({ field }) => (
-              <>
-                <Slider
-                  value={field.value}
-                  minStepsBetweenThumbs={1}
-                  onValueChange={(value) => {
-                    const [prevMin, prevMax] = field.value;
-                    const [newMin, newMax] = value;
-
-                    const minChanged = prevMin !== newMin;
-                    const maxChanged = prevMax !== newMax;
-
-                    if (minChanged && maxChanged)
-                      return field.onChange(field.value);
-
-                    field.onChange(value);
-                  }}
-                  min={minAge}
-                  max={maxAge}
-                  step={1}
-                />
-                <div className="text-xs flex gap-1 text-primary font-bold justify-center">
-                  <span>{field.value?.join(' - ')}</span>
-                </div>
-              </>
+            label="Preferred Age"
+            min={18}
+            max={100}
+            onChange={debouncedSavePreference}
+            defaultValue={[minAge, maxAge]}
+            allowAny={isFilterInactive['preferredAge']}
+            render={(field) => (
+              <div className="text-xs flex gap-1 text-primary font-bold justify-center">
+                {field.value && (
+                  <span>
+                    {field.value[0] === field.value[1]
+                      ? field.value[0]
+                      : field.value.join(' - ')}
+                  </span>
+                )}
+              </div>
             )}
           />
         </div>
         <div className="space-y-2 col-span-10 md:col-span-3">
-          <Label
-            className="text-sm flex justify-between items-center"
-            onClick={() =>
-              form.setValue('preferredHeight', [minHeight, maxHeight])
-            }
-          >
-            <span className="font-bold line-clamp-1 ">Height</span>
-            <span className="flex gap-1 items-center justify-center text-[0.65rem]">
-              <Input
-                type="checkbox"
-                className="p-0 m-0 h-fit"
-                checked={isHeightAny}
-                onChange={() => {}}
-              />
-              <span>Any</span>
-            </span>
-          </Label>
-          <FormField
+          <MatchFilterSlider
             name="preferredHeight"
-            control={form.control}
-            render={({ field }) => (
-              <>
-                <Slider
-                  value={field.value}
-                  minStepsBetweenThumbs={5}
-                  onValueChange={(value) => {
-                    const [prevMin, prevMax] = field.value;
-                    const [newMin, newMax] = value;
-
-                    const minChanged = prevMin !== newMin;
-                    const maxChanged = prevMax !== newMax;
-
-                    if (minChanged && maxChanged)
-                      return field.onChange(field.value);
-
-                    field.onChange(value);
-                  }}
-                  min={minHeight}
-                  max={maxHeight}
-                  step={1}
-                />
-                <div className="text-xs flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
-                  <span>
-                    <span>{field.value && field.value[0]} cm </span>{' '}
-                    <span>-</span>{' '}
-                    <span>{field.value && field.value[1]} cm</span>
-                  </span>
-                  <span className="block md:hidden lg:block">|</span>
-                  <span>
-                    <span>{field.value && cmToFeetInches(field.value[0])}</span>{' '}
-                    <span>-</span>{' '}
-                    <span>{field.value && cmToFeetInches(field.value[1])}</span>
-                  </span>
-                </div>
-              </>
+            label="Height"
+            min={minHeight}
+            max={maxHeight}
+            onChange={debouncedSavePreference}
+            defaultValue={[minHeight, maxHeight]}
+            allowAny={isFilterInactive['preferredHeight']}
+            render={(field) => (
+              <div className="text-xs flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
+                <span>
+                  <span>{field.value && field.value[0]} cm </span>{' '}
+                  {field.value[0] !== field.value[1] && (
+                    <>
+                      <span>-</span>{' '}
+                      <span>{field.value && field.value[1]} cm</span>
+                    </>
+                  )}
+                </span>
+                <span className="block md:hidden lg:block">|</span>
+                <span>
+                  <span>{field.value && cmToFeetInches(field.value[0])}</span>{' '}
+                  {field.value[0] !== field.value[1] && (
+                    <>
+                      <span>-</span>{' '}
+                      <span>
+                        {field.value && cmToFeetInches(field.value[1])}
+                      </span>
+                    </>
+                  )}
+                </span>
+              </div>
             )}
           />
         </div>
 
         <div className="space-y-2 col-span-10 md:col-span-3">
-          <Label
-            className="text-sm flex justify-between items-center"
-            onClick={() => {
-              form.setValue('preferredWeight', [minWeight, maxWeight]);
-            }}
-          >
-            <span className="font-bold line-clamp-1 ">Weight</span>
-            <span className="flex gap-1 items-center justify-center text-[0.65rem]">
-              <Input
-                type="checkbox"
-                className="p-0 m-0 h-fit"
-                checked={isWeightAny}
-                onChange={() => {}}
-              />
-              <span>Any</span>
-            </span>
-          </Label>
-          <FormField
+          <MatchFilterSlider
             name="preferredWeight"
-            control={form.control}
-            render={({ field }) => (
-              <>
-                <Slider
-                  value={field.value}
-                  minStepsBetweenThumbs={10}
-                  onValueChange={(value) => {
-                    const [prevMin, prevMax] = field.value;
-                    const [newMin, newMax] = value;
-
-                    const minChanged = prevMin !== newMin;
-                    const maxChanged = prevMax !== newMax;
-
-                    if (minChanged && maxChanged)
-                      return field.onChange(field.value);
-
-                    field.onChange(value);
-                  }}
-                  min={minWeight}
-                  max={maxWeight}
-                  step={1}
-                />
-                <div className="text-xs flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
-                  <span>
-                    <span>{field.value && field.value[0]} Kg</span>{' '}
-                    <span>-</span>{' '}
-                    <span>{field.value && field.value[1]} Kg</span>
-                  </span>
-                  <span className="block md:hidden lg:block">|</span>
-                  <span>
-                    <span>{field.value && kgToPounds(field.value[0])}</span>{' '}
-                    <span>-</span>{' '}
-                    <span>{field.value && kgToPounds(field.value[1])}</span>
-                  </span>
-                </div>
-              </>
+            label="Weight"
+            min={minWeight}
+            max={maxWeight}
+            onChange={debouncedSavePreference}
+            defaultValue={[minWeight, maxWeight]}
+            allowAny={isFilterInactive['preferredWeight']}
+            render={(field) => (
+              <div className="text-xs flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
+                <span>
+                  <span>{field.value && field.value[0]} Kg</span> <span>-</span>{' '}
+                  <span>{field.value && field.value[1]} Kg</span>
+                </span>
+                <span className="block md:hidden lg:block">|</span>
+                <span>
+                  <span>{field.value && kgToPounds(field.value[0])}</span>{' '}
+                  <span>-</span>{' '}
+                  <span>{field.value && kgToPounds(field.value[1])}</span>
+                </span>
+              </div>
             )}
           />
         </div>
@@ -492,7 +160,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isNationalityAny}
+                checked={isFilterInactive['nationality']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -537,7 +205,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isLanguageAny}
+                // checked={isFilterInactive['language']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -575,21 +243,21 @@ export default function MatchPreferenceFilter() {
         <div className="space-y-2 col-span-10 md:col-span-3">
           <Label
             className="text-sm flex justify-between items-center"
-            onClick={() => form.setValue('countryOfOrigin', '')}
+            onClick={() => form.setValue('country', '')}
           >
             <span className="font-bold line-clamp-1">Country of Origin</span>
             <span className="flex gap-1 items-center justify-center text-[0.65rem]">
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isCountryOfOriginAny}
+                // checked={isFilterInactive['countryOfOrigin']}
                 onChange={() => {}}
               />
               <span>Any</span>
             </span>
           </Label>
           <FormField
-            name="countryOfOrigin"
+            name="country"
             control={form.control}
             render={({ field }) => (
               <FormItem>
@@ -627,7 +295,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isMartialStatusAny}
+                // checked={isFilterInactive['martialStatus']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -663,7 +331,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isBornOrRevertAny}
+                // checked={isFilterInactive['bornOrRevert']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -704,7 +372,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isChildrenAny}
+                // checked={isFilterInactive['children']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -747,7 +415,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isWantsChildrenAny}
+                // checked={isFilterInactive['wantsChildren']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -816,7 +484,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isHijabAny}
+                // checked={isFilterInactive['hijab']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -868,7 +536,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isEducationAny}
+                // checked={isFilterInactive['education']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -946,7 +614,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isProfessionAny}
+                // checked={isFilterInactive['profession']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -996,7 +664,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isDrinkingAny}
+                // checked={isFilterInactive['drinking']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -1037,7 +705,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isSmokingAny}
+                // checked={isFilterInactive['smoking']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -1078,7 +746,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isTattooAny}
+                // checked={isFilterInactive['tattoos']}
                 onChange={() => {}}
               />
               <span>Any</span>
@@ -1119,7 +787,7 @@ export default function MatchPreferenceFilter() {
               <Input
                 type="checkbox"
                 className="p-0 m-0 h-fit"
-                checked={isDrugsAny}
+                // checked={isFilterInactive['drugs']}
                 onChange={() => {}}
               />
               <span>Any</span>
