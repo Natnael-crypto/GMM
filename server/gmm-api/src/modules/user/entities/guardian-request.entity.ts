@@ -1,5 +1,6 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
@@ -37,7 +38,7 @@ export class GuardianRequest {
   @Column()
   relationshipToGuardian: string;
 
-  @Column({ default: new Date() })
+  @CreateDateColumn()
   requestedAt: Date;
 
   @Column({ nullable: true })

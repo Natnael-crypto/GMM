@@ -22,7 +22,6 @@ import { FacebookOAuthGuard } from '../guards/facebook-oauth.guard';
 import { LoginUserDto, RefreshAccessToken } from '../dtos/login.dto';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
 import { EmailRegistrationDto } from '../dtos/registration.dto';
-import { userRole } from '@modules/seeds/role.seed';
 import { OtpService } from '../services/otp.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import {
@@ -35,6 +34,7 @@ import { AuthRepository } from '../services/auth.repository';
 import { RequestResetPasswordDto } from '../dtos/request-reset-password.dto';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
 import { AccountVerificationStatus } from '@modules/user/enums/user.enum';
+import { userRole } from '@shared/database/seeds/permission.seed';
 
 @ApiTags('auth')
 @Controller('auth')

@@ -90,7 +90,7 @@ export interface AppConfiguration {
 const envSchema = z
   .object({
     //   Server
-    NODE_ENV: z.enum(['dev', 'stage', 'main']),
+    NODE_ENV: z.enum(['development', 'staging', 'production']),
     DOMAIN: z.string(),
     PORT: z.string().transform((val) => parseInt(val, 10)),
 
