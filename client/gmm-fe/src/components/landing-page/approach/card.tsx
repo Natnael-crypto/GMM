@@ -15,13 +15,13 @@ export default function OurApproachCard({
   return (
     <Card
       className={cn(
-        'z-20 flex flex-col justify-between items-center w-40 lg:w-full cursor-pointer transition-colors duration-300 hover:bg-primary group',
+        'gmm-card-container z-20 flex flex-col justify-between items-center lg:w-full cursor-pointer transition-colors duration-300 hover:bg-primary group',
         isActive ? 'bg-primary' : 'bg-background',
         className
       )}
       onClick={onClick}
     >
-      <div className={cn('w-20 lg:mt-5 overflow-hidden', imageClassName)}>
+      <div className={cn('lg:mt-5 overflow-hidden', imageClassName)}>
         <Image
           className={cn(
             'w-full overflow-hidden group-hover:hidden object-cover',
@@ -47,7 +47,7 @@ export default function OurApproachCard({
 
       <span
         className={cn(
-          'font-bold mt-5 text-center transition-colors duration-300 group-hover:text-white',
+          'font-bold mt-5 text-center transition-colors duration-300 group-hover:text-white gmm-card-text',
           isActive ? 'text-white' : 'text-secondary'
         )}
       >

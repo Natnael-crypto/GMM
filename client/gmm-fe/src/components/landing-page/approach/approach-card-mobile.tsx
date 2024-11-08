@@ -56,7 +56,7 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full h-16 font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
               {t.rich('card.guidedMatching', {
@@ -80,7 +80,7 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full h-16 font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
               {t.rich('card.matchGuarantee', {
@@ -109,7 +109,7 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full h-16 font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
               {t.rich('card.oneOnOneChats', {
@@ -138,7 +138,7 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full h-16 font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
               {t.rich('card.neverPayToCompete', {
@@ -162,7 +162,7 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full h-16 font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
               {t.rich('card.guardianFamilyInvolvement', {

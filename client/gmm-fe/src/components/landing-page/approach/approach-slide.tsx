@@ -23,16 +23,7 @@ export default function OurApproachSlide({
   return (
     <div
       className={cn(
-        `hidden z-10
-    sm:flex flex-col justify-between bg-muted 
-    mt-5
-    px-8 md:px-20
-    py-8 lg:py-0
-    lg:absolute 
-    lg:end-0 lg:top-0 
-    min-h-80 lg:min-h-96
-    lg:w-1/2
-    lg:pt-[4.3rem] lg:pb-3 lg:px-[10%]`,
+        `hidden z-10 sm:flex flex-col justify-between lg:rounded-bl-[3rem] justify-between h-full`,
         dir === 'ltr' ? 'lg:rounded-bl-[3rem]' : 'lg:rounded-br-[3rem] '
       )}
     >
@@ -42,7 +33,7 @@ export default function OurApproachSlide({
 
       <div
         className={cn(
-          'flex items-center gap-2 text-gray-400 text-md mt-5 md:mt-0',
+          'flex items-center gap-2 text-gray-400 text-md mt-5',
           dir === 'rtl' ? 'flex-row-reverse' : ''
         )}
       >
@@ -51,12 +42,12 @@ export default function OurApproachSlide({
           className="cursor-pointer"
           onClick={dir === 'ltr' ? prev : next}
         />
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           {Array.from({ length: count }).map((_, index) => {
             return (
               <div
                 key={index}
-                className={`w-2 h-2 rounded-full cursor-pointer ${
+                className={`w-3 h-3 rounded-full cursor-pointer ${
                   index === selected ? 'bg-primary' : 'bg-accent opacity-50'
                 }`}
                 onClick={() => setSelected(index)}

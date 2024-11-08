@@ -16,7 +16,7 @@ export default async function GMMHero() {
   return (
     <div className="hero-container grid md:grid-cols-2 gap-4">
       {/* Hero content */}
-      <div className="hero-slide-content py-8 gap-5 flex flex-col h-full">
+      <div className="hero-slide-content py-8 gap-8 flex flex-col h-full">
         {/* Hero image */}
         <div className="z-20">
           <Image
