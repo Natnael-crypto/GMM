@@ -44,7 +44,6 @@ export function LoginForm() {
   });
 
   async function onSubmit(data: Login) {
-    console.log(data);
     setLoginInProgress(true);
 
     const response = await login(data);

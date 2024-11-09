@@ -50,8 +50,6 @@ export default function StripeForm({ user }: { user: User }) {
     },
   });
 
-  console.log(form.formState.errors);
-
   const locale = useLocale();
 
   const [isLoading, setIsLoading] = useState(false);

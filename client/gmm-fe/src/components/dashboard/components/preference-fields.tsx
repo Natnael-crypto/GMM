@@ -36,8 +36,6 @@ export default function PreferenceField({
 }: PreferenceFieldProps) {
   const form = useFormContext();
 
-  // console.log(form.getValues());
-
   return (
     <div className={cn('space-y-2', question.width)}>
       <FormField

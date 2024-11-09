@@ -227,9 +227,6 @@ export const usePreference = () => {
 
   useEffect(() => {
     if (user && user.preference) {
-      console.log('Preference------------------------------------');
-      console.log(user.preference);
-      console.log('//////////////////////////////////////////////');
       form.reset(reset(user.preference));
     }
   }, [form, user]);
@@ -240,13 +237,6 @@ export const usePreference = () => {
     const allowAny: FilterState = {} as FilterState;
 
     preferenceQuestions.forEach((question) => {
-      console.log(
-        question.name,
-        '>>>',
-        !preference[question.name] ||
-          (preference[question.name] as string[])?.length ===
-            question.options.length
-      );
       allowAny[question.name] =
         !preference[question.name] ||
         (preference[question.name] as string[])?.length ===
