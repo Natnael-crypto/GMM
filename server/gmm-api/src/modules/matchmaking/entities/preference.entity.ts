@@ -69,4 +69,13 @@ export class Preference {
 
   @Column({ nullable: true })
   tattoos: boolean;
+
+  @Column({
+    type: 'numeric',
+    precision: 6,
+    scale: 2,
+    default: 1,
+    nullable: true,
+  })
+  minMatchRequirement: number;
 }

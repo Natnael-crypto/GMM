@@ -101,4 +101,9 @@ export class UpdatePreferenceDto {
   @IsBoolean()
   @IsOptional()
   tattoos?: boolean;
+
+  @ApiProperty({ example: 'string' })
+  @IsNumber()
+  @IsOptional()
+  minMatchRequirement?: number;
 }
