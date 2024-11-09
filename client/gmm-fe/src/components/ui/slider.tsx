@@ -1,29 +1,35 @@
 'use client';
 
-import * as React from 'react';
-import * as SliderPrimitive from '@radix-ui/react-slider';
-
-import { cn } from '@/lib/utils';
+import { Slider as NextSlider } from '@nextui-org/slider';
+import React from 'react';
 
 const Slider = React.forwardRef<
-  React.ElementRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+  React.ElementRef<typeof NextSlider>,
+  React.ComponentPropsWithoutRef<typeof NextSlider>
 >(({ className, ...props }, ref) => (
-  <SliderPrimitive.Root
+  <NextSlider
+    aria-label={props['aria-label'] ?? 'slider'}
+    size={props.size ?? 'md'}
+    classNames={{
+      filler: 'bg-primary',
+      labelWrapper: 'mb-2',
+      label: 'font-medium text-medium',
+      value: 'font-medium text-small',
+      thumb: [
+        'transition-size h-5 w-5',
+        'bg-[#ffffff] border border-2 border-primary',
+        'data-[dragging=true]:shadow-lg data-[dragging=true]:shadow-black/20',
+        'data-[dragging=true]:w-6 data-[dragging=true]:h-6 data-[dragging=true]:after:h-6 data-[dragging=true]:after:w-6',
+      ],
+      track: ['bg-[#dbdbdb]', 'rounded-full'],
+      step: 'data-[in-range=true]:bg-black/30 dark:data-[in-range=true]:bg-white/50',
+    }}
+    color="success"
+    className="w-full cursor-pointer"
     ref={ref}
-    className={cn(
-      'relative flex w-full touch-none select-none items-center',
-      className
-    )}
     {...props}
-  >
-    <SliderPrimitive.Track className="relative h-[0.6rem] w-full grow overflow-hidden rounded-full bg-[#dbdbdb]">
-      <SliderPrimitive.Range className="absolute h-full bg-primary" />
-    </SliderPrimitive.Track>
-    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-background bg-secondary transition-colors focus-visible:outline-none  disabled:pointer-events-none disabled:opacity-50" />
-    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-background bg-secondary transition-colors focus-visible:outline-none  disabled:pointer-events-none disabled:opacity-50" />
-  </SliderPrimitive.Root>
+  />
 ));
-Slider.displayName = SliderPrimitive.Root.displayName;
+Slider.displayName = 'Slider';
 
 export { Slider };

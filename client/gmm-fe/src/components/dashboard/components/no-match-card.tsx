@@ -1,8 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { Link } from '@/lib/navigation';
-import React from 'react';
 import { useAppSelector } from '@/lib/hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -20,7 +18,7 @@ export default function NoMatchCard() {
               src={'/assets/woman-hijab.svg'}
               width={221}
               height={234}
-              alt=""
+              alt="Woman in hihab"
             />
           ) : (
             <FontAwesomeIcon

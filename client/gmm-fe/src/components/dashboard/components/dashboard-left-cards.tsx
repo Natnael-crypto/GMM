@@ -55,7 +55,18 @@ export default function DashboardLeftCards({ user }: DashboardLeftCardsProps) {
           </motion.div>
         )}
 
-        {!user.isMatched && <NoMatchCard />}
+        {!user.isMatched && (
+          <motion.div
+            key="no-match-card"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="h-full"
+          >
+            <NoMatchCard />
+          </motion.div>
+        )}
       </AnimatePresence>
     );
   } else {
