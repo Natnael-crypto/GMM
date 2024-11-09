@@ -155,11 +155,6 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/worldly-lifestyle')
   async getWorldlyLifestyle(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const worldlyLifestyle = await this.userService.getWorldlyLifestyle(id);
     if (!worldlyLifestyle) {
       throw new NotFoundException('Worldly lifestyle information not found');
@@ -193,18 +188,8 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/expected-worldly-lifestyle')
   async getExpectedWorldlyLifestyle(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const expectedWorldlyLifestyle =
       await this.userService.getExpectedWorldlyLifestyle(id);
-    if (!expectedWorldlyLifestyle) {
-      throw new NotFoundException(
-        'Expected worldly lifestyle information not found',
-      );
-    }
 
     return {
       message: 'Expected worldly lifestyle retrieved successfully',
@@ -232,15 +217,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/islamic-lifestyle')
   async getIslamicLifestyle(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const islamicLifestyle = await this.userService.getIslamicLifestyle(id);
-    if (!islamicLifestyle) {
-      throw new NotFoundException('Islamic lifestyle information not found');
-    }
 
     return {
       message: 'Islamic lifestyle retrieved successfully',
@@ -270,18 +247,8 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/expected-islamic-lifestyle')
   async getExpectedIslamicLifestyle(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const expectedIslamicLifestyle =
       await this.userService.getExpectedIslamicLifestyle(id);
-    if (!expectedIslamicLifestyle) {
-      throw new NotFoundException(
-        'Expected Islamic lifestyle information not found',
-      );
-    }
 
     return {
       message: 'Expected Islamic lifestyle retrieved successfully',
@@ -309,17 +276,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/marriage-discussion')
   async getMarriageDiscussion(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const marriageDiscussion = await this.userService.getMarriageDiscussion(id);
-    // if (!marriageDiscussion) {
-    //   throw new NotFoundException(
-    //     'User Marriage Discussion information not found',
-    //   );
-    // }
 
     return {
       message: 'Marriage Discussion retrieved successfully',
@@ -349,17 +306,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/optional-verifiable')
   async getOptionalVerifiable(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const optionalVerifiable = await this.userService.getOptionalVerifiable(id);
-    // if (!optionalVerifiable) {
-    //   throw new NotFoundException(
-    //     'User Optional Verifiable information not found',
-    //   );
-    // }
 
     return {
       message: 'User Optional Verifiable retrieved successfully',
@@ -389,17 +336,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/family-introduction')
   async getFamilyIntroduction(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const family = await this.userService.getFamilyInformation(id);
-    if (!family) {
-      throw new NotFoundException(
-        'User Family Introduction information not found',
-      );
-    }
 
     return {
       message: 'User Family Introduction retrieved successfully',
