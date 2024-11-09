@@ -18,6 +18,16 @@ import {
   AccountVerificationStatus,
   Gender,
 } from '../enums/user.enum';
+import { MaleExpectedWorldlyLifestyle } from './male-expected-worldly-lifestyle.entity';
+import { FemaleExpectedWorldlyLifestyle } from './female-expected-worldly-lifestyle.entity';
+import { UserWorldlyLifestyle } from './user-worldly-lifestyle.entity';
+import { MaleExpectedIslamicLifestyle } from './male-expected-islamic-lifestyle.entity';
+import { MaleIslamicLifestyle } from './male-islamic-lifestyle.entity';
+import { FemaleIslamicLifestyle } from './female-islamic-lifestyle.entity';
+import { FemaleExpectedIslamicLifestyle } from './female-expected-islamic-lifestyle.entity';
+import { UserMarriageDiscussion } from './user-marriage-discussion.entity';
+import { UserFamilyInformation } from './user-family-information.entity';
+import { UserOptionalVerifiable } from './user-optional-verifiables.entity';
 
 @Entity()
 export class User {
@@ -172,66 +182,127 @@ export class User {
     default: AccountVerificationStatus.UNVERIFIED,
   })
   verificationStatus: AccountVerificationStatus;
+
+  // Worldly Lifestyle
+  @OneToOne(
+    () => UserWorldlyLifestyle,
+    (worldlyLifestyle) => worldlyLifestyle.user,
+    { onDelete: 'CASCADE', nullable: true },
+  )
+  worldlyLifestyle: UserWorldlyLifestyle;
+
+  @OneToOne(
+    () => MaleExpectedWorldlyLifestyle,
+    (expectedLifestyle) => expectedLifestyle.user,
+    { onDelete: 'CASCADE', nullable: true },
+  )
+  maleExpectedWorldlyLifestyle: MaleExpectedWorldlyLifestyle;
+
+  @OneToOne(
+    () => FemaleExpectedWorldlyLifestyle,
+    (expectedLifestyle) => expectedLifestyle.user,
+    { onDelete: 'CASCADE', nullable: true },
+  )
+  femaleExpectedWorldlyLifestyle: FemaleExpectedWorldlyLifestyle;
+
+  // Islamic Lifestyle
+  @OneToOne(
+    () => MaleIslamicLifestyle,
+    (islamicLifestyle) => islamicLifestyle.user,
+    { onDelete: 'CASCADE', nullable: true },
+  )
+  maleIslamicLifestyle: MaleIslamicLifestyle;
+
+  @OneToOne(
+    () => FemaleIslamicLifestyle,
+    (islamicLifestyle) => islamicLifestyle.user,
+    { onDelete: 'CASCADE', nullable: true },
+  )
+  femaleIslamicLifestyle: FemaleIslamicLifestyle;
+
+  @OneToOne(
+    () => MaleExpectedIslamicLifestyle,
+    (expectedLifestyle) => expectedLifestyle.user,
+    { onDelete: 'CASCADE', nullable: true },
+  )
+  maleExpectedIslamicLifestyle: MaleExpectedIslamicLifestyle;
+
+  @OneToOne(
+    () => FemaleExpectedIslamicLifestyle,
+    (expectedLifestyle) => expectedLifestyle.user,
+    { onDelete: 'CASCADE', nullable: true },
+  )
+  femaleExpectedIslamicLifestyle: FemaleExpectedIslamicLifestyle;
+
+  // Marriage Discussion
+  @OneToOne(
+    () => UserMarriageDiscussion,
+    (marriageDiscussion) => marriageDiscussion.user,
+    { onDelete: 'CASCADE', nullable: true },
+  )
+  marriageDiscussion: UserMarriageDiscussion;
+
+  // Family Information
+  @OneToOne(
+    () => UserFamilyInformation,
+    (familyInformation) => familyInformation.user,
+    { onDelete: 'CASCADE', nullable: true },
+  )
+  familyInformation: UserFamilyInformation;
+
+  // Optional Verifiable
+  @OneToOne(
+    () => UserOptionalVerifiable,
+    (optionalVerifiable) => optionalVerifiable.user,
+    { onDelete: 'CASCADE', nullable: true },
+  )
+  optionalVerifiable: UserOptionalVerifiable;
+
+  get age(): number | null {
+    if (!this.dateOfBirth) {
+      return null;
+    }
+
+    const today = new Date();
+    let age = today.getFullYear() - this.dateOfBirth.getFullYear();
+    const monthDiff = today.getMonth() - this.dateOfBirth.getMonth();
+
+    // Adjust age if the birthday hasn't occurred yet this year
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < this.dateOfBirth.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  }
+
+  get expectedWorldlyLifestyle():
+    | MaleExpectedWorldlyLifestyle
+    | FemaleExpectedWorldlyLifestyle {
+    if (this.gender === Gender.MALE) {
+      return this.maleExpectedWorldlyLifestyle;
+    } else {
+      return this.femaleExpectedWorldlyLifestyle;
+    }
+  }
+
+  get islamicLifestyle(): MaleIslamicLifestyle | FemaleIslamicLifestyle {
+    if (this.gender === Gender.MALE) {
+      return this.maleIslamicLifestyle;
+    } else {
+      return this.femaleIslamicLifestyle;
+    }
+  }
+
+  get expectedIslamicLifestyle():
+    | MaleExpectedIslamicLifestyle
+    | FemaleExpectedIslamicLifestyle {
+    if (this.gender === Gender.MALE) {
+      return this.maleExpectedIslamicLifestyle;
+    } else {
+      return this.femaleExpectedIslamicLifestyle;
+    }
+  }
 }
-
-export const userFilterableFields = [
-  'id',
-  'firstName',
-  'lastName',
-  'email',
-  'phoneNumber',
-  'city',
-  'country',
-  'age',
-  'gender',
-  'height',
-  'weight',
-  'skinColor',
-  'languages',
-  'nationality',
-  'maritalStatus',
-  'hasChildren',
-  'numberOfChildren',
-  'ageOfOldestChild',
-  'ageOfYoungestChild',
-  'sunniMadhaib',
-  'religiousPractice',
-  'bornOrRevertToIslam',
-  'drinks',
-  'drugs',
-  'smokes',
-  'tattoos',
-  'role',
-  'accountStatus',
-];
-
-export const userSortableFields = [
-  'id',
-  'firstName',
-  'lastName',
-  'email',
-  'phoneNumber',
-  'city',
-  'country',
-  'age',
-  'gender',
-  'height',
-  'weight',
-  'skinColor',
-  'languages',
-  'nationality',
-  'maritalStatus',
-  'hasChildren',
-  'numberOfChildren',
-  'ageOfOldestChild',
-  'ageOfYoungestChild',
-  'sunniMadhaib',
-  'religiousPractice',
-  'bornOrRevertToIslam',
-  'drinks',
-  'drugs',
-  'smokes',
-  'tattoos',
-  'role',
-  'accountStatus',
-];

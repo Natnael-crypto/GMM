@@ -28,41 +28,38 @@ export class Preference {
   @Column({ nullable: true })
   maxWeight: number;
 
-  @Column({ nullable: true })
-  ethnicOrigin: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  nationality: string[];
 
-  @Column({ nullable: true })
-  nationality: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  language: string[];
 
-  @Column({ nullable: true })
-  language: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  country: string[];
 
-  @Column({ nullable: true })
-  country: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  martialStatus: string[];
 
-  @Column({ nullable: true })
-  martialStatus: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  salat: string[];
 
-  @Column({ nullable: true })
-  salat: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  bornOrRevert: string[];
 
-  @Column({ nullable: true })
-  bornOrRevert: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  hijab: string[];
 
-  @Column({ nullable: true })
-  hijab: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  children: string[];
 
-  @Column({ nullable: true })
-  children: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  wantsChildren: string[];
 
-  @Column({ nullable: true })
-  wantsChildren: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  education: string[];
 
-  @Column({ nullable: true })
-  education: string;
-
-  @Column({ nullable: true })
-  profession: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  profession: string[];
 
   @Column({ nullable: true })
   drinking: boolean;

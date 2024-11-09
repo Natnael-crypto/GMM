@@ -9,23 +9,17 @@ import {
   UseGuards,
   NotFoundException,
   UnauthorizedException,
-  Query,
   Post,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApiBearerAuth, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { Repository } from 'typeorm';
-import {
-  User,
-  userFilterableFields,
-  userSortableFields,
-} from '../entities/user.entity';
+import { User } from '../entities/user.entity';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { ExpectedIslamicLifestyleDto } from '../dtos/expected-islamic-lifestyle.dto';
 import { UserService } from '../services/user.service';
 import { StatusDto, UserDto } from '../dtos/user.dto';
-import * as bcrypt from 'bcrypt';
 import { UserIslamicLifestyleDto } from '../dtos/user-islamic-lifestyle.dto';
 import { UserWorldlyLifestyleDto } from '../dtos/user-worldly-lifestyle.dto';
 import { ExpectedWorldlyLifestyleDto } from '../dtos/expected-worldly-lifestyle.dto';
@@ -33,15 +27,6 @@ import { UserMarriageDiscussionDto } from '../dtos/user-marriage-discussion.dto'
 import { UserOptionalVerifiableDto } from '../dtos/user-optional-verifiable.dto';
 import { UserFamilyIntroductionDto } from '../dtos/user-family-introduction-dto';
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
-import { Sorting, SortingParams } from '@shared/decorators/sorting.decorator';
-import {
-  Pagination,
-  PaginationParams,
-} from '@shared/decorators/pagination.decorator';
-import {
-  Filtering,
-  FilteringParams,
-} from '@shared/decorators/filter.decorator';
 import { ExpressRegistrationDto } from '../dtos/express-registration';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 
@@ -68,48 +53,6 @@ export class UserController {
       message: 'User retrieved successfully',
       data: { ...user, isMatched },
     };
-  }
-
-  @ApiQuery({
-    name: 'filter',
-    required: false,
-    description: 'Filter parameters (e.g. filter=field:rule:value,field:rule)',
-  })
-  @ApiQuery({
-    name: 'sort',
-    required: false,
-    description: 'Sorting parameters (e.g. sort=field:asc|desc)',
-  })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    description: 'Page number for pagination (defaults to 0)',
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    description: 'Number of items per page (defaults to 10)',
-  })
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:query']))
-  @Get()
-  async getUsers(
-    @PaginationParams() paginationParams: Pagination,
-    @SortingParams(userSortableFields) sortingParams: Sorting,
-    @FilteringParams(userFilterableFields)
-    filteringParams: Filtering[],
-  ) {
-    try {
-      const users = await this.userService.getUsers(
-        paginationParams,
-        sortingParams,
-        filteringParams,
-      );
-
-      return users;
-    } catch (e) {
-      console.log(e);
-      return { message: e.message, totalItems: 0, data: [], page: 0, limit: 0 };
-    }
   }
 
   @UseGuards(
@@ -372,11 +315,11 @@ export class UserController {
     }
 
     const marriageDiscussion = await this.userService.getMarriageDiscussion(id);
-    if (!marriageDiscussion) {
-      throw new NotFoundException(
-        'User Marriage Discussion information not found',
-      );
-    }
+    // if (!marriageDiscussion) {
+    //   throw new NotFoundException(
+    //     'User Marriage Discussion information not found',
+    //   );
+    // }
 
     return {
       message: 'Marriage Discussion retrieved successfully',
@@ -412,11 +355,11 @@ export class UserController {
     }
 
     const optionalVerifiable = await this.userService.getOptionalVerifiable(id);
-    if (!optionalVerifiable) {
-      throw new NotFoundException(
-        'User Optional Verifiable information not found',
-      );
-    }
+    // if (!optionalVerifiable) {
+    //   throw new NotFoundException(
+    //     'User Optional Verifiable information not found',
+    //   );
+    // }
 
     return {
       message: 'User Optional Verifiable retrieved successfully',
@@ -451,7 +394,7 @@ export class UserController {
       throw new NotFoundException('User not found');
     }
 
-    const family = await this.userService.getFamilyIntroduction(id);
+    const family = await this.userService.getFamilyInformation(id);
     if (!family) {
       throw new NotFoundException(
         'User Family Introduction information not found',
@@ -473,7 +416,7 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateDto: UserFamilyIntroductionDto,
   ) {
-    const updatedFamily = await this.userService.updateFamilyIntroduction(
+    const updatedFamily = await this.userService.updateFamilyInformation(
       id,
       updateDto,
     );

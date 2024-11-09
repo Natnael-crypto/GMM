@@ -10,28 +10,41 @@ import { GuardianController } from './controllers/guardian.controller';
 import { GuardianService } from './services/guardian.service';
 import { NoticeModule } from '@modules/notice/notice.module';
 import { NoticeService } from '@modules/notice/services/notice.service';
+import {
+  UserWorldlyLifestyle,
+  MaleIslamicLifestyle,
+  MaleExpectedWorldlyLifestyle,
+  FemaleExpectedWorldlyLifestyle,
+  MaleExpectedIslamicLifestyle,
+  FemaleExpectedIslamicLifestyle,
+  FemaleIslamicLifestyle,
+  UserMarriageDiscussion,
+  UserOptionalVerifiable,
+  UserFamilyInformation,
+} from '@modules/user/entities';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Match, Preference, GuardianRequest]),
+    TypeOrmModule.forFeature([
+      User,
+      UserWorldlyLifestyle,
+      MaleExpectedWorldlyLifestyle,
+      FemaleExpectedWorldlyLifestyle,
+      MaleIslamicLifestyle,
+      MaleExpectedIslamicLifestyle,
+      FemaleIslamicLifestyle,
+      FemaleExpectedIslamicLifestyle,
+      UserMarriageDiscussion,
+      UserFamilyInformation,
+      UserOptionalVerifiable,
+      Match,
+      Preference,
+      GuardianRequest,
+    ]),
     NoticeModule,
   ],
   controllers: [UserController, GuardianController],
-  providers: [
-    GuardianService,
-    NoticeService,
-    {
-      provide: 'EMAIL_LISTS_PROVIDER',
-      useValue: {
-        getList: async (emailListID: string) => {
-          // Logic to fetch email list by ID
-
-          return [];
-        },
-      },
-    },
-    UserService,
-  ],
+  providers: [GuardianService, NoticeService, UserService],
   exports: [TypeOrmModule, UserService],
 })
 export class UserModule {}

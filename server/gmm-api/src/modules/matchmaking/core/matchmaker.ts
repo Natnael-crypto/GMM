@@ -1,6 +1,5 @@
 import { Preference } from '@modules/matchmaking/entities/preference.entity';
 import { User } from '@modules/user/entities/user.entity';
-import { Gender } from '@modules/user/enums/user.enum';
 
 export type ExtendedUser = User & {
   salat: string;
@@ -16,184 +15,191 @@ export interface MatchmakerResult {
   score: number;
 }
 
+function age(dateOfBirth: Date): number {
+  if (!dateOfBirth) {
+    return 0;
+  }
+
+  const today = new Date();
+  let age = today.getFullYear() - dateOfBirth.getFullYear();
+  const monthDiff = today.getMonth() - dateOfBirth.getMonth();
+
+  // Adjust age if the birthday hasn't occurred yet this year
+  if (
+    monthDiff < 0 ||
+    (monthDiff === 0 && today.getDate() < dateOfBirth.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+}
+
 export class Matchmaker {
   private readonly preferenceFields = [
-    'minAge',
-    'maxAge',
-    'minHeight',
-    'maxHeight',
-    'minWeight',
-    'maxWeight',
-    'ethnicOrigin',
-    'nationality',
-    'language',
-    'country',
-    'martialStatus',
-    'salat',
-    'bornOrRevert',
-    'hijab',
-    'children',
-    'wantsChildren',
-    'education',
-    'profession',
-    'drinking',
-    'smoking',
-    'tattoos',
+    {
+      field: 'minAge',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        age(user.dateOfBirth) >= pref.minAge,
+    },
+    {
+      field: 'maxAge',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        age(user.dateOfBirth) <= pref.maxAge,
+    },
+    {
+      field: 'minHeight',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        user.height >= pref.minHeight,
+    },
+    {
+      field: 'maxHeight',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        user.height <= pref.maxHeight,
+    },
+    {
+      field: 'minWeight',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        user.weight >= pref.minWeight,
+    },
+    {
+      field: 'maxWeight',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        user.weight <= pref.maxWeight,
+    },
+    {
+      field: 'nationality',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.nationality.includes(user.nationality),
+    },
+    {
+      field: 'language',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        user.languages.some((language) => pref.language.includes(language)),
+    },
+    {
+      field: 'country',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.country.includes(user.country),
+    },
+    {
+      field: 'martialStatus',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.martialStatus.includes(user.maritalStatus),
+    },
+    {
+      field: 'salat',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.salat.includes(user.salat),
+    },
+    {
+      field: 'bornOrRevert',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.bornOrRevert.includes(user.bornOrRevertToIslam),
+    },
+    {
+      field: 'hijab',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.hijab.includes(user.hijab),
+    },
+    {
+      field: 'children',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.children.includes(user.children),
+    },
+    {
+      field: 'wantsChildren',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.wantsChildren.includes(user.wantsChildren),
+    },
+    {
+      field: 'education',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.education.includes(user.education),
+    },
+    {
+      field: 'profession',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.profession.includes(user.profession),
+    },
+    {
+      field: 'drinking',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.drinking === user.drinks,
+    },
+    {
+      field: 'smoking',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.smoking === user.smokes,
+    },
+    {
+      field: 'tattoos',
+      weight: 1,
+      evaluate: (pref: Preference, user: ExtendedUser) =>
+        pref.tattoos === user.tattoos,
+    },
   ];
 
   constructor(private readonly user: ExtendedUser) {}
 
-  age(dateOfBirth: Date): number {
-    if (!dateOfBirth) {
-      return 0;
-    }
+  likes(user: ExtendedUser, candidate: ExtendedUser): number {
+    const userPref = user.preference;
+    const candidatePref = candidate.preference;
 
-    const today = new Date();
-    let age = today.getFullYear() - dateOfBirth.getFullYear();
-    const monthDiff = today.getMonth() - dateOfBirth.getMonth();
+    let total = 0;
+    let diff = 0;
 
-    // Adjust age if the birthday hasn't occurred yet this year
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < dateOfBirth.getDate())
-    ) {
-      age--;
-    }
+    for (const field of this.preferenceFields) {
+      const userPrefValue = userPref[field.field];
+      const candidateValue = candidate[field.field];
 
-    return age;
-  }
-
-  countConflict(candidate: ExtendedUser, pref: Preference): number {
-    let penalty = 0;
-
-    if (pref.minAge && this.age(candidate.dateOfBirth) < pref.minAge) {
-      penalty += 1;
-    }
-
-    if (pref.maxAge && this.age(candidate.dateOfBirth) > pref.maxAge) {
-      penalty += 1;
-    }
-
-    if (pref.minHeight && candidate.height < pref.minHeight) {
-      penalty += 1;
-    }
-
-    if (pref.maxHeight && candidate.height > pref.maxHeight) {
-      penalty += 1;
-    }
-
-    if (pref.minWeight && candidate.weight < pref.minWeight) {
-      penalty += 1;
-    }
-
-    if (pref.maxWeight && candidate.weight > pref.maxWeight) {
-      penalty += 1;
-    }
-
-    if (pref.nationality && candidate.nationality !== pref.nationality) {
-      penalty += 1;
-    }
-
-    if (pref.language && !candidate.languages.includes(pref.language)) {
-      penalty += 1;
-    }
-
-    if (pref.country && candidate.country !== pref.country) {
-      penalty += 1;
-    }
-
-    if (pref.martialStatus && candidate.maritalStatus !== pref.martialStatus) {
-      penalty += 1;
-    }
-
-    if (pref.salat && candidate.salat !== pref.salat) {
-      penalty += 1;
-    }
-
-    if (
-      pref.bornOrRevert &&
-      candidate.bornOrRevertToIslam !== pref.bornOrRevert
-    ) {
-      penalty += 1;
-    }
-
-    if (candidate.gender === Gender.FEMALE) {
-      if (pref.hijab && candidate.hijab !== pref.hijab) {
-        penalty += 1;
+      // user doesn't hva a preference for this field
+      if (userPrefValue === undefined || userPrefValue === null) {
+        continue;
       }
+
+      if (userPrefValue === undefined || userPrefValue === null) {
+        diff += 1;
+      } else if (!field.evaluate(userPref, candidate)) {
+        diff += field.weight;
+      }
+
+      total += field.weight;
     }
 
-    if (pref.children && candidate.children !== pref.children) {
-      penalty += 1;
-    }
+    if (total === 0) return 1;
 
-    if (pref.wantsChildren && candidate.wantsChildren !== pref.wantsChildren) {
-      penalty += 1;
-    }
-
-    if (pref.education && candidate.education !== pref.education) {
-      penalty += 1;
-    }
-
-    if (pref.profession && candidate.profession !== pref.profession) {
-      penalty += 1;
-    }
-
-    if (
-      pref.drinking !== undefined &&
-      pref.drinking !== null &&
-      candidate.drinks !== pref.drinking
-    ) {
-      penalty += 1;
-    }
-
-    if (
-      pref.smoking !== undefined &&
-      pref.smoking !== null &&
-      candidate.smokes !== pref.smoking
-    ) {
-      penalty += 1;
-    }
-
-    if (
-      pref.tattoos !== undefined &&
-      pref.tattoos !== null &&
-      candidate.tattoos !== pref.tattoos
-    ) {
-      penalty += 1;
-    }
-
-    return penalty;
+    return 1 - diff / total;
   }
 
   computeSimilarity(candidate: ExtendedUser): number {
-    let penalty = 0;
-    let count = 0;
-
-    for (const field of this.preferenceFields) {
-      if (
-        candidate.preference[field] !== null &&
-        candidate.preference[field] !== undefined
-      ) {
-        count++;
-      }
-
-      if (
-        this.user.preference[field] !== null &&
-        this.user.preference[field] !== undefined
-      ) {
-        count++;
-      }
-    }
-
-    if (count === 0) {
-      return 1;
-    }
-
-    penalty += this.countConflict(candidate, this.user.preference);
-    penalty += this.countConflict(this.user, candidate.preference);
-
-    return 1 - penalty / count;
+    const user = this.user;
+    const likes = this.likes(user, candidate);
+    const likedBy = this.likes(candidate, user);
+    console.log({
+      likes,
+      likedBy,
+    });
+    return (likes + likedBy) / 2;
   }
 
   score(candidates: ExtendedUser[]): MatchmakerResult[] {

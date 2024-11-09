@@ -35,62 +35,57 @@ export class UpdatePreferenceDto {
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  ethnicOrigin?: string;
+  nationality?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  nationality?: string;
+  language?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  language?: string;
+  country?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  country?: string;
+  martialStatus?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  martialStatus?: string;
+  salat?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  salat?: string;
+  bornOrRevert?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  bornOrRevert?: string;
+  hijab?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  hijab?: string;
+  children?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  children?: string;
+  wantsChildren?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  wantsChildren?: string;
+  education?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsString()
   @IsOptional()
-  education?: string;
-
-  @ApiProperty({ example: 'string' })
-  @IsString()
-  @IsOptional()
-  profession?: string;
+  profession?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsBoolean()
