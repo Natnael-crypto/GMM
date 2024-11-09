@@ -11,6 +11,18 @@ import { Subscription } from '@modules/payment/entities/subscription.entity';
 import { SubscriptionHistory } from '@modules/payment/entities/subscription-history.entity';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import PermissionSeeder from './seeds/permission.seed';
+import {
+  UserWorldlyLifestyle,
+  MaleIslamicLifestyle,
+  MaleExpectedWorldlyLifestyle,
+  FemaleExpectedWorldlyLifestyle,
+  MaleExpectedIslamicLifestyle,
+  FemaleExpectedIslamicLifestyle,
+  FemaleIslamicLifestyle,
+  UserMarriageDiscussion,
+  UserOptionalVerifiable,
+  UserFamilyInformation,
+} from '@modules/user/entities';
 
 require('dotenv').config();
 
@@ -31,6 +43,16 @@ const options: DataSourceOptions & SeederOptions = {
     Preference,
     Subscription,
     SubscriptionHistory,
+    UserWorldlyLifestyle,
+    MaleExpectedWorldlyLifestyle,
+    FemaleExpectedWorldlyLifestyle,
+    MaleIslamicLifestyle,
+    MaleExpectedIslamicLifestyle,
+    FemaleIslamicLifestyle,
+    FemaleExpectedIslamicLifestyle,
+    UserMarriageDiscussion,
+    UserFamilyInformation,
+    UserOptionalVerifiable,
   ],
 };
 
