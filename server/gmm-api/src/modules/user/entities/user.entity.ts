@@ -264,14 +264,12 @@ export class User {
     }
 
     const today = new Date();
-    let age = today.getFullYear() - this.dateOfBirth.getFullYear();
-    const monthDiff = today.getMonth() - this.dateOfBirth.getMonth();
+    const dob = new Date(this.dateOfBirth);
+    let age = today.getFullYear() - dob.getFullYear();
+    const monthDiff = today.getMonth() - dob.getMonth();
 
     // Adjust age if the birthday hasn't occurred yet this year
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < this.dateOfBirth.getDate())
-    ) {
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
       age--;
     }
 
