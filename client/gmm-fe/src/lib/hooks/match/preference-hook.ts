@@ -1,7 +1,7 @@
 'use client';
 
-import { setUser } from '@/lib/auth/slice';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { preferenceQuestions } from '@/lib/matchmaking/questions/preference';
 import {
   Preference,
   PreferenceForm,
@@ -21,6 +21,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
+
+type FilterState = {
+  [key in keyof PreferenceForm]: boolean;
+};
 
 const reset = (preference?: Preference | null): PreferenceForm => {
   const preferredAge = [minAge, maxAge];
@@ -50,22 +54,22 @@ const reset = (preference?: Preference | null): PreferenceForm => {
     preferredAge,
     preferredHeight,
     preferredWeight,
-    ethnicOrigin: preference?.ethnicOrigin || '',
-    nationality: preference?.nationality || '',
-    language: preference?.language || '',
-    country: preference?.country || '',
-    martialStatus: preference?.martialStatus || '',
-    salat: preference?.salat || '',
-    bornOrRevert: preference?.bornOrRevert || '',
-    hijab: preference?.hijab || '',
-    children: preference?.children || '',
-    wantsChildren: preference?.wantsChildren || '',
-    education: preference?.education || '',
-    profession: preference?.profession || '',
+    nationality: preference?.nationality || [],
+    language: preference?.language || [],
+    country: preference?.country || [],
+    martialStatus: preference?.martialStatus || [],
+    salat: preference?.salat || [],
+    bornOrRevert: preference?.bornOrRevert || [],
+    hijab: preference?.hijab || [],
+    children: preference?.children || [],
+    wantsChildren: preference?.wantsChildren || [],
+    education: preference?.education || [],
+    profession: preference?.profession || [],
     drinking: preference?.drinking || false,
     smoking: preference?.smoking || false,
     tattoos: preference?.tattoos || false,
     drugs: preference?.drugs || false,
+    minMatchRequirement: preference?.minMatchRequirement || 1,
   };
 };
 
@@ -111,13 +115,6 @@ const transformPreference = (
     preference['maxWeight'] = null;
   }
 
-  if (!isFilterInactive['ethnicOrigin']) {
-    filter.push(`ethnicOrigin:like:${data.ethnicOrigin}`);
-    preference['ethnicOrigin'] = data.ethnicOrigin;
-  } else {
-    preference['ethnicOrigin'] = null;
-  }
-
   if (!isFilterInactive['nationality']) {
     filter.push(`nationality:like:${data.nationality}`);
     preference['nationality'] = data.nationality;
@@ -153,11 +150,46 @@ const transformPreference = (
     preference['bornOrRevert'] = null;
   }
 
+  if (!isFilterInactive['children']) {
+    filter.push(`children:like:${data.children}`);
+    preference['children'] = data.children;
+  } else {
+    preference['children'] = null;
+  }
+
+  if (!isFilterInactive['wantsChildren']) {
+    filter.push(`wantsChildren:like:${data.wantsChildren}`);
+    preference['wantsChildren'] = data.wantsChildren;
+  } else {
+    preference['wantsChildren'] = null;
+  }
+
+  if (!isFilterInactive['salat']) {
+    filter.push(`salat:like:${data.salat}`);
+    preference['salat'] = data.salat;
+  } else {
+    preference['salat'] = null;
+  }
+
   if (!isFilterInactive['hijab']) {
     filter.push(`hijab:like:${data.hijab}`);
     preference['hijab'] = data.hijab;
   } else {
     preference['hijab'] = null;
+  }
+
+  if (!isFilterInactive['education']) {
+    filter.push(`education:like:${data.education}`);
+    preference['education'] = data.education;
+  } else {
+    preference['education'] = null;
+  }
+
+  if (!isFilterInactive['profession']) {
+    filter.push(`profession:like:${data.profession}`);
+    preference['profession'] = data.profession;
+  } else {
+    preference['profession'] = null;
   }
 
   if (!isFilterInactive['drinking']) {
@@ -195,14 +227,34 @@ export const usePreference = () => {
 
   useEffect(() => {
     if (user && user.preference) {
+      console.log('Preference------------------------------------');
+      console.log(user.preference);
+      console.log('//////////////////////////////////////////////');
       form.reset(reset(user.preference));
     }
   }, [form, user]);
 
   const preference = form.watch();
 
-  const isFilterInactive = useMemo(
-    () => ({
+  const isFilterInactive = useMemo(() => {
+    const allowAny: FilterState = {} as FilterState;
+
+    preferenceQuestions.forEach((question) => {
+      console.log(
+        question.name,
+        '>>>',
+        !preference[question.name] ||
+          (preference[question.name] as string[])?.length ===
+            question.options.length
+      );
+      allowAny[question.name] =
+        !preference[question.name] ||
+        (preference[question.name] as string[])?.length ===
+          question.options.length;
+    });
+
+    return {
+      ...allowAny,
       preferredAge:
         preference.preferredAge?.[0] === minAge &&
         preference.preferredAge?.[1] === maxAge,
@@ -212,25 +264,12 @@ export const usePreference = () => {
       preferredWeight:
         preference.preferredWeight?.[0] === minWeight &&
         preference.preferredWeight?.[1] === maxWeight,
-      language: !preference.language || preference.language === '',
-      country: !preference.country || preference.country === '',
-      nationality: !preference.nationality || preference.nationality === '',
-      martialStatus:
-        !preference.martialStatus || preference.martialStatus === '',
-      bornOrRevert: !preference.bornOrRevert || preference.bornOrRevert === '',
-      hijab: !preference.hijab || preference.hijab === '',
-      children: !preference.children || preference.children === '',
-      wantsChildren:
-        !preference.wantsChildren || preference.wantsChildren === '',
-      education: !preference.education || preference.education === '',
-      profession: !preference.profession || preference.profession === '',
       drinking: preference.drinking === ('' as unknown as boolean),
       smoking: preference.smoking === ('' as unknown as boolean),
       tattoos: preference.tattoos === ('' as unknown as boolean),
       drugs: preference.drugs === ('' as unknown as boolean),
-    }),
-    [preference]
-  );
+    };
+  }, [preference]);
 
   const [updatePreference, preferenceUpdateResult] =
     useUpdatePreferenceMutation();
