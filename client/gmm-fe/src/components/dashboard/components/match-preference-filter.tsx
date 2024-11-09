@@ -25,8 +25,6 @@ export default function MatchPreferenceFilter() {
     debouncedSavePreference,
   } = usePreference();
 
-  console.log(notFilter);
-
   return (
     <Form {...form}>
       <form className="col-span-9 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary">

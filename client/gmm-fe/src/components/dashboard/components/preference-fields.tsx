@@ -50,54 +50,63 @@ export default function PreferenceField({
           <>
             <div className="text-sm flex justify-between items-center">
               <span className="font-bold line-clamp-1">{question.label}</span>
-              <div className="flex gap-2">
-                {type === 'multiselect' && (
-                  <Label
-                    className="flex gap-1 items-center justify-center text-[0.65rem]"
-                    onClick={toggleNotFilter}
-                  >
-                    <Input
-                      type="checkbox"
-                      className="p-0 m-0 h-fit"
-                      checked={notFilter}
-                      onChange={() => {}}
-                    />
-                    <span>Not</span>
-                  </Label>
-                )}
-                {!notFilter && (
-                  <Label
-                    className="flex gap-1 items-center justify-center text-[0.65rem]"
-                    onClick={() => {
-                      field.onChange(null);
-                      if (onChange) {
-                        onChange(null);
-                      }
-                    }}
-                  >
-                    <Input
-                      type="checkbox"
-                      className="p-0 m-0 h-fit"
-                      checked={allowAny}
-                      onChange={() => {}}
-                    />
-                    <span>Any</span>
-                  </Label>
-                )}
-                {type === 'multiselect' && notFilter && (
-                  <Label
-                    className="flex gap-1 items-center justify-center text-[0.7rem] bg-muted px-2 py-1 rounded-sm hover:bg-secondary hover:text-secondary-foreground cursor-pointer"
-                    onClick={() => {
-                      field.onChange([]);
-                      if (onChange) {
-                        onChange([]);
-                      }
-                    }}
-                  >
-                    <span>Clear</span>
-                  </Label>
-                )}
-              </div>
+              {question.options.length >= 5 && (
+                <div className="flex gap-2">
+                  {type === 'multiselect' && (
+                    <Label
+                      className="flex gap-1 items-center justify-center text-[0.65rem]"
+                      onClick={() => {
+                        if (toggleNotFilter) {
+                          toggleNotFilter();
+                        }
+
+                        field.onChange([]);
+                        if (onChange) {
+                          onChange([]);
+                        }
+                      }}
+                    >
+                      <Input
+                        type="checkbox"
+                        className="p-0 m-0 h-fit"
+                        checked={notFilter}
+                      />
+                      <span>Not</span>
+                    </Label>
+                  )}
+                  {!notFilter && (
+                    <Label
+                      className="flex gap-1 items-center justify-center text-[0.65rem]"
+                      onClick={() => {
+                        field.onChange(null);
+                        if (onChange) {
+                          onChange(null);
+                        }
+                      }}
+                    >
+                      <Input
+                        type="checkbox"
+                        className="p-0 m-0 h-fit"
+                        checked={allowAny}
+                      />
+                      <span>Any</span>
+                    </Label>
+                  )}
+                  {type === 'multiselect' && notFilter && (
+                    <Label
+                      className="flex gap-1 items-center justify-center text-[0.7rem] bg-muted px-2 py-1 rounded-sm hover:bg-secondary hover:text-secondary-foreground cursor-pointer"
+                      onClick={() => {
+                        field.onChange([]);
+                        if (onChange) {
+                          onChange([]);
+                        }
+                      }}
+                    >
+                      <span>Clear</span>
+                    </Label>
+                  )}
+                </div>
+              )}
             </div>
             <FormItem>
               <FormControl>

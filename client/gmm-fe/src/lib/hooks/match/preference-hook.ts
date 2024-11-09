@@ -26,7 +26,29 @@ type FilterState = {
   [key in keyof PreferenceForm]: boolean;
 };
 
-const reset = (preference?: Preference | null): PreferenceForm => {
+const notFilterTransform = (
+  questionName: keyof PreferenceForm,
+  shouldInvert: boolean,
+  data?: string[] | null
+) => {
+  if (!data) return [];
+
+  if (shouldInvert) {
+    const options =
+      preferenceQuestions
+        .find((q) => q.name === questionName)
+        ?.options.map((op) => op.value) ?? [];
+
+    return options.filter((value) => !data.includes(value));
+  } else {
+    return data;
+  }
+};
+
+const reset = (
+  preference?: Preference | null,
+  notFilter?: any
+): PreferenceForm => {
   const preferredAge = [minAge, maxAge];
   const preferredHeight = [minHeight, maxHeight];
   const preferredWeight = [minWeight, maxWeight];
@@ -54,17 +76,53 @@ const reset = (preference?: Preference | null): PreferenceForm => {
     preferredAge,
     preferredHeight,
     preferredWeight,
-    nationality: preference?.nationality || [],
-    language: preference?.language || [],
-    country: preference?.country || [],
-    martialStatus: preference?.martialStatus || [],
-    salat: preference?.salat || [],
-    bornOrRevert: preference?.bornOrRevert || [],
-    hijab: preference?.hijab || [],
-    children: preference?.children || [],
-    wantsChildren: preference?.wantsChildren || [],
-    education: preference?.education || [],
-    profession: preference?.profession || [],
+    nationality: notFilterTransform(
+      'nationality',
+      notFilter?.['nationality'],
+      preference?.nationality
+    ),
+    language: notFilterTransform(
+      'language',
+      notFilter?.['language'],
+      preference?.language
+    ),
+    country: notFilterTransform(
+      'country',
+      notFilter?.['country'],
+      preference?.country
+    ),
+    martialStatus: notFilterTransform(
+      'martialStatus',
+      notFilter?.['martialStatus'],
+      preference?.martialStatus
+    ),
+    salat: notFilterTransform('salat', notFilter?.['salat'], preference?.salat),
+    bornOrRevert: notFilterTransform(
+      'bornOrRevert',
+      notFilter?.['bornOrRevert'],
+      preference?.bornOrRevert
+    ),
+    hijab: notFilterTransform('hijab', notFilter?.['hijab'], preference?.hijab),
+    children: notFilterTransform(
+      'children',
+      notFilter?.['children'],
+      preference?.children
+    ),
+    wantsChildren: notFilterTransform(
+      'wantsChildren',
+      notFilter?.['wantsChildren'],
+      preference?.wantsChildren
+    ),
+    education: notFilterTransform(
+      'education',
+      notFilter?.['education'],
+      preference?.education
+    ),
+    profession: notFilterTransform(
+      'profession',
+      notFilter?.['profession'],
+      preference?.profession
+    ),
     drinking: preference?.drinking || false,
     smoking: preference?.smoking || false,
     tattoos: preference?.tattoos || false,
@@ -74,20 +132,14 @@ const reset = (preference?: Preference | null): PreferenceForm => {
 };
 
 const transformPreference = (
-  user: User,
   data: PreferenceForm,
-  isFilterInactive: any
+  isFilterInactive: any,
+  notFilter: any
 ) => {
-  const filter: any[] = [];
   const preference: Preference = {} as Preference;
-
-  if (user) {
-    filter.push(`gender:neq:${user.gender}`);
-  }
 
   if (!isFilterInactive['preferredAge']) {
     const [minAge, maxAge] = data.preferredAge;
-    filter.push(`age:lte:${maxAge},age:gte:${minAge}`);
     preference['minAge'] = minAge;
     preference['maxAge'] = maxAge;
   } else {
@@ -97,7 +149,6 @@ const transformPreference = (
 
   if (!isFilterInactive['preferredHeight']) {
     const [minHeight, maxHeight] = data.preferredHeight;
-    filter.push(`height:lte:${maxHeight},height:gte:${minHeight}`);
     preference['minHeight'] = minHeight;
     preference['maxHeight'] = maxHeight;
   } else {
@@ -107,7 +158,6 @@ const transformPreference = (
 
   if (!isFilterInactive['preferredWeight']) {
     const [minWeight, maxWeight] = data.preferredWeight;
-    filter.push(`weight:lte:${maxWeight},weight:gte:${minWeight}`);
     preference['minWeight'] = minWeight;
     preference['maxWeight'] = maxWeight;
   } else {
@@ -115,105 +165,54 @@ const transformPreference = (
     preference['maxWeight'] = null;
   }
 
-  if (!isFilterInactive['nationality']) {
-    filter.push(`nationality:like:${data.nationality}`);
-    preference['nationality'] = data.nationality;
-  } else {
-    preference['nationality'] = null;
-  }
+  const keys = [
+    'nationality',
+    'language',
+    'country',
+    'martialStatus',
+    'bornOrRevert',
+    'children',
+    'wantsChildren',
+    'salat',
+    'hijab',
+    'education',
+    'profession',
+  ] as const;
 
-  if (!isFilterInactive['language']) {
-    filter.push(`language:like:${data.language}`);
-    preference['language'] = data.language;
-  } else {
-    preference['language'] = null;
-  }
+  keys.forEach((key) => {
+    if (notFilter[key]) {
+      const options =
+        preferenceQuestions
+          .find((q) => q.name === key)
+          ?.options.map((op) => op.value) ?? [];
 
-  if (!isFilterInactive['country']) {
-    filter.push(`country:like:${data.country}`);
-    preference['country'] = data.country;
-  } else {
-    preference['country'] = null;
-  }
-
-  if (!isFilterInactive['martialStatus']) {
-    filter.push(`martialStatus:like:${data.martialStatus}`);
-    preference['martialStatus'] = data.martialStatus;
-  } else {
-    preference['martialStatus'] = null;
-  }
-
-  if (!isFilterInactive['bornOrRevert']) {
-    filter.push(`bornOrRevert:like:${data.bornOrRevert}`);
-    preference['bornOrRevert'] = data.bornOrRevert;
-  } else {
-    preference['bornOrRevert'] = null;
-  }
-
-  if (!isFilterInactive['children']) {
-    filter.push(`children:like:${data.children}`);
-    preference['children'] = data.children;
-  } else {
-    preference['children'] = null;
-  }
-
-  if (!isFilterInactive['wantsChildren']) {
-    filter.push(`wantsChildren:like:${data.wantsChildren}`);
-    preference['wantsChildren'] = data.wantsChildren;
-  } else {
-    preference['wantsChildren'] = null;
-  }
-
-  if (!isFilterInactive['salat']) {
-    filter.push(`salat:like:${data.salat}`);
-    preference['salat'] = data.salat;
-  } else {
-    preference['salat'] = null;
-  }
-
-  if (!isFilterInactive['hijab']) {
-    filter.push(`hijab:like:${data.hijab}`);
-    preference['hijab'] = data.hijab;
-  } else {
-    preference['hijab'] = null;
-  }
-
-  if (!isFilterInactive['education']) {
-    filter.push(`education:like:${data.education}`);
-    preference['education'] = data.education;
-  } else {
-    preference['education'] = null;
-  }
-
-  if (!isFilterInactive['profession']) {
-    filter.push(`profession:like:${data.profession}`);
-    preference['profession'] = data.profession;
-  } else {
-    preference['profession'] = null;
-  }
+      preference[key] = options.filter((value) => !data[key]?.includes(value));
+    } else if (!isFilterInactive[key]) {
+      preference[key] = data[key];
+    } else {
+      preference[key] = null;
+    }
+  });
 
   if (!isFilterInactive['drinking']) {
-    filter.push(`drinks:eq:${data.drinking}`);
     preference['drinking'] = data.drinking;
   } else {
     preference['drinking'] = null;
   }
 
   if (!isFilterInactive['smoking']) {
-    filter.push(`smokes:eq:${data.smoking}`);
     preference['smoking'] = data.smoking;
   } else {
     preference['smoking'] = null;
   }
 
   if (!isFilterInactive['tattoos']) {
-    filter.push(`tattoos:eq:${data.tattoos}`);
     preference['tattoos'] = data.tattoos;
   } else {
     preference['tattoos'] = null;
   }
 
-  return { queryString: `filter=${filter.join(',')}`, preference };
+  return { preference };
 };
 
 export const usePreference = () => {
@@ -224,12 +223,6 @@ export const usePreference = () => {
     resolver: zodResolver(preferenceFormSchema),
     defaultValues: reset(user?.preference),
   });
-
-  useEffect(() => {
-    if (user && user.preference) {
-      form.reset(reset(user.preference));
-    }
-  }, [form, user]);
 
   const [notFilter, setNotFilter] = useState({
     nationality: false,
@@ -244,6 +237,17 @@ export const usePreference = () => {
     education: false,
     profession: false,
   });
+
+  useEffect(() => {
+    const filter = localStorage.getItem('preference_not_filter');
+    if (filter) {
+      setNotFilter(JSON.parse(filter));
+    }
+
+    if (user && user.preference) {
+      form.reset(reset(user.preference, filter ? JSON.parse(filter) : null));
+    }
+  }, [form, user, setNotFilter]);
 
   const preference = form.watch();
 
@@ -282,9 +286,9 @@ export const usePreference = () => {
   const savePreference = useCallback(() => {
     if (user) {
       const preferenceData = transformPreference(
-        user,
         preference,
-        isFilterInactive
+        isFilterInactive,
+        notFilter
       ).preference;
 
       updatePreference(preferenceData)
@@ -293,28 +297,23 @@ export const usePreference = () => {
           // dispatch(setUser({ ...user, preference: preferenceData }));
         });
     }
-  }, [updatePreference, user, preference, isFilterInactive]);
+  }, [updatePreference, user, preference, isFilterInactive, notFilter]);
   // }, [updatePreference, user, dispatch, preference, isFilterInactive]);
 
   const debouncedSavePreference = useDebouncedCallback(savePreference, 1000);
 
   const toggleNotFilter = (name: keyof PreferenceForm) => {
-    setNotFilter((prev) => ({
-      ...prev,
-      [name]: !prev[name as keyof typeof notFilter],
-    }));
+    setNotFilter((prev) => {
+      const filter = {
+        ...prev,
+        [name]: !prev[name as keyof typeof notFilter],
+      };
 
-    const value = preference[name] as string[] | undefined;
+      form.setValue(name, []);
 
-    const options =
-      preferenceQuestions
-        .find((q) => q.name === name)
-        ?.options.map((option) => option.value) ?? [];
-
-    form.setValue(
-      name,
-      value ? options?.filter((option) => !value.includes(option)) : options
-    );
+      localStorage.setItem('preference_not_filter', JSON.stringify(filter));
+      return filter;
+    });
   };
 
   return {
