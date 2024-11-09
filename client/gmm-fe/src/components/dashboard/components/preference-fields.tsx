@@ -20,16 +20,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { X } from 'lucide-react';
 
 interface PreferenceFieldProps {
   allowAny: boolean;
   question: PreferenceQuestion;
   type: 'multiselect' | 'single';
+  notFilter?: any;
+  toggleNotFilter?: () => void;
   onChange: (value: any) => void;
 }
 
 export default function PreferenceField({
   allowAny,
+  notFilter,
+  toggleNotFilter,
   question,
   type,
   onChange,
@@ -46,47 +51,63 @@ export default function PreferenceField({
             <div className="text-sm flex justify-between items-center">
               <span className="font-bold line-clamp-1">{question.label}</span>
               <div className="flex gap-2">
-                <Label
-                  className="flex gap-1 items-center justify-center text-[0.65rem]"
-                  onClick={() => {
-                    field.onChange(null);
-                    if (onChange) {
-                      onChange(null);
-                    }
-                  }}
-                >
-                  <Input
-                    type="checkbox"
-                    className="p-0 m-0 h-fit"
-                    checked={allowAny}
-                    onChange={() => {}}
-                  />
-                  <span>Not</span>
-                </Label>
-                <Label
-                  className="flex gap-1 items-center justify-center text-[0.65rem]"
-                  onClick={() => {
-                    field.onChange(null);
-                    if (onChange) {
-                      onChange(null);
-                    }
-                  }}
-                >
-                  <Input
-                    type="checkbox"
-                    className="p-0 m-0 h-fit"
-                    checked={allowAny}
-                    onChange={() => {}}
-                  />
-                  <span>Any</span>
-                </Label>
+                {type === 'multiselect' && (
+                  <Label
+                    className="flex gap-1 items-center justify-center text-[0.65rem]"
+                    onClick={toggleNotFilter}
+                  >
+                    <Input
+                      type="checkbox"
+                      className="p-0 m-0 h-fit"
+                      checked={notFilter}
+                      onChange={() => {}}
+                    />
+                    <span>Not</span>
+                  </Label>
+                )}
+                {!notFilter && (
+                  <Label
+                    className="flex gap-1 items-center justify-center text-[0.65rem]"
+                    onClick={() => {
+                      field.onChange(null);
+                      if (onChange) {
+                        onChange(null);
+                      }
+                    }}
+                  >
+                    <Input
+                      type="checkbox"
+                      className="p-0 m-0 h-fit"
+                      checked={allowAny}
+                      onChange={() => {}}
+                    />
+                    <span>Any</span>
+                  </Label>
+                )}
+                {type === 'multiselect' && notFilter && (
+                  <Label
+                    className="flex gap-1 items-center justify-center text-[0.7rem] bg-muted px-2 py-1 rounded-sm hover:bg-secondary hover:text-secondary-foreground cursor-pointer"
+                    onClick={() => {
+                      field.onChange([]);
+                      if (onChange) {
+                        onChange([]);
+                      }
+                    }}
+                  >
+                    <span>Clear</span>
+                  </Label>
+                )}
               </div>
             </div>
             <FormItem>
               <FormControl>
                 {type === 'multiselect' ? (
                   <Multiselect
-                    label={question.label}
+                    label={
+                      notFilter
+                        ? `Not Preferred ${question.label} `
+                        : `Preferred ${question.label}`
+                    }
                     className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent"
                     values={field.value as unknown as string[]}
                     onChange={(values) => {
@@ -95,12 +116,25 @@ export default function PreferenceField({
                         onChange(values);
                       }
                     }}
-                    options={question.options}
+                    options={
+                      notFilter
+                        ? question.options.map((option) => ({
+                            ...option,
+                            selectedIcon: <X className="h-4 w-4" />,
+                          }))
+                        : question.options
+                    }
                   />
                 ) : (
                   <Select
                     onValueChange={field.onChange}
-                    value={field.value?.toString()}
+                    value={
+                      field.value?.toString() === 'true'
+                        ? 'true'
+                        : field.value?.toString() === 'false'
+                        ? 'false'
+                        : ''
+                    }
                   >
                     <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
@@ -108,7 +142,7 @@ export default function PreferenceField({
                     <SelectContent>
                       {question.options.map((option, index) => (
                         <SelectItem
-                          key={`${question.name}_${option.label}_index`}
+                          key={`${question.name}_${option.label}_${index}`}
                           className="text-sm max-w-80"
                           value={option.value}
                         >

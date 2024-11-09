@@ -18,7 +18,7 @@ import {
 } from '@/lib/schemas/user';
 import { useUpdatePreferenceMutation } from '@/lib/user/api';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -231,16 +231,31 @@ export const usePreference = () => {
     }
   }, [form, user]);
 
+  const [notFilter, setNotFilter] = useState({
+    nationality: false,
+    language: false,
+    country: false,
+    martialStatus: false,
+    salat: false,
+    bornOrRevert: false,
+    hijab: false,
+    children: false,
+    wantsChildren: false,
+    education: false,
+    profession: false,
+  });
+
   const preference = form.watch();
 
   const isFilterInactive = useMemo(() => {
     const allowAny: FilterState = {} as FilterState;
 
     preferenceQuestions.forEach((question) => {
-      allowAny[question.name] =
-        !preference[question.name] ||
-        (preference[question.name] as string[])?.length ===
-          question.options.length;
+      allowAny[question.name] = !!(notFilter as any)[question.name]
+        ? false
+        : !preference[question.name] ||
+          (preference[question.name] as string[])?.length ===
+            question.options.length;
     });
 
     return {
@@ -254,12 +269,12 @@ export const usePreference = () => {
       preferredWeight:
         preference.preferredWeight?.[0] === minWeight &&
         preference.preferredWeight?.[1] === maxWeight,
-      drinking: preference.drinking === ('' as unknown as boolean),
-      smoking: preference.smoking === ('' as unknown as boolean),
-      tattoos: preference.tattoos === ('' as unknown as boolean),
-      drugs: preference.drugs === ('' as unknown as boolean),
+      drinking: preference.drinking === (null as unknown as boolean),
+      smoking: preference.smoking === (null as unknown as boolean),
+      tattoos: preference.tattoos === (null as unknown as boolean),
+      drugs: preference.drugs === (null as unknown as boolean),
     };
-  }, [preference]);
+  }, [preference, notFilter]);
 
   const [updatePreference, preferenceUpdateResult] =
     useUpdatePreferenceMutation();
@@ -283,10 +298,31 @@ export const usePreference = () => {
 
   const debouncedSavePreference = useDebouncedCallback(savePreference, 1000);
 
+  const toggleNotFilter = (name: keyof PreferenceForm) => {
+    setNotFilter((prev) => ({
+      ...prev,
+      [name]: !prev[name as keyof typeof notFilter],
+    }));
+
+    const value = preference[name] as string[] | undefined;
+
+    const options =
+      preferenceQuestions
+        .find((q) => q.name === name)
+        ?.options.map((option) => option.value) ?? [];
+
+    form.setValue(
+      name,
+      value ? options?.filter((option) => !value.includes(option)) : options
+    );
+  };
+
   return {
     form,
     preferenceUpdateResult,
     isFilterInactive,
+    notFilter,
+    toggleNotFilter,
     savePreference,
     debouncedSavePreference,
   };

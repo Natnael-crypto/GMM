@@ -2,7 +2,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { constants } from '@/config';
 import { RootState } from '../store';
 import { BaseResponse } from '@/types/base-response';
-import { Match, MatchPreference, StageInvitationStatus } from './types';
+import {
+  Match,
+  MatchPreference,
+  MatchStatistics,
+  StageInvitationStatus,
+} from './types';
 import { UserInMatchPool } from '../schemas/match';
 
 export const matchApi = createApi({
@@ -52,20 +57,20 @@ export const matchApi = createApi({
       },
     }),
 
-    countPotentialMatches: builder.query<number, string>({
-      query: (queryString) => `matchmaking/count?${queryString}`,
-      transformResponse: (response: BaseResponse<number>) => {
+    countPotentialMatches: builder.query<MatchStatistics, void>({
+      query: () => 'matchmaking/potential-matches',
+      transformResponse: (response: BaseResponse<MatchStatistics>) => {
         return response.data;
       },
       providesTags: (result, error, arg, meta) => {
-        return [{ type: 'MatchCount', id: arg }];
+        return [{ type: 'MatchCount' }];
       },
     }),
 
-    createMatch: builder.mutation<Match, MatchPreference>({
-      query: ({ tolerance }) => {
+    createMatch: builder.mutation<Match, void>({
+      query: () => {
         return {
-          url: `matchmaking?&min_requirement=${tolerance}`,
+          url: `matchmaking`,
           method: 'POST',
         };
       },

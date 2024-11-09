@@ -13,13 +13,19 @@ import {
 import { cmToFeetInches, kgToPounds } from '@/lib/format';
 import MatchFilterSlider from './match-filter-slider';
 import { usePreference } from '@/lib/hooks/match/preference-hook';
-import { useMatch } from '@/lib/hooks/match/match-hook';
 import { preferenceQuestions } from '@/lib/matchmaking/questions/preference';
 import PreferenceField from './preference-fields';
 
 export default function MatchPreferenceFilter() {
-  const { form, isFilterInactive, debouncedSavePreference } = usePreference();
-  const { findNewMatch } = useMatch();
+  const {
+    form,
+    isFilterInactive,
+    notFilter,
+    toggleNotFilter,
+    debouncedSavePreference,
+  } = usePreference();
+
+  console.log(notFilter);
 
   return (
     <Form {...form}>
@@ -117,6 +123,10 @@ export default function MatchPreferenceFilter() {
               question={question}
               onChange={debouncedSavePreference}
               type={question.type}
+              notFilter={notFilter[question.name as keyof typeof notFilter]}
+              toggleNotFilter={() =>
+                toggleNotFilter(question.name as keyof typeof notFilter)
+              }
               allowAny={
                 isFilterInactive[question.name as keyof typeof isFilterInactive]
               }

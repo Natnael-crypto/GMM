@@ -6,12 +6,11 @@ import { useCreateMatchMutation } from '@/lib/matchmaking/api';
 
 export const useMatch = () => {
   const user = useAppSelector((state) => state.auth.user);
-  const tolerance = useAppSelector((state) => state.preference.tolerance);
-  const [createMatch] = useCreateMatchMutation();
+  const [createMatch, result] = useCreateMatchMutation();
 
   const findNewMatch = () => {
     if (user) {
-      createMatch({ tolerance: tolerance ?? 0 })
+      createMatch()
         .unwrap()
         .then((data) => {
           if (data) {
@@ -30,5 +29,5 @@ export const useMatch = () => {
     }
   };
 
-  return { findNewMatch };
+  return { findNewMatch, result };
 };

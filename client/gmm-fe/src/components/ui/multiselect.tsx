@@ -90,7 +90,7 @@ export default function Multiselect({
                   </span>
                 </HoverCardTrigger>
                 <HoverCardContent className="flex flex-col items-start gap-2 max-h-[50vh] overflow-auto">
-                  <h1 className="font-bold mb-2">{label} Preference</h1>
+                  <h1 className="font-bold mb-2">{label}</h1>
                   {values && values.length > 0
                     ? values.map((value, index) => (
                         <span key={`${value}_${index}`} className="text-sm">

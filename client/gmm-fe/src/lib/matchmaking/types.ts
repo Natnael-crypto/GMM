@@ -32,3 +32,9 @@ export interface MatchPreference {
   */
   tolerance: number;
 }
+
+export interface MatchStatistics {
+  potentialMatchCount: number;
+  outsidePreferenceCount: number;
+  poolSize: number;
+}
