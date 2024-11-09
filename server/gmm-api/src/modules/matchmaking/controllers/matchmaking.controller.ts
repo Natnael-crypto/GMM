@@ -4,18 +4,16 @@ import {
   Controller,
   Delete,
   Get,
-  HttpStatus,
   Param,
   Post,
   Put,
-  Query,
   Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { MatchMakingService } from '../services/matchmaking.service';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
-import { ApiBearerAuth, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { Request, Response } from 'express';
 import { User } from '@modules/user/entities/user.entity';
@@ -56,22 +54,35 @@ export class MatchMakingController {
     }
   }
 
-  @ApiQuery({
-    name: 'min_requirement',
-    required: false,
-    description: 'Mismatch Tolerance',
-  })
-  @Post()
-  async match(
-    @Query('min_requirement') minRequirement: string,
-    @Req() req: Request & { user: User },
-  ) {
+  @Get('potential-matches')
+  async getPotentialMatchesCount(@Req() req: Request) {
     try {
-      const threshold = parseFloat(minRequirement);
-      const match = await this.matchmakingService.matchUser(
-        req.user.id,
-        isNaN(threshold) ? 0 : threshold,
+      const count = await this.matchmakingService.countPotentialMatches(
+        (req.user as User).id,
       );
+      return {
+        message: 'Potential matches count fetched successfully',
+        data: count,
+      };
+    } catch (error) {
+      return {
+        message: 'Failed to fetch potential matches count',
+        error: error.message,
+      };
+    }
+  }
+
+  @Post()
+  async match(@Req() req: Request & { user: User }) {
+    try {
+      const { match } = await this.matchmakingService.matchUser(req.user.id);
+
+      if (!match) {
+        return {
+          message: 'Finding you a match. You will be notified when matched.',
+        };
+      }
+
       return {
         message: 'Matched successfully',
         data: match,

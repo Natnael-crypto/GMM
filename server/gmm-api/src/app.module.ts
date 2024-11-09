@@ -1,14 +1,8 @@
-import {
-  LoggerService,
-  MiddlewareConsumer,
-  Module,
-  OnApplicationBootstrap,
-  RequestMethod,
-} from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { NoticeModule } from './modules/notice/notice.module';
@@ -19,31 +13,14 @@ import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
 import { ChatModule } from '@modules/chat/chat.module';
 import { ChatWebsocketGateway } from '@modules/chat/services/chat.websocket.gateway';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import config, { DatabaseConfig } from '@shared/config';
-import { LoggerFactory, LoggerMiddleware } from '@shared/utils/logger';
-import { WinstonModule } from 'nest-winston';
-import { transports } from 'winston';
+import config from '@shared/config';
+import { LoggerMiddleware } from '@shared/utils/logger';
+import { TypeOrmConfigService } from '@shared/database/typeorm.service';
 
 @Module({
   imports: [
-    // set the env file path from NODE_ENV
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
-
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => {
-        const dbConfig = configService.get<DatabaseConfig>('database') ?? {};
-
-        return {
-          type: 'postgres',
-          ...dbConfig,
-          entities: [__dirname + '/**/*.entity{.ts}'],
-          synchronize: true,
-          autoLoadEntities: true,
-        };
-      },
-      inject: [ConfigService],
-    }),
+    TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     EventEmitterModule.forRoot(),
     UserModule,
     AuthModule,
@@ -57,16 +34,12 @@ import { transports } from 'winston';
   controllers: [AppController],
   providers: [AppService, ChatWebsocketGateway],
 })
-export class AppModule implements OnApplicationBootstrap {
+export class AppModule {
   constructor(private readonly appService: AppService) {}
 
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware)
       .forRoutes({ path: '*', method: RequestMethod.ALL });
-  }
-
-  async onApplicationBootstrap() {
-    await this.appService.seed();
   }
 }

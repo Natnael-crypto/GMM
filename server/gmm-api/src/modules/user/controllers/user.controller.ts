@@ -9,23 +9,17 @@ import {
   UseGuards,
   NotFoundException,
   UnauthorizedException,
-  Query,
   Post,
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ApiBearerAuth, ApiBody, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { Repository } from 'typeorm';
-import {
-  User,
-  userFilterableFields,
-  userSortableFields,
-} from '../entities/user.entity';
+import { User } from '../entities/user.entity';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { ExpectedIslamicLifestyleDto } from '../dtos/expected-islamic-lifestyle.dto';
 import { UserService } from '../services/user.service';
 import { StatusDto, UserDto } from '../dtos/user.dto';
-import * as bcrypt from 'bcrypt';
 import { UserIslamicLifestyleDto } from '../dtos/user-islamic-lifestyle.dto';
 import { UserWorldlyLifestyleDto } from '../dtos/user-worldly-lifestyle.dto';
 import { ExpectedWorldlyLifestyleDto } from '../dtos/expected-worldly-lifestyle.dto';
@@ -33,15 +27,6 @@ import { UserMarriageDiscussionDto } from '../dtos/user-marriage-discussion.dto'
 import { UserOptionalVerifiableDto } from '../dtos/user-optional-verifiable.dto';
 import { UserFamilyIntroductionDto } from '../dtos/user-family-introduction-dto';
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
-import { Sorting, SortingParams } from '@shared/decorators/sorting.decorator';
-import {
-  Pagination,
-  PaginationParams,
-} from '@shared/decorators/pagination.decorator';
-import {
-  Filtering,
-  FilteringParams,
-} from '@shared/decorators/filter.decorator';
 import { ExpressRegistrationDto } from '../dtos/express-registration';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 
@@ -68,48 +53,6 @@ export class UserController {
       message: 'User retrieved successfully',
       data: { ...user, isMatched },
     };
-  }
-
-  @ApiQuery({
-    name: 'filter',
-    required: false,
-    description: 'Filter parameters (e.g. filter=field:rule:value,field:rule)',
-  })
-  @ApiQuery({
-    name: 'sort',
-    required: false,
-    description: 'Sorting parameters (e.g. sort=field:asc|desc)',
-  })
-  @ApiQuery({
-    name: 'page',
-    required: false,
-    description: 'Page number for pagination (defaults to 0)',
-  })
-  @ApiQuery({
-    name: 'limit',
-    required: false,
-    description: 'Number of items per page (defaults to 10)',
-  })
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:query']))
-  @Get()
-  async getUsers(
-    @PaginationParams() paginationParams: Pagination,
-    @SortingParams(userSortableFields) sortingParams: Sorting,
-    @FilteringParams(userFilterableFields)
-    filteringParams: Filtering[],
-  ) {
-    try {
-      const users = await this.userService.getUsers(
-        paginationParams,
-        sortingParams,
-        filteringParams,
-      );
-
-      return users;
-    } catch (e) {
-      console.log(e);
-      return { message: e.message, totalItems: 0, data: [], page: 0, limit: 0 };
-    }
   }
 
   @UseGuards(
@@ -212,11 +155,6 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/worldly-lifestyle')
   async getWorldlyLifestyle(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const worldlyLifestyle = await this.userService.getWorldlyLifestyle(id);
     if (!worldlyLifestyle) {
       throw new NotFoundException('Worldly lifestyle information not found');
@@ -250,18 +188,8 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/expected-worldly-lifestyle')
   async getExpectedWorldlyLifestyle(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const expectedWorldlyLifestyle =
       await this.userService.getExpectedWorldlyLifestyle(id);
-    if (!expectedWorldlyLifestyle) {
-      throw new NotFoundException(
-        'Expected worldly lifestyle information not found',
-      );
-    }
 
     return {
       message: 'Expected worldly lifestyle retrieved successfully',
@@ -289,15 +217,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/islamic-lifestyle')
   async getIslamicLifestyle(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const islamicLifestyle = await this.userService.getIslamicLifestyle(id);
-    if (!islamicLifestyle) {
-      throw new NotFoundException('Islamic lifestyle information not found');
-    }
 
     return {
       message: 'Islamic lifestyle retrieved successfully',
@@ -327,18 +247,8 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/expected-islamic-lifestyle')
   async getExpectedIslamicLifestyle(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const expectedIslamicLifestyle =
       await this.userService.getExpectedIslamicLifestyle(id);
-    if (!expectedIslamicLifestyle) {
-      throw new NotFoundException(
-        'Expected Islamic lifestyle information not found',
-      );
-    }
 
     return {
       message: 'Expected Islamic lifestyle retrieved successfully',
@@ -366,17 +276,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/marriage-discussion')
   async getMarriageDiscussion(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const marriageDiscussion = await this.userService.getMarriageDiscussion(id);
-    if (!marriageDiscussion) {
-      throw new NotFoundException(
-        'User Marriage Discussion information not found',
-      );
-    }
 
     return {
       message: 'Marriage Discussion retrieved successfully',
@@ -406,17 +306,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/optional-verifiable')
   async getOptionalVerifiable(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
     const optionalVerifiable = await this.userService.getOptionalVerifiable(id);
-    if (!optionalVerifiable) {
-      throw new NotFoundException(
-        'User Optional Verifiable information not found',
-      );
-    }
 
     return {
       message: 'User Optional Verifiable retrieved successfully',
@@ -446,17 +336,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
   @Get(':id/family-introduction')
   async getFamilyIntroduction(@Param('id') id: string) {
-    const user = await this.userRepository.findOne({ where: { id } });
-    if (!user) {
-      throw new NotFoundException('User not found');
-    }
-
-    const family = await this.userService.getFamilyIntroduction(id);
-    if (!family) {
-      throw new NotFoundException(
-        'User Family Introduction information not found',
-      );
-    }
+    const family = await this.userService.getFamilyInformation(id);
 
     return {
       message: 'User Family Introduction retrieved successfully',
@@ -473,7 +353,7 @@ export class UserController {
     @Param('id') id: string,
     @Body() updateDto: UserFamilyIntroductionDto,
   ) {
-    const updatedFamily = await this.userService.updateFamilyIntroduction(
+    const updatedFamily = await this.userService.updateFamilyInformation(
       id,
       updateDto,
     );

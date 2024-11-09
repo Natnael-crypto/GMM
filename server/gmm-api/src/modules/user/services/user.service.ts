@@ -1,44 +1,41 @@
 import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import { EMAIL_LISTS_ID } from '../user.module';
-import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
-import { Repository } from 'typeorm/repository/Repository';
 import { UserDto } from '../dtos/user.dto';
-import { HusbandExpectedIslamicLifestyleModel } from '../entities/husband-expected-islamic-lifestyle.schema';
 import { ExpectedIslamicLifestyleDto } from '../dtos/expected-islamic-lifestyle.dto';
-import { UserWorldlyLifestyleModel } from '../entities/user-worldly-lifestyle.schema';
-import { HusbandIslamicLifestyleModel } from '../entities/husband-islamic-lifestyle.schema';
 import { UserIslamicLifestyleDto } from '../dtos/user-islamic-lifestyle.dto';
 import { UserWorldlyLifestyleDto } from '../dtos/user-worldly-lifestyle.dto';
-import { HusbandExpectedWorldlyLifestyleModel } from '../entities/husband-expected-worldly-lifestyle.schema';
-import { WifeExpectedWorldlyLifestyleModel } from '../entities/wife-expected-worldly-lifestyle.schema';
 import { ExpectedWorldlyLifestyleDto } from '../dtos/expected-worldly-lifestyle.dto';
-import { UserMarriageDiscussionModel } from '../entities/user-marriage-discussion.schema';
 import { UserMarriageDiscussionDto } from '../dtos/user-marriage-discussion.dto';
-import { UserOptionalVerifiableModel } from '../entities/user-optional-verifiable.schema';
 import { UserOptionalVerifiableDto } from '../dtos/user-optional-verifiable.dto';
-import { UserFamilyIntroductionModel } from '../entities/user-family-introduction.schema';
 import { UserFamilyIntroductionDto } from '../dtos/user-family-introduction-dto';
-import { NoticeService } from '@modules/notice/services/notice.service';
 import { Pagination } from '@shared/decorators/pagination.decorator';
 import { Sorting } from '@shared/decorators/sorting.decorator';
 import { Filtering } from '@shared/decorators/filter.decorator';
 import { getWhere, getOrder } from '@shared/decorators/filter.helper';
 import { ExpressRegistrationDto } from '../dtos/express-registration';
 import { GuardianService } from '../services/guardian.service';
-import { WifeIslamicLifestyleModel } from '../entities/wife-islamic-lifestyle.schema';
-import { WifeExpectedIslamicLifestyleModel } from '../entities/wife-expected-islamic-lifestyle.schema';
 import { BaseRepository } from '@shared/base-repository';
-import { DataSource, Or } from 'typeorm';
+import { DataSource, ObjectLiteral } from 'typeorm';
 import { Request } from 'express';
 import { REQUEST } from '@nestjs/core';
-import { AccountStatus } from '../enums/user.enum';
+import { AccountStatus, Gender } from '../enums/user.enum';
 import { Match } from '@modules/matchmaking/entities/match.entity';
+import {
+  UserWorldlyLifestyle,
+  MaleIslamicLifestyle,
+  MaleExpectedWorldlyLifestyle,
+  FemaleExpectedWorldlyLifestyle,
+  MaleExpectedIslamicLifestyle,
+  FemaleExpectedIslamicLifestyle,
+  FemaleIslamicLifestyle,
+  UserMarriageDiscussion,
+  UserOptionalVerifiable,
+  UserFamilyInformation,
+} from '@modules/user/entities';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService extends BaseRepository {
   constructor(
-    private readonly noticeService: NoticeService,
     private readonly guardianService: GuardianService,
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
@@ -147,7 +144,7 @@ export class UserService extends BaseRepository {
     return await Promise.all([
       this.getRepository(User).save(updatedUser),
 
-      this.updateFamilyIntroduction(userId, {
+      this.updateFamilyInformation(userId, {
         guardianEmail: dto.guardianEmail,
         guardianFirstName: dto.guardianFirstName,
         guardianLastName: dto.guardianLastName,
@@ -166,350 +163,195 @@ export class UserService extends BaseRepository {
     return await this.getRepository(User).save(user);
   }
 
-  async getWorldlyLifestyle(userId: string) {
+  async getUserInformation(
+    userId: string,
+    relations: string[],
+    accessorKey: string,
+  ) {
     const user = await this.getRepository(User).findOne({
       where: { id: userId },
+      select: { id: true, gender: true },
+      relations,
     });
 
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
 
-    const lifestyle = await UserWorldlyLifestyleModel.get(userId);
-
-    if (!lifestyle) {
-      throw new NotFoundException('Worldly lifestyle information not found');
+    if (!user[accessorKey]) {
+      throw new NotFoundException('User information not found');
     }
 
-    return lifestyle;
+    return user[accessorKey];
+  }
+
+  async getWorldlyLifestyle(userId: string) {
+    return await this.getUserInformation(
+      userId,
+      ['worldlyLifestyle'],
+      'worldlyLifestyle',
+    );
+  }
+
+  async getIslamicLifestyle(userId: string) {
+    return await this.getUserInformation(
+      userId,
+      ['maleIslamicLifestyle', 'femaleIslamicLifestyle'],
+      'islamicLifestyle',
+    );
+  }
+
+  async getExpectedWorldlyLifestyle(userId: string) {
+    return await this.getUserInformation(
+      userId,
+      ['maleExpectedWorldlyLifestyle', 'femaleExpectedWorldlyLifestyle'],
+      'expectedWorldlyLifestyle',
+    );
+  }
+
+  async getExpectedIslamicLifestyle(userId: string) {
+    return await this.getUserInformation(
+      userId,
+      ['maleExpectedIslamicLifestyle', 'femaleExpectedIslamicLifestyle'],
+      'expectedIslamicLifestyle',
+    );
+  }
+
+  async getMarriageDiscussion(userId: string) {
+    return await this.getUserInformation(
+      userId,
+      ['marriageDiscussion'],
+      'marriageDiscussion',
+    );
+  }
+
+  async getFamilyInformation(userId: string) {
+    return await this.getUserInformation(
+      userId,
+      ['familyInformation'],
+      'familyInformation',
+    );
+  }
+
+  async getOptionalVerifiable(userId: string) {
+    return await this.getUserInformation(
+      userId,
+      ['optionalVerifiable'],
+      'optionalVerifiable',
+    );
+  }
+
+  async updateUserInformation(
+    userId: string,
+    maleClass: new () => ObjectLiteral,
+    femaleClass: new () => ObjectLiteral,
+    data: any,
+  ) {
+    try {
+      const user = await this.getRepository(User).findOneOrFail({
+        where: { id: userId },
+        select: { id: true, gender: true },
+      });
+
+      let entityClass = user.gender === Gender.MALE ? maleClass : femaleClass;
+
+      const result = await this.getRepository(entityClass).upsert(
+        { ...data, userId },
+        ['userId'],
+      );
+
+      if (result) {
+        return { ...data, userId };
+      } else {
+        throw new NotFoundException('User information not found');
+      }
+    } catch (error) {
+      console.log(error);
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
   }
 
   async updateWorldlyLifestyle(
     userId: string,
     updateDto: UserWorldlyLifestyleDto,
   ) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    let lifestyle = await UserWorldlyLifestyleModel.get(userId);
-    if (!lifestyle) {
-      lifestyle = new UserWorldlyLifestyleModel({ id: userId });
-    }
-
-    Object.assign(lifestyle, updateDto);
-    await lifestyle.save();
-
-    return lifestyle;
-  }
-
-  async getExpectedWorldlyLifestyle(userId: string) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    let lifestyle;
-    if (user.gender === 'Male') {
-      lifestyle = await HusbandExpectedWorldlyLifestyleModel.get(userId);
-    } else {
-      lifestyle = await WifeExpectedWorldlyLifestyleModel.get(userId);
-    }
-
-    if (!lifestyle) {
-      throw new NotFoundException(
-        'Expected worldly lifestyle information not found',
-      );
-    }
-
-    return lifestyle;
+    return await this.updateUserInformation(
+      userId,
+      UserWorldlyLifestyle,
+      UserWorldlyLifestyle,
+      updateDto,
+    );
   }
 
   async updateExpectedWorldlyLifestyle(
     userId: string,
     updateDto: ExpectedWorldlyLifestyleDto,
   ) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    let lifestyle;
-    if (user.gender === 'Male') {
-      lifestyle = await HusbandExpectedWorldlyLifestyleModel.get(userId);
-      if (!lifestyle) {
-        lifestyle = new HusbandExpectedWorldlyLifestyleModel({ id: userId });
-      }
-    } else {
-      lifestyle = await WifeExpectedWorldlyLifestyleModel.get(userId);
-      if (!lifestyle) {
-        lifestyle = new WifeExpectedWorldlyLifestyleModel({ id: userId });
-      }
-    }
-
-    Object.assign(lifestyle, updateDto);
-    await lifestyle.save();
-
-    return lifestyle;
-  }
-
-  async getIslamicLifestyle(userId: string) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    let lifestyle;
-    if (user.gender === 'Male') {
-      lifestyle = await HusbandIslamicLifestyleModel.get(userId);
-    } else {
-      lifestyle = await WifeIslamicLifestyleModel.get(userId);
-    }
-
-    if (!lifestyle) {
-      throw new NotFoundException('Islamic lifestyle information not found');
-    }
-
-    return lifestyle;
+    return await this.updateUserInformation(
+      userId,
+      MaleExpectedWorldlyLifestyle,
+      FemaleExpectedWorldlyLifestyle,
+      updateDto,
+    );
   }
 
   async updateIslamicLifestyle(
     userId: string,
     updateDto: UserIslamicLifestyleDto,
   ) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    let lifestyle;
-    if (user.gender === 'Male') {
-      lifestyle = await HusbandIslamicLifestyleModel.get(userId);
-      if (!lifestyle) {
-        lifestyle = new HusbandIslamicLifestyleModel({ id: userId });
-      }
-    } else {
-      lifestyle = await WifeIslamicLifestyleModel.get(userId);
-      if (!lifestyle) {
-        lifestyle = new WifeIslamicLifestyleModel({ id: userId });
-      }
-    }
-
-    Object.assign(lifestyle, updateDto);
-    await lifestyle.save();
-
-    return lifestyle;
-  }
-
-  async getExpectedIslamicLifestyle(userId: string) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    let lifestyle;
-    if (user.gender === 'Male') {
-      lifestyle = await HusbandExpectedIslamicLifestyleModel.get(userId);
-    } else {
-      lifestyle = await WifeExpectedIslamicLifestyleModel.get(userId);
-    }
-
-    if (!lifestyle) {
-      throw new NotFoundException(
-        'Expected Islamic lifestyle information not found',
-      );
-    }
-
-    return lifestyle;
+    return await this.updateUserInformation(
+      userId,
+      MaleIslamicLifestyle,
+      FemaleIslamicLifestyle,
+      updateDto,
+    );
   }
 
   async updateExpectedIslamicLifestyle(
     userId: string,
     updateDto: ExpectedIslamicLifestyleDto,
   ) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    let lifestyle;
-    if (user.gender === 'Male') {
-      lifestyle = await HusbandExpectedIslamicLifestyleModel.get(userId);
-      if (!lifestyle) {
-        lifestyle = new HusbandExpectedIslamicLifestyleModel({ id: userId });
-      }
-    } else {
-      lifestyle = await WifeExpectedIslamicLifestyleModel.get(userId);
-      if (!lifestyle) {
-        lifestyle = new WifeExpectedIslamicLifestyleModel({ id: userId });
-      }
-    }
-
-    Object.assign(lifestyle, updateDto);
-    await lifestyle.save();
-
-    return lifestyle;
-  }
-
-  async getMarriageDiscussion(userId: string) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    const discussion = await UserMarriageDiscussionModel.get(userId);
-
-    if (!discussion) {
-      throw new NotFoundException(
-        'User Marriage Discussion information not found',
-      );
-    }
-
-    return discussion;
+    return await this.updateUserInformation(
+      userId,
+      MaleExpectedIslamicLifestyle,
+      FemaleExpectedIslamicLifestyle,
+      updateDto,
+    );
   }
 
   async updateMarriageDiscussion(
     userId: string,
     updateDto: UserMarriageDiscussionDto,
   ) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    let discussion = await UserMarriageDiscussionModel.get(userId);
-    if (!discussion) {
-      discussion = new UserMarriageDiscussionModel({ id: userId });
-    }
-
-    Object.assign(discussion, updateDto);
-    await discussion.save();
-
-    return discussion;
+    return await this.updateUserInformation(
+      userId,
+      UserMarriageDiscussion,
+      UserMarriageDiscussion,
+      updateDto,
+    );
   }
 
-  async getOptionalVerifiable(userId: string) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    const verifiable = await UserOptionalVerifiableModel.get(userId);
-
-    if (!verifiable) {
-      throw new NotFoundException(
-        'User Optional Verifiable information not found',
-      );
-    }
-
-    return verifiable;
+  async updateFamilyInformation(
+    userId: string,
+    updateDto: UserFamilyIntroductionDto,
+  ) {
+    return await this.updateUserInformation(
+      userId,
+      UserFamilyInformation,
+      UserFamilyInformation,
+      updateDto,
+    );
   }
 
   async updateOptionalVerifiable(
     userId: string,
     updateDto: UserOptionalVerifiableDto,
   ) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    let verifiable = await UserOptionalVerifiableModel.get(userId);
-    if (!verifiable) {
-      verifiable = new UserOptionalVerifiableModel({ id: userId });
-    }
-
-    Object.assign(verifiable, updateDto);
-    await verifiable.save();
-
-    return verifiable;
-  }
-
-  async getFamilyIntroduction(userId: string) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    const family = await UserFamilyIntroductionModel.get(userId);
-
-    if (!family) {
-      throw new NotFoundException(
-        'User family introduction information not found',
-      );
-    }
-
-    return family;
-  }
-
-  async updateFamilyIntroduction(
-    userId: string,
-    updateDto: UserFamilyIntroductionDto,
-  ) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
-
-    if (!user) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
-    }
-
-    let family = await UserFamilyIntroductionModel.get(userId);
-    if (!family) {
-      family = new UserFamilyIntroductionModel({ id: userId });
-    }
-
-    if (
-      updateDto.guardianEmail &&
-      updateDto.guardianEmail !== user.guardian?.email
-    ) {
-      await this.noticeService.sendEmail(
-        updateDto.guardianEmail,
-        'Guardian Request',
-        `You have a new guardian request from ${user.firstName} ${user.lastName}. Please <a href="${process.env.CLIENTAUTHSUCCESSURL?.slice(0, process.env.CLIENTAUTHSUCCESSURL.length - 8)}guardian">register/login</a> to your account to accept or reject the request.`,
-      );
-    }
-
-    Object.assign(family, updateDto);
-    await family.save();
-
-    return family;
+    return await this.updateUserInformation(
+      userId,
+      UserOptionalVerifiable,
+      UserOptionalVerifiable,
+      updateDto,
+    );
   }
 }

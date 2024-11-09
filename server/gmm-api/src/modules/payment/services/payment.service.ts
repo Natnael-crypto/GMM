@@ -214,7 +214,7 @@ export class PaymentsService extends BaseRepository {
         );
       }
 
-      const guardian = await this.userService.getFamilyIntroduction(user.id);
+      const guardian = await this.userService.getFamilyInformation(user.id);
       if (!guardian) {
         throw new BadRequestException('Guardian not found.');
       }

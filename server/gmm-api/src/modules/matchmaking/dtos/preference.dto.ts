@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsNumber, IsOptional } from 'class-validator';
 
 export class UpdatePreferenceDto {
   @ApiProperty({ example: 23 })
@@ -33,64 +33,59 @@ export class UpdatePreferenceDto {
   maxWeight?: number;
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  ethnicOrigin?: string;
+  nationality?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  nationality?: string;
+  language?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  language?: string;
+  country?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  country?: string;
+  martialStatus?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  martialStatus?: string;
+  salat?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  salat?: string;
+  bornOrRevert?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  bornOrRevert?: string;
+  hijab?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  hijab?: string;
+  children?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  children?: string;
+  wantsChildren?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  wantsChildren?: string;
+  education?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
-  education?: string;
-
-  @ApiProperty({ example: 'string' })
-  @IsString()
-  @IsOptional()
-  profession?: string;
+  profession?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsBoolean()
@@ -106,4 +101,11 @@ export class UpdatePreferenceDto {
   @IsBoolean()
   @IsOptional()
   tattoos?: boolean;
+
+  @ApiProperty({ example: 'string' })
+  @IsNumber({
+    maxDecimalPlaces: 2,
+  })
+  @IsOptional()
+  minMatchRequirement?: number;
 }

@@ -7,19 +7,17 @@ import {
   NotFoundException,
   Scope,
 } from '@nestjs/common';
-
 import { Preference } from '../entities/preference.entity';
-import { And, DataSource, Not } from 'typeorm';
+import { And, DataSource, In, Not, Or } from 'typeorm';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
 import { Match } from '../entities/match.entity';
-import { UserService } from '@modules/user/services/user.service';
 import { User } from '@modules/user/entities/user.entity';
 import { PaymentsService } from '@modules/payment/services/payment.service';
 import { Filtering } from '@shared/decorators/filter.decorator';
 import { getWhere } from '@shared/decorators/filter.helper';
 import { MatchPool } from '../entities/match-pool.entity';
 import { Gender } from '@modules/user/enums/user.enum';
-import { ExtendedUser, Matchmaker } from '../core/matchmaker';
+import { Matchmaker } from '../core/matchmaker';
 import { BaseRepository } from '@shared/base-repository';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
@@ -32,7 +30,6 @@ import { InvitationToMatchStage } from '../entities/invitation-to-match-stage.en
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
   constructor(
-    private readonly userService: UserService,
     private readonly paymentService: PaymentsService,
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
@@ -59,25 +56,7 @@ export class MatchMakingService extends BaseRepository {
     });
   }
 
-  async loadFullUserData(user: User): Promise<ExtendedUser> {
-    let worldlyLifestyle;
-    let islamicLifestyle;
-
-    try {
-      worldlyLifestyle = await this.userService.getWorldlyLifestyle(user.id);
-    } catch (e) {}
-    try {
-      islamicLifestyle = await this.userService.getIslamicLifestyle(user.id);
-    } catch (e) {}
-
-    return {
-      ...user,
-      ...worldlyLifestyle,
-      ...islamicLifestyle,
-    };
-  }
-
-  async loadCandidates(user: User): Promise<ExtendedUser[]> {
+  async loadCandidates(user: User): Promise<string[]> {
     const previousMatches = await this.getUserMatches(user.id);
     for (const previousMatch of previousMatches) {
       if (previousMatch.isActive) {
@@ -103,14 +82,12 @@ export class MatchMakingService extends BaseRepository {
           ...previousMatchedUserIds.map((id) => Not(id)),
         ),
       },
-      relations: ['user'],
+      select: ['userId'],
     });
 
-    const candidates = Promise.all<ExtendedUser>(
-      matchPool.map((candidate) => this.loadFullUserData(candidate.user)),
-    );
+    const candidateIds = matchPool.map((pool) => pool.userId);
 
-    return candidates;
+    return candidateIds;
   }
 
   async assignMatch(user: User, matchedUserId: string): Promise<Match> {
@@ -132,21 +109,44 @@ export class MatchMakingService extends BaseRepository {
     return match;
   }
 
-  async matchUser(userId: string, tolerance: number = 0): Promise<any> {
-    const user = await this.userService.getUserById(userId);
+  async matchUser(userId: string): Promise<any> {
+    const user = await this.getRepository(User).findOneOrFail({
+      where: { id: userId },
+      relations: [
+        'worldlyLifestyle',
+        'maleIslamicLifestyle',
+        'femaleIslamicLifestyle',
+        'maleExpectedWorldlyLifestyle',
+        'femaleExpectedWorldlyLifestyle',
+      ],
+    });
 
-    const candidates = await this.loadCandidates(user);
+    const candidateIds = await this.loadCandidates(user);
 
-    const matchmaker = new Matchmaker(await this.loadFullUserData(user));
+    const candidates = await this.getRepository(User).find({
+      where: { id: In(candidateIds) },
+      relations: [
+        'worldlyLifestyle',
+        'maleIslamicLifestyle',
+        'femaleIslamicLifestyle',
+        'maleExpectedWorldlyLifestyle',
+        'femaleExpectedWorldlyLifestyle',
+      ],
+    });
+
+    const matchmaker = new Matchmaker(user);
 
     const score = matchmaker.score(candidates);
 
+    const userReq = user.preference.minMatchRequirement ?? 1;
+
     const qualifiedCandidates = score.filter((match) => {
-      if (tolerance === 0) {
-        return match.score === 1;
-      } else {
-        return 1 - match.score >= tolerance;
-      }
+      const candidateReq = match.user.preference.minMatchRequirement ?? 1;
+
+      if (match.score.candidateLikesUser <= candidateReq) return false;
+      if (match.score.userLikesCandidate <= userReq) return false;
+
+      return true;
     });
 
     if (qualifiedCandidates.length === 0) {
@@ -157,7 +157,71 @@ export class MatchMakingService extends BaseRepository {
     const randomIndex = Math.floor(Math.random() * qualifiedCandidates.length);
     const matchedUserId = qualifiedCandidates[randomIndex].user.id;
 
-    return { match: await this.assignMatch(user, matchedUserId), score };
+    return { match: await this.assignMatch(user, matchedUserId) };
+  }
+
+  async countPotentialMatches(userId: string): Promise<{
+    potentialMatchCount: number;
+    outsidePreferenceCount: number;
+    poolSize: number;
+  }> {
+    const user = await this.getRepository(User).findOneOrFail({
+      where: { id: userId },
+      relations: [
+        'worldlyLifestyle',
+        'maleIslamicLifestyle',
+        'femaleIslamicLifestyle',
+        'maleExpectedWorldlyLifestyle',
+        'femaleExpectedWorldlyLifestyle',
+      ],
+    });
+
+    const candidateIds = await this.loadCandidates(user);
+
+    const candidates = await this.getRepository(User).find({
+      where: { id: In(candidateIds) },
+      relations: [
+        'worldlyLifestyle',
+        'maleIslamicLifestyle',
+        'femaleIslamicLifestyle',
+        'maleExpectedWorldlyLifestyle',
+        'femaleExpectedWorldlyLifestyle',
+      ],
+    });
+
+    const matchmaker = new Matchmaker(user);
+    const score = matchmaker.score(candidates);
+
+    let qualifiedCandidates = 0;
+    let outsideUserPreference = 0;
+
+    const userReq = user.preference.minMatchRequirement ?? 1;
+
+    score.forEach((match) => {
+      const candidateReq = match.user.preference.minMatchRequirement ?? 1;
+
+      // If candidate likes user but user doesn't like candidate
+      if (
+        match.score.candidateLikesUser >= candidateReq &&
+        match.score.userLikesCandidate <= userReq
+      ) {
+        outsideUserPreference++;
+      }
+
+      // If user likes candidate and candidate likes user
+      if (
+        match.score.userLikesCandidate >= userReq &&
+        match.score.candidateLikesUser >= candidateReq
+      ) {
+        qualifiedCandidates++;
+      }
+    });
+
+    return {
+      potentialMatchCount: qualifiedCandidates,
+      outsidePreferenceCount: outsideUserPreference,
+      poolSize: candidateIds.length,
+    };
   }
 
   async createUserPreference(id: string): Promise<Preference> {

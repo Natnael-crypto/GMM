@@ -8,9 +8,7 @@ import { Role } from '../entities/role.entity';
 import { Repository } from 'typeorm';
 import { CreateRoleDto, UpdateRoleDto } from '../dtos/role.dto';
 import { UserService } from '@modules/user/services/user.service';
-import { roleSeed } from '@modules/seeds/role.seed';
-
-const defaultRoles = roleSeed.map((role) => role.name);
+import { defaultRoles } from '@shared/database/seeds/permission.seed';
 
 @Injectable()
 export class RoleService {

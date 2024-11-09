@@ -5,12 +5,12 @@ import { AuthRepository } from './auth.repository';
 import * as bcrypt from 'bcrypt';
 import { AuthConfig } from '@shared/config';
 import { EmailRegistrationDto } from '../dtos/registration.dto';
-import { userRole } from '@modules/seeds/role.seed';
 import {
   InvalidCredentialsException,
   InvalidRegistrationTokenException,
   UserAlreadyExistsException,
 } from '../exceptions/auth.exceptions';
+import { userRole } from '@shared/database/seeds/permission.seed';
 
 export type JwtPayload = {
   sub: string;
