@@ -1,4 +1,5 @@
 import { Preference } from '@modules/matchmaking/entities/preference.entity';
+import { FemaleIslamicLifestyle } from '@modules/user/entities';
 import { User } from '@modules/user/entities/user.entity';
 
 export type ExtendedUser = User & {
@@ -10,29 +11,14 @@ export type ExtendedUser = User & {
   profession: string;
 };
 
-export interface MatchmakerResult {
-  user: ExtendedUser;
-  score: number;
+export interface Score {
+  userLikesCandidate: number;
+  candidateLikesUser: number;
 }
 
-function age(dateOfBirth: Date): number {
-  if (!dateOfBirth) {
-    return 0;
-  }
-
-  const today = new Date();
-  let age = today.getFullYear() - dateOfBirth.getFullYear();
-  const monthDiff = today.getMonth() - dateOfBirth.getMonth();
-
-  // Adjust age if the birthday hasn't occurred yet this year
-  if (
-    monthDiff < 0 ||
-    (monthDiff === 0 && today.getDate() < dateOfBirth.getDate())
-  ) {
-    age--;
-  }
-
-  return age;
+export interface MatchmakerResult {
+  user: User;
+  score: Score;
 }
 
 export class Matchmaker {
@@ -40,147 +26,155 @@ export class Matchmaker {
     {
       field: 'minAge',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        age(user.dateOfBirth) >= pref.minAge,
+      evaluate: (pref: Preference, user: User) =>
+        user.age && user.age >= pref.minAge,
     },
     {
       field: 'maxAge',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        age(user.dateOfBirth) <= pref.maxAge,
+      evaluate: (pref: Preference, user: User) =>
+        user.age && user.age <= pref.maxAge,
     },
     {
       field: 'minHeight',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        user.height >= pref.minHeight,
+      evaluate: (pref: Preference, user: User) => user.height >= pref.minHeight,
     },
     {
       field: 'maxHeight',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        user.height <= pref.maxHeight,
+      evaluate: (pref: Preference, user: User) => user.height <= pref.maxHeight,
     },
     {
       field: 'minWeight',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        user.weight >= pref.minWeight,
+      evaluate: (pref: Preference, user: User) => user.weight >= pref.minWeight,
     },
     {
       field: 'maxWeight',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        user.weight <= pref.maxWeight,
+      evaluate: (pref: Preference, user: User) => user.weight <= pref.maxWeight,
     },
     {
       field: 'nationality',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
+      evaluate: (pref: Preference, user: User) =>
         pref.nationality.includes(user.nationality),
     },
     {
       field: 'language',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
+      evaluate: (pref: Preference, user: User) =>
+        user.languages &&
         user.languages.some((language) => pref.language.includes(language)),
     },
     {
       field: 'country',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.country.includes(user.country),
+      evaluate: (pref: Preference, user: User) =>
+        user.country && pref.country.includes(user.country),
     },
     {
       field: 'martialStatus',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.martialStatus.includes(user.maritalStatus),
+      evaluate: (pref: Preference, user: User) =>
+        user.maritalStatus && pref.martialStatus.includes(user.maritalStatus),
     },
     {
       field: 'salat',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.salat.includes(user.salat),
+      evaluate: (pref: Preference, user: User) =>
+        user.islamicLifestyle &&
+        user.islamicLifestyle.salat &&
+        pref.salat.includes(user.islamicLifestyle.salat),
     },
     {
       field: 'bornOrRevert',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
+      evaluate: (pref: Preference, user: User) =>
+        user.bornOrRevertToIslam &&
         pref.bornOrRevert.includes(user.bornOrRevertToIslam),
     },
     {
       field: 'hijab',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.hijab.includes(user.hijab),
+      evaluate: (pref: Preference, user: User) =>
+        user.islamicLifestyle &&
+        (user.islamicLifestyle as FemaleIslamicLifestyle).hijab &&
+        pref.hijab.includes(
+          (user.islamicLifestyle as FemaleIslamicLifestyle).hijab,
+        ),
     },
     {
       field: 'children',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.children.includes(user.children),
+      evaluate: (pref: Preference, user: User) =>
+        user.hasChildren && pref.children.includes(user.hasChildren),
     },
     {
       field: 'wantsChildren',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.wantsChildren.includes(user.wantsChildren),
+      evaluate: (pref: Preference, user: User) =>
+        user.expectedWorldlyLifestyle &&
+        user.expectedWorldlyLifestyle.havingChildren &&
+        pref.wantsChildren.includes(
+          user.expectedWorldlyLifestyle.havingChildren,
+        ),
     },
     {
       field: 'education',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.education.includes(user.education),
+      evaluate: (pref: Preference, user: User) =>
+        user.worldlyLifestyle &&
+        user.worldlyLifestyle.educationQualification &&
+        pref.education.includes(user.worldlyLifestyle.educationQualification),
     },
     {
       field: 'profession',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.profession.includes(user.profession),
+      evaluate: (pref: Preference, user: User) =>
+        user.worldlyLifestyle &&
+        user.worldlyLifestyle.currentOccupationTitle &&
+        pref.profession.includes(user.worldlyLifestyle.currentOccupationTitle),
     },
     {
       field: 'drinking',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.drinking === user.drinks,
+      evaluate: (pref: Preference, user: User) => pref.drinking === user.drinks,
     },
     {
       field: 'smoking',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.smoking === user.smokes,
+      evaluate: (pref: Preference, user: User) => pref.smoking === user.smokes,
     },
     {
       field: 'tattoos',
       weight: 1,
-      evaluate: (pref: Preference, user: ExtendedUser) =>
-        pref.tattoos === user.tattoos,
+      evaluate: (pref: Preference, user: User) => pref.tattoos === user.tattoos,
     },
   ];
 
-  constructor(private readonly user: ExtendedUser) {}
+  constructor(private readonly user: User) {}
 
-  likes(user: ExtendedUser, candidate: ExtendedUser): number {
+  likes(user: User, candidate: User): number {
     const userPref = user.preference;
-    const candidatePref = candidate.preference;
+
+    if (!userPref) return 1;
 
     let total = 0;
     let diff = 0;
-
+    const mismatches: any[] = [];
     for (const field of this.preferenceFields) {
       const userPrefValue = userPref[field.field];
-      const candidateValue = candidate[field.field];
 
-      // user doesn't hva a preference for this field
+      // user doesn't have a preference for this field
       if (userPrefValue === undefined || userPrefValue === null) {
         continue;
       }
 
-      if (userPrefValue === undefined || userPrefValue === null) {
-        diff += 1;
-      } else if (!field.evaluate(userPref, candidate)) {
+      if (!field.evaluate(userPref, candidate)) {
         diff += field.weight;
+        mismatches.push(field);
       }
 
       total += field.weight;
@@ -191,23 +185,20 @@ export class Matchmaker {
     return 1 - diff / total;
   }
 
-  computeSimilarity(candidate: ExtendedUser): number {
-    const user = this.user;
-    const likes = this.likes(user, candidate);
-    const likedBy = this.likes(candidate, user);
-    console.log({
-      likes,
-      likedBy,
-    });
-    return (likes + likedBy) / 2;
+  computeSimilarity(candidate: User): Score {
+    const likes = this.likes(this.user, candidate);
+    const likedBy = this.likes(candidate, this.user);
+
+    return {
+      userLikesCandidate: likes,
+      candidateLikesUser: likedBy,
+    };
   }
 
-  score(candidates: ExtendedUser[]): MatchmakerResult[] {
-    return candidates
-      .map((candidate) => ({
-        user: candidate,
-        score: this.computeSimilarity(candidate),
-      }))
-      .sort((a, b) => b.score - a.score);
+  score(candidates: User[]): MatchmakerResult[] {
+    return candidates.map((candidate) => ({
+      user: candidate,
+      score: this.computeSimilarity(candidate),
+    }));
   }
 }
