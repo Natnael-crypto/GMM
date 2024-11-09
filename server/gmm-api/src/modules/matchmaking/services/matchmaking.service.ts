@@ -151,7 +151,7 @@ export class MatchMakingService extends BaseRepository {
 
     if (qualifiedCandidates.length === 0) {
       await this.addToMatchingPool(user);
-      return { match: null };
+      return { match: null, score };
     }
 
     const randomIndex = Math.floor(Math.random() * qualifiedCandidates.length);

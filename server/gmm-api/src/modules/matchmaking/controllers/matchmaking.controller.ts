@@ -75,12 +75,11 @@ export class MatchMakingController {
   @Post()
   async match(@Req() req: Request & { user: User }) {
     try {
-      const match = await this.matchmakingService.matchUser(req.user.id);
+      const { match } = await this.matchmakingService.matchUser(req.user.id);
 
       if (!match) {
         return {
-          message:
-            'Finding a match for you. You will be notified when matched.',
+          message: 'Finding you a match. You will be notified when matched.',
         };
       }
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsBoolean, IsNumber, IsOptional } from 'class-validator';
 
 export class UpdatePreferenceDto {
   @ApiProperty({ example: 23 })
@@ -33,57 +33,57 @@ export class UpdatePreferenceDto {
   maxWeight?: number;
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   nationality?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   language?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   country?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   martialStatus?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   salat?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   bornOrRevert?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   hijab?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   children?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   wantsChildren?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   education?: string[];
 
   @ApiProperty({ example: 'string' })
-  @IsString()
+  @IsArray()
   @IsOptional()
   profession?: string[];
 
@@ -103,7 +103,9 @@ export class UpdatePreferenceDto {
   tattoos?: boolean;
 
   @ApiProperty({ example: 'string' })
-  @IsNumber()
+  @IsNumber({
+    maxDecimalPlaces: 2,
+  })
   @IsOptional()
   minMatchRequirement?: number;
 }
