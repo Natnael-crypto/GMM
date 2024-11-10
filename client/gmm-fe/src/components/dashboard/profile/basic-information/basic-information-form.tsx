@@ -584,7 +584,17 @@ export default function BasicInformationForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        if (value === 'No kids') {
+                          form.setValue('numberOfChildren', 0);
+                          form.setValue('ageOfOldestChild', 0);
+                          form.setValue('ageOfYoungestChild', 0);
+                        }
+                      }}
+                      value={field.value}
+                    >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
