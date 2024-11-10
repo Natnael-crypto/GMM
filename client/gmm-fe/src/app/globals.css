@@ -262,6 +262,10 @@
   border-bottom-left-radius: 50px;
 }
 
+.gmm-hiw-container {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
 
 @media (min-width: 640px) {
   .gmm-approach-icons, .gmm-other-platforms-icons {
@@ -276,8 +280,15 @@
     display: flex;
     flex-direction: column-reverse;
   }
+
   .gmm-other-platforms-icons-grid{
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .gmm-hiw-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
 }
 
@@ -310,6 +321,12 @@
     margin-top: 30px;
     margin-bottom: 60px;
   }
+
+  .gmm-hiw-container {
+    padding-left: 10rem;
+    padding-right: 10rem;
+  }
+
 }
 
 @media (min-width: 1024px) {
@@ -358,11 +375,17 @@
   .hero-container h1 {
     font-size: 2.25rem;
   }
+
+  .gmm-hiw-container {
+    padding-left: 4rem;
+    padding-right: 4rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 1280px) {
   .gmm-approach-slides {
-    margin-left: -140px;
+    margin-left: -100px;
     margin-bottom: inherit;
     padding-inline-end: 38%;
     padding: 4rem 15rem 4rem 7rem;
@@ -379,6 +402,11 @@
   .hero-container h1 {
     font-size: 2.5rem;
   }
+
+  .gmm-hiw-container {
+    padding-left: 12rem;
+    padding-right: 12rem;
+  }
 }
 
 @media (min-width: 1536px) {
@@ -391,11 +419,17 @@
   }
 
   .gmm-approach-slides {
+    margin-left: -140px;
     padding: 6rem 150px 10rem 10rem;
   }
 
   .hero-container h1 {
     font-size: 3rem;
+  }
+
+  .gmm-hiw-container {
+    padding-left: 20rem;
+    padding-right: 20rem;
   }
 }
 
@@ -409,5 +443,17 @@
 
   .gmm-approach-icons, .gmm-other-platforms-slides {
     padding-inline-start: 20%;
+  }
+
+  .gmm-hiw-container {
+    padding-left: 30rem;
+    padding-right: 30rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  .gmm-hiw-container {
+    padding-left: 50rem;
+    padding-right: 50rem;
   }
 }

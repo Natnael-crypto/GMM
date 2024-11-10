@@ -15,11 +15,7 @@ export default function HowItWorks() {
       no-scrollbar "
         >
           <div
-            className="m-auto grid sm:grid-cols-4 sm:w-[60rem] gap-5 
-      px-5
-      lg:my-8 
-      justify-center
-      py-8 lg:py-0"
+            className="gmm-hiw-container m-auto grid gap-8 lg:my-8 justify-center py-8 lg:py-0"
           >
             <Card imageSrc="/assets/icon_sign-up-for-an-account.svg" number={1}>
               {t('step1')}
