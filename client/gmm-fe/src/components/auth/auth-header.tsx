@@ -10,7 +10,7 @@ export default function AuthHeader() {
   return (
     <div className="relative">
       <div
-        className="absolute w-full h-[15rem] -z-10"
+        className="gmm-reg-bg absolute w-full -z-10"
         style={{
           backgroundImage: 'url("/assets/hero-image-green.jpg")',
           transform: localeDirection[locale] === 'rtl' ? 'scaleX(-1)' : '',
@@ -18,7 +18,7 @@ export default function AuthHeader() {
       ></div>
 
       <div
-        className="registration py-6 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] flex justify-between items-center"
+        className="gmm-reg-header py-6 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] flex justify-between items-center"
       >
         <div>
           <Link href="/">

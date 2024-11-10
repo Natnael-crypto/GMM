@@ -13,13 +13,13 @@ export default function RegistrationOverview() {
 
   return (
     <div className="w-full">
-      <div className="text-center lg:text-start lg:text-primary-foreground text-accent">
+      <div className="gmm-reg-title text-center lg:text-start lg:text-primary-foreground text-accent">
         <h1 className="text-primary lg:text-primary-foreground">
           {t.rich('common.title', {
-            bold: (text) => <span className="font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl">{text}</span>,
+            bold: (text) => <span className="font-bold">{text}</span>,
           })}
         </h1>
-        <h2 className="my-2 text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-">
+        <h2 className="my-2 font-">
           {t('common.subtitle')}
         </h2>
       </div>
