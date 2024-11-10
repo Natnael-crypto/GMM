@@ -14,6 +14,12 @@ const nextConfig = {
         port: '',
         pathname: '**',
       },
+      {
+        protocol: 'https',
+        hostname: 'admin-dev.guardianmuslimmarriage.com',
+        port: '',
+        pathname: '/assets/**',
+      },
     ],
   },
 };
