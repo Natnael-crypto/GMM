@@ -21,7 +21,7 @@ export default function RegistrationSkeleton() {
           </div>
           <div className="col-span-3 space-y-16">
             <div className="grid grid-cols-9 gap-x-5 gap-y-4">
-              {Array.from({ length: 18 }).map((index) => (
+              {Array.from({ length: 18 }, (_, i) => i + 1).map((index) => (
                 <div
                   key={`registration_skeleton_field_${index}`}
                   className="space-y-1 col-span-3"
@@ -35,7 +35,7 @@ export default function RegistrationSkeleton() {
               <Skeleton className="h-8 col-span-6" />
               <div className="col-span-3"></div>
 
-              {Array.from({ length: 7 }).map((index) => (
+              {Array.from({ length: 7 }, (_, i) => i + 1).map((index) => (
                 <div
                   key={`registration_skeleton_field_${index}`}
                   className="space-y-1 col-span-3"

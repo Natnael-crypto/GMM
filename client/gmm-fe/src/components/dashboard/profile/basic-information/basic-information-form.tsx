@@ -22,7 +22,6 @@ import {
   countries,
   countryToCountryCode,
   heights,
-  User,
   UserBasicInformation,
   userBasicInformationSchema,
   weights,
