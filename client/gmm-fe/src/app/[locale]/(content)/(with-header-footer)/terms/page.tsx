@@ -11,7 +11,3 @@ export default function TermsPage() {
     </main>
   );
 }
-
-export async function generateStaticParams() {
-  return [{ locale: 'en' }, { locale: 'es' }];
-}
