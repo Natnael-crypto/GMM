@@ -1,9 +1,11 @@
-import AuthGuard from '@/components/auth/guard/auth-guard';
 import Footer from '@/components/ui/footer';
-import Header from '@/components/ui/header';
 import React from 'react';
 
-function TemrsLayout({ children }: { children: React.ReactNode }) {
+export default function TermsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <>
       {children}
@@ -11,5 +13,3 @@ function TemrsLayout({ children }: { children: React.ReactNode }) {
     </>
   );
 }
-
-export default AuthGuard({ Component: TemrsLayout });
