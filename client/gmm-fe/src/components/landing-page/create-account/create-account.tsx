@@ -14,8 +14,8 @@ const createAccountVariants = cva('py-8 text-center', {
       filled: 'bg-primary text-primary-foreground',
     },
     margin: {
-      default: 'mx-6 sm:mx-16 md:mx-24 lg:mx-52 my-8',
-      wide: 'my-8 py-8 px-8',
+      default: 'mx-6 sm:mx-16 md:mx-24 lg:mx-52 my-3 cta-banner',
+      wide: 'mb-8 py-8 px-8',
     },
   },
   defaultVariants: {

@@ -23,14 +23,7 @@ export default function OtherPlatformSlide({
   return (
     <div
       className={cn(
-        `hidden sm:flex flex-col justify-between
-    lg:absolute lg:start-0 lg:top-0
-    mt-5
-    px-8 md:px-20 lg:px-0 lg:pe-44 lg:ps-[8%]
-    py-8 lg:py-0 lg:pb-3 lg:pt-[4.3rem]
-    bg-muted 
-    w-full lg:w-[48%] 
-     lg:h-96`,
+        `hidden z-10 sm:flex flex-col justify-between h-full lg:rounded-bl-[3rem]`,
         dir === 'rtl' ? `lg:rounded-tl-[3rem]` : `lg:rounded-tr-[3rem]`
       )}
     >
@@ -54,7 +47,7 @@ export default function OtherPlatformSlide({
             return (
               <div
                 key={index}
-                className={`w-2 h-2 rounded-full cursor-pointer ${
+                className={`w-3 h-3 rounded-full cursor-pointer ${
                   index === selected ? 'bg-primary' : 'bg-accent opacity-50'
                 }`}
                 onClick={() => setSelected(index)}

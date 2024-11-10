@@ -249,7 +249,6 @@
 .hero-slide-content {
   padding-inline-start: 0%;
   padding: 15px;
-  margin: auto;
   text-align: center;
 }
 
@@ -263,18 +262,37 @@
   border-bottom-left-radius: 50px;
 }
 
-@media (min-width: 640px) {
 
+@media (min-width: 640px) {
+  .gmm-approach-icons, .gmm-other-platforms-icons {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .gmm-approach-slides, .gmm-other-platforms-slides {
+    padding: 20px;
+  }
+
+  .gmm-other-platforms-container {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .gmm-other-platforms-icons-grid{
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 768px) {
-  .gmm-approach-icons {
-    padding-left: 50px;
-    padding-right: 50px;
+  .gmm-approach-icons, .gmm-other-platforms-icons {
+    padding-left: 30px;
+    padding-right: 30px;
   }
 
-  .gmm-approach-slides {
-    padding: 20px 50px;
+  .gmm-card-icon img {
+    max-height: 60px;
+  }
+
+  .gmm-approach-slides, .gmm-other-platforms-slides {
+    padding: 50px 30px;
   }
 
   .hero-container .logo, .registration .logo {
@@ -287,7 +305,7 @@
   }
 
   .hero-slide-content {
-    padding-inline-start: 15%;
+    padding-inline-start: 10%;
     text-align: left;
     margin-top: 30px;
     margin-bottom: 60px;
@@ -296,19 +314,47 @@
 
 @media (min-width: 1024px) {
   .gmm-approach-icons {
-    padding-inline-start: 25%;
+    padding-inline-start: 10%;
     padding-right: 0;
   }
 
   .gmm-approach-slides {
     margin-left: -50px;
+    margin-bottom: 160px;
     padding-inline-end: 20%;
     padding: 4rem;
+    border-bottom-left-radius: 3rem;
   }
+
+  .gmm-other-platforms-slides {
+    padding-left: 50px;
+    padding-right: 100px;
+    margin-bottom: 160px;
+    border-top-right-radius: 3rem;
+  }
+
+  .gmm-other-platforms-container {
+    display: grid;
+  }
+
+  .gmm-other-platforms-icons {
+    margin-left: -100px;
+    padding-inline-end: 21%;
+  }
+
+  .gmm-other-platforms-icons-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .gmm-other-platforms-icons h1 {
+    margin-left: 85px;
+  }
+
   
   .hero-slide-content {
-    padding-inline-start: 25%;
+    padding-inline-start: 10%;
   }
+
   .hero-container h1 {
     font-size: 2.25rem;
   }
@@ -316,9 +362,18 @@
 
 @media (min-width: 1280px) {
   .gmm-approach-slides {
-    margin-left: -100px;
+    margin-left: -140px;
+    margin-bottom: inherit;
     padding-inline-end: 38%;
     padding: 4rem 15rem 4rem 7rem;
+  }
+
+  .gmm-other-platforms-slides {
+    padding-inline-start: 10%;
+  }
+
+  .gmm-other-platforms-icons-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .hero-container h1 {
@@ -327,7 +382,32 @@
 }
 
 @media (min-width: 1536px) {
+  .hero-slide-content {
+    padding-inline-start: 10%
+  }
+
+  .gmm-approach-icons {
+    padding-inline-start: 10%
+  }
+
+  .gmm-approach-slides {
+    padding: 6rem 150px 10rem 10rem;
+  }
+
   .hero-container h1 {
     font-size: 3rem;
+  }
+}
+
+@media (min-width: 1921px) {
+  .hero-slide-content {
+    padding-inline-start: 20%;
+    margin: inherit;
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .gmm-approach-icons, .gmm-other-platforms-slides {
+    padding-inline-start: 20%;
   }
 }
