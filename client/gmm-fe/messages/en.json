@@ -1127,5 +1127,30 @@
         }
       ]
     }
+  },
+
+  
+  "Terms": {
+    "title": "Terms and Conditions",
+    "introduction": {
+    "title": "Introduction",
+    "description": "Welcome to our application. By accessing our service, you agree to these terms and conditions. Please read them carefully.\n\nLorem ipsum odor amet, consectetuer adipiscing elit. Mollis auctor varius turpis pulvinar pretium. Aptent cras erat accumsan adipiscing pulvinar senectus litora tincidunt integer.\n\nBlandit bibendum inceptos elementum porttitor cubilia feugiat bibendum. Velit potenti lacus arcu ullamcorper phasellus venenatis. Sodales ligula donec natoque nulla nulla ultrices tristique."
+    },
+    "userResponsibilities": {
+        "title": "User Responsibilities",
+        "description": "Users must comply with all applicable laws and refrain from any activities that could harm the service or its users.\n\nMaecenas dictum penatibus interdum posuere feugiat purus. Finibus laoreet scelerisque nec et sem. Molestie gravida odio eu vitae velit.\n\nConsequat habitant scelerisque per condimentum, donec conubia porttitor. Aptent duis augue sapien himenaeos dignissim vitae eu."
+    },
+    "limitations": {
+      "title": "Limitations of Liability",
+      "description": "We are not responsible for any damages that arise from the use of our service to the fullest extent permitted by law. Semper amet integer porta lacinia praesent blandit pulvinar. Vel mattis nascetur tortor magna potenti rutrum dapibus sem faucibus. Gravida ornare tincidunt laoreet a orci congue. Curae vitae libero himenaeos facilisis consectetur felis arcu. Parturient suspendisse finibus facilisis phasellus torquent augue. Luctus ligula nullam nam aenean ut curabitur. Pretium vehicula aliquet ultrices hendrerit hendrerit. Dictum quis mattis facilisis proin metus arcu natoque montes pulvinar. Taciti facilisi amet taciti nec magnis lobortis suspendisse augue? Velit habitasse turpis ullamcorper risus quisque parturient tempor augue? Quisque nisi netus ut blandit ultricies. Tempus faucibus sagittis maximus tellus ullamcorper suspendisse viverra integer. Vel risus ornare varius enim odio egestas; nam donec senectus. Purus lorem placerat ex gravida cursus. Netus iaculis ultricies penatibus lorem porta lobortis? Vitae aliquam vestibulum ipsum primis habitant malesuada; himenaeos habitasse."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "Your privacy is important to us. Please review our privacy policy to understand how we collect and use your information. Fames libero vulputate diam porttitor curabitur egestas cubilia. Dapibus turpis vivamus in porta nisi duis tempor nunc facilisi. Taciti ut sociosqu dapibus augue pharetra metus. Maximus suscipit laoreet ultricies nec ante mi purus. Egestas ad arcu scelerisque metus consequat nisi rutrum orci sagittis. Eu elementum id vivamus pellentesque tellus. Nunc suspendisse duis blandit justo integer. Pharetra vehicula luctus maecenas phasellus vehicula magna. Inceptos rhoncus feugiat efficitur senectus curabitur potenti erat elementum. Leo condimentum habitasse cras lacus ante condimentum habitant nisi. Torquent conubia mus maximus orci aptent iaculis aliquet interdum erat. Habitant diam fringilla justo cubilia sem rutrum. Pharetra pretium posuere fames nibh phasellus ipsum enim pellentesque eu. Etiam amet porttitor consequat netus sodales a. Neque parturient leo dapibus orci bibendum tincidunt lacinia tristique. Nec platea augue ullamcorper inceptos, platea consequat. Sit nascetur eros maximus conubia vehicula adipiscing taciti donec morbi."
+    },
+    "modifications": {
+      "title": "Modifications to Terms",
+      "description": "We reserve the right to modify these terms at any time. Continued use of the service after modifications indicates acceptance of the new terms. Cras pulvinar nam nostra dolor curabitur, gravida at. Tempus himenaeos risus taciti feugiat euismod auctor commodo. Leo hendrerit in ridiculus luctus faucibus. Imperdiet nunc cursus suscipit velit ridiculus laoreet mus sed. Sapien risus tincidunt nisi; nisi elementum enim faucibus? Est sollicitudin lobortis orci enim nostra dignissim. Suspendisse felis proin accumsan porttitor inceptos etiam tortor class nullam. Eget a sodales metus curabitur tristique phasellus odio congue. Purus aliquet proin porttitor scelerisque phasellus. Aliquet adipiscing penatibus condimentum mollis est. Malesuada suspendisse curae velit vestibulum risus dui. Montes odio primis torquent posuere lobortis in. Lectus urna mattis natoque luctus porta ipsum sem torquent."
+    }
   }
 }
