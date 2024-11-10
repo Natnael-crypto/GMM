@@ -42,7 +42,7 @@ export default function Profile({ user: profileUser }: { user: User }) {
           </Link>
 
           <Link
-            href={`/${locale}/support`}
+            href="/support"
             className="w-full justify-start bg-background hover:bg-muted text-muted-foreground hover:text-muted-foreground py-1 px-5"
           >
             Help
