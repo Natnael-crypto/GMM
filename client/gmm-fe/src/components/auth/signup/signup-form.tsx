@@ -336,6 +336,7 @@ export function SignUpForm() {
                     <Link
                       href="/terms"
                       className="text-sm text-primary font-semibold"
+                      target='_blank'
                     >
                       terms and conditions
                     </Link>

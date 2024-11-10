@@ -9,7 +9,7 @@ interface TermsAndConditionsProps {
 
 export default function TermsAndConditions({ translations }: TermsAndConditionsProps) {
   return (
-    <div className="flex flex-col items-center px-6 md:px-3 lg:px-0 py-6 lg:py-8 mt-4 lg:max-w-[80%] mx-auto">
+    <div className="flex flex-col items-center py-6 lg:py-8 mt-4 gmm-content-container">
       <h1 className="text-3xl font-bold text-center mb-6">{translations('title')}</h1>
 
       <SectionCard title={translations('introduction.title')}>

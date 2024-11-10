@@ -53,9 +53,8 @@ export default function ForgotPasswordForm() {
   return (
     <div className="flex flex-col items-center justify-self-center">
       <Card className="w-full sm:min-w-96 sm:w-1/4 bg-background p-8 py-6">
-        <p className="mb-8 text-sm">
-          Enter your email address and we will send you a link to reset your
-          password
+        <p className="mb-5 text-sm font-medium">
+          Enter the email address you used when you joined and we will send you instructions to reset your password.
         </p>
 
         <Form {...form}>
@@ -64,7 +63,7 @@ export default function ForgotPasswordForm() {
             className="w-full space-y-5"
           >
             <div className="space-y-2">
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email Address</FormLabel>
               <FormField
                 control={form.control}
                 name="email"
@@ -73,12 +72,12 @@ export default function ForgotPasswordForm() {
                     <FormControl>
                       <Input
                         autoComplete="email"
-                        className="text-sm placeholder:text-xs"
-                        placeholder="Email"
+                        className="text-md placeholder:text-md"
+                        placeholder=""
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className="text-xs" />
+                    <FormMessage className="text-md" />
                   </FormItem>
                 )}
               />
@@ -93,7 +92,7 @@ export default function ForgotPasswordForm() {
                 {requestResult.isLoading ? (
                   <Loading />
                 ) : (
-                  'Send Password Reset Link'
+                  'Send Reset Instructions'
                 )}
               </Button>
               {!requestResult.isLoading && (
@@ -101,7 +100,7 @@ export default function ForgotPasswordForm() {
                   href="/"
                   className={cn(
                     buttonVariants({ variant: 'default' }),
-                    'h-9 px-5 bg-primary text-primary-foreground font-bold text-xs cta'
+                    'h-9 px-5 border border-input bg-background text-secondary text-xs cta'
                   )}
                 >
                   Cancel

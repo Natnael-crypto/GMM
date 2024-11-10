@@ -33,7 +33,7 @@ export default function RegistrationOverview() {
           Guardian Muslim Marriage
           </span>
         </h1>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 text-center">
+        <div className="gmm-approach-grid grid text-center">
           <HoverCard>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard

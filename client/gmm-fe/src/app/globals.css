@@ -280,6 +280,22 @@
   font-size: 1.25rem;
 }
 
+.gmm-reg-body .gmm-approach-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gmm-content-container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.gmm-content-container div {
+  background: transparent;
+  margin-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 @media (min-width: 640px) {
   .gmm-approach-icons, .gmm-other-platforms-icons {
     padding-left: 20px;
@@ -362,6 +378,15 @@
     font-size: 1.5rem;
   }
 
+  .gmm-reg-body .gmm-approach-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .gmm-content-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
 }
 
 @media (min-width: 1024px) {
@@ -439,6 +464,11 @@
     font-size: 1.5rem;
   }
 
+  .gmm-content-container {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
 }
 
 @media (min-width: 1280px) {
@@ -480,7 +510,7 @@
   }
 
   .gmm-reg-body .gmm-approach-grid {
-    max-width: 90%
+    max-width: 80%;
   }
 }
 
@@ -508,7 +538,7 @@
   }
 
   .gmm-reg-bg {
-    height: 20rem;
+    height: 17rem;
   }
 
   .gmm-reg-title h1 {
@@ -520,7 +550,13 @@
   }
 
   .gmm-reg-body .gmm-approach-grid {
+    max-width: 80%;
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .gmm-content-container {
+    padding-left: 15rem;
+    padding-right: 15rem;
   }
 }
 
