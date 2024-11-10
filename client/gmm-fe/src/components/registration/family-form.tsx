@@ -79,6 +79,16 @@ export default function FamilyIntroductionForm() {
                 <FormControl>
                   <Input
                     {...field}
+                    onChange={(e) => {
+                      if (
+                        /[0-9\(\)\[\]\{\}\+\-\*/%=!@#$^&_|`~<>.,?":;'\\]/.test(
+                          e.target.value
+                        )
+                      ) {
+                        return;
+                      }
+                      field.onChange(e.target.value);
+                    }}
                     className="text-muted-foreground bg-background text-md shadow rounded-sm"
                   />
                 </FormControl>
@@ -99,6 +109,16 @@ export default function FamilyIntroductionForm() {
                   <Input
                     {...field}
                     className="text-muted-foreground bg-background text-md shadow rounded-sm"
+                    onChange={(e) => {
+                      if (
+                        /[0-9\(\)\[\]\{\}\+\-\*/%=!@#$^&_|`~<>.,?":;'\\]/.test(
+                          e.target.value
+                        )
+                      ) {
+                        return;
+                      }
+                      field.onChange(e.target.value);
+                    }}
                   />
                 </FormControl>
                 <FormMessage className="text-md" />
