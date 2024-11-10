@@ -23,6 +23,7 @@ import {
   countryToCountryCode,
   heights,
   User,
+  UserBasicInformation,
   userBasicInformationSchema,
   weights,
 } from '@/lib/schemas/user';
@@ -64,7 +65,7 @@ const cityOptions = Object.keys(countries).flatMap((country) =>
 
 export default function BasicInformationForm() {
   const user = useAppSelector((state) => state.auth.user);
-  const form = useForm<User>({
+  const form = useForm<UserBasicInformation>({
     resolver: zodResolver(userBasicInformationSchema),
     defaultValues: {
       id: user?.id ?? '',
@@ -130,7 +131,7 @@ export default function BasicInformationForm() {
     }
   }, [basicInfoFormRef, registerForm]);
 
-  const onSubmit = (data: User) => {
+  const onSubmit = (data: any) => {
     updateUser({ user: data });
   };
 
@@ -229,7 +230,6 @@ export default function BasicInformationForm() {
             <FormField
               control={form.control}
               name="dateOfBirth"
-              disabled={true}
               render={({ field }) => (
                 <FormItem className="flex flex-col">
                   <Popover
@@ -243,6 +243,7 @@ export default function BasicInformationForm() {
                           className={cn(
                             'shadow w-full pl-3 text-left font-normal h-8 rounded-sm text-md text-muted-foreground'
                           )}
+                          disabled={true}
                         >
                           {field.value ? (
                             format(field.value, 'PPP')

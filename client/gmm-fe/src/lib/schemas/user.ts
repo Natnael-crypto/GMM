@@ -547,7 +547,7 @@ export const userRegistrationSchema = _userBasicInformationSchema
 
 export type UserRegistration = z.infer<typeof userRegistrationSchema>;
 export type User = z.infer<typeof userSchema>;
-export type UserBasicInformation = z.infer<typeof _userBasicInformationSchema>;
+export type UserBasicInformation = z.infer<typeof userBasicInformationSchema>;
 
 const generateHeights = () => {
   const heights: Record<string, string> = {};
