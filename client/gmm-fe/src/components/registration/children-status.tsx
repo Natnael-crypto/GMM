@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
@@ -53,7 +52,7 @@ export default function ChildrenStatus() {
                           {i}
                         </SelectItem>
                       ))}
-                      <SelectItem className="text-md max-w-80" value="15">
+                      <SelectItem className="text-md max-w-80" value="16">
                         More than 15
                       </SelectItem>
                     </SelectContent>
@@ -77,8 +76,14 @@ export default function ChildrenStatus() {
               <FormItem>
                 <FormControl>
                   <Select
-                    onValueChange={field.onChange}
-                    value={field.value ? field.value.toString() : ''}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+
+                      if (numberOfChildren <= 1) {
+                        form.setValue('ageOfOldestChild', value);
+                      }
+                    }}
+                    value={field.value?.toString() || ''}
                   >
                     <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
@@ -125,7 +130,7 @@ export default function ChildrenStatus() {
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
-                    value={field.value ? field.value.toString() : ''}
+                    value={field.value?.toString() || ''}
                   >
                     <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                       <SelectValue />
