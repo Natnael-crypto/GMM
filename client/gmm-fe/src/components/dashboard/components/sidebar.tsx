@@ -75,7 +75,7 @@ export default function Sidebar() {
             FAQ
           </Link>
           <Link
-            href=""
+            href="/support"
             className="ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full"
           >
             Help
