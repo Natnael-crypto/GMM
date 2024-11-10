@@ -14,14 +14,13 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
 import ExternalAuthenticator from '@/components/auth/external-authenticator';
 import OrSeparator from '@/components/auth/or-separator';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from '@/components/ui/use-toast';
 import Loading from '@/components/ui/loading';
 import { signUp } from '@/actions/auth/signup';
-import { useRouter } from '@/lib/navigation';
+import { Link, useRouter } from '@/lib/navigation';
 import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
@@ -169,7 +168,7 @@ export function SignUpForm() {
                 <FormControl>
                   <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="text-md text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue placeholder="Gender"/>
+                      <SelectValue placeholder="Gender" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem className="text-md max-w-80" value="Male">
@@ -333,7 +332,13 @@ export function SignUpForm() {
                   </FormControl>
 
                   <FormLabel className="text-sm text-muted-foreground">
-                    I agree to <Link href="" className="text-sm text-primary font-semibold">terms and conditions</Link>
+                    I agree to{' '}
+                    <Link
+                      href="/terms"
+                      className="text-sm text-primary font-semibold"
+                    >
+                      terms and conditions
+                    </Link>
                   </FormLabel>
                 </div>
 
@@ -357,10 +362,7 @@ export function SignUpForm() {
 
           <div className="text-sm">
             {t('signup.alreadyHaveAccount')}{' '}
-            <Link
-              href="/en/login"
-              className="text-sm text-primary font-semibold"
-            >
+            <Link href="/login" className="text-sm text-primary font-semibold">
               {t('login.cta')}
             </Link>
           </div>
