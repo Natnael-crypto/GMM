@@ -85,7 +85,7 @@ export default function ProfileCompletionCard() {
   ];
 
   return (
-    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 text-md font-medium space-y-5">
+    <div className="gmm-profile-completion rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 text-md font-medium space-y-5">
       <AnimatePresence mode="wait">
         {user && <ProfileCard user={user} />}
         {!user && (
@@ -116,28 +116,28 @@ export default function ProfileCompletionCard() {
         )}
       </div>
 
-      <div className="lg:flex justify-end gap-1">
+      <div className="gmm-profile-completion-cta lg:flex text-center m-full sm:justify-end gap-1">
+      {user && (
+          <Link
+            href={`/dashboard/profile/${user?.id}/basic-information`}
+            className={cn(
+              buttonVariants({ variant: 'outline' }),
+              'rounded-full h-8 text-secondary cta m-1 text-xs'
+            )}
+          >
+            View Profile
+          </Link>
+        )}
+        {!user && <Skeleton className="h-10 rounded-full" />}
         {user && !user.isMatched && (
           <Link
             href={`/dashboard/profile/${user.id}/basic-information/edit`}
             className={cn(
               buttonVariants({ variant: 'outline' }),
-              'rounded-full h-8 text-secondary cta m-1'
+              'rounded-full h-8 text-secondary cta m-1 text-xs'
             )}
           >
             Edit Profile
-          </Link>
-        )}
-        {!user && <Skeleton className="h-10 rounded-full" />}
-        {user && (
-          <Link
-            href={`/dashboard/profile/${user?.id}/basic-information`}
-            className={cn(
-              buttonVariants({ variant: 'outline' }),
-              'rounded-full h-8 text-secondary cta m-1'
-            )}
-          >
-            View Profile
           </Link>
         )}
       </div>

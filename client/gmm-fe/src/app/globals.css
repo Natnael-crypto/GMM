@@ -332,6 +332,9 @@
   .gmm-reg-title h2 {
     font-size: 1.5rem;
   }
+  .gmm-profile-completion-cta {
+    text-align: right;
+  }
 }
 
 @media (min-width: 768px) {
@@ -483,6 +486,20 @@
     padding-right: 5rem;
   }
 
+  .gmm-dashboard {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    width: 875px;
+    margin: auto;
+  }
+
+  .gmm-dashboard > div:first-of-type {
+    grid-column: span 7 / span 7;
+  }
+
+  .gmm-dashboard > div:last-of-type {
+    grid-column: span 5 / span 5;
+  }
+
 }
 
 @media (min-width: 1280px) {
@@ -533,6 +550,24 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
     margin-left: 0;
     margin-right: 0;
+  }
+
+  .gmm-dashboard {
+    width: 1140px;
+  }
+
+  .gmm-dashboard > div:first-of-type {
+    grid-column: span 8 / span 8;
+  }
+
+  .gmm-dashboard > div:last-of-type {
+    grid-column: span 4 / span 4;
+  }
+}
+
+@media (min-width: 1440px) {
+  .gmm-dashboard {
+    width: 1260px;
   }
 }
 
@@ -585,6 +620,18 @@
     padding: inherit;
     margin: auto;
   }
+
+  .gmm-dashboard {
+    width: 1440px;
+  }
+
+  .gmm-dashboard > div:first-of-type {
+    grid-column: span 9 / span 9;
+  }
+
+  .gmm-dashboard > div:last-of-type {
+    grid-column: span 3 / span 3;
+  }
 }
 
 @media (min-width: 1921px) {
@@ -620,7 +667,9 @@
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
-  
+  .gmm-dashboard {
+    width: 1450px;
+  }
 }
 
 @media (min-width: 2560px) {
@@ -639,5 +688,9 @@
 
   .gmm-hiw-checkout-container {
     max-width: 65%
+  }
+
+  .gmm-dashboard {
+    width: 2075px;
   }
 }

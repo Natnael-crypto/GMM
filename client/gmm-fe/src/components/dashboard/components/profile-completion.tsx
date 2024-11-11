@@ -19,7 +19,7 @@ export default function ProfileCompletionProgress({
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="bg-primary h-full"
+          className="bg-primary h-full rounded-full"
         ></motion.div>
       </div>
     </div>

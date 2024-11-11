@@ -25,14 +25,14 @@ export default function Dashboard() {
         <div className="py-6 space-y-8">
           <h1 className="text-xl text-center font-medium">Your Dashboard</h1>
 
-          <div className="grid lg:grid-cols-12 gap-4 px-3">
-            <div className="lg:col-span-7">
+          <div className="gmm-dashboard grid gap-4 px-3">
+            <div>
               {user && <DashboardLeftCards user={user} />}
               {!user && (
                 <Skeleton className="bg-[#e8f3db] rounded-se-3xl rounded-es-3xl w-full h-full" />
               )}
             </div>
-            <div className="lg:col-span-5">
+            <div>
               <ProfileCompletionCard />
             </div>
           </div>
