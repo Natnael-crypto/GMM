@@ -19,7 +19,7 @@ export default function MatchToleranceSelector() {
   };
 
   return (
-    <div className="flex flex-col gap-2 max-w-48">
+    <div className="flex flex-col gap-2">
       <Button
         className={cn(
           'text-xs w-full h-8 hover:bg-primary cta',

@@ -624,14 +624,6 @@
   .gmm-dashboard {
     width: 1440px;
   }
-
-  .gmm-dashboard > div:first-of-type {
-    grid-column: span 9 / span 9;
-  }
-
-  .gmm-dashboard > div:last-of-type {
-    grid-column: span 3 / span 3;
-  }
 }
 
 @media (min-width: 1921px) {

@@ -28,7 +28,7 @@ export default function MatchMeCard() {
       : `Match me (> ${100 - fuzzyMatchThreshold * 100}%)`;
 
   return (
-    <div className="flex flex-col justify-center items-center rounded-se-3xl rounded-es-3xl overflow-hidden bg-primary text-primary-foreground aspect-square p-5 group hover:bg-secondary hover:text-secondary-foreground cursor-pointer max-w-48">
+    <div className="flex flex-col justify-center items-center rounded-se-3xl rounded-es-3xl overflow-hidden bg-primary text-primary-foreground aspect-square p-5 group hover:bg-secondary hover:text-secondary-foreground cursor-pointer">
       <div className="font-bold mb-8 space-y-1 group-hover:bg-secondary group-hover:text-secondary-foreground">
         <h1 className="text-lg md:text-xl lg:text-3xl text-center min-h-8">
           {stats?.potentialMatchCount}

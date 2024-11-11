@@ -39,7 +39,7 @@ export default function Dashboard() {
 
           <div
             className={cn(
-              'space-y-3 relative',
+              'space-y-3 relative gmm-dashboard px-3',
               user?.isMatched ? 'opacity-50' : ''
             )}
           >
@@ -55,7 +55,7 @@ export default function Dashboard() {
                   Match Preferences Filter
                 </h1>
 
-                <div className="flex flex-col md:grid md:grid-cols-12 gap-4 py-4">
+                <div className="gmm-mpf-container flex flex-col md:grid md:grid-cols-12 gap-4 py-4">
                   <MatchPreferenceFilter />
                   <div className="md:col-span-3 flex gap-3 sm:flex-col md:gap-y-5 items-center">
                     <MatchMeCard />

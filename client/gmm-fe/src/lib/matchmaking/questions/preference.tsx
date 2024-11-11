@@ -95,7 +95,7 @@ export const preferenceQuestions: PreferenceQuestion[] = [
   {
     label: 'Salat/Prayer',
     name: 'salat',
-    width: 'col-span-10 md:col-span-6',
+    width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
     options: [
       {
@@ -118,7 +118,7 @@ export const preferenceQuestions: PreferenceQuestion[] = [
   {
     label: 'Hijab',
     name: 'hijab',
-    width: 'col-span-10 md:col-span-9',
+    width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
     options: [
       {
