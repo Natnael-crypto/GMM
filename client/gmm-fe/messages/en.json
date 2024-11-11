@@ -11,49 +11,49 @@
       "getStarted": "Get Started"
     },
     "ourApproach": {
-      "title": "Our approach for",
+      "title": "Our approach",
       "subtitle": "<bold>Guardian</bold> Muslim Marriage",
 
       "card": {
         "guidedMatching": "Guided<br></br>Matchmaking",
         "matchGuarantee": "Match<br></br>Guarantee",
         "oneOnOneChats": "1-On-1<br></br>Chats",
-        "neverPayToCompete": "Never Pay<br></br>to Compete",
-        "guardianFamilyInvolvement": "Family/\u200BCommunity<br></br>Awareness"
+        "neverPayToCompete": "Never Pay to<br></br>Compete for Views",
+        "guardianFamilyInvolvement": "Verified Family<br></br>Awareness"
       },
 
       "slide": {
         "guidedMatching": {
           "title": "Guided Matchmaking",
-          "description": "Never run out of things to talk about! Our step-by-step matchmaking process is designed around the fundamentals of compatibility. Ensuring meaningful conversations take place that move you and your potential spouse towards the <bold>goal of marriage</bold> Insha'Allah"
+          "description": "Never Run Out of things to Talk About! Our Step-By-Step Process is Designed Around the Fundamentals of Compatibility. Ensuring Meaningful Conversations take place that Move you and your Potential Spouse Towards the <bold>Goal of Marriage</bold> Insha'Allah."
         },
         "matchGuarantee": {
           "title": "Match Guarantee",
           "description": {
-            "p1": "Complete Your Profile. Set your Match preferences, hit \"Match Me\" and start Talking to your Potential Spouse.",
-            "p2": "<bold>No Money Wasted</bold> for Uncertain Message Attempts Hoping He/She Accepts. No Money Lost. Just Real Connections."
+            "p1": "Complete Your Profile. Set your Match Preferences, hit <bold>\"MATCH ME\"</bold> and Start Talking to your Potential Spouse.",
+            "p2": "<bold>No Money Wasted</bold> for Uncertain Message Attempts Hoping He or She Accepts. No Money Lost. Just Real Connections."
           }
         },
         "oneOnOneChats": {
           "title": "1-On-1 Chats",
           "description": {
-            "p1": "No Distractions! Match and Talk to One Potential Spouse at a Time.",
-            "p2": "Having Meaningful Conversations via the <bold>Guardian Guided Match-Making Process.</bold>"
+            "p1": "No Distractions! Match and <bold>Talk to One</bold> Potential Spouse at a Time.",
+            "p2": "Having Meaningful Conversations via the <bold>Guardian Guided Match-Making Process</bold>."
           }
         },
         "neverPayToCompete": {
-          "title": "Never Pay to Compete",
-          "description": "No Competing with Other Members using your Money to Stand Out! We won't Entice you (by giving you the option) to <bold>Pay for Visibility of your profile or the Direct Message a Potential Spouse</bold>"
+          "title": "Never Pay to Compete for Views",
+          "description": "<bold>WE DON'T SET YOU UP</bold> (by giving you the option) to Pay and stand out over other members. <bold>Paying for Visibility is OVER</bold>."
         },
         "guardianFamilyInvolvement": {
-          "title": "Family/Community Awareness",
-          "description": "Unlike a Casual Dating App/Site Targeting Muslim Under the branding of \"<bold>Halal Marriages</bold>\". Guardian Muslim Marriage requires \"<bold>Verification and Family Awareness</bold>\" from the Start for all Our Members. Ensuring Family Awareness and Participation in the Marriage Process."
+          "title": "Verified Family Awareness",
+          "description": "Casual \"Muslim Marriage\" dating apps/websites create a no family haram direct contact, hookup culture because their users can sign up without <bold>VERIFIED family Awareness and Involvement</bold>. GMM Verifies and registers the family member of our user before family contact information is exchanged. Revert Care Accommodated (for reverts only without Muslim family members)."
         }
       }
     },
     "createAccount": {
       "loggedInTitle": "Find Your Potential Spouse",
-      "loggedOutTitle": "Create Your Account to Find Your Potential Spouse",
+      "loggedOutTitle": "Find Your Potential Spouse",
       "loggedInCta": "Get Started",
       "loggedOutCta": "Sign Up For An Account"
     },
@@ -104,9 +104,9 @@
     },
     "howItWorks": {
       "title": "How It Works",
-      "step1": "Sign Up For An Account",
-      "step2": "Complete Basic Profile, Guardian Info & Verification",
-      "step3": "Match & Follow Guided Match Making Process",
+      "step1": "Sign-Up for An Account",
+      "step2": "Complete Basic Profile, Family info & Verification",
+      "step3": "Match & Follow Guided Matchmaking",
       "step4": "Insha'Allah Get Married"
     },
     "guardianServices": {

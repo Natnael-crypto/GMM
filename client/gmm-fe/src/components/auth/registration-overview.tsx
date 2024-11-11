@@ -27,7 +27,7 @@ export default function RegistrationOverview() {
       <div className="mt-[3rem] overflow-auto no-scrollbar">
       <h1 className="sm:text-start z-20 flex flex-col px-8 lg:ps-0 md:px-20 mb-6 pt-3 hidden lg:flex">
           <span className="z-20 uppercase font-bold text-primary text-center lg:text-left">
-           Our approach for
+           Our approach
           </span>
           <span className="z-20 text-lg sm:text-xl md:text-2xl lg:text-3xl text-accent text-center lg:text-left">
           Guardian Muslim Marriage
