@@ -85,7 +85,7 @@ export default function ProfileCompletionCard() {
   ];
 
   return (
-    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 text-md font-medium space-y-5">
+    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 text-md font-medium space-y-5">
       <AnimatePresence mode="wait">
         {user && <ProfileCard user={user} />}
         {!user && (
@@ -116,25 +116,25 @@ export default function ProfileCompletionCard() {
         )}
       </div>
 
-      <div className="flex justify-end gap-1">
+      <div className="lg:flex justify-end gap-1">
         {user && !user.isMatched && (
           <Link
             href={`/dashboard/profile/${user.id}/basic-information/edit`}
             className={cn(
               buttonVariants({ variant: 'outline' }),
-              'rounded-full h-8 text-secondary cta'
+              'rounded-full h-8 text-secondary cta m-1'
             )}
           >
             Edit Profile
           </Link>
         )}
-        {!user && <Skeleton className="w-44 h-10 rounded-full" />}
+        {!user && <Skeleton className="h-10 rounded-full" />}
         {user && (
           <Link
             href={`/dashboard/profile/${user?.id}/basic-information`}
             className={cn(
               buttonVariants({ variant: 'outline' }),
-              'rounded-full h-8 text-secondary cta'
+              'rounded-full h-8 text-secondary cta m-1'
             )}
           >
             View Profile

@@ -22,17 +22,17 @@ export default function Dashboard() {
   return (
     <UpdateProfileProvider autoSave={false}>
       <>
-        <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] py-6 space-y-8">
+        <div className="py-6 space-y-8">
           <h1 className="text-xl text-center font-medium">Your Dashboard</h1>
 
-          <div className="grid grid-cols-12 gap-4">
-            <div className="col-span-7">
+          <div className="grid lg:grid-cols-12 gap-4 px-3">
+            <div className="lg:col-span-7">
               {user && <DashboardLeftCards user={user} />}
               {!user && (
                 <Skeleton className="bg-[#e8f3db] rounded-se-3xl rounded-es-3xl w-full h-full" />
               )}
             </div>
-            <div className="col-span-5">
+            <div className="lg:col-span-5">
               <ProfileCompletionCard />
             </div>
           </div>

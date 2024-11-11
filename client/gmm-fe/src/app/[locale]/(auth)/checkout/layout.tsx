@@ -15,7 +15,7 @@ function CheckoutLayout({
   return (
     <div>
       <AuthHeader />
-      <div className="py-6 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] flex flex-col-reverse lg:flex-row justify-between gap-5">
+      <div className="gmm-reg-body py-6 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] flex flex-col-reverse lg:flex-row justify-between gap-5">
         <div className="w-full">
           <RegistrationOverview />
 
@@ -24,7 +24,7 @@ function CheckoutLayout({
               {t('title')}
             </h2>
 
-            <div className="mx-auto grid md:grid-cols-2 gap-10 w-fit">
+            <div className="gmm-hiw-checkout-container m-auto grid gap-8 lg:my-8 justify-center py-8 lg:py-0">
               <HowItWorksCard
                 imageSrc="/assets/icon_sign-up-for-an-account.svg"
                 number={1}
