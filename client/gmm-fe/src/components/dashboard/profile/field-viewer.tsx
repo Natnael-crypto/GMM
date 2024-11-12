@@ -27,7 +27,7 @@ export default function FieldViewer<T>({
   const fields = getFields(entity);
 
   return (
-    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted border border-muted text-sm">
+    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted border border-muted text-md">
       {title && (
         <h1 className="text-primary font-bold text-xl p-5 px-8">{title}</h1>
       )}
@@ -47,7 +47,7 @@ export default function FieldViewer<T>({
             </div>
             <div className="col-span-11 space-y-3">
               {Array.isArray(field.value) ? (
-                <ul className="flex flex-col gap-3 text-sm">
+                <ul className="flex flex-col gap-3 text-md">
                   {field.value.map((subField, subIndex) => (
                     <li key={subIndex} className="grid grid-cols-11 gap-x-4">
                       <span className="col-span-4">{subField.label}</span>

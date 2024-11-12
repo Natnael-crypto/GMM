@@ -52,7 +52,7 @@ export default function Dashboard() {
             {isAccountApproved && (
               <>
                 <h1 className="text-xl font-bold text-secondary border-b border-secondary col-span-12">
-                  Match Preferences Filter
+                  Match Filters
                 </h1>
 
                 <div className="gmm-mpf-container flex flex-col md:grid md:grid-cols-12 gap-4 py-4">
