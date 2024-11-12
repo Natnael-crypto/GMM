@@ -134,7 +134,7 @@ export default function Multiselect({
                         {option.selectedIcon ?? <Check className="h-4 w-4" />}
                       </span>
 
-                      <span className="text-sm flex gap-x-4 items-center">
+                      <span className="text-md font-medium flex gap-x-4 items-center">
                         {option.icon} {option.label}
                       </span>
                     </div>

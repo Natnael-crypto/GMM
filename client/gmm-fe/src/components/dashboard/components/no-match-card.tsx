@@ -9,7 +9,7 @@ export default function NoMatchCard() {
   const user = useAppSelector((state) => state.auth.user);
 
   return (
-    <div className="bg-[#e8f3db] rounded-se-3xl rounded-es-3xl overflow-hidden py-5 p-8 text-sm space-y-4 text-muted-foreground h-full flex items-center">
+    <div className="bg-[#e8f3db] rounded-se-3xl rounded-es-3xl overflow-hidden py-5 p-8 text-md space-y-4 text-muted-foreground h-full flex items-center">
       <div className="flex flex-col items-center justify-center gap-4">
         <div className="w-24">
           {user?.gender === 'Male' ? (

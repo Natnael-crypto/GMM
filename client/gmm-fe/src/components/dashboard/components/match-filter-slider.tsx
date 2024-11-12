@@ -38,7 +38,7 @@ export default function MatchFilterSlider({
         render={({ field }) => (
           <>
             <Label
-              className="text-sm flex justify-between items-center"
+              className="text-md flex justify-between items-center"
               onClick={() => {
                 field.onChange(defaultValue);
                 if (onChange) {

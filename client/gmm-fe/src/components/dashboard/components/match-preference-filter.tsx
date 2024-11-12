@@ -38,7 +38,7 @@ export default function MatchPreferenceFilter() {
             defaultValue={[minAge, maxAge]}
             allowAny={isFilterInactive['preferredAge']}
             render={(field) => (
-              <div className="text-xs flex gap-1 text-primary font-bold justify-center">
+              <div className="text-md flex gap-1 text-primary font-bold justify-center">
                 {field.value && (
                   <span>
                     {field.value[0] === field.value[1]
@@ -61,7 +61,7 @@ export default function MatchPreferenceFilter() {
             defaultValue={[minHeight, maxHeight]}
             allowAny={isFilterInactive['preferredHeight']}
             render={(field) => (
-              <div className="text-xs flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
+              <div className="text-md flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
                 <span>
                   <span>{field.value && field.value[0]} cm </span>{' '}
                   {field.value[0] !== field.value[1] && (
@@ -98,7 +98,7 @@ export default function MatchPreferenceFilter() {
             defaultValue={[minWeight, maxWeight]}
             allowAny={isFilterInactive['preferredWeight']}
             render={(field) => (
-              <div className="text-xs flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
+              <div className="text-md flex md:flex-col lg:flex-row gap-1 text-primary font-bold justify-center items-center">
                 <span>
                   <span>{field.value && field.value[0]} Kg</span> <span>-</span>{' '}
                   <span>{field.value && field.value[1]} Kg</span>
