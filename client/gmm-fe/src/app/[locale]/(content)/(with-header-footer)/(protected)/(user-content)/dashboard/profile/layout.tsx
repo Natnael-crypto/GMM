@@ -57,17 +57,17 @@ export default function ProfileLayout({
           compatibilityPath={compatibilityPaths[pathname]}
           pageName={pageNames[pathname]}
         />
-        <div className="sticky top-0 bg-background pb-8 pt-3 z-50">
+        <div className="sticky top-0 bg-background lg:pb-8 lg:pt-3 z-50">
           <ProfileStepper />
         </div>
 
-        <div className="grid grid-cols-12 gap-5 py-8 sticky top-0">
-          <div className="hidden md:block col-span-3">
+        <div className="grid grid-cols-12 gap-5 lg:py-8 sticky top-0">
+          <div className="col-span-12 lg:col-span-3">
             <div className="sticky top-40">
               {data && <ProfileImages key={data.id} user={data} />}
             </div>
           </div>
-          <div className="col-span-9">{children}</div>
+          <div className="col-span-12 lg:col-span-9">{children}</div>
         </div>
       </div>
       <Footer />

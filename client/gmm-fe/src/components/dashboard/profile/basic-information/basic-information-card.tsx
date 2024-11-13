@@ -90,5 +90,5 @@ const fields = (user?: User) =>
   ].filter((field) => field.value && field.value !== '' && field.value !== 0);
 
 export default function BasicInformationCard({ user }: { user: User }) {
-  return <FieldViewer getFields={fields} entity={user} />;
+  return <FieldViewer title="Basic Information" getFields={fields} entity={user} />;
 }

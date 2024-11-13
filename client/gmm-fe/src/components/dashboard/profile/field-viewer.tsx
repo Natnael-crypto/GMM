@@ -27,42 +27,38 @@ export default function FieldViewer<T>({
   const fields = getFields(entity);
 
   return (
-    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted border border-muted text-md">
-      {title && (
-        <h1 className="text-primary font-bold text-xl p-5 px-8">{title}</h1>
-      )}
+    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted border border-muted py-5">
+      <div>
+        {title && (
+          <h1 className="text-secondary font-bold text-xl px-8 pb-3">{title}</h1>
+        )}
+      </div>
 
       {fields &&
         fields.map((field, index) => (
           <div
             key={index}
-            className="grid grid-cols-12 gap-x-5 py-3 px-8 even:bg-white"
+            className="grid grid-cols-12 gap-x-5 py-3 px-8"
           >
-            <div className="col-span-1 text-center">
+            <div className="col-span-3 sm:col-span-2 md:col-span-1 text-center">
               <FontAwesomeIcon
                 icon={field.icon}
                 size="2xl"
                 className="text-primary"
               />
             </div>
-            <div className="col-span-11 space-y-3">
+            <div className="col-span-9 sm:col-span-10 md:col-span-11 space-y-3 mt-1">
               {Array.isArray(field.value) ? (
-                <ul className="flex flex-col gap-3 text-md">
+                <ul className="flex flex-col gap-3">
                   {field.value.map((subField, subIndex) => (
-                    <li key={subIndex} className="grid grid-cols-11 gap-x-4">
-                      <span className="col-span-4">{subField.label}</span>
-                      <span className="col-span-7 font-bold">
-                        {subField.value || 'N/A'}
-                      </span>
+                    <li key={subIndex} className="gap-x-4">
+                      <p className="text-sm">{subField.label}: <span className="text-md font-bold">{subField.value || 'N/A'}</span></p>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <div className="col-span-11 grid grid-cols-11 gap-2 items-center">
-                  <h1 className="col-span-4">{field.label}</h1>
-                  <h1 className="col-span-7 font-bold">
-                    {field.value || 'N/A'}
-                  </h1>
+                <div className="col-span-9 sm:col-span-10 md:col-span-11 space-y-3 mt-1">
+                  <p className="text-sm">{field.label}: <span className="text-md font-bold">{field.value || 'N/A'}</span></p>
                 </div>
               )}
             </div>
