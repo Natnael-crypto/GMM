@@ -849,7 +849,7 @@ export function WorldlyLifestyleForm({
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -891,7 +891,7 @@ export function WorldlyLifestyleForm({
                         onValueChange={field.onChange}
                         value={field.value}
                       >
-                        <SelectTrigger className="text-muted-foreground bg-background text-xs  rounded-none rounded-ss-sm rounded-es-sm h-8 ring-transparent ring-offset-transparent shadow">
+                        <SelectTrigger className="text-muted-foreground bg-background text-md  rounded-none rounded-ss-sm rounded-es-sm h-8 ring-transparent ring-offset-transparent shadow">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -930,7 +930,7 @@ export function WorldlyLifestyleForm({
                         onValueChange={field.onChange}
                         value={field.value}
                       >
-                        <SelectTrigger className="text-muted-foreground bg-background text-xs rounded-none rounded-ee-sm rounded-se-sm h-8 border-s-0 ring-transparent ring-offset-transparent shadow">
+                        <SelectTrigger className="text-muted-foreground bg-background text-md rounded-none rounded-ee-sm rounded-se-sm h-8 border-s-0 ring-transparent ring-offset-transparent shadow">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -974,7 +974,7 @@ export function WorldlyLifestyleForm({
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1005,7 +1005,7 @@ export function WorldlyLifestyleForm({
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1039,7 +1039,7 @@ export function WorldlyLifestyleForm({
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1079,7 +1079,7 @@ export function WorldlyLifestyleForm({
                       onValueChange={field.onChange}
                       value={field.value?.toString()}
                     >
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1111,7 +1111,7 @@ export function WorldlyLifestyleForm({
                           value: brand,
                         }))}
                         placeholder=""
-                        className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent"
+                        className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                       />
                       <FormMessage className="text-xs" />
                     </FormItem>
@@ -1131,7 +1131,7 @@ export function WorldlyLifestyleForm({
                           onValueChange={field.onChange}
                           value={field.value?.toString()}
                         >
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent ">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent ">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent className="max-h-64">
@@ -1166,7 +1166,7 @@ export function WorldlyLifestyleForm({
                             selectedOption={field.value}
                             options={carModels}
                             placeholder=""
-                            className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent"
+                            className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                           />
                           <FormMessage className="text-xs" />
                         </FormItem>
@@ -1188,7 +1188,7 @@ export function WorldlyLifestyleForm({
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1228,7 +1228,7 @@ export function WorldlyLifestyleForm({
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1262,7 +1262,7 @@ export function WorldlyLifestyleForm({
                             value: debt,
                           }))}
                           placeholder="Select"
-                          className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent"
+                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                         />
                       </FormControl>
                       <FormMessage className="text-xs" />
@@ -1285,7 +1285,7 @@ export function WorldlyLifestyleForm({
                             onValueChange={field.onChange}
                             value={field.value}
                           >
-                            <SelectTrigger className="text-muted-foreground bg-background text-xs  rounded-none rounded-ss-sm rounded-es-sm h-8 ring-transparent ring-offset-transparent shadow">
+                            <SelectTrigger className="text-muted-foreground bg-background text-md  rounded-none rounded-ss-sm rounded-es-sm h-8 ring-transparent ring-offset-transparent shadow">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -1328,7 +1328,7 @@ export function WorldlyLifestyleForm({
                             onValueChange={field.onChange}
                             value={field.value}
                           >
-                            <SelectTrigger className="text-muted-foreground bg-background text-xs rounded-none rounded-ee-sm rounded-se-sm h-8 border-s-0 ring-transparent ring-offset-transparent shadow">
+                            <SelectTrigger className="text-muted-foreground bg-background text-md rounded-none rounded-ee-sm rounded-se-sm h-8 border-s-0 ring-transparent ring-offset-transparent shadow">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -1375,7 +1375,7 @@ export function WorldlyLifestyleForm({
                           onValueChange={field.onChange}
                           value={field.value}
                         >
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
@@ -1401,7 +1401,7 @@ export function WorldlyLifestyleForm({
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1438,7 +1438,7 @@ export function WorldlyLifestyleForm({
                           : 'None'
                       }
                     >
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1466,7 +1466,7 @@ export function WorldlyLifestyleForm({
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent text-start">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent text-start">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1499,7 +1499,7 @@ export function WorldlyLifestyleForm({
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1523,7 +1523,7 @@ export function WorldlyLifestyleForm({
                 <FormItem>
                   <FormControl>
                     <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1555,7 +1555,7 @@ export function WorldlyLifestyleForm({
                     <FormControl>
                       <Textarea
                         {...field}
-                        className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                        className="text-muted-foreground bg-background text-md shadow rounded-sm"
                       />
                     </FormControl>
                     <FormMessage className="text-xs" />
