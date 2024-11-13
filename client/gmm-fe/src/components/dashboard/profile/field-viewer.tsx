@@ -38,10 +38,10 @@ export default function FieldViewer<T>({
             key={index}
             className="grid grid-cols-12 gap-x-5 py-3 px-8 even:bg-white"
           >
-            <div className="col-span-1">
+            <div className="col-span-1 text-center">
               <FontAwesomeIcon
                 icon={field.icon}
-                size="xl"
+                size="2xl"
                 className="text-primary"
               />
             </div>

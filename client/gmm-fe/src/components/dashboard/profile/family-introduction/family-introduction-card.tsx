@@ -17,10 +17,10 @@ export default function FamilyIntroductionCard({ user }: { user: User }) {
     <div className="space-y-6">
       <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 divide-y">
         <div className="grid grid-cols-12 py-3">
-          <div className="col-span-1">
+          <div className="col-span-1 text-center">
             <FontAwesomeIcon
               icon={faPeopleRoof}
-              size="xl"
+              size="2xl"
               className="text-primary"
             />
           </div>
@@ -58,10 +58,10 @@ export default function FamilyIntroductionCard({ user }: { user: User }) {
       </div>
       <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8 divide-y">
         <div className="grid grid-cols-12 py-3">
-          <div className="col-span-1">
+          <div className="col-span-1 text-center">
             <FontAwesomeIcon
               icon={faPeopleRoof}
-              size="xl"
+              size="2xl"
               className="text-primary"
             />
           </div>
