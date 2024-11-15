@@ -28,6 +28,7 @@ import { FemaleExpectedIslamicLifestyle } from './female-expected-islamic-lifest
 import { UserMarriageDiscussion } from './user-marriage-discussion.entity';
 import { UserFamilyInformation } from './user-family-information.entity';
 import { UserOptionalVerifiable } from './user-optional-verifiables.entity';
+import { FormSubmission } from '@modules/form/entities/submission.entity';
 
 @Entity()
 export class User {
@@ -182,6 +183,9 @@ export class User {
     default: AccountVerificationStatus.UNVERIFIED,
   })
   verificationStatus: AccountVerificationStatus;
+
+  @OneToMany(() => FormSubmission, (submission) => submission.user)
+  formSubmissions: FormSubmission[];
 
   // Worldly Lifestyle
   @OneToOne(

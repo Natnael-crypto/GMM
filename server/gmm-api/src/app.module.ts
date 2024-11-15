@@ -16,6 +16,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import config from '@shared/config';
 import { LoggerMiddleware } from '@shared/utils/logger';
 import { TypeOrmConfigService } from '@shared/database/typeorm.service';
+import { FormModule } from '@modules/form/form.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { TypeOrmConfigService } from '@shared/database/typeorm.service';
     StorageModule,
     MatchMakingModule,
     ChatModule,
+    FormModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatWebsocketGateway],
