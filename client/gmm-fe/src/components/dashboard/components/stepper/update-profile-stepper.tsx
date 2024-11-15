@@ -24,7 +24,7 @@ export default function UpdateProfileStepper() {
   const isActive = (href: string) => pathname === href;
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center px-6">
       <StepperItem
         href={`/${locale}/dashboard/profile/${params.userId}/basic-information/edit`}
         icon={
@@ -80,7 +80,9 @@ export default function UpdateProfileStepper() {
         }
         text={t('marriageDiscussion')}
         className={
-          isActive(`/dashboard/profile/${params.userId}/marriage/edit`) ? 'bg-primary' : ''
+          isActive(`/dashboard/profile/${params.userId}/marriage/edit`)
+            ? 'bg-primary'
+            : ''
         }
       />
       <StepperSeparator />
@@ -94,7 +96,9 @@ export default function UpdateProfileStepper() {
         }
         text={t('familyIntroduction')}
         className={
-          isActive(`/dashboard/profile/${params.userId}/family/edit`) ? 'bg-primary' : ''
+          isActive(`/dashboard/profile/${params.userId}/family/edit`)
+            ? 'bg-primary'
+            : ''
         }
       />
     </div>
