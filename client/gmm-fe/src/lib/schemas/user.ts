@@ -588,7 +588,7 @@ export const maxHeight = Math.max(...Object.keys(heights).map(Number));
 export const minWeight = Math.min(...Object.keys(weights).map(Number));
 export const maxWeight = Math.max(...Object.keys(weights).map(Number));
 export const minAge = 18;
-export const maxAge = 100;
+export const maxAge = 80;
 
 export const countries: Record<string, string[]> = {
   Afghanistan: ['Kabul', 'Herat', 'Kandahar', 'Mazar-i-Sharif', 'Jalalabad'],

@@ -44,6 +44,8 @@ export default function MatchPreferenceFilter() {
                     {field.value[0] === field.value[1]
                       ? field.value[0]
                       : field.value.join(' - ')}
+
+                    {field.value[1] === 80 ? '+' : null}
                   </span>
                 )}
               </div>
