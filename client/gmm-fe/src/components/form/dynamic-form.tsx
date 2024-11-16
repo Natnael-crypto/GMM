@@ -92,7 +92,7 @@ export default function DynamicForm({
                     <Field
                       key={field.id}
                       type={field.type}
-                      label={field.name}
+                      label={field.label}
                       name={field.id}
                       options={field.options}
                       className={field.displayWidth}
