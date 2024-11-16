@@ -1,6 +1,7 @@
 {
   "extends": ["./directus-sync.config.base.json"],
   "dumpPath": "./directus-config",
+  "debug": true,
   "preserveIds": "all",
   "snapshotPath": "snapshot",
   "snapshot": true,
