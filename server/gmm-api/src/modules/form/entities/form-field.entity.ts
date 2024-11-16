@@ -20,6 +20,9 @@ export class FormField {
   name: string;
 
   @Column()
+  label: string;
+
+  @Column()
   type: string;
 
   @Column({ nullable: true })

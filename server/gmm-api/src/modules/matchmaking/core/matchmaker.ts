@@ -1,5 +1,4 @@
 import { Preference } from '@modules/matchmaking/entities/preference.entity';
-import { FemaleIslamicLifestyle } from '@modules/user/entities';
 import { User } from '@modules/user/entities/user.entity';
 
 export type ExtendedUser = User & {
@@ -84,9 +83,7 @@ export class Matchmaker {
       field: 'salat',
       weight: 1,
       evaluate: (pref: Preference, user: User) =>
-        user.islamicLifestyle &&
-        user.islamicLifestyle.salat &&
-        pref.salat.includes(user.islamicLifestyle.salat),
+        user.salat && pref.salat.includes(user.salat),
     },
     {
       field: 'bornOrRevert',
@@ -99,11 +96,7 @@ export class Matchmaker {
       field: 'hijab',
       weight: 1,
       evaluate: (pref: Preference, user: User) =>
-        user.islamicLifestyle &&
-        (user.islamicLifestyle as FemaleIslamicLifestyle).hijab &&
-        pref.hijab.includes(
-          (user.islamicLifestyle as FemaleIslamicLifestyle).hijab,
-        ),
+        user.hijab && pref.hijab.includes(user.hijab),
     },
     {
       field: 'children',
@@ -115,27 +108,19 @@ export class Matchmaker {
       field: 'wantsChildren',
       weight: 1,
       evaluate: (pref: Preference, user: User) =>
-        user.expectedWorldlyLifestyle &&
-        user.expectedWorldlyLifestyle.havingChildren &&
-        pref.wantsChildren.includes(
-          user.expectedWorldlyLifestyle.havingChildren,
-        ),
+        user.wantsChildren && pref.wantsChildren.includes(user.wantsChildren),
     },
     {
       field: 'education',
       weight: 1,
       evaluate: (pref: Preference, user: User) =>
-        user.worldlyLifestyle &&
-        user.worldlyLifestyle.educationQualification &&
-        pref.education.includes(user.worldlyLifestyle.educationQualification),
+        user.education && pref.education.includes(user.education),
     },
     {
       field: 'profession',
       weight: 1,
       evaluate: (pref: Preference, user: User) =>
-        user.worldlyLifestyle &&
-        user.worldlyLifestyle.currentOccupationTitle &&
-        pref.profession.includes(user.worldlyLifestyle.currentOccupationTitle),
+        user.profession && pref.profession.includes(user.profession),
     },
     {
       field: 'drinking',

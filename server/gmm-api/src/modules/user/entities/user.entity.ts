@@ -187,6 +187,26 @@ export class User {
   @OneToMany(() => FormSubmission, (submission) => submission.user)
   formSubmissions: FormSubmission[];
 
+  // TODO: Remove Fields for matchmaking
+  @Column({ nullable: true })
+  salat: string;
+
+  @Column({ nullable: true })
+  hijab: string;
+
+  @Column({ nullable: true })
+  children: string;
+
+  @Column({ nullable: true })
+  wantsChildren: string;
+
+  @Column({ nullable: true })
+  education: string;
+
+  @Column({ nullable: true })
+  profession: string;
+  // ===== End of Fields for matchmaking
+
   // Worldly Lifestyle
   @OneToOne(
     () => UserWorldlyLifestyle,

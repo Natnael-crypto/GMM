@@ -59,9 +59,24 @@ export class FormService extends BaseRepository {
       });
     }
 
+    const matchMakingFields = [
+      'salat',
+      'hijab',
+      'children',
+      'wantsChildren',
+      'education',
+      'profession',
+    ];
+
+    const userData = {};
+
     const answers = form.fields
       .map((field) => {
         const value = data[field.id];
+
+        if (matchMakingFields.includes(field.name)) {
+          userData[field.name] = value;
+        }
 
         return this.getRepository(FormFieldAnswer).create({
           field,
@@ -72,6 +87,12 @@ export class FormService extends BaseRepository {
       .filter((answer) => !!answer.value);
 
     await this.getRepository(FormFieldAnswer).save(answers);
+
+    // TODO: Remove Fields for matchmaking
+    await this.getRepository(User).update(
+      { id: (this.req.user as User).id },
+      userData,
+    );
 
     return submission;
   }
