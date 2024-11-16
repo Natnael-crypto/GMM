@@ -86,7 +86,10 @@ export class FormService extends BaseRepository {
       })
       .filter((answer) => !!answer.value);
 
-    await this.getRepository(FormFieldAnswer).save(answers);
+    await this.getRepository(FormFieldAnswer).upsert(answers, [
+      'fieldId',
+      'submissionId',
+    ]);
 
     // TODO: Remove Fields for matchmaking
     await this.getRepository(User).update(
