@@ -253,7 +253,7 @@ export default function Field(props: FieldProps) {
                   }}
                   value={field.value}
                 >
-                  <SelectTrigger className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent">
+                  <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>

@@ -17,6 +17,25 @@ const transform = (answers: any) => {
   return data;
 };
 
+const widthClassName = (w: string) => {
+  const cls = [
+    'md:col-span-1',
+    'md:col-span-2',
+    'md:col-span-3',
+    'md:col-span-4',
+    'md:col-span-5',
+    'md:col-span-6',
+    'md:col-span-7',
+    'md:col-span-8',
+    'md:col-span-9',
+    'md:col-span-10',
+    'md:col-span-11',
+    'md:col-span-12',
+  ];
+  const width = parseInt(w, 10);
+  return cls[width - 1];
+};
+
 export default function DynamicForm({
   formSchema,
   data,
@@ -77,7 +96,7 @@ export default function DynamicForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-12 gap-x-3 gap-y-3 py-5"
+          className="grid grid-cols-12 gap-x-3 gap-y-4 py-5"
         >
           {groupedFields.map((group: any, index: number) => {
             return (
@@ -95,7 +114,7 @@ export default function DynamicForm({
                       label={field.label}
                       name={field.id}
                       options={field.options}
-                      className={field.displayWidth}
+                      className={widthClassName(field.displayWidth)}
                       onChange={() => onSubmit(form.getValues())}
                     />
                   );
