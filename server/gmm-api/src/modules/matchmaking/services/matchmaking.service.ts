@@ -8,7 +8,7 @@ import {
   Scope,
 } from '@nestjs/common';
 import { Preference } from '../entities/preference.entity';
-import { And, DataSource, In, Not, Or } from 'typeorm';
+import { And, DataSource, In, Not } from 'typeorm';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
 import { Match } from '../entities/match.entity';
 import { User } from '@modules/user/entities/user.entity';
