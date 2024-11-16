@@ -80,24 +80,13 @@ export class FormService extends BaseRepository {
     const submission = await this.getRepository(FormSubmission).findOne({
       where: { formSlug: slug, userId },
       relations: ['answers', 'answers.field'],
-      select: {
-        id: true,
-        formSlug: true,
-        answers: {
-          value: true,
-          field: {
-            id: true,
-            name: true,
-          },
-        },
-      },
     });
 
     if (!submission) {
       throw new NotFoundException('Submission not found');
     }
 
-    return submission;
+    return submission.answers;
   }
 
   async describeUser(userId: string) {

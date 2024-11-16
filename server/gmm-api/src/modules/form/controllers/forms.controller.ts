@@ -50,11 +50,17 @@ export class FormsController {
 
   @ApiParam({ name: 'slug', type: 'string' })
   @ApiParam({ name: 'userId', type: 'string' })
-  @Get(':slug/submission/:userId')
+  @Get(':slug/submissions/:userId')
   async getUserSubmission(
     @Param('slug') slug: string,
     @Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string,
   ) {
-    return await this.formService.getUserSubmission(slug, userId);
+    const submission = await this.formService.getUserSubmission(slug, userId);
+
+    if (!submission) {
+      throw new NotFoundException();
+    }
+
+    return { data: submission };
   }
 }

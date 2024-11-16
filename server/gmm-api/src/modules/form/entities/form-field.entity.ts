@@ -53,8 +53,11 @@ export class FormField {
   @Column({ nullable: true })
   maxLength: number;
 
-  @Column('numeric')
+  @Column({ default: 1 })
   order: number;
+
+  @Column({ nullable: true })
+  section: string;
 
   @ManyToOne(() => Form, (form) => form.slug, { onDelete: 'CASCADE' })
   form: Form;
