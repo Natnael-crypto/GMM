@@ -10,6 +10,7 @@ import { useGetMarriageDiscussionQuery } from '@/lib/user/api';
 import { User } from '@/lib/schemas/user';
 import { MarriageDiscussion } from '@/lib/schemas/marriage-discussion';
 import FieldViewer from '../field-viewer';
+import { useUserData } from '@/lib/hooks/use-user-data';
 
 const marriageDiscussionFields = (marriageDiscussion?: MarriageDiscussion) => [
   {
@@ -57,6 +58,12 @@ export default function MarriageDiscussionCard({ user }: { user: User }) {
   } = useGetMarriageDiscussionQuery(user?.id || '', {
     skip: !user,
   });
+
+  const { form, formData } = useUserData(user, 'marriage-discussion');
+
+  const fields = (form ? [...form.fields] : []).sort(
+    (a: any, b: any) => a.order - b.order
+  );
 
   return (
     <>
