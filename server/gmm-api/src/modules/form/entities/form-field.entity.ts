@@ -19,7 +19,7 @@ export class FormField {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ default: '' })
   label: string;
 
   @Column()
