@@ -1,0 +1,15 @@
+{
+  "collection": "form_submission",
+  "field": "formSlug",
+  "related_collection": "form",
+  "meta": null,
+  "schema": {
+    "table": "form_submission",
+    "column": "formSlug",
+    "foreign_key_table": "form",
+    "foreign_key_column": "slug",
+    "constraint_name": "FK_663fbf3017540aa2c9eab69bfac",
+    "on_update": "NO ACTION",
+    "on_delete": "CASCADE"
+  }
+}

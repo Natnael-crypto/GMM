@@ -1,0 +1,7 @@
+{
+  "collection": "typeorm_migrations",
+  "meta": null,
+  "schema": {
+    "name": "typeorm_migrations"
+  }
+}

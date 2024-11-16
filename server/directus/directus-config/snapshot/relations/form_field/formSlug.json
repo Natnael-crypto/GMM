@@ -1,0 +1,25 @@
+{
+  "collection": "form_field",
+  "field": "formSlug",
+  "related_collection": "form",
+  "meta": {
+    "junction_field": null,
+    "many_collection": "form_field",
+    "many_field": "formSlug",
+    "one_allowed_collections": null,
+    "one_collection": "form",
+    "one_collection_field": null,
+    "one_deselect_action": "nullify",
+    "one_field": "fields",
+    "sort_field": null
+  },
+  "schema": {
+    "table": "form_field",
+    "column": "formSlug",
+    "foreign_key_table": "form",
+    "foreign_key_column": "slug",
+    "constraint_name": "FK_1ab6ff33dd35b83ea60bd9a2c05",
+    "on_update": "NO ACTION",
+    "on_delete": "SET NULL"
+  }
+}

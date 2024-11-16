@@ -1,0 +1,15 @@
+{
+  "collection": "user",
+  "field": "guardianId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "user",
+    "column": "guardianId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_594831c3a3e1f588afcb4f2ed4f",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}

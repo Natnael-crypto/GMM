@@ -1,0 +1,15 @@
+{
+  "collection": "male_islamic_lifestyle",
+  "field": "userId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "male_islamic_lifestyle",
+    "column": "userId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_a0fa5a1f475c7e4641f27569fe2",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}

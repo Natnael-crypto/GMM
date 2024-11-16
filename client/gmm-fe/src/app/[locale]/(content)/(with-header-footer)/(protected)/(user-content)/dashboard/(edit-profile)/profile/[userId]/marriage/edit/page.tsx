@@ -1,13 +1,27 @@
-'use client'
+'use client';
 
 import MarriageDiscussionForm from '@/components/dashboard/profile/marriage/marriage-discussion-form';
+import DynamicForm from '@/components/form/dynamic-form';
 import { useAppSelector } from '@/lib/hooks';
+import { useUserData } from '@/lib/hooks/use-user-data';
 import { useGetMarriageDiscussionQuery } from '@/lib/user/api';
 
 export default function MarriageDiscussion() {
-  const user = useAppSelector(state => state.auth.user);
+  const user = useAppSelector((state) => state.auth.user);
 
-  const { data: marriageDiscussion, isLoading: isMarriageDiscussionLoading } = useGetMarriageDiscussionQuery(user?.id ?? '', { skip: !user });
+  const { data: marriageDiscussion, isLoading: isMarriageDiscussionLoading } =
+    useGetMarriageDiscussionQuery(user?.id ?? '', { skip: !user });
 
-  return <MarriageDiscussionForm marriageDiscussion={marriageDiscussion} />;
+  const { form: marriageDiscussionForm, formData: marriageDiscussionData } =
+    useUserData(user, 'marriage-discussion');
+
+  return (
+    <>
+      <DynamicForm
+        formSchema={marriageDiscussionForm}
+        data={marriageDiscussionData}
+      />
+      <MarriageDiscussionForm marriageDiscussion={marriageDiscussion} />
+    </>
+  );
 }

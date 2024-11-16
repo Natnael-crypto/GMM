@@ -1,0 +1,15 @@
+{
+  "collection": "female_islamic_lifestyle",
+  "field": "userId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "female_islamic_lifestyle",
+    "column": "userId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_b2d215fe90a0eeb316aea63f9b8",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}

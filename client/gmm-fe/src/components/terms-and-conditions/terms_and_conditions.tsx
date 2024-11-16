@@ -7,10 +7,14 @@ interface TermsAndConditionsProps {
   translations: (key: string) => string;
 }
 
-export default function TermsAndConditions({ translations }: TermsAndConditionsProps) {
+export default function TermsAndConditions({
+  translations,
+}: TermsAndConditionsProps) {
   return (
     <div className="flex flex-col items-center py-6 lg:py-8 mt-4 gmm-content-container">
-      <h1 className="text-3xl font-bold text-center mb-6">{translations('title')}</h1>
+      <h1 className="text-3xl font-bold text-center mb-6">
+        {translations('title')}
+      </h1>
 
       <SectionCard title={translations('introduction.title')}>
         <p className="text-muted-foreground">
@@ -47,7 +51,13 @@ export default function TermsAndConditions({ translations }: TermsAndConditionsP
 
 import { ReactNode } from 'react';
 
-function SectionCard({ title, children }: { title: string; children: ReactNode }) {
+export function SectionCard({
+  title,
+  children,
+}: {
+  title: string;
+  children: ReactNode;
+}) {
   return (
     <Card className={cn('w-full mb-4 p-4 lg:p-6 shadow-none border-none')}>
       <h2 className="text-lg font-bold mb-2">{title}</h2>

@@ -1,0 +1,15 @@
+{
+  "collection": "user_marriage_discussion",
+  "field": "userId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "user_marriage_discussion",
+    "column": "userId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_43aef02804c5e1ebcd2e7964552",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}

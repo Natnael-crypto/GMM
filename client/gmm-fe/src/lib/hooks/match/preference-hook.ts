@@ -302,7 +302,9 @@ export const usePreference = () => {
 
   const debouncedSavePreference = useDebouncedCallback(savePreference, 1000);
 
-  const toggleNotFilter = (name: keyof PreferenceForm) => {
+  const toggleNotFilter: (name: keyof PreferenceForm) => void = (
+    name: keyof PreferenceForm
+  ) => {
     setNotFilter((prev) => {
       const filter = {
         ...prev,

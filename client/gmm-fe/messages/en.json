@@ -1129,16 +1129,15 @@
     }
   },
 
-  
   "Terms": {
     "title": "Terms and Conditions",
     "introduction": {
-    "title": "Introduction",
-    "description": "Welcome to our application. By accessing our service, you agree to these terms and conditions. Please read them carefully.\n\nLorem ipsum odor amet, consectetuer adipiscing elit. Mollis auctor varius turpis pulvinar pretium. Aptent cras erat accumsan adipiscing pulvinar senectus litora tincidunt integer.\n\nBlandit bibendum inceptos elementum porttitor cubilia feugiat bibendum. Velit potenti lacus arcu ullamcorper phasellus venenatis. Sodales ligula donec natoque nulla nulla ultrices tristique."
+      "title": "Introduction",
+      "description": "Welcome to our application. By accessing our service, you agree to these terms and conditions. Please read them carefully.\n\nLorem ipsum odor amet, consectetuer adipiscing elit. Mollis auctor varius turpis pulvinar pretium. Aptent cras erat accumsan adipiscing pulvinar senectus litora tincidunt integer.\n\nBlandit bibendum inceptos elementum porttitor cubilia feugiat bibendum. Velit potenti lacus arcu ullamcorper phasellus venenatis. Sodales ligula donec natoque nulla nulla ultrices tristique."
     },
     "userResponsibilities": {
-        "title": "User Responsibilities",
-        "description": "Users must comply with all applicable laws and refrain from any activities that could harm the service or its users.\n\nMaecenas dictum penatibus interdum posuere feugiat purus. Finibus laoreet scelerisque nec et sem. Molestie gravida odio eu vitae velit.\n\nConsequat habitant scelerisque per condimentum, donec conubia porttitor. Aptent duis augue sapien himenaeos dignissim vitae eu."
+      "title": "User Responsibilities",
+      "description": "Users must comply with all applicable laws and refrain from any activities that could harm the service or its users.\n\nMaecenas dictum penatibus interdum posuere feugiat purus. Finibus laoreet scelerisque nec et sem. Molestie gravida odio eu vitae velit.\n\nConsequat habitant scelerisque per condimentum, donec conubia porttitor. Aptent duis augue sapien himenaeos dignissim vitae eu."
     },
     "limitations": {
       "title": "Limitations of Liability",

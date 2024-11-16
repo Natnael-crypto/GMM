@@ -1,0 +1,7 @@
+{
+  "collection": "preference",
+  "meta": null,
+  "schema": {
+    "name": "preference"
+  }
+}
