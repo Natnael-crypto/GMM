@@ -1,0 +1,15 @@
+{
+  "collection": "preference",
+  "field": "userId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "preference",
+    "column": "userId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_0990a6dd2425968d479f4bb91e6",
+    "on_update": "NO ACTION",
+    "on_delete": "CASCADE"
+  }
+}

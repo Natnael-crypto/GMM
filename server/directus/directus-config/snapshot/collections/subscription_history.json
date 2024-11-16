@@ -1,0 +1,7 @@
+{
+  "collection": "subscription_history",
+  "meta": null,
+  "schema": {
+    "name": "subscription_history"
+  }
+}

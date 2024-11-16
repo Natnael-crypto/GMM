@@ -1,0 +1,15 @@
+{
+  "collection": "user_worldly_lifestyle",
+  "field": "userId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "user_worldly_lifestyle",
+    "column": "userId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_a7c6d18c251c7e285c158458bc1",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}

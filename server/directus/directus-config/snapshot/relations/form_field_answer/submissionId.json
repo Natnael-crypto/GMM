@@ -1,0 +1,15 @@
+{
+  "collection": "form_field_answer",
+  "field": "submissionId",
+  "related_collection": "form_submission",
+  "meta": null,
+  "schema": {
+    "table": "form_field_answer",
+    "column": "submissionId",
+    "foreign_key_table": "form_submission",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_53317b7b8123d4480ade47bd651",
+    "on_update": "NO ACTION",
+    "on_delete": "CASCADE"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "collection": "user",
+  "meta": null,
+  "schema": {
+    "name": "user"
+  }
+}

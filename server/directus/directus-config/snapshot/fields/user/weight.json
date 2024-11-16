@@ -1,0 +1,24 @@
+{
+  "collection": "user",
+  "field": "weight",
+  "type": "float",
+  "meta": null,
+  "schema": {
+    "name": "weight",
+    "table": "user",
+    "data_type": "double precision",
+    "default_value": null,
+    "max_length": null,
+    "numeric_precision": 53,
+    "numeric_scale": null,
+    "is_nullable": true,
+    "is_unique": false,
+    "is_indexed": false,
+    "is_primary_key": false,
+    "is_generated": false,
+    "generation_expression": null,
+    "has_auto_increment": false,
+    "foreign_key_table": null,
+    "foreign_key_column": null
+  }
+}

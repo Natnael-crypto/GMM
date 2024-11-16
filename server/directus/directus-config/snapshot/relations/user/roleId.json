@@ -1,0 +1,15 @@
+{
+  "collection": "user",
+  "field": "roleId",
+  "related_collection": "role",
+  "meta": null,
+  "schema": {
+    "table": "user",
+    "column": "roleId",
+    "foreign_key_table": "role",
+    "foreign_key_column": "name",
+    "constraint_name": "FK_c28e52f758e7bbc53828db92194",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}

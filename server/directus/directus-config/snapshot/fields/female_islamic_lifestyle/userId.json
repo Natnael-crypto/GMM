@@ -1,0 +1,24 @@
+{
+  "collection": "female_islamic_lifestyle",
+  "field": "userId",
+  "type": "uuid",
+  "meta": null,
+  "schema": {
+    "name": "userId",
+    "table": "female_islamic_lifestyle",
+    "data_type": "uuid",
+    "default_value": null,
+    "max_length": null,
+    "numeric_precision": null,
+    "numeric_scale": null,
+    "is_nullable": false,
+    "is_unique": true,
+    "is_indexed": false,
+    "is_primary_key": true,
+    "is_generated": false,
+    "generation_expression": null,
+    "has_auto_increment": false,
+    "foreign_key_table": "user",
+    "foreign_key_column": "id"
+  }
+}

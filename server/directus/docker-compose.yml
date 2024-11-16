@@ -3,7 +3,7 @@ services:
   directus:
     extra_hosts:
         - host.docker.internal:host-gateway
-    image: directus/directus:latest
+    image: directus/directus:11.2.1
     ports:
       - 8081:80
     volumes:
@@ -13,8 +13,10 @@ services:
       PORT: 80
       KEY: ${DIRECTUS_KEY}
       SECRET: ${DIRECTUS_SECRET}
+      
       ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL}
       ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD}
+
       DB_CLIENT: "pg"
       DB_HOST: host.docker.internal
       DB_PORT: 5432
@@ -23,7 +25,17 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_SSL: false
       DB_SSL__REJECT_UNAUTHORIZED: false
-      WEBSOCKETS_ENABLED: true
+
+      STORAGE_LOCATIONS: "s3"
+      STORAGE_S3_DRIVER: "s3"
+      STORAGE_S3_KEY: ${STORAGE_AWS_KEY}
+      STORAGE_S3_SECRET: ${STORAGE_AWS_SECRET}
+      STORAGE_S3_REGION: ${STORAGE_AWS_REGION}
+      STORAGE_S3_BUCKET: ${STORAGE_AWS_BUCKET}
+
+      
+      WEBSOCKETS_ENABLED: true      
+      MARKETPLACE_TRUST: all
     deploy:
       resources:
         limits:

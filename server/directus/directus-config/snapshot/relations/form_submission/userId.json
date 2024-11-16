@@ -1,0 +1,15 @@
+{
+  "collection": "form_submission",
+  "field": "userId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "form_submission",
+    "column": "userId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_df8fce71531e6d42f58b1b5470e",
+    "on_update": "NO ACTION",
+    "on_delete": "CASCADE"
+  }
+}

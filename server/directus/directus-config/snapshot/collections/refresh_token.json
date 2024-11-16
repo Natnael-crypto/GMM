@@ -1,0 +1,7 @@
+{
+  "collection": "refresh_token",
+  "meta": null,
+  "schema": {
+    "name": "refresh_token"
+  }
+}

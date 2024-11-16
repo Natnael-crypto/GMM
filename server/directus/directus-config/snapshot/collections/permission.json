@@ -1,0 +1,7 @@
+{
+  "collection": "permission",
+  "meta": null,
+  "schema": {
+    "name": "permission"
+  }
+}

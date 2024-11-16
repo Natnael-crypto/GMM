@@ -1,0 +1,15 @@
+{
+  "collection": "user_optional_verifiable",
+  "field": "userId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "user_optional_verifiable",
+    "column": "userId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_1ba5f906121eaaeda27ea550a43",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}
