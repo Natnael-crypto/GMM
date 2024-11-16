@@ -28,6 +28,7 @@ import { FemaleExpectedIslamicLifestyle } from './female-expected-islamic-lifest
 import { UserMarriageDiscussion } from './user-marriage-discussion.entity';
 import { UserFamilyInformation } from './user-family-information.entity';
 import { UserOptionalVerifiable } from './user-optional-verifiables.entity';
+import { FormSubmission } from '@modules/form/entities/submission.entity';
 
 @Entity()
 export class User {
@@ -182,6 +183,29 @@ export class User {
     default: AccountVerificationStatus.UNVERIFIED,
   })
   verificationStatus: AccountVerificationStatus;
+
+  @OneToMany(() => FormSubmission, (submission) => submission.user)
+  formSubmissions: FormSubmission[];
+
+  // TODO: Remove Fields for matchmaking
+  @Column({ nullable: true })
+  salat: string;
+
+  @Column({ nullable: true })
+  hijab: string;
+
+  @Column({ nullable: true })
+  children: string;
+
+  @Column({ nullable: true })
+  wantsChildren: string;
+
+  @Column({ nullable: true })
+  education: string;
+
+  @Column({ nullable: true })
+  profession: string;
+  // ===== End of Fields for matchmaking
 
   // Worldly Lifestyle
   @OneToOne(

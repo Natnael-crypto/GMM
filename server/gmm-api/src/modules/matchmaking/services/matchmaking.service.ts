@@ -8,7 +8,7 @@ import {
   Scope,
 } from '@nestjs/common';
 import { Preference } from '../entities/preference.entity';
-import { And, DataSource, In, Not, Or } from 'typeorm';
+import { And, DataSource, In, Not } from 'typeorm';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
 import { Match } from '../entities/match.entity';
 import { User } from '@modules/user/entities/user.entity';
@@ -112,26 +112,12 @@ export class MatchMakingService extends BaseRepository {
   async matchUser(userId: string): Promise<any> {
     const user = await this.getRepository(User).findOneOrFail({
       where: { id: userId },
-      relations: [
-        'worldlyLifestyle',
-        'maleIslamicLifestyle',
-        'femaleIslamicLifestyle',
-        'maleExpectedWorldlyLifestyle',
-        'femaleExpectedWorldlyLifestyle',
-      ],
     });
 
     const candidateIds = await this.loadCandidates(user);
 
     const candidates = await this.getRepository(User).find({
       where: { id: In(candidateIds) },
-      relations: [
-        'worldlyLifestyle',
-        'maleIslamicLifestyle',
-        'femaleIslamicLifestyle',
-        'maleExpectedWorldlyLifestyle',
-        'femaleExpectedWorldlyLifestyle',
-      ],
     });
 
     const matchmaker = new Matchmaker(user);
@@ -167,26 +153,12 @@ export class MatchMakingService extends BaseRepository {
   }> {
     const user = await this.getRepository(User).findOneOrFail({
       where: { id: userId },
-      relations: [
-        'worldlyLifestyle',
-        'maleIslamicLifestyle',
-        'femaleIslamicLifestyle',
-        'maleExpectedWorldlyLifestyle',
-        'femaleExpectedWorldlyLifestyle',
-      ],
     });
 
     const candidateIds = await this.loadCandidates(user);
 
     const candidates = await this.getRepository(User).find({
       where: { id: In(candidateIds) },
-      relations: [
-        'worldlyLifestyle',
-        'maleIslamicLifestyle',
-        'femaleIslamicLifestyle',
-        'maleExpectedWorldlyLifestyle',
-        'femaleExpectedWorldlyLifestyle',
-      ],
     });
 
     const matchmaker = new Matchmaker(user);

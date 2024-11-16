@@ -76,6 +76,14 @@ export class Preference {
     scale: 2,
     default: 1,
     nullable: true,
+    transformer: {
+      to(value) {
+        return value;
+      },
+      from(value) {
+        return parseFloat(value);
+      },
+    },
   })
   minMatchRequirement: number;
 }

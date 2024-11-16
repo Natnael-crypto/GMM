@@ -22,6 +22,10 @@ import {
   UserOptionalVerifiable,
   UserFamilyInformation,
 } from '@modules/user/entities';
+import { Form } from '@modules/form/entities/form.entity';
+import { FormField } from '@modules/form/entities/form-field.entity';
+import { FormSubmission } from '@modules/form/entities/submission.entity';
+import { FormFieldAnswer } from '@modules/form/entities/form-field-answer.entity';
 
 require('dotenv').config();
 
@@ -52,6 +56,10 @@ const options: DataSourceOptions & SeederOptions = {
     UserMarriageDiscussion,
     UserFamilyInformation,
     UserOptionalVerifiable,
+    Form,
+    FormField,
+    FormSubmission,
+    FormFieldAnswer,
   ],
 };
 
