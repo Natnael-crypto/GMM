@@ -2,7 +2,50 @@
   "collection": "form_field",
   "field": "type",
   "type": "string",
-  "meta": null,
+  "meta": {
+    "collection": "form_field",
+    "conditions": null,
+    "display": null,
+    "display_options": null,
+    "field": "type",
+    "group": null,
+    "hidden": false,
+    "interface": "select-dropdown",
+    "note": null,
+    "options": {
+      "choices": [
+        {
+          "icon": null,
+          "text": "Dropdown",
+          "value": "select"
+        },
+        {
+          "text": "Autocomplete",
+          "value": "autocomplete"
+        },
+        {
+          "text": "Multiselect",
+          "value": "multiselect"
+        },
+        {
+          "text": "Textarea",
+          "value": "text"
+        },
+        {
+          "text": "Input",
+          "value": "input"
+        }
+      ]
+    },
+    "readonly": false,
+    "required": false,
+    "sort": 4,
+    "special": null,
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "half"
+  },
   "schema": {
     "name": "type",
     "table": "form_field",

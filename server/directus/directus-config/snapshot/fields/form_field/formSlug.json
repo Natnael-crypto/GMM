@@ -2,7 +2,28 @@
   "collection": "form_field",
   "field": "formSlug",
   "type": "string",
-  "meta": null,
+  "meta": {
+    "collection": "form_field",
+    "conditions": null,
+    "display": null,
+    "display_options": null,
+    "field": "formSlug",
+    "group": null,
+    "hidden": false,
+    "interface": "select-dropdown-m2o",
+    "note": null,
+    "options": {
+      "template": "{{title}}({{slug}})"
+    },
+    "readonly": false,
+    "required": false,
+    "sort": 15,
+    "special": null,
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "half"
+  },
   "schema": {
     "name": "formSlug",
     "table": "form_field",

@@ -91,6 +91,10 @@ type Query {
   directus_sync_id_map_by_id(id: ID!, version: String): directus_sync_id_map
   directus_sync_id_map_aggregated(groupBy: [String], filter: directus_sync_id_map_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_sync_id_map_aggregated!]!
   directus_sync_id_map_by_version(version: String!, id: ID!): version_directus_sync_id_map
+  form_field_answer(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_field_answer!]!
+  form_field_answer_by_id(id: ID!, version: String): form_field_answer
+  form_field_answer_aggregated(groupBy: [String], filter: form_field_answer_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_field_answer_aggregated!]!
+  form_field_answer_by_version(version: String!, id: ID!): version_form_field_answer
   form_submission(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_submission!]!
   form_submission_by_id(id: ID!, version: String): form_submission
   form_submission_aggregated(groupBy: [String], filter: form_submission_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_submission_aggregated!]!
@@ -156,6 +160,8 @@ type Mutation {
   create_preference_item(data: create_preference_input!): preference
   create_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   create_directus_sync_id_map_item(data: create_directus_sync_id_map_input!): directus_sync_id_map
+  create_form_field_answer_items(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_field_answer_input!]): [form_field_answer!]!
+  create_form_field_answer_item(data: create_form_field_answer_input!): form_field_answer
   create_form_submission_items(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_submission_input!]): [form_submission!]!
   create_form_submission_item(data: create_form_submission_input!): form_submission
   create_form_items(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_input!]): [form!]!
@@ -233,6 +239,9 @@ type Mutation {
   update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
   update_directus_sync_id_map_batch(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   update_directus_sync_id_map_item(id: ID!, data: update_directus_sync_id_map_input!): directus_sync_id_map
+  update_form_field_answer_items(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_field_answer_input!): [form_field_answer!]!
+  update_form_field_answer_batch(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_field_answer_input!]): [form_field_answer!]!
+  update_form_field_answer_item(id: ID!, data: update_form_field_answer_input!): form_field_answer
   update_form_submission_items(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_submission_input!): [form_submission!]!
   update_form_submission_batch(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_submission_input!]): [form_submission!]!
   update_form_submission_item(id: ID!, data: update_form_submission_input!): form_submission
@@ -291,6 +300,8 @@ type Mutation {
   delete_preference_item(id: ID!): delete_one
   delete_directus_sync_id_map_items(ids: [ID]!): delete_many
   delete_directus_sync_id_map_item(id: ID!): delete_one
+  delete_form_field_answer_items(ids: [ID]!): delete_many
+  delete_form_field_answer_item(id: ID!): delete_one
   delete_form_submission_items(ids: [ID]!): delete_many
   delete_form_submission_item(id: ID!): delete_one
   delete_form_items(ids: [ID]!): delete_many
@@ -346,6 +357,7 @@ type Subscription {
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_settings_mutated(event: EventEnum): directus_settings_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
+  form_field_answer_mutated(event: EventEnum): form_field_answer_mutated
   form_submission_mutated(event: EventEnum): form_submission_mutated
   form_mutated(event: EventEnum): form_mutated
   form_field_mutated(event: EventEnum): form_field_mutated
@@ -1139,6 +1151,8 @@ type form {
   slug: ID!
   title: String
   description: String
+  fields(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_field]
+  fields_func: count_functions
 }
 
 type form_aggregated {
@@ -1154,6 +1168,7 @@ type form_aggregated_count {
   slug: Int
   title: Int
   description: Int
+  fields: Int
 }
 
 type form_field {
@@ -1215,6 +1230,34 @@ type form_field_aggregated_fields {
   minLength: Float
   maxLength: Float
   order: Float
+}
+
+type form_field_answer {
+  value: JSON!
+  value_func: count_functions
+  fieldId(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): form_field
+  submissionId(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): form_submission
+  id: ID!
+}
+
+type form_field_answer_aggregated {
+  group: JSON
+  countAll: Int
+  count: form_field_answer_aggregated_count
+  countDistinct: form_field_answer_aggregated_count
+}
+
+type form_field_answer_aggregated_count {
+  value: Int
+  fieldId: Int
+  submissionId: Int
+  id: Int
+}
+
+type form_field_answer_mutated {
+  key: ID!
+  event: EventEnum
+  data: form_field_answer
 }
 
 type form_field_mutated {
@@ -2222,6 +2265,7 @@ type version_form {
   slug: ID
   title: String
   description: String
+  fields: JSON
 }
 
 """"""
@@ -2243,6 +2287,14 @@ type version_form_field {
   order: Int
   section: String
   label: String
+}
+
+""""""
+type version_form_field_answer {
+  value: JSON
+  fieldId: JSON
+  submissionId: JSON
+  id: ID
 }
 
 """"""
@@ -2628,6 +2680,13 @@ input create_female_islamic_lifestyle_input {
   childrenAndUpbringing: String
 }
 
+input create_form_field_answer_input {
+  value: JSON!
+  fieldId: create_form_field_input
+  submissionId: create_form_submission_input
+  id: ID
+}
+
 input create_form_field_input {
   id: ID
   name: String!
@@ -2654,6 +2713,7 @@ input create_form_input {
   slug: ID!
   title: String
   description: String
+  fields: [create_form_field_input]
 }
 
 input create_form_submission_input {
@@ -3312,6 +3372,16 @@ input female_islamic_lifestyle_filter {
   _or: [female_islamic_lifestyle_filter]
 }
 
+input form_field_answer_filter {
+  value: string_filter_operators
+  value_func: count_function_filter_operators
+  fieldId: form_field_filter
+  submissionId: form_submission_filter
+  id: string_filter_operators
+  _and: [form_field_answer_filter]
+  _or: [form_field_answer_filter]
+}
+
 input form_field_filter {
   id: string_filter_operators
   name: string_filter_operators
@@ -3344,6 +3414,8 @@ input form_filter {
   slug: string_filter_operators
   title: string_filter_operators
   description: string_filter_operators
+  fields: form_field_filter
+  fields_func: count_function_filter_operators
   _and: [form_filter]
   _or: [form_filter]
 }
@@ -3671,6 +3743,13 @@ input update_female_islamic_lifestyle_input {
   childrenAndUpbringing: String
 }
 
+input update_form_field_answer_input {
+  value: JSON
+  fieldId: update_form_field_input
+  submissionId: update_form_submission_input
+  id: ID
+}
+
 input update_form_field_input {
   id: ID
   name: String
@@ -3697,6 +3776,7 @@ input update_form_input {
   slug: ID
   title: String
   description: String
+  fields: [update_form_field_input]
 }
 
 input update_form_submission_input {

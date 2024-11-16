@@ -1,0 +1,33 @@
+{
+  "collection": "form",
+  "field": "fields",
+  "type": "alias",
+  "meta": {
+    "collection": "form",
+    "conditions": null,
+    "display": "related-values",
+    "display_options": {
+      "template": "{{label}}"
+    },
+    "field": "fields",
+    "group": null,
+    "hidden": false,
+    "interface": "list-o2m",
+    "note": null,
+    "options": {
+      "enableLink": true,
+      "sort": "order",
+      "template": "{{label}}({{name}})"
+    },
+    "readonly": false,
+    "required": false,
+    "sort": 4,
+    "special": [
+      "o2m"
+    ],
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "full"
+  }
+}

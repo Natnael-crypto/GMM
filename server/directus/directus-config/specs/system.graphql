@@ -288,6 +288,7 @@ type Subscription {
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_settings_mutated(event: EventEnum): directus_settings_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
+  form_field_answer_mutated(event: EventEnum): form_field_answer_mutated
   form_submission_mutated(event: EventEnum): form_submission_mutated
   form_mutated(event: EventEnum): form_mutated
   form_field_mutated(event: EventEnum): form_field_mutated
@@ -1725,6 +1726,8 @@ type form {
   slug: ID!
   title: String
   description: String
+  fields(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_field]
+  fields_func: count_functions
 }
 
 type form_field {
@@ -1747,6 +1750,20 @@ type form_field {
   order: Int
   section: String
   label: String!
+}
+
+type form_field_answer {
+  value: JSON!
+  value_func: count_functions
+  fieldId(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): form_field
+  submissionId(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): form_submission
+  id: ID!
+}
+
+type form_field_answer_mutated {
+  key: ID!
+  event: EventEnum
+  data: form_field_answer
 }
 
 type form_field_mutated {
@@ -3062,6 +3079,30 @@ input directus_webhooks_filter {
   _or: [directus_webhooks_filter]
 }
 
+input form_field_filter {
+  id: string_filter_operators
+  name: string_filter_operators
+  type: string_filter_operators
+  placeholder: string_filter_operators
+  options: string_filter_operators
+  options_func: count_function_filter_operators
+  show: string_filter_operators
+  displayWidth: string_filter_operators
+  defaultValue: string_filter_operators
+  minValue: string_filter_operators
+  maxValue: string_filter_operators
+  minLength: number_filter_operators
+  maxLength: number_filter_operators
+  deletedAt: date_filter_operators
+  deletedAt_func: datetime_function_filter_operators
+  formSlug: form_filter
+  order: number_filter_operators
+  section: string_filter_operators
+  label: string_filter_operators
+  _and: [form_field_filter]
+  _or: [form_field_filter]
+}
+
 input form_filter {
   createdAt: date_filter_operators
   createdAt_func: datetime_function_filter_operators
@@ -3070,8 +3111,18 @@ input form_filter {
   slug: string_filter_operators
   title: string_filter_operators
   description: string_filter_operators
+  fields: form_field_filter
+  fields_func: count_function_filter_operators
   _and: [form_filter]
   _or: [form_filter]
+}
+
+input form_submission_filter {
+  id: string_filter_operators
+  formSlug: form_filter
+  userId: user_filter
+  _and: [form_submission_filter]
+  _or: [form_submission_filter]
 }
 
 input hash_filter_operators {

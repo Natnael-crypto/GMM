@@ -2,7 +2,28 @@
   "collection": "form_submission",
   "field": "userId",
   "type": "uuid",
-  "meta": null,
+  "meta": {
+    "collection": "form_submission",
+    "conditions": null,
+    "display": null,
+    "display_options": null,
+    "field": "userId",
+    "group": null,
+    "hidden": false,
+    "interface": null,
+    "note": null,
+    "options": null,
+    "readonly": false,
+    "required": false,
+    "sort": null,
+    "special": [
+      "uuid"
+    ],
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "full"
+  },
   "schema": {
     "name": "userId",
     "table": "form_submission",

@@ -2,7 +2,81 @@
   "collection": "form_field",
   "field": "options",
   "type": "json",
-  "meta": null,
+  "meta": {
+    "collection": "form_field",
+    "conditions": null,
+    "display": null,
+    "display_options": null,
+    "field": "options",
+    "group": null,
+    "hidden": false,
+    "interface": "list",
+    "note": null,
+    "options": {
+      "fields": [
+        {
+          "field": "label",
+          "meta": {
+            "field": "label",
+            "interface": "input",
+            "required": true,
+            "type": "string",
+            "width": "half"
+          },
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "field": "value",
+          "meta": {
+            "field": "value",
+            "interface": "input",
+            "required": true,
+            "type": "string",
+            "width": "half"
+          },
+          "name": "value",
+          "type": "string"
+        },
+        {
+          "field": "show",
+          "meta": {
+            "field": "show",
+            "interface": "input-block-editor",
+            "required": false,
+            "type": "json",
+            "width": "half"
+          },
+          "name": "show",
+          "type": "json"
+        },
+        {
+          "field": "order",
+          "meta": {
+            "field": "order",
+            "interface": "input",
+            "required": true,
+            "type": "integer",
+            "width": "half"
+          },
+          "name": "order",
+          "type": "integer"
+        }
+      ],
+      "sort": "order",
+      "template": null
+    },
+    "readonly": false,
+    "required": false,
+    "sort": 7,
+    "special": [
+      "cast-json"
+    ],
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "full"
+  },
   "schema": {
     "name": "options",
     "table": "form_field",
