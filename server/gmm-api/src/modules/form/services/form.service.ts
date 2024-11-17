@@ -69,13 +69,15 @@ export class FormService extends BaseRepository {
     ];
 
     const userData = {};
+    let shouldUpdateUser = false;
 
     const answers = form.fields
       .map((field) => {
         const value = data[field.id];
 
-        if (matchMakingFields.includes(field.name)) {
+        if (matchMakingFields.includes(field.name) && value) {
           userData[field.name] = value;
+          shouldUpdateUser = true;
         }
 
         return this.getRepository(FormFieldAnswer).create({
@@ -92,10 +94,12 @@ export class FormService extends BaseRepository {
     ]);
 
     // TODO: Remove Fields for matchmaking
-    await this.getRepository(User).update(
-      { id: (this.req.user as User).id },
-      userData,
-    );
+    if (shouldUpdateUser) {
+      await this.getRepository(User).update(
+        { id: (this.req.user as User).id },
+        userData,
+      );
+    }
 
     return submission;
   }
