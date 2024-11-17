@@ -6,6 +6,7 @@ import Field from '@/components/dashboard/profile/field';
 import { useSubmitFormMutation } from '@/lib/form/api';
 import { useAppSelector } from '@/lib/hooks';
 import React, { useEffect } from 'react';
+import { evaluateRuleTree } from '@/lib/form/rule-evalutator';
 
 const transform = (answers: any) => {
   const data: any = {};
@@ -50,6 +51,12 @@ export default function DynamicForm({
     (a: any, b: any) => a.order - b.order
   );
 
+  const fieldIdNameMap: Record<string, string> = {};
+  fields.forEach((field: any) => {
+    fieldIdNameMap[field.id as string] = field.name;
+    fieldIdNameMap[field.name as string] = field.id;
+  });
+
   const groupedFields: any = [];
   let lastSection = '';
 
@@ -81,6 +88,8 @@ export default function DynamicForm({
     }
   };
 
+  const values = form.watch();
+
   return (
     <div className="py-8 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem]">
       <h1 className="text-xl font-bold text-secondary border-b p-1">
@@ -107,6 +116,19 @@ export default function DynamicForm({
                   </h2>
                 )}
                 {group.map((field: any) => {
+                  const remappedValue: any = {};
+
+                  for (const key in values) {
+                    remappedValue[fieldIdNameMap[key]] = values[key];
+                  }
+
+                  try {
+                    const show = evaluateRuleTree(field.show, remappedValue);
+                    if (!show) return null;
+                  } catch (e) {
+                    console.log(e);
+                  }
+
                   return (
                     <Field
                       key={field.id}
