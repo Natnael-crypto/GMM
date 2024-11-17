@@ -62,6 +62,12 @@ export class FormField {
   @Column({ nullable: true })
   section: string;
 
+  @Column({ nullable: true })
+  group: string;
+
+  @Column({ nullable: true })
+  icon: string;
+
   @ManyToOne(() => Form, (form) => form.slug, { onDelete: 'CASCADE' })
   form: Form;
 
