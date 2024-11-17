@@ -4,20 +4,25 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import { FormField } from './form-field.entity';
 import { FormSubmission } from './submission.entity';
 
 @Entity()
+@Unique(['fieldId', 'submissionId'])
 export class FormFieldAnswer extends BaseEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column('jsonb')
   value: any;
 
-  @PrimaryColumn()
+  @Column('uuid')
   fieldId: string;
 
-  @PrimaryColumn()
+  @Column('uuid')
   submissionId: string;
 
   @ManyToOne(() => FormField, (field) => field.answers, {
