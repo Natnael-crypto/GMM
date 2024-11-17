@@ -1,0 +1,159 @@
+.blog > h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.blog > h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.blog > h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.blog > h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.blog > h5 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.blog > h6 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.blog > p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  color: var(--foreground);
+}
+
+.blog > a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.blog > a:hover {
+  color: var(--primary-foreground);
+  text-decoration: underline;
+}
+
+.blog > img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+
+.blog > blockquote {
+  font-size: 1.25rem;
+  font-style: italic;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  border-left: 4px solid var(--border);
+  color: var(--muted-foreground);
+}
+
+.blog > ul,
+.blog > ol {
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+  color: var(--foreground);
+}
+
+.blog > ul {
+  list-style-type: disc;
+}
+
+.blog > ol {
+  list-style-type: decimal;
+}
+
+.blog > li {
+  margin-bottom: 0.5rem;
+}
+
+.blog > code {
+  font-size: 0.875rem;
+  background-color: var(--muted);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius);
+  color: var(--foreground);
+}
+
+.blog > pre {
+  font-size: 0.875rem;
+  background-color: var(--muted);
+  padding: 1rem;
+  border-radius: var(--radius);
+  overflow-x: auto;
+}
+
+.blog > pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+.blog > table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.blog > table th,
+.blog > table td {
+  border: 1px solid var(--border);
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.blog > table th {
+  background-color: var(--muted);
+  font-weight: bold;
+}
+
+.blog > hr {
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 1rem 0;
+}
+
+.blog > figure {
+  margin-bottom: 1rem;
+}
+
+.blog > figcaption {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.blog > img {
+  border-radius: var(--radius);
+}
