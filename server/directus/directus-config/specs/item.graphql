@@ -3,46 +3,6 @@ type Query {
   typeorm_migrations_by_id(id: ID!, version: String): typeorm_migrations
   typeorm_migrations_aggregated(groupBy: [String], filter: typeorm_migrations_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [typeorm_migrations_aggregated!]!
   typeorm_migrations_by_version(version: String!, id: ID!): version_typeorm_migrations
-  male_expected_worldly_lifestyle(filter: male_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [male_expected_worldly_lifestyle!]!
-  male_expected_worldly_lifestyle_by_id(id: ID!, version: String): male_expected_worldly_lifestyle
-  male_expected_worldly_lifestyle_aggregated(groupBy: [String], filter: male_expected_worldly_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [male_expected_worldly_lifestyle_aggregated!]!
-  male_expected_worldly_lifestyle_by_version(version: String!, id: ID!): version_male_expected_worldly_lifestyle
-  female_expected_worldly_lifestyle(filter: female_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [female_expected_worldly_lifestyle!]!
-  female_expected_worldly_lifestyle_by_id(id: ID!, version: String): female_expected_worldly_lifestyle
-  female_expected_worldly_lifestyle_aggregated(groupBy: [String], filter: female_expected_worldly_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [female_expected_worldly_lifestyle_aggregated!]!
-  female_expected_worldly_lifestyle_by_version(version: String!, id: ID!): version_female_expected_worldly_lifestyle
-  user_worldly_lifestyle(filter: user_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [user_worldly_lifestyle!]!
-  user_worldly_lifestyle_by_id(id: ID!, version: String): user_worldly_lifestyle
-  user_worldly_lifestyle_aggregated(groupBy: [String], filter: user_worldly_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [user_worldly_lifestyle_aggregated!]!
-  user_worldly_lifestyle_by_version(version: String!, id: ID!): version_user_worldly_lifestyle
-  male_expected_islamic_lifestyle(filter: male_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [male_expected_islamic_lifestyle!]!
-  male_expected_islamic_lifestyle_by_id(id: ID!, version: String): male_expected_islamic_lifestyle
-  male_expected_islamic_lifestyle_aggregated(groupBy: [String], filter: male_expected_islamic_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [male_expected_islamic_lifestyle_aggregated!]!
-  male_expected_islamic_lifestyle_by_version(version: String!, id: ID!): version_male_expected_islamic_lifestyle
-  male_islamic_lifestyle(filter: male_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [male_islamic_lifestyle!]!
-  male_islamic_lifestyle_by_id(id: ID!, version: String): male_islamic_lifestyle
-  male_islamic_lifestyle_aggregated(groupBy: [String], filter: male_islamic_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [male_islamic_lifestyle_aggregated!]!
-  male_islamic_lifestyle_by_version(version: String!, id: ID!): version_male_islamic_lifestyle
-  female_islamic_lifestyle(filter: female_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [female_islamic_lifestyle!]!
-  female_islamic_lifestyle_by_id(id: ID!, version: String): female_islamic_lifestyle
-  female_islamic_lifestyle_aggregated(groupBy: [String], filter: female_islamic_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [female_islamic_lifestyle_aggregated!]!
-  female_islamic_lifestyle_by_version(version: String!, id: ID!): version_female_islamic_lifestyle
-  female_expected_islamic_lifestyle(filter: female_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [female_expected_islamic_lifestyle!]!
-  female_expected_islamic_lifestyle_by_id(id: ID!, version: String): female_expected_islamic_lifestyle
-  female_expected_islamic_lifestyle_aggregated(groupBy: [String], filter: female_expected_islamic_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [female_expected_islamic_lifestyle_aggregated!]!
-  female_expected_islamic_lifestyle_by_version(version: String!, id: ID!): version_female_expected_islamic_lifestyle
-  user_marriage_discussion(filter: user_marriage_discussion_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [user_marriage_discussion!]!
-  user_marriage_discussion_by_id(id: ID!, version: String): user_marriage_discussion
-  user_marriage_discussion_aggregated(groupBy: [String], filter: user_marriage_discussion_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [user_marriage_discussion_aggregated!]!
-  user_marriage_discussion_by_version(version: String!, id: ID!): version_user_marriage_discussion
-  user_family_information(filter: user_family_information_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [user_family_information!]!
-  user_family_information_by_id(id: ID!, version: String): user_family_information
-  user_family_information_aggregated(groupBy: [String], filter: user_family_information_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [user_family_information_aggregated!]!
-  user_family_information_by_version(version: String!, id: ID!): version_user_family_information
-  user_optional_verifiable(filter: user_optional_verifiable_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [user_optional_verifiable!]!
-  user_optional_verifiable_by_id(id: ID!, version: String): user_optional_verifiable
-  user_optional_verifiable_aggregated(groupBy: [String], filter: user_optional_verifiable_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [user_optional_verifiable_aggregated!]!
-  user_optional_verifiable_by_version(version: String!, id: ID!): version_user_optional_verifiable
   refresh_token(filter: refresh_token_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [refresh_token!]!
   refresh_token_by_id(id: ID!, version: String): refresh_token
   refresh_token_aggregated(groupBy: [String], filter: refresh_token_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [refresh_token_aggregated!]!
@@ -83,18 +43,50 @@ type Query {
   match_pool_by_id(id: ID!, version: String): match_pool
   match_pool_aggregated(groupBy: [String], filter: match_pool_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [match_pool_aggregated!]!
   match_pool_by_version(version: String!, id: ID!): version_match_pool
+  male_expected_worldly_lifestyle(filter: male_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [male_expected_worldly_lifestyle!]!
+  male_expected_worldly_lifestyle_by_id(id: ID!, version: String): male_expected_worldly_lifestyle
+  male_expected_worldly_lifestyle_aggregated(groupBy: [String], filter: male_expected_worldly_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [male_expected_worldly_lifestyle_aggregated!]!
+  male_expected_worldly_lifestyle_by_version(version: String!, id: ID!): version_male_expected_worldly_lifestyle
+  female_expected_worldly_lifestyle(filter: female_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [female_expected_worldly_lifestyle!]!
+  female_expected_worldly_lifestyle_by_id(id: ID!, version: String): female_expected_worldly_lifestyle
+  female_expected_worldly_lifestyle_aggregated(groupBy: [String], filter: female_expected_worldly_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [female_expected_worldly_lifestyle_aggregated!]!
+  female_expected_worldly_lifestyle_by_version(version: String!, id: ID!): version_female_expected_worldly_lifestyle
+  user_worldly_lifestyle(filter: user_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [user_worldly_lifestyle!]!
+  user_worldly_lifestyle_by_id(id: ID!, version: String): user_worldly_lifestyle
+  user_worldly_lifestyle_aggregated(groupBy: [String], filter: user_worldly_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [user_worldly_lifestyle_aggregated!]!
+  user_worldly_lifestyle_by_version(version: String!, id: ID!): version_user_worldly_lifestyle
+  male_expected_islamic_lifestyle(filter: male_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [male_expected_islamic_lifestyle!]!
+  male_expected_islamic_lifestyle_by_id(id: ID!, version: String): male_expected_islamic_lifestyle
+  male_expected_islamic_lifestyle_aggregated(groupBy: [String], filter: male_expected_islamic_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [male_expected_islamic_lifestyle_aggregated!]!
+  male_expected_islamic_lifestyle_by_version(version: String!, id: ID!): version_male_expected_islamic_lifestyle
+  male_islamic_lifestyle(filter: male_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [male_islamic_lifestyle!]!
+  male_islamic_lifestyle_by_id(id: ID!, version: String): male_islamic_lifestyle
+  male_islamic_lifestyle_aggregated(groupBy: [String], filter: male_islamic_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [male_islamic_lifestyle_aggregated!]!
+  male_islamic_lifestyle_by_version(version: String!, id: ID!): version_male_islamic_lifestyle
+  female_islamic_lifestyle(filter: female_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [female_islamic_lifestyle!]!
+  female_islamic_lifestyle_by_id(id: ID!, version: String): female_islamic_lifestyle
+  female_islamic_lifestyle_aggregated(groupBy: [String], filter: female_islamic_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [female_islamic_lifestyle_aggregated!]!
+  female_islamic_lifestyle_by_version(version: String!, id: ID!): version_female_islamic_lifestyle
+  female_expected_islamic_lifestyle(filter: female_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [female_expected_islamic_lifestyle!]!
+  female_expected_islamic_lifestyle_by_id(id: ID!, version: String): female_expected_islamic_lifestyle
+  female_expected_islamic_lifestyle_aggregated(groupBy: [String], filter: female_expected_islamic_lifestyle_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [female_expected_islamic_lifestyle_aggregated!]!
+  female_expected_islamic_lifestyle_by_version(version: String!, id: ID!): version_female_expected_islamic_lifestyle
+  user_marriage_discussion(filter: user_marriage_discussion_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [user_marriage_discussion!]!
+  user_marriage_discussion_by_id(id: ID!, version: String): user_marriage_discussion
+  user_marriage_discussion_aggregated(groupBy: [String], filter: user_marriage_discussion_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [user_marriage_discussion_aggregated!]!
+  user_marriage_discussion_by_version(version: String!, id: ID!): version_user_marriage_discussion
+  user_family_information(filter: user_family_information_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [user_family_information!]!
+  user_family_information_by_id(id: ID!, version: String): user_family_information
+  user_family_information_aggregated(groupBy: [String], filter: user_family_information_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [user_family_information_aggregated!]!
+  user_family_information_by_version(version: String!, id: ID!): version_user_family_information
+  user_optional_verifiable(filter: user_optional_verifiable_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [user_optional_verifiable!]!
+  user_optional_verifiable_by_id(id: ID!, version: String): user_optional_verifiable
+  user_optional_verifiable_aggregated(groupBy: [String], filter: user_optional_verifiable_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [user_optional_verifiable_aggregated!]!
+  user_optional_verifiable_by_version(version: String!, id: ID!): version_user_optional_verifiable
   preference(filter: preference_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [preference!]!
   preference_by_id(id: ID!, version: String): preference
   preference_aggregated(groupBy: [String], filter: preference_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [preference_aggregated!]!
   preference_by_version(version: String!, id: ID!): version_preference
-  directus_sync_id_map(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [directus_sync_id_map!]!
-  directus_sync_id_map_by_id(id: ID!, version: String): directus_sync_id_map
-  directus_sync_id_map_aggregated(groupBy: [String], filter: directus_sync_id_map_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_sync_id_map_aggregated!]!
-  directus_sync_id_map_by_version(version: String!, id: ID!): version_directus_sync_id_map
-  form_field_answer(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_field_answer!]!
-  form_field_answer_by_id(id: ID!, version: String): form_field_answer
-  form_field_answer_aggregated(groupBy: [String], filter: form_field_answer_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_field_answer_aggregated!]!
-  form_field_answer_by_version(version: String!, id: ID!): version_form_field_answer
   form_submission(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_submission!]!
   form_submission_by_id(id: ID!, version: String): form_submission
   form_submission_aggregated(groupBy: [String], filter: form_submission_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_submission_aggregated!]!
@@ -103,39 +95,27 @@ type Query {
   form_by_id(id: ID!, version: String): form
   form_aggregated(groupBy: [String], filter: form_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_aggregated!]!
   form_by_version(version: String!, id: ID!): version_form
-  form_field(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_field!]!
-  form_field_by_id(id: ID!, version: String): form_field
-  form_field_aggregated(groupBy: [String], filter: form_field_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_field_aggregated!]!
-  form_field_by_version(version: String!, id: ID!): version_form_field
   user(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [user!]!
   user_by_id(id: ID!, version: String): user
   user_aggregated(groupBy: [String], filter: user_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [user_aggregated!]!
   user_by_version(version: String!, id: ID!): version_user
+  form_field_answer(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_field_answer!]!
+  form_field_answer_by_id(id: ID!, version: String): form_field_answer
+  form_field_answer_aggregated(groupBy: [String], filter: form_field_answer_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_field_answer_aggregated!]!
+  form_field_answer_by_version(version: String!, id: ID!): version_form_field_answer
+  form_field(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_field!]!
+  form_field_by_id(id: ID!, version: String): form_field
+  form_field_aggregated(groupBy: [String], filter: form_field_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_field_aggregated!]!
+  form_field_by_version(version: String!, id: ID!): version_form_field
+  directus_sync_id_map(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [directus_sync_id_map!]!
+  directus_sync_id_map_by_id(id: ID!, version: String): directus_sync_id_map
+  directus_sync_id_map_aggregated(groupBy: [String], filter: directus_sync_id_map_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_sync_id_map_aggregated!]!
+  directus_sync_id_map_by_version(version: String!, id: ID!): version_directus_sync_id_map
 }
 
 type Mutation {
   create_typeorm_migrations_items(filter: typeorm_migrations_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_typeorm_migrations_input!]): [typeorm_migrations!]!
   create_typeorm_migrations_item(data: create_typeorm_migrations_input!): typeorm_migrations
-  create_male_expected_worldly_lifestyle_items(filter: male_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_male_expected_worldly_lifestyle_input!]): [male_expected_worldly_lifestyle!]!
-  create_male_expected_worldly_lifestyle_item(data: create_male_expected_worldly_lifestyle_input!): male_expected_worldly_lifestyle
-  create_female_expected_worldly_lifestyle_items(filter: female_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_female_expected_worldly_lifestyle_input!]): [female_expected_worldly_lifestyle!]!
-  create_female_expected_worldly_lifestyle_item(data: create_female_expected_worldly_lifestyle_input!): female_expected_worldly_lifestyle
-  create_user_worldly_lifestyle_items(filter: user_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_user_worldly_lifestyle_input!]): [user_worldly_lifestyle!]!
-  create_user_worldly_lifestyle_item(data: create_user_worldly_lifestyle_input!): user_worldly_lifestyle
-  create_male_expected_islamic_lifestyle_items(filter: male_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_male_expected_islamic_lifestyle_input!]): [male_expected_islamic_lifestyle!]!
-  create_male_expected_islamic_lifestyle_item(data: create_male_expected_islamic_lifestyle_input!): male_expected_islamic_lifestyle
-  create_male_islamic_lifestyle_items(filter: male_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_male_islamic_lifestyle_input!]): [male_islamic_lifestyle!]!
-  create_male_islamic_lifestyle_item(data: create_male_islamic_lifestyle_input!): male_islamic_lifestyle
-  create_female_islamic_lifestyle_items(filter: female_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_female_islamic_lifestyle_input!]): [female_islamic_lifestyle!]!
-  create_female_islamic_lifestyle_item(data: create_female_islamic_lifestyle_input!): female_islamic_lifestyle
-  create_female_expected_islamic_lifestyle_items(filter: female_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_female_expected_islamic_lifestyle_input!]): [female_expected_islamic_lifestyle!]!
-  create_female_expected_islamic_lifestyle_item(data: create_female_expected_islamic_lifestyle_input!): female_expected_islamic_lifestyle
-  create_user_marriage_discussion_items(filter: user_marriage_discussion_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_user_marriage_discussion_input!]): [user_marriage_discussion!]!
-  create_user_marriage_discussion_item(data: create_user_marriage_discussion_input!): user_marriage_discussion
-  create_user_family_information_items(filter: user_family_information_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_user_family_information_input!]): [user_family_information!]!
-  create_user_family_information_item(data: create_user_family_information_input!): user_family_information
-  create_user_optional_verifiable_items(filter: user_optional_verifiable_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_user_optional_verifiable_input!]): [user_optional_verifiable!]!
-  create_user_optional_verifiable_item(data: create_user_optional_verifiable_input!): user_optional_verifiable
   create_refresh_token_items(filter: refresh_token_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_refresh_token_input!]): [refresh_token!]!
   create_refresh_token_item(data: create_refresh_token_input!): refresh_token
   create_permission_items(filter: permission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_permission_input!]): [permission!]!
@@ -156,53 +136,43 @@ type Mutation {
   create_guardian_request_item(data: create_guardian_request_input!): guardian_request
   create_match_pool_items(filter: match_pool_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_match_pool_input!]): [match_pool!]!
   create_match_pool_item(data: create_match_pool_input!): match_pool
+  create_male_expected_worldly_lifestyle_items(filter: male_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_male_expected_worldly_lifestyle_input!]): [male_expected_worldly_lifestyle!]!
+  create_male_expected_worldly_lifestyle_item(data: create_male_expected_worldly_lifestyle_input!): male_expected_worldly_lifestyle
+  create_female_expected_worldly_lifestyle_items(filter: female_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_female_expected_worldly_lifestyle_input!]): [female_expected_worldly_lifestyle!]!
+  create_female_expected_worldly_lifestyle_item(data: create_female_expected_worldly_lifestyle_input!): female_expected_worldly_lifestyle
+  create_user_worldly_lifestyle_items(filter: user_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_user_worldly_lifestyle_input!]): [user_worldly_lifestyle!]!
+  create_user_worldly_lifestyle_item(data: create_user_worldly_lifestyle_input!): user_worldly_lifestyle
+  create_male_expected_islamic_lifestyle_items(filter: male_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_male_expected_islamic_lifestyle_input!]): [male_expected_islamic_lifestyle!]!
+  create_male_expected_islamic_lifestyle_item(data: create_male_expected_islamic_lifestyle_input!): male_expected_islamic_lifestyle
+  create_male_islamic_lifestyle_items(filter: male_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_male_islamic_lifestyle_input!]): [male_islamic_lifestyle!]!
+  create_male_islamic_lifestyle_item(data: create_male_islamic_lifestyle_input!): male_islamic_lifestyle
+  create_female_islamic_lifestyle_items(filter: female_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_female_islamic_lifestyle_input!]): [female_islamic_lifestyle!]!
+  create_female_islamic_lifestyle_item(data: create_female_islamic_lifestyle_input!): female_islamic_lifestyle
+  create_female_expected_islamic_lifestyle_items(filter: female_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_female_expected_islamic_lifestyle_input!]): [female_expected_islamic_lifestyle!]!
+  create_female_expected_islamic_lifestyle_item(data: create_female_expected_islamic_lifestyle_input!): female_expected_islamic_lifestyle
+  create_user_marriage_discussion_items(filter: user_marriage_discussion_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_user_marriage_discussion_input!]): [user_marriage_discussion!]!
+  create_user_marriage_discussion_item(data: create_user_marriage_discussion_input!): user_marriage_discussion
+  create_user_family_information_items(filter: user_family_information_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_user_family_information_input!]): [user_family_information!]!
+  create_user_family_information_item(data: create_user_family_information_input!): user_family_information
+  create_user_optional_verifiable_items(filter: user_optional_verifiable_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_user_optional_verifiable_input!]): [user_optional_verifiable!]!
+  create_user_optional_verifiable_item(data: create_user_optional_verifiable_input!): user_optional_verifiable
   create_preference_items(filter: preference_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_preference_input!]): [preference!]!
   create_preference_item(data: create_preference_input!): preference
-  create_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_sync_id_map_input!]): [directus_sync_id_map!]!
-  create_directus_sync_id_map_item(data: create_directus_sync_id_map_input!): directus_sync_id_map
-  create_form_field_answer_items(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_field_answer_input!]): [form_field_answer!]!
-  create_form_field_answer_item(data: create_form_field_answer_input!): form_field_answer
   create_form_submission_items(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_submission_input!]): [form_submission!]!
   create_form_submission_item(data: create_form_submission_input!): form_submission
   create_form_items(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_input!]): [form!]!
   create_form_item(data: create_form_input!): form
-  create_form_field_items(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_field_input!]): [form_field!]!
-  create_form_field_item(data: create_form_field_input!): form_field
   create_user_items(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_user_input!]): [user!]!
   create_user_item(data: create_user_input!): user
+  create_form_field_answer_items(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_field_answer_input!]): [form_field_answer!]!
+  create_form_field_answer_item(data: create_form_field_answer_input!): form_field_answer
+  create_form_field_items(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_field_input!]): [form_field!]!
+  create_form_field_item(data: create_form_field_input!): form_field
+  create_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_sync_id_map_input!]): [directus_sync_id_map!]!
+  create_directus_sync_id_map_item(data: create_directus_sync_id_map_input!): directus_sync_id_map
   update_typeorm_migrations_items(filter: typeorm_migrations_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_typeorm_migrations_input!): [typeorm_migrations!]!
   update_typeorm_migrations_batch(filter: typeorm_migrations_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_typeorm_migrations_input!]): [typeorm_migrations!]!
   update_typeorm_migrations_item(id: ID!, data: update_typeorm_migrations_input!): typeorm_migrations
-  update_male_expected_worldly_lifestyle_items(filter: male_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_male_expected_worldly_lifestyle_input!): [male_expected_worldly_lifestyle!]!
-  update_male_expected_worldly_lifestyle_batch(filter: male_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_male_expected_worldly_lifestyle_input!]): [male_expected_worldly_lifestyle!]!
-  update_male_expected_worldly_lifestyle_item(id: ID!, data: update_male_expected_worldly_lifestyle_input!): male_expected_worldly_lifestyle
-  update_female_expected_worldly_lifestyle_items(filter: female_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_female_expected_worldly_lifestyle_input!): [female_expected_worldly_lifestyle!]!
-  update_female_expected_worldly_lifestyle_batch(filter: female_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_female_expected_worldly_lifestyle_input!]): [female_expected_worldly_lifestyle!]!
-  update_female_expected_worldly_lifestyle_item(id: ID!, data: update_female_expected_worldly_lifestyle_input!): female_expected_worldly_lifestyle
-  update_user_worldly_lifestyle_items(filter: user_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_user_worldly_lifestyle_input!): [user_worldly_lifestyle!]!
-  update_user_worldly_lifestyle_batch(filter: user_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_user_worldly_lifestyle_input!]): [user_worldly_lifestyle!]!
-  update_user_worldly_lifestyle_item(id: ID!, data: update_user_worldly_lifestyle_input!): user_worldly_lifestyle
-  update_male_expected_islamic_lifestyle_items(filter: male_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_male_expected_islamic_lifestyle_input!): [male_expected_islamic_lifestyle!]!
-  update_male_expected_islamic_lifestyle_batch(filter: male_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_male_expected_islamic_lifestyle_input!]): [male_expected_islamic_lifestyle!]!
-  update_male_expected_islamic_lifestyle_item(id: ID!, data: update_male_expected_islamic_lifestyle_input!): male_expected_islamic_lifestyle
-  update_male_islamic_lifestyle_items(filter: male_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_male_islamic_lifestyle_input!): [male_islamic_lifestyle!]!
-  update_male_islamic_lifestyle_batch(filter: male_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_male_islamic_lifestyle_input!]): [male_islamic_lifestyle!]!
-  update_male_islamic_lifestyle_item(id: ID!, data: update_male_islamic_lifestyle_input!): male_islamic_lifestyle
-  update_female_islamic_lifestyle_items(filter: female_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_female_islamic_lifestyle_input!): [female_islamic_lifestyle!]!
-  update_female_islamic_lifestyle_batch(filter: female_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_female_islamic_lifestyle_input!]): [female_islamic_lifestyle!]!
-  update_female_islamic_lifestyle_item(id: ID!, data: update_female_islamic_lifestyle_input!): female_islamic_lifestyle
-  update_female_expected_islamic_lifestyle_items(filter: female_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_female_expected_islamic_lifestyle_input!): [female_expected_islamic_lifestyle!]!
-  update_female_expected_islamic_lifestyle_batch(filter: female_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_female_expected_islamic_lifestyle_input!]): [female_expected_islamic_lifestyle!]!
-  update_female_expected_islamic_lifestyle_item(id: ID!, data: update_female_expected_islamic_lifestyle_input!): female_expected_islamic_lifestyle
-  update_user_marriage_discussion_items(filter: user_marriage_discussion_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_user_marriage_discussion_input!): [user_marriage_discussion!]!
-  update_user_marriage_discussion_batch(filter: user_marriage_discussion_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_user_marriage_discussion_input!]): [user_marriage_discussion!]!
-  update_user_marriage_discussion_item(id: ID!, data: update_user_marriage_discussion_input!): user_marriage_discussion
-  update_user_family_information_items(filter: user_family_information_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_user_family_information_input!): [user_family_information!]!
-  update_user_family_information_batch(filter: user_family_information_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_user_family_information_input!]): [user_family_information!]!
-  update_user_family_information_item(id: ID!, data: update_user_family_information_input!): user_family_information
-  update_user_optional_verifiable_items(filter: user_optional_verifiable_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_user_optional_verifiable_input!): [user_optional_verifiable!]!
-  update_user_optional_verifiable_batch(filter: user_optional_verifiable_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_user_optional_verifiable_input!]): [user_optional_verifiable!]!
-  update_user_optional_verifiable_item(id: ID!, data: update_user_optional_verifiable_input!): user_optional_verifiable
   update_refresh_token_items(filter: refresh_token_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_refresh_token_input!): [refresh_token!]!
   update_refresh_token_batch(filter: refresh_token_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_refresh_token_input!]): [refresh_token!]!
   update_refresh_token_item(id: ID!, data: update_refresh_token_input!): refresh_token
@@ -233,49 +203,59 @@ type Mutation {
   update_match_pool_items(filter: match_pool_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_match_pool_input!): [match_pool!]!
   update_match_pool_batch(filter: match_pool_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_match_pool_input!]): [match_pool!]!
   update_match_pool_item(id: ID!, data: update_match_pool_input!): match_pool
+  update_male_expected_worldly_lifestyle_items(filter: male_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_male_expected_worldly_lifestyle_input!): [male_expected_worldly_lifestyle!]!
+  update_male_expected_worldly_lifestyle_batch(filter: male_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_male_expected_worldly_lifestyle_input!]): [male_expected_worldly_lifestyle!]!
+  update_male_expected_worldly_lifestyle_item(id: ID!, data: update_male_expected_worldly_lifestyle_input!): male_expected_worldly_lifestyle
+  update_female_expected_worldly_lifestyle_items(filter: female_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_female_expected_worldly_lifestyle_input!): [female_expected_worldly_lifestyle!]!
+  update_female_expected_worldly_lifestyle_batch(filter: female_expected_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_female_expected_worldly_lifestyle_input!]): [female_expected_worldly_lifestyle!]!
+  update_female_expected_worldly_lifestyle_item(id: ID!, data: update_female_expected_worldly_lifestyle_input!): female_expected_worldly_lifestyle
+  update_user_worldly_lifestyle_items(filter: user_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_user_worldly_lifestyle_input!): [user_worldly_lifestyle!]!
+  update_user_worldly_lifestyle_batch(filter: user_worldly_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_user_worldly_lifestyle_input!]): [user_worldly_lifestyle!]!
+  update_user_worldly_lifestyle_item(id: ID!, data: update_user_worldly_lifestyle_input!): user_worldly_lifestyle
+  update_male_expected_islamic_lifestyle_items(filter: male_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_male_expected_islamic_lifestyle_input!): [male_expected_islamic_lifestyle!]!
+  update_male_expected_islamic_lifestyle_batch(filter: male_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_male_expected_islamic_lifestyle_input!]): [male_expected_islamic_lifestyle!]!
+  update_male_expected_islamic_lifestyle_item(id: ID!, data: update_male_expected_islamic_lifestyle_input!): male_expected_islamic_lifestyle
+  update_male_islamic_lifestyle_items(filter: male_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_male_islamic_lifestyle_input!): [male_islamic_lifestyle!]!
+  update_male_islamic_lifestyle_batch(filter: male_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_male_islamic_lifestyle_input!]): [male_islamic_lifestyle!]!
+  update_male_islamic_lifestyle_item(id: ID!, data: update_male_islamic_lifestyle_input!): male_islamic_lifestyle
+  update_female_islamic_lifestyle_items(filter: female_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_female_islamic_lifestyle_input!): [female_islamic_lifestyle!]!
+  update_female_islamic_lifestyle_batch(filter: female_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_female_islamic_lifestyle_input!]): [female_islamic_lifestyle!]!
+  update_female_islamic_lifestyle_item(id: ID!, data: update_female_islamic_lifestyle_input!): female_islamic_lifestyle
+  update_female_expected_islamic_lifestyle_items(filter: female_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_female_expected_islamic_lifestyle_input!): [female_expected_islamic_lifestyle!]!
+  update_female_expected_islamic_lifestyle_batch(filter: female_expected_islamic_lifestyle_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_female_expected_islamic_lifestyle_input!]): [female_expected_islamic_lifestyle!]!
+  update_female_expected_islamic_lifestyle_item(id: ID!, data: update_female_expected_islamic_lifestyle_input!): female_expected_islamic_lifestyle
+  update_user_marriage_discussion_items(filter: user_marriage_discussion_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_user_marriage_discussion_input!): [user_marriage_discussion!]!
+  update_user_marriage_discussion_batch(filter: user_marriage_discussion_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_user_marriage_discussion_input!]): [user_marriage_discussion!]!
+  update_user_marriage_discussion_item(id: ID!, data: update_user_marriage_discussion_input!): user_marriage_discussion
+  update_user_family_information_items(filter: user_family_information_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_user_family_information_input!): [user_family_information!]!
+  update_user_family_information_batch(filter: user_family_information_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_user_family_information_input!]): [user_family_information!]!
+  update_user_family_information_item(id: ID!, data: update_user_family_information_input!): user_family_information
+  update_user_optional_verifiable_items(filter: user_optional_verifiable_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_user_optional_verifiable_input!): [user_optional_verifiable!]!
+  update_user_optional_verifiable_batch(filter: user_optional_verifiable_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_user_optional_verifiable_input!]): [user_optional_verifiable!]!
+  update_user_optional_verifiable_item(id: ID!, data: update_user_optional_verifiable_input!): user_optional_verifiable
   update_preference_items(filter: preference_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_preference_input!): [preference!]!
   update_preference_batch(filter: preference_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_preference_input!]): [preference!]!
   update_preference_item(id: ID!, data: update_preference_input!): preference
-  update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
-  update_directus_sync_id_map_batch(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_sync_id_map_input!]): [directus_sync_id_map!]!
-  update_directus_sync_id_map_item(id: ID!, data: update_directus_sync_id_map_input!): directus_sync_id_map
-  update_form_field_answer_items(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_field_answer_input!): [form_field_answer!]!
-  update_form_field_answer_batch(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_field_answer_input!]): [form_field_answer!]!
-  update_form_field_answer_item(id: ID!, data: update_form_field_answer_input!): form_field_answer
   update_form_submission_items(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_submission_input!): [form_submission!]!
   update_form_submission_batch(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_submission_input!]): [form_submission!]!
   update_form_submission_item(id: ID!, data: update_form_submission_input!): form_submission
   update_form_items(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_input!): [form!]!
   update_form_batch(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_input!]): [form!]!
   update_form_item(id: ID!, data: update_form_input!): form
-  update_form_field_items(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_field_input!): [form_field!]!
-  update_form_field_batch(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_field_input!]): [form_field!]!
-  update_form_field_item(id: ID!, data: update_form_field_input!): form_field
   update_user_items(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_user_input!): [user!]!
   update_user_batch(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_user_input!]): [user!]!
   update_user_item(id: ID!, data: update_user_input!): user
+  update_form_field_answer_items(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_field_answer_input!): [form_field_answer!]!
+  update_form_field_answer_batch(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_field_answer_input!]): [form_field_answer!]!
+  update_form_field_answer_item(id: ID!, data: update_form_field_answer_input!): form_field_answer
+  update_form_field_items(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_field_input!): [form_field!]!
+  update_form_field_batch(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_field_input!]): [form_field!]!
+  update_form_field_item(id: ID!, data: update_form_field_input!): form_field
+  update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
+  update_directus_sync_id_map_batch(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_sync_id_map_input!]): [directus_sync_id_map!]!
+  update_directus_sync_id_map_item(id: ID!, data: update_directus_sync_id_map_input!): directus_sync_id_map
   delete_typeorm_migrations_items(ids: [ID]!): delete_many
   delete_typeorm_migrations_item(id: ID!): delete_one
-  delete_male_expected_worldly_lifestyle_items(ids: [ID]!): delete_many
-  delete_male_expected_worldly_lifestyle_item(id: ID!): delete_one
-  delete_female_expected_worldly_lifestyle_items(ids: [ID]!): delete_many
-  delete_female_expected_worldly_lifestyle_item(id: ID!): delete_one
-  delete_user_worldly_lifestyle_items(ids: [ID]!): delete_many
-  delete_user_worldly_lifestyle_item(id: ID!): delete_one
-  delete_male_expected_islamic_lifestyle_items(ids: [ID]!): delete_many
-  delete_male_expected_islamic_lifestyle_item(id: ID!): delete_one
-  delete_male_islamic_lifestyle_items(ids: [ID]!): delete_many
-  delete_male_islamic_lifestyle_item(id: ID!): delete_one
-  delete_female_islamic_lifestyle_items(ids: [ID]!): delete_many
-  delete_female_islamic_lifestyle_item(id: ID!): delete_one
-  delete_female_expected_islamic_lifestyle_items(ids: [ID]!): delete_many
-  delete_female_expected_islamic_lifestyle_item(id: ID!): delete_one
-  delete_user_marriage_discussion_items(ids: [ID]!): delete_many
-  delete_user_marriage_discussion_item(id: ID!): delete_one
-  delete_user_family_information_items(ids: [ID]!): delete_many
-  delete_user_family_information_item(id: ID!): delete_one
-  delete_user_optional_verifiable_items(ids: [ID]!): delete_many
-  delete_user_optional_verifiable_item(id: ID!): delete_one
   delete_refresh_token_items(ids: [ID]!): delete_many
   delete_refresh_token_item(id: ID!): delete_one
   delete_permission_items(ids: [ID]!): delete_many
@@ -296,33 +276,54 @@ type Mutation {
   delete_guardian_request_item(id: ID!): delete_one
   delete_match_pool_items(ids: [ID]!): delete_many
   delete_match_pool_item(id: ID!): delete_one
+  delete_male_expected_worldly_lifestyle_items(ids: [ID]!): delete_many
+  delete_male_expected_worldly_lifestyle_item(id: ID!): delete_one
+  delete_female_expected_worldly_lifestyle_items(ids: [ID]!): delete_many
+  delete_female_expected_worldly_lifestyle_item(id: ID!): delete_one
+  delete_user_worldly_lifestyle_items(ids: [ID]!): delete_many
+  delete_user_worldly_lifestyle_item(id: ID!): delete_one
+  delete_male_expected_islamic_lifestyle_items(ids: [ID]!): delete_many
+  delete_male_expected_islamic_lifestyle_item(id: ID!): delete_one
+  delete_male_islamic_lifestyle_items(ids: [ID]!): delete_many
+  delete_male_islamic_lifestyle_item(id: ID!): delete_one
+  delete_female_islamic_lifestyle_items(ids: [ID]!): delete_many
+  delete_female_islamic_lifestyle_item(id: ID!): delete_one
+  delete_female_expected_islamic_lifestyle_items(ids: [ID]!): delete_many
+  delete_female_expected_islamic_lifestyle_item(id: ID!): delete_one
+  delete_user_marriage_discussion_items(ids: [ID]!): delete_many
+  delete_user_marriage_discussion_item(id: ID!): delete_one
+  delete_user_family_information_items(ids: [ID]!): delete_many
+  delete_user_family_information_item(id: ID!): delete_one
+  delete_user_optional_verifiable_items(ids: [ID]!): delete_many
+  delete_user_optional_verifiable_item(id: ID!): delete_one
   delete_preference_items(ids: [ID]!): delete_many
   delete_preference_item(id: ID!): delete_one
-  delete_directus_sync_id_map_items(ids: [ID]!): delete_many
-  delete_directus_sync_id_map_item(id: ID!): delete_one
-  delete_form_field_answer_items(ids: [ID]!): delete_many
-  delete_form_field_answer_item(id: ID!): delete_one
   delete_form_submission_items(ids: [ID]!): delete_many
   delete_form_submission_item(id: ID!): delete_one
   delete_form_items(ids: [ID]!): delete_many
   delete_form_item(id: ID!): delete_one
-  delete_form_field_items(ids: [ID]!): delete_many
-  delete_form_field_item(id: ID!): delete_one
   delete_user_items(ids: [ID]!): delete_many
   delete_user_item(id: ID!): delete_one
+  delete_form_field_answer_items(ids: [ID]!): delete_many
+  delete_form_field_answer_item(id: ID!): delete_one
+  delete_form_field_items(ids: [ID]!): delete_many
+  delete_form_field_item(id: ID!): delete_one
+  delete_directus_sync_id_map_items(ids: [ID]!): delete_many
+  delete_directus_sync_id_map_item(id: ID!): delete_one
 }
 
 type Subscription {
   typeorm_migrations_mutated(event: EventEnum): typeorm_migrations_mutated
-  directus_folders_mutated(event: EventEnum): directus_folders_mutated
-  directus_permissions_mutated(event: EventEnum): directus_permissions_mutated
-  directus_activity_mutated(event: EventEnum): directus_activity_mutated
-  directus_files_mutated(event: EventEnum): directus_files_mutated
-  directus_roles_mutated(event: EventEnum): directus_roles_mutated
-  directus_users_mutated(event: EventEnum): directus_users_mutated
-  directus_revisions_mutated(event: EventEnum): directus_revisions_mutated
-  directus_presets_mutated(event: EventEnum): directus_presets_mutated
-  directus_webhooks_mutated(event: EventEnum): directus_webhooks_mutated
+  refresh_token_mutated(event: EventEnum): refresh_token_mutated
+  permission_mutated(event: EventEnum): permission_mutated
+  otp_mutated(event: EventEnum): otp_mutated
+  match_mutated(event: EventEnum): match_mutated
+  invitation_to_match_stage_mutated(event: EventEnum): invitation_to_match_stage_mutated
+  subscriptions_mutated(event: EventEnum): subscriptions_mutated
+  subscription_history_mutated(event: EventEnum): subscription_history_mutated
+  role_mutated(event: EventEnum): role_mutated
+  guardian_request_mutated(event: EventEnum): guardian_request_mutated
+  match_pool_mutated(event: EventEnum): match_pool_mutated
   male_expected_worldly_lifestyle_mutated(event: EventEnum): male_expected_worldly_lifestyle_mutated
   female_expected_worldly_lifestyle_mutated(event: EventEnum): female_expected_worldly_lifestyle_mutated
   user_worldly_lifestyle_mutated(event: EventEnum): user_worldly_lifestyle_mutated
@@ -332,36 +333,35 @@ type Subscription {
   female_expected_islamic_lifestyle_mutated(event: EventEnum): female_expected_islamic_lifestyle_mutated
   user_marriage_discussion_mutated(event: EventEnum): user_marriage_discussion_mutated
   user_family_information_mutated(event: EventEnum): user_family_information_mutated
-  directus_panels_mutated(event: EventEnum): directus_panels_mutated
-  directus_dashboards_mutated(event: EventEnum): directus_dashboards_mutated
   user_optional_verifiable_mutated(event: EventEnum): user_optional_verifiable_mutated
+  preference_mutated(event: EventEnum): preference_mutated
+  form_submission_mutated(event: EventEnum): form_submission_mutated
+  form_mutated(event: EventEnum): form_mutated
+  user_mutated(event: EventEnum): user_mutated
+  form_field_answer_mutated(event: EventEnum): form_field_answer_mutated
+  directus_folders_mutated(event: EventEnum): directus_folders_mutated
+  directus_activity_mutated(event: EventEnum): directus_activity_mutated
+  directus_files_mutated(event: EventEnum): directus_files_mutated
+  directus_roles_mutated(event: EventEnum): directus_roles_mutated
+  form_field_mutated(event: EventEnum): form_field_mutated
+  directus_users_mutated(event: EventEnum): directus_users_mutated
+  directus_webhooks_mutated(event: EventEnum): directus_webhooks_mutated
+  directus_permissions_mutated(event: EventEnum): directus_permissions_mutated
+  directus_settings_mutated(event: EventEnum): directus_settings_mutated
+  directus_revisions_mutated(event: EventEnum): directus_revisions_mutated
+  directus_presets_mutated(event: EventEnum): directus_presets_mutated
+  directus_panels_mutated(event: EventEnum): directus_panels_mutated
   directus_notifications_mutated(event: EventEnum): directus_notifications_mutated
   directus_shares_mutated(event: EventEnum): directus_shares_mutated
   directus_flows_mutated(event: EventEnum): directus_flows_mutated
   directus_operations_mutated(event: EventEnum): directus_operations_mutated
+  directus_dashboards_mutated(event: EventEnum): directus_dashboards_mutated
   directus_translations_mutated(event: EventEnum): directus_translations_mutated
   directus_versions_mutated(event: EventEnum): directus_versions_mutated
-  refresh_token_mutated(event: EventEnum): refresh_token_mutated
-  permission_mutated(event: EventEnum): permission_mutated
-  otp_mutated(event: EventEnum): otp_mutated
-  match_mutated(event: EventEnum): match_mutated
-  invitation_to_match_stage_mutated(event: EventEnum): invitation_to_match_stage_mutated
   directus_policies_mutated(event: EventEnum): directus_policies_mutated
-  subscriptions_mutated(event: EventEnum): subscriptions_mutated
-  subscription_history_mutated(event: EventEnum): subscription_history_mutated
-  role_mutated(event: EventEnum): role_mutated
-  guardian_request_mutated(event: EventEnum): guardian_request_mutated
-  match_pool_mutated(event: EventEnum): match_pool_mutated
-  preference_mutated(event: EventEnum): preference_mutated
   directus_access_mutated(event: EventEnum): directus_access_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
-  directus_settings_mutated(event: EventEnum): directus_settings_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
-  form_field_answer_mutated(event: EventEnum): form_field_answer_mutated
-  form_submission_mutated(event: EventEnum): form_submission_mutated
-  form_mutated(event: EventEnum): form_mutated
-  form_field_mutated(event: EventEnum): form_field_mutated
-  user_mutated(event: EventEnum): user_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""

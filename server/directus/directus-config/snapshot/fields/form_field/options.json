@@ -41,14 +41,22 @@
         {
           "field": "show",
           "meta": {
+            "display": "formatted-value",
+            "display_options": {
+              "format": true
+            },
             "field": "show",
-            "interface": "input-block-editor",
+            "interface": "input-code",
+            "options": {
+              "language": "JSON",
+              "template": "{\n\t\n}"
+            },
             "required": false,
-            "type": "json",
+            "type": "text",
             "width": "half"
           },
           "name": "show",
-          "type": "json"
+          "type": "text"
         },
         {
           "field": "order",
@@ -80,7 +88,7 @@
   "schema": {
     "name": "options",
     "table": "form_field",
-    "data_type": "jsonb",
+    "data_type": "json",
     "default_value": null,
     "max_length": null,
     "numeric_precision": null,

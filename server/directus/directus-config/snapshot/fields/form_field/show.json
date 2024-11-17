@@ -5,14 +5,19 @@
   "meta": {
     "collection": "form_field",
     "conditions": null,
-    "display": null,
-    "display_options": null,
+    "display": "formatted-value",
+    "display_options": {
+      "format": true
+    },
     "field": "show",
     "group": null,
     "hidden": false,
-    "interface": null,
+    "interface": "input-code",
     "note": null,
-    "options": null,
+    "options": {
+      "language": "JSON",
+      "template": "{\n    \"hide\": []\n}"
+    },
     "readonly": false,
     "required": false,
     "sort": 8,

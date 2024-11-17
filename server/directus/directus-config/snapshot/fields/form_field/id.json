@@ -4,7 +4,22 @@
   "type": "uuid",
   "meta": {
     "collection": "form_field",
-    "conditions": null,
+    "conditions": [
+      {
+        "name": "Disable Editing ID",
+        "options": {},
+        "readonly": true,
+        "rule": {
+          "_and": [
+            {
+              "id": {
+                "_nnull": true
+              }
+            }
+          ]
+        }
+      }
+    ],
     "display": null,
     "display_options": null,
     "field": "id",

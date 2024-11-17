@@ -15,25 +15,34 @@
     "options": {
       "choices": [
         {
-          "icon": null,
+          "icon": "keyboard_arrow_down",
           "text": "Dropdown",
           "value": "select"
         },
         {
+          "icon": "format_color_text",
           "text": "Autocomplete",
           "value": "autocomplete"
         },
         {
+          "icon": "library_add_check",
           "text": "Multiselect",
           "value": "multiselect"
         },
         {
+          "icon": "text_fields",
           "text": "Textarea",
           "value": "text"
         },
         {
+          "icon": "text_select_start",
           "text": "Input",
           "value": "input"
+        },
+        {
+          "icon": "attach_money",
+          "text": "Currency",
+          "value": "with_currency"
         }
       ]
     },
