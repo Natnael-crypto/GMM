@@ -31,8 +31,8 @@ export class FormField {
   @Column('jsonb', { nullable: true })
   options: Option[];
 
-  @Column({ nullable: true, default: 'true' })
-  show: string;
+  @Column('jsonb', { nullable: true })
+  show: any;
 
   @Column({
     type: 'enum',
