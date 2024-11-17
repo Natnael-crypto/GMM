@@ -26,11 +26,7 @@ export class FormsController {
   async findAllForms() {
     return { data: await this.formService.findAllForms() };
   }
-  @Get('findAll')
-  async getUserSubmissions(@Req() req: Request) {
-    console.log((req.user as User).id);
-    return await this.formService.describeUser((req.user as User).id);
-  }
+
   @Get(':slug')
   async findOneForm(@Param('slug') slug: string) {
     const form = await this.formService.findOneForm(slug);

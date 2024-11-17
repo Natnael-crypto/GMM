@@ -17,6 +17,7 @@ import config from '@shared/config';
 import { LoggerMiddleware } from '@shared/utils/logger';
 import { TypeOrmConfigService } from '@shared/database/typeorm.service';
 import { FormModule } from '@modules/form/form.module';
+import { BlogModule } from '@modules/blog/blog.module';
 
 @Module({
   imports: [
@@ -32,12 +33,13 @@ import { FormModule } from '@modules/form/form.module';
     MatchMakingModule,
     ChatModule,
     FormModule,
+    BlogModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatWebsocketGateway],
 })
 export class AppModule {
-  constructor(private readonly appService: AppService) {}
+  constructor() {}
 
   configure(consumer: MiddlewareConsumer) {
     consumer
