@@ -13,7 +13,10 @@ import {
 import { cmToFeetInches, kgToPounds } from '@/lib/format';
 import MatchFilterSlider from './match-filter-slider';
 import { usePreference } from '@/lib/hooks/match/preference-hook';
-import { preferenceQuestions } from '@/lib/matchmaking/questions/preference';
+import {
+  basicPreferenceQuestions,
+  advancedPreferenceQuestions,
+} from '@/lib/matchmaking/questions/preference';
 import PreferenceField from './preference-fields';
 
 export default function MatchPreferenceFilter() {
@@ -31,7 +34,7 @@ export default function MatchPreferenceFilter() {
         <div className="space-y-2 col-span-10 md:col-span-3">
           <MatchFilterSlider
             name="preferredAge"
-            label="Preferred Age"
+            label="Age"
             min={minAge}
             max={maxAge}
             onChange={debouncedSavePreference}
@@ -90,7 +93,7 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-2 col-span-10 md:col-span-3">
+        <div className="space-y-2 col-span-10 md:col-span-3 grid grid-cols-subgrid">
           <MatchFilterSlider
             name="preferredWeight"
             label="Weight"
@@ -116,7 +119,27 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        {preferenceQuestions.map((question, index) => {
+        {basicPreferenceQuestions.map((question, index) => {
+          return (
+            <PreferenceField
+              key={`${question.label}_${index}`}
+              question={question}
+              onChange={debouncedSavePreference}
+              type={question.type}
+              notFilter={notFilter[question.name as keyof typeof notFilter]}
+              toggleNotFilter={() =>
+                toggleNotFilter(question.name as keyof typeof notFilter)
+              }
+              allowAny={
+                isFilterInactive[question.name as keyof typeof isFilterInactive]
+              }
+            />
+          );
+        })}
+
+        <h2 className="col-span-9 font-bold mt-2">Advanced</h2>
+
+        {basicPreferenceQuestions.map((question, index) => {
           return (
             <PreferenceField
               key={`${question.label}_${index}`}

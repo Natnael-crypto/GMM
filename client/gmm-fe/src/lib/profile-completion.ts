@@ -19,7 +19,7 @@ export const basicInformationCompletion = (user: User): number => {
   const fields = [
     'firstName',
     'lastName',
-    'age',
+    'dateOfBirth',
     'gender',
     'height',
     'weight',
