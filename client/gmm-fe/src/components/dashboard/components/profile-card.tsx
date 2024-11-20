@@ -28,7 +28,7 @@ export default function ProfileCard({ user }: { user: User }) {
 
       <div className="flex flex-col gap-1 justify-center">
         <h1 className="font-bold text-xl text-muted-foreground">
-          {user?.firstName} {user?.lastName}
+          {user?.firstName}
         </h1>
       </div>
     </div>
