@@ -144,18 +144,22 @@ export class UserService extends BaseRepository {
     return await Promise.all([
       this.getRepository(User).save(updatedUser),
 
-      this.updateFamilyInformation(userId, {
-        guardianEmail: dto.guardianEmail,
-        guardianFirstName: dto.guardianFirstName,
-        guardianLastName: dto.guardianLastName,
-        guardianPhoneNumber: dto.guardianPhoneNumber,
-        relationshipToGuardian: dto.relationshipToGuardian,
-      }),
+      user.gender !== Gender.MALE &&
+        dto.guardianEmail !== user.email &&
+        this.updateFamilyInformation(userId, {
+          guardianEmail: dto.guardianEmail,
+          guardianFirstName: dto.guardianFirstName,
+          guardianLastName: dto.guardianLastName,
+          guardianPhoneNumber: dto.guardianPhoneNumber,
+          relationshipToGuardian: dto.relationshipToGuardian,
+        }),
 
-      this.guardianService.requestGuardian(user, {
-        guardianEmail: dto.guardianEmail,
-        relationshipToGuardian: dto.relationshipToGuardian,
-      }),
+      user.gender !== Gender.MALE &&
+        dto.guardianEmail !== user.email &&
+        this.guardianService.requestGuardian(user, {
+          guardianEmail: dto.guardianEmail,
+          relationshipToGuardian: dto.relationshipToGuardian,
+        }),
     ]);
   }
 
