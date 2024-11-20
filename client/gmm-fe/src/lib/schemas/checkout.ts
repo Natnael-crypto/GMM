@@ -13,7 +13,7 @@ export const checkoutSchema = z
         message: 'City is required',
       })
       .min(1, 'City is required'),
-    // postcode: z.string().min(1, 'Postcode is required'),
+    postcode: z.string().min(1, 'Postcode is required'),
     region: z.string().min(1, 'Region is required'),
     // country: z.string().min(1, 'Country is required'),
     // cardNumber: z.string().min(1, 'Card number is required'),

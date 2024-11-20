@@ -18,28 +18,7 @@ export interface PreferenceQuestion {
 
 const toOption = (value: string) => ({ label: value, value });
 
-export const preferenceQuestions: PreferenceQuestion[] = [
-  {
-    label: 'Nationality/Passport',
-    name: 'nationality',
-    width: 'col-span-10 md:col-span-3',
-    type: 'multiselect',
-    options: countryOptions.map((c) => {
-      const countryCode = countryToCountryCode[c.value];
-      const Flag = flags[countryCode as keyof typeof flags];
-      const icon = (
-        <div className="w-5">{Flag && <Flag title={c.label} />}</div>
-      );
-      return { label: c.label, value: c.value, icon: icon };
-    }),
-  },
-  {
-    label: 'Language',
-    name: 'language',
-    width: 'col-span-10 md:col-span-3',
-    type: 'multiselect',
-    options: languages,
-  },
+export const basicPreferenceQuestions: PreferenceQuestion[] = [
   {
     label: 'Country of Origin',
     name: 'country',
@@ -68,13 +47,6 @@ export const preferenceQuestions: PreferenceQuestion[] = [
     ].map(toOption),
   },
   {
-    label: 'Born/Reverted',
-    name: 'bornOrRevert',
-    width: 'col-span-10 md:col-span-3',
-    type: 'multiselect',
-    options: ['Born Muslim', 'Reverted to Islam'].map(toOption),
-  },
-  {
     label: 'Children',
     name: 'children',
     width: 'col-span-10 md:col-span-3',
@@ -82,18 +54,7 @@ export const preferenceQuestions: PreferenceQuestion[] = [
     options: ['Has children', "Doesn't have children"].map(toOption),
   },
   {
-    label: 'Wants Children',
-    name: 'wantsChildren',
-    width: 'col-span-10 md:col-span-3',
-    type: 'multiselect',
-    options: [
-      'Wants children',
-      "Doesn't want children",
-      "Can't have children (medical reason)",
-    ].map(toOption),
-  },
-  {
-    label: 'Salat/Prayer',
+    label: 'Religious Practice',
     name: 'salat',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
@@ -142,6 +103,48 @@ export const preferenceQuestions: PreferenceQuestion[] = [
       },
     ],
   },
+];
+
+export const advancedPreferenceQuestions: PreferenceQuestion[] = [
+  {
+    label: 'Nationality/Passport',
+    name: 'nationality',
+    width: 'col-span-10 md:col-span-3',
+    type: 'multiselect',
+    options: countryOptions.map((c) => {
+      const countryCode = countryToCountryCode[c.value];
+      const Flag = flags[countryCode as keyof typeof flags];
+      const icon = (
+        <div className="w-5">{Flag && <Flag title={c.label} />}</div>
+      );
+      return { label: c.label, value: c.value, icon: icon };
+    }),
+  },
+  {
+    label: 'Language',
+    name: 'language',
+    width: 'col-span-10 md:col-span-3',
+    type: 'multiselect',
+    options: languages,
+  },
+  {
+    label: 'Born/Reverted',
+    name: 'bornOrRevert',
+    width: 'col-span-10 md:col-span-3',
+    type: 'multiselect',
+    options: ['Born Muslim', 'Reverted to Islam'].map(toOption),
+  },
+  {
+    label: 'Wants Children',
+    name: 'wantsChildren',
+    width: 'col-span-10 md:col-span-3',
+    type: 'multiselect',
+    options: [
+      'Wants children',
+      "Doesn't want children",
+      "Can't have children (medical reason)",
+    ].map(toOption),
+  },
   {
     label: 'Education',
     name: 'education',
@@ -175,7 +178,7 @@ export const preferenceQuestions: PreferenceQuestion[] = [
     ].map(toOption),
   },
   {
-    label: 'Drinking',
+    label: 'Drinks/Alcohol',
     name: 'drinking',
     width: 'col-span-10 md:col-span-3',
     type: 'single',
@@ -185,7 +188,7 @@ export const preferenceQuestions: PreferenceQuestion[] = [
     ],
   },
   {
-    label: 'Smoking',
+    label: 'Smokes (Vapes/Shisha)',
     name: 'smoking',
     width: 'col-span-10 md:col-span-3',
     type: 'single',
@@ -214,4 +217,9 @@ export const preferenceQuestions: PreferenceQuestion[] = [
       { label: 'No', value: 'false' },
     ],
   },
+];
+
+export const preferenceQuestions = [
+  ...basicPreferenceQuestions,
+  ...advancedPreferenceQuestions,
 ];

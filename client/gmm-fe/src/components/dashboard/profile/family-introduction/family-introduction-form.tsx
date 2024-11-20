@@ -51,10 +51,12 @@ export default function FamilyIntroductionForm({
 
   useEffect(() => {
     if (user && user.guardian) {
-      form.reset({
-        ...familyIntroduction,
-        guardianEmail: user.guardian.email,
-      });
+      if (user.guardian.email !== user.email) {
+        form.reset({
+          ...familyIntroduction,
+          guardianEmail: user.guardian.email,
+        });
+      }
     } else {
       form.reset(familyIntroduction);
     }

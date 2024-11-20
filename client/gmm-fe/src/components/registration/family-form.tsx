@@ -60,157 +60,166 @@ export default function FamilyIntroductionForm() {
 
   return (
     <div>
-      <div className="col-span-2 flex flex-col sm:flex-row justify-between items-center border-b border-b-secondary pb-1">
-        <h1 className="text-primary text-xl font-bold">
-          Family/Guardian Introduction
-        </h1>
-        <span className="text-destructive font-bold text-xs">
-          Please Answer All Questions Accurately
-        </span>
-      </div>
+      {user?.gender === 'Male' && (
+        <div className="col-span-2 flex flex-col sm:flex-row justify-between items-center border-b border-b-secondary pb-1">
+          <h1 className="text-primary text-xl font-bold">
+            Family/Guardian Introduction
+          </h1>
+          <span className="text-destructive font-bold text-xs">
+            Please Answer All Questions Accurately
+          </span>
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-x-3 gap-y-3 py-4">
-        <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
-          <Label>{t('guardianInformation.firstName')}</Label>
-          <FormField
-            name="guardianFirstName"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    {...field}
-                    onChange={(e) => {
-                      if (
-                        /[0-9\(\)\[\]\{\}\+\-\*/%=!@#$^&_|`~<>.,?":;'\\]/.test(
-                          e.target.value
-                        )
-                      ) {
-                        return;
-                      }
-                      field.onChange(e.target.value);
-                    }}
-                    className="text-muted-foreground bg-background text-md shadow rounded-sm"
-                  />
-                </FormControl>
-                <FormMessage className="text-md" />
-              </FormItem>
-            )}
-          />
-        </div>
+        {user?.gender === 'Male' && (
+          <>
+            <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
+              <Label>{t('guardianInformation.firstName')}</Label>
+              <FormField
+                name="guardianFirstName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        onChange={(e) => {
+                          if (
+                            /[0-9\(\)\[\]\{\}\+\-\*/%=!@#$^&_|`~<>.,?":;'\\]/.test(
+                              e.target.value
+                            )
+                          ) {
+                            return;
+                          }
+                          field.onChange(e.target.value);
+                        }}
+                        className="text-muted-foreground bg-background text-md shadow rounded-sm"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-md" />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-        <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
-          <Label>{t('guardianInformation.lastName')}</Label>
-          <FormField
-            name="guardianLastName"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="text-muted-foreground bg-background text-md shadow rounded-sm"
-                    onChange={(e) => {
-                      if (
-                        /[0-9\(\)\[\]\{\}\+\-\*/%=!@#$^&_|`~<>.,?":;'\\]/.test(
-                          e.target.value
-                        )
-                      ) {
-                        return;
-                      }
-                      field.onChange(e.target.value);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage className="text-md" />
-              </FormItem>
-            )}
-          />
-        </div>
+            <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
+              <Label>{t('guardianInformation.lastName')}</Label>
+              <FormField
+                name="guardianLastName"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="text-muted-foreground bg-background text-md shadow rounded-sm"
+                        onChange={(e) => {
+                          if (
+                            /[0-9\(\)\[\]\{\}\+\-\*/%=!@#$^&_|`~<>.,?":;'\\]/.test(
+                              e.target.value
+                            )
+                          ) {
+                            return;
+                          }
+                          field.onChange(e.target.value);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-md" />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-        <div className="space-y-1 py-2 col-span-2">
-          <Label>{t('guardianInformation.relationship')}</Label>
-          <FormField
-            name="relationshipToGuardian"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
+            <div className="space-y-1 py-2 col-span-2">
+              <Label>{t('guardianInformation.relationship')}</Label>
+              <FormField
+                name="relationshipToGuardian"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
+                        <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
+                          <SelectValue />
+                        </SelectTrigger>
 
-                    <SelectContent>
-                      <SelectItem value="Father/Mother (parental involvement)">
-                        Father/Mother (parental involvement)
-                      </SelectItem>
-                      <SelectItem value="Brother (above 18, min 12 years older)">
-                        Brother (above 18, min 12 years older)
-                      </SelectItem>
-                      <SelectItem value="Paternal/Maternal Uncle (no father or brother)">
-                        Paternal/Maternal Uncle (no father or brother)
-                      </SelectItem>
-                      <SelectItem value="Paternal/Maternal Aunts (no father or brother)">
-                        Paternal/Maternal Aunts (no father or brother)
-                      </SelectItem>
-                      {!bornMuslim && (
-                        <>
-                          <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">
-                            Imam/Mosque (Imam/mufti is my guardian/family
-                            contact)
+                        <SelectContent>
+                          <SelectItem value="Father/Mother (parental involvement)">
+                            Father/Mother (parental involvement)
                           </SelectItem>
-                          <SelectItem value="Revert Care appoint guardian/wali (option only for reverts subject to interview and approval)">
-                            Revert Care appoint guardian/wali (option only for
-                            reverts subject to interview and approval)
-                          </SelectItem>{' '}
-                        </>
-                      )}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-md" />
-              </FormItem>
-            )}
-          />
-        </div>
+                          <SelectItem value="Brother (above 18, min 12 years older)">
+                            Brother (above 18, min 12 years older)
+                          </SelectItem>
+                          <SelectItem value="Paternal/Maternal Uncle (no father or brother)">
+                            Paternal/Maternal Uncle (no father or brother)
+                          </SelectItem>
+                          <SelectItem value="Paternal/Maternal Aunts (no father or brother)">
+                            Paternal/Maternal Aunts (no father or brother)
+                          </SelectItem>
+                          {!bornMuslim && (
+                            <>
+                              <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">
+                                Imam/Mosque (Imam/mufti is my guardian/family
+                                contact)
+                              </SelectItem>
+                              <SelectItem value="Revert Care appoint guardian/wali (option only for reverts subject to interview and approval)">
+                                Revert Care appoint guardian/wali (option only
+                                for reverts subject to interview and approval)
+                              </SelectItem>{' '}
+                            </>
+                          )}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-md" />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-        <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
-          <Label>{t('guardianInformation.phoneNumber')}</Label>
-          <FormField
-            name="guardianPhoneNumber"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <PhoneInput
-                    {...field}
-                    className="text-muted-foreground bg-background text-md shadow rounded-sm"
-                  />
-                </FormControl>
-                <FormMessage className="text-md" />
-              </FormItem>
-            )}
-          />
-        </div>
+            <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
+              <Label>{t('guardianInformation.phoneNumber')}</Label>
+              <FormField
+                name="guardianPhoneNumber"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <PhoneInput
+                        {...field}
+                        className="text-muted-foreground bg-background text-md shadow rounded-sm"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-md" />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-        <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
-          <Label>{t('guardianInformation.email')} </Label>
-          <FormField
-            name="guardianEmail"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    {...field}
-                    className="text-muted-foreground bg-background text-md shadow rounded-sm"
-                  />
-                </FormControl>
-                <FormMessage className="text-md" />
-              </FormItem>
-            )}
-          />
-        </div>
+            <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
+              <Label>{t('guardianInformation.email')} </Label>
+              <FormField
+                name="guardianEmail"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        className="text-muted-foreground bg-background text-md shadow rounded-sm"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-md" />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </>
+        )}
 
         <h1 className="text-lg font-bold text-secondary border-b p-1 col-span-2">
           {t('idVerification.title')}
