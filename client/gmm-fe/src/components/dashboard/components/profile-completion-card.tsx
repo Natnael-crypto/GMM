@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import ProfileCard from './profile-card';
 import ProfileCompletionProgress from './profile-completion';
-import Loading from '@/components/ui/loading';
 import { buttonVariants } from '@/components/ui/button';
 import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
@@ -22,6 +21,7 @@ import { useGetFamilyIntroductionQuery } from '@/lib/user/api';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProfileCardSkeleton from './skeletons/profile-card-skeleton';
 import { Skeleton } from '@/components/ui/skeleton';
+import { AccountStatus } from '@/lib/schemas/user';
 
 export default function ProfileCompletionCard() {
   const user = useAppSelector((state) => state.auth.user);
@@ -117,7 +117,7 @@ export default function ProfileCompletionCard() {
       </div>
 
       <div className="gmm-profile-completion-cta lg:flex text-center m-full sm:justify-end gap-1">
-      {user && (
+        {user && user.accountStatus === AccountStatus.APPROVED && (
           <Link
             href={`/dashboard/profile/${user?.id}/basic-information`}
             className={cn(

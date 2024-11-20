@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import * as UserAgent from '@/lib/user-agent';
 import { buttonVariants } from '@/components/ui/button';
@@ -15,24 +15,61 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../ui/dialog';
 import CaptureImage from './capture-image';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '../ui/hover-card';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '../ui/hover-card';
 import { upload } from '@/lib/file-upload';
 import { toast } from '../ui/use-toast';
 
-
 export default function PhotoUploader({ field }: { field: any }) {
-  const [images, setImages] = React.useState<string[]>(['', '', '', '', '', '', '', '']);
-  const form = useFormContext()
+  const [images, setImages] = React.useState<string[]>([
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ]);
+  const form = useFormContext();
   const [generateUploadUrl] = useCreateUploadUrlMutation();
   const [draggedOnTop, setDragOnTop] = React.useState(false);
-  const [isCaptureImageOpen, setIsCaptureImageOpen] = React.useState(false)
+  const [isCaptureImageOpen, setIsCaptureImageOpen] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(false);
 
   React.useEffect(() => {
     setIsMobile(UserAgent.isMobile.any());
   }, [setIsMobile]);
+
+  const [seen, setSeen] = React.useState<string[]>([]);
+
+  const isDuplicate = (file: File): boolean => {
+    if (seen.includes(`${file.name}-${file.size}-${file.lastModified}`)) {
+      toast({
+        title: 'Duplicate Pictures',
+        description: 'You have already uploaded this picture',
+        variant: 'destructive',
+      });
+      return true;
+    } else {
+      setSeen((prev) => [
+        ...prev,
+        `${file.name}-${file.size}-${file.lastModified}`,
+      ]);
+      return false;
+    }
+  };
 
   const handleImageChange = async (files: FileList | null, index: number) => {
     const file = files?.[0];
@@ -44,81 +81,91 @@ export default function PhotoUploader({ field }: { field: any }) {
         });
         return;
       }
+
+      if (isDuplicate(file)) {
+        return;
+      }
+
       const blobUrl = URL.createObjectURL(file);
 
       setImages((images) => {
-        return [
-          ...images.slice(0, index),
-          blobUrl,
-          ...images.slice(index + 1)
-        ]
+        return [...images.slice(0, index), blobUrl, ...images.slice(index + 1)];
       });
 
       try {
         const fileInfo = await upload(file, generateUploadUrl);
 
-        const prevImageKeys = field.value as string[]
+        const prevImageKeys = field.value as string[];
 
         while (prevImageKeys.length < 8) {
-          prevImageKeys.push('')
+          prevImageKeys.push('');
         }
 
-        field.onChange([...prevImageKeys.slice(0, index), fileInfo.fileKey, ...prevImageKeys.slice(index + 1)])
-
+        field.onChange([
+          ...prevImageKeys.slice(0, index),
+          fileInfo.fileKey,
+          ...prevImageKeys.slice(index + 1),
+        ]);
       } catch (error) {
         console.error(error);
       }
-    }
-    else {
+    } else {
       setImages((images) => {
-        return [
-          ...images.slice(0, index),
-          '',
-          ...images.slice(index + 1)
-        ]
+        return [...images.slice(0, index), '', ...images.slice(index + 1)];
       });
 
-      const prevImageKeys = field.value as string[]
+      const prevImageKeys = field.value as string[];
 
       while (prevImageKeys.length < 8) {
-        prevImageKeys.push('')
+        prevImageKeys.push('');
       }
 
-      field.onChange([...prevImageKeys.slice(0, index), '', ...prevImageKeys.slice(index + 1)])
-      toast({ title: "inside", description: JSON.stringify([...prevImageKeys.slice(0, index), '', ...prevImageKeys.slice(index + 1)]) })
+      field.onChange([
+        ...prevImageKeys.slice(0, index),
+        '',
+        ...prevImageKeys.slice(index + 1),
+      ]);
+      toast({
+        title: 'inside',
+        description: JSON.stringify([
+          ...prevImageKeys.slice(0, index),
+          '',
+          ...prevImageKeys.slice(index + 1),
+        ]),
+      });
     }
-  }
+  };
 
   const insertImage = (files: FileList | null) => {
-    if (!files) return
-
+    if (!files) return;
 
     if (files.length > 0) {
       for (let i = 0; i < images.length; i++) {
         if (images[i] === '') {
-          handleImageChange(files, i)
+          handleImageChange(files, i);
           break;
         }
       }
     }
-  }
+  };
 
   const handleDrag = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
-  }
+  };
 
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setDragOnTop(false);
     insertImage(e.dataTransfer.files);
-  }
+  };
 
   const handleImageCapture = async (file: File) => {
-    insertImage([file] as any)
-    setIsCaptureImageOpen(false)
-  }
+    insertImage([file] as any);
+    setIsCaptureImageOpen(false);
+  };
 
-  const showDragAndDropImage = images.find((image) => image === '') !== undefined;
+  const showDragAndDropImage =
+    images.find((image) => image === '') !== undefined;
 
   return (
     <Card className="shadow-none text-sm space-y-3">
@@ -128,97 +175,176 @@ export default function PhotoUploader({ field }: { field: any }) {
       </div>
 
       <p className="text-md">
-        Upload at least <span className="underline font-bold">5 clear pictures of yourself</span> (without filters).  
+        Upload at least{' '}
+        <span className="underline font-bold">
+          5 clear pictures of yourself
+        </span>{' '}
+        (without filters).
       </p>
-      <p className="underline font-bold">All media such as video and pictures of sisters will be approved by sister admin(s) only.
+      <p className="underline font-bold">
+        All media such as video and pictures of sisters will be approved by
+        sister admin(s) only.
       </p>
 
       <div className="grid grid-cols-4 gap-1">
-        {
-          images.map((image, index) => {
-            return (
-              <div key={index} className="col-span-1 bg-gray-200 flex justify-center items-center aspect-square">
-                {
-                  (
-                    <Label className="flex flex-col items-center justify-center w-full h-full gap-y-2 cursor-pointer">
-                      {
-                        image ? (
-                          <HoverCard>
-                            <HoverCardTrigger className='relative w-full h-full overflow-hidden'>
-                              <Image src={image} className="object-cover w-full h-full" width={100} height={100} alt="upload profile picture cell" />
-                              <div className='absolute bottom-1 right-1' onClick={(e) => {
-                                e.preventDefault()
-                                e.stopPropagation();
-                                handleImageChange(null, index)
-                              }}>
-                                <FontAwesomeIcon className="text-background" icon={faTrashAlt} />
-                              </div>
-                            </HoverCardTrigger>
-                            <HoverCardContent className='aspect-square'>
-                              <Image src={image} className="object-cover w-full h-full" width={100} height={100} alt="upload profile picture cell" />
-                            </HoverCardContent>
-                          </HoverCard>
-
-                        ) :
-                          <FontAwesomeIcon className="text-background" icon={faUser} />
-                      }
-                      <input type="file" accept="image/*" className="hidden" onChange={(e) => { handleImageChange(e.target.files, index) }} />
-                    </Label>
-                  )
-                }
-              </div>
-            )
-          })
-        }
-
+        {images.map((image, index) => {
+          return (
+            <div
+              key={index}
+              className="col-span-1 bg-gray-200 flex justify-center items-center aspect-square"
+            >
+              {
+                <Label className="flex flex-col items-center justify-center w-full h-full gap-y-2 cursor-pointer">
+                  {image ? (
+                    <HoverCard>
+                      <HoverCardTrigger className="relative w-full h-full overflow-hidden">
+                        <Image
+                          src={image}
+                          className="object-cover w-full h-full"
+                          width={100}
+                          height={100}
+                          alt="upload profile picture cell"
+                        />
+                        <div
+                          className="absolute bottom-1 right-1"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleImageChange(null, index);
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            className="text-background"
+                            icon={faTrashAlt}
+                          />
+                        </div>
+                      </HoverCardTrigger>
+                      <HoverCardContent className="aspect-square">
+                        <Image
+                          src={image}
+                          className="object-cover w-full h-full"
+                          width={100}
+                          height={100}
+                          alt="upload profile picture cell"
+                        />
+                      </HoverCardContent>
+                    </HoverCard>
+                  ) : (
+                    <FontAwesomeIcon
+                      className="text-background"
+                      icon={faUser}
+                    />
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      handleImageChange(e.target.files, index);
+                    }}
+                  />
+                </Label>
+              }
+            </div>
+          );
+        })}
       </div>
 
-      {
-        showDragAndDropImage &&
+      {showDragAndDropImage && (
         <>
-          <Label className=
-            {cn("w-full h-20 border border-secondary border-dashed flex flex-col items-center justify-center bg-background cursor-pointer text-gray-500 gap-y-2",
-              draggedOnTop ? "border-primary" : "border-secondary"
+          <Label
+            className={cn(
+              'w-full h-20 border border-secondary border-dashed flex flex-col items-center justify-center bg-background cursor-pointer text-gray-500 gap-y-2',
+              draggedOnTop ? 'border-primary' : 'border-secondary'
             )}
             onDragOver={handleDrag}
             onDrop={handleDrop}
             onDragEnter={() => setDragOnTop(true)}
             onDragLeave={() => setDragOnTop(false)}
           >
-            <FontAwesomeIcon icon={faCloudUpload} className="text-2xl pointer-events-none" />
-            {!draggedOnTop && <span className='pointer-events-none'>Drag &amp; Drop files here</span>}
-            <input type="file" accept="image/*" className="hidden" onChange={(e) => { insertImage(e.target.files); e.target.value = '' }} />
+            <FontAwesomeIcon
+              icon={faCloudUpload}
+              className="text-2xl pointer-events-none"
+            />
+            {!draggedOnTop && (
+              <span className="pointer-events-none">
+                Drag &amp; Drop files here
+              </span>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                insertImage(e.target.files);
+                e.target.value = '';
+              }}
+            />
           </Label>
 
-
           <div className="flex flex-col sm:flex-row items-center gap-1 flex-wrap">
-            <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-sm h-7 text-secondary")}>
+            <Label
+              className={cn(
+                buttonVariants({ variant: 'default' }),
+                'bg-background border border-secondary rounded-full text-sm h-7 text-secondary'
+              )}
+            >
               Browse Files
-              <input type="file" accept="image/*" className='hidden' onChange={(e) => { insertImage(e.target.files); e.target.value = '' }} />
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  insertImage(e.target.files);
+                  e.target.value = '';
+                }}
+              />
             </Label>
 
             <span className="px-1">or</span>
 
-            {isMobile ? <Label className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-md h-7 text-secondary")}>
-              Capture Image
-              <input type="file" accept="image/*" capture="user" className='hidden' onChange={(e) => { insertImage(e.target.files); e.target.value = '' }} />
-            </Label> : <Dialog open={isCaptureImageOpen}  >
-              <DialogTrigger className={cn(buttonVariants({ variant: "default" }), "bg-background border border-secondary rounded-full text-sm h-7 text-secondary")} onClick={() => setIsCaptureImageOpen(true)}>
+            {isMobile ? (
+              <Label
+                className={cn(
+                  buttonVariants({ variant: 'default' }),
+                  'bg-background border border-secondary rounded-full text-md h-7 text-secondary'
+                )}
+              >
                 Capture Image
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Capture Image</DialogTitle>
-                </DialogHeader>
+                <input
+                  type="file"
+                  accept="image/*"
+                  capture="user"
+                  className="hidden"
+                  onChange={(e) => {
+                    insertImage(e.target.files);
+                    e.target.value = '';
+                  }}
+                />
+              </Label>
+            ) : (
+              <Dialog open={isCaptureImageOpen}>
+                <DialogTrigger
+                  className={cn(
+                    buttonVariants({ variant: 'default' }),
+                    'bg-background border border-secondary rounded-full text-sm h-7 text-secondary'
+                  )}
+                  onClick={() => setIsCaptureImageOpen(true)}
+                >
+                  Capture Image
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Capture Image</DialogTitle>
+                  </DialogHeader>
 
-                <CaptureImage onCapture={handleImageCapture} />
-
-
-              </DialogContent>
-            </Dialog>}
+                  <CaptureImage onCapture={handleImageCapture} />
+                </DialogContent>
+              </Dialog>
+            )}
           </div>
         </>
-      }
+      )}
     </Card>
   );
 }
