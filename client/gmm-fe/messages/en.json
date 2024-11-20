@@ -159,7 +159,7 @@
           "title": "Free",
           "price": "<bold>$0</bold> for",
           "description": "<bold>7</bold> Matches",
-          "discount": "Free package for a month"
+          "discount": ""
         },
         "monthlyPackage": {
           "title": "Bronze",

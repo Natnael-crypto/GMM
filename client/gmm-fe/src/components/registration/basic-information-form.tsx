@@ -49,6 +49,7 @@ import { format } from 'date-fns';
 import { getEighteenYearsAgo } from '@/lib/format';
 import { FamilyIntroduction } from '@/lib/schemas/family-introduction';
 import flags from 'react-phone-number-input/flags';
+import { isValidPhoneNumber } from 'react-phone-number-input';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -168,6 +169,67 @@ export default function BasicInformationForm({
 
   const onSubmit = (data: UserRegistration) => {
     try {
+      if (data.gender === 'Male') {
+        if (!isValidPhoneNumber(data.guardianPhoneNumber ?? '')) {
+          form.setError('guardianPhoneNumber', {
+            type: 'manual',
+            message: 'Invalid phone number',
+          });
+          return;
+        }
+
+        if (!data.guardianEmail) {
+          form.setError('guardianEmail', {
+            type: 'manual',
+            message: 'Email is required',
+          });
+          return;
+        }
+
+        if (!data.guardianFirstName) {
+          form.setError('guardianFirstName', {
+            type: 'manual',
+            message: 'First name is required',
+          });
+          return;
+        }
+
+        if (!data.guardianLastName) {
+          form.setError('guardianLastName', {
+            type: 'manual',
+            message: 'Last name is required',
+          });
+          return;
+        }
+
+        if (!data.relationshipToGuardian) {
+          form.setError('relationshipToGuardian', {
+            type: 'manual',
+            message: 'Relationship to guardian is required',
+          });
+          return;
+        }
+      } else {
+        if (!data.guardianFirstName) {
+          data.guardianFirstName = data.firstName;
+        }
+
+        if (!data.guardianLastName) {
+          data.guardianLastName = data.lastName;
+        }
+
+        if (!data.guardianPhoneNumber) {
+          data.guardianPhoneNumber = data.phoneNumber;
+        }
+
+        if (!data.guardianEmail) {
+          data.guardianEmail = data.email;
+        }
+
+        if (!data.relationshipToGuardian) {
+          data.relationshipToGuardian = 'Self';
+        }
+      }
       registerUser(data);
     } catch (error) {
       console.log(error);

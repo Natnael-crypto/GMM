@@ -16,13 +16,13 @@ import DynamicForm from '@/components/form/dynamic-form';
 export default function IslamicLifestyle() {
   const user = useAppSelector((state) => state.auth.user);
 
-  const { form: islamicLifestyleForm, formData: islamicLifestyleData } =
-    useUserData(user, 'islamic-lifestyle');
+  // const { form: islamicLifestyleForm, formData: islamicLifestyleData } =
+  //   useUserData(user, 'islamic-lifestyle');
 
-  const {
-    form: expectedIslamicLifestyleForm,
-    formData: expectedIslamicLifestyleData,
-  } = useUserData(user, 'expected-islamic-lifestyle');
+  // const {
+  //   form: expectedIslamicLifestyleForm,
+  //   formData: expectedIslamicLifestyleData,
+  // } = useUserData(user, 'expected-islamic-lifestyle');
 
   const { data: islamicLifestyle, isLoading: isIslamicLifestyleLoading } =
     useGetIslamicLifestyleQuery(user?.id ?? '', { skip: !user });
@@ -42,7 +42,7 @@ export default function IslamicLifestyle() {
 
   return (
     <div>
-      <DynamicForm
+      {/* <DynamicForm
         formSchema={islamicLifestyleForm}
         data={islamicLifestyleData}
       />
@@ -52,7 +52,7 @@ export default function IslamicLifestyle() {
           formSchema={expectedIslamicLifestyleForm}
           data={expectedIslamicLifestyleData}
         />
-      </div>
+      </div> */}
 
       <IslamicForm islamicLifestyle={islamicLifestyle} />
       <ExpectedIslamicForm

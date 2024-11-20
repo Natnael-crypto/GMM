@@ -45,7 +45,7 @@ export default function StripeForm({ user }: { user: User }) {
       addressOne: '',
       addressTwo: '',
       city: user.city,
-      // postcode: '',
+      postcode: '',
       region: '',
     },
   });
@@ -153,6 +153,21 @@ export default function StripeForm({ user }: { user: User }) {
                     placeholder={t('billingInfo.city')}
                     className="text-xs placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent h-8"
                   />
+                  <FormMessage className="text-xs" />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              name="postcode"
+              render={({ field }) => (
+                <FormItem>
+                  <Input
+                    placeholder={t('billingInfo.postcode')}
+                    className="text-xs placeholder:text-xs rounded-none border-t-0 ring-transparent ring-offset-transparent"
+                    {...field}
+                  />
+
                   <FormMessage className="text-xs" />
                 </FormItem>
               )}

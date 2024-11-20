@@ -155,6 +155,16 @@ export function CheckoutForm() {
         </div>
       </div>
 
+      {user?.gender === 'Female' && (
+        <div className="flex items-center gap-2 mt-6 font-medium text-xs">
+          <Checkbox
+            checked={showFemaleOptions}
+            onClick={handleGuardianCheckbox}
+          />{' '}
+          <span>Add Guardian</span>
+        </div>
+      )}
+
       {user && result && result.data && !showFemaleOptions ? (
         <Elements
           key={result.data.clientSecret}
@@ -169,16 +179,6 @@ export function CheckoutForm() {
             <Loading />
           </div>
         )
-      )}
-
-      {user?.gender === 'Female' && (
-        <div className="flex items-center gap-2 mt-6 font-medium text-xs">
-          <Checkbox
-            checked={showFemaleOptions}
-            onClick={handleGuardianCheckbox}
-          />{' '}
-          <span>Add Guardian</span>
-        </div>
       )}
 
       {selectedOption === 'free' && showFemaleOptions && <FemaleCheckoutForm />}

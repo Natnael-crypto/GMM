@@ -506,31 +506,26 @@ export const userRegistrationSchema = _userBasicInformationSchema
       .string({
         required_error: "Please enter guardian's first name",
       })
-      .min(1, { message: "Please enter guardian's first name" }),
+      .optional(),
     guardianLastName: z
       .string({
         required_error: "Please enter guardian's last name",
       })
-      .min(1, { message: "Please enter guardian's last name" }),
+      .optional(),
     relationshipToGuardian: z
       .string({
         required_error: 'Please enter your relationship',
       })
-      .min(1, {
-        message: 'Please enter your relationship',
-      }),
+      .optional(),
     guardianPhoneNumber: z
       .string({
         required_error: 'Please enter guardian phone number',
       })
-      .min(1, { message: 'Please enter guardian phone number' })
-      .refine((value) => isValidPhoneNumber(value ?? ''), {
-        message: 'Please enter a valid phone number',
-      }),
-
+      .optional(),
     guardianEmail: z
       .string({ required_error: "Please enter guardian's email" })
-      .email({ message: 'Please enter a valid email' }),
+      .email({ message: 'Please enter a valid email' })
+      .optional(),
   })
   .superRefine((data, ctx) => {
     if (data.hasChildren && data.ageOfOldestChild < data.ageOfYoungestChild) {
