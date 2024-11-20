@@ -80,16 +80,18 @@ const getFields = (worldlyLifestyle?: WorldlyLifestyle) => [
         value: worldlyLifestyle?.presentFamilyMembers,
       },
       {
-        label: 'Number of Siblings and Pets',
+        label: 'Number of Siblings',
         value: worldlyLifestyle
           ? `${
               worldlyLifestyle.numberOfSiblings === 0
                 ? 'No'
                 : worldlyLifestyle.numberOfSiblings
-            } Siblings & ${
-              worldlyLifestyle.pets === 'None' ? 'No' : worldlyLifestyle.pets
-            } Pets`
+            } Siblings`
           : null,
+      },
+      {
+        label: 'Pets',
+        value: worldlyLifestyle ? worldlyLifestyle.pets : null,
       },
     ],
   },

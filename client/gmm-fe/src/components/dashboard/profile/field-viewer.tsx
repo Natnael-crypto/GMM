@@ -30,16 +30,15 @@ export default function FieldViewer<T>({
     <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted border border-muted py-5">
       <div>
         {title && (
-          <h1 className="text-secondary font-bold text-xl px-8 pb-3">{title}</h1>
+          <h1 className="text-secondary font-bold text-xl px-8 pb-3">
+            {title}
+          </h1>
         )}
       </div>
 
       {fields &&
         fields.map((field, index) => (
-          <div
-            key={index}
-            className="grid grid-cols-12 gap-x-5 py-3 px-8"
-          >
+          <div key={index} className="grid grid-cols-12 gap-x-5 py-3 px-8">
             <div className="col-span-3 sm:col-span-2 md:col-span-1 text-center">
               <FontAwesomeIcon
                 icon={field.icon}
@@ -52,13 +51,23 @@ export default function FieldViewer<T>({
                 <ul className="flex flex-col gap-3">
                   {field.value.map((subField, subIndex) => (
                     <li key={subIndex} className="gap-x-4">
-                      <p className="text-sm">{subField.label}: <span className="text-md font-bold">{subField.value || 'N/A'}</span></p>
+                      <p className="text-sm">
+                        {subField.label}:{' '}
+                        <span className="text-md font-bold">
+                          {subField.value || 'None'}
+                        </span>
+                      </p>
                     </li>
                   ))}
                 </ul>
               ) : (
                 <div className="col-span-9 sm:col-span-10 md:col-span-11 space-y-3 mt-1">
-                  <p className="text-sm">{field.label}: <span className="text-md font-bold">{field.value || 'N/A'}</span></p>
+                  <p className="text-sm">
+                    {field.label}:{' '}
+                    <span className="text-md font-bold">
+                      {field.value || 'None'}
+                    </span>
+                  </p>
                 </div>
               )}
             </div>

@@ -32,7 +32,7 @@ export default function FamilyIntroductionPage() {
             {t('optionalVerifiable.title')}
           </h1>
 
-          <div className="hidden space-y-3 col-span-12">
+          <div className="space-y-3 col-span-12">
             <p className="text-muted-foreground">
               {t('optionalVerifiable.p1')}
             </p>
@@ -42,9 +42,9 @@ export default function FamilyIntroductionPage() {
           </div>
         </div>
 
-        <div className="hidden grid-cols-12 gap-y-3 gap-x-3 text-xs">
+        <div className="grid grid-cols-12 gap-y-3 gap-x-3 text-xs ">
           <div className="col-span-1">
-            <Verified />
+            <Unverified />
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3  flex items-center">
@@ -68,7 +68,7 @@ export default function FamilyIntroductionPage() {
 
           {/*  */}
           <div className="col-span-1">
-            <Verified />
+            <Unverified />
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
@@ -89,10 +89,9 @@ export default function FamilyIntroductionPage() {
               {t('optionalVerifiable.upload')}
             </Link>
           </div>
-
           {/*  */}
           <div className="col-span-1">
-            <Verified />
+            <Unverified />
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
@@ -113,10 +112,9 @@ export default function FamilyIntroductionPage() {
               {t('optionalVerifiable.upload')}
             </Link>
           </div>
-
           {/*  */}
           <div className="col-span-1">
-            <Verified />
+            <Unverified />
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
@@ -137,10 +135,9 @@ export default function FamilyIntroductionPage() {
               {t('optionalVerifiable.upload')}
             </Link>
           </div>
-
           {/*  */}
           <div className="col-span-1">
-            <Verified />
+            <Unverified />
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
@@ -161,10 +158,9 @@ export default function FamilyIntroductionPage() {
               {t('optionalVerifiable.upload')}
             </Link>
           </div>
-
           {/*  */}
           <div className="col-span-1">
-            <Verified />
+            <Unverified />
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
@@ -185,10 +181,9 @@ export default function FamilyIntroductionPage() {
               {t('optionalVerifiable.upload')}
             </Link>
           </div>
-
           {/*  */}
           <div className="col-span-1">
-            <Verified />
+            <Unverified />
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
@@ -209,7 +204,6 @@ export default function FamilyIntroductionPage() {
               {t('optionalVerifiable.upload')}
             </Link>
           </div>
-
           {/*  */}
           <div className="col-span-1">
             <Unverified />
@@ -233,10 +227,9 @@ export default function FamilyIntroductionPage() {
               {t('optionalVerifiable.upload')}
             </Link>
           </div>
-
           {/*  */}
           <div className="col-span-1">
-            <Verified />
+            <Unverified />
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
