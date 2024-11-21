@@ -307,6 +307,14 @@
   padding-right: 0px;
 }
 
+.blog img {
+  height: 500px;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 20px;
+  object-position: 0 100%;
+}
+
 @media (min-width: 640px) {
   .gmm-approach-icons, .gmm-other-platforms-icons {
     padding-left: 20px;
