@@ -50,7 +50,7 @@ export default function CreateAccount({
           'mt-3 font-bold cta',
           variant === 'filled'
             ? 'bg-primary-foreground text-primary'
-            : 'bg-primary text-primary-foreground'
+            : 'bg-primary text-primary-foreground hover:bg-primary'
         )}
       >
         {cta}

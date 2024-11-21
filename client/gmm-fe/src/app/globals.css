@@ -22,19 +22,19 @@
     --popover: #ffffff;
     --popover-foreground: #707170;
 
-    --primary: #79b72b;
+    --primary: #197149;
     --primary-foreground: #f8fafc;
 
-    --secondary: #726969;
+    --secondary: #0b3e27;
     --secondary-foreground: #ffffff;
 
-    --tertiary: #726b6b;
+    --tertiary: #1d1d1d;
     --tertiary-foreground: #ffffff;
 
     --muted: #f7f7f8;
     --muted-foreground: #717071;
 
-    --accent: #726969;
+    --accent: #303030;
     --accent-foreground: #ffffff;
 
     --destructive: #ef4444;
@@ -50,6 +50,17 @@
     --ring: #00000000;
 
     --radius: 0.5rem;
+
+    .bg-primary{
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      background-color: var(--primary);
+    }
+    .hover\:bg-primary:hover {
+      background: linear-gradient(90deg, var(--primary), var(--primary));
+    }
+    .bg-tertiary {
+      background: linear-gradient(90deg, var(--tertiary), var(--accent));
+    }
   }
 
   label, input {
@@ -223,7 +234,7 @@
 }
 
 .hero-container {
-   background-image: url(/assets/hero-bg.jpg); 
+   background-image: url(/assets/pattern-bg_opacity-5.png);
     background-position: center right;
     background-repeat: no-repeat;
     -webkit-background-size: cover;
@@ -231,7 +242,7 @@
     -o-background-size: cover;
     background-size: cover;
     height: 100%;
-    background-color: var(--primary);
+    background-color: linear-gradient(90deg, var(--primary), var(--secondary));
 }
 
 .hero-container h1, .hero-container h2 {

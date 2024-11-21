@@ -10,9 +10,9 @@ export default function AuthHeader() {
   return (
     <div className="relative">
       <div
-        className="gmm-reg-bg absolute w-full -z-10"
+        className="gmm-reg-bg absolute w-full -z-10 bg-primary"
         style={{
-          backgroundImage: 'url("/assets/hero-image-green.jpg")',
+          backgroundImage: 'url("/assets/pattern-bg_opacity-5.png")', 
           transform: localeDirection[locale] === 'rtl' ? 'scaleX(-1)' : '',
         }}
       ></div>
