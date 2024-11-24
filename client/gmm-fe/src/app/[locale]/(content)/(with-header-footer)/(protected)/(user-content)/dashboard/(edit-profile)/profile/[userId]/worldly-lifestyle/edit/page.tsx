@@ -35,7 +35,7 @@ export default function UpdateWorldlyLifestylePage() {
 
   return (
     <div>
-      <DynamicForm
+      {/* <DynamicForm
         formSchema={worldlyLifestyleForm}
         data={worldlyLifestyleData}
       />
@@ -45,7 +45,7 @@ export default function UpdateWorldlyLifestylePage() {
           formSchema={expectedWorldlyLifestyleForm}
           data={expectedWorldlyLifestyleData}
         />
-      </div>
+      </div> */}
 
       {isWorldlyLifestyleLoading && (
         <div className="w-full flex justify-center">

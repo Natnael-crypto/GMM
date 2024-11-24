@@ -170,13 +170,13 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
 
   return (
     <>
-      {worldlyLifestyleData && (
+      {/* {worldlyLifestyleData && (
         <FieldViewer
           title="Your Current Worldly Lifestyle (that you live)"
           getFields={buildFields}
           entity={worldlyLifestyleData}
         />
-      )}
+      )} */}
       {worldlyLifestyle && (
         <FieldViewer
           title="Your Current Worldly Lifestyle (that you live)"
