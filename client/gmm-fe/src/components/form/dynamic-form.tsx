@@ -100,8 +100,6 @@ export default function DynamicForm({
     remappedValue[`user.${key}`] = user[key as keyof typeof user];
   }
 
-  console.log('Remapped value', remappedValue);
-
   return (
     <div className="py-8 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem]">
       <h1 className="text-xl font-bold text-secondary border-b p-1">

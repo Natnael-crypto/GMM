@@ -13,6 +13,7 @@ import {
   faHouse,
 } from '@fortawesome/free-solid-svg-icons';
 import FieldViewer from '../field-viewer';
+import { useUserData } from '@/lib/hooks/use-user-data';
 
 const getFields = (worldlyLifestyle?: WorldlyLifestyle) => [
   {
@@ -128,8 +129,54 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
     skip: !user,
   });
 
+  const { form: worldlyLifestyleForm, formData: worldlyLifestyleData } =
+    useUserData(user, 'worldly-lifestyle');
+
+  const buildFields = (worldlyLifestyleData: any): any[] => {
+    const grouped: any = {};
+
+    for (const obj of worldlyLifestyleData) {
+      const field = obj.field;
+      const item = {
+        iconName: field.icon,
+        label: field.label,
+        value: field.options?.filter(
+          (option: any) => option.value === obj.value
+        )?.[0]?.label,
+      };
+
+      if (field.group) {
+        if (!grouped[field.group]) {
+          grouped[field.group] = {
+            iconName: field.icon,
+            label: field.group,
+            value: [],
+            order: field.order,
+          };
+        }
+
+        grouped[field.group].value.push(item);
+        grouped[field.group].order = Math.min(
+          grouped[field.group].order,
+          field.order
+        );
+      } else {
+        grouped[field.label] = { ...item, order: field.order };
+      }
+    }
+
+    return Object.values(grouped).sort((a: any, b: any) => a.order - b.order);
+  };
+
   return (
     <>
+      {worldlyLifestyleData && (
+        <FieldViewer
+          title="Your Current Worldly Lifestyle (that you live)"
+          getFields={buildFields}
+          entity={worldlyLifestyleData}
+        />
+      )}
       {worldlyLifestyle && (
         <FieldViewer
           title="Your Current Worldly Lifestyle (that you live)"

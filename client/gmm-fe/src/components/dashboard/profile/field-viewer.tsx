@@ -8,24 +8,33 @@ type SubField = {
 };
 
 type Field = {
-  icon: IconDefinition;
+  iconName?: string;
+  icon?: IconDefinition;
   label: string;
   value?: string | number | boolean | SubField[] | null;
 };
 
 interface FieldViewerProps<T> {
-  getFields: (entity?: T) => Field[];
+  getFields?: (entity?: T) => Field[];
   title?: string;
   entity?: T;
+  formFields?: Field[];
 }
 
 export default function FieldViewer<T>({
   getFields,
   title,
   entity,
+  formFields,
 }: FieldViewerProps<T>) {
-  const fields = getFields(entity);
+  if (!getFields && !formFields) {
+    return null;
+  } else if (getFields && !entity) {
+    return null;
+  }
 
+  const fields = formFields ? formFields : getFields && getFields(entity);
+  console.log(fields, '<<<');
   return (
     <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted border border-muted py-5">
       <div>
@@ -39,12 +48,12 @@ export default function FieldViewer<T>({
       {fields &&
         fields.map((field, index) => (
           <div key={index} className="grid grid-cols-12 gap-x-5 py-3 px-8">
-            <div className="col-span-3 sm:col-span-2 md:col-span-1 text-center">
-              <FontAwesomeIcon
-                icon={field.icon}
-                size="2xl"
-                className="text-primary"
-              />
+            <div className="col-span-3 sm:col-span-2 md:col-span-1 text-center text-3xl text-primary">
+              {field.icon ? (
+                <FontAwesomeIcon icon={field.icon} className="text-primary" />
+              ) : (
+                <i className={`fa-solid ${field.iconName}`}></i>
+              )}
             </div>
             <div className="col-span-9 sm:col-span-10 md:col-span-11 space-y-3 mt-1">
               {Array.isArray(field.value) ? (
