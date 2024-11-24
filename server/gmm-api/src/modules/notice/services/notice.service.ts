@@ -3,19 +3,21 @@ import {
   UserRegisteredEvent,
 } from '@modules/auth/events/auth.event';
 import { MailerService } from '@nestjs-modules/mailer';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { ConfigService } from '@nestjs/config';
 import { ClientConfig } from '@shared/config';
 import { GuardianRequestedEvent } from '@modules/user/events/guardian.events';
 
-@Injectable()
+// @Injectable()
+@Injectable({ scope: Scope.DEFAULT })
 export class NoticeService {
   private domain;
   constructor(
     private _mailer: MailerService,
     private configService: ConfigService,
   ) {
+    console.log('NoticeService instance created');
     this.domain = this.configService.get<ClientConfig>('client')!.url;
   }
 

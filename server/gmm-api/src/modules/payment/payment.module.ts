@@ -6,7 +6,6 @@ import { SubscriptionHistory } from './entities/subscription-history.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from '@modules/user/user.module';
 import { NoticeModule } from '@modules/notice/notice.module';
-import { NoticeService } from '@modules/notice/services/notice.service';
 
 @Module({
   imports: [
@@ -14,11 +13,11 @@ import { NoticeService } from '@modules/notice/services/notice.service';
     TypeOrmModule.forFeature([SubscriptionHistory]),
     UserModule,
     NoticeModule,
+    NoticeModule.forRootAsync(), 
   ],
   controllers: [PaymentsController],
   providers: [
     PaymentsService,
-    NoticeService,
     {
       provide: 'EMAIL_LISTS_PROVIDER',
       useValue: {

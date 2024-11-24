@@ -41,10 +41,10 @@ import {
       Preference,
       GuardianRequest,
     ]),
-    NoticeModule,
+    NoticeModule.forRootAsync(), 
   ],
   controllers: [UserController, GuardianController],
-  providers: [GuardianService, NoticeService, UserService],
+  providers: [GuardianService, UserService],
   exports: [TypeOrmModule, UserService],
 })
 export class UserModule {}
