@@ -50,7 +50,7 @@ export default function PreferenceField({
           <>
             <div className="text-sm flex justify-between items-center">
               <span className="font-bold line-clamp-1">{question.label}</span>
-              {question.options.length >= 5 && (
+              {question.options.length >= 2 && (
                 <div className="flex gap-2">
                   {type === 'multiselect' && (
                     <Label

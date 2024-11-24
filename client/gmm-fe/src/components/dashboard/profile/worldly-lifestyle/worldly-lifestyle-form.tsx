@@ -834,6 +834,15 @@ export function WorldlyLifestyleForm({
         <span className="text-xs">(that you live)</span>
       </h1>
 
+      <div className="py-4 text-center text-sm">
+        <span className="font-bold">
+          &quot;Your Dunya Life Now & The Dunya Life You Offer&quot;
+        </span>
+        <br />
+        Show Your Potential Spouse the current Worldly Lifestyle you live and
+        the Worldly Lifestyle you expect to live and offer after marriage!
+      </div>
+
       <Form {...form}>
         <form
           ref={worldlyLifestyleFormRef}
@@ -973,22 +982,16 @@ export function WorldlyLifestyleForm({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value}>
-                      <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {professions.map((profession) => (
-                          <SelectItem
-                            value={profession}
-                            key={profession}
-                            className="text-sm"
-                          >
-                            {profession}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <AutoComplete
+                      onChange={field.onChange}
+                      selectedOption={field.value}
+                      options={professions.map((profession) => ({
+                        label: profession,
+                        value: profession,
+                      }))}
+                      placeholder=""
+                      className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                    />
                   </FormControl>
                   <FormMessage className="text-xs" />
                 </FormItem>
@@ -1528,7 +1531,7 @@ export function WorldlyLifestyleForm({
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="Yes">Yes</SelectItem>
-                        <SelectItem value="No">No</SelectItem>
+                        <SelectItem value="None">None</SelectItem>
                         <SelectItem value="Limited Assistance">
                           Limited Assistance
                         </SelectItem>

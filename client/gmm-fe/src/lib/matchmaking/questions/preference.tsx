@@ -79,7 +79,7 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
   {
     label: 'Hijab',
     name: 'hijab',
-    width: 'col-span-10 md:col-span-3',
+    width: 'col-span-10 md:col-span-6',
     type: 'multiselect',
     options: [
       {
@@ -106,22 +106,22 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
 ];
 
 export const advancedPreferenceQuestions: PreferenceQuestion[] = [
+  // {
+  //   label: 'Nationality/Passport',
+  //   name: 'nationality',
+  //   width: 'col-span-10 md:col-span-3',
+  //   type: 'multiselect',
+  //   options: countryOptions.map((c) => {
+  //     const countryCode = countryToCountryCode[c.value];
+  //     const Flag = flags[countryCode as keyof typeof flags];
+  //     const icon = (
+  //       <div className="w-5">{Flag && <Flag title={c.label} />}</div>
+  //     );
+  //     return { label: c.label, value: c.value, icon: icon };
+  //   }),
+  // },
   {
-    label: 'Nationality/Passport',
-    name: 'nationality',
-    width: 'col-span-10 md:col-span-3',
-    type: 'multiselect',
-    options: countryOptions.map((c) => {
-      const countryCode = countryToCountryCode[c.value];
-      const Flag = flags[countryCode as keyof typeof flags];
-      const icon = (
-        <div className="w-5">{Flag && <Flag title={c.label} />}</div>
-      );
-      return { label: c.label, value: c.value, icon: icon };
-    }),
-  },
-  {
-    label: 'Language',
+    label: 'Languages',
     name: 'language',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',

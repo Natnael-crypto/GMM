@@ -109,7 +109,10 @@ const getFields = (worldlyLifestyle?: WorldlyLifestyle) => [
       },
       {
         label: 'Pre-existing Health Conditions and/or Disabilities Description',
-        value: worldlyLifestyle?.preexistingHealthConditionDescription,
+        value:
+          worldlyLifestyle?.majorPreexistingHealthCondition === 'Yes'
+            ? worldlyLifestyle?.preexistingHealthConditionDescription
+            : null,
       },
     ],
   },
