@@ -29,6 +29,7 @@ import { UserMarriageDiscussion } from './user-marriage-discussion.entity';
 import { UserFamilyInformation } from './user-family-information.entity';
 import { UserOptionalVerifiable } from './user-optional-verifiables.entity';
 import { FormSubmission } from '@modules/form/entities/submission.entity';
+import { TattooPreference } from '@modules/matchmaking/enums/tattoo.enum';
 
 @Entity()
 export class User {
@@ -120,8 +121,12 @@ export class User {
   @Column({ nullable: true })
   smokes: boolean;
 
-  @Column({ nullable: true })
-  tattoos: boolean;
+  @Column({
+    type: 'enum',
+    enum: TattooPreference,
+    nullable: true,
+  })
+  tattoos: TattooPreference;
 
   @Column({ nullable: true })
   guardianId: string | null;

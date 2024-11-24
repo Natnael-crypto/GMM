@@ -18,6 +18,7 @@ import {
   registerDecorator,
   ValidationOptions,
 } from 'class-validator';
+import { TattooPreference } from '@modules/matchmaking/enums/tattoo.enum';
 
 @ValidatorConstraint({ async: false })
 export class IsAdultConstraint implements ValidatorConstraintInterface {
@@ -157,9 +158,13 @@ export class ExpressRegistrationDto {
   @IsBoolean()
   smokes: boolean;
 
-  @ApiProperty()
-  @IsBoolean()
-  tattoos: boolean;
+  @ApiProperty({ 
+    example: TattooPreference.NONE, 
+    enum: TattooPreference, 
+    required: false 
+  })
+  @IsEnum(TattooPreference)
+  tattoos?: TattooPreference;
 
   @ApiProperty()
   @IsArray()

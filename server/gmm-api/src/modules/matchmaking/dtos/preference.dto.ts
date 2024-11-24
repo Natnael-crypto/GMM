@@ -98,9 +98,8 @@ export class UpdatePreferenceDto {
   smoking?: boolean;
 
   @ApiProperty({ example: 'string' })
-  @IsBoolean()
   @IsOptional()
-  tattoos?: boolean;
+  tattoos?: string;
 
   @ApiProperty({ example: 'string' })
   @IsNumber({

@@ -68,7 +68,7 @@ export class Preference {
   smoking: boolean;
 
   @Column({ nullable: true })
-  tattoos: boolean;
+  tattoos: string;
 
   @Column({
     type: 'numeric',

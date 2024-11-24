@@ -11,6 +11,7 @@ import {
   IsEnum,
 } from 'class-validator';
 import { AccountStatus, Gender } from '../enums/user.enum';
+import { TattooPreference } from '@modules/matchmaking/enums/tattoo.enum';
 
 export class UserDto {
   @ApiProperty({ example: 'string' })
@@ -149,10 +150,14 @@ export class UserDto {
   @IsBoolean()
   smokes?: boolean;
 
-  @ApiProperty({ example: true, required: false })
+  @ApiProperty({ 
+    example: TattooPreference.NONE, 
+    enum: TattooPreference, 
+    required: false 
+  })
   @IsOptional()
-  @IsBoolean()
-  tattoos?: boolean;
+  @IsEnum(TattooPreference)
+  tattoos?: TattooPreference;
 
   @ApiProperty({ example: ['string'], required: false })
   @IsOptional()

@@ -9,6 +9,7 @@ import {
   IsEnum,
 } from 'class-validator';
 import { Gender } from '../enums/user.enum';
+import { TattooPreference } from '@modules/matchmaking/enums/tattoo.enum';
 
 export class UpdateUserDto {
   @IsOptional()
@@ -117,8 +118,8 @@ export class UpdateUserDto {
   smokes?: boolean;
 
   @IsOptional()
-  @IsBoolean()
-  tattoos?: boolean;
+  @IsEnum(TattooPreference)
+  tattoos?: TattooPreference;
 
   @IsOptional()
   @IsArray()
