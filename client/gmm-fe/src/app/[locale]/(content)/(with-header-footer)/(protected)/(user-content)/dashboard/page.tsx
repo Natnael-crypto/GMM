@@ -54,7 +54,9 @@ export default function Dashboard() {
                 <h1 className="text-xl font-bold text-secondary border-b border-secondary col-span-12">
                   Match Filters
                 </h1>
-
+                <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] mt-3">
+                  <p>Hello</p>
+                </div>
                 <div className="gmm-mpf-container flex flex-col md:grid md:grid-cols-12 gap-4 py-4">
                   <MatchPreferenceFilter />
                   <div className="md:col-span-3 flex gap-3 sm:flex-col md:gap-y-5 items-center">
