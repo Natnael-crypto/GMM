@@ -12,7 +12,7 @@ export default function AuthHeader() {
       <div
         className="gmm-reg-bg absolute w-full -z-10 bg-primary"
         style={{
-          backgroundImage: 'url("/assets/pattern-bg_opacity-5.png")', 
+          /*backgroundImage: 'url("/assets/pattern-bg_opacity-5.png")', */
           transform: localeDirection[locale] === 'rtl' ? 'scaleX(-1)' : '',
         }}
       ></div>

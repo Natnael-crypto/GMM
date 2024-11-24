@@ -52,7 +52,7 @@
     --radius: 0.5rem;
 
     .bg-primary{
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
       background-color: var(--primary);
     }
     .hover\:bg-primary:hover {
@@ -234,15 +234,15 @@
 }
 
 .hero-container {
-   background-image: url(/assets/pattern-bg_opacity-5.png);
+   /*background-image: url(/assets/pattern-bg_opacity-5.png);
     background-position: center right;
     background-repeat: no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
+    background-size: cover;*/
     height: 100%;
-    background-color: linear-gradient(90deg, var(--primary), var(--secondary));
+    background-color: linear-gradient(90deg, var(--secondary), var(--primary));
 }
 
 .hero-container h1, .hero-container h2 {
