@@ -95,7 +95,7 @@ export default function BasicInformationForm({
       drinks: user?.drinks ?? false,
       drugs: user?.drugs ?? false,
       smokes: user?.smokes ?? false,
-      tattoos: user?.tattoos ?? false,
+      tattoos: user?.tattoos ?? "None",
       email: user?.email ?? '',
       maritalStatus: user?.maritalStatus ?? '',
       pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
@@ -156,7 +156,7 @@ export default function BasicInformationForm({
         drinks: user?.drinks ?? false,
         drugs: user?.drugs ?? false,
         smokes: user?.smokes ?? false,
-        tattoos: user?.tattoos ?? false,
+        tattoos: user?.tattoos ?? "None",
         email: user?.email ?? '',
         maritalStatus: user?.maritalStatus ?? '',
         bornOrRevertToIslam: user.bornOrRevertToIslam ?? '',
@@ -1086,7 +1086,7 @@ export default function BasicInformationForm({
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
-                          value={field.value?.toString()}
+                          value={field.value}
                         >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
@@ -1094,15 +1094,33 @@ export default function BasicInformationForm({
                           <SelectContent>
                             <SelectItem
                               className="text-md max-w-80"
-                              value="true"
+                              value="None"
                             >
-                              Yes
+                              None
                             </SelectItem>
                             <SelectItem
                               className="text-md max-w-80"
-                              value="false"
+                              value="Minimal, not visible"
                             >
-                              No
+                              Minimal, not visible
+                            </SelectItem>
+                            <SelectItem
+                              className="text-md max-w-80"
+                              value="Small, visible or concealed"
+                            >
+                              Small, visible or concealed
+                            </SelectItem>
+                            <SelectItem
+                              className="text-md max-w-80"
+                              value="Large or multiple tattoos"
+                            >
+                              Large or multiple tattoos
+                            </SelectItem>
+                            <SelectItem
+                              className="text-md max-w-80"
+                              value="Doesn’t matter"
+                            >
+                              Doesn’t matter
                             </SelectItem>
                           </SelectContent>
                         </Select>
@@ -1111,6 +1129,7 @@ export default function BasicInformationForm({
                     </FormItem>
                   )}
                 />
+
               </div>
             </div>
           </div>

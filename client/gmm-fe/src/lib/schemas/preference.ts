@@ -41,17 +41,19 @@ export const preferenceFormSchema = z
           .transform((value) => value === 'true'),
       ])
       .optional(),
-    tattoos: z
-      .union([
-        z.boolean({
-          required_error: 'Please specify your preference on tattoos',
-        }),
-        z
-          .string({
-            required_error: 'Please specify your preference on tattoos',
-          })
-          .transform((value) => value === 'true'),
-      ])
+    tattoos: z.enum(
+        [
+          'None',
+          'Minimal, not visible',
+          'Small, visible or concealed',
+          'Large or multiple tattoos',
+          'Doesn’t matter',
+        ],
+        {
+          required_error: 'Please select a valid option for tattoos',
+          invalid_type_error: 'Invalid option for tattoos',
+        }
+      )
       .optional(),
     drugs: z
       .union([
@@ -114,17 +116,19 @@ export const preferenceSchema = z
       ])
       .nullable()
       .optional(),
-    tattoos: z
-      .union([
-        z.boolean({
-          required_error: 'Please specify your preference on tattoos',
-        }),
-        z
-          .string({
-            required_error: 'Please specify your preference on tattoos',
-          })
-          .transform((value) => value === 'true'),
-      ])
+      tattoos: z.enum(
+        [
+          'None',
+          'Minimal, not visible',
+          'Small, visible or concealed',
+          'Large or multiple tattoos',
+          'Doesn’t matter',
+        ],
+        {
+          required_error: 'Please select a valid option for tattoos',
+          invalid_type_error: 'Invalid option for tattoos',
+        }
+      )      
       .nullable()
       .optional(),
     drugs: z

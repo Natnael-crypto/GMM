@@ -125,7 +125,7 @@ const reset = (
     ),
     drinking: preference?.drinking || false,
     smoking: preference?.smoking || false,
-    tattoos: preference?.tattoos || false,
+    tattoos: preference?.tattoos || "None",
     drugs: preference?.drugs || false,
     minMatchRequirement: preference?.minMatchRequirement || 1,
   };
@@ -275,7 +275,7 @@ export const usePreference = () => {
         preference.preferredWeight?.[1] === maxWeight,
       drinking: preference.drinking === (null as unknown as boolean),
       smoking: preference.smoking === (null as unknown as boolean),
-      tattoos: preference.tattoos === (null as unknown as boolean),
+      tattoos: preference.tattoos === (null as unknown as string),
       drugs: preference.drugs === (null as unknown as boolean),
     };
   }, [preference, notFilter]);

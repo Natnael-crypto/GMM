@@ -22,6 +22,14 @@ const languageMap: Record<string, string> = languages.reduce(
   {}
 );
 
+const tattooOptionsMap: Record<string, string> = {
+  NONE: 'None',
+  MINIMAL: 'Minimal, not visible',
+  SMALL: 'Small, visible or concealed',
+  LARGE: 'Large or multiple tattoos',
+  DOESNT_MATTER: 'Doesn’t matter',
+};
+
 const fields = (user?: User) =>
   [
     {
@@ -79,7 +87,7 @@ const fields = (user?: User) =>
     {
       icon: faPaintBrush,
       label: 'Tattoos',
-      value: user?.tattoos ? 'Yes' : 'No',
+      value: user?.tattoos ? tattooOptionsMap[user.tattoos] : null,
     },
 
     {

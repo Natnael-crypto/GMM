@@ -91,7 +91,7 @@ export default function BasicInformationForm() {
       drinks: user?.drinks ?? false,
       drugs: user?.drugs ?? false,
       smokes: user?.smokes ?? false,
-      tattoos: user?.tattoos ?? false,
+      tattoos: user?.tattoos ?? 'None',
       email: user?.email ?? '',
       maritalStatus: user?.maritalStatus ?? '',
       pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
@@ -899,17 +899,27 @@ export default function BasicInformationForm() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem className="text-sm max-w-80" value="true">
-                          Yes
+                        <SelectItem className="text-sm max-w-80" value="None">
+                          None
                         </SelectItem>
-                        <SelectItem className="text-sm max-w-80" value="false">
-                          No
+                        <SelectItem className="text-sm max-w-80" value="Minimal, not visible">
+                          Minimal, not visible
+                        </SelectItem>
+                        <SelectItem className="text-sm max-w-80" value="Small, visible or concealed">
+                          Small, visible or concealed
+                        </SelectItem>
+                        <SelectItem className="text-sm max-w-80" value="Large or multiple tattoos">
+                          Large or multiple tattoos
+                        </SelectItem>
+                        <SelectItem className="text-sm max-w-80" value="Doesn’t matter">
+                          Doesn’t matter
                         </SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
                   <FormMessage className="text-md" />
                 </FormItem>
+
               )}
             />
           </div>

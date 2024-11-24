@@ -34,7 +34,7 @@ export const userInMatchPool = z.object({
   drinks: z.boolean(),
   drugs: z.boolean(),
   smokes: z.boolean(),
-  tattoos: z.boolean(),
+  tattoos: z.string(),
   salat: z.string().nullable(),
   hijab: z.string().nullable(),
   children: z.string().nullable(),

@@ -203,8 +203,11 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     width: 'col-span-10 md:col-span-3',
     type: 'single',
     options: [
-      { label: 'Yes', value: 'true' },
-      { label: 'No', value: 'false' },
+      { label: 'None', value: 'None' },
+      { label: 'Minimal, not visible', value: 'Minimal, not visible' },
+      { label: 'Small, visible or concealed', value: 'Small, visible or concealed' },
+      { label: 'Large or multiple tattoos', value: 'Large or multiple tattoos' },
+      { label: "Doesn’t matter", value: "Doesn’t matter" },
     ],
   },
   {

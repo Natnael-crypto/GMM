@@ -207,16 +207,19 @@ export const _userBasicInformationSchema = z
         .transform((value) => value === 'true'),
     ]),
 
-    tattoos: z.union([
-      z.boolean({
-        required_error: 'Please specify if you have tattoos',
-      }),
-      z
-        .string({
-          required_error: 'Please specify if you have tattoos (true/false)',
-        })
-        .transform((value) => value === 'true'),
-    ]),
+    tattoos: z.enum(
+      [
+        'None',
+        'Minimal, not visible',
+        'Small, visible or concealed',
+        'Large or multiple tattoos',
+        'Doesn’t matter',
+      ],
+      {
+        required_error: 'Please select a valid option for tattoos',
+        invalid_type_error: 'Invalid option for tattoos',
+      }
+    ),
 
     pictures: z
       .array(
@@ -452,16 +455,19 @@ export const baseUserSchema = z
         .transform((value) => value === 'true'),
     ]),
 
-    tattoos: z.union([
-      z.boolean({
-        required_error: 'Please specify if you have tattoos',
-      }),
-      z
-        .string({
-          required_error: 'Please specify if you have tattoos (true/false)',
-        })
-        .transform((value) => value === 'true'),
-    ]),
+    tattoos: z.enum(
+      [
+        'None',
+        'Minimal, not visible',
+        'Small, visible or concealed',
+        'Large or multiple tattoos',
+        'Doesn’t matter',
+      ],
+      {
+        required_error: 'Please select a valid option for tattoos',
+        invalid_type_error: 'Invalid option for tattoos',
+      }
+    ),
 
     pictures: z
       .array(
