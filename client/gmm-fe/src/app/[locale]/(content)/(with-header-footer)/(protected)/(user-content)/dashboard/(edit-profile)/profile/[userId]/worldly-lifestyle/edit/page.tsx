@@ -5,8 +5,8 @@ import { ExpectedWorldlyLifestyleFormFemale } from '@/components/dashboard/profi
 import { WorldlyLifestyleForm } from '@/components/dashboard/profile/worldly-lifestyle/worldly-lifestyle-form';
 import Loading from '@/components/ui/loading';
 import { useAppSelector } from '@/lib/hooks';
-// import DynamicForm from '@/components/form/dynamic-form';
-// import { useUserData } from '@/lib/hooks/use-user-data';
+import DynamicForm from '@/components/form/dynamic-form';
+import { useUserData } from '@/lib/hooks/use-user-data';
 import {
   useGetExpectedWorldlyLifestyleQuery,
   useGetWorldlyLifestyleQuery,
@@ -26,16 +26,16 @@ export default function UpdateWorldlyLifestylePage() {
       ? ExpectedWorldlyLifestyleFormFemale
       : ExpectedWorldlyLifestyleFormMale;
 
-  // const { form: worldlyLifestyleForm, formData: worldlyLifestyleData } =
-  //   useUserData(user, 'worldly-lifestyle');
-  // const {
-  //   form: expectedWorldlyLifestyleForm,
-  //   formData: expectedWorldlyLifestyleData,
-  // } = useUserData(user, 'expected-worldly-lifestyle');
+  const { form: worldlyLifestyleForm, formData: worldlyLifestyleData } =
+    useUserData(user, 'worldly-lifestyle');
+  const {
+    form: expectedWorldlyLifestyleForm,
+    formData: expectedWorldlyLifestyleData,
+  } = useUserData(user, 'expected-worldly-lifestyle');
 
   return (
     <div>
-      {/* <DynamicForm
+      <DynamicForm
         formSchema={worldlyLifestyleForm}
         data={worldlyLifestyleData}
       />
@@ -45,7 +45,7 @@ export default function UpdateWorldlyLifestylePage() {
           formSchema={expectedWorldlyLifestyleForm}
           data={expectedWorldlyLifestyleData}
         />
-      </div> */}
+      </div>
 
       {isWorldlyLifestyleLoading && (
         <div className="w-full flex justify-center">

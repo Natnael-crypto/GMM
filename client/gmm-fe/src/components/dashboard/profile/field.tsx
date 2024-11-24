@@ -436,14 +436,7 @@ export default function Field(props: FieldProps) {
               </FormItem>
             )}
           />
-
-          <FormField
-            name={`${props.currencyFieldName}`}
-            control={form.control}
-            render={({ field }) => (
-              <FormItem className="col-span-4 md:col-span-1">
-                <FormControl>
-                  <Select onValueChange={field.onChange} value={field.value}>
+          {/* <Select onValueChange={field.onChange} value={field.value}>
                     <SelectTrigger className="text-muted-foreground bg-background text-md rounded-none rounded-ee-sm rounded-se-sm h-8 border-s-0 ring-transparent ring-offset-transparent shadow">
                       <SelectValue />
                     </SelectTrigger>
@@ -470,6 +463,34 @@ export default function Field(props: FieldProps) {
                       )}
                     </SelectContent>
                   </Select>
+                     */}
+          <FormField
+            name={`${props.currencyFieldName}`}
+            control={form.control}
+            render={({ field }) => (
+              <FormItem className="col-span-4 md:col-span-1">
+                <FormControl>
+                  <AutoComplete
+                    onChange={field.onChange}
+                    selectedOption={field.value}
+                    options={Object.entries(currencies).map(
+                      ([currency, countryCode]) => {
+                        const Flag = flags[countryCode as keyof typeof flags];
+
+                        return {
+                          value: currency,
+                          label: currency,
+                          icon: (
+                            <div className="w-5">
+                              {Flag && <Flag title={currency} />}
+                            </div>
+                          ),
+                        };
+                      }
+                    )}
+                    placeholder=""
+                    className="text-muted-foreground bg-background text-md rounded-none rounded-ee-sm rounded-se-sm h-8 border-s-0 ring-transparent ring-offset-transparent shadow"
+                  />
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>

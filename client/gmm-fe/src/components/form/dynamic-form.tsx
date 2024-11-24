@@ -90,6 +90,18 @@ export default function DynamicForm({
 
   const values = form.watch();
 
+  const remappedValue: any = {};
+
+  for (const key in values) {
+    remappedValue[fieldIdNameMap[key]] = values[key];
+  }
+
+  for (const key in user) {
+    remappedValue[`user.${key}`] = user[key as keyof typeof user];
+  }
+
+  console.log('Remapped value', remappedValue);
+
   return (
     <div className="py-8 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem]">
       <h1 className="text-xl font-bold text-secondary border-b p-1">
@@ -116,12 +128,6 @@ export default function DynamicForm({
                   </h2>
                 )}
                 {group.map((field: any) => {
-                  const remappedValue: any = {};
-
-                  for (const key in values) {
-                    remappedValue[fieldIdNameMap[key]] = values[key];
-                  }
-
                   try {
                     const show = evaluateRuleTree(field.show, remappedValue);
                     if (!show) return null;
@@ -129,13 +135,23 @@ export default function DynamicForm({
                     console.log(e);
                   }
 
+                  const filteredOptions = field.options?.filter(
+                    (option: { label: string; value: string; show: any }) => {
+                      try {
+                        return evaluateRuleTree(option.show, remappedValue);
+                      } catch (e) {
+                        console.log(e);
+                      }
+                    }
+                  );
+
                   return (
                     <Field
                       key={field.id}
                       type={field.type}
                       label={field.label}
                       name={field.id}
-                      options={field.options}
+                      options={filteredOptions}
                       className={widthClassName(field.displayWidth)}
                       onChange={() => onSubmit(form.getValues())}
                     />
