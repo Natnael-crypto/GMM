@@ -136,7 +136,7 @@
     "signup": {
       "title": "Sign Up",
       "firstName": "First Name",
-      "lastName": "Last Name",
+      "lastName": "Last Name (won't show publicly)",
       "email": "Email",
       "password": "Password",
       "confirmPassword": "Confirm Password",
