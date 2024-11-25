@@ -50,6 +50,16 @@ export class UpdatePreferenceDto {
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
+  city?: string[];
+
+  @ApiProperty({ example: 'string' })
+  @IsArray()
+  @IsOptional()
+  numberOfChildren?: string;
+
+  @ApiProperty({ example: 'string' })
+  @IsArray()
+  @IsOptional()
   martialStatus?: string[];
 
   @ApiProperty({ example: 'string' })
