@@ -279,8 +279,7 @@ export function SignUpForm() {
           />
 
           <div className="text-sm pt-2 pb-3 text-center">
-            The above fields can not be updated after sign up. Please verify
-            your details before proceeding.
+            Fields Must Be Accurate and Cannot Be Updated After Sign up. Please Verify All Details Are Accurate. 
           </div>
 
           <FormField
