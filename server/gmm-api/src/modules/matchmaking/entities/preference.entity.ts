@@ -38,6 +38,9 @@ export class Preference {
   country: string[];
 
   @Column({ nullable: true, type: 'simple-array' })
+  city: string[];
+
+  @Column({ nullable: true, type: 'simple-array' })
   martialStatus: string[];
 
   @Column({ nullable: true, type: 'simple-array' })
@@ -45,6 +48,9 @@ export class Preference {
 
   @Column({ nullable: true, type: 'simple-array' })
   bornOrRevert: string[];
+
+  @Column({ nullable: true })
+  numberOfChildren: string;
 
   @Column({ nullable: true, type: 'simple-array' })
   hijab: string[];
