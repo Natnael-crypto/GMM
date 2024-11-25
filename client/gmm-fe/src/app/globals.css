@@ -329,7 +329,7 @@
     flex-direction: column-reverse;
   }
 
-  .gmm-other-platforms-icons-grid{
+  .gmm-approach-icons-grid, .gmm-other-platforms-icons-grid{
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
@@ -450,7 +450,7 @@
     padding-inline-end: 21%;
   }
 
-  .gmm-other-platforms-icons-grid {
+  .gmm-approach-icons-grid, .gmm-other-platforms-icons-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -533,7 +533,7 @@
     padding-inline-start: 10%;
   }
 
-  .gmm-other-platforms-icons-grid {
+  .gmm-approach-icons-grid, .gmm-other-platforms-icons-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 

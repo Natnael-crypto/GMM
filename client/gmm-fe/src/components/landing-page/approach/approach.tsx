@@ -64,7 +64,7 @@ export default function OurApproach() {
             {/* Cards */}
             <MobileApproachCards />
             <div className="hidden sm:block overflow-auto no-scrollbar">
-              <div className="gmm-approach-icons-grid grid grid-cols-5 gap-3 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-y-5 py-2 md:py-0 mt-6 z-10">
+              <div className="gmm-approach-icons-grid grid gap-3 lg:gap-y-5 py-2 md:py-0 mt-6 z-10">
                 <OurApproachCard
                   imageSrc="/assets/icon_guided-matchmaking.svg"
                   imageClassName="gmm-card-icon"
