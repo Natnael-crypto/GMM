@@ -19,4 +19,7 @@ export class Form extends BaseEntity {
 
   @OneToMany(() => FormSubmission, (submission) => submission.form)
   submissions: FormSubmission[];
+
+  @Column('jsonb', { nullable: true })
+  displayTemplate: any;
 }
