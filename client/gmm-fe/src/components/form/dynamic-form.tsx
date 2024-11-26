@@ -60,10 +60,20 @@ export default function DynamicForm({
   const groupedFields: any = [];
   let lastSection = '';
 
+  // amount field id: currency field id
+  const currencyFields: Record<string, string> = {};
+
   fields.forEach((field) => {
     if (field.section !== lastSection) {
       lastSection = field.section;
       groupedFields.push([]);
+    }
+
+    if (field.type === 'with_currency') {
+      const currencyFieldName = fields.find(
+        (f) => f.name === field.name + '_currency'
+      ).id;
+      currencyFields[field.id] = currencyFieldName;
     }
 
     const lastGroup = groupedFields[groupedFields.length - 1];
@@ -150,6 +160,7 @@ export default function DynamicForm({
                       label={field.label}
                       name={field.id}
                       options={filteredOptions}
+                      currencyFieldName={currencyFields[field.id]}
                       className={widthClassName(field.displayWidth)}
                       onChange={() => onSubmit(form.getValues())}
                     />

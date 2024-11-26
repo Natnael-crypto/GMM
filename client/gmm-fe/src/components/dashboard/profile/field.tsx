@@ -436,34 +436,6 @@ export default function Field(props: FieldProps) {
               </FormItem>
             )}
           />
-          {/* <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger className="text-muted-foreground bg-background text-md rounded-none rounded-ee-sm rounded-se-sm h-8 border-s-0 ring-transparent ring-offset-transparent shadow">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Object.entries(currencies).map(
-                        ([currency, countryCode]) => {
-                          const Flag = flags[countryCode as keyof typeof flags];
-
-                          return (
-                            <SelectItem
-                              value={currency}
-                              key={currency}
-                              className="px-3"
-                            >
-                              <div className="flex gap-4 items-center justify-center">
-                                <div className="w-5">
-                                  {Flag && <Flag title={currency} />}
-                                </div>{' '}
-                                <div>{currency}</div>
-                              </div>
-                            </SelectItem>
-                          );
-                        }
-                      )}
-                    </SelectContent>
-                  </Select>
-                     */}
           <FormField
             name={`${props.currencyFieldName}`}
             control={form.control}
@@ -471,7 +443,9 @@ export default function Field(props: FieldProps) {
               <FormItem className="col-span-4 md:col-span-1">
                 <FormControl>
                   <AutoComplete
-                    onChange={field.onChange}
+                    onChange={(value) => {
+                      handleChange(value, field);
+                    }}
                     selectedOption={field.value}
                     options={Object.entries(currencies).map(
                       ([currency, countryCode]) => {

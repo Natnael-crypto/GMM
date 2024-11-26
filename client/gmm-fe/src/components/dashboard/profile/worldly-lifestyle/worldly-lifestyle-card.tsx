@@ -132,6 +132,8 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
   const { form: worldlyLifestyleForm, formData: worldlyLifestyleData } =
     useUserData(user, 'worldly-lifestyle');
 
+  console.log(worldlyLifestyleForm.displayTemplate);
+
   const buildFields = (worldlyLifestyleData: any): any[] => {
     const grouped: any = {};
 
@@ -170,13 +172,13 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
 
   return (
     <>
-      {/* {worldlyLifestyleData && (
+      {worldlyLifestyleData && (
         <FieldViewer
           title="Your Current Worldly Lifestyle (that you live)"
           getFields={buildFields}
           entity={worldlyLifestyleData}
         />
-      )} */}
+      )}
       {worldlyLifestyle && (
         <FieldViewer
           title="Your Current Worldly Lifestyle (that you live)"
