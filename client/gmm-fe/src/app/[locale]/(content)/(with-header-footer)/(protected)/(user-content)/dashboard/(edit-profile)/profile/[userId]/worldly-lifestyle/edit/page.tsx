@@ -1,41 +1,46 @@
 'use client';
 
-import { ExpectedWorldlyLifestyleFormMale } from '@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-form';
-import { ExpectedWorldlyLifestyleFormFemale } from '@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-form-female';
-import { WorldlyLifestyleForm } from '@/components/dashboard/profile/worldly-lifestyle/worldly-lifestyle-form';
-import Loading from '@/components/ui/loading';
+// import { ExpectedWorldlyLifestyleFormMale } from '@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-form';
+// import { ExpectedWorldlyLifestyleFormFemale } from '@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-form-female';
+// import { WorldlyLifestyleForm } from '@/components/dashboard/profile/worldly-lifestyle/worldly-lifestyle-form';
+// import Loading from '@/components/ui/loading';
+// import {
+//   useGetExpectedWorldlyLifestyleQuery,
+//   useGetWorldlyLifestyleQuery,
+// } from '@/lib/user/api';
 import { useAppSelector } from '@/lib/hooks';
-// import DynamicForm from '@/components/form/dynamic-form';
-// import { useUserData } from '@/lib/hooks/use-user-data';
-import {
-  useGetExpectedWorldlyLifestyleQuery,
-  useGetWorldlyLifestyleQuery,
-} from '@/lib/user/api';
+import DynamicForm from '@/components/form/dynamic-form';
+import { useUserData } from '@/lib/hooks/use-user-data';
 
 export default function UpdateWorldlyLifestylePage() {
   const user = useAppSelector((state) => state.auth.user);
-  const { data: worldlyLifestyle, isLoading: isWorldlyLifestyleLoading } =
-    useGetWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
-  const {
-    data: expectedWorldlyLifestyle,
-    isLoading: isExpectedWorldlyLifestyleLoading,
-  } = useGetExpectedWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
-
-  const ExpectedWorldLifeStyle =
-    user?.gender === 'Female'
-      ? ExpectedWorldlyLifestyleFormFemale
-      : ExpectedWorldlyLifestyleFormMale;
-
-  // const { form: worldlyLifestyleForm, formData: worldlyLifestyleData } =
-  //   useUserData(user, 'worldly-lifestyle');
+  // const { data: worldlyLifestyle, isLoading: isWorldlyLifestyleLoading } =
+  //   useGetWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
   // const {
-  //   form: expectedWorldlyLifestyleForm,
-  //   formData: expectedWorldlyLifestyleData,
-  // } = useUserData(user, 'expected-worldly-lifestyle');
+  //   data: expectedWorldlyLifestyle,
+  //   isLoading: isExpectedWorldlyLifestyleLoading,
+  // } = useGetExpectedWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
+
+  // const ExpectedWorldLifeStyle =
+  //   user?.gender === 'Female'
+  //     ? ExpectedWorldlyLifestyleFormFemale
+  //     : ExpectedWorldlyLifestyleFormMale;
+
+  const { form: worldlyLifestyleForm, formData: worldlyLifestyleData } =
+    useUserData(user, 'worldly-lifestyle');
+  const {
+    form: expectedWorldlyLifestyleForm,
+    formData: expectedWorldlyLifestyleData,
+  } = useUserData(
+    user,
+    user?.gender === 'Male'
+      ? 'male-expected-worldly-lifestyle'
+      : 'female-expected-worldly-lifestyle'
+  );
 
   return (
     <div>
-      {/* <DynamicForm
+      <DynamicForm
         formSchema={worldlyLifestyleForm}
         data={worldlyLifestyleData}
       />
@@ -45,9 +50,9 @@ export default function UpdateWorldlyLifestylePage() {
           formSchema={expectedWorldlyLifestyleForm}
           data={expectedWorldlyLifestyleData}
         />
-      </div> */}
+      </div>
 
-      {isWorldlyLifestyleLoading && (
+      {/* {isWorldlyLifestyleLoading && (
         <div className="w-full flex justify-center">
           <Loading />
         </div>
@@ -60,7 +65,7 @@ export default function UpdateWorldlyLifestylePage() {
       )}
       <ExpectedWorldLifeStyle
         expectedWorldlyLifestyle={expectedWorldlyLifestyle}
-      />
+      /> */}
     </div>
   );
 }

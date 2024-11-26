@@ -16,7 +16,7 @@ export default function ProfileDescription({ user }: { user: User }) {
   return (
     <div className="w-full h-full rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted p-5 space-y-3">
       <h1 className="text-xl font-bold text-muted-foreground">
-        {user.firstName} {user.lastName}{' '}
+        {user.firstName}{' '}
         {user && user.dateOfBirth && (
           <span className="text-sm">
             ({convertDateToAge(user.dateOfBirth)})

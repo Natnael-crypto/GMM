@@ -7,7 +7,6 @@ import {
   faWeightScale,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { useCreateDownloadUrlMutation } from '@/lib/user/api';
 import { cn } from '@/lib/utils';
@@ -22,7 +21,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/previous-button';
 import { motion, AnimatePresence } from 'framer-motion';
-import { convertDateToAge } from '@/lib/format';
+import { cmToFeetInches, convertDateToAge, kgToPounds } from '@/lib/format';
 import flags from 'react-phone-number-input/flags';
 import DynamicBlur from '@/components/ui/dynamic-blur';
 
@@ -63,6 +62,9 @@ export default function ProfileImages({ user }: { user: User }) {
 
   const code = countryToCountryCode[user.nationality] as keyof typeof flags;
   const NationalityFlag = flags[code];
+
+  const countryCode = countryToCountryCode[user.country] as keyof typeof flags;
+  const CountryFlag = flags[countryCode];
 
   const overlayInfo = {
     hidden: { opacity: 0, height: 0 },
@@ -139,8 +141,11 @@ export default function ProfileImages({ user }: { user: User }) {
                     <span>
                       <FontAwesomeIcon icon={faLocationDot} />
                     </span>
-                    <span className="w-full truncate">
-                      {user.city}, {user.country}
+                    <span className="w-full flex  items-center gap-2 truncate">
+                      {user.city}
+                      <div className="w-4 h-4 flex items-center justify-center">
+                        {CountryFlag && <CountryFlag title={user.country} />}
+                      </div>
                     </span>
                   </motion.p>
 
@@ -149,13 +154,17 @@ export default function ProfileImages({ user }: { user: User }) {
                       <span>
                         <FontAwesomeIcon icon={faUpDown} />
                       </span>
-                      <span className="w-full truncate">{user.height} cm</span>
+                      <span className="w-full truncate">
+                        {cmToFeetInches(user.height)} ({user.height} cm)
+                      </span>
                     </p>
                     <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
                       <span>
                         <FontAwesomeIcon icon={faWeightScale} />
                       </span>
-                      <span className="w-full truncate">{user.weight} kg </span>
+                      <span className="w-full truncate">
+                        {kgToPounds(user.weight)} ({user.weight} kg){' '}
+                      </span>
                     </p>
                   </motion.div>
                 </motion.div>

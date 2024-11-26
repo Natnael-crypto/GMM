@@ -7,6 +7,7 @@ import { useSubmitFormMutation } from '@/lib/form/api';
 import { useAppSelector } from '@/lib/hooks';
 import React, { useEffect } from 'react';
 import { evaluateRuleTree } from '@/lib/form/rule-evalutator';
+import { useDebouncedCallback } from 'use-debounce';
 
 const transform = (answers: any) => {
   const data: any = {};
@@ -60,10 +61,20 @@ export default function DynamicForm({
   const groupedFields: any = [];
   let lastSection = '';
 
+  // amount field id: currency field id
+  const currencyFields: Record<string, string> = {};
+
   fields.forEach((field) => {
     if (field.section !== lastSection) {
       lastSection = field.section;
       groupedFields.push([]);
+    }
+
+    if (field.type === 'with_currency') {
+      const currencyFieldName = fields.find(
+        (f) => f.name === field.name + '_currency'
+      ).id;
+      currencyFields[field.id] = currencyFieldName;
     }
 
     const lastGroup = groupedFields[groupedFields.length - 1];
@@ -87,8 +98,19 @@ export default function DynamicForm({
       submitForm({ slug: formSchema.slug, data, userId: user.id });
     }
   };
+  const debouncedSubmit = useDebouncedCallback(onSubmit, 1000);
 
   const values = form.watch();
+
+  const remappedValue: any = {};
+
+  for (const key in values) {
+    remappedValue[fieldIdNameMap[key]] = values[key];
+  }
+
+  for (const key in user) {
+    remappedValue[`user.${key}`] = user[key as keyof typeof user];
+  }
 
   return (
     <div className="py-8 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem]">
@@ -116,12 +138,6 @@ export default function DynamicForm({
                   </h2>
                 )}
                 {group.map((field: any) => {
-                  const remappedValue: any = {};
-
-                  for (const key in values) {
-                    remappedValue[fieldIdNameMap[key]] = values[key];
-                  }
-
                   try {
                     const show = evaluateRuleTree(field.show, remappedValue);
                     if (!show) return null;
@@ -129,15 +145,26 @@ export default function DynamicForm({
                     console.log(e);
                   }
 
+                  const filteredOptions = field.options?.filter(
+                    (option: { label: string; value: string; show: any }) => {
+                      try {
+                        return evaluateRuleTree(option.show, remappedValue);
+                      } catch (e) {
+                        console.log(e);
+                      }
+                    }
+                  );
+
                   return (
                     <Field
                       key={field.id}
                       type={field.type}
                       label={field.label}
                       name={field.id}
-                      options={field.options}
+                      options={filteredOptions}
+                      currencyFieldName={currencyFields[field.id]}
                       className={widthClassName(field.displayWidth)}
-                      onChange={() => onSubmit(form.getValues())}
+                      onChange={() => debouncedSubmit(form.getValues())}
                     />
                   );
                 })}

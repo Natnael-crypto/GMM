@@ -13,6 +13,7 @@ import {
   faPrescriptionBottleAlt,
   faSmoking,
   faPaintBrush,
+  faFlag,
 } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import FieldViewer from '../field-viewer';
@@ -33,11 +34,14 @@ const tattooOptionsMap: Record<string, string> = {
 const fields = (user?: User) =>
   [
     {
-      icon: faLanguage,
-      label: 'Languages',
-      value: user?.languages?.length
-        ? user.languages.map((l) => languageMap[l]).join(', ')
-        : null,
+      icon: faFlag,
+      label: 'Country of Origin',
+      value: user?.country,
+    },
+    {
+      icon: faUser,
+      label: 'Marital Status',
+      value: user?.maritalStatus,
     },
     {
       icon: faChild,
@@ -46,13 +50,24 @@ const fields = (user?: User) =>
     },
     {
       icon: faChild,
+      label: 'Age of Child',
+      value: user?.numberOfChildren === 1 ? user?.ageOfYoungestChild : null,
+    },
+    {
+      icon: faChild,
       label: 'Age of Oldest Child',
-      value: user?.ageOfOldestChild,
+      value:
+        user?.numberOfChildren && user?.numberOfChildren >= 1
+          ? user?.ageOfOldestChild
+          : null,
     },
     {
       icon: faChild,
       label: 'Age of Youngest Child',
-      value: user?.ageOfYoungestChild,
+      value:
+        user?.numberOfChildren && user?.numberOfChildren >= 1
+          ? user?.ageOfYoungestChild
+          : null,
     },
     {
       icon: faQuran,
@@ -70,18 +85,20 @@ const fields = (user?: User) =>
       value: user?.bornOrRevertToIslam,
     },
     {
+      icon: faLanguage,
+      label: 'Languages',
+      value: user?.languages?.length
+        ? user.languages.map((l) => languageMap[l]).join(', ')
+        : null,
+    },
+    {
       icon: faGlassMartiniAlt,
-      label: 'Drinks',
+      label: 'Drinks/Alcohol',
       value: user?.drinks ? 'Yes' : 'No',
     },
     {
-      icon: faPrescriptionBottleAlt,
-      label: 'Drugs',
-      value: user?.drugs ? 'Yes' : 'No',
-    },
-    {
       icon: faSmoking,
-      label: 'Smokes',
+      label: 'Smokes (Vapes/Shisha)',
       value: user?.smokes ? 'Yes' : 'No',
     },
     {
@@ -89,14 +106,15 @@ const fields = (user?: User) =>
       label: 'Tattoos',
       value: user?.tattoos ? tattooOptionsMap[user.tattoos] : null,
     },
-
     {
-      icon: faUser,
-      label: 'Marital Status',
-      value: user?.maritalStatus,
+      icon: faPrescriptionBottleAlt,
+      label: 'Drugs (Cannabis/Cocaine)',
+      value: user?.drugs ? 'Yes' : 'No',
     },
   ].filter((field) => field.value && field.value !== '' && field.value !== 0);
 
 export default function BasicInformationCard({ user }: { user: User }) {
-  return <FieldViewer title="Basic Information" getFields={fields} entity={user} />;
+  return (
+    <FieldViewer title="Basic Information" getFields={fields} entity={user} />
+  );
 }

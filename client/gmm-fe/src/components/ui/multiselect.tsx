@@ -93,7 +93,10 @@ export default function Multiselect({
                   <h1 className="font-bold mb-2">{label}</h1>
                   {values && values.length > 0
                     ? values.map((value, index) => (
-                        <span key={`${value}_${index}`} className="text-sm">
+                        <span
+                          key={`${value}_${index}`}
+                          className="text-sm text-start"
+                        >
                           {map.get(value)}
                         </span>
                       ))
@@ -104,7 +107,7 @@ export default function Multiselect({
               <ChevronDownIcon className="h-4 w-4" />
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="p-4">
+          <DropdownMenuContent className="p-4 max-w-96">
             <div className="flex flex-col gap-4">
               {!hideSearch && (
                 <Input
