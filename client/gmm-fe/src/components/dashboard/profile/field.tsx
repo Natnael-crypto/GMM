@@ -344,6 +344,9 @@ export default function Field(props: FieldProps) {
               <FormControl>
                 <Textarea
                   {...field}
+                  onChange={(value) => {
+                    handleChange(value, field);
+                  }}
                   className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                 />
               </FormControl>

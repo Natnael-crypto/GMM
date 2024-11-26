@@ -60,19 +60,25 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
     type: 'multiselect',
     options: [
       {
-        value: 'full_daily_prayers',
         label:
-          'Must Pray Full Daily Prayers + Sunnah (Husband prays all obligatory and Sunnah prayers)',
+          'Fardh and Sunnah (Perform 5 Fardh along with Sunnah prayers daily)',
+        value: 'fardh_and_sunnah',
       },
       {
-        value: 'fardh_only',
-        label:
-          'Fardh Only (Husband prays mandatory prayers as a minimum requirement)',
+        label: 'Complete Fardh (All 5 Fardh prayers daily)',
+        value: 'complete_fardh',
       },
       {
-        value: 'flexible',
-        label:
-          "Flexible Approach (As long as husband says he's a Muslim, he does not have to pray)",
+        label: 'Frequent Salah (Pray 3 or more times daily)',
+        value: 'frequent_salah',
+      },
+      {
+        label: 'Occasional Salah (Pray 2 or more times daily)',
+        value: 'occasional_salah',
+      },
+      {
+        label: 'Irregular Salah (Pray at least once daily)',
+        value: 'irregular_salah',
       },
     ],
   },
@@ -205,9 +211,15 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     options: [
       { label: 'None', value: 'None' },
       { label: 'Minimal, not visible', value: 'Minimal, not visible' },
-      { label: 'Small, visible or concealed', value: 'Small, visible or concealed' },
-      { label: 'Large or multiple tattoos', value: 'Large or multiple tattoos' },
-      { label: "Doesn’t matter", value: "Doesn’t matter" },
+      {
+        label: 'Small, visible or concealed',
+        value: 'Small, visible or concealed',
+      },
+      {
+        label: 'Large or multiple tattoos',
+        value: 'Large or multiple tattoos',
+      },
+      { label: 'Doesn’t matter', value: 'Doesn’t matter' },
     ],
   },
   {

@@ -7,6 +7,7 @@ import { useSubmitFormMutation } from '@/lib/form/api';
 import { useAppSelector } from '@/lib/hooks';
 import React, { useEffect } from 'react';
 import { evaluateRuleTree } from '@/lib/form/rule-evalutator';
+import { useDebouncedCallback } from 'use-debounce';
 
 const transform = (answers: any) => {
   const data: any = {};
@@ -97,6 +98,7 @@ export default function DynamicForm({
       submitForm({ slug: formSchema.slug, data, userId: user.id });
     }
   };
+  const debouncedSubmit = useDebouncedCallback(onSubmit, 1000);
 
   const values = form.watch();
 
@@ -162,7 +164,7 @@ export default function DynamicForm({
                       options={filteredOptions}
                       currencyFieldName={currencyFields[field.id]}
                       className={widthClassName(field.displayWidth)}
-                      onChange={() => onSubmit(form.getValues())}
+                      onChange={() => debouncedSubmit(form.getValues())}
                     />
                   );
                 })}
