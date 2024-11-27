@@ -137,8 +137,8 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     ),
   },
   {
-    label: 'Born/Reverted',
-    name: 'bornOrRevert',
+    label: 'Number of Children',
+    name: 'numberOfChildren',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
     options: ['1', '2', '3', '4+', "Doesn't matter"].map(toOption),
