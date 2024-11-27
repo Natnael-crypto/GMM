@@ -60,32 +60,26 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
     type: 'multiselect',
     options: [
       {
+        value: 'full_daily_prayers',
         label:
-          'Fardh and Sunnah (Perform 5 Fardh along with Sunnah prayers daily)',
-        value: 'fardh_and_sunnah',
+          'Must Pray Full Daily Prayers + Sunnah (Husband prays all obligatory and Sunnah prayers)',
       },
       {
-        label: 'Complete Fardh (All 5 Fardh prayers daily)',
-        value: 'complete_fardh',
+        value: 'fardh_only',
+        label:
+          'Fardh Only (Husband prays mandatory prayers as a minimum requirement)',
       },
       {
-        label: 'Frequent Salah (Pray 3 or more times daily)',
-        value: 'frequent_salah',
-      },
-      {
-        label: 'Occasional Salah (Pray 2 or more times daily)',
-        value: 'occasional_salah',
-      },
-      {
-        label: 'Irregular Salah (Pray at least once daily)',
-        value: 'irregular_salah',
+        value: 'flexible',
+        label:
+          "Flexible Approach (As long as husband says he's a Muslim, he does not have to pray)",
       },
     ],
   },
   {
     label: 'Hijab',
     name: 'hijab',
-    width: 'col-span-10 md:col-span-6',
+    width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
     options: [
       {
@@ -112,22 +106,22 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
 ];
 
 export const advancedPreferenceQuestions: PreferenceQuestion[] = [
-  // {
-  //   label: 'Nationality/Passport',
-  //   name: 'nationality',
-  //   width: 'col-span-10 md:col-span-3',
-  //   type: 'multiselect',
-  //   options: countryOptions.map((c) => {
-  //     const countryCode = countryToCountryCode[c.value];
-  //     const Flag = flags[countryCode as keyof typeof flags];
-  //     const icon = (
-  //       <div className="w-5">{Flag && <Flag title={c.label} />}</div>
-  //     );
-  //     return { label: c.label, value: c.value, icon: icon };
-  //   }),
-  // },
   {
-    label: 'Languages',
+    label: 'Nationality/Passport',
+    name: 'nationality',
+    width: 'col-span-10 md:col-span-3',
+    type: 'multiselect',
+    options: countryOptions.map((c) => {
+      const countryCode = countryToCountryCode[c.value];
+      const Flag = flags[countryCode as keyof typeof flags];
+      const icon = (
+        <div className="w-5">{Flag && <Flag title={c.label} />}</div>
+      );
+      return { label: c.label, value: c.value, icon: icon };
+    }),
+  },
+  {
+    label: 'Language',
     name: 'language',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
@@ -138,7 +132,16 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     name: 'bornOrRevert',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
-    options: ['Born Muslim', 'Reverted to Islam'].map(toOption),
+    options: ['Born Muslim', 'Reverted to Islam', "Doesn't matter"].map(
+      toOption
+    ),
+  },
+  {
+    label: 'Born/Reverted',
+    name: 'bornOrRevert',
+    width: 'col-span-10 md:col-span-3',
+    type: 'multiselect',
+    options: ['1', '2', '3', '4+', "Doesn't matter"].map(toOption),
   },
   {
     label: 'Wants Children',
@@ -209,21 +212,12 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     width: 'col-span-10 md:col-span-3',
     type: 'single',
     options: [
-      { label: 'None', value: 'None' },
-      { label: 'Minimal, not visible', value: 'Minimal, not visible' },
-      {
-        label: 'Small, visible or concealed',
-        value: 'Small, visible or concealed',
-      },
-      {
-        label: 'Large or multiple tattoos',
-        value: 'Large or multiple tattoos',
-      },
-      { label: 'Doesn’t matter', value: 'Doesn’t matter' },
+      { label: 'Yes', value: 'true' },
+      { label: 'No', value: 'false' },
     ],
   },
   {
-    label: 'Drug(s)',
+    label: 'Drugs (Cannabis/Cocaine)',
     name: 'drugs',
     width: 'col-span-10 md:col-span-3',
     type: 'single',
