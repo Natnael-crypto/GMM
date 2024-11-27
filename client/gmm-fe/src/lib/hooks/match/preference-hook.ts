@@ -123,9 +123,14 @@ const reset = (
       notFilter?.['profession'],
       preference?.profession
     ),
+    numberOfChildren: notFilterTransform(
+      'numberOfChildren',
+      notFilter?.['numberOfChildren'],
+      preference?.numberOfChildren
+    ),
     drinking: preference?.drinking || false,
     smoking: preference?.smoking || false,
-    tattoos: preference?.tattoos || "None",
+    tattoos: preference?.tattoos || 'None',
     drugs: preference?.drugs || false,
     minMatchRequirement: preference?.minMatchRequirement || 1,
   };
@@ -177,6 +182,7 @@ const transformPreference = (
     'hijab',
     'education',
     'profession',
+    'numberOfChildren',
   ] as const;
 
   keys.forEach((key) => {

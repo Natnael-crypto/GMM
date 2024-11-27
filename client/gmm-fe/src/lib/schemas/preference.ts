@@ -91,6 +91,7 @@ export const preferenceSchema = z
     wantsChildren: z.array(z.string()).nullable().optional(),
     education: z.array(z.string()).nullable().optional(),
     profession: z.array(z.string()).nullable().optional(),
+    numberOfChildren: z.array(z.string()).nullable().optional(),
     minMatchRequirement: z.number().nullable().optional(),
     drinking: z
       .union([
