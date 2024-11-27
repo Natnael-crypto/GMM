@@ -85,7 +85,7 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
   {
     label: 'Hijab',
     name: 'hijab',
-    width: 'col-span-10 md:col-span-6',
+    width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
     options: [
       {
