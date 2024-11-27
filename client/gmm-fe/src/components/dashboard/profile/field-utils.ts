@@ -13,7 +13,7 @@ export const getFields = (formData: any, displayTemplate: any) => {
         dataMap[fieldName] = options.find(
           (option: { label: string; value: string }) =>
             option.value === data.value
-        ).label;
+        )?.label;
       }
     }
   }
