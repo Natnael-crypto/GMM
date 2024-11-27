@@ -51,22 +51,31 @@ const fields = (user?: User) =>
     {
       icon: faChild,
       label: 'Age of Child',
-      value: user?.numberOfChildren === 1 ? user?.ageOfYoungestChild : null,
+      value:
+        user?.numberOfChildren === 1
+          ? user?.ageOfYoungestChild === 0
+            ? 'Under 1 Year'
+            : user?.ageOfYoungestChild
+          : null,
     },
     {
       icon: faChild,
       label: 'Age of Oldest Child',
       value:
-        user?.numberOfChildren && user?.numberOfChildren >= 1
-          ? user?.ageOfOldestChild
+        user?.numberOfChildren && user?.numberOfChildren > 1
+          ? user?.ageOfOldestChild === 0
+            ? 'Under 1 Year'
+            : user?.ageOfOldestChild
           : null,
     },
     {
       icon: faChild,
       label: 'Age of Youngest Child',
       value:
-        user?.numberOfChildren && user?.numberOfChildren >= 1
-          ? user?.ageOfYoungestChild
+        user?.numberOfChildren && user?.numberOfChildren > 1
+          ? user?.ageOfYoungestChild === 0
+            ? 'Under 1 Year'
+            : user?.ageOfYoungestChild
           : null,
     },
     {

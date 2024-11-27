@@ -43,7 +43,6 @@ export default function OurApproach() {
   };
 
   return (
-   
     <div className="mt-5 relative">
       <div className="gmm-approach-section">
         <div className="gmm-approach-container my-5 grid lg:grid-cols-2 gap-4">
@@ -55,9 +54,7 @@ export default function OurApproach() {
               </span>
               <span className="z-20 text-lg sm:text-xl md:text-2xl lg:text-3xl text-accent">
                 {t.rich('subtitle', {
-                  bold: (text) => (
-                    <span className="font-bold">{text}</span>
-                  ),
+                  bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </span>
             </h1>
@@ -115,12 +112,39 @@ export default function OurApproach() {
                     br: () => <br />,
                   })}
                 </OurApproachCard>
+
+                <OurApproachCard
+                  imageSrc="/assets/icon_guardian-family-involvement.svg"
+                  imageClassName="gmm-card-icon"
+                  isActive={current === 5}
+                  onClick={() => handleCardClick(5)}
+                >
+                  {t.rich('card.globallyConnectingMuslims', {
+                    br: () => <br />,
+                  })}
+                </OurApproachCard>
+
+                <OurApproachCard
+                  imageSrc="/assets/icon_guardian-family-involvement.svg"
+                  imageClassName="gmm-card-icon"
+                  isActive={current === 6}
+                  onClick={() => handleCardClick(6)}
+                >
+                  {t.rich('card.loremIpsum', {
+                    br: () => <br />,
+                  })}
+                </OurApproachCard>
               </div>
             </div>
           </div>
           <div className="gmm-approach-slides bg-muted lg:rounded-bl-[3rem]">
             {/* Card Slides */}
-            <OurApproachSlide selected={current} setSelected={setCurrent} next={next} prev={prev}>
+            <OurApproachSlide
+              selected={current}
+              setSelected={setCurrent}
+              next={next}
+              prev={prev}
+            >
               <OurApproachSlideContent title={t('slide.guidedMatching.title')}>
                 <>
                   {t.rich('slide.guidedMatching.description', {
@@ -155,7 +179,9 @@ export default function OurApproach() {
                 </>
               </OurApproachSlideContent>
 
-              <OurApproachSlideContent title={t('slide.neverPayToCompete.title')}>
+              <OurApproachSlideContent
+                title={t('slide.neverPayToCompete.title')}
+              >
                 <>
                   {t.rich('slide.neverPayToCompete.description', {
                     bold: (text) => <span className="font-bold">{text}</span>,
@@ -172,13 +198,28 @@ export default function OurApproach() {
                   })}
                 </>
               </OurApproachSlideContent>
+
+              <OurApproachSlideContent
+                title={t('slide.globallyConnectingMuslims.title')}
+              >
+                <>
+                  {t.rich('slide.globallyConnectingMuslims.description', {
+                    bold: (text) => <span className="font-bold">{text}</span>,
+                  })}
+                </>
+              </OurApproachSlideContent>
+
+              <OurApproachSlideContent title={t('slide.loremIpsum.title')}>
+                <>
+                  {t.rich('slide.loremIpsum.description', {
+                    bold: (text) => <span className="font-bold">{text}</span>,
+                  })}
+                </>
+              </OurApproachSlideContent>
             </OurApproachSlide>
           </div>
         </div>
-        
-        
       </div>
-      
     </div>
   );
 }

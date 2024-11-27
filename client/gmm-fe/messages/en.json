@@ -19,7 +19,9 @@
         "matchGuarantee": "Match<br></br>Guarantee",
         "oneOnOneChats": "1-On-1<br></br>Chats",
         "neverPayToCompete": "Never Pay to<br></br>Compete for Views",
-        "guardianFamilyInvolvement": "Verified Family<br></br>Awareness"
+        "guardianFamilyInvolvement": "Verified Family<br></br>Awareness",
+        "globallyConnectingMuslims": "Globally Connecting Muslims",
+        "loremIpsum": "Lorem Ipsum"
       },
 
       "slide": {
@@ -48,6 +50,14 @@
         "guardianFamilyInvolvement": {
           "title": "Verified Family Awareness",
           "description": "Casual \"Muslim Marriage\" dating apps/websites create a no family haram direct contact, hookup culture because their users can sign up without <bold>VERIFIED family Awareness and Involvement</bold>. GMM Verifies and registers the family member of our user before family contact information is exchanged. Revert Care Accommodated (for reverts only without Muslim family members)."
+        },
+        "globallyConnectingMuslims": {
+          "title": "Globally Connecting Muslims",
+          "description": "Islam over culture. GMM is offered in English, Spanish, Arabic, Turkish, Bosnian, Russian, French, German, Portuguese, Malaysian, Indonesian and Mandarin with in chat auto translator. (coming soon)."
+        },
+        "loremIpsum": {
+          "title": "Lorem Ipsum",
+          "description": "No Cringy unprofessional facebook/telegram groups."
         }
       }
     },

@@ -16,6 +16,7 @@ export const preferenceFormSchema = z
     wantsChildren: z.array(z.string()).nullable().optional(),
     education: z.array(z.string()).nullable().optional(),
     profession: z.array(z.string()).nullable().optional(),
+    numberOfChildren: z.array(z.string()).nullable().optional(),
     minMatchRequirement: z.number().nullable().optional(),
     drinking: z
       .union([
@@ -41,7 +42,8 @@ export const preferenceFormSchema = z
           .transform((value) => value === 'true'),
       ])
       .optional(),
-    tattoos: z.enum(
+    tattoos: z
+      .enum(
         [
           'None',
           'Minimal, not visible',
@@ -116,7 +118,8 @@ export const preferenceSchema = z
       ])
       .nullable()
       .optional(),
-      tattoos: z.enum(
+    tattoos: z
+      .enum(
         [
           'None',
           'Minimal, not visible',
@@ -128,7 +131,7 @@ export const preferenceSchema = z
           required_error: 'Please select a valid option for tattoos',
           invalid_type_error: 'Invalid option for tattoos',
         }
-      )      
+      )
       .nullable()
       .optional(),
     drugs: z
