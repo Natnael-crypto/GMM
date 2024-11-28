@@ -10,10 +10,22 @@ export const getFields = (formData: any, displayTemplate: any) => {
       const options = data?.field?.options;
 
       if (fieldName && options) {
-        dataMap[fieldName] = options.find(
-          (option: { label: string; value: string }) =>
-            option.value === data.value
-        )?.label;
+        if (data?.field.type === 'multiselect') {
+          dataMap[fieldName] = data.value
+            .map(
+              (value: string) =>
+                options.find(
+                  (option: { label: string; value: string }) =>
+                    option.value === value
+                )?.label
+            )
+            .join(', ');
+        } else {
+          dataMap[fieldName] = options.find(
+            (option: { label: string; value: string }) =>
+              option.value === data.value
+          )?.label;
+        }
       }
     }
   }

@@ -319,7 +319,9 @@ export default function Field(props: FieldProps) {
                   onChange={(value) => {
                     handleChange(value, field);
                   }}
-                  selectedOptions={field.value}
+                  selectedOptions={
+                    Array.isArray(field.value) ? field.value : []
+                  }
                   title={props.label}
                   max={3}
                   initOptions={options}
