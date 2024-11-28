@@ -9,11 +9,6 @@ import { getFields } from '../field-utils';
 export default function WorldlyLifestyleCard({ user }: { user: User }) {
   const { form: worldlyLifestyleForm, formData: worldlyLifestyleData } =
     useUserData(user, 'worldly-lifestyle');
-  console.log(worldlyLifestyleData);
-  console.log(
-    'prcess',
-    getFields(worldlyLifestyleData, worldlyLifestyleForm?.displayTemplate)
-  );
 
   return (
     <>
