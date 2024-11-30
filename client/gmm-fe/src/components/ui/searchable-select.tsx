@@ -100,14 +100,15 @@ export default function AutoComplete({
                   className="w-full"
                 />
               )}
-              <div className="flex flex-col max-h-56 overflow-auto">
+
+              <div className="flex flex-col gap-1 py-2 px-2 max-h-64 overflow-auto">
                 {filteredOptions.map((option) => (
                   <div
                     key={option.value}
                     className="flex items-center justify-between cursor-pointer"
                     onClick={() => handleOptionSelect(option)}
                   >
-                    <div className="flex items-center gap-2 hover:bg-accent hover:text-accent-foreground w-full p-1 rounded-sm">
+                    <div className="px-4 flex items-center gap-2 hover:bg-accent hover:text-accent-foreground w-full p-1 rounded-sm">
                       <Check
                         className={cn(
                           'h-4 w-4',
