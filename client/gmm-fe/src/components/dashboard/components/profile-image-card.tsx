@@ -137,7 +137,7 @@ export default function ProfileImages({ user }: { user: User }) {
                     </span>
                   </motion.div>
 
-                  <motion.p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white">
+                  <motion.div className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-full text-white">
                     <span>
                       <FontAwesomeIcon icon={faLocationDot} />
                     </span>
@@ -147,7 +147,7 @@ export default function ProfileImages({ user }: { user: User }) {
                         {CountryFlag && <CountryFlag title={user.country} />}
                       </div>
                     </span>
-                  </motion.p>
+                  </motion.div>
 
                   <motion.div variants={overlayInfo} className="flex gap-2">
                     <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">

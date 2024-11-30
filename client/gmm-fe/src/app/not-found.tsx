@@ -18,7 +18,7 @@ export default function NotFound() {
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                <h1 className="text-9xl font-bold text-[#59a409]">404</h1>
+                <h1 className="text-9xl font-bold text-primary">404</h1>
               </motion.div>
               <motion.div
                 initial={{ y: 50, opacity: 0 }}
@@ -39,7 +39,7 @@ export default function NotFound() {
               >
                 <Link
                   href="/"
-                  className="px-6 py-3 text-[#59a409]-foreground bg-[#59a409] rounded-md hover:bg-[#59a409]/90 transition-colors duration-200 font-medium text-white"
+                  className="px-6 py-3 text-[#59a409]-foreground bg-primary rounded-md hover:bg-primary transition-colors duration-200 font-medium text-white"
                 >
                   Go Home
                 </Link>

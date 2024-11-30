@@ -213,7 +213,7 @@ export interface FieldProps {
 }
 
 export default function Field(props: FieldProps) {
-  const form = useFormContext();
+  // const form = useFormContext();
 
   let body;
 
@@ -243,11 +243,20 @@ export default function Field(props: FieldProps) {
       body = (
         <FormField
           name={props.name}
-          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Select
+                <AutoComplete
+                  onChange={(value) => {
+                    handleChange(value, field);
+                  }}
+                  selectedOption={field.value}
+                  options={options}
+                  placeholder=""
+                  showSearch={false}
+                  className="shadow text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent"
+                />
+                {/* <Select
                   onValueChange={(value) => {
                     handleChange(value, field);
                   }}
@@ -273,7 +282,7 @@ export default function Field(props: FieldProps) {
                       }
                     })}
                   </SelectContent>
-                </Select>
+                </Select> */}
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -286,7 +295,6 @@ export default function Field(props: FieldProps) {
       body = (
         <FormField
           name={props.name}
-          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -297,7 +305,7 @@ export default function Field(props: FieldProps) {
                   selectedOption={field.value}
                   options={options}
                   placeholder=""
-                  className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent"
+                  className="shadow text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent"
                 />
               </FormControl>
               <FormMessage className="text-xs" />
@@ -311,7 +319,6 @@ export default function Field(props: FieldProps) {
       body = (
         <FormField
           name={props.name}
-          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -326,7 +333,7 @@ export default function Field(props: FieldProps) {
                   max={3}
                   initOptions={options}
                   placeholder="Select"
-                  className="shadow text-muted-foreground bg-background text-xs rounded-sm h-8 ring-transparent ring-offset-transparent"
+                  className="shadow text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent"
                 />
               </FormControl>
               <FormMessage className="text-xs" />
@@ -340,7 +347,6 @@ export default function Field(props: FieldProps) {
       body = (
         <FormField
           name={props.name}
-          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -363,7 +369,6 @@ export default function Field(props: FieldProps) {
       body = (
         <FormField
           name={props.name}
-          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -383,7 +388,6 @@ export default function Field(props: FieldProps) {
       body = (
         <FormField
           name={props.name}
-          control={form.control}
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -405,15 +409,24 @@ export default function Field(props: FieldProps) {
         <div className="grid grid-cols-12 md:grid-cols-3 gap-0">
           <FormField
             name={props.name}
-            control={form.control}
             render={({ field }) => (
               <FormItem className="col-span-8 md:col-span-2">
                 <FormControl>
-                  <Select
+                  <AutoComplete
+                    onChange={(value) => {
+                      handleChange(value, field);
+                    }}
+                    selectedOption={field.value}
+                    options={options}
+                    placeholder=""
+                    showSearch={false}
+                    className="text-muted-foreground bg-background text-md  rounded-none rounded-ss-sm rounded-es-sm h-8 ring-transparent ring-offset-transparent shadow"
+                  />
+                  {/* <Select
                     onValueChange={(value) => {
                       handleChange(value, field);
                     }}
-                    value={field.value}
+                    value={field.value || ''}
                   >
                     <SelectTrigger className="text-muted-foreground bg-background text-md  rounded-none rounded-ss-sm rounded-es-sm h-8 ring-transparent ring-offset-transparent shadow">
                       <SelectValue />
@@ -435,7 +448,7 @@ export default function Field(props: FieldProps) {
                         }
                       })}
                     </SelectContent>
-                  </Select>
+                  </Select> */}
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>
@@ -443,7 +456,6 @@ export default function Field(props: FieldProps) {
           />
           <FormField
             name={`${props.currencyFieldName}`}
-            control={form.control}
             render={({ field }) => (
               <FormItem className="col-span-4 md:col-span-1">
                 <FormControl>

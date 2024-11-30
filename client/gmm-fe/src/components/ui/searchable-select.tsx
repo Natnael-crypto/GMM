@@ -24,6 +24,7 @@ export interface AutoCompleteProps {
   onChange?: (value: string) => void;
   selectedOption?: string;
   extend?: boolean;
+  showSearch?: boolean;
 }
 
 export default function AutoComplete({
@@ -33,6 +34,7 @@ export default function AutoComplete({
   selectedOption,
   onChange,
   extend,
+  showSearch = true,
 }: AutoCompleteProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
@@ -89,13 +91,15 @@ export default function AutoComplete({
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <div className="flex flex-col gap-4">
-              <Input
-                type="search"
-                placeholder="Search options..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full"
-              />
+              {showSearch && (
+                <Input
+                  type="search"
+                  placeholder="Search options..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full"
+                />
+              )}
               <div className="flex flex-col max-h-56 overflow-auto">
                 {filteredOptions.map((option) => (
                   <div

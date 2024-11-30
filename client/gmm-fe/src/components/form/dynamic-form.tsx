@@ -5,9 +5,11 @@ import { Form } from '@/components/ui/form';
 import Field from '@/components/dashboard/profile/field';
 import { useSubmitFormMutation } from '@/lib/form/api';
 import { useAppSelector } from '@/lib/hooks';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { evaluateRuleTree } from '@/lib/form/rule-evalutator';
 import { useDebouncedCallback } from 'use-debounce';
+import { useUpdateProfileContext } from '../dashboard/profile/update-profile-context';
+import { usePathname } from '@/lib/navigation';
 
 const transform = (answers: any) => {
   const data: any = {};
@@ -48,42 +50,46 @@ export default function DynamicForm({
   const form = useForm();
   const user = useAppSelector((state) => state.auth.user);
 
-  const fields = (formSchema ? [...formSchema.fields] : []).sort(
-    (a: any, b: any) => a.order - b.order
-  );
+  const { fieldIdNameMap, groupedFields, currencyFields }: any = useMemo(() => {
+    const fields = (formSchema ? [...formSchema.fields] : []).sort(
+      (a: any, b: any) => a.order - b.order
+    );
 
-  const fieldIdNameMap: Record<string, string> = {};
-  fields.forEach((field: any) => {
-    fieldIdNameMap[field.id as string] = field.name;
-    fieldIdNameMap[field.name as string] = field.id;
-  });
+    const fieldIdNameMap: Record<string, string> = {};
+    fields.forEach((field: any) => {
+      fieldIdNameMap[field.id as string] = field.name;
+      fieldIdNameMap[field.name as string] = field.id;
+    });
 
-  const groupedFields: any = [];
-  let lastSection = '';
+    const groupedFields: any = [];
+    let lastSection = '';
 
-  // amount field id: currency field id
-  const currencyFields: Record<string, string> = {};
+    // amount field id: currency field id
+    const currencyFields: Record<string, string> = {};
 
-  fields.forEach((field) => {
-    if (field.section !== lastSection) {
-      lastSection = field.section;
-      groupedFields.push([]);
-    }
+    fields.forEach((field) => {
+      if (field.section !== lastSection) {
+        lastSection = field.section;
+        groupedFields.push([]);
+      }
 
-    if (field.type === 'with_currency') {
-      const currencyFieldName = fields.find(
-        (f) => f.name === field.name + '_currency'
-      ).id;
-      currencyFields[field.id] = currencyFieldName;
-    }
+      if (field.type === 'with_currency') {
+        const currencyFieldName = fields.find(
+          (f) => f.name === field.name + '_currency'
+        ).id;
+        currencyFields[field.id] = currencyFieldName;
+      }
 
-    const lastGroup = groupedFields[groupedFields.length - 1];
-    if (lastGroup) {
-      lastGroup.push(field);
-    } else {
-      groupedFields.push([field]);
-    }
-  });
+      const lastGroup = groupedFields[groupedFields.length - 1];
+      if (lastGroup) {
+        lastGroup.push(field);
+      } else {
+        groupedFields.push([field]);
+      }
+    });
+
+    return { fieldIdNameMap, groupedFields, currencyFields };
+  }, [formSchema]);
 
   const [submitForm, submitFormResult] = useSubmitFormMutation();
 
@@ -98,10 +104,9 @@ export default function DynamicForm({
       submitForm({ slug: formSchema.slug, data, userId: user.id });
     }
   };
+
   const debouncedSubmit = useDebouncedCallback(onSubmit, 1000);
-
   const values = form.watch();
-
   const remappedValue: any = {};
 
   for (const key in values) {
@@ -111,6 +116,18 @@ export default function DynamicForm({
   for (const key in user) {
     remappedValue[`user.${key}`] = user[key as keyof typeof user];
   }
+
+  const formRef = useRef<HTMLFormElement>(null);
+  const { registerForm, setSaving } = useUpdateProfileContext();
+  useEffect(() => {
+    if (formRef && formRef.current) {
+      registerForm('form', formRef.current);
+    }
+  }, [formRef, registerForm]);
+
+  useEffect(() => {
+    setSaving(submitFormResult.isLoading);
+  }, [submitFormResult, setSaving]);
 
   return (
     <div className="py-8 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem]">
@@ -126,6 +143,7 @@ export default function DynamicForm({
 
       <Form {...form}>
         <form
+          ref={formRef}
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid grid-cols-12 gap-x-3 gap-y-4 py-5"
         >
