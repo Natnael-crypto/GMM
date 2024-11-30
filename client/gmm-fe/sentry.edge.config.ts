@@ -3,16 +3,16 @@
 // Note that this config is unrelated to the Vercel Edge Runtime and is also required when running locally.
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
-import * as Sentry from '@sentry/nextjs';
+// import * as Sentry from '@sentry/nextjs';
 
-Sentry.init({
-  dsn: 'https://546467e1d5f7402b808959f9b784e047@glitchtip.guardianmuslimmarriage.com/1',
+// Sentry.init({
+//   dsn: 'https://546467e1d5f7402b808959f9b784e047@glitchtip.guardianmuslimmarriage.com/1',
 
-  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-  tracesSampleRate: 1,
+//   // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
+//   tracesSampleRate: 1,
 
-  // Setting this option to true will print useful information to the console while you're setting up Sentry.
-  debug: false,
+//   // Setting this option to true will print useful information to the console while you're setting up Sentry.
+//   debug: false,
 
-  enabled: !process.env.SENTRY_DISABLED,
-});
+//   enabled: !process.env.SENTRY_DISABLED,
+// });
