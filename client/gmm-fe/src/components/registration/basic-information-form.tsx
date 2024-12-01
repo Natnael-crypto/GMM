@@ -50,6 +50,7 @@ import { getEighteenYearsAgo } from '@/lib/format';
 import { FamilyIntroduction } from '@/lib/schemas/family-introduction';
 import flags from 'react-phone-number-input/flags';
 import { isValidPhoneNumber } from 'react-phone-number-input';
+import CountrySelector from '../ui/country-selector';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -95,7 +96,7 @@ export default function BasicInformationForm({
       drinks: user?.drinks ?? false,
       drugs: user?.drugs ?? false,
       smokes: user?.smokes ?? false,
-      tattoos: user?.tattoos ?? "None",
+      tattoos: user?.tattoos ?? 'None',
       email: user?.email ?? '',
       maritalStatus: user?.maritalStatus ?? '',
       pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
@@ -156,7 +157,7 @@ export default function BasicInformationForm({
         drinks: user?.drinks ?? false,
         drugs: user?.drugs ?? false,
         smokes: user?.smokes ?? false,
-        tattoos: user?.tattoos ?? "None",
+        tattoos: user?.tattoos ?? 'None',
         email: user?.email ?? '',
         maritalStatus: user?.maritalStatus ?? '',
         bornOrRevertToIslam: user.bornOrRevertToIslam ?? '',
@@ -558,7 +559,11 @@ export default function BasicInformationForm({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <AutoComplete
+                        <CountrySelector
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                        {/* <AutoComplete
                           onChange={field.onChange}
                           selectedOption={field.value}
                           options={countryOptions.map((c) => {
@@ -578,7 +583,7 @@ export default function BasicInformationForm({
                           })}
                           placeholder=""
                           className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
-                        />
+                        /> */}
                       </FormControl>
                       <FormMessage className="text-md" />
                     </FormItem>
@@ -1129,7 +1134,6 @@ export default function BasicInformationForm({
                     </FormItem>
                   )}
                 />
-
               </div>
             </div>
           </div>

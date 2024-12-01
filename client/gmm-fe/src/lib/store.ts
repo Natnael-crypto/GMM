@@ -12,6 +12,7 @@ import { matchApi } from './matchmaking/api';
 import { chatApi } from './chat/api';
 import { guardianApi } from './guardian/api';
 import { formApi } from './form/api';
+import { locationApi } from './location/api';
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -25,6 +26,7 @@ const reducer = combineReducers({
   [chatApi.reducerPath]: chatApi.reducer,
   [guardianApi.reducerPath]: guardianApi.reducer,
   [formApi.reducerPath]: formApi.reducer,
+  [locationApi.reducerPath]: locationApi.reducer,
 });
 
 export const makeStore = () => {
@@ -38,7 +40,8 @@ export const makeStore = () => {
         matchApi.middleware,
         chatApi.middleware,
         guardianApi.middleware,
-        formApi.middleware
+        formApi.middleware,
+        locationApi.middleware
       ),
   });
 };
