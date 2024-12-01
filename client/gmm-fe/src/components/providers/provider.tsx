@@ -5,6 +5,8 @@ import { Provider } from 'react-redux';
 import { makeStore, AppStore } from '@/lib/store';
 import AuthProvider from './auth-provider';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV3';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const storeRef = useRef<AppStore>();
@@ -16,7 +18,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <Provider store={storeRef.current}>
-      <AuthProvider>{children}</AuthProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <AuthProvider>{children}</AuthProvider>
+      </LocalizationProvider>
     </Provider>
   );
 }

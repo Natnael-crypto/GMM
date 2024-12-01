@@ -49,18 +49,8 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { getEighteenYearsAgo } from '@/lib/format';
 import flags from 'react-phone-number-input/flags';
-
-const countryOptions = Object.keys(countries).map((country) => ({
-  label: country,
-  value: country,
-}));
-
-const cityOptions = Object.keys(countries).flatMap((country) =>
-  countries[country].map((city) => ({
-    label: `${city}, ${country}`,
-    value: `${city}, ${country}`,
-  }))
-);
+import CountrySelector from '@/components/ui/country-selector';
+import CitySelector from '@/components/ui/city-selector';
 
 export default function BasicInformationForm() {
   const user = useAppSelector((state) => state.auth.user);
@@ -407,21 +397,9 @@ export default function BasicInformationForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <AutoComplete
+                    <CountrySelector
+                      value={field.value}
                       onChange={field.onChange}
-                      selectedOption={field.value}
-                      options={countryOptions.map((c) => {
-                        const countryCode = countryToCountryCode[c.value];
-                        const Flag = flags[countryCode as keyof typeof flags];
-                        const icon = (
-                          <div className="w-5">
-                            {Flag && <Flag title={c.label} />}
-                          </div>
-                        );
-                        return { label: c.label, value: c.value, icon: icon };
-                      })}
-                      placeholder=""
-                      className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                     />
                   </FormControl>
                   <FormMessage className="text-md" />
@@ -484,21 +462,9 @@ export default function BasicInformationForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <AutoComplete
+                    <CountrySelector
+                      value={field.value}
                       onChange={field.onChange}
-                      selectedOption={field.value}
-                      options={countryOptions.map((c) => {
-                        const countryCode = countryToCountryCode[c.value];
-                        const Flag = flags[countryCode as keyof typeof flags];
-                        const icon = (
-                          <div className="w-5">
-                            {Flag && <Flag title={c.label} />}
-                          </div>
-                        );
-                        return { label: c.label, value: c.value, icon: icon };
-                      })}
-                      placeholder=""
-                      className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                     />
                   </FormControl>
                   <FormMessage className="text-md" />
@@ -514,12 +480,10 @@ export default function BasicInformationForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <AutoComplete
+                    <CitySelector
+                      value={field.value}
                       onChange={field.onChange}
-                      selectedOption={field.value}
-                      options={cityOptions}
-                      placeholder=""
-                      className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                      country={form.watch('nationality')}
                     />
                   </FormControl>
                   <FormMessage className="text-md" />
@@ -902,16 +866,28 @@ export default function BasicInformationForm() {
                         <SelectItem className="text-sm max-w-80" value="None">
                           None
                         </SelectItem>
-                        <SelectItem className="text-sm max-w-80" value="Minimal, not visible">
+                        <SelectItem
+                          className="text-sm max-w-80"
+                          value="Minimal, not visible"
+                        >
                           Minimal, not visible
                         </SelectItem>
-                        <SelectItem className="text-sm max-w-80" value="Small, visible or concealed">
+                        <SelectItem
+                          className="text-sm max-w-80"
+                          value="Small, visible or concealed"
+                        >
                           Small, visible or concealed
                         </SelectItem>
-                        <SelectItem className="text-sm max-w-80" value="Large or multiple tattoos">
+                        <SelectItem
+                          className="text-sm max-w-80"
+                          value="Large or multiple tattoos"
+                        >
                           Large or multiple tattoos
                         </SelectItem>
-                        <SelectItem className="text-sm max-w-80" value="Doesn’t matter">
+                        <SelectItem
+                          className="text-sm max-w-80"
+                          value="Doesn’t matter"
+                        >
                           Doesn’t matter
                         </SelectItem>
                       </SelectContent>
@@ -919,7 +895,6 @@ export default function BasicInformationForm() {
                   </FormControl>
                   <FormMessage className="text-md" />
                 </FormItem>
-
               )}
             />
           </div>

@@ -22,29 +22,57 @@ import { AnimatePresence, motion } from 'framer-motion';
 import ProfileCardSkeleton from './skeletons/profile-card-skeleton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AccountStatus } from '@/lib/schemas/user';
+import { useUserData } from '@/lib/hooks/use-user-data';
 
 export default function ProfileCompletionCard() {
   const user = useAppSelector((state) => state.auth.user);
-  const {
-    data: worldlyLifestyle,
-    isLoading: isWorldlyLifestyleLoading,
-    isError: isWorldlyLifestyleError,
-  } = useGetWorldlyLifestyleQuery(user?.id ?? '', { skip: !user });
-  const {
-    data: islamicLifestyle,
-    isLoading: isIslamicLifestyleLoading,
-    isError: isIslamicLifestyleError,
-  } = useGetIslamicLifestyleQuery(user?.id ?? '', { skip: !user });
-  const {
-    data: marriageDiscussion,
-    isLoading: isMarriageDiscussionLoading,
-    isError: isMarriageDiscussionError,
-  } = useGetMarriageDiscussionQuery(user?.id ?? '', { skip: !user });
   const {
     data: familyIntroduction,
     isLoading: isFamilyIntroductionLoading,
     isError: isFamilyIntroductionError,
   } = useGetFamilyIntroductionQuery(user?.id ?? '', { skip: !user });
+
+  const {
+    form: worldlyLifestyleForm,
+    formData: worldlyLifestyleData,
+    isFormLoading: isWFLoading,
+    isDataLoading: isWDLoading,
+  } = useUserData(user, 'worldly-lifestyle');
+  const {
+    form: expectedWorldlyLifestyleForm,
+    formData: expectedWorldlyLifestyleData,
+    isFormLoading: isEWFLoading,
+    isDataLoading: isEWDLoading,
+  } = useUserData(
+    user,
+    user?.gender === 'Male'
+      ? 'male-expected-worldly-lifestyle'
+      : 'female-expected-worldly-lifestyle'
+  );
+  const {
+    form: islamicLifestyleForm,
+    formData: islamicLifestyleData,
+    isFormLoading: isIslamicLifestyleFormLoading,
+    isDataLoading: isIslamicLifestyleDataLoading,
+  } = useUserData(user, 'islamic-lifestyle');
+  const {
+    form: expectedIslamicLifestyleForm,
+    formData: expectedIslamicLifestyleData,
+    isFormLoading: isExpectedIslamicLifestyleFormLoading,
+    isDataLoading: isExpectedIslamicLifestyleDataLoading,
+  } = useUserData(
+    user,
+    user?.gender === 'Male'
+      ? 'male-expected-islamic-lifestyle'
+      : 'female-expected-islamic-lifestyle'
+  );
+
+  const {
+    form: marriageDiscussionForm,
+    formData: marriageDiscussionData,
+    isFormLoading: isMarriageDiscussionFormLoading,
+    isDataLoading: isMarriageDiscussionDataLoading,
+  } = useUserData(user, 'marriage-discussion');
 
   const completion = [
     {
@@ -56,24 +84,51 @@ export default function ProfileCompletionCard() {
     },
     {
       criteria: 'Worldly Lifestyle',
-      loading: isWorldlyLifestyleLoading,
-      error: isWorldlyLifestyleError,
-      source: worldlyLifestyle,
-      progressCalc: worldlyLifestyleCompletion,
+      loading: isWDLoading || isWFLoading || isEWDLoading || isEWFLoading,
+      error: false,
+      source: worldlyLifestyleData,
+      progressCalc: (source: any) => {
+        const filled =
+          (worldlyLifestyleData?.length ?? 0) +
+          (expectedWorldlyLifestyleData?.length ?? 0);
+        const total =
+          (worldlyLifestyleForm?.fields.length ?? 1) +
+          (expectedWorldlyLifestyleForm?.fields.length ?? 1);
+
+        return Math.trunc((filled / total) * 100);
+      },
     },
     {
       criteria: 'Islamic Lifestyle',
-      loading: isIslamicLifestyleLoading,
-      error: isIslamicLifestyleError,
-      source: islamicLifestyle,
-      progressCalc: islamicLifestyleCompletion,
+      loading:
+        isIslamicLifestyleDataLoading ||
+        isIslamicLifestyleFormLoading ||
+        isExpectedIslamicLifestyleFormLoading ||
+        isExpectedIslamicLifestyleDataLoading,
+      error: false,
+      source: islamicLifestyleData,
+      progressCalc: (source: any) => {
+        const filled =
+          (islamicLifestyleData?.length ?? 0) +
+          (expectedIslamicLifestyleData?.length ?? 0);
+        const total =
+          (islamicLifestyleForm?.fields.length ?? 1) +
+          (expectedIslamicLifestyleForm?.fields.length ?? 1);
+        return Math.trunc((filled / total) * 100);
+      },
     },
     {
       criteria: 'Marriage Discussion',
-      loading: isMarriageDiscussionLoading,
-      error: isMarriageDiscussionError,
-      source: marriageDiscussion,
-      progressCalc: marriageDiscussionCompletion,
+      loading:
+        isMarriageDiscussionDataLoading || isMarriageDiscussionFormLoading,
+      error: false,
+      source: marriageDiscussionData,
+      progressCalc: (source: any) => {
+        const filled = marriageDiscussionData?.length ?? 0;
+        const total = marriageDiscussionForm?.fields.length ?? 1;
+
+        return Math.trunc((filled / total) * 100);
+      },
     },
     {
       criteria: 'Family Introduction',
