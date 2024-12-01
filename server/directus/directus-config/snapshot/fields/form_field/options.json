@@ -5,8 +5,11 @@
   "meta": {
     "collection": "form_field",
     "conditions": null,
-    "display": null,
-    "display_options": null,
+    "display": "labels",
+    "display_options": {
+      "choices": null,
+      "format": false
+    },
     "field": "options",
     "group": null,
     "hidden": false,
@@ -39,26 +42,6 @@
           "type": "string"
         },
         {
-          "field": "show",
-          "meta": {
-            "display": "formatted-value",
-            "display_options": {
-              "format": true
-            },
-            "field": "show",
-            "interface": "input-code",
-            "options": {
-              "language": "JSON",
-              "template": "{\n\t\n}"
-            },
-            "required": false,
-            "type": "text",
-            "width": "half"
-          },
-          "name": "show",
-          "type": "text"
-        },
-        {
           "field": "order",
           "meta": {
             "field": "order",
@@ -69,6 +52,26 @@
           },
           "name": "order",
           "type": "integer"
+        },
+        {
+          "field": "show",
+          "meta": {
+            "display": "formatted-value",
+            "display_options": {
+              "format": true
+            },
+            "field": "show",
+            "interface": "input-code",
+            "options": {
+              "language": "JSON",
+              "template": "{\n\t\"field\": \"\",\n    \"operator\": \"\",\n    \"value\": \"\"\n}"
+            },
+            "required": false,
+            "type": "json",
+            "width": "half"
+          },
+          "name": "show",
+          "type": "json"
         }
       ],
       "sort": "order",

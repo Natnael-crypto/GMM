@@ -267,10 +267,10 @@ type Subscription {
   user_optional_verifiable_mutated(event: EventEnum): user_optional_verifiable_mutated
   preference_mutated(event: EventEnum): preference_mutated
   form_submission_mutated(event: EventEnum): form_submission_mutated
-  form_mutated(event: EventEnum): form_mutated
   user_mutated(event: EventEnum): user_mutated
   form_field_answer_mutated(event: EventEnum): form_field_answer_mutated
   directus_folders_mutated(event: EventEnum): directus_folders_mutated
+  form_mutated(event: EventEnum): form_mutated
   directus_activity_mutated(event: EventEnum): directus_activity_mutated
   directus_files_mutated(event: EventEnum): directus_files_mutated
   directus_roles_mutated(event: EventEnum): directus_roles_mutated
@@ -293,6 +293,8 @@ type Subscription {
   directus_access_mutated(event: EventEnum): directus_access_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
+  blog_mutated(event: EventEnum): blog_mutated
+  category_mutated(event: EventEnum): category_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -373,6 +375,43 @@ type auth_tokens {
   access_token: String
   expires: GraphQLBigInt
   refresh_token: String
+}
+
+type blog {
+  createdAt: Date
+  createdAt_func: datetime_functions
+  updatedAt: Date
+  updatedAt_func: datetime_functions
+  slug: ID!
+  title: String!
+  excerpt: String
+  status: String
+  tags: String
+  authors: String
+  content: String
+  thumbnail: String
+}
+
+type blog_mutated {
+  key: ID!
+  event: EventEnum
+  data: blog
+}
+
+type category {
+  createdAt: Date
+  createdAt_func: datetime_functions
+  updatedAt: Date
+  updatedAt_func: datetime_functions
+  id: ID!
+  name: String!
+  description: String!
+}
+
+type category_mutated {
+  key: ID!
+  event: EventEnum
+  data: category
 }
 
 type count_functions {
@@ -1726,6 +1765,8 @@ type form {
   slug: ID!
   title: String
   description: String
+  displayTemplate: JSON
+  displayTemplate_func: count_functions
   fields(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_field]
   fields_func: count_functions
 }
@@ -1737,7 +1778,6 @@ type form_field {
   placeholder: String
   options: JSON
   options_func: count_functions
-  show: String
   displayWidth: String
   defaultValue: String
   minValue: String
@@ -1750,6 +1790,8 @@ type form_field {
   order: Int
   section: String
   label: String!
+  show: JSON
+  show_func: count_functions
 }
 
 type form_field_answer {
@@ -1977,7 +2019,6 @@ type preference {
   maxWeight: Int
   drinking: Boolean
   smoking: Boolean
-  tattoos: Boolean
   nationality: String
   language: String
   country: String
@@ -1990,6 +2031,9 @@ type preference {
   education: String
   profession: String
   minMatchRequirement: Float
+  tattoos: String
+  city: String
+  numberOfChildren: String
 }
 
 type preference_mutated {
@@ -2142,12 +2186,13 @@ type user {
   drinks: Boolean
   drugs: Boolean
   smokes: Boolean
-  tattoos: Boolean
   guardianId(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): user
   createdAt: Date
   createdAt_func: datetime_functions
   stripeCustomerId: String
   roleId(filter: role_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): role
+
+  """Incomplete Registration | Pending | Approved | Suspended"""
   accountStatus: String
   verificationStatus: String
   salat: String
@@ -2156,6 +2201,7 @@ type user {
   wantsChildren: String
   education: String
   profession: String
+  tattoos: String
 }
 
 type user_family_information {
@@ -3086,7 +3132,6 @@ input form_field_filter {
   placeholder: string_filter_operators
   options: string_filter_operators
   options_func: count_function_filter_operators
-  show: string_filter_operators
   displayWidth: string_filter_operators
   defaultValue: string_filter_operators
   minValue: string_filter_operators
@@ -3099,6 +3144,8 @@ input form_field_filter {
   order: number_filter_operators
   section: string_filter_operators
   label: string_filter_operators
+  show: string_filter_operators
+  show_func: count_function_filter_operators
   _and: [form_field_filter]
   _or: [form_field_filter]
 }
@@ -3111,6 +3158,8 @@ input form_filter {
   slug: string_filter_operators
   title: string_filter_operators
   description: string_filter_operators
+  displayTemplate: string_filter_operators
+  displayTemplate_func: count_function_filter_operators
   fields: form_field_filter
   fields_func: count_function_filter_operators
   _and: [form_filter]
@@ -3559,7 +3608,6 @@ input user_filter {
   drinks: boolean_filter_operators
   drugs: boolean_filter_operators
   smokes: boolean_filter_operators
-  tattoos: boolean_filter_operators
   guardianId: user_filter
   createdAt: date_filter_operators
   createdAt_func: datetime_function_filter_operators
@@ -3573,6 +3621,7 @@ input user_filter {
   wantsChildren: string_filter_operators
   education: string_filter_operators
   profession: string_filter_operators
+  tattoos: string_filter_operators
   _and: [user_filter]
   _or: [user_filter]
 }

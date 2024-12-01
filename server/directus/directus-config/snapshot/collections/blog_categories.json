@@ -1,0 +1,7 @@
+{
+  "collection": "blog_categories",
+  "meta": null,
+  "schema": {
+    "name": "blog_categories"
+  }
+}

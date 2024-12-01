@@ -18,6 +18,7 @@ import { LoggerMiddleware } from '@shared/utils/logger';
 import { TypeOrmConfigService } from '@shared/database/typeorm.service';
 import { FormModule } from '@modules/form/form.module';
 import { BlogModule } from '@modules/blog/blog.module';
+import { LocationModule } from '@modules/location/location.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { BlogModule } from '@modules/blog/blog.module';
     ChatModule,
     FormModule,
     BlogModule,
+    LocationModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatWebsocketGateway],

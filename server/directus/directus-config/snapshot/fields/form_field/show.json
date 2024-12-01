@@ -1,7 +1,7 @@
 {
   "collection": "form_field",
   "field": "show",
-  "type": "string",
+  "type": "json",
   "meta": {
     "collection": "form_field",
     "conditions": null,
@@ -30,9 +30,9 @@
   "schema": {
     "name": "show",
     "table": "form_field",
-    "data_type": "character varying",
-    "default_value": "true",
-    "max_length": -5,
+    "data_type": "jsonb",
+    "default_value": null,
+    "max_length": null,
     "numeric_precision": null,
     "numeric_scale": null,
     "is_nullable": true,

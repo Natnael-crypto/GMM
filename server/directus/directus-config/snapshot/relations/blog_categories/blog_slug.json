@@ -1,0 +1,15 @@
+{
+  "collection": "blog_categories",
+  "field": "blog_slug",
+  "related_collection": "blog",
+  "meta": null,
+  "schema": {
+    "table": "blog_categories",
+    "column": "blog_slug",
+    "foreign_key_table": "blog",
+    "foreign_key_column": "slug",
+    "constraint_name": "FK_a2d98bdf687fcbd30c3efe8db36",
+    "on_update": "CASCADE",
+    "on_delete": "CASCADE"
+  }
+}

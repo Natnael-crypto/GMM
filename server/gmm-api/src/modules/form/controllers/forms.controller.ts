@@ -6,14 +6,11 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
-  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { FormService } from '../services/form.service';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
-import { Request } from 'express';
-import { User } from '@modules/user/entities/user.entity';
 
 @ApiTags('forms')
 @ApiBearerAuth()
