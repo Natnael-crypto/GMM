@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -13,7 +12,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
 import ExternalAuthenticator from '@/components/auth/external-authenticator';
 import OrSeparator from '@/components/auth/or-separator';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -31,14 +29,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Calendar } from '@/components/ui/calendar';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { CalendarIcon } from 'lucide-react';
+
 import { getEighteenYearsAgo } from '@/lib/format';
+import { DatePicker } from '@mui/x-date-pickers';
+import { makeStyles } from '@mui/material';
 
 export function SignUpForm() {
   const { replace } = useRouter();
@@ -190,7 +184,30 @@ export function SignUpForm() {
             name="dateOfBirth"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
+                <DatePicker
+                  label={'Date of Birth'}
+                  views={['year', 'month', 'day']}
+                  value={field.value}
+                  onChange={field.onChange}
+                  maxDate={getEighteenYearsAgo()}
+                  slotProps={{
+                    day: {
+                      sx: {
+                        '&.MuiPickersDay-root.Mui-selected': {
+                          backgroundColor: '#197149',
+                        },
+                      },
+                    },
+                    desktopPaper: {
+                      sx: {
+                        '.MuiPickersYear-yearButton.Mui-selected': {
+                          backgroundColor: '#197149',
+                        },
+                      },
+                    },
+                  }}
+                />
+                {/* <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
@@ -246,7 +263,7 @@ export function SignUpForm() {
                       />
                     </div>
                   </PopoverContent>
-                </Popover>
+                </Popover> */}
 
                 <FormMessage className="text-md" />
               </FormItem>
@@ -279,7 +296,8 @@ export function SignUpForm() {
           />
 
           <div className="text-sm pt-2 pb-3 text-center">
-            Fields Must Be Accurate and Cannot Be Updated After Sign up. Please Verify All Details Are Accurate. 
+            Fields Must Be Accurate and Cannot Be Updated After Sign up. Please
+            Verify All Details Are Accurate.
           </div>
 
           <FormField
@@ -335,7 +353,7 @@ export function SignUpForm() {
                     <Link
                       href="/terms"
                       className="text-sm text-primary font-semibold"
-                      target='_blank'
+                      target="_blank"
                     >
                       terms and conditions
                     </Link>

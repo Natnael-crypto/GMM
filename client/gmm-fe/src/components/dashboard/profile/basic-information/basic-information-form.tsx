@@ -52,18 +52,6 @@ import flags from 'react-phone-number-input/flags';
 import CountrySelector from '@/components/ui/country-selector';
 import CitySelector from '@/components/ui/city-selector';
 
-const countryOptions = Object.keys(countries).map((country) => ({
-  label: country,
-  value: country,
-}));
-
-const cityOptions = Object.keys(countries).flatMap((country) =>
-  countries[country].map((city) => ({
-    label: `${city}, ${country}`,
-    value: `${city}, ${country}`,
-  }))
-);
-
 export default function BasicInformationForm() {
   const user = useAppSelector((state) => state.auth.user);
   const form = useForm<UserBasicInformation>({
@@ -413,23 +401,6 @@ export default function BasicInformationForm() {
                       value={field.value}
                       onChange={field.onChange}
                     />
-
-                    {/* <AutoComplete
-                      onChange={field.onChange}
-                      selectedOption={field.value}
-                      options={countryOptions.map((c) => {
-                        const countryCode = countryToCountryCode[c.value];
-                        const Flag = flags[countryCode as keyof typeof flags];
-                        const icon = (
-                          <div className="w-5">
-                            {Flag && <Flag title={c.label} />}
-                          </div>
-                        );
-                        return { label: c.label, value: c.value, icon: icon };
-                      })}
-                      placeholder=""
-                      className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
-                    /> */}
                   </FormControl>
                   <FormMessage className="text-md" />
                 </FormItem>
@@ -491,21 +462,9 @@ export default function BasicInformationForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <AutoComplete
+                    <CountrySelector
+                      value={field.value}
                       onChange={field.onChange}
-                      selectedOption={field.value}
-                      options={countryOptions.map((c) => {
-                        const countryCode = countryToCountryCode[c.value];
-                        const Flag = flags[countryCode as keyof typeof flags];
-                        const icon = (
-                          <div className="w-5">
-                            {Flag && <Flag title={c.label} />}
-                          </div>
-                        );
-                        return { label: c.label, value: c.value, icon: icon };
-                      })}
-                      placeholder=""
-                      className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                     />
                   </FormControl>
                   <FormMessage className="text-md" />
@@ -524,15 +483,8 @@ export default function BasicInformationForm() {
                     <CitySelector
                       value={field.value}
                       onChange={field.onChange}
-                      country={form.watch('country')}
+                      country={form.watch('nationality')}
                     />
-                    {/* <AutoComplete
-                      onChange={field.onChange}
-                      selectedOption={field.value}
-                      options={cityOptions}
-                      placeholder=""
-                      className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
-                    /> */}
                   </FormControl>
                   <FormMessage className="text-md" />
                 </FormItem>

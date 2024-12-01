@@ -38,7 +38,6 @@ import PhotoUploader from '@/components/registration/photo-uploader';
 import VideoUploader from '@/components/registration/video-uploader';
 import FamilyIntroductionForm from '@/components/registration/family-form';
 import ChildrenStatus from './children-status';
-import AutoComplete from '../ui/searchable-select';
 import { useRouter } from '@/lib/navigation';
 import { Calendar } from '../ui/calendar';
 import { CalendarIcon } from 'lucide-react';
@@ -48,9 +47,9 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { getEighteenYearsAgo } from '@/lib/format';
 import { FamilyIntroduction } from '@/lib/schemas/family-introduction';
-import flags from 'react-phone-number-input/flags';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import CountrySelector from '../ui/country-selector';
+import CitySelector from '../ui/city-selector';
 
 const countryOptions = Object.keys(countries).map((country) => ({
   label: country,
@@ -645,26 +644,9 @@ export default function BasicInformationForm({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <AutoComplete
+                        <CountrySelector
+                          value={field.value}
                           onChange={field.onChange}
-                          selectedOption={field.value}
-                          options={countryOptions.map((c) => {
-                            const countryCode = countryToCountryCode[c.value];
-                            const Flag =
-                              flags[countryCode as keyof typeof flags];
-                            const icon = (
-                              <div className="w-5">
-                                {Flag && <Flag title={c.label} />}
-                              </div>
-                            );
-                            return {
-                              label: c.label,
-                              value: c.value,
-                              icon: icon,
-                            };
-                          })}
-                          placeholder=""
-                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                         />
                       </FormControl>
                       <FormMessage className="text-md" />
@@ -680,19 +662,10 @@ export default function BasicInformationForm({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <AutoComplete
+                        <CitySelector
+                          value={field.value}
                           onChange={field.onChange}
-                          selectedOption={field.value}
-                          options={
-                            countries[form.watch('nationality')]?.map(
-                              (city) => ({
-                                label: `${city}, ${form.watch('nationality')}`,
-                                value: `${city}, ${form.watch('nationality')}`,
-                              })
-                            ) ?? []
-                          }
-                          placeholder=""
-                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                          country={form.watch('nationality')}
                         />
                       </FormControl>
                       <FormMessage className="text-md" />
