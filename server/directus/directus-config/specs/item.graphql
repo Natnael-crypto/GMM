@@ -91,10 +91,6 @@ type Query {
   form_submission_by_id(id: ID!, version: String): form_submission
   form_submission_aggregated(groupBy: [String], filter: form_submission_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_submission_aggregated!]!
   form_submission_by_version(version: String!, id: ID!): version_form_submission
-  form(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form!]!
-  form_by_id(id: ID!, version: String): form
-  form_aggregated(groupBy: [String], filter: form_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_aggregated!]!
-  form_by_version(version: String!, id: ID!): version_form
   user(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [user!]!
   user_by_id(id: ID!, version: String): user
   user_aggregated(groupBy: [String], filter: user_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [user_aggregated!]!
@@ -103,6 +99,10 @@ type Query {
   form_field_answer_by_id(id: ID!, version: String): form_field_answer
   form_field_answer_aggregated(groupBy: [String], filter: form_field_answer_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_field_answer_aggregated!]!
   form_field_answer_by_version(version: String!, id: ID!): version_form_field_answer
+  form(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form!]!
+  form_by_id(id: ID!, version: String): form
+  form_aggregated(groupBy: [String], filter: form_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_aggregated!]!
+  form_by_version(version: String!, id: ID!): version_form
   form_field(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_field!]!
   form_field_by_id(id: ID!, version: String): form_field
   form_field_aggregated(groupBy: [String], filter: form_field_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [form_field_aggregated!]!
@@ -111,6 +111,14 @@ type Query {
   directus_sync_id_map_by_id(id: ID!, version: String): directus_sync_id_map
   directus_sync_id_map_aggregated(groupBy: [String], filter: directus_sync_id_map_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [directus_sync_id_map_aggregated!]!
   directus_sync_id_map_by_version(version: String!, id: ID!): version_directus_sync_id_map
+  blog(filter: blog_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [blog!]!
+  blog_by_id(id: ID!, version: String): blog
+  blog_aggregated(groupBy: [String], filter: blog_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [blog_aggregated!]!
+  blog_by_version(version: String!, id: ID!): version_blog
+  category(filter: category_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [category!]!
+  category_by_id(id: ID!, version: String): category
+  category_aggregated(groupBy: [String], filter: category_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [category_aggregated!]!
+  category_by_version(version: String!, id: ID!): version_category
 }
 
 type Mutation {
@@ -160,16 +168,20 @@ type Mutation {
   create_preference_item(data: create_preference_input!): preference
   create_form_submission_items(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_submission_input!]): [form_submission!]!
   create_form_submission_item(data: create_form_submission_input!): form_submission
-  create_form_items(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_input!]): [form!]!
-  create_form_item(data: create_form_input!): form
   create_user_items(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_user_input!]): [user!]!
   create_user_item(data: create_user_input!): user
   create_form_field_answer_items(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_field_answer_input!]): [form_field_answer!]!
   create_form_field_answer_item(data: create_form_field_answer_input!): form_field_answer
+  create_form_items(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_input!]): [form!]!
+  create_form_item(data: create_form_input!): form
   create_form_field_items(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_form_field_input!]): [form_field!]!
   create_form_field_item(data: create_form_field_input!): form_field
   create_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   create_directus_sync_id_map_item(data: create_directus_sync_id_map_input!): directus_sync_id_map
+  create_blog_items(filter: blog_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_blog_input!]): [blog!]!
+  create_blog_item(data: create_blog_input!): blog
+  create_category_items(filter: category_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_category_input!]): [category!]!
+  create_category_item(data: create_category_input!): category
   update_typeorm_migrations_items(filter: typeorm_migrations_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_typeorm_migrations_input!): [typeorm_migrations!]!
   update_typeorm_migrations_batch(filter: typeorm_migrations_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_typeorm_migrations_input!]): [typeorm_migrations!]!
   update_typeorm_migrations_item(id: ID!, data: update_typeorm_migrations_input!): typeorm_migrations
@@ -239,21 +251,27 @@ type Mutation {
   update_form_submission_items(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_submission_input!): [form_submission!]!
   update_form_submission_batch(filter: form_submission_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_submission_input!]): [form_submission!]!
   update_form_submission_item(id: ID!, data: update_form_submission_input!): form_submission
-  update_form_items(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_input!): [form!]!
-  update_form_batch(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_input!]): [form!]!
-  update_form_item(id: ID!, data: update_form_input!): form
   update_user_items(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_user_input!): [user!]!
   update_user_batch(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_user_input!]): [user!]!
   update_user_item(id: ID!, data: update_user_input!): user
   update_form_field_answer_items(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_field_answer_input!): [form_field_answer!]!
   update_form_field_answer_batch(filter: form_field_answer_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_field_answer_input!]): [form_field_answer!]!
   update_form_field_answer_item(id: ID!, data: update_form_field_answer_input!): form_field_answer
+  update_form_items(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_input!): [form!]!
+  update_form_batch(filter: form_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_input!]): [form!]!
+  update_form_item(id: ID!, data: update_form_input!): form
   update_form_field_items(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_form_field_input!): [form_field!]!
   update_form_field_batch(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_form_field_input!]): [form_field!]!
   update_form_field_item(id: ID!, data: update_form_field_input!): form_field
   update_directus_sync_id_map_items(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_directus_sync_id_map_input!): [directus_sync_id_map!]!
   update_directus_sync_id_map_batch(filter: directus_sync_id_map_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_directus_sync_id_map_input!]): [directus_sync_id_map!]!
   update_directus_sync_id_map_item(id: ID!, data: update_directus_sync_id_map_input!): directus_sync_id_map
+  update_blog_items(filter: blog_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_blog_input!): [blog!]!
+  update_blog_batch(filter: blog_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_blog_input!]): [blog!]!
+  update_blog_item(id: ID!, data: update_blog_input!): blog
+  update_category_items(filter: category_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_category_input!): [category!]!
+  update_category_batch(filter: category_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_category_input!]): [category!]!
+  update_category_item(id: ID!, data: update_category_input!): category
   delete_typeorm_migrations_items(ids: [ID]!): delete_many
   delete_typeorm_migrations_item(id: ID!): delete_one
   delete_refresh_token_items(ids: [ID]!): delete_many
@@ -300,16 +318,20 @@ type Mutation {
   delete_preference_item(id: ID!): delete_one
   delete_form_submission_items(ids: [ID]!): delete_many
   delete_form_submission_item(id: ID!): delete_one
-  delete_form_items(ids: [ID]!): delete_many
-  delete_form_item(id: ID!): delete_one
   delete_user_items(ids: [ID]!): delete_many
   delete_user_item(id: ID!): delete_one
   delete_form_field_answer_items(ids: [ID]!): delete_many
   delete_form_field_answer_item(id: ID!): delete_one
+  delete_form_items(ids: [ID]!): delete_many
+  delete_form_item(id: ID!): delete_one
   delete_form_field_items(ids: [ID]!): delete_many
   delete_form_field_item(id: ID!): delete_one
   delete_directus_sync_id_map_items(ids: [ID]!): delete_many
   delete_directus_sync_id_map_item(id: ID!): delete_one
+  delete_blog_items(ids: [ID]!): delete_many
+  delete_blog_item(id: ID!): delete_one
+  delete_category_items(ids: [ID]!): delete_many
+  delete_category_item(id: ID!): delete_one
 }
 
 type Subscription {
@@ -336,10 +358,10 @@ type Subscription {
   user_optional_verifiable_mutated(event: EventEnum): user_optional_verifiable_mutated
   preference_mutated(event: EventEnum): preference_mutated
   form_submission_mutated(event: EventEnum): form_submission_mutated
-  form_mutated(event: EventEnum): form_mutated
   user_mutated(event: EventEnum): user_mutated
   form_field_answer_mutated(event: EventEnum): form_field_answer_mutated
   directus_folders_mutated(event: EventEnum): directus_folders_mutated
+  form_mutated(event: EventEnum): form_mutated
   directus_activity_mutated(event: EventEnum): directus_activity_mutated
   directus_files_mutated(event: EventEnum): directus_files_mutated
   directus_roles_mutated(event: EventEnum): directus_roles_mutated
@@ -362,6 +384,8 @@ type Subscription {
   directus_access_mutated(event: EventEnum): directus_access_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
+  blog_mutated(event: EventEnum): blog_mutated
+  category_mutated(event: EventEnum): category_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -408,6 +432,78 @@ enum EventEnum {
   create
   update
   delete
+}
+
+type blog {
+  createdAt: Date
+  createdAt_func: datetime_functions
+  updatedAt: Date
+  updatedAt_func: datetime_functions
+  slug: ID!
+  title: String!
+  excerpt: String
+  status: String
+  tags: String
+  authors: String
+  content: String
+  thumbnail: String
+}
+
+type blog_aggregated {
+  group: JSON
+  countAll: Int
+  count: blog_aggregated_count
+  countDistinct: blog_aggregated_count
+}
+
+type blog_aggregated_count {
+  createdAt: Int
+  updatedAt: Int
+  slug: Int
+  title: Int
+  excerpt: Int
+  status: Int
+  tags: Int
+  authors: Int
+  content: Int
+  thumbnail: Int
+}
+
+type blog_mutated {
+  key: ID!
+  event: EventEnum
+  data: blog
+}
+
+type category {
+  createdAt: Date
+  createdAt_func: datetime_functions
+  updatedAt: Date
+  updatedAt_func: datetime_functions
+  id: ID!
+  name: String!
+  description: String!
+}
+
+type category_aggregated {
+  group: JSON
+  countAll: Int
+  count: category_aggregated_count
+  countDistinct: category_aggregated_count
+}
+
+type category_aggregated_count {
+  createdAt: Int
+  updatedAt: Int
+  id: Int
+  name: Int
+  description: Int
+}
+
+type category_mutated {
+  key: ID!
+  event: EventEnum
+  data: category
 }
 
 type count_functions {
@@ -1151,6 +1247,8 @@ type form {
   slug: ID!
   title: String
   description: String
+  displayTemplate: JSON
+  displayTemplate_func: count_functions
   fields(filter: form_field_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [form_field]
   fields_func: count_functions
 }
@@ -1168,6 +1266,7 @@ type form_aggregated_count {
   slug: Int
   title: Int
   description: Int
+  displayTemplate: Int
   fields: Int
 }
 
@@ -1178,7 +1277,6 @@ type form_field {
   placeholder: String
   options: JSON
   options_func: count_functions
-  show: String
   displayWidth: String
   defaultValue: String
   minValue: String
@@ -1191,6 +1289,8 @@ type form_field {
   order: Int
   section: String
   label: String!
+  show: JSON
+  show_func: count_functions
 }
 
 type form_field_aggregated {
@@ -1212,7 +1312,6 @@ type form_field_aggregated_count {
   type: Int
   placeholder: Int
   options: Int
-  show: Int
   displayWidth: Int
   defaultValue: Int
   minValue: Int
@@ -1224,6 +1323,7 @@ type form_field_aggregated_count {
   order: Int
   section: Int
   label: Int
+  show: Int
 }
 
 type form_field_aggregated_fields {
@@ -1643,7 +1743,6 @@ type preference {
   maxWeight: Int
   drinking: Boolean
   smoking: Boolean
-  tattoos: Boolean
   nationality: String
   language: String
   country: String
@@ -1656,6 +1755,9 @@ type preference {
   education: String
   profession: String
   minMatchRequirement: Float
+  tattoos: String
+  city: String
+  numberOfChildren: String
 }
 
 type preference_aggregated {
@@ -1681,7 +1783,6 @@ type preference_aggregated_count {
   maxWeight: Int
   drinking: Int
   smoking: Int
-  tattoos: Int
   nationality: Int
   language: Int
   country: Int
@@ -1694,6 +1795,9 @@ type preference_aggregated_count {
   education: Int
   profession: Int
   minMatchRequirement: Int
+  tattoos: Int
+  city: Int
+  numberOfChildren: Int
 }
 
 type preference_aggregated_fields {
@@ -1918,12 +2022,13 @@ type user {
   drinks: Boolean
   drugs: Boolean
   smokes: Boolean
-  tattoos: Boolean
   guardianId(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): user
   createdAt: Date
   createdAt_func: datetime_functions
   stripeCustomerId: String
   roleId(filter: role_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): role
+
+  """Incomplete Registration | Pending | Approved | Suspended"""
   accountStatus: String
   verificationStatus: String
   salat: String
@@ -1932,6 +2037,7 @@ type user {
   wantsChildren: String
   education: String
   profession: String
+  tattoos: String
 }
 
 type user_aggregated {
@@ -1977,11 +2083,12 @@ type user_aggregated_count {
   drinks: Int
   drugs: Int
   smokes: Int
-  tattoos: Int
   guardianId: Int
   createdAt: Int
   stripeCustomerId: Int
   roleId: Int
+
+  """Incomplete Registration | Pending | Approved | Suspended"""
   accountStatus: Int
   verificationStatus: Int
   salat: Int
@@ -1990,6 +2097,7 @@ type user_aggregated_count {
   wantsChildren: Int
   education: Int
   profession: Int
+  tattoos: Int
 }
 
 type user_aggregated_fields {
@@ -2196,6 +2304,29 @@ type user_worldly_lifestyle_mutated {
 }
 
 """"""
+type version_blog {
+  createdAt: Date
+  updatedAt: Date
+  slug: ID
+  title: String
+  excerpt: String
+  status: String
+  tags: String
+  authors: String
+  content: String
+  thumbnail: String
+}
+
+""""""
+type version_category {
+  createdAt: Date
+  updatedAt: Date
+  id: ID
+  name: String
+  description: String
+}
+
+""""""
 type version_directus_sync_id_map {
   id: ID
   table: String
@@ -2265,6 +2396,7 @@ type version_form {
   slug: ID
   title: String
   description: String
+  displayTemplate: JSON
   fields: JSON
 }
 
@@ -2275,7 +2407,6 @@ type version_form_field {
   type: String
   placeholder: String
   options: JSON
-  show: String
   displayWidth: String
   defaultValue: String
   minValue: String
@@ -2287,6 +2418,7 @@ type version_form_field {
   order: Int
   section: String
   label: String
+  show: JSON
 }
 
 """"""
@@ -2426,7 +2558,6 @@ type version_preference {
   maxWeight: Int
   drinking: Boolean
   smoking: Boolean
-  tattoos: Boolean
   nationality: String
   language: String
   country: String
@@ -2439,6 +2570,9 @@ type version_preference {
   education: String
   profession: String
   minMatchRequirement: Float
+  tattoos: String
+  city: String
+  numberOfChildren: String
 }
 
 """"""
@@ -2514,11 +2648,12 @@ type version_user {
   drinks: Boolean
   drugs: Boolean
   smokes: Boolean
-  tattoos: Boolean
   guardianId: JSON
   createdAt: Date
   stripeCustomerId: String
   roleId: JSON
+
+  """Incomplete Registration | Pending | Approved | Suspended"""
   accountStatus: String
   verificationStatus: String
   salat: String
@@ -2527,6 +2662,7 @@ type version_user {
   wantsChildren: String
   education: String
   profession: String
+  tattoos: String
 }
 
 """"""
@@ -2610,6 +2746,23 @@ input big_int_filter_operators {
   _nbetween: [GraphQLBigInt]
 }
 
+input blog_filter {
+  createdAt: date_filter_operators
+  createdAt_func: datetime_function_filter_operators
+  updatedAt: date_filter_operators
+  updatedAt_func: datetime_function_filter_operators
+  slug: string_filter_operators
+  title: string_filter_operators
+  excerpt: string_filter_operators
+  status: string_filter_operators
+  tags: string_filter_operators
+  authors: string_filter_operators
+  content: string_filter_operators
+  thumbnail: string_filter_operators
+  _and: [blog_filter]
+  _or: [blog_filter]
+}
+
 input boolean_filter_operators {
   _eq: Boolean
   _neq: Boolean
@@ -2617,8 +2770,41 @@ input boolean_filter_operators {
   _nnull: Boolean
 }
 
+input category_filter {
+  createdAt: date_filter_operators
+  createdAt_func: datetime_function_filter_operators
+  updatedAt: date_filter_operators
+  updatedAt_func: datetime_function_filter_operators
+  id: string_filter_operators
+  name: string_filter_operators
+  description: string_filter_operators
+  _and: [category_filter]
+  _or: [category_filter]
+}
+
 input count_function_filter_operators {
   count: number_filter_operators
+}
+
+input create_blog_input {
+  createdAt: Date
+  updatedAt: Date
+  slug: ID!
+  title: String!
+  excerpt: String
+  status: String
+  tags: String
+  authors: String
+  content: String
+  thumbnail: String
+}
+
+input create_category_input {
+  createdAt: Date
+  updatedAt: Date
+  id: ID
+  name: String!
+  description: String!
 }
 
 input create_directus_sync_id_map_input {
@@ -2693,7 +2879,6 @@ input create_form_field_input {
   type: String!
   placeholder: String
   options: JSON
-  show: String
   displayWidth: String
   defaultValue: String
   minValue: String
@@ -2705,6 +2890,7 @@ input create_form_field_input {
   order: Int
   section: String
   label: String!
+  show: JSON
 }
 
 input create_form_input {
@@ -2713,6 +2899,7 @@ input create_form_input {
   slug: ID!
   title: String
   description: String
+  displayTemplate: JSON
   fields: [create_form_field_input]
 }
 
@@ -2834,7 +3021,6 @@ input create_preference_input {
   maxWeight: Int
   drinking: Boolean
   smoking: Boolean
-  tattoos: Boolean
   nationality: String
   language: String
   country: String
@@ -2847,6 +3033,9 @@ input create_preference_input {
   education: String
   profession: String
   minMatchRequirement: Float
+  tattoos: String
+  city: String
+  numberOfChildren: String
 }
 
 input create_refresh_token_input {
@@ -2926,11 +3115,12 @@ input create_user_input {
   drinks: Boolean
   drugs: Boolean
   smokes: Boolean
-  tattoos: Boolean
   guardianId: create_user_input
   createdAt: Date
   stripeCustomerId: String
   roleId: create_role_input
+
+  """Incomplete Registration | Pending | Approved | Suspended"""
   accountStatus: String
   verificationStatus: String
   salat: String
@@ -2939,6 +3129,7 @@ input create_user_input {
   wantsChildren: String
   education: String
   profession: String
+  tattoos: String
 }
 
 input create_user_marriage_discussion_input {
@@ -3389,7 +3580,6 @@ input form_field_filter {
   placeholder: string_filter_operators
   options: string_filter_operators
   options_func: count_function_filter_operators
-  show: string_filter_operators
   displayWidth: string_filter_operators
   defaultValue: string_filter_operators
   minValue: string_filter_operators
@@ -3402,6 +3592,8 @@ input form_field_filter {
   order: number_filter_operators
   section: string_filter_operators
   label: string_filter_operators
+  show: string_filter_operators
+  show_func: count_function_filter_operators
   _and: [form_field_filter]
   _or: [form_field_filter]
 }
@@ -3414,6 +3606,8 @@ input form_filter {
   slug: string_filter_operators
   title: string_filter_operators
   description: string_filter_operators
+  displayTemplate: string_filter_operators
+  displayTemplate_func: count_function_filter_operators
   fields: form_field_filter
   fields_func: count_function_filter_operators
   _and: [form_filter]
@@ -3595,7 +3789,6 @@ input preference_filter {
   maxWeight: number_filter_operators
   drinking: boolean_filter_operators
   smoking: boolean_filter_operators
-  tattoos: boolean_filter_operators
   nationality: string_filter_operators
   language: string_filter_operators
   country: string_filter_operators
@@ -3608,6 +3801,9 @@ input preference_filter {
   education: string_filter_operators
   profession: string_filter_operators
   minMatchRequirement: number_filter_operators
+  tattoos: string_filter_operators
+  city: string_filter_operators
+  numberOfChildren: string_filter_operators
   _and: [preference_filter]
   _or: [preference_filter]
 }
@@ -3684,6 +3880,27 @@ input typeorm_migrations_filter {
   _or: [typeorm_migrations_filter]
 }
 
+input update_blog_input {
+  createdAt: Date
+  updatedAt: Date
+  slug: ID
+  title: String
+  excerpt: String
+  status: String
+  tags: String
+  authors: String
+  content: String
+  thumbnail: String
+}
+
+input update_category_input {
+  createdAt: Date
+  updatedAt: Date
+  id: ID
+  name: String
+  description: String
+}
+
 input update_directus_sync_id_map_input {
   id: ID
   table: String
@@ -3756,7 +3973,6 @@ input update_form_field_input {
   type: String
   placeholder: String
   options: JSON
-  show: String
   displayWidth: String
   defaultValue: String
   minValue: String
@@ -3768,6 +3984,7 @@ input update_form_field_input {
   order: Int
   section: String
   label: String
+  show: JSON
 }
 
 input update_form_input {
@@ -3776,6 +3993,7 @@ input update_form_input {
   slug: ID
   title: String
   description: String
+  displayTemplate: JSON
   fields: [update_form_field_input]
 }
 
@@ -3897,7 +4115,6 @@ input update_preference_input {
   maxWeight: Int
   drinking: Boolean
   smoking: Boolean
-  tattoos: Boolean
   nationality: String
   language: String
   country: String
@@ -3910,6 +4127,9 @@ input update_preference_input {
   education: String
   profession: String
   minMatchRequirement: Float
+  tattoos: String
+  city: String
+  numberOfChildren: String
 }
 
 input update_refresh_token_input {
@@ -3989,11 +4209,12 @@ input update_user_input {
   drinks: Boolean
   drugs: Boolean
   smokes: Boolean
-  tattoos: Boolean
   guardianId: update_user_input
   createdAt: Date
   stripeCustomerId: String
   roleId: update_role_input
+
+  """Incomplete Registration | Pending | Approved | Suspended"""
   accountStatus: String
   verificationStatus: String
   salat: String
@@ -4002,6 +4223,7 @@ input update_user_input {
   wantsChildren: String
   education: String
   profession: String
+  tattoos: String
 }
 
 input update_user_marriage_discussion_input {
@@ -4099,7 +4321,6 @@ input user_filter {
   drinks: boolean_filter_operators
   drugs: boolean_filter_operators
   smokes: boolean_filter_operators
-  tattoos: boolean_filter_operators
   guardianId: user_filter
   createdAt: date_filter_operators
   createdAt_func: datetime_function_filter_operators
@@ -4113,6 +4334,7 @@ input user_filter {
   wantsChildren: string_filter_operators
   education: string_filter_operators
   profession: string_filter_operators
+  tattoos: string_filter_operators
   _and: [user_filter]
   _or: [user_filter]
 }

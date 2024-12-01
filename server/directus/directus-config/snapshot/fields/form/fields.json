@@ -16,6 +16,7 @@
     "note": null,
     "options": {
       "enableLink": true,
+      "limit": 30,
       "sort": "order",
       "template": "{{label}}({{name}})"
     },

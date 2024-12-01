@@ -43,6 +43,11 @@
           "icon": "attach_money",
           "text": "Currency",
           "value": "with_currency"
+        },
+        {
+          "icon": "bluetooth_drive",
+          "text": "Vehicle",
+          "value": "vehicle_input"
         }
       ]
     },

@@ -1,7 +1,7 @@
 [
   {
     "project_name": "Guardian Muslim Marriage",
-    "project_color": "#78B72A",
+    "project_color": "#197149",
     "public_note": null,
     "auth_login_attempts": 25,
     "auth_password_policy": null,
@@ -16,7 +16,7 @@
     "default_language": "en-US",
     "custom_aspect_ratios": null,
     "default_appearance": "auto",
-    "default_theme_light": null,
+    "default_theme_light": "Directus Color Match",
     "theme_light_overrides": null,
     "default_theme_dark": null,
     "theme_dark_overrides": null,

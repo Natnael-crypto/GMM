@@ -1,0 +1,15 @@
+{
+  "collection": "blog_categories",
+  "field": "category_id",
+  "related_collection": "category",
+  "meta": null,
+  "schema": {
+    "table": "blog_categories",
+    "column": "category_id",
+    "foreign_key_table": "category",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_73cfc60ae668d6049fcb4ac1eec",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}
