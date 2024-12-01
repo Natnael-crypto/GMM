@@ -26,6 +26,9 @@ import { Form } from '@modules/form/entities/form.entity';
 import { FormField } from '@modules/form/entities/form-field.entity';
 import { FormSubmission } from '@modules/form/entities/submission.entity';
 import { FormFieldAnswer } from '@modules/form/entities/form-field-answer.entity';
+import { Country } from '@modules/location/entities/country.entity';
+import { City } from '@modules/location/entities/city.entity';
+import { State } from '@modules/location/entities/state.entity';
 
 require('dotenv').config();
 
@@ -60,6 +63,9 @@ const options: DataSourceOptions & SeederOptions = {
     FormField,
     FormSubmission,
     FormFieldAnswer,
+    Country,
+    State,
+    City,
   ],
 };
 
