@@ -183,7 +183,7 @@ export function SignUpForm() {
             control={form.control}
             name="dateOfBirth"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className="flex flex-col pt-2">
                 <DatePicker
                   label={'Date of Birth'}
                   views={['year', 'month', 'day']}
