@@ -19,18 +19,16 @@ export default function RegistrationOverview() {
             bold: (text) => <span className="font-bold">{text}</span>,
           })}
         </h1>
-        <h2 className="my-2 font-">
-          {t('common.subtitle')}
-        </h2>
+        <h2 className="my-2 font-">{t('common.subtitle')}</h2>
       </div>
 
       <div className="mt-[3rem] overflow-auto no-scrollbar">
-      <h1 className="sm:text-start z-20 flex flex-col px-8 lg:ps-0 md:px-20 mb-6 pt-3 hidden lg:flex">
+        <h1 className="sm:text-start z-20 flex flex-col px-8 lg:ps-0 md:px-20 mb-6 pt-3 hidden lg:flex">
           <span className="z-20 uppercase font-bold text-primary text-center lg:text-left">
-           Our approach
+            Our approach
           </span>
           <span className="z-20 text-lg sm:text-xl md:text-2xl lg:text-3xl text-accent text-center lg:text-left">
-          Guardian Muslim Marriage
+            Guardian Muslim Marriage
           </span>
         </h1>
         <div className="gmm-approach-grid grid text-center">
@@ -148,6 +146,50 @@ export default function RegistrationOverview() {
               </>
               <>
                 {approachT.rich('slide.oneOnOneChats.description.p2', {
+                  bold: (text) => <span className="font-bold">{text}</span>,
+                })}
+              </>
+            </HoverCardContent>
+          </HoverCard>
+
+          <HoverCard>
+            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
+              <OurApproachCard
+                className="border-none shadow-none hover-disabled bg-transparent inline-flex"
+                imageSrc="/assets/icon_1-on-1-chats.svg"
+                imageClassName="gmm-icon w-auto"
+                isActive={false}
+              >
+                {approachT.rich('card.globallyConnectingMuslims', {
+                  br: () => <br />,
+                })}
+              </OurApproachCard>
+            </HoverCardTrigger>
+            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
+              <>
+                {approachT.rich('slide.globallyConnectingMuslims.description', {
+                  bold: (text) => <span className="font-bold">{text}</span>,
+                })}
+              </>
+            </HoverCardContent>
+          </HoverCard>
+
+          <HoverCard>
+            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
+              <OurApproachCard
+                className="border-none shadow-none hover-disabled bg-transparent inline-flex"
+                imageSrc="/assets/icon_1-on-1-chats.svg"
+                imageClassName="gmm-icon w-auto"
+                isActive={false}
+              >
+                {approachT.rich('card.loremIpsum', {
+                  br: () => <br />,
+                })}
+              </OurApproachCard>
+            </HoverCardTrigger>
+            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
+              <>
+                {approachT.rich('slide.loremIpsum.description', {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
