@@ -183,7 +183,7 @@ export function SignUpForm() {
             control={form.control}
             name="dateOfBirth"
             render={({ field }) => (
-              <FormItem className="flex flex-col py-2">
+              <FormItem className="flex flex-col">
                 <DatePicker
                   label={'Date of Birth'}
                   views={['year', 'month', 'day']}
@@ -219,7 +219,7 @@ export function SignUpForm() {
                       sx: {
                         '& .MuiOutlinedInput-root': {
                           '& .MuiOutlinedInput-input': {
-                            padding: '6px 6px',
+                            padding: '6px 8px',
                           },
                         },
                       },
