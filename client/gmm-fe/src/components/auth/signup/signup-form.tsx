@@ -183,7 +183,7 @@ export function SignUpForm() {
             control={form.control}
             name="dateOfBirth"
             render={({ field }) => (
-              <FormItem className="flex flex-col">
+              <FormItem className="flex flex-col py-2">
                 <DatePicker
                   label={'Date of Birth'}
                   views={['year', 'month', 'day']}
@@ -196,12 +196,31 @@ export function SignUpForm() {
                         '&.MuiPickersDay-root.Mui-selected': {
                           backgroundColor: '#197149',
                         },
+                        '&.MuiPickersDay-root:hover': {
+                          backgroundColor: '#145634',
+                          color: '#fff',
+                        },
+                        padding: '2px',
                       },
                     },
                     desktopPaper: {
                       sx: {
                         '.MuiPickersYear-yearButton.Mui-selected': {
                           backgroundColor: '#197149',
+                        },
+                        '.MuiPickersYear-yearButton:hover': {
+                          backgroundColor: '#197149',
+                          color: '#fff',
+                        },
+                        padding: '2px',
+                      },
+                    },
+                    textField: {
+                      sx: {
+                        '& .MuiOutlinedInput-root': {
+                          '& .MuiOutlinedInput-input': {
+                            padding: '6px 6px',
+                          },
                         },
                       },
                     },
