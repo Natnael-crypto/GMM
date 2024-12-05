@@ -237,6 +237,23 @@ export const columns: ColumnDef<User>[] = [
         enableHiding: true,
     },
     {
+        accessorKey: 'currentCountry',
+        header: ({ column }) => {
+            return (
+                <DataTableColumnHeader column={column} title="Current Country" options={['eq', 'neq', 'isnull', 'isnotnull']} />
+            );
+        },
+        cell: ({ row, column }) => {
+            return (
+                <div className="max-w-64 text-ellipsis overflow-hidden text-nowrap">
+                    <span className="text-xs">{row.getValue(column.id) ?? 'N/A'}</span>
+                </div>
+            );
+        },
+        enableSorting: true,
+        enableHiding: true,
+    },
+    {
         accessorKey: 'numberOfChildren',
         header: ({ column }) => {
             return (

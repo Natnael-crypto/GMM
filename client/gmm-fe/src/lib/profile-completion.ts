@@ -26,6 +26,7 @@ export const basicInformationCompletion = (user: User): number => {
     'country',
     'languages',
     'nationality',
+    'currentCountry',
     'city',
     'sunniMadhaib',
     'religiousPractice',

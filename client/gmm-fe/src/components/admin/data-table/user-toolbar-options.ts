@@ -56,6 +56,10 @@ export const userToolbarOptions = [
     label: 'Nationality',
   },
   {
+    value: 'currentCountry',
+    label: 'Current Country',
+  },
+  {
     value: 'numberOfChildren',
     label: 'Number of Children',
   },

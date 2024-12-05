@@ -44,6 +44,7 @@ export type UserField =
   | 'skinColor'
   | 'languages'
   | 'nationality'
+  | 'currentCountry'
   | 'numberOfChildren'
   | 'ageOfOldestChild'
   | 'ageOfYoungestChild'
@@ -102,6 +103,7 @@ export class UserQueryParams {
       'skinColor',
       'languages',
       'nationality',
+      'currentCountry',
       'numberOfChildren',
       'ageOfOldestChild',
       'ageOfYoungestChild',

@@ -116,6 +116,11 @@ export const _userBasicInformationSchema = z
         required_error: 'Please enter your nationality',
       })
       .min(1, { message: 'Please enter your nationality' }),
+    currentCountry: z
+      .string({
+        required_error: 'Please enter the current country you live in',
+      })
+      .min(1, { message: 'Please enter the current country you live in' }),
     city: z
       .string({
         required_error: 'Please enter your city',
@@ -355,6 +360,9 @@ export const baseUserSchema = z
     }),
     nationality: z.string({
       required_error: 'Please enter your nationality',
+    }),
+    currentCountry: z.string({
+      required_error: 'Please enter the current country you live in',
     }),
     city: z.string({
       required_error: 'Please enter your city',

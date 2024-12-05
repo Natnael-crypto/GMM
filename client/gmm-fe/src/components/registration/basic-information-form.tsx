@@ -85,6 +85,7 @@ export default function BasicInformationForm({
       skinColor: user?.skinColor ?? '',
       languages: user?.languages ?? [],
       nationality: user?.nationality ?? '',
+      currentCountry: user?.currentCountry ?? '',
       city: user?.city ?? '',
       numberOfChildren: user?.numberOfChildren ?? 1,
       ageOfOldestChild: user?.ageOfOldestChild ?? 1,
@@ -146,6 +147,7 @@ export default function BasicInformationForm({
         skinColor: user?.skinColor ?? '',
         languages: user?.languages ?? [],
         nationality: user?.nationality ?? '',
+        currentCountry: user?.currentCountry ?? '',
         city: user?.city ?? '',
         hasChildren: user?.hasChildren ?? '',
         numberOfChildren: user?.numberOfChildren ?? 0,
@@ -655,7 +657,25 @@ export default function BasicInformationForm({
                 />
               </div>
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
-                <Label>Current City</Label>
+                <Label>Current Country</Label>
+                <FormField
+                  name="currentCountry"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <CountrySelector
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-md" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
+                <Label>City</Label>
                 <FormField
                   name="city"
                   control={form.control}
@@ -665,7 +685,7 @@ export default function BasicInformationForm({
                         <CitySelector
                           value={field.value}
                           onChange={field.onChange}
-                          country={form.watch('nationality')}
+                          country={form.watch('currentCountry')}
                         />
                       </FormControl>
                       <FormMessage className="text-md" />
