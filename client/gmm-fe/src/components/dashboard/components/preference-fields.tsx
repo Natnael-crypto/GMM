@@ -120,19 +120,18 @@ export default function PreferenceField({
                     className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent"
                     values={field.value as unknown as string[]}
                     onChange={(values) => {
-                      field.onChange(values);
-                      if (onChange) {
-                        onChange(values);
+                      if (!notFilter || values.length <= question.options.length - 1) {
+                        field.onChange(values);
+                        if (onChange) {
+                          onChange(values);
+                        }
                       }
                     }}
-                    options={
-                      notFilter
-                        ? question.options.map((option) => ({
-                            ...option,
-                            selectedIcon: <X className="h-4 w-4" />,
-                          }))
-                        : question.options
-                    }
+                    options={question.options.map((option) => ({
+                      ...option,
+                      selectedIcon: <X className="h-4 w-4" />,
+                      disabled: notFilter && field.value.length >= question.options.length - 1 && !field.value.includes(option.value),
+                    }))}
                   />
                 ) : (
                   <Select
