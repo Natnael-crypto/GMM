@@ -112,6 +112,10 @@ export class ExpressRegistrationDto {
 
   @ApiProperty()
   @IsString()
+  currentCountry: string;
+
+  @ApiProperty()
+  @IsString()
   city: string;
 
   @ApiProperty()

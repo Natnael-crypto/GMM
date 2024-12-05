@@ -87,6 +87,9 @@ export class User {
 
   @Column({ nullable: true })
   nationality: string;
+  
+  @Column({ nullable: true })
+  currentCountry: string;
 
   @Column({ nullable: true })
   maritalStatus: string;
