@@ -127,10 +127,10 @@ export default function PreferenceField({
                         }
                       }
                     }}
-                    options={question.options.map((option) => ({
+                    options={(Array.isArray(question.options) ? question.options : []).map((option) => ({
                       ...option,
                       selectedIcon: <X className="h-4 w-4" />,
-                      disabled: notFilter && field.value.length >= question.options.length - 1 && !field.value.includes(option.value),
+                      disabled: notFilter && (Array.isArray(field.value) ? field.value.length : 0) >= question.options.length - 1 && !(field.value || []).includes(option.value),
                     }))}
                   />
                 ) : (
