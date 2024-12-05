@@ -114,11 +114,11 @@ export default function PreferenceField({
                   <Multiselect
                     label={
                       notFilter
-                        ? `Not Preferred ${question.label} `
+                        ? `Not Preferred ${question.label}`
                         : `Preferred ${question.label}`
                     }
                     className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent"
-                    values={field.value as unknown as string[]}
+                    values={Array.isArray(field.value) ? field.value : []} // Ensure `field.value` is an array
                     onChange={(values) => {
                       if (!notFilter || values.length <= question.options.length - 1) {
                         field.onChange(values);
@@ -127,11 +127,19 @@ export default function PreferenceField({
                         }
                       }
                     }}
-                    options={(Array.isArray(question.options) ? question.options : []).map((option) => ({
-                      ...option,
-                      selectedIcon: <X className="h-4 w-4" />,
-                      disabled: notFilter && (Array.isArray(field.value) ? field.value.length : 0) >= question.options.length - 1 && !(field.value || []).includes(option.value),
-                    }))}
+                    options={
+                      notFilter
+                        ? question.options.map((option) => ({
+                            ...option,
+                            selectedIcon: <X className="h-4 w-4" />,
+                            disabled:
+                              notFilter &&
+                              (Array.isArray(field.value) ? field.value.length : 0) >=
+                                question.options.length - 1 &&
+                              !(field.value || []).includes(option.value),
+                          }))
+                        : question.options
+                    }
                   />
                 ) : (
                   <Select
