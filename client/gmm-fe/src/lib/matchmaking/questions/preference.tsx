@@ -151,7 +151,6 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     options: [
       'Wants children',
       "Doesn't want children",
-      "Can't have children (medical reason)",
     ].map(toOption),
   },
   {
