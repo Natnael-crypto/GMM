@@ -64,6 +64,49 @@ export default function ChildrenStatus() {
           />
         </div>
       )}
+      {hasChildren && numberOfChildren > 1 && (
+        <div className="space-y-1 py-2 col-span-8 sm:col-span-3">
+          <Label>Age of Oldest Child</Label>
+          <FormField
+            name="ageOfOldestChild"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value?.toString() || ''}
+                  >
+                    <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="max-h-64">
+                      <SelectItem className="text-md max-w-80" value="0">
+                        Under 1 year
+                      </SelectItem>
+                      {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => {
+                        if (parseInt(form.watch('ageOfYoungestChild')) > i) {
+                          return null;
+                        }
+                        return (
+                          <SelectItem
+                            className="text-md max-w-80"
+                            key={i}
+                            value={i.toString()}
+                          >
+                            {i}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage className="text-md" />
+              </FormItem>
+            )}
+          />
+        </div>
+      )}
       {hasChildren && (
         <div className="space-y-1 py-2 col-span-8 sm:col-span-3">
           <Label>
@@ -100,49 +143,6 @@ export default function ChildrenStatus() {
                           return null;
                         }
 
-                        return (
-                          <SelectItem
-                            className="text-md max-w-80"
-                            key={i}
-                            value={i.toString()}
-                          >
-                            {i}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage className="text-md" />
-              </FormItem>
-            )}
-          />
-        </div>
-      )}
-      {hasChildren && numberOfChildren > 1 && (
-        <div className="space-y-1 py-2 col-span-8 sm:col-span-3">
-          <Label>Age of Oldest Child</Label>
-          <FormField
-            name="ageOfOldestChild"
-            control={form.control}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value?.toString() || ''}
-                  >
-                    <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="max-h-64">
-                      <SelectItem className="text-md max-w-80" value="0">
-                        Under 1 year
-                      </SelectItem>
-                      {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => {
-                        if (parseInt(form.watch('ageOfYoungestChild')) > i) {
-                          return null;
-                        }
                         return (
                           <SelectItem
                             className="text-md max-w-80"
