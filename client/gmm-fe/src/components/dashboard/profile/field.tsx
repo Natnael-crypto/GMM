@@ -330,7 +330,6 @@ export default function Field(props: FieldProps) {
                     Array.isArray(field.value) ? field.value : []
                   }
                   title={props.label}
-                  max={3}
                   initOptions={options}
                   placeholder="Select"
                   className="shadow text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent"

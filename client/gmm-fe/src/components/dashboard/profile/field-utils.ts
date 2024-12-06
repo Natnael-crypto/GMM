@@ -1,3 +1,5 @@
+import { evaluateRuleTree } from '@/lib/form/rule-evalutator';
+
 export const getFields = (formData: any, displayTemplate: any) => {
   if (!formData) return [];
   if (!displayTemplate) return [];
@@ -11,15 +13,23 @@ export const getFields = (formData: any, displayTemplate: any) => {
 
       if (fieldName && options) {
         if (data?.field.type === 'multiselect') {
-          dataMap[fieldName] = data.value
-            .map(
-              (value: string) =>
-                options.find(
-                  (option: { label: string; value: string }) =>
-                    option.value === value
-                )?.label
-            )
-            .join(', ');
+          if (!data.value) continue;
+          if (Array.isArray(data.value)) {
+            dataMap[fieldName] = data.value
+              ?.map(
+                (value: string) =>
+                  options.find(
+                    (option: { label: string; value: string }) =>
+                      option.value === value
+                  )?.label
+              )
+              .join(', ');
+          } else {
+            dataMap[fieldName] = options.find(
+              (option: { label: string; value: string }) =>
+                option.value === data.value
+            )?.label;
+          }
         } else {
           dataMap[fieldName] = options.find(
             (option: { label: string; value: string }) =>
