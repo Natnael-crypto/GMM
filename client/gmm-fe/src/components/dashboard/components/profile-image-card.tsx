@@ -63,7 +63,9 @@ export default function ProfileImages({ user }: { user: User }) {
   const code = countryToCountryCode[user.nationality] as keyof typeof flags;
   const NationalityFlag = flags[code];
 
-  const countryCode = countryToCountryCode[user.country] as keyof typeof flags;
+  const countryCode = countryToCountryCode[
+    user.currentCountry
+  ] as keyof typeof flags;
   const CountryFlag = flags[countryCode];
 
   const overlayInfo = {

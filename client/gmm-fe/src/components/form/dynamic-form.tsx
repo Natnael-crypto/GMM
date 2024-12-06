@@ -9,7 +9,6 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { evaluateRuleTree } from '@/lib/form/rule-evalutator';
 import { useDebouncedCallback } from 'use-debounce';
 import { useUpdateProfileContext } from '../dashboard/profile/update-profile-context';
-import { usePathname } from '@/lib/navigation';
 
 const transform = (answers: any) => {
   const data: any = {};
@@ -129,6 +128,62 @@ export default function DynamicForm({
     setSaving(submitFormResult.isLoading);
   }, [submitFormResult, setSaving]);
 
+  const save = () => {
+    const data = form.getValues();
+
+    // removing unnecessary fields and options
+    const cleanedData: Record<string, string> = {};
+
+    const remappedValue: any = {};
+
+    for (const key in data) {
+      remappedValue[fieldIdNameMap[key]] = data[key];
+    }
+
+    for (const key in user) {
+      remappedValue[`user.${key}`] = user[key as keyof typeof user];
+    }
+
+    for (const group of groupedFields) {
+      for (const field of group) {
+        try {
+          const show = evaluateRuleTree(field.show, remappedValue);
+          if (!show) continue;
+        } catch (e) {
+          console.log(e);
+        }
+
+        const filteredOptions = field.options?.filter(
+          (option: { label: string; value: string; show: any }) => {
+            try {
+              return evaluateRuleTree(option.show, remappedValue);
+            } catch (e) {
+              console.log(e);
+            }
+          }
+        );
+
+        if (Array.isArray(data[field.id])) {
+          cleanedData[field.id] = data[field.id].filter((v: any) =>
+            filteredOptions.find((option: any) => option.value === v)
+          );
+        } else if (field.type === 'select') {
+          if (
+            filteredOptions?.find(
+              (option: any) => option.value === data[field.id]
+            )
+          ) {
+            cleanedData[field.id] = data[field.id];
+          }
+        } else {
+          cleanedData[field.id] = data[field.id];
+        }
+      }
+    }
+
+    debouncedSubmit(cleanedData);
+  };
+
   return (
     <div className="py-8 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem]">
       <h1 className="text-xl font-bold text-secondary border-b p-1">
@@ -182,7 +237,7 @@ export default function DynamicForm({
                       options={filteredOptions}
                       currencyFieldName={currencyFields[field.id]}
                       className={widthClassName(field.displayWidth)}
-                      onChange={() => debouncedSubmit(form.getValues())}
+                      onChange={save}
                     />
                   );
                 })}
