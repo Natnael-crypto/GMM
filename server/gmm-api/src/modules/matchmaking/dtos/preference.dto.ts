@@ -55,7 +55,12 @@ export class UpdatePreferenceDto {
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
-  numberOfChildren?: string;
+  countryOfOrigin?: string[];
+
+  @ApiProperty({ example: 'string' })
+  @IsArray()
+  @IsOptional()
+  numberOfChildren?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsArray()
@@ -65,7 +70,7 @@ export class UpdatePreferenceDto {
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
-  salat?: string[];
+  religiousPractice?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsArray()
@@ -108,8 +113,14 @@ export class UpdatePreferenceDto {
   smoking?: boolean;
 
   @ApiProperty({ example: 'string' })
+  @IsBoolean()
   @IsOptional()
-  tattoos?: string;
+  drugs?: boolean;
+
+  @ApiProperty({ example: 'string' })
+  @IsArray()
+  @IsOptional()
+  tattoos?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsNumber({
