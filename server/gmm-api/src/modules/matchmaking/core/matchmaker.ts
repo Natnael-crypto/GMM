@@ -71,7 +71,19 @@ export class Matchmaker {
       field: 'country',
       weight: 1,
       evaluate: (pref: Preference, user: User) =>
-        user.country && pref.country.includes(user.country),
+        user.currentCountry && pref.country.includes(user.currentCountry),
+    },
+    {
+      field: 'city',
+      weight: 1,
+      evaluate: (pref: Preference, user: User) =>
+        user.city && pref.city.includes(user.city),
+    },
+    {
+      field: 'countryOfOrigin',
+      weight: 1,
+      evaluate: (pref: Preference, user: User) =>
+        user.country && pref.countryOfOrigin.includes(user.country),
     },
     {
       field: 'martialStatus',
@@ -80,10 +92,11 @@ export class Matchmaker {
         user.maritalStatus && pref.martialStatus.includes(user.maritalStatus),
     },
     {
-      field: 'salat',
+      field: 'religiousPractice',
       weight: 1,
       evaluate: (pref: Preference, user: User) =>
-        user.salat && pref.salat.includes(user.salat),
+        user.religiousPractice &&
+        pref.religiousPractice.includes(user.religiousPractice),
     },
     {
       field: 'bornOrRevert',
@@ -133,9 +146,15 @@ export class Matchmaker {
       evaluate: (pref: Preference, user: User) => pref.smoking === user.smokes,
     },
     {
+      field: 'drugs',
+      weight: 1,
+      evaluate: (pref: Preference, user: User) => pref.drugs === user.drugs,
+    },
+    {
       field: 'tattoos',
       weight: 1,
-      evaluate: (pref: Preference, user: User) => pref.tattoos === user.tattoos,
+      evaluate: (pref: Preference, user: User) =>
+        user.tattoos && pref.tattoos.includes(user.tattoos),
     },
   ];
 

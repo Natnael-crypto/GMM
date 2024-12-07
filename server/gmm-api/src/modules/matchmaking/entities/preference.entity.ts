@@ -41,16 +41,19 @@ export class Preference {
   city: string[];
 
   @Column({ nullable: true, type: 'simple-array' })
+  countryOfOrigin: string[];
+
+  @Column({ nullable: true, type: 'simple-array' })
   martialStatus: string[];
 
   @Column({ nullable: true, type: 'simple-array' })
-  salat: string[];
+  religiousPractice: string[];
 
   @Column({ nullable: true, type: 'simple-array' })
   bornOrRevert: string[];
 
-  @Column({ nullable: true })
-  numberOfChildren: string;
+  @Column({ nullable: true, type: 'simple-array' })
+  numberOfChildren: string[];
 
   @Column({ nullable: true, type: 'simple-array' })
   hijab: string[];
@@ -74,7 +77,10 @@ export class Preference {
   smoking: boolean;
 
   @Column({ nullable: true })
-  tattoos: string;
+  drugs: boolean;
+
+  @Column({ nullable: true, type: 'simple-array' })
+  tattoos: string[];
 
   @Column({
     type: 'numeric',
