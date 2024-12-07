@@ -3,9 +3,10 @@ import {
   Get,
   NotFoundException,
   Param,
+  Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { LocationService } from '../services/location.service';
 
@@ -48,11 +49,6 @@ export class LocationController {
     return { data: state };
   }
 
-  @Get('cities')
-  async findAllCities() {
-    return { data: await this.locationService.findAllCities() };
-  }
-
   @Get('cities/:id')
   async findOneCity(@Param('id') id: number) {
     const city = await this.locationService.findOneCity(id);
@@ -69,6 +65,25 @@ export class LocationController {
     const cities = await this.locationService.findCountryCities(id);
 
     return { data: cities };
+  }
+
+  @Get('cities')
+  @ApiQuery({ name: 'countryIds', required: false })
+  async findCountriesCities(@Query('countryIds') countryIds: string) {
+    if (!countryIds) {
+      return { data: await this.locationService.findAllCities() };
+    }
+
+    const cities = await this.locationService.findCountriesCities(
+      countryIds
+        .split(',')
+        .map((value) => parseInt(value))
+        .filter((value) => !isNaN(value)),
+    );
+
+    return {
+      data: cities,
+    };
   }
 
   @Get('states/:id/cities')

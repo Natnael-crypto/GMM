@@ -1,9 +1,8 @@
-import { BaseEntity } from '@shared/entities/base.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { State } from './state.entity';
 
 @Entity()
-export class Country extends BaseEntity {
+export class Country {
   @PrimaryGeneratedColumn()
   id: number;
 

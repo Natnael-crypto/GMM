@@ -1,4 +1,3 @@
-import { BaseEntity } from '@shared/entities/base.entity';
 import {
   Column,
   Entity,
@@ -10,7 +9,7 @@ import { City } from './city.entity';
 import { Country } from './country.entity';
 
 @Entity()
-export class State extends BaseEntity {
+export class State {
   @PrimaryGeneratedColumn()
   id: number;
 

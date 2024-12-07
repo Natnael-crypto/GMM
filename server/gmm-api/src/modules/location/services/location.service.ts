@@ -1,15 +1,6 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  NotFoundException,
-  Scope,
-} from '@nestjs/common';
-import { REQUEST } from '@nestjs/core';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BaseRepository } from '@shared/base-repository';
-import { Request } from 'express';
-import { DataSource, Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Country } from '../entities/country.entity';
 import { State } from '../entities/state.entity';
 import { City } from '../entities/city.entity';
@@ -60,6 +51,27 @@ export class LocationService {
         state: {
           country: {
             id: countryId,
+          },
+        },
+      },
+    });
+
+    return cities;
+  }
+
+  async findCountriesCities(countryIds: number[]) {
+    const cities = await this.cityRepository.find({
+      where: {
+        state: {
+          country: {
+            id: In(countryIds),
+          },
+        },
+      },
+      order: {
+        state: {
+          country: {
+            id: 'ASC',
           },
         },
       },
