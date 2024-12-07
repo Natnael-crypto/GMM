@@ -60,7 +60,23 @@ export const locationApi = createApi({
       transformResponse: (response: BaseResponse<City[]>) => {
         return response.data;
       },
-      providesTags: ['City'],
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'City', id: arg }];
+      },
+    }),
+
+    getCountriesCities: builder.query<City[], string[]>({
+      query: (countryIds) =>
+        `locations/cities/?countryIds=${countryIds.join(',')}`,
+      transformResponse: (response: BaseResponse<City[]>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [
+          { type: 'City' as const, id: arg.join(',') },
+          ...arg.map((countryId) => ({ type: 'City' as const, id: countryId })),
+        ];
+      },
     }),
   }),
 });
@@ -70,4 +86,5 @@ export const {
   useGetStatesQuery,
   useGetCountryCitiesQuery,
   useLazyGetCountryCitiesQuery,
+  useGetCountriesCitiesQuery,
 } = locationApi;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { useAppSelector } from '@/lib/hooks';
 import { preferenceQuestions } from '@/lib/matchmaking/questions/preference';
 import {
   Preference,
@@ -14,11 +14,10 @@ import {
   maxHeight,
   minWeight,
   maxWeight,
-  User,
 } from '@/lib/schemas/user';
 import { useUpdatePreferenceMutation } from '@/lib/user/api';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -26,29 +25,25 @@ type FilterState = {
   [key in keyof PreferenceForm]: boolean;
 };
 
-const notFilterTransform = (
-  questionName: keyof PreferenceForm,
-  shouldInvert: boolean,
-  data?: string[] | null
-) => {
-  if (!data) return [];
+const fields = [
+  'country',
+  'city',
+  'nationality',
+  'language',
+  'countryOfOrigin',
+  'martialStatus',
+  'religiousPractice',
+  'bornOrRevert',
+  'hijab',
+  'children',
+  'wantsChildren',
+  'education',
+  'profession',
+  'numberOfChildren',
+  'tattoos',
+] as const;
 
-  if (shouldInvert) {
-    const options =
-      preferenceQuestions
-        .find((q) => q.name === questionName)
-        ?.options.map((op) => op.value) ?? [];
-
-    return options.filter((value) => !data.includes(value));
-  } else {
-    return data;
-  }
-};
-
-const reset = (
-  preference?: Preference | null,
-  notFilter?: any
-): PreferenceForm => {
+const reset = (preference?: Preference | null): PreferenceForm => {
   const preferredAge = [minAge, maxAge];
   const preferredHeight = [minHeight, maxHeight];
   const preferredWeight = [minWeight, maxWeight];
@@ -76,81 +71,60 @@ const reset = (
     preferredAge,
     preferredHeight,
     preferredWeight,
-    preferredCountry: notFilterTransform(
-      'preferredCountry',
-      notFilter?.['preferredCountry'],
-      preference?.preferredCountry
-    ),
-    preferredCity: notFilterTransform(
-      'preferredCity',
-      notFilter?.['preferredCity'],
-      preference?.preferredCity
-    ),
-    nationality: notFilterTransform(
-      'nationality',
-      notFilter?.['nationality'],
-      preference?.nationality
-    ),
-    language: notFilterTransform(
-      'language',
-      notFilter?.['language'],
-      preference?.language
-    ),
-    country: notFilterTransform(
-      'country',
-      notFilter?.['country'],
-      preference?.country
-    ),
-    martialStatus: notFilterTransform(
-      'martialStatus',
-      notFilter?.['martialStatus'],
-      preference?.martialStatus
-    ),
-    salat: notFilterTransform('salat', notFilter?.['salat'], preference?.salat),
-    bornOrRevert: notFilterTransform(
-      'bornOrRevert',
-      notFilter?.['bornOrRevert'],
-      preference?.bornOrRevert
-    ),
-    hijab: notFilterTransform('hijab', notFilter?.['hijab'], preference?.hijab),
-    children: notFilterTransform(
-      'children',
-      notFilter?.['children'],
-      preference?.children
-    ),
-    wantsChildren: notFilterTransform(
-      'wantsChildren',
-      notFilter?.['wantsChildren'],
-      preference?.wantsChildren
-    ),
-    education: notFilterTransform(
-      'education',
-      notFilter?.['education'],
-      preference?.education
-    ),
-    profession: notFilterTransform(
-      'profession',
-      notFilter?.['profession'],
-      preference?.profession
-    ),
-    numberOfChildren: notFilterTransform(
-      'numberOfChildren',
-      notFilter?.['numberOfChildren'],
-      preference?.numberOfChildren
-    ),
+
+    notCountry: !!preference?.country,
+    country: preference?.country || null,
+
+    notCity: !!preference?.city,
+    city: preference?.city || null,
+
+    notNationality: !!preference?.notNationality,
+    nationality: preference?.nationality || null,
+
+    notLanguage: !!preference?.notLanguage,
+    language: preference?.language || null,
+
+    notCountryOfOrigin: !!preference?.notCountryOfOrigin,
+    countryOfOrigin: preference?.countryOfOrigin || null,
+
+    notMartialStatus: !!preference?.notMartialStatus,
+    martialStatus: preference?.martialStatus || null,
+
+    notReligiousPractice: !!preference?.notReligiousPractice,
+    religiousPractice: preference?.religiousPractice || null,
+
+    notBornOrRevert: !!preference?.notBornOrRevert,
+    bornOrRevert: preference?.bornOrRevert || null,
+
+    notHijab: !!preference?.notHijab,
+    hijab: preference?.hijab || null,
+
+    notChildren: !!preference?.notChildren,
+    children: preference?.children || null,
+
+    notWantsChildren: !!preference?.notWantsChildren,
+    wantsChildren: preference?.wantsChildren || null,
+
+    notEducation: !!preference?.notEducation,
+    education: preference?.education || null,
+
+    notProfession: !!preference?.notProfession,
+    profession: preference?.profession || null,
+
+    notNumberOfChildren: !!preference?.notNumberOfChildren,
+    numberOfChildren: preference?.numberOfChildren || null,
+
+    notTattoos: !!preference?.notTattoos,
+    tattoos: preference?.tattoos || null,
+
     drinking: preference?.drinking || false,
     smoking: preference?.smoking || false,
-    tattoos: preference?.tattoos || 'None',
     drugs: preference?.drugs || false,
     minMatchRequirement: preference?.minMatchRequirement || 1,
   };
 };
 
-const transformPreference = (
-  data: PreferenceForm,
-  isFilterInactive: any,
-  notFilter: any
-) => {
+const transformPreference = (data: PreferenceForm, isFilterInactive: any) => {
   const preference: Preference = {} as Preference;
 
   if (!isFilterInactive['preferredAge']) {
@@ -180,32 +154,8 @@ const transformPreference = (
     preference['maxWeight'] = null;
   }
 
-  const keys = [
-    'preferredCountry',
-    'preferredCity',
-    'nationality',
-    'language',
-    'country',
-    'martialStatus',
-    'bornOrRevert',
-    'children',
-    'wantsChildren',
-    'salat',
-    'hijab',
-    'education',
-    'profession',
-    'numberOfChildren',
-  ] as const;
-
-  keys.forEach((key) => {
-    if (notFilter[key]) {
-      const options =
-        preferenceQuestions
-          .find((q) => q.name === key)
-          ?.options.map((op) => op.value) ?? [];
-
-      preference[key] = options.filter((value) => !data[key]?.includes(value));
-    } else if (!isFilterInactive[key]) {
+  fields.forEach((key) => {
+    if (!isFilterInactive[key]) {
       preference[key] = data[key];
     } else {
       preference[key] = null;
@@ -224,50 +174,31 @@ const transformPreference = (
     preference['smoking'] = null;
   }
 
-  if (!isFilterInactive['tattoos']) {
-    preference['tattoos'] = data.tattoos;
+  if (!isFilterInactive['drugs']) {
+    preference['drugs'] = data.drugs;
   } else {
-    preference['tattoos'] = null;
+    preference['drugs'] = null;
   }
 
-  return { preference };
+  return {
+    ...data,
+    ...preference,
+  };
 };
 
 export const usePreference = () => {
   const user = useAppSelector((state) => state.auth.user);
-  const dispatch = useAppDispatch();
 
   const form = useForm<PreferenceForm>({
     resolver: zodResolver(preferenceFormSchema),
     defaultValues: reset(user?.preference),
   });
 
-  const [notFilter, setNotFilter] = useState({
-    preferredCountry: false,
-    preferredCity: false,
-    nationality: false,
-    language: false,
-    country: false,
-    martialStatus: false,
-    salat: false,
-    bornOrRevert: false,
-    hijab: false,
-    children: false,
-    wantsChildren: false,
-    education: false,
-    profession: false,
-  });
-
   useEffect(() => {
-    const filter = localStorage.getItem('preference_not_filter');
-    if (filter) {
-      setNotFilter(JSON.parse(filter));
-    }
-
     if (user && user.preference) {
-      form.reset(reset(user.preference, filter ? JSON.parse(filter) : null));
+      form.reset(reset(user.preference));
     }
-  }, [form, user, setNotFilter]);
+  }, [form, user]);
 
   const preference = form.watch();
 
@@ -275,15 +206,16 @@ export const usePreference = () => {
     const allowAny: FilterState = {} as FilterState;
 
     preferenceQuestions.forEach((question) => {
-      allowAny[question.name] = !!(notFilter as any)[question.name]
-        ? false
-        : !preference[question.name] ||
-          (preference[question.name] as string[])?.length ===
-            question.options.length;
+      allowAny[question.name] =
+        !preference[question.name] ||
+        (preference[question.name] as string[])?.length ===
+          question.options.length;
     });
 
     return {
       ...allowAny,
+      country: !preference.country,
+      city: !preference.city,
       preferredAge:
         preference.preferredAge?.[0] === minAge &&
         preference.preferredAge?.[1] === maxAge,
@@ -295,55 +227,58 @@ export const usePreference = () => {
         preference.preferredWeight?.[1] === maxWeight,
       drinking: preference.drinking === (null as unknown as boolean),
       smoking: preference.smoking === (null as unknown as boolean),
-      tattoos: preference.tattoos === (null as unknown as string),
       drugs: preference.drugs === (null as unknown as boolean),
     };
-  }, [preference, notFilter]);
+  }, [preference]);
 
   const [updatePreference, preferenceUpdateResult] =
     useUpdatePreferenceMutation();
 
   const savePreference = useCallback(() => {
     if (user) {
-      const preferenceData = transformPreference(
-        preference,
-        isFilterInactive,
-        notFilter
-      ).preference;
+      const preferenceData = transformPreference(preference, isFilterInactive);
 
-      updatePreference(preferenceData)
-        .unwrap()
-        .then((data) => {
-          // dispatch(setUser({ ...user, preference: preferenceData }));
-        });
+      updatePreference(preferenceData);
     }
-  }, [updatePreference, user, preference, isFilterInactive, notFilter]);
-  // }, [updatePreference, user, dispatch, preference, isFilterInactive]);
+  }, [updatePreference, user, preference, isFilterInactive]);
 
   const debouncedSavePreference = useDebouncedCallback(savePreference, 1000);
+
+  const fieldToNotFilterMap: Record<string, keyof PreferenceForm> = {
+    country: 'notCountry',
+    city: 'notCity',
+    nationality: 'notNationality',
+    language: 'notLanguage',
+    countryOfOrigin: 'notCountryOfOrigin',
+    martialStatus: 'notMartialStatus',
+    religiousPractice: 'notReligiousPractice',
+    bornOrRevert: 'notBornOrRevert',
+    hijab: 'notHijab',
+    children: 'notChildren',
+    wantsChildren: 'notWantsChildren',
+    education: 'notEducation',
+    profession: 'notProfession',
+    numberOfChildren: 'notNumberOfChildren',
+    tattoos: 'notTattoos',
+  };
 
   const toggleNotFilter: (name: keyof PreferenceForm) => void = (
     name: keyof PreferenceForm
   ) => {
-    setNotFilter((prev) => {
-      const filter = {
-        ...prev,
-        [name]: !prev[name as keyof typeof notFilter],
-      };
-
-      form.setValue(name, []);
-
-      localStorage.setItem('preference_not_filter', JSON.stringify(filter));
-      return filter;
-    });
+    form.setValue(name, null);
+    form.setValue(
+      fieldToNotFilterMap[name],
+      !form.getValues()[fieldToNotFilterMap[name]]
+    );
+    savePreference();
   };
 
   return {
     form,
     preferenceUpdateResult,
     isFilterInactive,
-    notFilter,
     toggleNotFilter,
+    fieldToNotFilterMap,
     savePreference,
     debouncedSavePreference,
   };

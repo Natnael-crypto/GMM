@@ -70,6 +70,7 @@ export default function PreferenceField({
                         type="checkbox"
                         className="p-0 m-0 h-fit"
                         checked={notFilter}
+                        onChange={() => {}}
                       />
                       <span>Not</span>
                     </Label>
@@ -88,6 +89,7 @@ export default function PreferenceField({
                         type="checkbox"
                         className="p-0 m-0 h-fit"
                         checked={allowAny}
+                        onChange={() => {}}
                       />
                       <span>Any</span>
                     </Label>
@@ -120,7 +122,10 @@ export default function PreferenceField({
                     className="shadow text-muted-foreground bg-background text-sm rounded-sm h-8 ring-transparent ring-offset-transparent"
                     values={Array.isArray(field.value) ? field.value : []} // Ensure `field.value` is an array
                     onChange={(values) => {
-                      if (!notFilter || values.length <= question.options.length - 1) {
+                      if (
+                        !notFilter ||
+                        values.length <= question.options.length - 1
+                      ) {
                         field.onChange(values);
                         if (onChange) {
                           onChange(values);
@@ -134,7 +139,9 @@ export default function PreferenceField({
                             selectedIcon: <X className="h-4 w-4" />,
                             disabled:
                               notFilter &&
-                              (Array.isArray(field.value) ? field.value.length : 0) >=
+                              (Array.isArray(field.value)
+                                ? field.value.length
+                                : 0) >=
                                 question.options.length - 1 &&
                               !(field.value || []).includes(option.value),
                           }))

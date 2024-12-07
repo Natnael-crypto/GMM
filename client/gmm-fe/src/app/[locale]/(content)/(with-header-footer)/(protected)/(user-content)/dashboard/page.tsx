@@ -55,7 +55,10 @@ export default function Dashboard() {
                   Match Filters
                 </h1>
                 <div className="bg-muted text-muted-foreground flex flex-col items-center justify-center p-4 text-md font-medium rounded-se-3xl rounded-es-3xl">
-                  <p>Find your potential spouse using Guardian Muslim Marriage match filters feature.</p>
+                  <p>
+                    Find your potential spouse using Guardian Muslim Marriage
+                    match filters feature.
+                  </p>
                 </div>
                 <div className="gmm-mpf-container flex flex-col flex-col-reverse md:grid md:grid-cols-12 gap-4 py-4">
                   <MatchPreferenceFilter />

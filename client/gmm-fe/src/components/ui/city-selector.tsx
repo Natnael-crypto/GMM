@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import AutoComplete from './searchable-select';
 import {
   useGetCountriesQuery,
   useGetCountryCitiesQuery,
-  useLazyGetCountryCitiesQuery,
+  useGetCountriesCitiesQuery,
 } from '@/lib/location/api';
 import { useAppSelector } from '@/lib/hooks';
 import Multiselect from './multiselect';
@@ -64,7 +64,6 @@ export function MultiCitySelector({
   selectedCountries,
 }: MultiCitySelectorProps) {
   const user = useAppSelector((state) => state.auth.user);
-  const [cities, setCities] = useState<any[]>([]);
 
   const { data: countries } = useGetCountriesQuery(undefined, {
     skip: !user,
@@ -77,17 +76,9 @@ export function MultiCitySelector({
     )
     .filter((value) => value !== '');
 
-  const [trigger, result, lastPromiseInfo] = useLazyGetCountryCitiesQuery();
-
-  React.useEffect(() => {
-    countryIds.forEach((countryId) => {
-      trigger(countryId)
-        .unwrap()
-        .then((result) => {
-          setCities((cities) => [...(cities ?? []), ...result]);
-        });
-    });
-  }, [countryIds, trigger]);
+  const { data: cities } = useGetCountriesCitiesQuery(countryIds, {
+    skip: !countries || !countryIds || !countryIds.length || !user,
+  });
 
   return (
     <Multiselect
