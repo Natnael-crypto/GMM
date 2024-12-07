@@ -57,77 +57,135 @@ export class Matchmaker {
     {
       field: 'nationality',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        pref.nationality.includes(user.nationality),
+      evaluate: (pref: Preference, user: User) => {
+        if (pref.notNationality) {
+          return !pref.nationality.includes(user.nationality);
+        } else {
+          return pref.nationality.includes(user.nationality);
+        }
+      },
     },
     {
       field: 'language',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.languages &&
-        user.languages.some((language) => pref.language.includes(language)),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.languages) return false;
+
+        const hasMatchingLanguage = user.languages.some((language) =>
+          pref.language.includes(language),
+        );
+
+        return pref.notLanguage ? !hasMatchingLanguage : hasMatchingLanguage;
+      },
     },
     {
       field: 'country',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.currentCountry && pref.country.includes(user.currentCountry),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.currentCountry) return false;
+
+        return pref.notCountry
+          ? !pref.country.includes(user.currentCountry)
+          : pref.country.includes(user.currentCountry);
+      },
     },
     {
       field: 'city',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.city && pref.city.includes(user.city),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.city) return false;
+
+        return pref.notCity
+          ? !pref.city.includes(user.city)
+          : pref.city.includes(user.city);
+      },
     },
     {
       field: 'countryOfOrigin',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.country && pref.countryOfOrigin.includes(user.country),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.country)
+          return pref.notCountryOfOrigin
+            ? !pref.countryOfOrigin.includes(user.country)
+            : pref.countryOfOrigin.includes(user.country);
+      },
     },
     {
       field: 'martialStatus',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.maritalStatus && pref.martialStatus.includes(user.maritalStatus),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.maritalStatus) return false;
+
+        return pref.notMartialStatus
+          ? !pref.martialStatus.includes(user.maritalStatus)
+          : pref.martialStatus.includes(user.maritalStatus);
+      },
     },
     {
       field: 'religiousPractice',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.religiousPractice &&
-        pref.religiousPractice.includes(user.religiousPractice),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.religiousPractice) return false;
+
+        return pref.notReligiousPractice
+          ? !pref.religiousPractice.includes(user.religiousPractice)
+          : pref.religiousPractice.includes(user.religiousPractice);
+      },
     },
     {
       field: 'bornOrRevert',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.bornOrRevertToIslam &&
-        pref.bornOrRevert.includes(user.bornOrRevertToIslam),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.bornOrRevertToIslam) return false;
+
+        return pref.notBornOrRevert
+          ? !pref.bornOrRevert.includes(user.bornOrRevertToIslam)
+          : pref.bornOrRevert.includes(user.bornOrRevertToIslam);
+      },
     },
     {
       field: 'hijab',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.hijab && pref.hijab.includes(user.hijab),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.hijab) return false;
+
+        return pref.notHijab
+          ? !pref.hijab.includes(user.hijab)
+          : pref.hijab.includes(user.hijab);
+      },
     },
     {
       field: 'children',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.hasChildren && pref.children.includes(user.hasChildren),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.hasChildren) return false;
+
+        return pref.notChildren
+          ? !pref.children.includes(user.hasChildren)
+          : pref.children.includes(user.hasChildren);
+      },
     },
     {
       field: 'wantsChildren',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.wantsChildren && pref.wantsChildren.includes(user.wantsChildren),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.wantsChildren) return false;
+
+        return pref.notWantsChildren
+          ? !pref.wantsChildren.includes(user.wantsChildren)
+          : pref.wantsChildren.includes(user.wantsChildren);
+      },
     },
     {
       field: 'education',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.education && pref.education.includes(user.education),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.education) return false;
+
+        return pref.notEducation
+          ? !pref.education.includes(user.education)
+          : pref.education.includes(user.education);
+      },
     },
     {
       field: 'profession',
@@ -153,8 +211,15 @@ export class Matchmaker {
     {
       field: 'tattoos',
       weight: 1,
-      evaluate: (pref: Preference, user: User) =>
-        user.tattoos && pref.tattoos.includes(user.tattoos),
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.tattoos) {
+          return false;
+        }
+
+        return pref.notTattoos
+          ? !pref.tattoos.includes(user.tattoos)
+          : pref.tattoos.includes(user.tattoos);
+      },
     },
   ];
 
