@@ -5,17 +5,33 @@ export const preferenceFormSchema = z
     preferredAge: z.array(z.number()).length(2).optional(),
     preferredHeight: z.array(z.number()).length(2).optional(),
     preferredWeight: z.array(z.number()).length(2).optional(),
-    nationality: z.array(z.string()).nullable().optional(),
-    language: z.array(z.string()).nullable().optional(),
+    notCountry: z.boolean().nullable().optional(),
     country: z.array(z.string()).nullable().optional(),
+    notCity: z.boolean().nullable().optional(),
+    city: z.array(z.string()).nullable().optional(),
+    notNationality: z.boolean().nullable().optional(),
+    nationality: z.array(z.string()).nullable().optional(),
+    notLanguage: z.boolean().nullable().optional(),
+    language: z.array(z.string()).nullable().optional(),
+    notCountryOfOrigin: z.boolean().nullable().optional(),
+    countryOfOrigin: z.array(z.string()).nullable().optional(),
+    notMartialStatus: z.boolean().nullable().optional(),
     martialStatus: z.array(z.string()).nullable().optional(),
-    salat: z.array(z.string()).nullable().optional(),
+    notReligiousPractice: z.boolean().nullable().optional(),
+    religiousPractice: z.array(z.string()).nullable().optional(),
+    notBornOrRevert: z.boolean().nullable().optional(),
     bornOrRevert: z.array(z.string()).nullable().optional(),
+    notHijab: z.boolean().nullable().optional(),
     hijab: z.array(z.string()).nullable().optional(),
+    notChildren: z.boolean().nullable().optional(),
     children: z.array(z.string()).nullable().optional(),
+    notWantsChildren: z.boolean().nullable().optional(),
     wantsChildren: z.array(z.string()).nullable().optional(),
+    notEducation: z.boolean().nullable().optional(),
     education: z.array(z.string()).nullable().optional(),
+    notProfession: z.boolean().nullable().optional(),
     profession: z.array(z.string()).nullable().optional(),
+    notNumberOfChildren: z.boolean().nullable().optional(),
     numberOfChildren: z.array(z.string()).nullable().optional(),
     minMatchRequirement: z.number().nullable().optional(),
     drinking: z
@@ -42,21 +58,8 @@ export const preferenceFormSchema = z
           .transform((value) => value === 'true'),
       ])
       .optional(),
-    tattoos: z
-      .enum(
-        [
-          'None',
-          'Minimal, not visible',
-          'Small, visible or concealed',
-          'Large or multiple tattoos',
-          'Doesn’t matter',
-        ],
-        {
-          required_error: 'Please select a valid option for tattoos',
-          invalid_type_error: 'Invalid option for tattoos',
-        }
-      )
-      .optional(),
+    notTattoos: z.boolean().nullable().optional(),
+    tattoos: z.array(z.string()).nullable().optional(),
     drugs: z
       .union([
         z.boolean({
@@ -80,17 +83,33 @@ export const preferenceSchema = z
     maxHeight: z.number().nullable().optional(),
     minWeight: z.number().nullable().optional(),
     maxWeight: z.number().nullable().optional(),
-    nationality: z.array(z.string()).nullable().optional(),
-    language: z.array(z.string()).nullable().optional(),
+    notCountry: z.boolean().nullable().optional(),
     country: z.array(z.string()).nullable().optional(),
+    notCity: z.boolean().nullable().optional(),
+    city: z.array(z.string()).nullable().optional(),
+    notNationality: z.boolean().nullable().optional(),
+    nationality: z.array(z.string()).nullable().optional(),
+    notLanguage: z.boolean().nullable().optional(),
+    language: z.array(z.string()).nullable().optional(),
+    notCountryOfOrigin: z.boolean().nullable().optional(),
+    countryOfOrigin: z.array(z.string()).nullable().optional(),
+    notMartialStatus: z.boolean().nullable().optional(),
     martialStatus: z.array(z.string()).nullable().optional(),
-    salat: z.array(z.string()).nullable().optional(),
+    notReligiousPractice: z.boolean().nullable().optional(),
+    religiousPractice: z.array(z.string()).nullable().optional(),
+    notBornOrRevert: z.boolean().nullable().optional(),
     bornOrRevert: z.array(z.string()).nullable().optional(),
+    notHijab: z.boolean().nullable().optional(),
     hijab: z.array(z.string()).nullable().optional(),
+    notChildren: z.boolean().nullable().optional(),
     children: z.array(z.string()).nullable().optional(),
+    notWantsChildren: z.boolean().nullable().optional(),
     wantsChildren: z.array(z.string()).nullable().optional(),
+    notEducation: z.boolean().nullable().optional(),
     education: z.array(z.string()).nullable().optional(),
+    notProfession: z.boolean().nullable().optional(),
     profession: z.array(z.string()).nullable().optional(),
+    notNumberOfChildren: z.boolean().nullable().optional(),
     numberOfChildren: z.array(z.string()).nullable().optional(),
     minMatchRequirement: z.number().nullable().optional(),
     drinking: z
@@ -119,22 +138,8 @@ export const preferenceSchema = z
       ])
       .nullable()
       .optional(),
-    tattoos: z
-      .enum(
-        [
-          'None',
-          'Minimal, not visible',
-          'Small, visible or concealed',
-          'Large or multiple tattoos',
-          'Doesn’t matter',
-        ],
-        {
-          required_error: 'Please select a valid option for tattoos',
-          invalid_type_error: 'Invalid option for tattoos',
-        }
-      )
-      .nullable()
-      .optional(),
+    notTattoos: z.boolean().nullable().optional(),
+    tattoos: z.array(z.string()).nullable().optional(),
     drugs: z
       .union([
         z.boolean({

@@ -1,6 +1,6 @@
 'use client';
 
-import { Form } from '@/components/ui/form';
+import { Form, FormField } from '@/components/ui/form';
 
 import {
   minAge,
@@ -18,20 +18,28 @@ import {
   advancedPreferenceQuestions,
 } from '@/lib/matchmaking/questions/preference';
 import PreferenceField from './preference-fields';
+import CountrySelector, {
+  MultiCountrySelector,
+} from '@/components/ui/country-selector';
+import CitySelector, { MultiCitySelector } from '@/components/ui/city-selector';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 export default function MatchPreferenceFilter() {
   const {
     form,
     isFilterInactive,
-    notFilter,
+    fieldToNotFilterMap,
     toggleNotFilter,
     debouncedSavePreference,
   } = usePreference();
 
+  const countryNotFilter = !!form.watch('notCountry');
+  const cityNotFilter = countryNotFilter;
+
   return (
     <Form {...form}>
       <form className="col-span-9 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary">
-      
         <div className="space-y-2 col-span-10 md:col-span-3">
           <MatchFilterSlider
             name="preferredAge"
@@ -56,7 +64,6 @@ export default function MatchPreferenceFilter() {
             )}
           />
         </div>
-
         <div className="space-y-2 col-span-10 md:col-span-3">
           <MatchFilterSlider
             name="preferredHeight"
@@ -93,7 +100,6 @@ export default function MatchPreferenceFilter() {
             )}
           />
         </div>
-
         <div className="space-y-2 col-span-10 md:col-span-3 grid grid-cols-subgrid">
           <MatchFilterSlider
             name="preferredWeight"
@@ -120,6 +126,141 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
+        <div className="space-y-1 col-span-10 md:col-span-3">
+          <FormField
+            name="country"
+            control={form.control}
+            render={({ field }) => (
+              <>
+                <div className="flex justify-between items-center">
+                  <span className="font-bold line-clamp-1">Country</span>
+                  <div className="flex gap-2">
+                    <Label
+                      className="flex gap-1 items-center justify-center text-[0.65rem]"
+                      onClick={() => {
+                        toggleNotFilter(field.name);
+                        field.onChange([]);
+                        debouncedSavePreference();
+                      }}
+                    >
+                      <Input
+                        type="checkbox"
+                        className="p-0 m-0 h-fit"
+                        checked={countryNotFilter}
+                        onChange={() => {}}
+                      />
+                      <span>Not</span>
+                    </Label>
+                    {!countryNotFilter && (
+                      <Label
+                        className="flex gap-1 items-center justify-center text-[0.65rem]"
+                        onClick={() => {
+                          field.onChange(null);
+                          debouncedSavePreference();
+                        }}
+                      >
+                        <Input
+                          type="checkbox"
+                          className="p-0 m-0 h-fit"
+                          checked={isFilterInactive[field.name]}
+                          onChange={() => {}}
+                        />
+                        <span>Any</span>
+                      </Label>
+                    )}
+                    {countryNotFilter && (
+                      <Label
+                        className="flex gap-1 items-center justify-center text-[0.7rem] bg-muted px-2 py-1 rounded-sm hover:bg-secondary hover:text-secondary-foreground cursor-pointer"
+                        onClick={() => {
+                          field.onChange([]);
+                          debouncedSavePreference();
+                        }}
+                      >
+                        <span>Clear</span>
+                      </Label>
+                    )}
+                  </div>
+                </div>
+                <MultiCountrySelector
+                  value={field.value ?? []}
+                  onChange={(value) => {
+                    field.onChange(value);
+                    debouncedSavePreference();
+                  }}
+                />
+              </>
+            )}
+          />
+        </div>
+
+        <div className="space-y-1 col-span-10 md:col-span-3">
+          <FormField
+            name="city"
+            control={form.control}
+            render={({ field }) => (
+              <>
+                <div className="flex justify-between items-center">
+                  <span className="font-bold line-clamp-1">City</span>
+                  <div className="flex gap-2">
+                    <Label
+                      className="flex gap-1 items-center justify-center text-[0.65rem]"
+                      onClick={() => {
+                        toggleNotFilter(field.name);
+                        field.onChange([]);
+                        debouncedSavePreference();
+                      }}
+                    >
+                      <Input
+                        type="checkbox"
+                        className="p-0 m-0 h-fit"
+                        checked={cityNotFilter}
+                        onChange={() => {}}
+                      />
+                      <span>Not</span>
+                    </Label>
+                    {!cityNotFilter && (
+                      <Label
+                        className="flex gap-1 items-center justify-center text-[0.65rem]"
+                        onClick={() => {
+                          field.onChange(null);
+                          debouncedSavePreference();
+                        }}
+                      >
+                        <Input
+                          type="checkbox"
+                          className="p-0 m-0 h-fit"
+                          checked={isFilterInactive[field.name]}
+                          onChange={() => {}}
+                        />
+                        <span>Any</span>
+                      </Label>
+                    )}
+                    {cityNotFilter && (
+                      <Label
+                        className="flex gap-1 items-center justify-center text-[0.7rem] bg-muted px-2 py-1 rounded-sm hover:bg-secondary hover:text-secondary-foreground cursor-pointer"
+                        onClick={() => {
+                          field.onChange([]);
+                          debouncedSavePreference();
+                        }}
+                      >
+                        <span>Clear</span>
+                      </Label>
+                    )}
+                  </div>
+                </div>
+                <MultiCitySelector
+                  value={field.value ?? []}
+                  onChange={(value) => {
+                    field.onChange(value);
+                    debouncedSavePreference();
+                  }}
+                  selectedCountries={form.watch('country') ?? []}
+                />
+              </>
+            )}
+          />
+        </div>
+
         {basicPreferenceQuestions.map((question, index) => {
           return (
             <PreferenceField
@@ -127,9 +268,9 @@ export default function MatchPreferenceFilter() {
               question={question}
               onChange={debouncedSavePreference}
               type={question.type}
-              notFilter={notFilter[question.name as keyof typeof notFilter]}
+              notFilter={form.watch(fieldToNotFilterMap[question.name])}
               toggleNotFilter={() =>
-                toggleNotFilter(question.name as keyof typeof notFilter)
+                toggleNotFilter(question.name as unknown as any)
               }
               allowAny={
                 isFilterInactive[question.name as keyof typeof isFilterInactive]
@@ -137,9 +278,7 @@ export default function MatchPreferenceFilter() {
             />
           );
         })}
-
         <h2 className="col-span-9 font-bold mt-2">Advanced</h2>
-
         {advancedPreferenceQuestions.map((question, index) => {
           return (
             <PreferenceField
@@ -147,9 +286,9 @@ export default function MatchPreferenceFilter() {
               question={question}
               onChange={debouncedSavePreference}
               type={question.type}
-              notFilter={notFilter[question.name as keyof typeof notFilter]}
+              notFilter={form.watch(fieldToNotFilterMap[question.name])}
               toggleNotFilter={() =>
-                toggleNotFilter(question.name as keyof typeof notFilter)
+                toggleNotFilter(question.name as unknown as any)
               }
               allowAny={
                 isFilterInactive[question.name as keyof typeof isFilterInactive]
