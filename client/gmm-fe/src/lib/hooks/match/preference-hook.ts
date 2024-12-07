@@ -76,6 +76,16 @@ const reset = (
     preferredAge,
     preferredHeight,
     preferredWeight,
+    preferredCountry: notFilterTransform(
+      'preferredCountry',
+      notFilter?.['preferredCountry'],
+      preference?.preferredCountry
+    ),
+    preferredCity: notFilterTransform(
+      'preferredCity',
+      notFilter?.['preferredCity'],
+      preference?.preferredCity
+    ),
     nationality: notFilterTransform(
       'nationality',
       notFilter?.['nationality'],
@@ -171,6 +181,8 @@ const transformPreference = (
   }
 
   const keys = [
+    'preferredCountry',
+    'preferredCity',
     'nationality',
     'language',
     'country',
@@ -231,6 +243,8 @@ export const usePreference = () => {
   });
 
   const [notFilter, setNotFilter] = useState({
+    preferredCountry: false,
+    preferredCity: false,
     nationality: false,
     language: false,
     country: false,

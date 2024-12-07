@@ -69,4 +69,5 @@ export const {
   useGetCountriesQuery,
   useGetStatesQuery,
   useGetCountryCitiesQuery,
+  useLazyGetCountryCitiesQuery,
 } = locationApi;

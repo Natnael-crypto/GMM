@@ -1,6 +1,6 @@
 'use client';
 
-import { Form } from '@/components/ui/form';
+import { Form, FormField } from '@/components/ui/form';
 
 import {
   minAge,
@@ -18,6 +18,12 @@ import {
   advancedPreferenceQuestions,
 } from '@/lib/matchmaking/questions/preference';
 import PreferenceField from './preference-fields';
+import CountrySelector, {
+  MultiCountrySelector,
+} from '@/components/ui/country-selector';
+import CitySelector, { MultiCitySelector } from '@/components/ui/city-selector';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 export default function MatchPreferenceFilter() {
   const {
@@ -31,7 +37,6 @@ export default function MatchPreferenceFilter() {
   return (
     <Form {...form}>
       <form className="col-span-9 grid grid-cols-2 md:grid-cols-subgrid gap-x-4 gap-y-5 text-secondary">
-      
         <div className="space-y-2 col-span-10 md:col-span-3">
           <MatchFilterSlider
             name="preferredAge"
@@ -118,6 +123,75 @@ export default function MatchPreferenceFilter() {
               </div>
             )}
           />
+        </div>
+
+        <div className="space-y-1 col-span-10 md:col-span-3">
+          <FormField
+            name="preferredCountry"
+            control={form.control}
+            render={({ field }) => (
+              <>
+                <div className="flex justify-between items-center">
+                  <span className="font-bold line-clamp-1">Country</span>
+                  <Label
+                    className="flex gap-1 items-center justify-center text-[0.65rem]"
+                    onClick={() => {
+                      toggleNotFilter('preferredCountry');
+                      field.onChange([]);
+                    }}
+                  >
+                    <Input
+                      type="checkbox"
+                      className="p-0 m-0 h-fit"
+                      checked={notFilter['preferredCountry']}
+                    />
+                    <span>Not</span>
+                  </Label>
+                  {
+                    <Label
+                      className="flex gap-1 items-center justify-center text-[0.65rem]"
+                      onClick={() => {
+                        field.onChange([]);
+                        debouncedSavePreference();
+                      }}
+                    >
+                      <Input
+                        type="checkbox"
+                        className="p-0 m-0 h-fit"
+                        checked={isFilterInactive['preferredCountry']}
+                      />
+                      <span>Any</span>
+                    </Label>
+                  }
+                </div>
+                {/* <MultiCountrySelector
+                  value={field.value ?? []}
+                  onChange={(value) => {
+                    field.onChange(value);
+                    debouncedSavePreference();
+                  }}
+                /> */}
+              </>
+            )}
+          />
+        </div>
+
+        <div className="space-y-1 col-span-10 md:col-span-3">
+          <span className="font-bold line-clamp-1">City</span>
+          {/* <FormField
+            name="preferredCity"
+            control={form.control}
+            render={({ field }) => (
+              <MultiCitySelector
+                value={field.value ?? []}
+                onChange={(value) => {
+                  field.onChange(value);
+                  debouncedSavePreference();
+                }}
+                selectedCountries={form.watch('preferredCountry') ?? []}
+              />
+            )}
+          /> */}
         </div>
 
         {basicPreferenceQuestions.map((question, index) => {
