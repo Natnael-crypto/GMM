@@ -32,70 +32,140 @@ export class UpdatePreferenceDto {
   @IsOptional()
   maxWeight?: number;
 
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notNationality?: boolean;
+
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   nationality?: string[];
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notLanguage?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   language?: string[];
 
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notCountry?: boolean;
+
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   country?: string[];
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notCity?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   city?: string[];
 
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notCountryOfOrigin?: boolean;
+
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   countryOfOrigin?: string[];
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notNumberOfChildren?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   numberOfChildren?: string[];
 
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notMartialStatus?: boolean;
+
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   martialStatus?: string[];
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notReligiousPractice?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   religiousPractice?: string[];
 
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notBornOrRevert?: boolean;
+
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   bornOrRevert?: string[];
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notHijab?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   hijab?: string[];
 
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notChildren?: boolean;
+
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   children?: string[];
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notWantsChildren?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   wantsChildren?: string[];
 
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notEducation?: boolean;
+
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   education?: string[];
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notProfession?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
@@ -116,6 +186,11 @@ export class UpdatePreferenceDto {
   @IsBoolean()
   @IsOptional()
   drugs?: boolean;
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notTattoos?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()

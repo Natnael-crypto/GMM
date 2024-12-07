@@ -28,44 +28,86 @@ export class Preference {
   @Column({ nullable: true })
   maxWeight: number;
 
+  @Column({ default: false })
+  notNationality: boolean;
+
   @Column({ nullable: true, type: 'simple-array' })
   nationality: string[];
+
+  @Column({ default: false })
+  notLanguage: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
   language: string[];
 
+  @Column({ default: false })
+  notCountry: boolean;
+
   @Column({ nullable: true, type: 'simple-array' })
   country: string[];
+
+  @Column({ default: false })
+  notCity: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
   city: string[];
 
+  @Column({ default: false })
+  notCountryOfOrigin: boolean;
+
   @Column({ nullable: true, type: 'simple-array' })
   countryOfOrigin: string[];
+
+  @Column({ default: false })
+  notMartialStatus: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
   martialStatus: string[];
 
+  @Column({ default: false })
+  notReligiousPractice: boolean;
+
   @Column({ nullable: true, type: 'simple-array' })
   religiousPractice: string[];
+
+  @Column({ default: false })
+  notBornOrRevert: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
   bornOrRevert: string[];
 
+  @Column({ default: false })
+  notNumberOfChildren: boolean;
+
   @Column({ nullable: true, type: 'simple-array' })
   numberOfChildren: string[];
+
+  @Column({ default: false })
+  notHijab: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
   hijab: string[];
 
+  @Column({ default: false })
+  notChildren: boolean;
+
   @Column({ nullable: true, type: 'simple-array' })
   children: string[];
+
+  @Column({ default: false })
+  notWantsChildren: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
   wantsChildren: string[];
 
+  @Column({ default: false })
+  notEducation: boolean;
+
   @Column({ nullable: true, type: 'simple-array' })
   education: string[];
+
+  @Column({ default: false })
+  notProfession: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
   profession: string[];
@@ -78,6 +120,9 @@ export class Preference {
 
   @Column({ nullable: true })
   drugs: boolean;
+
+  @Column({ default: false })
+  notTattoos: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
   tattoos: string[];
