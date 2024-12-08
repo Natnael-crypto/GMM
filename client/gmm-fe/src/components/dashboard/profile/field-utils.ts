@@ -1,9 +1,13 @@
-import { evaluateRuleTree } from '@/lib/form/rule-evalutator';
+import { evaluateRuleTree } from '@/lib/form/rule-evaluator';
 
 export const getFields = (formData: any, displayTemplate: any) => {
   if (!formData) return [];
   if (!displayTemplate) return [];
 
+  // fieldName: value (value in internal representation)
+  const originalDataMap: Record<string, any> = {};
+
+  // fieldName: value label (for user view)
   const dataMap: Record<string, string> = {};
 
   if (formData) {
@@ -12,6 +16,8 @@ export const getFields = (formData: any, displayTemplate: any) => {
       const options = data?.field?.options;
 
       if (fieldName && options) {
+        originalDataMap[fieldName] = data.value;
+
         if (data?.field.type === 'multiselect') {
           if (!data.value) continue;
           if (Array.isArray(data.value)) {
@@ -43,30 +49,47 @@ export const getFields = (formData: any, displayTemplate: any) => {
   const formView = [];
 
   for (const item of displayTemplate) {
-    if (Array.isArray(item.value)) {
-      formView.push({
-        iconName: item.icon,
-        label: item.label,
-        value: item.value
-          .map((subItem: { label: string; value: string }) => {
-            if (!dataMap[subItem.value]) return null;
-            return {
-              label: subItem.label,
-              value: dataMap[subItem.value],
-            };
-          })
-          .filter((subItem: any) => subItem),
-      });
-    } else {
-      if (!dataMap[item.value]) continue;
+    if (evaluateRuleTree(item.show, originalDataMap)) {
+      // Item with sub items
+      if (Array.isArray(item.value)) {
+        formView.push({
+          iconName: item.icon,
+          label: item.label,
+          value: item.value
+            .map((subItem: { label: string; value: string; show: any }) => {
+              if (evaluateRuleTree(subItem.show, originalDataMap)) {
+                return {
+                  label: subItem.label,
+                  value: dataMap[subItem.value],
+                };
+              }
 
-      formView.push({
-        iconName: item.icon,
-        label: item.label,
-        value: dataMap[item.value],
-      });
+              return null;
+            })
+            .filter((subItem: any) => subItem),
+        });
+      }
+
+      //
+      else {
+        formView.push({
+          iconName: item.icon,
+          label: item.label,
+          value: dataMap[item.value],
+        });
+      }
     }
+
+    console.log(
+      item.label,
+      item.show,
+      evaluateRuleTree(item.show, originalDataMap)
+    );
   }
+
+  // console.log(formView);
+  // console.log(dataMap);
+  // console.log(originalDataMap);
 
   return formView;
 };

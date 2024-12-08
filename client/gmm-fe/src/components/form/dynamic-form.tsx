@@ -6,7 +6,7 @@ import Field from '@/components/dashboard/profile/field';
 import { useSubmitFormMutation } from '@/lib/form/api';
 import { useAppSelector } from '@/lib/hooks';
 import React, { useEffect, useMemo, useRef } from 'react';
-import { evaluateRuleTree } from '@/lib/form/rule-evalutator';
+import { evaluateRuleTree } from '@/lib/form/rule-evaluator';
 import { useDebouncedCallback } from 'use-debounce';
 import { useUpdateProfileContext } from '../dashboard/profile/update-profile-context';
 

@@ -63,34 +63,29 @@ export default function FieldViewer<T>({
                   )}
                 </div>
                 <div className="col-span-9 sm:col-span-10 md:col-span-11 space-y-3 mt-1">
-                  {Array.isArray(field.value)
-                    ? field.value.length > 0 && (
-                        <ul className="flex flex-col gap-3">
-                          {field.value.map(
-                            (subField, subIndex) =>
-                              subField.value && (
-                                <li key={subIndex} className="gap-x-4">
-                                  <p className="text-sm">
-                                    {subField.label}:{' '}
-                                    <span className="text-md font-bold">
-                                      {subField.value}
-                                    </span>
-                                  </p>
-                                </li>
-                              )
-                          )}
-                        </ul>
-                      )
-                    : field.value && (
-                        <div className="col-span-9 sm:col-span-10 md:col-span-11 space-y-3 mt-1">
-                          <p className="text-sm">
-                            {field.label}:{' '}
-                            <span className="text-md font-bold">
-                              {field.value}
-                            </span>
-                          </p>
-                        </div>
-                      )}
+                  {Array.isArray(field.value) ? (
+                    field.value.length > 0 && (
+                      <ul className="flex flex-col gap-3">
+                        {field.value.map((subField, subIndex) => (
+                          <li key={subIndex} className="gap-x-4">
+                            <p className="text-sm">
+                              {subField.label}:{' '}
+                              <span className="text-md font-bold">
+                                {subField.value}
+                              </span>
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
+                    )
+                  ) : (
+                    <div className="col-span-9 sm:col-span-10 md:col-span-11 space-y-3 mt-1">
+                      <p className="text-sm">
+                        {field.label}:{' '}
+                        <span className="text-md font-bold">{field.value}</span>
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             )
