@@ -129,8 +129,8 @@ export class MatchMakingService extends BaseRepository {
     const qualifiedCandidates = score.filter((match) => {
       const candidateReq = match.user.preference.minMatchRequirement ?? 1;
 
-      if (match.score.candidateLikesUser <= candidateReq) return false;
-      if (match.score.userLikesCandidate <= userReq) return false;
+      if (match.score.candidateLikesUser < candidateReq) return false;
+      if (match.score.userLikesCandidate < userReq) return false;
 
       return true;
     });
