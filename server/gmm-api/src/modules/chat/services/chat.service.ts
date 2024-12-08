@@ -7,13 +7,26 @@ import {
 import { RoomModel } from '../entities/room.schema';
 import { MessageModel } from '../entities/message.schema';
 import { ChatDto, InitiateChatDto, MessageDto } from '../dtos/chat.dto';
-import { UserService } from '@modules/user/services/user.service';
 import { randomUUID } from 'crypto';
 import { User } from '@modules/user/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ChatService {
-  constructor(private userService: UserService) {}
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+  ) {}
+
+  async getUserById(userId: string): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new NotFoundException(`User with ID '${userId}' not found`);
+    }
+
+    return user;
+  }
 
   async getUserChats(user: User): Promise<ChatDto[]> {
     const rooms = await RoomModel.scan().exec();
@@ -33,7 +46,7 @@ export class ChatService {
   ): Promise<ChatDto> {
     const { userId } = initiateChatDto;
 
-    const user1 = await this.userService.getUserById(userId);
+    const user1 = await this.getUserById(userId);
 
     if (!user1 || !user) {
       throw new NotFoundException('One or both users not found');

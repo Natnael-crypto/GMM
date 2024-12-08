@@ -38,7 +38,7 @@ import { LocationModule } from '@modules/location/location.module';
     LocationModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ChatWebsocketGateway],
+  providers: [AppService],
 })
 export class AppModule {
   constructor() {}

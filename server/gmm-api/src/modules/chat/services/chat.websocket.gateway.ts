@@ -6,11 +6,9 @@ import {
   SubscribeMessage,
 } from '@nestjs/websockets';
 import { Socket } from 'socket.io';
-
 import { RoomModel } from '../entities/room.schema';
 import { ForbiddenException, NotFoundException } from '@nestjs/common';
 import { MessageDto } from '../dtos/chat.dto';
-import { UserService } from '@modules/user/services/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { ChatService } from './chat.service';
@@ -28,7 +26,6 @@ export class ChatWebsocketGateway
 {
   constructor(
     private readonly jwtService: JwtService,
-    private readonly userService: UserService,
     private readonly configService: ConfigService,
     private readonly chatService: ChatService,
   ) {}
@@ -41,7 +38,7 @@ export class ChatWebsocketGateway
         secret: this.configService.get<AuthConfig>('auth')?.jwt.secret,
       });
 
-      const user = await this.userService.getUserById(decoded.id);
+      const user = await this.chatService.getUserById(decoded.id);
       if (!user) {
         throw new Error('User not found');
       }
