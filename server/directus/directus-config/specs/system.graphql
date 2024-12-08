@@ -265,7 +265,6 @@ type Subscription {
   user_marriage_discussion_mutated(event: EventEnum): user_marriage_discussion_mutated
   user_family_information_mutated(event: EventEnum): user_family_information_mutated
   user_optional_verifiable_mutated(event: EventEnum): user_optional_verifiable_mutated
-  preference_mutated(event: EventEnum): preference_mutated
   form_submission_mutated(event: EventEnum): form_submission_mutated
   user_mutated(event: EventEnum): user_mutated
   form_field_answer_mutated(event: EventEnum): form_field_answer_mutated
@@ -295,6 +294,10 @@ type Subscription {
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
   blog_mutated(event: EventEnum): blog_mutated
   category_mutated(event: EventEnum): category_mutated
+  state_mutated(event: EventEnum): state_mutated
+  city_mutated(event: EventEnum): city_mutated
+  country_mutated(event: EventEnum): country_mutated
+  preference_mutated(event: EventEnum): preference_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -414,8 +417,34 @@ type category_mutated {
   data: category
 }
 
+type city {
+  id: ID!
+  name: String!
+  latitude: String!
+  longitude: String!
+  stateId(filter: state_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): state
+}
+
+type city_mutated {
+  key: ID!
+  event: EventEnum
+  data: city
+}
+
 type count_functions {
   count: Int
+}
+
+type country {
+  id: ID!
+  name: String!
+  currency: String!
+}
+
+type country_mutated {
+  key: ID!
+  event: EventEnum
+  data: country
 }
 
 type date_functions {
@@ -2023,7 +2052,6 @@ type preference {
   language: String
   country: String
   martialStatus: String
-  salat: String
   bornOrRevert: String
   hijab: String
   children: String
@@ -2031,9 +2059,27 @@ type preference {
   education: String
   profession: String
   minMatchRequirement: Float
-  tattoos: String
   city: String
+  countryOfOrigin: String
+  religiousPractice: String
+  drugs: Boolean
   numberOfChildren: String
+  tattoos: String
+  notNationality: Boolean!
+  notLanguage: Boolean!
+  notCountry: Boolean!
+  notCity: Boolean!
+  notCountryOfOrigin: Boolean!
+  notMartialStatus: Boolean!
+  notReligiousPractice: Boolean!
+  notBornOrRevert: Boolean!
+  notNumberOfChildren: Boolean!
+  notHijab: Boolean!
+  notChildren: Boolean!
+  notWantsChildren: Boolean!
+  notEducation: Boolean!
+  notProfession: Boolean!
+  notTattoos: Boolean!
 }
 
 type preference_mutated {
@@ -2105,6 +2151,18 @@ type server_info_websocket_graphql {
 type server_info_websocket_rest {
   authentication: server_info_websocket_rest_authentication
   path: String
+}
+
+type state {
+  id: ID!
+  name: String!
+  countryId(filter: country_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): country
+}
+
+type state_mutated {
+  key: ID!
+  event: EventEnum
+  data: state
 }
 
 type subscription_history {
@@ -2202,6 +2260,7 @@ type user {
   education: String
   profession: String
   tattoos: String
+  currentCountry: String
 }
 
 type user_family_information {
@@ -2327,6 +2386,14 @@ input boolean_filter_operators {
 
 input count_function_filter_operators {
   count: number_filter_operators
+}
+
+input country_filter {
+  id: number_filter_operators
+  name: string_filter_operators
+  currency: string_filter_operators
+  _and: [country_filter]
+  _or: [country_filter]
 }
 
 input create_directus_access_input {
@@ -3215,6 +3282,14 @@ input role_filter {
   _or: [role_filter]
 }
 
+input state_filter {
+  id: number_filter_operators
+  name: string_filter_operators
+  countryId: country_filter
+  _and: [state_filter]
+  _or: [state_filter]
+}
+
 input string_filter_operators {
   _eq: String
   _neq: String
@@ -3622,6 +3697,7 @@ input user_filter {
   education: string_filter_operators
   profession: string_filter_operators
   tattoos: string_filter_operators
+  currentCountry: string_filter_operators
   _and: [user_filter]
   _or: [user_filter]
 }

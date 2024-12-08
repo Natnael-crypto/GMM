@@ -1,0 +1,7 @@
+{
+  "collection": "country",
+  "meta": null,
+  "schema": {
+    "name": "country"
+  }
+}

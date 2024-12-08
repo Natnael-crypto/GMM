@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "name": "Send approval email",
+    "icon": "bolt",
+    "color": null,
+    "description": null,
+    "status": "active",
+    "trigger": "event",
+    "accountability": "all",
+    "options": {
+      "type": "action",
+      "scope": [
+        "items.update"
+      ],
+      "collections": [
+        "user"
+      ]
+    },
+    "operation": null,
+    "_syncId": "8581c700-7d1b-4908-bdf6-ecc3ada67c05"
+  }
+]

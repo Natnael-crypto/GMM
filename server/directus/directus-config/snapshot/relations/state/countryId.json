@@ -1,0 +1,15 @@
+{
+  "collection": "state",
+  "field": "countryId",
+  "related_collection": "country",
+  "meta": null,
+  "schema": {
+    "table": "state",
+    "column": "countryId",
+    "foreign_key_table": "country",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_e81c86ceadca8731f5fca8e06f5",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}

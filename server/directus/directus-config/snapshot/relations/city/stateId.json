@@ -1,0 +1,15 @@
+{
+  "collection": "city",
+  "field": "stateId",
+  "related_collection": "state",
+  "meta": null,
+  "schema": {
+    "table": "city",
+    "column": "stateId",
+    "foreign_key_table": "state",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_e99de556ee56afe72154f3ed04a",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}

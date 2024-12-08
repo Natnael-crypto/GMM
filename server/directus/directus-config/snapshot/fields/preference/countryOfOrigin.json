@@ -1,10 +1,10 @@
 {
   "collection": "preference",
-  "field": "salat",
+  "field": "countryOfOrigin",
   "type": "text",
   "meta": null,
   "schema": {
-    "name": "salat",
+    "name": "countryOfOrigin",
     "table": "preference",
     "data_type": "text",
     "default_value": null,

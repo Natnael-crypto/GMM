@@ -1,14 +1,14 @@
 {
   "collection": "preference",
   "field": "numberOfChildren",
-  "type": "string",
+  "type": "text",
   "meta": null,
   "schema": {
     "name": "numberOfChildren",
     "table": "preference",
-    "data_type": "character varying",
+    "data_type": "text",
     "default_value": null,
-    "max_length": -5,
+    "max_length": null,
     "numeric_precision": null,
     "numeric_scale": null,
     "is_nullable": true,

@@ -2,7 +2,32 @@
   "collection": "match_pool",
   "field": "userId",
   "type": "uuid",
-  "meta": null,
+  "meta": {
+    "collection": "match_pool",
+    "conditions": null,
+    "display": "related-values",
+    "display_options": {
+      "template": "{{firstName}} {{lastName}} ({{email}})"
+    },
+    "field": "userId",
+    "group": null,
+    "hidden": false,
+    "interface": null,
+    "note": null,
+    "options": {
+      "template": "{{firstName}}{{lastName}}({{email}})"
+    },
+    "readonly": false,
+    "required": false,
+    "sort": null,
+    "special": [
+      "uuid"
+    ],
+    "translations": null,
+    "validation": null,
+    "validation_message": null,
+    "width": "full"
+  },
   "schema": {
     "name": "userId",
     "table": "match_pool",
