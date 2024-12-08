@@ -21,8 +21,21 @@ import { useCreateUploadUrlMutation } from '@/lib/user/api';
 import { useState } from 'react';
 import Image from 'next/image';
 import Loading from '../ui/loading';
-import { PhoneInput } from '../ui/phone-input';
+
+import { PhoneNumberUtil } from 'google-libphonenumber';
+import { PhoneInput } from 'react-international-phone';
+import 'react-international-phone/style.css';
 import { useAppSelector } from '@/lib/hooks';
+
+const phoneUtil = PhoneNumberUtil.getInstance();
+
+const isPhoneValid = (phone: string) => {
+  try {
+    return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(phone));
+  } catch (error) {
+    return false;
+  }
+};
 
 export default function FamilyIntroductionForm() {
   const t = useTranslations('Dashboard.updateProfile.familyIntroduction');
@@ -96,7 +109,7 @@ export default function FamilyIntroductionForm() {
                         className="text-muted-foreground bg-background text-md shadow rounded-sm"
                       />
                     </FormControl>
-                    <FormMessage className="text-md" />
+                    <FormMessage className="text-sm" />
                   </FormItem>
                 )}
               />
@@ -125,13 +138,13 @@ export default function FamilyIntroductionForm() {
                         }}
                       />
                     </FormControl>
-                    <FormMessage className="text-md" />
+                    <FormMessage className="text-sm" />
                   </FormItem>
                 )}
               />
             </div>
 
-            <div className="space-y-1 py-2 col-span-2">
+            <div className="space-y-1 py-2 col-span-1">
               <Label>{t('guardianInformation.relationship')}</Label>
               <FormField
                 name="relationshipToGuardian"
@@ -175,26 +188,7 @@ export default function FamilyIntroductionForm() {
                         </SelectContent>
                       </Select>
                     </FormControl>
-                    <FormMessage className="text-md" />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
-              <Label>{t('guardianInformation.phoneNumber')}</Label>
-              <FormField
-                name="guardianPhoneNumber"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <PhoneInput
-                        {...field}
-                        className="text-muted-foreground bg-background text-md shadow rounded-sm"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-md" />
+                    <FormMessage className="text-sm" />
                   </FormItem>
                 )}
               />
@@ -210,10 +204,32 @@ export default function FamilyIntroductionForm() {
                     <FormControl>
                       <Input
                         {...field}
+                        type="email"
                         className="text-muted-foreground bg-background text-md shadow rounded-sm"
                       />
                     </FormControl>
-                    <FormMessage className="text-md" />
+                    <FormMessage className="text-sm" />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
+              <Label>{t('guardianInformation.phoneNumber')}</Label>
+              <FormField
+                name="guardianPhoneNumber"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <div className="shadow w-fit">
+                        <PhoneInput
+                          {...field}
+                          className="text-muted-foreground bg-background text-md rounded-sm"
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-sm" />
                   </FormItem>
                 )}
               />
@@ -225,7 +241,7 @@ export default function FamilyIntroductionForm() {
           {t('idVerification.title')}
         </h1>
 
-        <div className="space-y-1 py-2 col-span-2">
+        <div className="space-y-1 py-2 col-span-2 ">
           <Label>{t('idVerification.phoneNumber')}</Label>
           <FormField
             name="phoneNumber"
@@ -233,12 +249,14 @@ export default function FamilyIntroductionForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <PhoneInput
-                    {...field}
-                    className="text-muted-foreground bg-background text-md shadow rounded-sm"
-                  />
+                  <div className="shadow w-fit">
+                    <PhoneInput
+                      {...field}
+                      className="text-muted-foreground bg-background text-md"
+                    />
+                  </div>
                 </FormControl>
-                <FormMessage className="text-xs" />
+                <FormMessage className="text-sm" />
               </FormItem>
             )}
           />
@@ -263,7 +281,7 @@ export default function FamilyIntroductionForm() {
                     />
                   )}
                 </FormControl>
-                <FormMessage className="text-md" />
+                <FormMessage className="text-sm" />
               </FormItem>
             )}
           />

@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { getPlaceholderImage } from '@/actions/image';
 
 export default function DynamicBlur(props: any) {
-  const [base64, setBase64] = React.useState<string>();
+  const [base64, setBase64] = React.useState<string | null>();
 
   useEffect(() => {
     async function fetchImage() {

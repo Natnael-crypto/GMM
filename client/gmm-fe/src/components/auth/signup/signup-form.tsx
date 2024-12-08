@@ -32,7 +32,6 @@ import {
 
 import { getEighteenYearsAgo } from '@/lib/format';
 import { DatePicker } from '@mui/x-date-pickers';
-import { makeStyles } from '@mui/material';
 
 export function SignUpForm() {
   const { replace } = useRouter();
@@ -226,63 +225,6 @@ export function SignUpForm() {
                     },
                   }}
                 />
-                {/* <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={'outline'}
-                        className={cn(
-                          'w-full pl-3 text-left font-normal h-8 rounded-sm text-md text-muted-foreground'
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, 'PPP')
-                        ) : (
-                          <span>Date of Birth</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <div className="relative h-72 overflow-auto p-2">
-                      <Select
-                        onValueChange={(value) => {
-                          field.onChange(new Date(value));
-                        }}
-                      >
-                        <SelectTrigger className="z-50 top-0 bg-background h-10 py-1">
-                          <SelectValue placeholder="Select Year" />
-                        </SelectTrigger>
-                        <SelectContent position="popper">
-                          {Array.from(
-                            { length: 100 },
-                            (_, i) => getEighteenYearsAgo().getFullYear() - i
-                          ).map((year) => (
-                            <SelectItem key={year} value={year.toString()}>
-                              {year}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-
-                      <Calendar
-                        key={field.value?.toString() ?? 'date_of_birth'}
-                        mode="single"
-                        selected={field.value}
-                        onSelect={(value) => {
-                          field.onChange(value);
-                          setIsCalendarOpen(false);
-                        }}
-                        disabled={(date) =>
-                          date > getEighteenYearsAgo() ||
-                          date < new Date('1900-01-01')
-                        }
-                        defaultMonth={field.value}
-                      />
-                    </div>
-                  </PopoverContent>
-                </Popover> */}
 
                 <FormMessage className="text-md" />
               </FormItem>

@@ -8,9 +8,15 @@ async function getBuffer(url: string) {
 }
 
 export async function getPlaceholderImage(url: string) {
-  const buffer = await getBuffer(url);
-  const { base64 } = await getPlaiceholder(buffer);
-  return {
-    placeholder: base64,
-  };
+  try {
+    const buffer = await getBuffer(url);
+    const { base64 } = await getPlaiceholder(buffer);
+    return {
+      placeholder: base64,
+    };
+  } catch (e) {
+    return {
+      placeholder: null,
+    };
+  }
 }
