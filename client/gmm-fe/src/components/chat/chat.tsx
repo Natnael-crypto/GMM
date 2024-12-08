@@ -1,5 +1,7 @@
 'use client';
 
+import data from '@emoji-mart/data';
+import EmojiPicker from '@emoji-mart/react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useGetMessagesQuery, useLazyGetMessagesQuery } from '@/lib/chat/api';
@@ -12,10 +14,9 @@ import {
   faPeopleRoof,
   faSmile,
   faUser,
-  faUserCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSocketContext } from '../auth/socket-provider';
 import { MessageBox } from './message';
 import { useGetUserByIdQuery } from '@/lib/auth/api';
@@ -25,7 +26,8 @@ import { formatLocalizedDate } from '@/lib/format';
 import DateSeparator from './date-separator';
 import { StepperItem } from './stepper';
 import { Match } from '@/lib/matchmaking/types';
-import { allMatchStages, MatchStage } from '@/lib/schemas/match';
+import { allMatchStages } from '@/lib/schemas/match';
+import { useLocale } from 'next-intl';
 
 type ExtendedMessage = Message & { pending: boolean; mine: boolean };
 
@@ -102,6 +104,9 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
   const [trigger, oldMessagesResult, lastPromiseInfo] =
     useLazyGetMessagesQuery();
 
+  const [showEmojiBoard, setShowEmojiBoard] = useState(false);
+  const locale = useLocale();
+
   const { sendMessage, socket } = useSocketContext();
   const otherUserId = user?.id === chat.user1 ? chat.user2 : chat.user1;
   const { data: otherUser } = useGetUserByIdQuery(otherUserId, {
@@ -125,6 +130,7 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
   );
 
   const handleSend = () => {
+    setShowEmojiBoard(false);
     if (!messageBoxRef.current) return;
     const message = messageBoxRef.current.value;
     if (message.length > 0) {
@@ -258,9 +264,30 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
           placeholder="Write your message"
           className="resize-none no-scrollbar"
         ></Textarea>
-        <div className="absolute bottom-0 right-0 p-1 flex gap-2">
-          <span className="text-muted-foreground opacity-75 cursor-pointer">
-            <FontAwesomeIcon icon={faSmile} />
+        <div className="absolute bottom-0 right-0 p-1 flex gap-2 z-50">
+          <span className="text-muted-foreground cursor-pointer">
+            {showEmojiBoard && (
+              <div className="absolute bottom-20 right-0 z-50">
+                <EmojiPicker
+                  theme="light"
+                  locale={locale}
+                  data={data}
+                  onEmojiSelect={(emoji: any) => {
+                    if (messageBoxRef && messageBoxRef.current) {
+                      messageBoxRef.current.value += emoji.native;
+                    }
+                  }}
+                />
+              </div>
+            )}
+
+            <FontAwesomeIcon
+              icon={faSmile}
+              className={
+                showEmojiBoard ? 'text-primary' : 'text-muted-foreground'
+              }
+              onClick={() => setShowEmojiBoard((prev) => !prev)}
+            />
           </span>
           <Button
             className="h-5 text-xs bg-primary text-primary-foreground"

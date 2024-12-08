@@ -34,7 +34,7 @@ export default function ProfileDescription({ user }: { user: User }) {
             <FontAwesomeIcon icon={faLocationDot} />
           </span>
           <span>
-            {user.city}, {user.country}
+            {user.city}, {user.currentCountry}
           </span>
         </p>
 

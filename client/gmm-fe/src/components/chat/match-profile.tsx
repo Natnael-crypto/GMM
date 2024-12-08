@@ -1,8 +1,9 @@
 'use client';
 
-import { buttonVariants } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { User } from '@/lib/schemas/user';
 import {
+  faChevronDown,
   faHome,
   faPeopleArrows,
   faUser,
@@ -30,6 +31,8 @@ import {
 import { toast } from '../ui/use-toast';
 import { useAppSelector } from '@/lib/hooks';
 import { allMatchStages } from '@/lib/schemas/match';
+import { useEffect, useRef } from 'react';
+import { useInView } from 'framer-motion';
 
 enum DialogType {
   SEND_INVITATION = 'send_invitation',
@@ -55,6 +58,10 @@ export default function MatchProfile({
 
   const [inviteToNextStep] = useInviteToNextStepMutation();
   const [acceptOrRejectInvitation] = useAcceptOrRejectInvitationMutation();
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inviteToNextStepButtonRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(inviteToNextStepButtonRef, { root: containerRef });
 
   const handleInvitation = async () => {
     try {
@@ -125,7 +132,7 @@ export default function MatchProfile({
 
   return (
     <div
-      className="bg-[#f0f8f8] rounded-lg overflow-hidden h-full flex flex-col items-center"
+      className="bg-[#f0f8f8] rounded-lg overflow-hidden h-full flex flex-col items-center relative "
       style={{
         height: 'calc(100vh - 1.50rem)',
       }}
@@ -134,7 +141,26 @@ export default function MatchProfile({
         Your Match
       </h1>
 
-      <div className="m-6 flex flex-col item-center justify-between h-full">
+      {!isInView && (
+        <div className="absolute bottom-5 right-3 z-50">
+          <Button
+            className="bg-primary text-primary-foreground rounded-full p-2 w-5 h-5"
+            onClick={() => {
+              containerRef?.current?.scrollTo({
+                behavior: 'smooth',
+                top: containerRef.current.scrollHeight,
+              });
+            }}
+          >
+            <FontAwesomeIcon icon={faChevronDown} />
+          </Button>
+        </div>
+      )}
+
+      <div
+        ref={containerRef}
+        className="m-6 flex flex-col item-center justify-between overflow-y-auto no-scrollbar"
+      >
         <div className="space-y-3">
           <ProfileImages user={matchedUser} />
 
@@ -172,7 +198,10 @@ export default function MatchProfile({
           </div>
         </div>
 
-        <div className="flex justify-center border-t pt-3">
+        <div
+          className="flex justify-center border-t pt-3 mt-3"
+          ref={inviteToNextStepButtonRef}
+        >
           <AlertDialog>
             <AlertDialogTrigger
               disabled={disableInvitationButton}
