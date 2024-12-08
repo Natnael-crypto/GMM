@@ -19,6 +19,10 @@ export class ChatService {
   ) {}
 
   async getUserById(userId: string): Promise<User> {
+    if (!userId) {
+      throw new NotFoundException('User ID not provided');
+    }
+
     const user = await this.userRepository.findOne({ where: { id: userId } });
 
     if (!user) {

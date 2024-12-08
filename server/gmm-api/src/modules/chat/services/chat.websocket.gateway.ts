@@ -38,7 +38,7 @@ export class ChatWebsocketGateway
         secret: this.configService.get<AuthConfig>('auth')?.jwt.secret,
       });
 
-      const user = await this.chatService.getUserById(decoded.id);
+      const user = await this.chatService.getUserById(decoded.sub);
       if (!user) {
         throw new Error('User not found');
       }
