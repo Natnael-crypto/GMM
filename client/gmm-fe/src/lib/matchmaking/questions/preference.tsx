@@ -536,7 +536,7 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     width: 'col-span-10 md:col-span-3',
     type: 'single',
     options: [
-      { label: 'None', value: 'true' },
+      { label: 'Yes', value: 'true' },
       { label: 'No', value: 'false' },
     ],
   },
