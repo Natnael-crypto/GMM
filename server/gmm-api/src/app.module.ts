@@ -19,6 +19,7 @@ import { TypeOrmConfigService } from '@shared/database/typeorm.service';
 import { FormModule } from '@modules/form/form.module';
 import { BlogModule } from '@modules/blog/blog.module';
 import { LocationModule } from '@modules/location/location.module';
+import { NotificationsModule } from '@modules/notifications/notifications.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { LocationModule } from '@modules/location/location.module';
     FormModule,
     BlogModule,
     LocationModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -26,11 +26,19 @@ import {
   MatchStage,
 } from '../enums/matchmaking.enum';
 import { InvitationToMatchStage } from '../entities/invitation-to-match-stage.entity';
-
+import { InviteToNextStageNotification } from '@modules/notifications/notifications/invite-to-next-stage.notification';
+import { NotificationService } from '@modules/notifications/services/notification.service';
+import { MatchedNotification } from '@modules/notifications/notifications/matched.notification';
+import { UserService } from '@modules/user/services/user.service';
+import { AddedToMatchPoolNotification } from '@modules/notifications/notifications/added-to-match-pool.notification';
+import { ResponseInviteNotification } from '@modules/notifications/notifications/response-invite.notification';
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
+  
   constructor(
     private readonly paymentService: PaymentsService,
+    private readonly notificationService: NotificationService,
+    private readonly userService: UserService,
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
   ) {
@@ -105,6 +113,13 @@ export class MatchMakingService extends BaseRepository {
 
     const match = await this.getRepository(Match).save(newMatch);
     await this.getRepository(MatchPool).delete([matchedUserId, user.id]);
+
+    const maleUser = await this.userService.getUserById(newMatch.maleUserId);
+    const femaleUser = await this.userService.getUserById(newMatch.femaleUserId);
+
+    
+    const notification = new MatchedNotification(match, maleUser.firstName, femaleUser.firstName);
+    await this.notificationService.send(notification);
 
     return match;
   }
@@ -211,11 +226,28 @@ export class MatchMakingService extends BaseRepository {
   }
 
   async addToMatchingPool(user: User) {
-    return await this.getRepository(MatchPool).save({
+    
+    const matchPoolEntry = await this.getRepository(MatchPool).save({
       ...user,
       userId: user.id,
     });
+    
+    console.log('User added to match pool');
+    
+    const notificationPayload = {
+      recipientId: user.id,       
+      userName: user.firstName,    
+      title: 'Added to Match Pool',
+      message: 'You have been added to the match pool. You will be notified when you are matched.',
+    };
+  
+    
+    const notification = new AddedToMatchPoolNotification(notificationPayload);
+    await this.notificationService.send(notification);
+  
+    return matchPoolEntry;
   }
+  
 
   async getActiveMatches(): Promise<Match[]> {
     return await this.getRepository(Match).find({ where: { isActive: true } });
@@ -335,7 +367,13 @@ export class MatchMakingService extends BaseRepository {
       matchId: matchId,
     });
 
-    return await invitationRepo.save(invitation);
+    const savedInvitation = await invitationRepo.save(invitation);
+
+  // Trigger the notification
+  const notification = new InviteToNextStageNotification(user, match);
+  await this.notificationService.send(notification);
+
+  return savedInvitation;
   }
 
   async acceptOrRejectMatchStageInvitation(
@@ -422,11 +460,35 @@ export class MatchMakingService extends BaseRepository {
 
         await this.getRepository(Match).save(invitation.match);
         await this.getRepository(InvitationToMatchStage).save(invitation);
+
+        // Send notification to inviter
+        const inviter = await this.userService.getUserById(invitation.inviterId);  
+        const acceptNotificationPayload: { recipientId: string; userName: string; action: "accepted" | "rejected"; } = {
+          recipientId: inviter.id,
+          userName: user.firstName,  
+          action: 'accepted',  
+        };
+
+        const notification = new ResponseInviteNotification(acceptNotificationPayload);
+        await this.notificationService.send(notification);
+
         break;
       case InvitationToMatchStageStatus.REJECTED:
         invitation.status = InvitationToMatchStageStatus.REJECTED;
         invitation.acceptedOrRejectedAt = now;
         await this.getRepository(InvitationToMatchStage).save(invitation);
+
+        // Send notification to inviter
+        const inviterReject = await this.userService.getUserById(invitation.inviterId);
+        const rejectNotificationPayload: { recipientId: string; userName: string; action: "accepted" | "rejected"; } = {
+          recipientId: inviterReject.id,
+          userName: user.firstName,
+          action: 'rejected',
+        };
+
+        const rejectNotification = new ResponseInviteNotification(rejectNotificationPayload);
+        await this.notificationService.send(rejectNotification);
+
         break;
       default:
         throw new BadRequestException('Unknown action');
