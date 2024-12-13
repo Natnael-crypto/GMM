@@ -10,12 +10,10 @@ import GuardianServices from '@/components/landing-page/services/guardian-servic
 import Footer from '@/components/ui/footer';
 import LanguageSelector from '@/components/ui/language-selector';
 import Profile from '@/components/ui/profile';
-import { auth } from '@/lib/auth/utils';
 import { useAppSelector } from '@/lib/hooks';
 
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { redirect } from 'next/navigation';
 
 export default function Home() {
   const user = useAppSelector((state) => state.auth.user);
