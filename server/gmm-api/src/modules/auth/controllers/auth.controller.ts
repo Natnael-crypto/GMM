@@ -54,25 +54,23 @@ export class AuthController {
   async handleOAuthCallback(req: Request, res: Response) {
     try {
       const user = req.user as unknown as { email: string };
-      console.log(user)
+      
       if (!user) {
         return res.redirect(
           HttpStatus.PERMANENT_REDIRECT,
           this.clientConfig.authFailureUrl,
         );
       }
-
+  
       const payload = await this.authService.authenticateViaOAuth(user.email);
       const { accessToken, refreshToken } =
         await this.authService.generateTokens(payload);
-
-      res.header(CookieName.ACCESS_TOKEN, accessToken);
-      res.header(CookieName.REFRESH_TOKEN, refreshToken);
-
-      return res.redirect(
-        HttpStatus.PERMANENT_REDIRECT,
-        this.clientConfig.authSuccessUrl,
-      );
+      
+      const successUrl = new URL(this.clientConfig.authSuccessUrl);
+      successUrl.searchParams.append('accessToken', accessToken);
+      successUrl.searchParams.append('refreshToken', refreshToken);
+  
+      return res.redirect(HttpStatus.PERMANENT_REDIRECT, successUrl.toString());
     } catch (error) {
       return res.redirect(
         HttpStatus.PERMANENT_REDIRECT,
@@ -80,6 +78,7 @@ export class AuthController {
       );
     }
   }
+  
 
   @Get('google')
   @UseGuards(GoogleOAuthGuard)
