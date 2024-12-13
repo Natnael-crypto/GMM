@@ -34,6 +34,5 @@ export async function GET(request: NextRequest) {
     expires: new Date(Date.now() + constants.refreshTokenMaxAge),
   });
 
-  revalidatePath('/');
   return Response.redirect(constants.baseUrl+"?refresh=true");
 }
