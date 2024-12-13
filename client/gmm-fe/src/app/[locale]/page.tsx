@@ -12,9 +12,18 @@ import { auth } from '@/lib/auth/utils';
 
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { redirect } from 'next/navigation';
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const session = await auth();
+
+  if (searchParams?.refresh) {
+    redirect('/');
+  }
 
   return (
     <main className="flex flex-col">
