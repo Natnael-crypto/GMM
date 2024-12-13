@@ -96,6 +96,7 @@ export class AuthController {
   async facebookOAuth() {}
 
   @Get('facebook/callback')
+  @UseGuards(FacebookOAuthGuard)
   async facebookOAuthCallback(@Req() req: Request, @Res() res: Response) {
     return this.handleOAuthCallback(req, res);
   }
