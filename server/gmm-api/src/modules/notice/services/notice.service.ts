@@ -17,7 +17,6 @@ export class NoticeService {
     private _mailer: MailerService,
     private configService: ConfigService,
   ) {
-    console.log('NoticeService instance created');
     this.domain = this.configService.get<ClientConfig>('client')!.url;
   }
 

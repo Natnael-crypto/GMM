@@ -54,7 +54,7 @@ export class AuthController {
   async handleOAuthCallback(req: Request, res: Response) {
     try {
       const user = req.user as unknown as { email: string };
-
+      console.log(user)
       if (!user) {
         return res.redirect(
           HttpStatus.PERMANENT_REDIRECT,
@@ -86,6 +86,7 @@ export class AuthController {
   async googleOAuth() {}
 
   @Get('google/callback')
+  @UseGuards(GoogleOAuthGuard)
   async googleOAuthCallback(@Req() req: Request, @Res() res: Response) {
     return this.handleOAuthCallback(req, res);
   }

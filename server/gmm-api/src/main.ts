@@ -11,6 +11,7 @@ import { IoAdapter } from '@nestjs/platform-socket.io';
 import { TransactionInterceptor } from '@shared/interceptors/transaction.interceptor';
 import { DataSource } from 'typeorm';
 import { LoggerFactory } from '@shared/utils/logger';
+import * as passport from 'passport';
 
 async function bootstrap() {
   const winstonLogger = LoggerFactory('Guardian/Wali');
@@ -34,6 +35,8 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: '*',
   });
+
+  app.use(passport.initialize());
 
   app.useWebSocketAdapter(new IoAdapter(app));
 
