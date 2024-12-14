@@ -2,12 +2,10 @@
 
 import { constants } from '@/config';
 import { cookieNames } from '@/types/cookie-names';
-import { revalidatePath } from 'next/cache';
 import { cookies } from 'next/headers';
 import { NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
-
   const url = new URL(request.url);
   const accessToken = url.searchParams.get('accessToken');
   const refreshToken = url.searchParams.get('refreshToken');
@@ -34,5 +32,9 @@ export async function GET(request: NextRequest) {
     expires: new Date(Date.now() + constants.refreshTokenMaxAge),
   });
 
-  return Response.redirect(constants.baseUrl+"?refresh=true");
+  const locale = 'en';
+
+  return Response.redirect(
+    `${constants.baseUrl}/${locale}/auth/oauth/success?token=${accessToken}`
+  );
 }
