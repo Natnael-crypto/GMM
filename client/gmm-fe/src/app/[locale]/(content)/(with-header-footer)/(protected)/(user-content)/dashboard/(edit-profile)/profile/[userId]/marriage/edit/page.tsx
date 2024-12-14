@@ -20,6 +20,8 @@ export default function MarriageDiscussion() {
       <DynamicForm
         formSchema={marriageDiscussionForm}
         data={marriageDiscussionData}
+        formName="marriage-discussion"
+        successMessage="Marriage Discussion updated successfully"
       />
       {/* <MarriageDiscussionForm marriageDiscussion={marriageDiscussion} /> */}
     </>
