@@ -74,7 +74,15 @@ export default function AutoComplete({
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
-        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+        <DropdownMenu
+          open={isOpen}
+          onOpenChange={(open) => {
+            setIsOpen(open);
+            if (open) {
+              setSearchTerm('');
+            }
+          }}
+        >
           <DropdownMenuTrigger asChild>
             <button
               className={cn(
