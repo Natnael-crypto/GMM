@@ -35,6 +35,6 @@ export async function GET(request: NextRequest) {
   const locale = 'en';
 
   return Response.redirect(
-    `${constants.baseUrl}/${locale}/auth/oauth/success?token=${accessToken}`
+    `${constants.baseUrl}/${locale}/auth/oauth?token=${accessToken}`
   );
 }

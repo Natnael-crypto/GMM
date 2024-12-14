@@ -29,6 +29,7 @@ export default function OAuthPage() {
       title: 'Welcome Back!',
     });
     dispatch(setToken(token));
+    router.replace('/');
   }
 
   return (
