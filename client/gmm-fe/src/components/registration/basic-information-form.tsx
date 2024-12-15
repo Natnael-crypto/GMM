@@ -616,7 +616,7 @@ export default function BasicInformationForm({
                 />
               </div> */}
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
-                <Label>Language(s) - Max 3</Label>
+                <Label>Language(s)</Label>
                 <FormField
                   name="languages"
                   control={form.control}
@@ -627,7 +627,6 @@ export default function BasicInformationForm({
                           onChange={field.onChange}
                           selectedOptions={field.value}
                           title="Language"
-                          max={3}
                           initOptions={languages}
                           placeholder="Select"
                           className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"

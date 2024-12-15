@@ -43,7 +43,7 @@ export const matchApi = createApi({
         return response.data;
       },
       providesTags: (result, error, arg, meta) => {
-        return [{ type: 'Match', id: result?.id }];
+        return [{ type: 'Match' }];
       },
     }),
 

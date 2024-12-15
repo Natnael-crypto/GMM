@@ -82,7 +82,7 @@ export const _userBasicInformationSchema = z
       required_error: 'Please enter your skin color',
     }),
     languages: z.union([
-      z.array(z.string()).min(1, { message: 'Required' }).max(3),
+      z.array(z.string()).min(1, { message: 'Required' }),
       z
         .string({
           required_error: 'Please list languages you speak',
@@ -330,7 +330,7 @@ export const baseUserSchema = z
       required_error: 'Please enter your skin color',
     }),
     languages: z.union([
-      z.array(z.string()).min(1, { message: 'Required' }).max(3),
+      z.array(z.string()).min(1, { message: 'Required' }),
       z
         .string({
           required_error: 'Please list languages you speak',
