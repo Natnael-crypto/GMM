@@ -18,12 +18,11 @@ import {
   advancedPreferenceQuestions,
 } from '@/lib/matchmaking/questions/preference';
 import PreferenceField from './preference-fields';
-import CountrySelector, {
-  MultiCountrySelector,
-} from '@/components/ui/country-selector';
-import CitySelector, { MultiCitySelector } from '@/components/ui/city-selector';
+import { MultiCountrySelector } from '@/components/ui/country-selector';
+import { MultiCitySelector } from '@/components/ui/city-selector';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { useAppSelector } from '@/lib/hooks';
 
 export default function MatchPreferenceFilter() {
   const {
@@ -33,6 +32,7 @@ export default function MatchPreferenceFilter() {
     toggleNotFilter,
     debouncedSavePreference,
   } = usePreference();
+  const user = useAppSelector((state) => state.auth.user);
 
   const countryNotFilter = !!form.watch('notCountry');
   const cityNotFilter = countryNotFilter;
@@ -262,39 +262,49 @@ export default function MatchPreferenceFilter() {
         </div>
 
         {basicPreferenceQuestions.map((question, index) => {
-          return (
-            <PreferenceField
-              key={`${question.label}_${index}`}
-              question={question}
-              onChange={debouncedSavePreference}
-              type={question.type}
-              notFilter={form.watch(fieldToNotFilterMap[question.name])}
-              toggleNotFilter={() =>
-                toggleNotFilter(question.name as unknown as any)
-              }
-              allowAny={
-                isFilterInactive[question.name as keyof typeof isFilterInactive]
-              }
-            />
-          );
+          if (user && (!question.gender || question.gender === user?.gender)) {
+            return (
+              <PreferenceField
+                key={`${question.label}_${index}`}
+                question={question}
+                onChange={debouncedSavePreference}
+                type={question.type}
+                notFilter={form.watch(fieldToNotFilterMap[question.name])}
+                toggleNotFilter={() =>
+                  toggleNotFilter(question.name as unknown as any)
+                }
+                // hideNotFilter={question.hideNotFilter}
+                allowAny={
+                  isFilterInactive[
+                    question.name as keyof typeof isFilterInactive
+                  ]
+                }
+              />
+            );
+          }
         })}
         <h2 className="col-span-9 font-bold mt-2">Advanced</h2>
         {advancedPreferenceQuestions.map((question, index) => {
-          return (
-            <PreferenceField
-              key={`${question.label}_${index}`}
-              question={question}
-              onChange={debouncedSavePreference}
-              type={question.type}
-              notFilter={form.watch(fieldToNotFilterMap[question.name])}
-              toggleNotFilter={() =>
-                toggleNotFilter(question.name as unknown as any)
-              }
-              allowAny={
-                isFilterInactive[question.name as keyof typeof isFilterInactive]
-              }
-            />
-          );
+          if (user && (!question.gender || question.gender === user?.gender)) {
+            return (
+              <PreferenceField
+                key={`${question.label}_${index}`}
+                question={question}
+                onChange={debouncedSavePreference}
+                type={question.type}
+                notFilter={form.watch(fieldToNotFilterMap[question.name])}
+                toggleNotFilter={() =>
+                  toggleNotFilter(question.name as unknown as any)
+                }
+                // hideNotFilter={question.hideNotFilter}
+                allowAny={
+                  isFilterInactive[
+                    question.name as keyof typeof isFilterInactive
+                  ]
+                }
+              />
+            );
+          }
         })}
       </form>
     </Form>

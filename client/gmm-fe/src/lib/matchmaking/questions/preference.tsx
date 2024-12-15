@@ -1,4 +1,3 @@
-import { languages } from '@/config';
 import { PreferenceForm } from '@/lib/schemas/preference';
 import { countries, countryToCountryCode } from '@/lib/schemas/user';
 import flags from 'react-phone-number-input/flags';
@@ -14,6 +13,9 @@ export interface PreferenceQuestion {
   width: string;
   type: 'multiselect' | 'single';
   options: { label: string; value: string; icon?: any }[];
+  gender?: 'Male' | 'Female';
+  hideNotFilter?: boolean;
+  maxChoices?: number;
 }
 
 const toOption = (value: string) => ({ label: value, value });
@@ -58,6 +60,31 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
     name: 'religiousPractice',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
+    gender: 'Male',
+    options: [
+      {
+        value: 'full_daily_prayers',
+        label:
+          'Must Pray Full Daily Prayers + Sunnah (Wife prays all obligatory and Sunnah prayers)',
+      },
+      {
+        value: 'fardh_only',
+        label:
+          'Fardh Only (Wife prays mandatory prayers as a minimum requirement)',
+      },
+      {
+        value: 'flexible',
+        label:
+          "Flexible Approach (As long as wife says she's a Muslim, she does not have to pray)",
+      },
+    ],
+  },
+  {
+    label: 'Religious Practice',
+    name: 'religiousPractice',
+    width: 'col-span-10 md:col-span-3',
+    type: 'multiselect',
+    gender: 'Female',
     options: [
       {
         value: 'full_daily_prayers',
@@ -81,6 +108,7 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
     name: 'hijab',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
+    gender: 'Male',
     options: [
       {
         value: 'advanced_hijab',
@@ -126,241 +154,242 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
     options: [
-        {
-          value: 'af',
-          label: 'Afrikaans',
-        },
-        {
-          value: 'sq',
-          label: 'Albanian',
-        },
-        {
-          value: 'am',
-          label: 'Amharic',
-        },
-        {
-          value: 'ar',
-          label: 'Arabic',
-        },
-        {
-          value: 'hy',
-          label: 'Armenian',
-        },
-        {
-          value: 'bn',
-          label: 'Bengali',
-        },
-        {
-          value: 'bs',
-          label: 'Bosnian',
-        },
-        {
-          value: 'bg',
-          label: 'Bulgarian',
-        },
-        {
-          value: 'ca',
-          label: 'Catalan',
-        },
-        {
-          value: 'zh-CN',
-          label: 'Chinese (Mandarin)',
-        },
-        {
-          value: 'hr',
-          label: 'Croatian',
-        },
-        {
-          value: 'cs',
-          label: 'Czech',
-        },
-        {
-          value: 'da',
-          label: 'Danish',
-        },
-        {
-          value: 'nl',
-          label: 'Dutch',
-        },
-        {
-          value: 'en',
-          label: 'English',
-        },
-        {
-          value: 'et',
-          label: 'Estonian',
-        },
-        {
-          value: 'fi',
-          label: 'Finnish',
-        },
-        {
-          value: 'fr',
-          label: 'French',
-        },
-        {
-          value: 'ka',
-          label: 'Georgian',
-        },
-        {
-          value: 'de',
-          label: 'German',
-        },
-        {
-          value: 'el',
-          label: 'Greek',
-        },
-        {
-          value: 'gu',
-          label: 'Gujarati',
-        },
-        {
-          value: 'he',
-          label: 'Hebrew',
-        },
-        {
-          value: 'hi',
-          label: 'Hindi',
-        },
-        {
-          value: 'hu',
-          label: 'Hungarian',
-        },
-        {
-          value: 'is',
-          label: 'Icelandic',
-        },
-        {
-          value: 'id',
-          label: 'Indonesian',
-        },
-        {
-          value: 'it',
-          label: 'Italian',
-        },
-        {
-          value: 'ja',
-          label: 'Japanese',
-        },
-        {
-          value: 'kn',
-          label: 'Kannada',
-        },
-        {
-          value: 'ko',
-          label: 'Korean',
-        },
-        {
-          value: 'lv',
-          label: 'Latvian',
-        },
-        {
-          value: 'lt',
-          label: 'Lithuanian',
-        },
-        {
-          value: 'ms',
-          label: 'Malay',
-        },
-        {
-          value: 'mr',
-          label: 'Marathi',
-        },
-        {
-          value: 'no',
-          label: 'Norwegian',
-        },
-        {
-          value: 'fa',
-          label: 'Persian (Farsi)',
-        },
-        {
-          value: 'pl',
-          label: 'Polish',
-        },
-        {
-          value: 'pt',
-          label: 'Portuguese',
-        },
-        {
-          value: 'pa',
-          label: 'Punjabi',
-        },
-        {
-          value: 'ro',
-          label: 'Romanian',
-        },
-        {
-          value: 'ru',
-          label: 'Russian',
-        },
-        {
-          value: 'sr',
-          label: 'Serbian',
-        },
-        {
-          value: 'sk',
-          label: 'Slovak',
-        },
-        {
-          value: 'sl',
-          label: 'Slovenian',
-        },
-        {
-          value: 'es',
-          label: 'Spanish',
-        },
-        {
-          value: 'sw',
-          label: 'Swahili',
-        },
-        {
-          value: 'sv',
-          label: 'Swedish',
-        },
-        {
-          value: 'ta',
-          label: 'Tamil',
-        },
-        {
-          value: 'te',
-          label: 'Telugu',
-        },
-        {
-          value: 'th',
-          label: 'Thai',
-        },
-        {
-          value: 'tr',
-          label: 'Turkish',
-        },
-        {
-          value: 'uk',
-          label: 'Ukrainian',
-        },
-        {
-          value: 'ur',
-          label: 'Urdu',
-        },
-        {
-          value: 'vi',
-          label: 'Vietnamese',
-        },
-        {
-          value: 'cy',
-          label: 'Welsh',
-        },
-        {
-          value: 'zu',
-          label: 'Zulu',
-        },
-  ]  
+      {
+        value: 'af',
+        label: 'Afrikaans',
+      },
+      {
+        value: 'sq',
+        label: 'Albanian',
+      },
+      {
+        value: 'am',
+        label: 'Amharic',
+      },
+      {
+        value: 'ar',
+        label: 'Arabic',
+      },
+      {
+        value: 'hy',
+        label: 'Armenian',
+      },
+      {
+        value: 'bn',
+        label: 'Bengali',
+      },
+      {
+        value: 'bs',
+        label: 'Bosnian',
+      },
+      {
+        value: 'bg',
+        label: 'Bulgarian',
+      },
+      {
+        value: 'ca',
+        label: 'Catalan',
+      },
+      {
+        value: 'zh-CN',
+        label: 'Chinese (Mandarin)',
+      },
+      {
+        value: 'hr',
+        label: 'Croatian',
+      },
+      {
+        value: 'cs',
+        label: 'Czech',
+      },
+      {
+        value: 'da',
+        label: 'Danish',
+      },
+      {
+        value: 'nl',
+        label: 'Dutch',
+      },
+      {
+        value: 'en',
+        label: 'English',
+      },
+      {
+        value: 'et',
+        label: 'Estonian',
+      },
+      {
+        value: 'fi',
+        label: 'Finnish',
+      },
+      {
+        value: 'fr',
+        label: 'French',
+      },
+      {
+        value: 'ka',
+        label: 'Georgian',
+      },
+      {
+        value: 'de',
+        label: 'German',
+      },
+      {
+        value: 'el',
+        label: 'Greek',
+      },
+      {
+        value: 'gu',
+        label: 'Gujarati',
+      },
+      {
+        value: 'he',
+        label: 'Hebrew',
+      },
+      {
+        value: 'hi',
+        label: 'Hindi',
+      },
+      {
+        value: 'hu',
+        label: 'Hungarian',
+      },
+      {
+        value: 'is',
+        label: 'Icelandic',
+      },
+      {
+        value: 'id',
+        label: 'Indonesian',
+      },
+      {
+        value: 'it',
+        label: 'Italian',
+      },
+      {
+        value: 'ja',
+        label: 'Japanese',
+      },
+      {
+        value: 'kn',
+        label: 'Kannada',
+      },
+      {
+        value: 'ko',
+        label: 'Korean',
+      },
+      {
+        value: 'lv',
+        label: 'Latvian',
+      },
+      {
+        value: 'lt',
+        label: 'Lithuanian',
+      },
+      {
+        value: 'ms',
+        label: 'Malay',
+      },
+      {
+        value: 'mr',
+        label: 'Marathi',
+      },
+      {
+        value: 'no',
+        label: 'Norwegian',
+      },
+      {
+        value: 'fa',
+        label: 'Persian (Farsi)',
+      },
+      {
+        value: 'pl',
+        label: 'Polish',
+      },
+      {
+        value: 'pt',
+        label: 'Portuguese',
+      },
+      {
+        value: 'pa',
+        label: 'Punjabi',
+      },
+      {
+        value: 'ro',
+        label: 'Romanian',
+      },
+      {
+        value: 'ru',
+        label: 'Russian',
+      },
+      {
+        value: 'sr',
+        label: 'Serbian',
+      },
+      {
+        value: 'sk',
+        label: 'Slovak',
+      },
+      {
+        value: 'sl',
+        label: 'Slovenian',
+      },
+      {
+        value: 'es',
+        label: 'Spanish',
+      },
+      {
+        value: 'sw',
+        label: 'Swahili',
+      },
+      {
+        value: 'sv',
+        label: 'Swedish',
+      },
+      {
+        value: 'ta',
+        label: 'Tamil',
+      },
+      {
+        value: 'te',
+        label: 'Telugu',
+      },
+      {
+        value: 'th',
+        label: 'Thai',
+      },
+      {
+        value: 'tr',
+        label: 'Turkish',
+      },
+      {
+        value: 'uk',
+        label: 'Ukrainian',
+      },
+      {
+        value: 'ur',
+        label: 'Urdu',
+      },
+      {
+        value: 'vi',
+        label: 'Vietnamese',
+      },
+      {
+        value: 'cy',
+        label: 'Welsh',
+      },
+      {
+        value: 'zu',
+        label: 'Zulu',
+      },
+    ],
   },
   {
     label: 'Born/Reverted',
     name: 'bornOrRevert',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
+    hideNotFilter: true,
     options: ['Born Muslim', 'Reverted to Islam'].map(toOption),
   },
   {
@@ -375,6 +404,8 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     name: 'wantsChildren',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
+    hideNotFilter: true,
+    maxChoices: 1,
     options: ['Wants children', "Doesn't want children"].map(toOption),
   },
   {
@@ -754,6 +785,7 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     name: 'drinking',
     width: 'col-span-10 md:col-span-3',
     type: 'single',
+    hideNotFilter: true,
     options: [
       { label: 'Yes', value: 'true' },
       { label: 'No', value: 'false' },
@@ -764,6 +796,7 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     name: 'smoking',
     width: 'col-span-10 md:col-span-3',
     type: 'single',
+    hideNotFilter: true,
     options: [
       { label: 'Yes', value: 'true' },
       { label: 'No', value: 'false' },
@@ -787,6 +820,7 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     name: 'drugs',
     width: 'col-span-10 md:col-span-3',
     type: 'single',
+    hideNotFilter: true,
     options: [
       { label: 'Yes', value: 'true' },
       { label: 'No', value: 'false' },
