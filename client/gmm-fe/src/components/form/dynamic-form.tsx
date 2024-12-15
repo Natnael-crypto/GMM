@@ -131,7 +131,6 @@ export default function DynamicForm({
   const formRef = useRef<HTMLFormElement>(null);
   const { registerForm, setSaving } = useUpdateProfileContext();
   useEffect(() => {
-    console.log('Registering form', formName);
     if (formName && formRef && formRef.current) {
       registerForm(formName, formRef.current);
     }
@@ -201,6 +200,17 @@ export default function DynamicForm({
           ) {
             cleanedData[field.id] = data[field.id];
           }
+        } else if (field.type === 'with_currency') {
+          if (
+            filteredOptions?.find(
+              (option: any) => option.value === data[field.id]
+            )
+          ) {
+            cleanedData[field.id] = data[field.id];
+          }
+
+          const currencyFieldId = currencyFields[field.id];
+          cleanedData[currencyFieldId] = data[currencyFieldId];
         } else {
           cleanedData[field.id] = data[field.id];
         }
