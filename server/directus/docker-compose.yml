@@ -1,8 +1,7 @@
-version: "3"
 services:
   directus:
-    extra_hosts:
-        - host.docker.internal:host-gateway
+    # extra_hosts:
+    #     - host.docker.internal:host-gateway
     image: directus/directus:11.2.1
     ports:
       - 8081:80

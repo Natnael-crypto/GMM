@@ -298,6 +298,7 @@ type Subscription {
   city_mutated(event: EventEnum): city_mutated
   country_mutated(event: EventEnum): country_mutated
   preference_mutated(event: EventEnum): preference_mutated
+  notifications_mutated(event: EventEnum): notifications_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -2001,6 +2002,24 @@ type match_pool_mutated {
   key: ID!
   event: EventEnum
   data: match_pool
+}
+
+type notifications {
+  id: ID!
+  recipientId: String!
+  initiatorUserId: String
+  title: String!
+  message: String!
+  url: String
+  isRead: Boolean!
+  createdAt: Date
+  createdAt_func: datetime_functions
+}
+
+type notifications_mutated {
+  key: ID!
+  event: EventEnum
+  data: notifications
 }
 
 type otp {
