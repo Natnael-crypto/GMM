@@ -18,25 +18,24 @@ export default function UpdateProfileLayout({
 
   const params = useParams<{ userId: string }>();
 
-  const basicInfoPath = `/dashboard/profile/${params.userId}/basic-information`;
-  const worldlyLifestylePath = `/dashboard/profile/${params.userId}/worldly-lifestyle`;
-  const islamicLifestylePath = `/dashboard/profile/${params.userId}/islamic-lifestyle`;
-  const marriagePath = `/dashboard/profile/${params.userId}/marriage`;
-  const familyPath = `/dashboard/profile/${params.userId}/family`;
+  const basicInfoPath = `/dashboard/profile/${params.userId}/basic-information/edit`;
+  const worldlyLifestylePath = `/dashboard/profile/${params.userId}/worldly-lifestyle/edit`;
+  const islamicLifestylePath = `/dashboard/profile/${params.userId}/islamic-lifestyle/edit`;
+  const marriagePath = `/dashboard/profile/${params.userId}/marriage/edit`;
+  const familyPath = `/dashboard/profile/${params.userId}/family/edit`;
 
-  const pageNames: Record<string, string> = {
-    [basicInfoPath]: 'Basic Information',
-    [worldlyLifestylePath]: 'Worldly Lifestyle',
-    [islamicLifestylePath]: 'Islamic Lifestyle',
-    [marriagePath]: 'Marriage Discussion',
-    [familyPath]: 'Family Introduction',
+  const nextPage: Record<string, string> = {
+    [basicInfoPath]: worldlyLifestylePath,
+    [worldlyLifestylePath]: islamicLifestylePath,
+    [islamicLifestylePath]: marriagePath,
+    [marriagePath]: familyPath,
   };
 
   return (
     <UpdateProfileProvider>
       <div className="relative h-screen overflow-auto no-scrollbar">
         <div className="pt-6 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] space-y-8 mb-4">
-          <UpdateProfileHeader editLink={pathname.slice(0, -5)} />
+          <UpdateProfileHeader viewProfileLink={pathname.slice(0, -5)} />
           <div className="flex items-center justify-center">
             <h1 className="text-2xl">Update Profile</h1>
           </div>
@@ -52,7 +51,10 @@ export default function UpdateProfileLayout({
         <div>{children}</div>
 
         <div className="py-6 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] space-y-8 mb-4">
-          <UpdateProfileFooter editLink={pathname.slice(0, -5)} />
+          <UpdateProfileFooter
+            viewProfileLink={pathname.slice(0, -5)}
+            nextLink={nextPage[pathname]}
+          />
         </div>
         <Footer />
       </div>
