@@ -6,7 +6,10 @@
   "scripts": {
     "pull": "directus-sync pull",
     "push": "directus-sync push",
-    "diff": "directus-sync diff"
+    "diff": "directus-sync diff",
+    "start": "docker compose up",
+    "reset": "docker compose down && docker compose up",
+    "build": "docker compose build --no-cache"
   },
   "author": "",
   "license": "ISC",

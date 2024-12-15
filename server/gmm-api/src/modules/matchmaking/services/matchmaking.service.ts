@@ -186,10 +186,22 @@ export class MatchMakingService extends BaseRepository {
       where: { id: userId },
     });
 
+    if (!user.preference) {
+      user.preference = await this.createUserPreference(userId);
+    }
+
     const candidateIds = await this.loadCandidates(user);
 
-    const candidates = await this.getRepository(User).find({
-      where: { id: In(candidateIds) },
+    const candidates = (
+      await this.getRepository(User).find({
+        where: { id: In(candidateIds) },
+      })
+    ).map((candidate) => {
+      if (!candidate.preference) {
+        candidate.preference = new Preference();
+      }
+
+      return candidate;
     });
 
     const matchmaker = new Matchmaker(user);

@@ -1,0 +1,7 @@
+{
+  "collection": "notifications",
+  "meta": null,
+  "schema": {
+    "name": "notifications"
+  }
+}

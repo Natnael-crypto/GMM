@@ -131,6 +131,10 @@ type Query {
   preference_by_id(id: ID!, version: String): preference
   preference_aggregated(groupBy: [String], filter: preference_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [preference_aggregated!]!
   preference_by_version(version: String!, id: ID!): version_preference
+  notifications(filter: notifications_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): [notifications!]!
+  notifications_by_id(id: ID!, version: String): notifications
+  notifications_aggregated(groupBy: [String], filter: notifications_filter, limit: Int, offset: Int, page: Int, search: String, sort: [String]): [notifications_aggregated!]!
+  notifications_by_version(version: String!, id: ID!): version_notifications
 }
 
 type Mutation {
@@ -200,6 +204,8 @@ type Mutation {
   create_country_item(data: create_country_input!): country
   create_preference_items(filter: preference_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_preference_input!]): [preference!]!
   create_preference_item(data: create_preference_input!): preference
+  create_notifications_items(filter: notifications_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [create_notifications_input!]): [notifications!]!
+  create_notifications_item(data: create_notifications_input!): notifications
   update_typeorm_migrations_items(filter: typeorm_migrations_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_typeorm_migrations_input!): [typeorm_migrations!]!
   update_typeorm_migrations_batch(filter: typeorm_migrations_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_typeorm_migrations_input!]): [typeorm_migrations!]!
   update_typeorm_migrations_item(id: ID!, data: update_typeorm_migrations_input!): typeorm_migrations
@@ -299,6 +305,9 @@ type Mutation {
   update_preference_items(filter: preference_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_preference_input!): [preference!]!
   update_preference_batch(filter: preference_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_preference_input!]): [preference!]!
   update_preference_item(id: ID!, data: update_preference_input!): preference
+  update_notifications_items(filter: notifications_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, ids: [ID]!, data: update_notifications_input!): [notifications!]!
+  update_notifications_batch(filter: notifications_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String, data: [update_notifications_input!]): [notifications!]!
+  update_notifications_item(id: ID!, data: update_notifications_input!): notifications
   delete_typeorm_migrations_items(ids: [ID]!): delete_many
   delete_typeorm_migrations_item(id: ID!): delete_one
   delete_refresh_token_items(ids: [ID]!): delete_many
@@ -365,6 +374,8 @@ type Mutation {
   delete_country_item(id: ID!): delete_one
   delete_preference_items(ids: [ID]!): delete_many
   delete_preference_item(id: ID!): delete_one
+  delete_notifications_items(ids: [ID]!): delete_many
+  delete_notifications_item(id: ID!): delete_one
 }
 
 type Subscription {
@@ -422,6 +433,7 @@ type Subscription {
   city_mutated(event: EventEnum): city_mutated
   country_mutated(event: EventEnum): country_mutated
   preference_mutated(event: EventEnum): preference_mutated
+  notifications_mutated(event: EventEnum): notifications_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -1787,6 +1799,52 @@ type match_pool_mutated {
   data: match_pool
 }
 
+type notifications {
+  id: ID!
+  recipientId: String!
+  initiatorUserId: String
+  title: String!
+  message: String!
+  url: String
+  isRead: Boolean!
+  createdAt: Date
+  createdAt_func: datetime_functions
+}
+
+type notifications_aggregated {
+  group: JSON
+  countAll: Int
+  count: notifications_aggregated_count
+  countDistinct: notifications_aggregated_count
+  avg: notifications_aggregated_fields
+  sum: notifications_aggregated_fields
+  avgDistinct: notifications_aggregated_fields
+  sumDistinct: notifications_aggregated_fields
+  min: notifications_aggregated_fields
+  max: notifications_aggregated_fields
+}
+
+type notifications_aggregated_count {
+  id: Int
+  recipientId: Int
+  initiatorUserId: Int
+  title: Int
+  message: Int
+  url: Int
+  isRead: Int
+  createdAt: Int
+}
+
+type notifications_aggregated_fields {
+  id: Float
+}
+
+type notifications_mutated {
+  key: ID!
+  event: EventEnum
+  data: notifications
+}
+
 type otp {
   id: ID!
   otp: String!
@@ -2731,6 +2789,18 @@ type version_match_pool {
 }
 
 """"""
+type version_notifications {
+  id: ID
+  recipientId: String
+  initiatorUserId: String
+  title: String
+  message: String
+  url: String
+  isRead: Boolean
+  createdAt: Date
+}
+
+""""""
 type version_otp {
   id: ID
   otp: String
@@ -3251,6 +3321,17 @@ input create_match_input {
 
 input create_match_pool_input {
   userId: create_user_input
+}
+
+input create_notifications_input {
+  id: ID
+  recipientId: String!
+  initiatorUserId: String
+  title: String!
+  message: String!
+  url: String
+  isRead: Boolean!
+  createdAt: Date
 }
 
 input create_otp_input {
@@ -4023,6 +4104,20 @@ input match_pool_filter {
   _or: [match_pool_filter]
 }
 
+input notifications_filter {
+  id: number_filter_operators
+  recipientId: string_filter_operators
+  initiatorUserId: string_filter_operators
+  title: string_filter_operators
+  message: string_filter_operators
+  url: string_filter_operators
+  isRead: boolean_filter_operators
+  createdAt: date_filter_operators
+  createdAt_func: datetime_function_filter_operators
+  _and: [notifications_filter]
+  _or: [notifications_filter]
+}
+
 input number_filter_operators {
   _eq: GraphQLStringOrFloat
   _neq: GraphQLStringOrFloat
@@ -4408,6 +4503,17 @@ input update_match_input {
 
 input update_match_pool_input {
   userId: update_user_input
+}
+
+input update_notifications_input {
+  id: ID
+  recipientId: String
+  initiatorUserId: String
+  title: String
+  message: String
+  url: String
+  isRead: Boolean
+  createdAt: Date
 }
 
 input update_otp_input {
