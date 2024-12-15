@@ -50,9 +50,9 @@ export default function PreferenceField({
           <>
             <div className="text-sm flex justify-between items-center">
               <span className="font-bold line-clamp-1">{question.label}</span>
-              {question.options.length >= 2 && (
+              {question.options.length > 2 && (
                 <div className="flex gap-2">
-                  {type === 'multiselect' && (
+                  {!question.hideNotFilter && (
                     <Label
                       className="flex gap-1 items-center justify-center text-[0.65rem]"
                       onClick={() => {
@@ -114,6 +114,7 @@ export default function PreferenceField({
               <FormControl>
                 {type === 'multiselect' ? (
                   <Multiselect
+                    max={question.maxChoices}
                     label={
                       notFilter
                         ? `Not Preferred ${question.label}`

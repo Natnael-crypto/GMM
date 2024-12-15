@@ -421,33 +421,6 @@ export default function Field(props: FieldProps) {
                     showSearch={false}
                     className="text-muted-foreground bg-background text-md  rounded-none rounded-ss-sm rounded-es-sm h-8 ring-transparent ring-offset-transparent shadow"
                   />
-                  {/* <Select
-                    onValueChange={(value) => {
-                      handleChange(value, field);
-                    }}
-                    value={field.value || ''}
-                  >
-                    <SelectTrigger className="text-muted-foreground bg-background text-md  rounded-none rounded-ss-sm rounded-es-sm h-8 ring-transparent ring-offset-transparent shadow">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {props.options?.map((option) => {
-                        if (typeof option === 'object') {
-                          return (
-                            <SelectItem key={option.value} value={option.value}>
-                              {option.label}
-                            </SelectItem>
-                          );
-                        } else {
-                          return (
-                            <SelectItem key={option} value={option}>
-                              {option}
-                            </SelectItem>
-                          );
-                        }
-                      })}
-                    </SelectContent>
-                  </Select> */}
                 </FormControl>
                 <FormMessage className="text-xs" />
               </FormItem>

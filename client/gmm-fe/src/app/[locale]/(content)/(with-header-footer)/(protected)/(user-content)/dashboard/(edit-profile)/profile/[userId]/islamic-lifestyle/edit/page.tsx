@@ -26,12 +26,16 @@ export default function IslamicLifestyle() {
       <DynamicForm
         formSchema={islamicLifestyleForm}
         data={islamicLifestyleData}
+        formName="islamic-lifestyle"
+        successMessage="Islamic Lifestyle updated successfully"
       />
 
       <div className="bg-muted w-full">
         <DynamicForm
           formSchema={expectedIslamicLifestyleForm}
           data={expectedIslamicLifestyleData}
+          formName="expected-islamic-lifestyle"
+          successMessage="Expected Islamic Lifestyle updated successfully"
         />
       </div>
     </div>

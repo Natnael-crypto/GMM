@@ -3,19 +3,17 @@
 import React from 'react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { ProfileHeaderProps } from '@/types';
 import { useUpdateProfileContext } from './update-profile-context';
 import { useAppSelector } from '@/lib/hooks';
 import { Link } from '@/lib/navigation';
 import Loading from '@/components/ui/loading';
 
 export default function UpdateProfileHeader({
-  editLink,
+  viewProfileLink,
 }: {
-  editLink: string;
+  viewProfileLink: string;
 }) {
-  const { onSave, isSaving, isAutoSaveEnabled, setAutoSave } =
-    useUpdateProfileContext();
+  const { onSave, isSaving } = useUpdateProfileContext();
   const user = useAppSelector((state) => state.auth.user);
 
   return (
@@ -27,14 +25,8 @@ export default function UpdateProfileHeader({
         </span>
       </h1>
       <div className="flex gap-3 items-center">
-        {/* <div className="flex gap-1 items-center text-xs">
-          <Input type="checkbox" checked={isAutoSaveEnabled} onChange={(e) => setAutoSave(value => !value)} />
-          <Label htmlFor="checkbox" className="text-nowrap">
-            Auto Save
-          </Label>
-        </div> */}
         <Link
-          href={editLink}
+          href={viewProfileLink}
           className={cn(
             buttonVariants({
               variant: 'outline',

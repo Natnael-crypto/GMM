@@ -42,7 +42,7 @@ export const formApi = createApi({
 
     submitForm: builder.mutation<
       any,
-      { slug: string; data: any; userId: string }
+      { slug: string; data: any; userId: string; hideSuccessMessage?: boolean }
     >({
       query: ({ slug, data }) => ({
         url: `forms/${slug}`,

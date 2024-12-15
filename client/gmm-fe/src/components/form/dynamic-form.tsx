@@ -9,6 +9,14 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import { evaluateRuleTree } from '@/lib/form/rule-evaluator';
 import { useDebouncedCallback } from 'use-debounce';
 import { useUpdateProfileContext } from '../dashboard/profile/update-profile-context';
+import { toast } from '../ui/use-toast';
+
+interface DynamicFormProps {
+  formSchema: any;
+  data: any;
+  formName?: string;
+  successMessage?: string;
+}
 
 const transform = (answers: any) => {
   const data: any = {};
@@ -42,10 +50,9 @@ const widthClassName = (w: string) => {
 export default function DynamicForm({
   formSchema,
   data,
-}: {
-  formSchema: any;
-  data: any;
-}) {
+  formName,
+  successMessage,
+}: DynamicFormProps) {
   const form = useForm();
   const user = useAppSelector((state) => state.auth.user);
 
@@ -98,9 +105,14 @@ export default function DynamicForm({
     }
   }, [data, form]);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: any, hideSuccessMessage?: boolean) => {
     if (user) {
-      submitForm({ slug: formSchema.slug, data, userId: user.id });
+      submitForm({
+        slug: formSchema.slug,
+        data,
+        userId: user.id,
+        hideSuccessMessage,
+      });
     }
   };
 
@@ -119,10 +131,23 @@ export default function DynamicForm({
   const formRef = useRef<HTMLFormElement>(null);
   const { registerForm, setSaving } = useUpdateProfileContext();
   useEffect(() => {
-    if (formRef && formRef.current) {
-      registerForm('form', formRef.current);
+    if (formName && formRef && formRef.current) {
+      registerForm(formName, formRef.current);
     }
-  }, [formRef, registerForm]);
+  }, [formRef, registerForm, formName]);
+
+  useEffect(() => {
+    if (
+      submitFormResult &&
+      submitFormResult.isSuccess &&
+      !submitFormResult.originalArgs?.hideSuccessMessage
+    ) {
+      toast({
+        title: 'Success',
+        description: successMessage,
+      });
+    }
+  }, [submitFormResult, successMessage]);
 
   useEffect(() => {
     setSaving(submitFormResult.isLoading);
@@ -175,13 +200,24 @@ export default function DynamicForm({
           ) {
             cleanedData[field.id] = data[field.id];
           }
+        } else if (field.type === 'with_currency') {
+          if (
+            filteredOptions?.find(
+              (option: any) => option.value === data[field.id]
+            )
+          ) {
+            cleanedData[field.id] = data[field.id];
+          }
+
+          const currencyFieldId = currencyFields[field.id];
+          cleanedData[currencyFieldId] = data[currencyFieldId];
         } else {
           cleanedData[field.id] = data[field.id];
         }
       }
     }
 
-    debouncedSubmit(cleanedData);
+    debouncedSubmit(cleanedData, true);
   };
 
   return (
@@ -199,7 +235,7 @@ export default function DynamicForm({
       <Form {...form}>
         <form
           ref={formRef}
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit((data) => onSubmit(data))}
           className="grid grid-cols-12 gap-x-3 gap-y-4 py-5"
         >
           {groupedFields.map((group: any, index: number) => {

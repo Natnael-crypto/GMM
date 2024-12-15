@@ -43,12 +43,16 @@ export default function UpdateWorldlyLifestylePage() {
       <DynamicForm
         formSchema={worldlyLifestyleForm}
         data={worldlyLifestyleData}
+        formName="worldly-lifestyle"
+        successMessage="Worldly Lifestyle updated successfully"
       />
 
       <div className="bg-muted w-full">
         <DynamicForm
           formSchema={expectedWorldlyLifestyleForm}
           data={expectedWorldlyLifestyleData}
+          formName="expected-worldly-lifestyle"
+          successMessage="Expected Worldly Lifestyle updated successfully"
         />
       </div>
 
