@@ -87,7 +87,7 @@ export class User {
 
   @Column({ nullable: true })
   nationality: string;
-  
+
   @Column({ nullable: true })
   currentCountry: string;
 
@@ -143,10 +143,14 @@ export class User {
   @OneToMany(() => User, (user) => user.guardian)
   dependents: User[];
 
-  @OneToMany(() => Match, (match) => match.maleUser)
+  @OneToMany(() => Match, (match) => match.maleUser, {
+    onDelete: 'CASCADE',
+  })
   matchesAsMale: Match[];
 
-  @OneToMany(() => Match, (match) => match.femaleUser)
+  @OneToMany(() => Match, (match) => match.femaleUser, {
+    onDelete: 'CASCADE',
+  })
   matchesAsFemale: Match[];
 
   @OneToOne(() => Preference, (preference) => preference.user, {
@@ -160,12 +164,15 @@ export class User {
   @Column({ nullable: true })
   stripeCustomerId: string;
 
-  @OneToOne(() => Subscription, (subscription) => subscription.user)
+  @OneToOne(() => Subscription, (subscription) => subscription.user, {
+    onDelete: 'CASCADE',
+  })
   subscription: Subscription;
 
   @OneToMany(
     () => SubscriptionHistory,
     (subscriptionHistory) => subscriptionHistory.user,
+    { onDelete: 'CASCADE' },
   )
   subscriptionHistory: SubscriptionHistory[];
 
