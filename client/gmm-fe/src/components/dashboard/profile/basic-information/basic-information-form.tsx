@@ -19,8 +19,6 @@ import {
 } from '@/components/ui/select';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import {
-  countries,
-  countryToCountryCode,
   heights,
   UserBasicInformation,
   userBasicInformationSchema,
@@ -36,7 +34,6 @@ import { setUser } from '@/lib/auth/slice';
 import PhotoUploader from './photo-uploader';
 import { languages } from '@/config/locales';
 import ChildrenStatus from '@/components/registration/children-status';
-import AutoComplete from '@/components/ui/searchable-select';
 import { Calendar } from '@/components/ui/calendar';
 import { CalendarIcon } from 'lucide-react';
 import {
@@ -48,7 +45,6 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { getEighteenYearsAgo } from '@/lib/format';
-import flags from 'react-phone-number-input/flags';
 import CountrySelector from '@/components/ui/country-selector';
 import CitySelector from '@/components/ui/city-selector';
 

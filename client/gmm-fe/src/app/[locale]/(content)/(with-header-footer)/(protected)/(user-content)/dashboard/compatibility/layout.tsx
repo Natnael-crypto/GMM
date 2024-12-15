@@ -40,20 +40,21 @@ export default function CompatibilityLayout({
   const { data: chats } = useGetChatsQuery(undefined, { skip: !user });
 
   const femaleImage = currentMatch?.femaleUser?.pictures
-    ? currentMatch?.femaleUser?.pictures[0]
+    ? currentMatch?.femaleUser?.pictures?.find((pic) => pic !== '')
     : '';
   const maleImage = currentMatch?.maleUser?.pictures
-    ? currentMatch?.maleUser?.pictures[0]
+    ? currentMatch?.maleUser?.pictures?.find((pic) => pic !== '')
     : '';
 
-  const { data: userImageUrl } = useGetDownloadUrlQuery(
-    user?.pictures ? user?.pictures[0] : '',
-    { skip: !user?.pictures || !user?.pictures[0] }
-  );
-  const { data: matchImageUrl } = useGetDownloadUrlQuery(
-    user?.gender === 'Male' ? femaleImage : maleImage,
-    { skip: !user?.pictures || !user?.pictures[0] }
-  );
+  const userImageId = user?.pictures?.find((pic) => pic !== '');
+  const matchImageId = user?.gender === 'Male' ? femaleImage : maleImage;
+
+  const { data: userImageUrl } = useGetDownloadUrlQuery(userImageId ?? '', {
+    skip: !user || !userImageId,
+  });
+  const { data: matchImageUrl } = useGetDownloadUrlQuery(matchImageId ?? '', {
+    skip: !user || !matchImageId,
+  });
 
   const [initiateChat, chatInitiationResult] = useInitiateChatMutation();
   const router = useRouter();

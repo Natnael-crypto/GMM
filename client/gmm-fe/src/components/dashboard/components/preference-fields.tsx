@@ -41,8 +41,6 @@ export default function PreferenceField({
 }: PreferenceFieldProps) {
   const form = useFormContext();
 
-  console.log(question.label, !question.hideNotFilter);
-
   return (
     <div className={cn('space-y-2', question.width)}>
       <FormField

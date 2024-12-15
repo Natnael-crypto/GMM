@@ -8,7 +8,6 @@ import {
   faHouse,
   faMosque,
   faPeopleRoof,
-  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import StepperSeparator from './stepper-separator';
 import { useLocale, useTranslations } from 'next-intl';
@@ -23,19 +22,6 @@ export default function CompatibilityStepper() {
 
   return (
     <div className="flex justify-center items-center">
-      <StepperItem
-        href={`/${locale}/dashboard/compatibility/basic-information`}
-        icon={
-          <FontAwesomeIcon icon={faUser} className="text-background text-2xl" />
-        }
-        text={t('basicInformation')}
-        className={
-          isActive('/dashboard/compatibility/basic-information')
-            ? 'bg-primary'
-            : ''
-        }
-      />
-      <StepperSeparator />
       <StepperItem
         href={`/${locale}/dashboard/compatibility/worldly-lifestyle`}
         icon={
@@ -79,20 +65,6 @@ export default function CompatibilityStepper() {
         text={t('marriageDiscussion')}
         className={
           isActive('/dashboard/compatibility/marriage') ? 'bg-primary' : ''
-        }
-      />
-      <StepperSeparator />
-      <StepperItem
-        href={`/${locale}/dashboard/compatibility/family`}
-        icon={
-          <FontAwesomeIcon
-            icon={faPeopleRoof}
-            className="text-background text-2xl"
-          />
-        }
-        text={t('familyIntroduction')}
-        className={
-          isActive('/dashboard/compatibility/family') ? 'bg-primary' : ''
         }
       />
     </div>

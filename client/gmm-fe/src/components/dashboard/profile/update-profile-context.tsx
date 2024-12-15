@@ -56,7 +56,6 @@ export const UpdateProfileProvider = ({
   const onSave = useCallback(() => {
     if (!isSaving) {
       for (const key in displayedForms) {
-        console.log(key);
         displayedForms[key]?.requestSubmit();
       }
     }

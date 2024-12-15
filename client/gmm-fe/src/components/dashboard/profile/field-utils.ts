@@ -79,17 +79,7 @@ export const getFields = (formData: any, displayTemplate: any) => {
         });
       }
     }
-
-    console.log(
-      item.label,
-      item.show,
-      evaluateRuleTree(item.show, originalDataMap)
-    );
   }
-
-  // console.log(formView);
-  // console.log(dataMap);
-  // console.log(originalDataMap);
 
   return formView;
 };
