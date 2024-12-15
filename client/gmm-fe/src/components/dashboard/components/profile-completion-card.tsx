@@ -10,13 +10,7 @@ import { useAppSelector } from '@/lib/hooks';
 import {
   basicInformationCompletion,
   familyIntroductionCompletion,
-  islamicLifestyleCompletion,
-  marriageDiscussionCompletion,
-  worldlyLifestyleCompletion,
 } from '@/lib/profile-completion';
-import { useGetWorldlyLifestyleQuery } from '@/lib/user/api';
-import { useGetIslamicLifestyleQuery } from '@/lib/user/api';
-import { useGetMarriageDiscussionQuery } from '@/lib/user/api';
 import { useGetFamilyIntroductionQuery } from '@/lib/user/api';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProfileCardSkeleton from './skeletons/profile-card-skeleton';
@@ -88,9 +82,30 @@ export default function ProfileCompletionCard() {
       error: false,
       source: worldlyLifestyleData,
       progressCalc: (source: any) => {
+        // TODO: cleanup logic here
+        let padding = 0;
+        if (worldlyLifestyleData) {
+          for (const data of worldlyLifestyleData) {
+            if (
+              data.field.name === 'employment_type' &&
+              data.value === 'not_employed'
+            ) {
+              padding += 1;
+            } else if (data.field.name === 'owns_car' && data.value === 'no') {
+              padding += 3;
+            } else if (
+              data.field.name === 'applicable_debt' &&
+              data.value === 'no'
+            ) {
+              padding += 3;
+            }
+          }
+        }
         const filled =
-          (worldlyLifestyleData?.length ?? 0) +
-          (expectedWorldlyLifestyleData?.length ?? 0);
+          Math.max(
+            (worldlyLifestyleData?.length ?? 0) + padding,
+            worldlyLifestyleForm?.fields.length ?? 1
+          ) + (expectedWorldlyLifestyleData?.length ?? 0);
         const total =
           (worldlyLifestyleForm?.fields.length ?? 1) +
           (expectedWorldlyLifestyleForm?.fields.length ?? 1);
