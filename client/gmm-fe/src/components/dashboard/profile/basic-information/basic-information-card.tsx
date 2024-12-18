@@ -122,8 +122,109 @@ const fields = (user?: User) =>
     },
   ].filter((field) => field.value && field.value !== '' && field.value !== 0);
 
+import { useEffect, useState, useRef } from 'react';
+import { useLoadScript } from '@react-google-maps/api';
+import { constants } from '@/config';
+
+const libraries = ['places' as const];
+
 export default function BasicInformationCard({ user }: { user: User }) {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: constants.google.mapApiKey,
+    libraries,
+  });
+  const [input, setInput] = useState<any>({});
+  const inputRef = useRef(null);
+
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setInput((values: any) => ({ ...values, [name]: value }));
+  };
+
+  const formData = (data: any) => {
+    console.log(data, 'the data');
+    const addressComponents = data?.address_components;
+
+    const componentMap = {
+      subPremise: '',
+      premise: '',
+      street_number: '',
+      route: '',
+      country: '',
+      postal_code: '',
+      administrative_area_level_2: '',
+      administrative_area_level_1: '',
+    };
+
+    for (const component of addressComponents) {
+      const componentType = component.types[0];
+      if (componentMap.hasOwnProperty(componentType)) {
+        componentMap[componentType as keyof typeof componentMap] =
+          component.long_name;
+      }
+    }
+
+    const formattedAddress =
+      `${componentMap.subPremise} ${componentMap.premise} ${componentMap.street_number} ${componentMap.route}`.trim();
+    const latitude = data?.geometry?.location?.lat();
+    const longitude = data?.geometry?.location?.lng();
+
+    setInput((values: any) => ({
+      ...values,
+      streetAddress: formattedAddress,
+      country: componentMap.country,
+      zipCode: componentMap.postal_code,
+      city: componentMap.administrative_area_level_2,
+      state: componentMap.administrative_area_level_1,
+      latitude: latitude,
+      longitude: longitude,
+    }));
+  };
+
+  const handlePlaceChanged = async (address: any) => {
+    if (!isLoaded) return;
+    console.log(address);
+    const place = address.getPlace();
+
+    if (!place || !place.geometry) {
+      setInput({});
+      return;
+    }
+    formData(place);
+  };
+
+  useEffect(() => {
+    if (!isLoaded || loadError) return;
+
+    const options = {
+      componentRestrictions: { country: 'ng' },
+      fields: ['address_components', 'geometry'],
+    };
+
+    if (!inputRef.current) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(
+      inputRef.current,
+      options
+    );
+    autocomplete.addListener('place_changed', () =>
+      handlePlaceChanged(autocomplete)
+    );
+
+    // return () =>
+    //   // autocomplete.removeListener('place_changed', handlePlaceChanged);
+  }, [handlePlaceChanged, isLoaded, loadError]);
+  console.log(input);
   return (
-    <FieldViewer title="Basic Information" getFields={fields} entity={user} />
+    <>
+      {isLoaded && (
+        <input
+          ref={inputRef}
+          onChange={handleChange}
+          value={input.streetAddress}
+        />
+      )}
+      <FieldViewer title="Basic Information" getFields={fields} entity={user} />
+    </>
   );
 }

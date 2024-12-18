@@ -6,6 +6,9 @@ export const constants = {
   stripe: {
     publicKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!,
   },
+  google: {
+    mapApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+  },
 };
 
 export const apiUrls = {
