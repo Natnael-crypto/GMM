@@ -93,7 +93,7 @@ export default function MatchedCard({
         {imageUrl && (
           <DynamicBlur
             src={imageUrl}
-            className="object-cover w-full h-[21rem] object-top"
+            className="object-cover w-full h-full object-top"
             width={297}
             height={400}
             alt="Matched User Image"
@@ -101,10 +101,10 @@ export default function MatchedCard({
         )}
         <div className="relative">
           <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-transparent from-90%  to-muted-foreground"></div>
-          <div className="absolute bottom-0 left-0 right-0 p-5 space-y-3">
+          <div className="profile-pic absolute bottom-0 left-0 right-0 p-5 space-y-3">
             <h2 className="text-background font-semibold text-2xl">
               {matchedUser.firstName}{' '}
-              <span className="text-sm">
+              <span className="text-md">
                 ({convertDateToAge(matchedUser.dateOfBirth)})
               </span>
             </h2>
@@ -149,7 +149,7 @@ export default function MatchedCard({
       <div className="rounded-se-3xl col-span-4 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
         <div className="text-center">
           <h1 className="font-bold text-secondary">You&apos;re Matched!</h1>
-          <p className="text-center text-xs text-muted-foreground">
+          <p className="text-center text-md text-muted-foreground">
             Explore options below to get to know your potential spouse
           </p>
         </div>
@@ -162,7 +162,7 @@ export default function MatchedCard({
             <div className="rounded-md bg-primary p-2 aspect-square text-primary-foreground flex items-center justify-center">
               <FontAwesomeIcon icon={faUser} />
             </div>
-            <span className="text-xs text-secondary font-bold">
+            <span className="text-md text-secondary font-bold">
               View Profile
             </span>
           </Link>
@@ -183,7 +183,7 @@ export default function MatchedCard({
                 <FontAwesomeIcon icon={faComment} />
               )}
             </div>
-            <span className="text-xs text-secondary font-bold">
+            <span className="text-md text-secondary font-bold">
               Chat & Move to Step 2
             </span>
           </button>
@@ -194,7 +194,7 @@ export default function MatchedCard({
             <div className="rounded-md bg-primary p-2 aspect-square text-primary-foreground flex items-center justify-center">
               <FontAwesomeIcon icon={faUser} />
             </div>
-            <span className="text-xs text-secondary font-bold">
+            <span className="text-md text-secondary font-bold">
               Check Compatibility
             </span>
           </Link>
@@ -202,7 +202,7 @@ export default function MatchedCard({
             <div className="rounded-md p-2 aspect-square bg-[#dedede] text-primary-foreground flex items-center justify-center">
               <FontAwesomeIcon icon={faGlobe} />
             </div>
-            <span className="text-xs text-secondary font-bold">
+            <span className="text-md text-secondary font-bold">
               Step 4 Guardian Service (Coming Soon)
             </span>
           </Link>
