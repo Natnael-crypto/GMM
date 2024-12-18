@@ -597,7 +597,7 @@ export default function BasicInformationForm() {
                         <Input
                           // ref={inputRef}
                           name={'country'}
-                          value={input.country || ''}
+                          value={input.country || field.value || ''}
                           onChange={handleChange}
                         />
                         {/* <CountrySelector
@@ -621,7 +621,7 @@ export default function BasicInformationForm() {
                         <Input
                           // ref={inputRef}
                           name={field.name}
-                          value={input.city || ''}
+                          value={input.city || field.value || ''}
                           onChange={handleChange}
                         />
                         {/* <CitySelector
