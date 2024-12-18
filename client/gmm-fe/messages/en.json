@@ -216,42 +216,42 @@
     "common": {
       "title": "Dashboard",
       "stepper": {
-        "basicInformation": "Basic Information",
-        "worldlyLifestyle": "Worldly Lifestyle",
-        "islamicLifestyle": "Islamic Lifestyle",
-        "marriageDiscussion": "Marriage Discussion",
-        "familyIntroduction": "Family Introduction"
+        "basicInformation": "Basics",
+        "worldlyLifestyle": "Worldly / Dunya",
+        "islamicLifestyle": "Islamic / Deen",
+        "marriageDiscussion": "Marriage Talk",
+        "familyIntroduction": "Family Intro"
       }
     },
     "profile": {
       "basicInformation": {
-        "title": "Basic Information"
+        "title": "Basics"
       },
       "worldlyLifestyle": {
-        "title": "Worldly Lifestyle"
+        "title": "Worldly / Dunya"
       },
       "islamicLifestyle": {
-        "title": "Islamic Lifestyle"
+        "title": "Islamic / Deen"
       },
       "marriageDiscussion": {
-        "title": "Marriage Discussion"
+        "title": "Marriage Talk"
       },
       "familyIntroduction": {
-        "title": "Family Introduction"
+        "title": "Family Intro"
       }
     },
     "updateProfile": {
       "basicInformation": {
-        "title": "Basic Information"
+        "title": "Basics"
       },
       "worldlyLifestyle": {
-        "title": "Worldly Lifestyle"
+        "title": "Worldly / Dunya"
       },
       "islamicLifestyle": {
-        "title": "Islamic Lifestyle"
+        "title": "Islamic / Deen"
       },
       "marriageDiscussion": {
-        "title": "Marriage Discussion",
+        "title": "Marriage Talk",
         "optionalVerifiable": {
           "title": "Optional Verifiable - Coming Soon",
           "p1": "Either match may request verification on the items listed below to be verified by guardian marriages to ensure any claims regarding nationality, annual income, debts, DUIs, criminal background checks, STD panel are accruate.",
@@ -271,7 +271,7 @@
         }
       },
       "familyIntroduction": {
-        "title": "Family Introduction",
+        "title": "Family Intro",
 
         "guardianInformation": {
           "firstName": "First Name",

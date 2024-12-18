@@ -70,14 +70,14 @@ export default function ProfileCompletionCard() {
 
   const completion = [
     {
-      criteria: 'Basic Information',
+      criteria: 'Basics',
       loading: !user,
       error: false,
       source: user,
       progressCalc: basicInformationCompletion,
     },
     {
-      criteria: 'Worldly Lifestyle',
+      criteria: 'Worldly / Dunya',
       loading: isWDLoading || isWFLoading || isEWDLoading || isEWFLoading,
       error: false,
       source: worldlyLifestyleData,
@@ -114,7 +114,7 @@ export default function ProfileCompletionCard() {
       },
     },
     {
-      criteria: 'Islamic Lifestyle',
+      criteria: 'Islamic / Deen',
       loading:
         isIslamicLifestyleDataLoading ||
         isIslamicLifestyleFormLoading ||
@@ -133,7 +133,7 @@ export default function ProfileCompletionCard() {
       },
     },
     {
-      criteria: 'Marriage Discussion',
+      criteria: 'Marriage Talk',
       loading:
         isMarriageDiscussionDataLoading || isMarriageDiscussionFormLoading,
       error: false,
@@ -146,7 +146,7 @@ export default function ProfileCompletionCard() {
       },
     },
     {
-      criteria: 'Family Introduction',
+      criteria: 'Family Intro',
       loading: isFamilyIntroductionLoading,
       error: isFamilyIntroductionError,
       source: familyIntroduction,

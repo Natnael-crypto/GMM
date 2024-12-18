@@ -17,11 +17,11 @@ import Footer from '@/components/ui/footer';
 import ProfileOverview from '@/components/dashboard/compatibility/components/profile-overview-card';
 
 const pageNames: Record<string, string> = {
-  '/dashboard/compatibility/basic-information': 'Basic Information',
-  '/dashboard/compatibility/worldly-lifestyle': 'Worldly Lifestyle',
-  '/dashboard/compatibility/islamic-lifestyle': 'Islamic Lifestyle',
-  '/dashboard/compatibility/marriage': 'Marriage Discussion',
-  '/dashboard/compatibility/family': 'Family Introduction',
+  '/dashboard/compatibility/basic-information': 'Basics',
+  '/dashboard/compatibility/worldly-lifestyle': 'Worldly / Dunya',
+  '/dashboard/compatibility/islamic-lifestyle': 'Islamic / Deen',
+  '/dashboard/compatibility/marriage': 'Marriage Talk',
+  '/dashboard/compatibility/family': 'Family Intro',
 };
 
 export default function CompatibilityLayout({
