@@ -5,7 +5,7 @@ import { User } from '@/lib/schemas/user';
 import {
   faChevronDown,
   faHome,
-  faPeopleArrows,
+  faRightLeft,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -182,7 +182,7 @@ export default function MatchProfile({
                 'bg-secondary text-primary-foreground text-[0.6rem] h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]'
               )}
             >
-              <FontAwesomeIcon icon={faPeopleArrows} />
+              <FontAwesomeIcon icon={faRightLeft} />
               <span>Compatibility</span>
             </Link>
             <Link

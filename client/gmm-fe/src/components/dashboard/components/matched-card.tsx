@@ -8,6 +8,7 @@ import {
   faLocationDot,
   faUpDown,
   faUser,
+  faRightLeft,
   faWeightScale,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useRouter } from '@/lib/navigation';
@@ -192,7 +193,7 @@ export default function MatchedCard({
             className="flex gap-4 items-center"
           >
             <div className="rounded-md bg-primary p-2 aspect-square text-primary-foreground flex items-center justify-center">
-              <FontAwesomeIcon icon={faUser} />
+              <FontAwesomeIcon icon={faRightLeft} />
             </div>
             <span className="text-md text-secondary font-bold">
               Check Compatibility
