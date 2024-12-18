@@ -194,20 +194,20 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
 
         <div className="w-full overflow-auto no-scrollbar">
           <div className="relative grid grid-cols-5 gap-3 py-4 w-[600px] mx-auto">
-            <StepperItem icon={faUser} text="Basic" active={stageIndex >= 0} />
+            <StepperItem icon={faUser} text="Basics" active={stageIndex >= 0} />
             <StepperItem
               icon={faHouse}
-              text="Worldly/Duniya"
+              text="Worldly / Duniya"
               active={stageIndex >= 1}
             />
             <StepperItem
               icon={faMosque}
-              text="Islamic/Deen"
+              text="Islamic / Deen"
               active={stageIndex >= 2}
             />
             <StepperItem
               icon={faComments}
-              text="Marriage"
+              text="Marriage Talk"
               active={stageIndex >= 3}
             />
             <StepperItem
