@@ -315,6 +315,56 @@
   object-position: 0 100%;
 }
 
+.globprof-section > div:nth-child(-n+3) .globprof-pill-outline {
+  background: #1d7f9a;
+  color: #dbf7ff;
+  border:none;
+}
+
+.globprof-step-info h1 {
+  font-size: 24px;
+}
+
+.globprof-step-info p {
+  background: #f7f7f8;
+  border-radius: 20px;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.globprof-container {
+  padding-top: 15px;
+  border-radius: 20px;
+  color: #112941;
+}
+
+.globprof-container ul {
+  margin-bottom: 5px;
+}
+
+.globprof-pill {
+  padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    margin-right: 5px;
+    display: flex;
+}
+
+.globprof-pill-outline {
+  color: #666;
+  border: 1px solid #666;
+}
+
+.globprof-icon svg {
+  margin-right: 10px;
+}
+
+.globprof-icon svg[class~="undefined"]{
+  margin-right: 0px;
+  width: 0;
+}
+
 @media (min-width: 640px) {
   .gmm-approach-icons, .gmm-other-platforms-icons {
     padding-left: 20px;

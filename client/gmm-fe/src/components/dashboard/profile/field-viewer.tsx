@@ -36,13 +36,15 @@ export default function FieldViewer<T>({
   const fields = formFields ? formFields : getFields && getFields(entity);
 
   return (
-    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-muted border border-muted py-5">
-      <div>
+    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden py-5 globprof-section">
+      <div className="globprof-step-info">
         {title && (
-          <h1 className="text-secondary font-bold text-xl px-8 pb-3">
+          <h1 className="globprof-step-title text-secondary font-bold pb-3">
             {title}
           </h1>
         )}
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
       </div>
 
       {fields &&
@@ -51,8 +53,47 @@ export default function FieldViewer<T>({
             field.value &&
             ((Array.isArray(field.value) && field.value.length > 0) ||
               !Array.isArray(field.value)) && (
-              <div key={index} className="grid grid-cols-12 gap-x-5 py-3 px-8">
-                <div className="col-span-3 sm:col-span-2 md:col-span-1 text-center text-3xl text-primary">
+              <div key={index} className="grid grid-cols-12 gap-x-5 py-3">
+                <div className="flex-auto col-span-12 globprof-container">
+                  <h2 className="text-secondary font-bold text-lg mb-2">{field.label}:{' '}</h2>
+                  {Array.isArray(field.value) ? (
+                    field.value.length > 0 && (
+                      <ul className="flex">
+                        {field.value.map((subField, subIndex) => (
+                          <li key={subIndex} className="shadow-md globprof-pill globprof-pill-outline">
+                            <span className="globprof-icon">
+                              {field.icon ? (
+                                <FontAwesomeIcon
+                                  icon={field.icon}
+                                />
+                              ) : (
+                                <i className={`fa-solid ${field.iconName}`}></i>
+                              )}
+                            </span>
+                            {subField.label}:{' '} {subField.value}
+                            
+                          </li>
+                        ))}
+                      </ul>
+                      )
+                    ) : (
+                  <ul className="flex">
+                    <li className='shadow-md globprof-pill globprof-pill-outline'>
+                      <span className="globprof-icon">
+                        {field.icon ? (
+                          <FontAwesomeIcon
+                            icon={field.icon}
+                          />
+                        ) : (
+                          <i className={`fa-solid ${field.iconName}`}></i>
+                        )}
+                      </span>
+                      {field.value}
+                    </li>
+                  </ul>
+                  )}
+                </div>
+                {/*<div className="col-span-3 sm:col-span-2 md:col-span-1 text-center text-3xl text-primary">
                   {field.icon ? (
                     <FontAwesomeIcon
                       icon={field.icon}
@@ -86,7 +127,7 @@ export default function FieldViewer<T>({
                       </p>
                     </div>
                   )}
-                </div>
+                </div>*/}
               </div>
             )
         )}

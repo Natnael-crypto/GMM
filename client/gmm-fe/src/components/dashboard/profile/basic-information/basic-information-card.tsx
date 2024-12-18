@@ -39,6 +39,13 @@ const fields = (user?: User) =>
       value: user?.country,
     },
     {
+      /*icon: faLanguage,*/
+      label: 'Languages',
+      value: user?.languages?.length
+        ? user.languages.map((l) => languageMap[l]).join(', ')
+        : null,
+    },
+    {
       icon: faUser,
       label: 'Marital Status',
       value: user?.maritalStatus,
@@ -92,13 +99,6 @@ const fields = (user?: User) =>
       icon: faHandHoldingHeart,
       label: 'Born or Revert to Islam',
       value: user?.bornOrRevertToIslam,
-    },
-    {
-      icon: faLanguage,
-      label: 'Languages',
-      value: user?.languages?.length
-        ? user.languages.map((l) => languageMap[l]).join(', ')
-        : null,
     },
     {
       icon: faGlassMartiniAlt,
