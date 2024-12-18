@@ -89,7 +89,7 @@ export default function MatchedCard({
   const stageIndex = allMatchStages.indexOf(match.stage);
 
   return (
-    <div className="grid grid-cols-7 gap-4 h-full">
+    <div className="grid grid-cols-9 gap-4 h-full">
       <div className="rounded-se-3xl col-span-3 rounded-es-3xl overflow-hidden h-full">
         {imageUrl && (
           <DynamicBlur
@@ -147,9 +147,9 @@ export default function MatchedCard({
         </div>
       </div>
 
-      <div className="rounded-se-3xl col-span-4 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
+      <div className="rounded-se-3xl col-span-6 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
         <div className="text-center">
-          <h1 className="font-bold text-secondary">You&apos;re Matched!</h1>
+          <h1 className="font-bold text-secondary text-xl mb-2 mt-4">You&apos;re Matched!</h1>
           <p className="text-center text-md text-muted-foreground">
             Explore options below to get to know your potential spouse
           </p>
