@@ -79,7 +79,7 @@ export default function FieldViewer<T>({
                             <li
                               key={subIndex}
                               className={cn(
-                                'shadow-md globprof-pill globprof-pill-outline',
+                                'shadow-md globprof-pill globprof-pill-outline w-fit text-sm',
                                 subField.className
                               )}
                             >
