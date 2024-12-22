@@ -51,7 +51,7 @@
 
     --radius: 0.5rem;
 
-    .bg-primary{
+    .bg-primary {
       background: linear-gradient(90deg, var(--secondary), var(--primary));
       background-color: var(--primary);
     }
@@ -63,7 +63,8 @@
     }
   }
 
-  label, input {
+  label,
+  input {
     font-size: 16px;
     font-size: 1rem;
     line-height: 1.5;
@@ -92,7 +93,6 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-
   .h-\[15rem\] {
     height: 15rem;
   }
@@ -105,7 +105,7 @@
     height: 55vh;
   }
 
-  .mt-\[3rem\]{
+  .mt-\[3rem\] {
     margin-top: 3rem;
   }
 
@@ -121,15 +121,14 @@
     pointer-events: none;
   }
 
-  
-  .h-\[30rem\]{
+  .h-\[30rem\] {
     height: 30rem;
   }
 
   .user-information-overlay {
     text-shadow: black 1px 1px 2px;
   }
-  
+
   .cta {
     font-weight: 700 !important;
     text-transform: uppercase;
@@ -212,7 +211,8 @@
     animation-duration: 50ms;
   }
 }
-.hero-container .logo, .gmm-reg-header .logo {
+.hero-container .logo,
+.gmm-reg-header .logo {
   width: 200px;
   margin: auto;
 }
@@ -234,18 +234,19 @@
 }
 
 .hero-container {
-   /*background-image: url(/assets/pattern-bg_opacity-5.png);
+  /*background-image: url(/assets/pattern-bg_opacity-5.png);
     background-position: center right;
     background-repeat: no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;*/
-    height: 100%;
-    background-color: linear-gradient(90deg, var(--secondary), var(--primary));
+  height: 100%;
+  background-color: linear-gradient(90deg, var(--secondary), var(--primary));
 }
 
-.hero-container h1, .hero-container h2 {
+.hero-container h1,
+.hero-container h2 {
   line-height: 1.15;
 }
 
@@ -315,10 +316,10 @@
   object-position: 0 100%;
 }
 
-.globprof-section > div:nth-child(-n+3) .globprof-pill-outline {
+.globprof-section > div:nth-child(-n + 3) .globprof-pill-outline {
   background: #1d7f9a;
   color: #dbf7ff;
-  border:none;
+  border: none;
 }
 
 .globprof-step-info h1 {
@@ -344,11 +345,11 @@
 
 .globprof-pill {
   padding: 5px 15px;
-    border-radius: 50px;
-    font-size: 16px;
-    font-weight: 700;
-    margin-right: 5px;
-    display: flex;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-right: 5px;
+  display: flex;
 }
 
 .globprof-pill-outline {
@@ -360,17 +361,19 @@
   margin-right: 10px;
 }
 
-.globprof-icon svg[class~="undefined"]{
+.globprof-icon svg[class~='undefined'] {
   margin-right: 0px;
   width: 0;
 }
 
 @media (min-width: 640px) {
-  .gmm-approach-icons, .gmm-other-platforms-icons {
+  .gmm-approach-icons,
+  .gmm-other-platforms-icons {
     padding-left: 20px;
     padding-right: 20px;
   }
-  .gmm-approach-slides, .gmm-other-platforms-slides {
+  .gmm-approach-slides,
+  .gmm-other-platforms-slides {
     padding: 20px;
   }
 
@@ -379,11 +382,13 @@
     flex-direction: column-reverse;
   }
 
-  .gmm-approach-icons-grid, .gmm-other-platforms-icons-grid{
+  .gmm-approach-icons-grid,
+  .gmm-other-platforms-icons-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
-  .gmm-hiw-container, .gmm-services-container  {
+  .gmm-hiw-container,
+  .gmm-services-container {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     padding-left: 4rem;
     padding-right: 4rem;
@@ -397,7 +402,7 @@
     font-size: 2.25rem;
     line-height: 1.25;
   }
-  
+
   .gmm-reg-title h2 {
     font-size: 1.5rem;
   }
@@ -407,7 +412,8 @@
 }
 
 @media (min-width: 768px) {
-  .gmm-approach-icons, .gmm-other-platforms-icons {
+  .gmm-approach-icons,
+  .gmm-other-platforms-icons {
     padding-left: 30px;
     padding-right: 30px;
   }
@@ -416,11 +422,13 @@
     max-height: 60px;
   }
 
-  .gmm-approach-slides, .gmm-other-platforms-slides {
+  .gmm-approach-slides,
+  .gmm-other-platforms-slides {
     padding: 50px 30px;
   }
 
-  .hero-container .logo, .gmm-reg-header .logo {
+  .hero-container .logo,
+  .gmm-reg-header .logo {
     width: 300px;
     margin: initial;
   }
@@ -467,7 +475,6 @@
     padding-left: 3rem;
     padding-right: 3rem;
   }
-
 }
 
 @media (min-width: 1024px) {
@@ -500,7 +507,8 @@
     padding-inline-end: 21%;
   }
 
-  .gmm-approach-icons-grid, .gmm-other-platforms-icons-grid {
+  .gmm-approach-icons-grid,
+  .gmm-other-platforms-icons-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
@@ -508,7 +516,6 @@
     margin-left: 85px;
   }
 
-  
   .hero-slide-content {
     padding-inline-start: 10%;
   }
@@ -568,7 +575,6 @@
   .gmm-dashboard > div:last-of-type {
     grid-column: span 5 / span 5;
   }
-
 }
 
 @media (min-width: 1280px) {
@@ -583,7 +589,8 @@
     padding-inline-start: 10%;
   }
 
-  .gmm-approach-icons-grid, .gmm-other-platforms-icons-grid {
+  .gmm-approach-icons-grid,
+  .gmm-other-platforms-icons-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
@@ -591,7 +598,8 @@
     font-size: 2.5rem;
   }
 
-  .gmm-hiw-container, .gmm-services-container  {
+  .gmm-hiw-container,
+  .gmm-services-container {
     padding-left: 12rem;
     padding-right: 12rem;
   }
@@ -642,11 +650,11 @@
 
 @media (min-width: 1536px) {
   .hero-slide-content {
-    padding-inline-start: 10%
+    padding-inline-start: 10%;
   }
 
   .gmm-approach-icons {
-    padding-inline-start: 10%
+    padding-inline-start: 10%;
   }
 
   .gmm-approach-slides {
@@ -658,7 +666,8 @@
     font-size: 3rem;
   }
 
-  .gmm-hiw-container, .gmm-services-container  {
+  .gmm-hiw-container,
+  .gmm-services-container {
     padding-left: 20rem;
     padding-right: 20rem;
   }
@@ -703,11 +712,13 @@
     padding-bottom: 50px;
   }
 
-  .gmm-approach-icons, .gmm-other-platforms-slides {
+  .gmm-approach-icons,
+  .gmm-other-platforms-slides {
     padding-inline-start: 20%;
   }
 
-  .gmm-hiw-container, .gmm-services-container  {
+  .gmm-hiw-container,
+  .gmm-services-container {
     padding-left: 30rem;
     padding-right: 30rem;
   }
@@ -734,7 +745,8 @@
 }
 
 @media (min-width: 2560px) {
-  .gmm-hiw-container, .gmm-services-container  {
+  .gmm-hiw-container,
+  .gmm-services-container {
     padding-left: 50rem;
     padding-right: 50rem;
   }
@@ -744,11 +756,11 @@
   }
 
   .gmm-reg-body .gmm-approach-grid {
-    max-width: 75%
+    max-width: 75%;
   }
 
   .gmm-hiw-checkout-container {
-    max-width: 65%
+    max-width: 65%;
   }
 
   .gmm-dashboard {

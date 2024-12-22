@@ -1,5 +1,10 @@
 import { evaluateRuleTree } from '@/lib/form/rule-evaluator';
 
+export const interpolate = (string: string, context: any) =>
+  string.replaceAll(/\{([^}]+)\}/gi, (_, a) =>
+    a.split('.').reduce((b: any, c: any) => b?.[c] ?? '', context)
+  );
+
 export const getFields = (formData: any, displayTemplate: any) => {
   if (!formData) return [];
   if (!displayTemplate) return [];
@@ -42,9 +47,16 @@ export const getFields = (formData: any, displayTemplate: any) => {
               option.value === data.value
           )?.label;
         }
+      } else {
+        if (fieldName) {
+          originalDataMap[fieldName] = data.value;
+          dataMap[fieldName] = data.value;
+        }
       }
     }
   }
+
+  console.log({ formData });
 
   const formView = [];
 
@@ -56,26 +68,47 @@ export const getFields = (formData: any, displayTemplate: any) => {
           iconName: item.icon,
           label: item.label,
           value: item.value
-            .map((subItem: { label: string; value: string; show: any }) => {
-              if (evaluateRuleTree(subItem.show, originalDataMap)) {
-                return {
-                  label: subItem.label,
-                  value: dataMap[subItem.value],
-                };
-              }
+            .map(
+              (subItem: {
+                label: string;
+                value: string;
+                show: any;
+                icon: string;
+                class: string;
+              }) => {
+                const value = interpolate(subItem.value, dataMap);
+                const realValue = value.split('(')[0].trim();
+                const context = value.split('(')[1]?.split(')')?.[0];
 
-              return null;
-            })
+                if (evaluateRuleTree(subItem.show, originalDataMap)) {
+                  return {
+                    className: subItem.class,
+                    iconName: subItem.icon,
+                    label: subItem.label,
+                    value: realValue,
+                    context: context,
+                  };
+                }
+
+                return null;
+              }
+            )
             .filter((subItem: any) => subItem),
         });
       }
 
       //
       else {
+        const value = interpolate(item.value, dataMap);
+        const realValue = value.split('(')[0].trim();
+        const context = value.split('(')[1]?.split(')')?.[0];
+
         formView.push({
+          className: item.class,
           iconName: item.icon,
           label: item.label,
-          value: dataMap[item.value],
+          value: realValue,
+          context: context,
         });
       }
     }
