@@ -5,24 +5,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faComment,
   faGlobe,
-  faLocationDot,
-  faUpDown,
   faUser,
   faRightLeft,
-  faWeightScale,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useRouter } from '@/lib/navigation';
-import { User, countryToCountryCode } from '@/lib/schemas/user';
-import { useGetDownloadUrlQuery } from '@/lib/user/api';
+import { User } from '@/lib/schemas/user';
 import { useInitiateChatMutation, useGetChatsQuery } from '@/lib/chat/api';
 import { cn } from '@/lib/utils';
 import { Chat } from '@/lib/schemas/chat';
 import { useAppSelector } from '@/lib/hooks';
 import { toast } from '@/components/ui/use-toast';
 import Loading from '@/components/ui/loading';
-import { convertDateToAge } from '@/lib/format';
-import flags from 'react-phone-number-input/flags';
-import DynamicBlur from '@/components/ui/dynamic-blur';
 import { Match } from '@/lib/matchmaking/types';
 import { allMatchStages } from '@/lib/schemas/match';
 import ProfileImages from './profile-image-card';
@@ -79,15 +72,11 @@ export default function MatchedCard({
     }
   };
 
-  const code = countryToCountryCode[
-    matchedUser.nationality
-  ] as keyof typeof flags;
-
   const stageIndex = allMatchStages.indexOf(match.stage);
 
   return (
     <div className="grid grid-cols-9 gap-4 h-full">
-      <div className="rounded-se-3xl col-span-3 rounded-es-3xl overflow-hidden h-full">
+      <div className="rounded-se-3xl col-span-3 rounded-es-3xl overflow-hidden">
         {matchedUser && <ProfileImages user={matchedUser} />}
       </div>
 
