@@ -167,7 +167,7 @@ export default function PreferenceField({
                       {question.options.map((option, index) => (
                         <SelectItem
                           key={`${question.name}_${option.label}_${index}`}
-                          className="text-sm max-w-80"
+                          className="text-sm"
                           value={option.value}
                         >
                           {option.label}

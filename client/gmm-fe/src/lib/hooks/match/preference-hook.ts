@@ -72,10 +72,10 @@ const reset = (preference?: Preference | null): PreferenceForm => {
     preferredHeight,
     preferredWeight,
 
-    notCountry: !!preference?.country,
+    notCountry: !!preference?.notCountry,
     country: preference?.country || null,
 
-    notCity: !!preference?.city,
+    notCity: !!preference?.notCity,
     city: preference?.city || null,
 
     notNationality: !!preference?.notNationality,
@@ -214,8 +214,8 @@ export const usePreference = () => {
 
     return {
       ...allowAny,
-      country: !preference.country,
-      city: !preference.city,
+      country: !preference.country || preference?.country?.length === 0,
+      city: !preference.city || preference?.city?.length === 0,
       preferredAge:
         preference.preferredAge?.[0] === minAge &&
         preference.preferredAge?.[1] === maxAge,
@@ -266,6 +266,9 @@ export const usePreference = () => {
     name: keyof PreferenceForm
   ) => {
     form.setValue(name, null);
+    if (name === 'country') {
+      form.setValue('city', null);
+    }
     form.setValue(
       fieldToNotFilterMap[name],
       !form.getValues()[fieldToNotFilterMap[name]]
