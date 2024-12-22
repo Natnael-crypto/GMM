@@ -75,34 +75,39 @@ export default function FieldViewer<T>({
                     field.value.length > 0 && (
                       <ul className="flex">
                         {field.value.map((subField, subIndex) => (
-                          <li
-                            key={subIndex}
-                            className={cn(
-                              'shadow-md globprof-pill globprof-pill-outline',
-                              subField.className
-                            )}
-                          >
-                            <span className="globprof-icon">
-                              {subField.icon ? (
-                                <FontAwesomeIcon icon={subField.icon} />
-                              ) : (
-                                <i
-                                  className={`fa-solid ${subField.iconName}`}
-                                ></i>
+                          <>
+                            <li
+                              key={subIndex}
+                              className={cn(
+                                'shadow-md globprof-pill globprof-pill-outline',
+                                subField.className
                               )}
-                            </span>
-                            {subField.label
-                              ? `${subField.label} : ${subField.value}`
-                              : subField.value}
-                          </li>
+                            >
+                              <span className="globprof-icon">
+                                {subField.icon ? (
+                                  <FontAwesomeIcon icon={subField.icon} />
+                                ) : (
+                                  <i
+                                    className={`fa-solid ${subField.iconName}`}
+                                  ></i>
+                                )}
+                              </span>
+                              {subField.label
+                                ? `${subField.label} : ${subField.value}`
+                                : subField.value}
+                            </li>
+                            {subField.context && (
+                              <span>{subField.context}</span>
+                            )}
+                          </>
                         ))}
                       </ul>
                     )
                   ) : (
-                    <ul className="flex">
+                    <ul className="flex flex-col gap-2">
                       <li
                         className={cn(
-                          'shadow-md globprof-pill',
+                          'shadow-md globprof-pill w-fit',
                           field.className ?? 'globprof-pill-outline'
                         )}
                       >
@@ -114,6 +119,9 @@ export default function FieldViewer<T>({
                           )}
                         </span>
                         {field.value}
+                      </li>
+                      <li className="text-sm">
+                        {field.context && <span>({field.context})</span>}
                       </li>
                     </ul>
                   )}
