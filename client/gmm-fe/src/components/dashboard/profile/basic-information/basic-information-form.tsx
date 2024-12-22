@@ -196,15 +196,17 @@ export default function BasicInformationForm() {
           : componentMap.administrative_area_level_1
         : componentMap.administrative_area_level_1;
 
+      const cityCountry = city && `${city}, ${componentMap.country}`.trim();
+
       form.setValue('currentCountry', componentMap.country);
-      form.setValue('city', city);
+      form.setValue('city', cityCountry);
 
       setInput((values: any) => ({
         ...values,
         streetAddress: formattedAddress,
         country: componentMap.country,
         zipCode: componentMap.postal_code,
-        city: city,
+        city: cityCountry,
         state: componentMap.administrative_area_level_1,
         // latitude: latitude,
         // longitude: longitude,
@@ -559,7 +561,6 @@ export default function BasicInformationForm() {
               )}
             />
           </div>
-          <div className="space-y-1 col-span-4 sm:col-span-2"></div>
           {isLoaded && (
             <>
               <div className="space-y-1 col-span-4 sm:col-span-2">
@@ -574,26 +575,6 @@ export default function BasicInformationForm() {
                           ref={inputRef}
                           name={field.name}
                           value={input.city || ''}
-                          onChange={handleChange}
-                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-md" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="space-y-1 col-span-4 sm:col-span-2">
-                <Label>Current Country</Label>
-                <FormField
-                  name="currentCountry"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          name={'country'}
-                          value={input.country || ''}
                           onChange={handleChange}
                           className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                         />
