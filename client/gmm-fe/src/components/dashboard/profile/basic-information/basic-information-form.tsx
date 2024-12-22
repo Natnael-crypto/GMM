@@ -505,32 +505,9 @@ export default function BasicInformationForm() {
               )}
             />
           </div>
-          {/* <div className="space-y-1 col-span-2">
-                        <Label>Skin Color</Label>
-                        <FormField
-                            name='skinColor'
-                            control={form.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <Select onValueChange={field.onChange} value={field.value}>
-                                            <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem className="text-sm max-w-80" value="Asian">Asian</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Black">Black</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="Brown">Brown</SelectItem>
-                                                <SelectItem className="text-sm max-w-80" value="White">White</SelectItem>
-                                            </SelectContent>
-                                        </Select>
-                                    </FormControl>
-                                    <FormMessage className="text-md" />
-                                </FormItem>)}
-                        />
-                    </div> */}
+
           <div className="space-y-1 col-span-4 sm:col-span-2">
-            <Label>Language(s) - Max 3</Label>
+            <Label>Language(s)</Label>
             <FormField
               name="languages"
               control={form.control}
@@ -914,10 +891,10 @@ export default function BasicInformationForm() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem className="text-sm max-w-80" value="true">
+                        <SelectItem className="text-sm" value="true">
                           Yes
                         </SelectItem>
-                        <SelectItem className="text-sm max-w-80" value="false">
+                        <SelectItem className="text-sm" value="false">
                           No
                         </SelectItem>
                       </SelectContent>
@@ -946,10 +923,10 @@ export default function BasicInformationForm() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem className="text-sm max-w-80" value="true">
+                        <SelectItem className="text-sm" value="true">
                           Yes
                         </SelectItem>
-                        <SelectItem className="text-sm max-w-80" value="false">
+                        <SelectItem className="text-sm" value="false">
                           No
                         </SelectItem>
                       </SelectContent>
@@ -978,10 +955,10 @@ export default function BasicInformationForm() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem className="text-sm max-w-80" value="true">
+                        <SelectItem className="text-sm" value="true">
                           Yes
                         </SelectItem>
-                        <SelectItem className="text-sm max-w-80" value="false">
+                        <SelectItem className="text-sm" value="false">
                           No
                         </SelectItem>
                       </SelectContent>
@@ -1009,31 +986,28 @@ export default function BasicInformationForm() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem className="text-sm max-w-80" value="None">
+                        <SelectItem className="text-sm" value="None">
                           None
                         </SelectItem>
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-sm"
                           value="Minimal, not visible"
                         >
                           Minimal, not visible
                         </SelectItem>
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-sm"
                           value="Small, visible or concealed"
                         >
                           Small, visible or concealed
                         </SelectItem>
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-sm"
                           value="Large or multiple tattoos"
                         >
                           Large or multiple tattoos
                         </SelectItem>
-                        <SelectItem
-                          className="text-sm max-w-80"
-                          value="Doesn’t matter"
-                        >
+                        <SelectItem className="text-sm" value="Doesn’t matter">
                           Doesn’t matter
                         </SelectItem>
                       </SelectContent>

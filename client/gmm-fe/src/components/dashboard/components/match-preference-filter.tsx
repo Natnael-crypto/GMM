@@ -35,7 +35,6 @@ export default function MatchPreferenceFilter() {
   const user = useAppSelector((state) => state.auth.user);
 
   const countryNotFilter = !!form.watch('notCountry');
-  const cityNotFilter = countryNotFilter;
 
   return (
     <Form {...form}>
@@ -126,139 +125,106 @@ export default function MatchPreferenceFilter() {
           />
         </div>
 
-        <div className="space-y-1 col-span-10 md:col-span-3">
-          <FormField
-            name="country"
-            control={form.control}
-            render={({ field }) => (
-              <>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold line-clamp-1">Country</span>
-                  <div className="flex gap-2">
-                    <Label
-                      className="flex gap-1 items-center justify-center text-[0.65rem]"
-                      onClick={() => {
-                        toggleNotFilter(field.name);
-                        field.onChange([]);
-                        debouncedSavePreference();
-                      }}
-                    >
-                      <Input
-                        type="checkbox"
-                        className="p-0 m-0 h-fit"
-                        checked={countryNotFilter}
-                        onChange={() => {}}
-                      />
-                      <span>Not</span>
-                    </Label>
-                    {!countryNotFilter && (
-                      <Label
-                        className="flex gap-1 items-center justify-center text-[0.65rem]"
-                        onClick={() => {
-                          field.onChange(null);
-                          debouncedSavePreference();
-                        }}
-                      >
-                        <Input
-                          type="checkbox"
-                          className="p-0 m-0 h-fit"
-                          checked={isFilterInactive[field.name]}
-                          onChange={() => {}}
-                        />
-                        <span>Any</span>
-                      </Label>
-                    )}
-                    {countryNotFilter && (
-                      <Label
-                        className="flex gap-1 items-center justify-center text-[0.7rem] bg-muted px-2 py-1 rounded-sm hover:bg-secondary hover:text-secondary-foreground cursor-pointer"
-                        onClick={() => {
-                          field.onChange([]);
-                          debouncedSavePreference();
-                        }}
-                      >
-                        <span>Clear</span>
-                      </Label>
-                    )}
-                  </div>
-                </div>
-                <MultiCountrySelector
-                  value={field.value ?? []}
-                  onChange={(value) => {
-                    field.onChange(value);
+        <div className="col-span-10 md:col-span-9 space-y-1">
+          <div className="flex justify-between items-center">
+            <span className="font-bold line-clamp-1">Location</span>
+            <div className="flex gap-2">
+              <Label
+                className="flex gap-1 items-center justify-center text-[0.65rem]"
+                onClick={() => {
+                  toggleNotFilter('country');
+                  form.setValue('country', []);
+                  debouncedSavePreference();
+                }}
+              >
+                <Input
+                  type="checkbox"
+                  className="p-0 m-0 h-fit"
+                  checked={countryNotFilter}
+                  onChange={() => {}}
+                />
+                <span>Not</span>
+              </Label>
+              {!countryNotFilter && (
+                <Label
+                  className="flex gap-1 items-center justify-center text-[0.65rem]"
+                  onClick={() => {
+                    form.setValue('country', []);
+                    form.setValue('city', []);
                     debouncedSavePreference();
                   }}
-                />
-              </>
-            )}
-          />
-        </div>
+                >
+                  <Input
+                    type="checkbox"
+                    className="p-0 m-0 h-fit"
+                    checked={isFilterInactive['country']}
+                    onChange={() => {}}
+                  />
+                  <span>Any</span>
+                </Label>
+              )}
+              {countryNotFilter && (
+                <Label
+                  className="flex gap-1 items-center justify-center text-[0.7rem] bg-muted px-2 py-1 rounded-sm hover:bg-secondary hover:text-secondary-foreground cursor-pointer"
+                  onClick={() => {
+                    form.setValue('country', []);
+                    debouncedSavePreference();
+                  }}
+                >
+                  <span>Clear</span>
+                </Label>
+              )}
+            </div>
+          </div>
 
-        <div className="space-y-1 col-span-10 md:col-span-3">
-          <FormField
-            name="city"
-            control={form.control}
-            render={({ field }) => (
-              <>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold line-clamp-1">City</span>
-                  <div className="flex gap-2">
-                    <Label
-                      className="flex gap-1 items-center justify-center text-[0.65rem]"
-                      onClick={() => {
-                        toggleNotFilter(field.name);
-                        field.onChange([]);
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <FormField
+                name="country"
+                control={form.control}
+                render={({ field }) => (
+                  <>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-sm line-clamp-1">
+                        Country
+                      </span>
+                    </div>
+                    <MultiCountrySelector
+                      value={field.value ?? []}
+                      onChange={(value) => {
+                        field.onChange(value);
                         debouncedSavePreference();
                       }}
-                    >
-                      <Input
-                        type="checkbox"
-                        className="p-0 m-0 h-fit"
-                        checked={cityNotFilter}
-                        onChange={() => {}}
-                      />
-                      <span>Not</span>
-                    </Label>
-                    {!cityNotFilter && (
-                      <Label
-                        className="flex gap-1 items-center justify-center text-[0.65rem]"
-                        onClick={() => {
-                          field.onChange(null);
-                          debouncedSavePreference();
-                        }}
-                      >
-                        <Input
-                          type="checkbox"
-                          className="p-0 m-0 h-fit"
-                          checked={isFilterInactive[field.name]}
-                          onChange={() => {}}
-                        />
-                        <span>Any</span>
-                      </Label>
-                    )}
-                    {cityNotFilter && (
-                      <Label
-                        className="flex gap-1 items-center justify-center text-[0.7rem] bg-muted px-2 py-1 rounded-sm hover:bg-secondary hover:text-secondary-foreground cursor-pointer"
-                        onClick={() => {
-                          field.onChange([]);
-                          debouncedSavePreference();
-                        }}
-                      >
-                        <span>Clear</span>
-                      </Label>
-                    )}
-                  </div>
-                </div>
-                <MultiCitySelector
-                  value={field.value ?? []}
-                  onChange={(value) => {
-                    field.onChange(value);
-                    debouncedSavePreference();
-                  }}
-                  selectedCountries={form.watch('country') ?? []}
-                />
-              </>
-            )}
-          />
+                    />
+                  </>
+                )}
+              />
+            </div>
+
+            <div className="space-y-1">
+              <FormField
+                name="city"
+                control={form.control}
+                render={({ field }) => (
+                  <>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-sm line-clamp-1">
+                        City
+                      </span>
+                    </div>
+                    <MultiCitySelector
+                      value={field.value ?? []}
+                      onChange={(value) => {
+                        field.onChange(value);
+                        debouncedSavePreference();
+                      }}
+                      selectedCountries={form.watch('country') ?? []}
+                    />
+                  </>
+                )}
+              />
+            </div>
+          </div>
         </div>
 
         {basicPreferenceQuestions.map((question, index) => {
@@ -273,7 +239,6 @@ export default function MatchPreferenceFilter() {
                 toggleNotFilter={() =>
                   toggleNotFilter(question.name as unknown as any)
                 }
-                // hideNotFilter={question.hideNotFilter}
                 allowAny={
                   isFilterInactive[
                     question.name as keyof typeof isFilterInactive
@@ -296,7 +261,6 @@ export default function MatchPreferenceFilter() {
                 toggleNotFilter={() =>
                   toggleNotFilter(question.name as unknown as any)
                 }
-                // hideNotFilter={question.hideNotFilter}
                 allowAny={
                   isFilterInactive[
                     question.name as keyof typeof isFilterInactive

@@ -98,7 +98,7 @@ export default function AutoComplete({
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 max-w-80 md:max-w-96">
               {showSearch && (
                 <Input
                   type="search"
