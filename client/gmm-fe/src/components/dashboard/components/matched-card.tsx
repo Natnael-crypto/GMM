@@ -25,6 +25,7 @@ import flags from 'react-phone-number-input/flags';
 import DynamicBlur from '@/components/ui/dynamic-blur';
 import { Match } from '@/lib/matchmaking/types';
 import { allMatchStages } from '@/lib/schemas/match';
+import ProfileImages from './profile-image-card';
 
 const stageUrls = [
   'basic-information',
@@ -42,10 +43,7 @@ export default function MatchedCard({
   match: Match;
 }) {
   const user = useAppSelector((state) => state.auth.user);
-  const { data: imageUrl } = useGetDownloadUrlQuery(
-    matchedUser?.pictures ? matchedUser?.pictures[0] : '',
-    { skip: !matchedUser?.pictures || !matchedUser?.pictures[0] }
-  );
+
   const { data: chats } = useGetChatsQuery(undefined, { skip: !user });
   const [initiateChat, chatInitiationResult] = useInitiateChatMutation();
   const router = useRouter();
@@ -84,72 +82,20 @@ export default function MatchedCard({
   const code = countryToCountryCode[
     matchedUser.nationality
   ] as keyof typeof flags;
-  const NationalityFlag = flags[code];
 
   const stageIndex = allMatchStages.indexOf(match.stage);
 
   return (
     <div className="grid grid-cols-9 gap-4 h-full">
       <div className="rounded-se-3xl col-span-3 rounded-es-3xl overflow-hidden h-full">
-        {imageUrl && (
-          <DynamicBlur
-            src={imageUrl}
-            className="object-cover w-full h-full object-top"
-            width={297}
-            height={400}
-            alt="Matched User Image"
-          />
-        )}
-        <div className="relative">
-          <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-transparent from-90%  to-muted-foreground"></div>
-          <div className="profile-pic absolute bottom-0 left-0 right-0 p-5 space-y-3">
-            <h2 className="text-background font-semibold text-2xl">
-              {matchedUser.firstName}{' '}
-              <span className="text-md">
-                ({convertDateToAge(matchedUser.dateOfBirth)})
-              </span>
-            </h2>
-
-            <div className="space-y-2 font-thin">
-              <div className="flex gap-2 bg-[#ffffffbb] rounded-full truncate text-xs font-semibold px-2 shadow-lg">
-                <div className="w-4 h-4 flex items-center justify-center">
-                  {NationalityFlag && (
-                    <NationalityFlag title={matchedUser.nationality} />
-                  )}
-                </div>
-                <span>{matchedUser.nationality} Nationality</span>
-              </div>
-              <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
-                <span>
-                  <FontAwesomeIcon icon={faLocationDot} />
-                </span>
-                <span>
-                  {matchedUser.city}, {matchedUser.country}
-                </span>
-              </p>
-
-              <div className="flex gap-2">
-                <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
-                  <span>
-                    <FontAwesomeIcon icon={faUpDown} />
-                  </span>
-                  <span>{matchedUser.height} cm</span>
-                </p>
-                <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate text-xs px-2 shadow-lg w-fit text-white">
-                  <span>
-                    <FontAwesomeIcon icon={faWeightScale} />
-                  </span>
-                  <span>{matchedUser.weight} kg </span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        {matchedUser && <ProfileImages user={matchedUser} />}
       </div>
 
       <div className="rounded-se-3xl col-span-6 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
         <div className="text-center">
-          <h1 className="font-bold text-secondary text-xl mb-2 mt-4">You&apos;re Matched!</h1>
+          <h1 className="font-bold text-secondary text-xl mb-2 mt-4">
+            You&apos;re Matched!
+          </h1>
           <p className="text-center text-md text-muted-foreground">
             Explore options below to get to know your potential spouse
           </p>
