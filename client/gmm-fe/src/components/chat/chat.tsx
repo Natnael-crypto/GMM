@@ -184,7 +184,7 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
     <div
       className="w-full bg-[#f7f7f7] p-5 rounded-lg flex flex-col justify-between"
       style={{
-        height: 'calc(100vh - 1.50rem)',
+        height: 'calc(100vh - 4.50rem)',
       }}
     >
       <div>

@@ -40,6 +40,7 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
     name: 'martialStatus',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
+    hideNotFilter: true,
     options: [
       'Single/Never Married',
       'Single/Legally Divorced',
@@ -61,6 +62,7 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
     gender: 'Male',
+    hideNotFilter: true,
     options: [
       {
         value: 'full_daily_prayers',
@@ -85,6 +87,7 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
     gender: 'Female',
+    hideNotFilter: true,
     options: [
       {
         value: 'full_daily_prayers',
@@ -109,6 +112,7 @@ export const basicPreferenceQuestions: PreferenceQuestion[] = [
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
     gender: 'Male',
+    hideNotFilter: true,
     options: [
       {
         value: 'advanced_hijab',
@@ -397,6 +401,7 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     name: 'numberOfChildren',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
+    hideNotFilter: true,
     options: ['1', '2', '3', '4+'].map(toOption),
   },
   {
@@ -413,6 +418,7 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     name: 'education',
     width: 'col-span-10 md:col-span-3',
     type: 'multiselect',
+    hideNotFilter: true,
     options: [
       'High school',
       'Diploma',
@@ -807,6 +813,7 @@ export const advancedPreferenceQuestions: PreferenceQuestion[] = [
     name: 'tattoos',
     width: 'col-span-10 md:col-span-3',
     type: 'single',
+    hideNotFilter: true,
     options: [
       'None',
       'Minimal, not visible',

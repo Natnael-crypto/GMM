@@ -134,7 +134,7 @@ export default function MatchProfile({
     <div
       className="bg-[#f0f8f8] rounded-lg overflow-hidden h-full flex flex-col items-center relative "
       style={{
-        height: 'calc(100vh - 1.50rem)',
+        height: 'calc(100vh - 4.50rem)',
       }}
     >
       <h1 className="font-semibold text-primary-foreground bg-primary w-full text-center p-1">
@@ -159,7 +159,7 @@ export default function MatchProfile({
 
       <div
         ref={containerRef}
-        className="m-6 flex flex-col item-center justify-between overflow-y-auto no-scrollbar"
+        className="p-6 flex flex-col item-center justify-between overflow-y-auto"
       >
         <div className="space-y-3">
           <ProfileImages user={matchedUser} />
@@ -169,7 +169,7 @@ export default function MatchProfile({
               href={`/dashboard/profile/${matchedUser.id}/${stageUrls[stageIndex]}`}
               className={cn(
                 buttonVariants({ variant: 'default' }),
-                'bg-secondary text-primary-foreground text-[0.6rem] h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]'
+                'bg-secondary text-primary-foreground text-xs h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]'
               )}
             >
               <FontAwesomeIcon icon={faUser} />
@@ -179,7 +179,7 @@ export default function MatchProfile({
               href={`/dashboard/compatibility/${stageUrls[stageIndex]}`}
               className={cn(
                 buttonVariants({ variant: 'default' }),
-                'bg-secondary text-primary-foreground text-[0.6rem] h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]'
+                'bg-secondary text-primary-foreground text-xs h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]'
               )}
             >
               <FontAwesomeIcon icon={faRightLeft} />
@@ -189,7 +189,7 @@ export default function MatchProfile({
               href="/dashboard"
               className={cn(
                 buttonVariants({ variant: 'default' }),
-                'bg-secondary text-primary-foreground text-[0.6rem] h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]'
+                'bg-secondary text-primary-foreground text-xs h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]'
               )}
             >
               <FontAwesomeIcon icon={faHome} />
@@ -207,7 +207,7 @@ export default function MatchProfile({
               disabled={disableInvitationButton}
               className={cn(
                 buttonVariants({ variant: 'default' }),
-                'bg-primary text-primary-foreground h-8 w-fit text-xs'
+                'bg-primary text-primary-foreground h-8 w-fit text-sm'
               )}
             >
               {buttonText}
@@ -228,7 +228,7 @@ export default function MatchProfile({
                   <AlertDialogCancel
                     className={cn(
                       buttonVariants({ variant: 'outline' }),
-                      'bg-transparent text-muted-foreground h-7 w-fit text-xs'
+                      'bg-transparent text-muted-foreground h-7 w-fit text-sm'
                     )}
                   >
                     Cancel
@@ -236,7 +236,7 @@ export default function MatchProfile({
                   <AlertDialogAction
                     className={cn(
                       buttonVariants({ variant: 'outline' }),
-                      'bg-transparent text-muted-foreground h-7 w-fit text-xs'
+                      'bg-transparent text-muted-foreground h-7 w-fit text-sm'
                     )}
                     onClick={handleInvitation}
                   >
@@ -249,7 +249,7 @@ export default function MatchProfile({
                   <AlertDialogCancel
                     className={cn(
                       buttonVariants({ variant: 'outline' }),
-                      'bg-transparent text-muted-foreground h-7 w-fit text-xs'
+                      'bg-transparent text-muted-foreground h-7 w-fit text-sm'
                     )}
                     onClick={() =>
                       handleDecision(StageInvitationStatus.REJECTED)
@@ -260,7 +260,7 @@ export default function MatchProfile({
                   <AlertDialogAction
                     className={cn(
                       buttonVariants({ variant: 'outline' }),
-                      'bg-transparent text-muted-foreground h-7 w-fit text-xs'
+                      'bg-transparent text-muted-foreground h-7 w-fit text-sm'
                     )}
                     onClick={() =>
                       handleDecision(StageInvitationStatus.ACCEPTED)
