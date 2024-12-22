@@ -18,7 +18,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { AccountStatus } from '@/lib/schemas/user';
 import { useUserData } from '@/lib/hooks/use-user-data';
 
-export default function ProfileCompletionCard() {
+export default function ProfileCompletionCard({ hide }: { hide?: boolean }) {
   const user = useAppSelector((state) => state.auth.user);
   const {
     data: familyIntroduction,
@@ -156,20 +156,22 @@ export default function ProfileCompletionCard() {
 
   return (
     <div className="gmm-profile-completion rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 text-md font-medium space-y-5">
-      <AnimatePresence mode="wait">
-        {user && <ProfileCard user={user} />}
-        {!user && (
-          <motion.div
-            key="profile-card-skeleton"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <ProfileCardSkeleton />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {!hide && (
+        <AnimatePresence mode="wait">
+          {user && <ProfileCard user={user} />}
+          {!user && (
+            <motion.div
+              key="profile-card-skeleton"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <ProfileCardSkeleton />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
 
       <div className="space-y-3">
         {completion.map(
@@ -186,31 +188,33 @@ export default function ProfileCompletionCard() {
         )}
       </div>
 
-      <div className="gmm-profile-completion-cta lg:flex text-center m-full sm:justify-end gap-1">
-        {user && user.accountStatus === AccountStatus.APPROVED && (
-          <Link
-            href={`/dashboard/profile/${user?.id}/basic-information`}
-            className={cn(
-              buttonVariants({ variant: 'outline' }),
-              'rounded-full h-8 text-secondary cta m-1 text-xs'
-            )}
-          >
-            View Profile
-          </Link>
-        )}
-        {!user && <Skeleton className="h-10 rounded-full" />}
-        {user && !user.isMatched && (
-          <Link
-            href={`/dashboard/profile/${user.id}/basic-information/edit`}
-            className={cn(
-              buttonVariants({ variant: 'outline' }),
-              'rounded-full h-8 text-secondary cta m-1 text-xs'
-            )}
-          >
-            Edit Profile
-          </Link>
-        )}
-      </div>
+      {!hide && (
+        <div className="gmm-profile-completion-cta lg:flex text-center m-full sm:justify-end gap-1">
+          {user && user.accountStatus === AccountStatus.APPROVED && (
+            <Link
+              href={`/dashboard/profile/${user?.id}/basic-information`}
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'rounded-full h-8 text-secondary cta m-1 text-xs'
+              )}
+            >
+              View Profile
+            </Link>
+          )}
+          {!user && <Skeleton className="h-10 rounded-full" />}
+          {user && !user.isMatched && (
+            <Link
+              href={`/dashboard/profile/${user.id}/basic-information/edit`}
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'rounded-full h-8 text-secondary cta m-1 text-xs'
+              )}
+            >
+              Edit Profile
+            </Link>
+          )}
+        </div>
+      )}
     </div>
   );
 }

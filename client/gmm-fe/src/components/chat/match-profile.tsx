@@ -31,8 +31,9 @@ import {
 import { toast } from '../ui/use-toast';
 import { useAppSelector } from '@/lib/hooks';
 import { allMatchStages } from '@/lib/schemas/match';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useInView } from 'framer-motion';
+import ProfileCompletionCard from '../dashboard/components/profile-completion-card';
 
 enum DialogType {
   SEND_INVITATION = 'send_invitation',
@@ -163,6 +164,8 @@ export default function MatchProfile({
       >
         <div className="space-y-3">
           <ProfileImages user={matchedUser} />
+
+          <ProfileCompletionCard hide={true} />
 
           <div className="flex gap-2 flex-wrap items-center justify-center">
             <Link
