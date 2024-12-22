@@ -46,7 +46,6 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { getEighteenYearsAgo } from '@/lib/format';
 import CountrySelector from '@/components/ui/country-selector';
-import CitySelector from '@/components/ui/city-selector';
 import { useLoadScript } from '@react-google-maps/api';
 import { constants } from '@/config';
 
@@ -90,6 +89,9 @@ export default function BasicInformationForm() {
       phoneNumber: user?.phoneNumber ?? '',
     },
   });
+  const [input, setInput] = useState<any>({});
+  const inputRef = useRef(null);
+
   const [updateUser, updateResult] = useUpdateUserMutation();
 
   useEffect(() => {
@@ -101,6 +103,13 @@ export default function BasicInformationForm() {
       languages: user?.languages ?? [],
       pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
     });
+
+    if (user) {
+      setInput({
+        country: user.currentCountry,
+        city: user.city,
+      });
+    }
 
     if (user?.pictures && user.pictures.length < 8) {
       const pics = [...user.pictures];
@@ -147,8 +156,6 @@ export default function BasicInformationForm() {
     googleMapsApiKey: constants.google.mapApiKey,
     libraries,
   });
-  const [input, setInput] = useState<any>({});
-  const inputRef = useRef(null);
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -180,21 +187,27 @@ export default function BasicInformationForm() {
 
       const formattedAddress =
         `${componentMap.subPremise} ${componentMap.premise} ${componentMap.street_number} ${componentMap.route}`.trim();
-      const latitude = data?.geometry?.location?.lat();
-      const longitude = data?.geometry?.location?.lng();
+      // const latitude = data?.geometry?.location?.lat();
+      // const longitude = data?.geometry?.location?.lng();
+
+      const city = componentMap.administrative_area_level_2
+        ? componentMap.administrative_area_level_2 !== ''
+          ? componentMap.administrative_area_level_2
+          : componentMap.administrative_area_level_1
+        : componentMap.administrative_area_level_1;
 
       form.setValue('currentCountry', componentMap.country);
-      form.setValue('city', componentMap.administrative_area_level_2);
+      form.setValue('city', city);
 
       setInput((values: any) => ({
         ...values,
         streetAddress: formattedAddress,
         country: componentMap.country,
         zipCode: componentMap.postal_code,
-        city: componentMap.administrative_area_level_2,
+        city: city,
         state: componentMap.administrative_area_level_1,
-        latitude: latitude,
-        longitude: longitude,
+        // latitude: latitude,
+        // longitude: longitude,
       }));
     },
     [form]
@@ -203,10 +216,9 @@ export default function BasicInformationForm() {
   const handlePlaceChanged = useCallback(
     async (address: any) => {
       if (!isLoaded) return;
-      console.log(address);
       const place = address.getPlace();
 
-      if (!place || !place.geometry) {
+      if (!place) {
         setInput({});
         return;
       }
@@ -219,8 +231,8 @@ export default function BasicInformationForm() {
     if (!isLoaded || loadError) return;
 
     const options = {
-      // componentRestrictions: { country: 'ng' },
-      fields: ['address_components', 'geometry'],
+      types: ['(cities)'],
+      fields: ['address_components'],
     };
 
     if (!inputRef.current) return;
@@ -547,21 +559,29 @@ export default function BasicInformationForm() {
               )}
             />
           </div>
+          <div className="space-y-1 col-span-4 sm:col-span-2"></div>
           {isLoaded && (
             <>
               <div className="space-y-1 col-span-4 sm:col-span-2">
-                <Label>Current Address</Label>
-
-                <Input
-                  ref={inputRef}
-                  name="streetAddress"
-                  value={input.streetAddress || ''}
-                  onChange={handleChange}
+                <Label>Current City</Label>
+                <FormField
+                  name="city"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          ref={inputRef}
+                          name={field.name}
+                          value={input.city || ''}
+                          onChange={handleChange}
+                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                        />
+                      </FormControl>
+                      <FormMessage className="text-md" />
+                    </FormItem>
+                  )}
                 />
-                {/* <CountrySelector
-                      value={field.value}
-                      onChange={field.onChange}
-                    /> */}
               </div>
               <div className="space-y-1 col-span-4 sm:col-span-2">
                 <Label>Current Country</Label>
@@ -572,40 +592,11 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Input
-                          // ref={inputRef}
                           name={'country'}
-                          value={input.country || field.value || ''}
+                          value={input.country || ''}
                           onChange={handleChange}
+                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                         />
-                        {/* <CountrySelector
-                      value={field.value}
-                      onChange={field.onChange}
-                    /> */}
-                      </FormControl>
-                      <FormMessage className="text-md" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="space-y-1 col-span-4 sm:col-span-2">
-                <Label>City</Label>
-                <FormField
-                  name="city"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          // ref={inputRef}
-                          name={field.name}
-                          value={input.city || field.value || ''}
-                          onChange={handleChange}
-                        />
-                        {/* <CitySelector
-                      value={field.value}
-                      onChange={field.onChange}
-                      country={form.watch('currentCountry')}
-                    /> */}
                       </FormControl>
                       <FormMessage className="text-md" />
                     </FormItem>

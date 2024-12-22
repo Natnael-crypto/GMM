@@ -25,13 +25,12 @@ import {
   weights,
   userRegistrationSchema,
   UserRegistration,
-  countryToCountryCode,
 } from '@/lib/schemas/user';
 import { useForm } from 'react-hook-form';
 import { useRegisterUserMutation } from '@/lib/user/api';
 import { toast } from '@/components/ui/use-toast';
 import { setUser } from '@/lib/auth/slice';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 import { languages } from '@/config/locales';
 import PhotoUploader from '@/components/registration/photo-uploader';
@@ -50,18 +49,10 @@ import { FamilyIntroduction } from '@/lib/schemas/family-introduction';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import CountrySelector from '../ui/country-selector';
 import CitySelector from '../ui/city-selector';
+import { useLoadScript } from '@react-google-maps/api';
+import { constants } from '@/config';
 
-const countryOptions = Object.keys(countries).map((country) => ({
-  label: country,
-  value: country,
-}));
-
-const cityOptions = Object.keys(countries).flatMap((country) =>
-  countries[country].map((city) => ({
-    label: `${city}, ${country}`,
-    value: `${city}, ${country}`,
-  }))
-);
+const libraries = ['places' as const];
 
 export default function BasicInformationForm({
   familyIntroduction,
@@ -119,6 +110,9 @@ export default function BasicInformationForm({
     }
   }, [form, familyIntroduction]);
 
+  const [input, setInput] = useState<any>({});
+  const inputRef = useRef(null);
+
   const registrationFormRef = useRef<HTMLFormElement>(null);
   const { registerForm, setSaving } = useUpdateProfileContext();
   const [registerUser, registrationResult] = useRegisterUserMutation();
@@ -167,7 +161,114 @@ export default function BasicInformationForm({
         phoneNumber: user?.phoneNumber ?? '',
       });
     }
+
+    if (user) {
+      setInput({
+        country: user.currentCountry,
+        city: user.city,
+      });
+    }
   }, [form, user]);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: constants.google.mapApiKey,
+    libraries,
+  });
+
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setInput((values: any) => ({ ...values, [name]: value }));
+  };
+
+  const formData = useCallback(
+    (data: any) => {
+      const addressComponents = data?.address_components;
+
+      const componentMap = {
+        subPremise: '',
+        premise: '',
+        street_number: '',
+        route: '',
+        country: '',
+        postal_code: '',
+        administrative_area_level_2: '',
+        administrative_area_level_1: '',
+      };
+
+      for (const component of addressComponents) {
+        const componentType = component.types[0];
+        if (componentMap.hasOwnProperty(componentType)) {
+          componentMap[componentType as keyof typeof componentMap] =
+            component.long_name;
+        }
+      }
+
+      const formattedAddress =
+        `${componentMap.subPremise} ${componentMap.premise} ${componentMap.street_number} ${componentMap.route}`.trim();
+      // const latitude = data?.geometry?.location?.lat();
+      // const longitude = data?.geometry?.location?.lng();
+
+      const city = componentMap.administrative_area_level_2
+        ? componentMap.administrative_area_level_2 !== ''
+          ? componentMap.administrative_area_level_2
+          : componentMap.administrative_area_level_1
+        : componentMap.administrative_area_level_1;
+
+      form.setValue('currentCountry', componentMap.country);
+      form.setValue('city', city);
+
+      setInput((values: any) => ({
+        ...values,
+        streetAddress: formattedAddress,
+        country: componentMap.country,
+        zipCode: componentMap.postal_code,
+        city: city,
+        state: componentMap.administrative_area_level_1,
+        // latitude: latitude,
+        // longitude: longitude,
+      }));
+    },
+    [form]
+  );
+
+  const handlePlaceChanged = useCallback(
+    async (address: any) => {
+      if (!isLoaded) return;
+      const place = address.getPlace();
+
+      if (!place) {
+        setInput({});
+        return;
+      }
+      formData(place);
+    },
+    [formData, isLoaded]
+  );
+
+  useEffect(() => {
+    if (!isLoaded || loadError) return;
+
+    const options = {
+      types: ['(cities)'],
+      fields: ['address_components'],
+    };
+
+    if (!inputRef.current) return;
+
+    const autocomplete = new google.maps.places.Autocomplete(
+      inputRef.current,
+      options
+    );
+    const eventListener = autocomplete.addListener('place_changed', () =>
+      handlePlaceChanged(autocomplete)
+    );
+
+    return () => {
+      if (eventListener) {
+        google.maps.event.removeListener(eventListener);
+      }
+    };
+  }, [handlePlaceChanged, isLoaded, loadError]);
 
   const onSubmit = (data: UserRegistration) => {
     try {
@@ -655,43 +756,54 @@ export default function BasicInformationForm({
                   )}
                 />
               </div>
-              <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
-                <Label>Current Country</Label>
-                <FormField
-                  name="currentCountry"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <CountrySelector
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-md" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
-                <Label>City</Label>
-                <FormField
-                  name="city"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <CitySelector
-                          value={field.value}
-                          onChange={field.onChange}
-                          country={form.watch('currentCountry')}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-md" />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <div className="space-y-1 col-span-4 sm:col-span-2"></div>
+
+              {isLoaded && (
+                <>
+                  <div className="space-y-1 col-span-4 sm:col-span-2">
+                    <Label>Current City</Label>
+                    <FormField
+                      name="city"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              ref={inputRef}
+                              name={field.name}
+                              value={input.city || ''}
+                              onChange={handleChange}
+                              className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                            />
+                          </FormControl>
+                          <FormMessage className="text-md" />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="space-y-1 col-span-4 sm:col-span-2">
+                    <Label>Current Country</Label>
+                    <FormField
+                      name="currentCountry"
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              name={'country'}
+                              value={input.country || ''}
+                              onChange={handleChange}
+                              className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                            />
+                          </FormControl>
+                          <FormMessage className="text-md" />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </>
+              )}
+
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Marital Status</Label>
                 <FormField

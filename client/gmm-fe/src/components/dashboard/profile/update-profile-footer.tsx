@@ -14,7 +14,7 @@ export default function UpdateProfileFooter({
   nextLink,
 }: {
   viewProfileLink: string;
-  nextLink: string;
+  nextLink?: string;
 }) {
   const { onSave, isSaving } = useUpdateProfileContext();
 
@@ -46,21 +46,23 @@ export default function UpdateProfileFooter({
         >
           {isSaving ? <Loading /> : 'Save'}
         </Button>
-        <Link
-          href={nextLink}
-          className={cn(
-            buttonVariants({
-              variant: 'outline',
-              size: 'sm',
-            }),
-            'rounded-full text-xs text-secondary h-6 cta flex items-center justify-center gap-1'
-          )}
-        >
-          <span className="flex items-center justify-center">Next</span>
-          <span className="flex items-center justify-center text-xs -mt-[1px]">
-            <FontAwesomeIcon icon={faChevronRight} />
-          </span>
-        </Link>
+        {nextLink && (
+          <Link
+            href={nextLink}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+              }),
+              'rounded-full text-xs text-secondary h-6 cta flex items-center justify-center gap-1'
+            )}
+          >
+            <span className="flex items-center justify-center">Next</span>
+            <span className="flex items-center justify-center text-xs -mt-[1px]">
+              <FontAwesomeIcon icon={faChevronRight} />
+            </span>
+          </Link>
+        )}
       </div>
     </div>
   );
