@@ -169,53 +169,24 @@
   }
 }
 
-:root {
-  --scrollbar-width: 4px;
-  /* --scrollbar-track-color: transparent; */
-  --scrollbar-thumb-color: #000;
-  --scrollbar-thumb-hover-color: #000;
-}
-
 /* Webkit browsers (Chrome, Safari, newer versions of Edge) */
 ::-webkit-scrollbar {
-  width: var(--scrollbar-width);
+  width: 8px;
+  background-color: #fff;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--scrollbar-track-color);
+  background: #fff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb-color);
-  border-radius: calc(var(--scrollbar-width) / 2);
+  border: 1px solid var(--primary-foreground);
+  background-color: var(--primary);
+  border-radius: 6px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--scrollbar-thumb-hover-color);
-}
-
-/* Firefox */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);
-}
-
-/* For cross-browser consistency in scrollable elements */
-.scrollable {
-  overflow-y: auto;
-  scrollbar-gutter: stable;
-}
-
-.scrollable:not(:hover) {
-  scrollbar-color: transparent var(--scrollbar-track-color);
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --scrollbar-thumb-color: rgba(255, 255, 255, 0.2);
-    --scrollbar-thumb-hover-color: rgba(255, 255, 255, 0.3);
-  }
+  background-color: var(--secondary);
 }
 
 @layer utilities {

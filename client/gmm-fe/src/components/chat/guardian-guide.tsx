@@ -52,7 +52,7 @@ export default function GuardianGuide({
     <div
       className="h-full bg-background rounded-lg overflow-hidden"
       style={{
-        height: 'calc(100vh - 1.50rem)',
+        height: 'calc(100vh - 4.50rem)',
       }}
     >
       <h1 className="font-semibold text-primary-foreground bg-secondary w-full text-center p-1">
@@ -68,12 +68,12 @@ export default function GuardianGuide({
             </span>
           </div>
 
-          <p className="font-bold text-xs text-center px-10">
+          <p className="font-bold text-sm text-center px-10">
             You are on [Step {stageIndex + 1}] with {matchedUser.firstName} from{' '}
             {matchedUser.country}
           </p>
 
-          <div className="text-xs space-y-3 py-5 border-t">
+          <div className="text-sm space-y-3 py-5 border-t">
             <p>Talk to each other and exchange pleasantries</p>
             <p>
               Guardians do not have access to your chat. Only you and{' '}
@@ -96,7 +96,7 @@ export default function GuardianGuide({
               <AlertDialogTrigger
                 className={cn(
                   buttonVariants({ variant: 'outline' }),
-                  'bg-transparent text-muted-foreground h-7 w-fit text-xs'
+                  'bg-transparent text-muted-foreground h-7 w-fit text-sm'
                 )}
               >
                 Unmatch
@@ -114,7 +114,7 @@ export default function GuardianGuide({
                   <AlertDialogCancel
                     className={cn(
                       buttonVariants({ variant: 'outline' }),
-                      'bg-transparent text-muted-foreground h-7 w-fit text-xs'
+                      'bg-transparent text-muted-foreground h-7 w-fit text-sm'
                     )}
                   >
                     Cancel
@@ -122,7 +122,7 @@ export default function GuardianGuide({
                   <AlertDialogAction
                     className={cn(
                       buttonVariants({ variant: 'outline' }),
-                      'bg-transparent text-muted-foreground h-7 w-fit text-xs'
+                      'bg-transparent text-muted-foreground h-7 w-fit text-sm'
                     )}
                     onClick={() => unmatch()}
                   >
