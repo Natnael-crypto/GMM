@@ -7,14 +7,17 @@ import {
   ParseUUIDPipe,
   Post,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { FormService } from '../services/form.service';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('forms')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@UseInterceptors(CacheInterceptor)
 @Controller('forms')
 export class FormsController {
   constructor(private readonly formService: FormService) {}

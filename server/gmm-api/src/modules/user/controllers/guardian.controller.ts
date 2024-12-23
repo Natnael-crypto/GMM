@@ -3,21 +3,30 @@ import {
   Body,
   Controller,
   Get,
+  Inject,
   Param,
   Post,
   Put,
   Req,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RequestGuardianDto } from '../dtos/guardian.dto';
 import { GuardianService } from '../services/guardian.service';
+import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+import { User } from '../entities/user.entity';
+import { UserSpecificCacheInterceptor } from '@shared/interceptors/cache.interceptor';
 
 @ApiTags('Guardian')
 @ApiBearerAuth()
 @Controller('guardians')
 export class GuardianController {
-  constructor(private readonly guardianService: GuardianService) {}
+  constructor(
+    private readonly guardianService: GuardianService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -29,6 +38,14 @@ export class GuardianController {
     const message = await this.guardianService.requestGuardian(
       user,
       guardianDto,
+    );
+
+    const keys = [
+      `/guardians/sent-requests/${user.id}`,
+    ]
+
+    await Promise.all(
+      keys.map((key) => this.cacheManager.del(key)),
     );
 
     return {
@@ -50,6 +67,7 @@ export class GuardianController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(UserSpecificCacheInterceptor)
   @Get('sent-requests')
   async getSentGuardianRequests(@Req() req: Request & { user: any }) {
     const request = await this.guardianService.getSentGuardianRequests(

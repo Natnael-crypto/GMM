@@ -11,19 +11,20 @@ import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { StorageModule } from '@modules/storage/storage.module';
 import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
 import { ChatModule } from '@modules/chat/chat.module';
-import { ChatWebsocketGateway } from '@modules/chat/services/chat.websocket.gateway';
 import { EventEmitterModule } from '@nestjs/event-emitter';
-import config from '@shared/config';
+import config, { RedisOptions } from '@shared/config';
 import { LoggerMiddleware } from '@shared/utils/logger';
 import { TypeOrmConfigService } from '@shared/database/typeorm.service';
 import { FormModule } from '@modules/form/form.module';
 import { BlogModule } from '@modules/blog/blog.module';
 import { LocationModule } from '@modules/location/location.module';
 import { NotificationsModule } from '@modules/notifications/notifications.module';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
+    CacheModule.registerAsync(RedisOptions),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     EventEmitterModule.forRoot(),
     UserModule,

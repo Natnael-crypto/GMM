@@ -1,4 +1,4 @@
-import { Controller, Get, NotFoundException } from '@nestjs/common';
+import { Controller, Get, NotFoundException, UseInterceptors } from '@nestjs/common';
 import { BlogService } from '../services/blog.service';
 import { ApiParam, ApiQuery } from '@nestjs/swagger';
 import {
@@ -10,10 +10,12 @@ import {
   Filtering,
   FilteringParams,
 } from '@shared/decorators/filter.decorator';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 const blogSortableFields = ['slug', 'title'];
 const blogFilterableFields = ['content', 'title', 'excerpt'];
 
+@UseInterceptors(CacheInterceptor)
 @Controller('blogs')
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}

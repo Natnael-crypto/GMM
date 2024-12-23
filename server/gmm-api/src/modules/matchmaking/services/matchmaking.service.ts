@@ -402,6 +402,21 @@ export class MatchMakingService extends BaseRepository {
     return savedInvitation;
   }
 
+  async getInvitationById(invitationId: string): Promise<InvitationToMatchStage> {
+    const invitation = await this.getRepository(InvitationToMatchStage).findOne(
+      {
+        where: { id: invitationId },
+        relations: ['match'],
+      },
+    );
+
+    if (!invitation) {
+      throw new NotFoundException();
+    }
+
+    return invitation;
+  }
+
   async acceptOrRejectMatchStageInvitation(
     invitationId: string,
     user: User,

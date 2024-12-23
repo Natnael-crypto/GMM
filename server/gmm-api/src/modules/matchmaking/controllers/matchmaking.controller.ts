@@ -4,12 +4,14 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
   Param,
   Post,
   Put,
   Req,
   Res,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { MatchMakingService } from '../services/matchmaking.service';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
@@ -19,13 +21,19 @@ import { Request, Response } from 'express';
 import { User } from '@modules/user/entities/user.entity';
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
 import { AcceptOrRejectInvitationDto } from '../dtos/invitation.dto';
+import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+import { UserSpecificCacheInterceptor } from '@shared/interceptors/cache.interceptor';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('matchmaking')
 export class MatchMakingController {
-  constructor(private readonly matchmakingService: MatchMakingService) {}
+  constructor(
+    private readonly matchmakingService: MatchMakingService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   @ApiBody({
     type: UpdatePreferenceDto,
@@ -42,6 +50,19 @@ export class MatchMakingController {
         preference,
       );
 
+      const userId = (req.user as User).id;
+      const keys = [
+        `users/me/${userId}`,
+        `users/${userId}`,
+        `/matchmaking/potential-matches/${userId}`,
+
+      ];
+
+      await Promise.all(
+        keys.map((key) => this.cacheManager.del(key)),
+      );
+
+
       return {
         message: 'User preference updated successfully',
         data: pref,
@@ -54,6 +75,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseInterceptors(UserSpecificCacheInterceptor)
   @Get('potential-matches')
   async getPotentialMatchesCount(@Req() req: Request) {
     try {
@@ -75,13 +97,29 @@ export class MatchMakingController {
   @Post()
   async match(@Req() req: Request & { user: User }) {
     try {
-      const { match } = await this.matchmakingService.matchUser(req.user.id);
+      const userId = req.user.id;
+      const { match } = await this.matchmakingService.matchUser(userId);
 
       if (!match) {
+
+        const key = `/matchmaking/pool`;
+        await this.cacheManager.del(key);
+
         return {
           message: 'Finding you a match. You will be notified when matched.',
         };
       }
+
+      const maleUserId = match.maleUser.id;
+      const femaleUserId = match.femaleUser.id;
+
+      const keys = [
+        `/matchmaking/${maleUserId}`,
+        `/matchmaking/${femaleUserId}`,
+        `/matchmaking/matches`,
+      ];
+      
+      await Promise.all(keys.map(key => this.cacheManager.del(key)));
 
       return {
         message: 'Matched successfully',
@@ -98,10 +136,27 @@ export class MatchMakingController {
     @Req() request: Request & { user: User },
   ) {
     try {
+    
       const match = await this.matchmakingService.inviteToNextStage(
         id,
         request.user,
       );
+
+      const existingMatch = await this.matchmakingService.getMatch(id);
+      const maleUserId = existingMatch.maleUser.id;
+      const femaleUserId = existingMatch.femaleUser.id;
+
+      const keys = [
+        `/matchmaking/current-match/${maleUserId}`,
+        `/matchmaking/current-match/${femaleUserId}`,
+        `/matchmaking/${maleUserId}`,
+        `/matchmaking/${femaleUserId}`,
+        `/matchmaking/matches/${id}`,
+        `/matchmaking/matches/`,
+      ]
+
+      await Promise.all(keys.map(key => this.cacheManager.del(key)));
+
       return {
         message: 'You have invited your match to next stage',
         data: match,
@@ -113,6 +168,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseInterceptors(UserSpecificCacheInterceptor)
   @Get()
   async getUserMatches(@Req() req: Request) {
     try {
@@ -131,6 +187,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseInterceptors(UserSpecificCacheInterceptor)
   @Get('current-match')
   async getMyActiveMatch(@Req() req: Request) {
     try {
@@ -155,6 +212,21 @@ export class MatchMakingController {
       const match = await this.matchmakingService.unmatchByUserId(
         (req.user as User).id,
       );
+
+      const maleUserId = match.maleUser.id;
+      const femaleUserId = match.femaleUser.id;
+
+      const keys = [
+        `/matchmaking/current-match/${maleUserId}`,
+        `/matchmaking/current-match/${femaleUserId}`,
+        `/matchmaking/${maleUserId}`,
+        `/matchmaking/${femaleUserId}`,
+        `/matchmaking/matches/${match.id}`,
+        `/matchmaking/matches/`,
+      ]
+
+      await Promise.all(keys.map(key => this.cacheManager.del(key)));
+
       return {
         message: 'Successfully unmatched',
         data: match,
@@ -167,6 +239,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseInterceptors(CacheInterceptor)
   @Get('matches/:id')
   async getMatch(@Param('id') id: string) {
     try {
@@ -199,6 +272,27 @@ export class MatchMakingController {
           request.user,
           dto.action,
         );
+      
+      
+      const invitation = await this.matchmakingService.getInvitationById(id);
+      const existingMatch = invitation.match;
+      
+      if (existingMatch) {
+        const maleUserId = existingMatch.maleUser.id;
+        const femaleUserId = existingMatch.femaleUser.id;
+
+        const keys = [
+          `/matchmaking/current-match/${maleUserId}`,
+          `/matchmaking/current-match/${femaleUserId}`,
+          `/matchmaking/${maleUserId}`,
+          `/matchmaking/${femaleUserId}`,
+          `/matchmaking/matches/${existingMatch.id}`,
+          `/matchmaking/matches/`,
+        ]
+
+        await Promise.all(keys.map(key => this.cacheManager.del(key)));
+      }
+      
       return {
         message: 'You have invited your match to next stage',
         data: match,
@@ -212,6 +306,7 @@ export class MatchMakingController {
 
   /** ADMIN ROUTES */
   @UseGuards(JwtAuthGuard, new PermissionGuard(['match:read']))
+  @UseInterceptors(CacheInterceptor)
   @Get('matches')
   async getAllMatches(@Res() response: Response) {
     try {
@@ -228,6 +323,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseInterceptors(CacheInterceptor)
   @Get()
   async getActiveMatches(@Res() response: Response) {
     try {
@@ -244,6 +340,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseInterceptors(CacheInterceptor)
   @Get('pool')
   async getUsersInMatchPool(@Res() response: Response) {
     try {

@@ -5,14 +5,17 @@ import {
   Param,
   Query,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { LocationService } from '../services/location.service';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @ApiTags('locations')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@UseInterceptors(CacheInterceptor)
 @Controller('locations')
 export class LocationController {
   constructor(private readonly locationService: LocationService) {}

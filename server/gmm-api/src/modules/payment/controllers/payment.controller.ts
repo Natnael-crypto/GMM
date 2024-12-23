@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Inject,
   Param,
   Post,
   Put,
@@ -10,6 +11,7 @@ import {
   Req,
   Res,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { PaymentsService } from '../services/payment.service';
@@ -20,12 +22,18 @@ import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { User } from '@modules/user/entities/user.entity';
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
 import { UpdateProductDto } from '../dtos/update-product.dto';
+import { CACHE_MANAGER, CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @ApiTags('payments')
 @ApiBearerAuth()
+@UseInterceptors(CacheInterceptor)
 @Controller({ version: ApiVersion.V1, path: 'payments' })
 export class PaymentsController {
-  constructor(private paymentService: PaymentsService) {}
+  constructor(
+    private paymentService: PaymentsService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post('create-payment-intent')
@@ -55,6 +63,7 @@ export class PaymentsController {
   }
 
   @UseGuards(JwtAuthGuard, new PermissionGuard(['products:read']))
+  @CacheTTL(120)
   @Get('products')
   async getProducts(@Res() response: Response) {
     try {
@@ -83,6 +92,10 @@ export class PaymentsController {
         productId,
         updateProductDto,
       );
+      
+      const cacheKey = `/payments/products`;
+      await this.cacheManager.del(cacheKey);
+      
       return response.status(HttpStatus.OK).json({
         message: 'Product updated successfully',
         data: updatedProduct,
@@ -96,6 +109,7 @@ export class PaymentsController {
   }
 
   @Get('customers')
+  @CacheTTL(120)
   @UseGuards(JwtAuthGuard, new PermissionGuard(['customers:read']))
   async getCustomers(@Res() response: Response) {
     try {
@@ -158,6 +172,9 @@ export class PaymentsController {
         await this.paymentService.handleFreeCheckout(userId);
       } else {
         await this.paymentService.handlePaymentSuccess(paymentIntentId, userId);
+        
+        const cacheKey = `/payments/current-subscription/${userId}`;
+        await this.cacheManager.del(cacheKey);
       }
 
       return response.status(HttpStatus.OK).json({
@@ -179,6 +196,10 @@ export class PaymentsController {
   ) {
     try {
       await this.paymentService.consumeMatch(userId);
+
+      const cacheKey = `/payments/remaining-matches/${userId}`;
+      await this.cacheManager.del(cacheKey);
+
       return response.status(HttpStatus.OK).json({
         message: 'Match consumed successfully',
       });
@@ -213,6 +234,14 @@ export class PaymentsController {
         });
       }
       await this.paymentService.renewSubscription(subscription, userId);
+
+      const keys = [
+        `/payments/current-subscription/${userId}`,
+        `/payments/subscription-history/${userId}`,
+        '/payments/all-subscription-history',
+      ]
+      await Promise.all(keys.map(key => this.cacheManager.del(key)));
+
       return response.status(HttpStatus.OK).json({
         message: 'Subscription renewed successfully',
       });

@@ -11,8 +11,11 @@ import {
   UnauthorizedException,
   Post,
   UnprocessableEntityException,
+  UseInterceptors,
+  Inject,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Request } from 'express';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
@@ -29,16 +32,22 @@ import { UserFamilyIntroductionDto } from '../dtos/user-family-introduction-dto'
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
 import { ExpressRegistrationDto } from '../dtos/express-registration';
 import { UpdateUserDto } from '../dtos/update-user.dto';
+import { UserSpecificCacheInterceptor } from '@shared/interceptors/cache.interceptor';
+import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
-@ApiTags('User')
+@ApiTags('User')  
 @ApiBearerAuth()
 @Controller('users')
 export class UserController {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     private readonly userService: UserService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
+  
   @UseGuards(JwtAuthGuard)
+  @UseInterceptors(UserSpecificCacheInterceptor)
   @Get('me')
   async getMe(@Req() req: Request & { user: any }) {
     if (!req.user || !req.user.id) {
@@ -79,6 +88,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @UseInterceptors(CacheInterceptor)
   @Get(':id')
   async getUserById(@Param('id') id: string) {
     const userExists = await this.userRepository.findOne({ where: { id } });
@@ -102,6 +112,12 @@ export class UserController {
 
     user.accountStatus = dto.status;
     await this.userRepository.save(user);
+
+    const keys = [
+      `/users/${id}`,
+      `/users/me/${id}`,
+    ]
+    await Promise.all(keys.map(key => this.cacheManager.del(key)));
 
     return {
       message: 'User account status updated successfully',
@@ -135,6 +151,12 @@ export class UserController {
     this.userRepository.merge(user, userDto);
     await this.userRepository.save(user);
 
+    const keys = [
+      `/users/${id}`,
+      `/users/me/${id}`,
+    ]
+    await Promise.all(keys.map(key => this.cacheManager.del(key)));
+
     return {
       message: 'User updated successfully',
       data: user,
@@ -149,10 +171,25 @@ export class UserController {
       throw new NotFoundException('User not found');
     }
     await this.userRepository.remove(user);
+
+    const keys = [`/users/${id}`,
+                  `/users/me/${id}`,
+                  `/users/${id}/worldly-lifestyle`,
+                  `/users/${id}/expected-worldly-lifestyle`,
+                  `/users/${id}/islamic-lifestyle`,
+                  `/users/${id}/expected-islamic-lifestyle`,
+                  `/users/${id}/marriage-discussion`,
+                  `/users/${id}/optional-verifiable`,
+                  `/users/${id}/family-introduction`
+                ];
+
+    await Promise.all(keys.map(key => this.cacheManager.del(key)));
+
     return { message: 'User deleted successfully' };
   }
 
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @UseInterceptors(CacheInterceptor)
   @Get(':id/worldly-lifestyle')
   async getWorldlyLifestyle(@Param('id') id: string) {
     const worldlyLifestyle = await this.userService.getWorldlyLifestyle(id);
@@ -179,6 +216,10 @@ export class UserController {
       id,
       updateDto,
     );
+
+    const cacheKey = `/users/${id}/worldly-lifestyle`;
+    await this.cacheManager.del(cacheKey);
+
     return {
       message: 'Worldly lifestyle updated successfully',
       data: updatedLifestyle,
@@ -186,6 +227,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @UseInterceptors(CacheInterceptor)
   @Get(':id/expected-worldly-lifestyle')
   async getExpectedWorldlyLifestyle(@Param('id') id: string) {
     const expectedWorldlyLifestyle =
@@ -208,6 +250,10 @@ export class UserController {
   ) {
     const updatedLifestyle =
       await this.userService.updateExpectedWorldlyLifestyle(id, updateDto);
+
+    const cacheKey = `/users/${id}/expected-worldly-lifestyle`;
+    await this.cacheManager.del(cacheKey);
+
     return {
       message: 'Expected worldly lifestyle updated successfully',
       data: updatedLifestyle,
@@ -215,6 +261,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @UseInterceptors(CacheInterceptor)
   @Get(':id/islamic-lifestyle')
   async getIslamicLifestyle(@Param('id') id: string) {
     const islamicLifestyle = await this.userService.getIslamicLifestyle(id);
@@ -238,6 +285,10 @@ export class UserController {
       id,
       updateDto,
     );
+
+    const cacheKey = `/users/${id}/islamic-lifestyle`;
+    await this.cacheManager.del(cacheKey);
+
     return {
       message: 'Islamic lifestyle updated successfully',
       data: updatedLifestyle,
@@ -245,6 +296,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @UseInterceptors(CacheInterceptor)
   @Get(':id/expected-islamic-lifestyle')
   async getExpectedIslamicLifestyle(@Param('id') id: string) {
     const expectedIslamicLifestyle =
@@ -267,6 +319,10 @@ export class UserController {
   ) {
     const updatedLifestyle =
       await this.userService.updateExpectedIslamicLifestyle(id, updateDto);
+
+    const cacheKey = `/users/${id}/expected-islamic-lifestyle`;
+    await this.cacheManager.del(cacheKey);
+
     return {
       message: 'Expected Islamic lifestyle updated successfully',
       data: updatedLifestyle,
@@ -274,6 +330,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @UseInterceptors(CacheInterceptor)
   @Get(':id/marriage-discussion')
   async getMarriageDiscussion(@Param('id') id: string) {
     const marriageDiscussion = await this.userService.getMarriageDiscussion(id);
@@ -297,6 +354,10 @@ export class UserController {
       id,
       updateDto,
     );
+
+    const cacheKey = `/users/${id}/marriage-discussion`;
+    await this.cacheManager.del(cacheKey);
+
     return {
       message: 'Marriage Discussion updated successfully',
       data: updatedDiscussion,
@@ -304,6 +365,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @UseInterceptors(CacheInterceptor)
   @Get(':id/optional-verifiable')
   async getOptionalVerifiable(@Param('id') id: string) {
     const optionalVerifiable = await this.userService.getOptionalVerifiable(id);
@@ -327,6 +389,10 @@ export class UserController {
       id,
       updateDto,
     );
+
+    const cacheKey = `/users/${id}/optional-verifiable`;
+    await this.cacheManager.del(cacheKey);
+
     return {
       message: 'User Optional Verifiable updated successfully',
       data: updatedVerifiable,
@@ -334,6 +400,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @UseInterceptors(CacheInterceptor)
   @Get(':id/family-introduction')
   async getFamilyIntroduction(@Param('id') id: string) {
     const family = await this.userService.getFamilyInformation(id);
@@ -357,6 +424,10 @@ export class UserController {
       id,
       updateDto,
     );
+
+    const cacheKey = `/users/${id}/family-introduction`;
+    await this.cacheManager.del(cacheKey);
+
     return {
       message: 'User Family Introduction updated successfully',
       data: updatedFamily,
