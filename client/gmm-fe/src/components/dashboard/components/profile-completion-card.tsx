@@ -15,11 +15,16 @@ import { useGetFamilyIntroductionQuery } from '@/lib/user/api';
 import { AnimatePresence, motion } from 'framer-motion';
 import ProfileCardSkeleton from './skeletons/profile-card-skeleton';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AccountStatus } from '@/lib/schemas/user';
+import { AccountStatus, User } from '@/lib/schemas/user';
 import { useUserData } from '@/lib/hooks/use-user-data';
 
-export default function ProfileCompletionCard({ hide }: { hide?: boolean }) {
-  const user = useAppSelector((state) => state.auth.user);
+export default function ProfileCompletionCard({
+  user,
+  hideProfile,
+}: {
+  user?: User;
+  hideProfile?: boolean;
+}) {
   const {
     data: familyIntroduction,
     isLoading: isFamilyIntroductionLoading,
@@ -156,7 +161,7 @@ export default function ProfileCompletionCard({ hide }: { hide?: boolean }) {
 
   return (
     <div className="gmm-profile-completion rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 text-md font-medium space-y-5">
-      {!hide && (
+      {!hideProfile && (
         <AnimatePresence mode="wait">
           {user && <ProfileCard user={user} />}
           {!user && (
@@ -188,7 +193,7 @@ export default function ProfileCompletionCard({ hide }: { hide?: boolean }) {
         )}
       </div>
 
-      {!hide && (
+      {!hideProfile && (
         <div className="gmm-profile-completion-cta lg:flex text-center m-full sm:justify-end gap-1">
           {user && user.accountStatus === AccountStatus.APPROVED && (
             <Link
