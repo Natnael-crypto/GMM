@@ -181,12 +181,12 @@
 
 ::-webkit-scrollbar-thumb {
   border: 1px solid var(--primary-foreground);
-  background-color: var(--primary);
-  border-radius: 6px;
+  background-color: #b7b7b7;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--secondary);
+  background-color: #818181;
 }
 
 @layer utilities {
