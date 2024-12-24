@@ -144,9 +144,7 @@ export default function ProfileImages({ user }: { user: User }) {
                       <FontAwesomeIcon icon={faLocationDot} />
                     </span>
                     <span className="w-full flex  items-center gap-2 truncate">
-                      <span>
-                        {user.city}, {user.currentCountry}
-                      </span>
+                      <span>{user.city}</span>
                       <div className="w-4 h-4 flex items-center justify-center">
                         {CountryFlag && <CountryFlag title={user.country} />}
                       </div>
