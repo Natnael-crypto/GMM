@@ -17,7 +17,7 @@ import { CacheInterceptor } from '@nestjs/cache-manager';
 @ApiTags('forms')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@UseInterceptors(CacheInterceptor)
+// @UseInterceptors(CacheInterceptor)
 @Controller('forms')
 export class FormsController {
   constructor(private readonly formService: FormService) {}
