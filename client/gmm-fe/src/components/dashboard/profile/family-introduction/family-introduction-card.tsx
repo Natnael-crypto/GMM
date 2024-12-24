@@ -19,268 +19,283 @@ export default function FamilyIntroductionCard({ user }: { user: User }) {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8">
-        <h1 className="text-secondary font-bold text-xl pb-3">
-          Guardian&apos;s Information
-        </h1>
-        {user.email !== familyIntroduction?.guardianEmail ? (
-          <div className="grid grid-cols-12 py-3">
-            <div className="col-span-3 sm:col-span-2 md:col-span-1 text-center">
-              <FontAwesomeIcon
-                icon={faPeopleRoof}
-                size="2xl"
-                className="text-primary"
-              />
-            </div>
-            <div className="col-span-9 sm:col-span-10 md:col-span-11 space-y-3 mt-1">
-              <div className="flex flex-col gap-2 text-md mt-1">
-                <p>
-                  Full Name:{' '}
-                  <span className="font-bold">
-                    {familyIntroduction?.guardianFirstName}{' '}
-                    {familyIntroduction?.guardianLastName}
-                  </span>
-                </p>
-                <p>
-                  Relationship:{' '}
-                  <span className="font-bold">
-                    {familyIntroduction?.relationshipToGuardian}
-                  </span>
-                </p>
-                <p>
-                  Phone Number:{' '}
-                  <span className="font-bold">
-                    {familyIntroduction?.guardianPhoneNumber}
-                  </span>
-                </p>
-                <p>
-                  Email:{' '}
-                  <span className="font-bold">
-                    {familyIntroduction?.guardianEmail}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-12 py-3"></div>
-        )}
-      </div>
-      <div className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 px-8">
-        <h1 className="text-secondary font-bold text-xl pb-3">
-          Optional Verifiables <span className="text-md">- Coming Soon</span>
-        </h1>
+      <h1 className="text-secondary font-bold text-xl pb-3">
+        Guardian&apos;s Information
+      </h1>
 
-        <div className="grid grid-cols-12 gap-y-3 gap-x-3 text-xs ">
-          <div className="col-span-1">
-            <Unverified />
-          </div>
-          <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3  flex items-center">
-              {t('optionalVerifiable.annualIncome')}
-            </p>
-          </div>
-          <div className="col-span-1">
-            <Link
-              href={''}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6'
-              )}
-            >
-              {t('optionalVerifiable.upload')}
-            </Link>
-          </div>
+      <p className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat.
+      </p>
 
-          {/*  */}
-          <div className="col-span-1">
-            <Unverified />
+      {familyIntroduction && (
+        <div className="flex flex-wrap gap-16 w-full">
+          <div className="flex flex-col gap-3">
+            <h1 className="text-secondary font-extrabold text-nowrap">
+              Full Name
+            </h1>
+
+            {familyIntroduction && (
+              <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
+                {familyIntroduction?.guardianFirstName}{' '}
+                {familyIntroduction?.guardianLastName}
+              </p>
+            )}
           </div>
-          <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.annualTax')}
-            </p>
+          <div className="flex flex-col gap-3">
+            <h1 className="text-secondary font-extrabold text-nowrap">
+              Relationship
+            </h1>
+
+            {familyIntroduction && (
+              <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
+                {familyIntroduction?.relationshipToGuardian}
+              </p>
+            )}
           </div>
-          <div className="col-span-1">
-            <Link
-              href={''}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6'
-              )}
-            >
-              {t('optionalVerifiable.upload')}
-            </Link>
+          <div className="flex flex-col gap-3">
+            <h1 className="text-secondary font-extrabold text-nowrap">
+              Phone Number
+            </h1>
+
+            {familyIntroduction && (
+              <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
+                {familyIntroduction?.guardianPhoneNumber}
+              </p>
+            )}
           </div>
-          {/*  */}
-          <div className="col-span-1">
-            <Unverified />
+          <div className="flex flex-col gap-3">
+            <h1 className="text-secondary font-extrabold text-nowrap">Email</h1>
+
+            {familyIntroduction && (
+              <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
+                {familyIntroduction?.guardianEmail}
+              </p>
+            )}
           </div>
-          <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.fullCredit')}
-            </p>
-          </div>
-          <div className="col-span-1">
-            <Link
-              href={''}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6'
-              )}
-            >
-              {t('optionalVerifiable.upload')}
-            </Link>
-          </div>
-          {/*  */}
-          <div className="col-span-1">
-            <Unverified />
-          </div>
-          <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.drivingRecord')}
-            </p>
-          </div>
-          <div className="col-span-1">
-            <Link
-              href={''}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6'
-              )}
-            >
-              {t('optionalVerifiable.upload')}
-            </Link>
-          </div>
-          {/*  */}
-          <div className="col-span-1">
-            <Unverified />
-          </div>
-          <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.nationality')}
-            </p>
-          </div>
-          <div className="col-span-1">
-            <Link
-              href={''}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6'
-              )}
-            >
-              {t('optionalVerifiable.upload')}
-            </Link>
-          </div>
-          {/*  */}
-          <div className="col-span-1">
-            <Unverified />
-          </div>
-          <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.stdTesting')}
-            </p>
-          </div>
-          <div className="col-span-1">
-            <Link
-              href={''}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6'
-              )}
-            >
-              {t('optionalVerifiable.upload')}
-            </Link>
-          </div>
-          {/*  */}
-          <div className="col-span-1">
-            <Unverified />
-          </div>
-          <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.criminalBackgroundCheck')}
-            </p>
-          </div>
-          <div className="col-span-1">
-            <Link
-              href={''}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6'
-              )}
-            >
-              {t('optionalVerifiable.upload')}
-            </Link>
-          </div>
-          {/*  */}
-          <div className="col-span-1">
-            <Unverified />
-          </div>
-          <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.divorced')}
-            </p>
-          </div>
-          <div className="col-span-1">
-            <Link
-              href={''}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6'
-              )}
-            >
-              {t('optionalVerifiable.upload')}
-            </Link>
-          </div>
-          {/*  */}
-          <div className="col-span-1">
-            <Unverified />
-          </div>
-          <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.custody')}
-            </p>
-          </div>
-          <div className="col-span-1">
-            <Link
-              href={''}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6'
-              )}
-            >
-              {t('optionalVerifiable.upload')}
-            </Link>
-          </div>
-          {/*  */}
         </div>
+      )}
+
+      <h1 className="text-secondary font-bold text-xl pb-3 border-t border-muted-foreground py-4">
+        Introductions <span className="font-bold text-sm">- Coming Soon</span>
+      </h1>
+
+      <h1 className="text-secondary font-bold text-xl pb-3 border-t border-muted-foreground py-4">
+        Optional Verifiables{' '}
+        <span className="font-bold text-sm">- Coming Soon</span>
+      </h1>
+
+      <div className="hidden grid-cols-12 gap-y-3 gap-x-3 text-xs ">
+        <div className="col-span-1">
+          <Unverified />
+        </div>
+        <div className="col-span-10 grid grid-cols-4">
+          <p className="col-span-3  flex items-center">
+            {t('optionalVerifiable.annualIncome')}
+          </p>
+        </div>
+        <div className="col-span-1">
+          <Link
+            href={''}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+              }),
+              'rounded-full text-xs text-secondary h-6'
+            )}
+          >
+            {t('optionalVerifiable.upload')}
+          </Link>
+        </div>
+
+        {/*  */}
+        <div className="col-span-1">
+          <Unverified />
+        </div>
+        <div className="col-span-10 grid grid-cols-4">
+          <p className="col-span-3 flex items-center">
+            {t('optionalVerifiable.annualTax')}
+          </p>
+        </div>
+        <div className="col-span-1">
+          <Link
+            href={''}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+              }),
+              'rounded-full text-xs text-secondary h-6'
+            )}
+          >
+            {t('optionalVerifiable.upload')}
+          </Link>
+        </div>
+        {/*  */}
+        <div className="col-span-1">
+          <Unverified />
+        </div>
+        <div className="col-span-10 grid grid-cols-4">
+          <p className="col-span-3 flex items-center">
+            {t('optionalVerifiable.fullCredit')}
+          </p>
+        </div>
+        <div className="col-span-1">
+          <Link
+            href={''}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+              }),
+              'rounded-full text-xs text-secondary h-6'
+            )}
+          >
+            {t('optionalVerifiable.upload')}
+          </Link>
+        </div>
+        {/*  */}
+        <div className="col-span-1">
+          <Unverified />
+        </div>
+        <div className="col-span-10 grid grid-cols-4">
+          <p className="col-span-3 flex items-center">
+            {t('optionalVerifiable.drivingRecord')}
+          </p>
+        </div>
+        <div className="col-span-1">
+          <Link
+            href={''}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+              }),
+              'rounded-full text-xs text-secondary h-6'
+            )}
+          >
+            {t('optionalVerifiable.upload')}
+          </Link>
+        </div>
+        {/*  */}
+        <div className="col-span-1">
+          <Unverified />
+        </div>
+        <div className="col-span-10 grid grid-cols-4">
+          <p className="col-span-3 flex items-center">
+            {t('optionalVerifiable.nationality')}
+          </p>
+        </div>
+        <div className="col-span-1">
+          <Link
+            href={''}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+              }),
+              'rounded-full text-xs text-secondary h-6'
+            )}
+          >
+            {t('optionalVerifiable.upload')}
+          </Link>
+        </div>
+        {/*  */}
+        <div className="col-span-1">
+          <Unverified />
+        </div>
+        <div className="col-span-10 grid grid-cols-4">
+          <p className="col-span-3 flex items-center">
+            {t('optionalVerifiable.stdTesting')}
+          </p>
+        </div>
+        <div className="col-span-1">
+          <Link
+            href={''}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+              }),
+              'rounded-full text-xs text-secondary h-6'
+            )}
+          >
+            {t('optionalVerifiable.upload')}
+          </Link>
+        </div>
+        {/*  */}
+        <div className="col-span-1">
+          <Unverified />
+        </div>
+        <div className="col-span-10 grid grid-cols-4">
+          <p className="col-span-3 flex items-center">
+            {t('optionalVerifiable.criminalBackgroundCheck')}
+          </p>
+        </div>
+        <div className="col-span-1">
+          <Link
+            href={''}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+              }),
+              'rounded-full text-xs text-secondary h-6'
+            )}
+          >
+            {t('optionalVerifiable.upload')}
+          </Link>
+        </div>
+        {/*  */}
+        <div className="col-span-1">
+          <Unverified />
+        </div>
+        <div className="col-span-10 grid grid-cols-4">
+          <p className="col-span-3 flex items-center">
+            {t('optionalVerifiable.divorced')}
+          </p>
+        </div>
+        <div className="col-span-1">
+          <Link
+            href={''}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+              }),
+              'rounded-full text-xs text-secondary h-6'
+            )}
+          >
+            {t('optionalVerifiable.upload')}
+          </Link>
+        </div>
+        {/*  */}
+        <div className="col-span-1">
+          <Unverified />
+        </div>
+        <div className="col-span-10 grid grid-cols-4">
+          <p className="col-span-3 flex items-center">
+            {t('optionalVerifiable.custody')}
+          </p>
+        </div>
+        <div className="col-span-1">
+          <Link
+            href={''}
+            className={cn(
+              buttonVariants({
+                variant: 'outline',
+                size: 'sm',
+              }),
+              'rounded-full text-xs text-secondary h-6'
+            )}
+          >
+            {t('optionalVerifiable.upload')}
+          </Link>
+        </div>
+        {/*  */}
       </div>
     </div>
   );
