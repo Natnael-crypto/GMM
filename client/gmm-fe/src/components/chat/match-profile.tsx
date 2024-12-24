@@ -165,7 +165,7 @@ export default function MatchProfile({
         <div className="space-y-3">
           <ProfileImages user={matchedUser} />
 
-          <ProfileCompletionCard hide={true} />
+          <ProfileCompletionCard user={matchedUser} hideProfile={true} />
 
           <div className="flex gap-2 flex-wrap items-center justify-center">
             <Link

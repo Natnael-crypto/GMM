@@ -33,7 +33,7 @@ export default function Dashboard() {
               )}
             </div>
             <div>
-              <ProfileCompletionCard />
+              <ProfileCompletionCard user={user} />
             </div>
           </div>
 
