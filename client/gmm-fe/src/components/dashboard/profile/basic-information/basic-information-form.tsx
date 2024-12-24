@@ -532,7 +532,6 @@ export default function BasicInformationForm() {
                       onChange={field.onChange}
                       selectedOptions={field.value}
                       title="Language"
-                      max={3}
                       initOptions={languages}
                       placeholder="Select"
                       className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
