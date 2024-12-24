@@ -169,6 +169,35 @@
   }
 }
 
+/* =================================================== */
+/* =============== Profile page pills ================ */
+/* =================================================== */
+.cyan-pill {
+  background-color: #1d7f9a;
+  color: #fff;
+}
+
+.gray-pill {
+  background-color: #646464;
+  color: #fff;
+}
+
+.brown-pill {
+  background-color: #966e1e;
+  color: #fff;
+}
+
+.green-pill {
+  background-color: #e6faf0;
+  color: #1a7149;
+}
+
+.outlined-pill {
+  background-color: #fff;
+  border: 1px solid #646464;
+  color: #646464;
+}
+
 /* Webkit browsers (Chrome, Safari, newer versions of Edge) */
 ::-webkit-scrollbar {
   width: 8px;
@@ -334,56 +363,6 @@
   width: 100%;
   border-radius: 20px;
   object-position: 0 100%;
-}
-
-.globprof-section > div:nth-child(-n + 3) .globprof-pill-outline {
-  background: #1d7f9a;
-  color: #dbf7ff;
-  border: none;
-}
-
-.globprof-step-info h1 {
-  font-size: 24px;
-}
-
-.globprof-step-info p {
-  background: #f7f7f8;
-  border-radius: 20px;
-  padding: 15px;
-  margin-bottom: 15px;
-}
-
-.globprof-container {
-  padding-top: 15px;
-  border-radius: 20px;
-  color: #112941;
-}
-
-.globprof-container ul {
-  margin-bottom: 5px;
-}
-
-.globprof-pill {
-  padding: 5px 15px;
-  border-radius: 50px;
-  font-size: 14px;
-  font-weight: 700;
-  margin-right: 5px;
-  display: flex;
-}
-
-.globprof-pill-outline {
-  color: #666;
-  border: 1px solid #666;
-}
-
-.globprof-icon svg {
-  margin-right: 10px;
-}
-
-.globprof-icon svg[class~='undefined'] {
-  margin-right: 0px;
-  width: 0;
 }
 
 @media (min-width: 640px) {

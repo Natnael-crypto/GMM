@@ -15,6 +15,7 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
       {worldlyLifestyleData && (
         <FieldViewer
           title="Your Current Worldly Lifestyle (that you live)"
+          description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi quidem, recusandae ipsum nemo repellat natus alias magni labore omnis, quasi saepe quos! Ad quaerat doloremque delectus veniam eligendi maxime ea!"
           getFields={(data) =>
             getFields(data, worldlyLifestyleForm?.displayTemplate)
           }

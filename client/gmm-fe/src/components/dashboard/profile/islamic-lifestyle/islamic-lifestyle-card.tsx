@@ -13,6 +13,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
   return (
     <FieldViewer
       title="Your Current Islamic Lifestyle (that you live)"
+      description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi quidem, recusandae ipsum nemo repellat natus alias magni labore omnis, quasi saepe quos! Ad quaerat doloremque delectus veniam eligendi maxime ea!"
       getFields={(data) =>
         getFields(data, islamicLifestyleForm?.displayTemplate)
       }

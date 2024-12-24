@@ -214,7 +214,6 @@ export default function BasicInformationForm({
           ? componentMap.administrative_area_level_2
           : componentMap.administrative_area_level_1
         : componentMap.administrative_area_level_1;
-      console.log(componentMap);
 
       const cityCountry = city && `${city}, ${componentMap.country}`.trim();
 

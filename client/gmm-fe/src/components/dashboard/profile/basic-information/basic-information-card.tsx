@@ -41,7 +41,9 @@ export default function BasicInformationCard({ user }: { user: User }) {
     <>
       <div className="rounded-se-3xl rounded-es-3xl overflow-hidden py-5">
         <div className="">
-          <h1 className=" text-secondary font-bold pb-3">Basic Information</h1>
+          <h1 className=" text-secondary font-bold pb-3 text-2xl">
+            Basic Information
+          </h1>
 
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
