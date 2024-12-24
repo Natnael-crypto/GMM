@@ -56,8 +56,6 @@ export const getFields = (formData: any, displayTemplate: any) => {
     }
   }
 
-  console.log({ formData });
-
   const formView = [];
 
   for (const item of displayTemplate) {
@@ -75,18 +73,30 @@ export const getFields = (formData: any, displayTemplate: any) => {
                 show: any;
                 icon: string;
                 class: string;
+                context: any;
               }) => {
                 const value = interpolate(subItem.value, dataMap);
                 const realValue = value.split('(')[0].trim();
                 const context = value.split('(')[1]?.split(')')?.[0];
 
                 if (evaluateRuleTree(subItem.show, originalDataMap)) {
+                  let showContext = subItem.context;
+
+                  if (showContext === 'KEEP') {
+                    showContext = false;
+                  } else {
+                    showContext = evaluateRuleTree(
+                      subItem.context,
+                      originalDataMap
+                    );
+                  }
+
                   return {
                     className: subItem.class,
                     iconName: subItem.icon,
                     label: subItem.label,
-                    value: realValue,
-                    context: context,
+                    value: subItem.context === 'KEEP' ? value : realValue,
+                    context: showContext ? context : undefined,
                   };
                 }
 
@@ -103,12 +113,20 @@ export const getFields = (formData: any, displayTemplate: any) => {
         const realValue = value.split('(')[0].trim();
         const context = value.split('(')[1]?.split(')')?.[0];
 
+        let showContext = item.context;
+
+        if (showContext === 'KEEP') {
+          showContext = false;
+        } else {
+          showContext = evaluateRuleTree(item.context, originalDataMap);
+        }
+
         formView.push({
           className: item.class,
           iconName: item.icon,
           label: item.label,
-          value: realValue,
-          context: context,
+          value: item.context === 'KEEP' ? value : realValue,
+          context: showContext ? context : undefined,
         });
       }
     }

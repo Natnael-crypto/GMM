@@ -24,6 +24,7 @@ type Field = {
 interface FieldViewerProps<T> {
   getFields?: (entity?: T) => Field[];
   title?: string;
+  description?: string;
   entity?: T;
   formFields?: Field[];
 }
@@ -38,33 +39,32 @@ const PillView = ({
   <>
     <li
       className={cn(
-        'shadow-md globprof-pill globprof-pill-outline w-fit text-sm',
-        field.className
+        'text-nowrap flex gap-2 font-bold text-sm w-fit h-fit px-4 py-1 rounded-full shadow-lg',
+        field.className ?? 'outlined-pill'
       )}
     >
-      <span className="globprof-icon">
-        {field.icon ? (
-          <FontAwesomeIcon icon={field.icon} />
-        ) : (
-          <i className={`fa-solid ${field.iconName}`}></i>
-        )}
-      </span>
+      {field.icon && <FontAwesomeIcon icon={field.icon} />}
+
+      {field.iconName && !field.icon && (
+        <i className={`fa-solid ${field.iconName}`}></i>
+      )}
 
       {field.label && isSubField ? (
-        <span>
+        <span className="text-sm">
           {field.label}: {field.value}
         </span>
       ) : (
-        <span>{field.value}</span>
+        <span className="text-sm">{field.value}</span>
       )}
     </li>
-    {field.context && <span className="text-sm">({field.context})</span>}
+    {field.context && <span className="text-sm mt-1">({field.context})</span>}
   </>
 );
 
 export default function FieldViewer<T>({
   getFields,
   title,
+  description,
   entity,
   formFields,
 }: FieldViewerProps<T>) {
@@ -76,20 +76,17 @@ export default function FieldViewer<T>({
   const fields = formFields ? formFields : getFields && getFields(entity);
 
   return (
-    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden py-5 globprof-section">
-      <div className="globprof-step-info">
+    <div className="rounded-se-3xl rounded-es-3xl overflow-hidden py-5">
+      <div className="">
         {title && (
-          <h1 className="globprof-step-title text-secondary font-bold pb-3">
+          <h1 className="text-secondary font-extrabold text-nowrap text-2xl">
             {title}
           </h1>
         )}
 
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </p>
+        {description && (
+          <p className="mt-3 bg-muted rounded-2xl p-4 text-sm">{description}</p>
+        )}
       </div>
 
       {fields &&
@@ -98,27 +95,64 @@ export default function FieldViewer<T>({
             field.value &&
             ((Array.isArray(field.value) && field.value.length > 0) ||
               !Array.isArray(field.value)) && (
-              <div key={index} className="grid grid-cols-12 gap-x-5">
-                <div className="flex-auto col-span-12 globprof-container">
-                  <h2 className="text-secondary font-bold text-lg mb-2">
-                    {field.label}
-                  </h2>
+              <div key={index} className="grid grid-cols-12 gap-6 mt-6">
+                <div className="flex-auto col-span-12 gap-4">
+                  {field.label && (
+                    <>
+                      <h2 className="text-secondary font-bold mb-2">
+                        {field.label}
+                      </h2>
 
-                  {Array.isArray(field.value) ? (
+                      {Array.isArray(field.value) ? (
+                        field.value.length > 0 && (
+                          <ul className="flex gap-1">
+                            {field.value.map((subField, subIndex) => (
+                              <PillView
+                                key={subIndex}
+                                field={subField}
+                                isSubField={true}
+                              />
+                            ))}
+                          </ul>
+                        )
+                      ) : (
+                        <PillView field={field as SubField} />
+                      )}
+                    </>
+                  )}
+
+                  {/* Handle fields that have horizontal layout */}
+                  {!field.label &&
+                    Array.isArray(field.value) &&
                     field.value.length > 0 && (
-                      <ul className="flex">
-                        {field.value.map((subField, subIndex) => (
-                          <PillView
-                            key={subIndex}
-                            field={subField}
-                            isSubField={true}
-                          />
+                      <ul className="flex flex-wrap gap-5">
+                        {field.value.map((innerField, fieldIndex) => (
+                          <div key={fieldIndex}>
+                            <h2 className="text-secondary font-bold mb-2 text-sm">
+                              {innerField.label}
+                            </h2>
+
+                            {Array.isArray(innerField.value) ? (
+                              innerField.value.length > 0 && (
+                                <ul className="flex gap-1">
+                                  {innerField.value.map(
+                                    (subField, subIndex) => (
+                                      <PillView
+                                        key={subIndex}
+                                        field={subField}
+                                        isSubField={true}
+                                      />
+                                    )
+                                  )}
+                                </ul>
+                              )
+                            ) : (
+                              <PillView field={innerField as SubField} />
+                            )}
+                          </div>
                         ))}
                       </ul>
-                    )
-                  ) : (
-                    <PillView field={field as SubField} />
-                  )}
+                    )}
                 </div>
               </div>
             )
