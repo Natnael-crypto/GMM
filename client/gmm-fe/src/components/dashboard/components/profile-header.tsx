@@ -26,8 +26,6 @@ export default function ProfileHeader({
   editLink,
   compatibilityPath,
 }: ProfileHeaderProps) {
-  const locale = useLocale();
-
   const params = useParams<{ userId: string }>();
 
   const user = useAppSelector((state) => state.auth.user);
@@ -110,18 +108,21 @@ export default function ProfileHeader({
         )}
         {isViewingMatchedProfile && (
           <div className="space-x-2">
-            <Link
-              href={compatibilityPath}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6 cta'
+            {pageName !== 'Basic Information' &&
+              pageName !== 'Family Introduction' && (
+                <Link
+                  href={compatibilityPath}
+                  className={cn(
+                    buttonVariants({
+                      variant: 'outline',
+                      size: 'sm',
+                    }),
+                    'rounded-full text-xs text-secondary h-6 cta'
+                  )}
+                >
+                  Compatibility
+                </Link>
               )}
-            >
-              Compatibility
-            </Link>
 
             <Button
               className={cn(
