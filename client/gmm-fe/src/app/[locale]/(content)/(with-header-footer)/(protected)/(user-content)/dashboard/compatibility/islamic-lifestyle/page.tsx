@@ -27,47 +27,65 @@ export default function IslamicLifestyle() {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-5 mt-3">
-      <div className="space-y-5">
-        {user && <IslamicLifestyleCard user={user} />}
-        {user && <ExpectedIslamicLifestyleCard user={user} />}
-      </div>
-      <div className="space-y-5">
-        {currentMatch && matchedUser && (
-          <div
-            className={cn(
-              'min-h-[40vh] relative rounded-3xl',
-              hasAccessToStage(currentMatch.stage, MatchStage.ISLAMIC_LIFESTYLE)
-                ? ''
-                : 'h-[40vh] overflow-hidden'
-            )}
-          >
-            <HideProfile
-              gender={user?.gender}
-              firstName={matchedUser?.firstName}
-              showInfo={hasAccessToStage(
-                currentMatch.stage,
-                MatchStage.ISLAMIC_LIFESTYLE
-              )}
-            />
+    <div className="space-y-5">
+      <h1 className="text-secondary font-extrabold text-nowrap text-2xl text-center">
+        Your Expected (After Marriage) Islamic Lifestyle from Your Potential
+        Spouse
+      </h1>
 
-            <AnimatePresence>
-              {matchedUser && (
-                <motion.div
-                  key="modal"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="space-y-6"
-                >
-                  <IslamicLifestyleCard user={matchedUser} />
-                  <ExpectedIslamicLifestyleCard user={matchedUser} />
-                </motion.div>
+      <div className="grid grid-cols-2 gap-5 mt-3">
+        <div className="space-y-5">
+          {user && (
+            <ExpectedIslamicLifestyleCard
+              hideTitle={true}
+              hideDescription={true}
+              user={user}
+            />
+          )}
+        </div>
+        <div className="space-y-5">
+          {currentMatch && matchedUser && (
+            <div
+              className={cn(
+                'min-h-[40vh] relative rounded-3xl',
+                hasAccessToStage(
+                  currentMatch.stage,
+                  MatchStage.ISLAMIC_LIFESTYLE
+                )
+                  ? ''
+                  : 'h-[40vh] overflow-hidden'
               )}
-            </AnimatePresence>
-          </div>
-        )}
+            >
+              <HideProfile
+                gender={user?.gender}
+                firstName={matchedUser?.firstName}
+                showInfo={hasAccessToStage(
+                  currentMatch.stage,
+                  MatchStage.ISLAMIC_LIFESTYLE
+                )}
+              />
+
+              <AnimatePresence>
+                {matchedUser && (
+                  <motion.div
+                    key="modal"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="space-y-6"
+                  >
+                    <ExpectedIslamicLifestyleCard
+                      hideTitle={true}
+                      hideDescription={true}
+                      user={matchedUser}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
