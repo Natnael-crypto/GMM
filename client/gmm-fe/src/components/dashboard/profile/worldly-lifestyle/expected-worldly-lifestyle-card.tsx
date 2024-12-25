@@ -6,7 +6,15 @@ import { useUserData } from '@/lib/hooks/use-user-data';
 
 import { getFields } from '../field-utils';
 
-export default function ExpectedWorldlyLifestyleCard({ user }: { user: User }) {
+export default function ExpectedWorldlyLifestyleCard({
+  user,
+  hideTitle,
+  hideDescription,
+}: {
+  user: User;
+  hideTitle?: boolean;
+  hideDescription?: boolean;
+}) {
   const { form, formData } = useUserData(
     user,
     user?.gender === 'Male'
@@ -18,7 +26,11 @@ export default function ExpectedWorldlyLifestyleCard({ user }: { user: User }) {
     <>
       {formData && (
         <FieldViewer
-          title="Your Expected (After Marriage) Worldly Lifestyle from Your Potential Spouse"
+          title={
+            hideTitle
+              ? undefined
+              : 'Your Expected (After Marriage) Worldly Lifestyle from Your Potential Spouse'
+          }
           getFields={(data) => getFields(data, form?.displayTemplate)}
           entity={formData}
         />
