@@ -14,7 +14,7 @@ import {
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { FormService } from '../services/form.service';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
-import { CacheInterceptor } from '@nestjs/cache-manager';
+import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 
 @ApiTags('forms')
@@ -25,7 +25,7 @@ import { Cache } from 'cache-manager';
 export class FormsController {
   constructor(
     private readonly formService: FormService,
-    @Inject(Cache) private readonly cacheManager: Cache,
+    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
   @Get()
