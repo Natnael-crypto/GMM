@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Inject,
   NotFoundException,
   Param,
   ParseUUIDPipe,
@@ -13,14 +15,18 @@ import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { FormService } from '../services/form.service';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { CacheInterceptor } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @ApiTags('forms')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-// @UseInterceptors(CacheInterceptor)
+@UseInterceptors(CacheInterceptor)
 @Controller('forms')
 export class FormsController {
-  constructor(private readonly formService: FormService) {}
+  constructor(
+    private readonly formService: FormService,
+    @Inject(Cache) private readonly cacheManager: Cache,
+  ) {}
 
   @Get()
   async findAllForms() {
@@ -58,5 +64,21 @@ export class FormsController {
     }
 
     return { data: submission };
+  }
+
+  @ApiParam({ name: 'slug', type: 'string' })
+  @Delete('cache/:slug')
+  async invalidateFormCache(@Param('slug') slug: string) {
+    try {
+      const keys = [
+        `/forms`,
+        `/forms/${slug}`,
+      ];
+      await Promise.all(keys.map(key => this.cacheManager.del(key)));
+
+      return { message: `Cache for get form with slug '${slug}' invalidated successfully` };
+    } catch (error) {
+      throw new Error(`Error invalidating form cache for slug '${slug}': ${error.message}`);
+    }
   }
 }
