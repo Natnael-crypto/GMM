@@ -27,13 +27,15 @@ export function decode(data: string, encryptionKey: string): Promise<string> {
 
 export function encryptText(plainText: string, encryptionKey: string): string {
   const key_in_bytes = Buffer.from(encryptionKey, 'base64');
-  const cipher = crypto.createCipheriv('aes-256-ctr', key_in_bytes, crypto.randomBytes(16));
+  console.log("Key length:", key_in_bytes.length);
+  const cipher = crypto.createCipheriv('aes-256-ctr', key_in_bytes, crypto.randomBytes(16)); // 16 bytes
   const encrypted = Buffer.concat([cipher.update(plainText), cipher.final()]);
   return encrypted.toString('hex');
 }
 
 export function decryptText(encryptedText: string, encryptionKey: string): string {
   const key_in_bytes = Buffer.from(encryptionKey, 'base64');
+  console.log("Key length:", key_in_bytes.length);
   const decipher = crypto.createDecipheriv('aes-256-ctr', key_in_bytes, crypto.randomBytes(16));
   const decrypted = Buffer.concat([decipher.update(Buffer.from(encryptedText, 'hex')), decipher.final()]);
   return decrypted.toString();
