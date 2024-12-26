@@ -25,8 +25,6 @@ export function decode(data: string, encryptionKey: string): Promise<string> {
 }
 
 
-import * as crypto from 'crypto';
-
 export function encryptText(plainText: string, encryptionKey: string): string {
   const key_in_bytes = Buffer.from(encryptionKey, 'base64');
   if (key_in_bytes.length !== 32) {
