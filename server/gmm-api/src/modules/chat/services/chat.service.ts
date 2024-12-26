@@ -13,6 +13,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { decryptText, encryptText } from '@shared/utils/crypt';
 import { ConfigService } from '@nestjs/config';
+import { ChatEncryptionConfig } from '@shared/config';
 
 @Injectable()
 export class ChatService {
@@ -133,7 +134,7 @@ export class ChatService {
         .exec();
     }
 
-    const encryptionKey = this.configService.get<string>('ENCRYPTION_KEY')!;
+    const encryptionKey = this.configService.get<ChatEncryptionConfig>('chat')!.key;
 
     // Decrypt the message content
     const decryptedMessages = messages.map((message: any) => ({
@@ -155,7 +156,7 @@ export class ChatService {
       );
     }
 
-    const encryptionKey = this.configService.get<string>('ENCRYPTION_KEY')!;
+    const encryptionKey = this.configService.get<ChatEncryptionConfig>('chat')!.key;
     const encryptedContent = encryptText(messageDto.content, encryptionKey);
 
     messageDto.content = encryptedContent;
