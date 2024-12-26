@@ -88,6 +88,19 @@ export interface AppConfiguration {
   client: ClientConfig;
   aws: AwsConfig;
   stripe: StripeConfig;
+  redis: RedisConfig;
+  chat: ChatEncryptionConfig;
+}
+
+export interface RedisConfig {
+  host: string;
+  port: number;
+  maxMemory: string;
+  maxMemoryPolicy: string;
+}
+
+export interface ChatEncryptionConfig {
+  key: string;
 }
 
 const envSchema = z
@@ -151,6 +164,15 @@ const envSchema = z
     EMAIL_USER: z.string(),
     EMAIL_PASSWORD: z.string(),
     EMAIL_SMTP_CONNECTION: z.string(),
+
+    // Redis
+    REDIS_HOST: z.string(),
+    REDIS_PORT: z.string().transform((val) => parseInt(val, 10)),
+    REDIS_MAX_MEMORY: z.string(),
+    REDIS_MAX_MEMORY_POLICY: z.string(),
+
+    // Chat
+    CHAT_ENCRYPTION_KEY: z.string(),
   })
   .required();
 export default (): AppConfiguration => {
@@ -166,7 +188,18 @@ export default (): AppConfiguration => {
       port: parsedEnv.DATABASE_PORT,
       username: parsedEnv.DATABASE_USERNAME,
       password: parsedEnv.DATABASE_PASSWORD,
-      database: parsedEnv.DATABASE_NAME,
+      database: parsedEnv.DATABASE_NAME      
+    },
+
+    redis: {
+      host: parsedEnv.REDIS_HOST,
+      port: parsedEnv.REDIS_PORT,
+      maxMemory: parsedEnv.REDIS_MAX_MEMORY,
+      maxMemoryPolicy: parsedEnv.REDIS_MAX_MEMORY_POLICY,
+    },
+
+    chat: {
+      key: parsedEnv.CHAT_ENCRYPTION_KEY,
     },
 
     auth: {
