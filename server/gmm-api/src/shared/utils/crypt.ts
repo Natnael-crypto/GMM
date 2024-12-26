@@ -23,3 +23,16 @@ export function decode(data: string, encryptionKey: string): Promise<string> {
     resolve(decrypted);
   });
 }
+
+
+export function encryptText(plainText: string, encryptionKey: string): string {
+  const cipher = crypto.createCipheriv('aes-256-ctr', encryptionKey, crypto.randomBytes(16));
+  const encrypted = Buffer.concat([cipher.update(plainText), cipher.final()]);
+  return encrypted.toString('hex');
+}
+
+export function decryptText(encryptedText: string, encryptionKey: string): string {
+  const decipher = crypto.createDecipheriv('aes-256-ctr', encryptionKey, crypto.randomBytes(16));
+  const decrypted = Buffer.concat([decipher.update(Buffer.from(encryptedText, 'hex')), decipher.final()]);
+  return decrypted.toString();
+}

@@ -11,10 +11,13 @@ import { randomUUID } from 'crypto';
 import { User } from '@modules/user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { decryptText, encryptText } from '@shared/utils/crypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ChatService {
   constructor(
+    private readonly configService: ConfigService,
     @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
@@ -130,8 +133,16 @@ export class ChatService {
         .exec();
     }
 
+    const encryptionKey = this.configService.get<string>('ENCRYPTION_KEY')!;
+
+    // Decrypt the message content
+    const decryptedMessages = messages.map((message: any) => ({
+      ...message,
+      content: decryptText(message.content, encryptionKey),
+    }));
+
     return {
-      messages: messages.map((message: any) => toMessageDto(message)),
+      messages: decryptedMessages.map((message: any) => toMessageDto(message)),
       lastKey: messages.lastKey,
     };
   }
@@ -143,6 +154,11 @@ export class ChatService {
         `Room with ID '${messageDto.roomId}' not found`,
       );
     }
+
+    const encryptionKey = this.configService.get<string>('ENCRYPTION_KEY')!;
+    const encryptedContent = encryptText(messageDto.content, encryptionKey);
+
+    messageDto.content = encryptedContent;
 
     const newMessage = new MessageModel({
       ...messageDto,
