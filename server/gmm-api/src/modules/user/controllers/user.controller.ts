@@ -433,4 +433,17 @@ export class UserController {
       data: updatedFamily,
     };
   }
+
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @Delete(':id/cache')
+  async invalidateUserCache(@Param('id') id: string) {
+    const keys = [
+      `/users/${id}`,
+      `/users/me/${id}`,
+    ];
+
+    await Promise.all(keys.map(key => this.cacheManager.del(key)));
+
+    return { message: 'User cache invalidated successfully' };
+  }
 }

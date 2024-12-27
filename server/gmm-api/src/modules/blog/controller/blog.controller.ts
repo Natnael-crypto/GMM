@@ -1,4 +1,4 @@
-import { Controller, Get, NotFoundException, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, NotFoundException, UseInterceptors, Delete, Param, Inject } from '@nestjs/common';
 import { BlogService } from '../services/blog.service';
 import { ApiParam, ApiQuery } from '@nestjs/swagger';
 import {
@@ -10,7 +10,8 @@ import {
   Filtering,
   FilteringParams,
 } from '@shared/decorators/filter.decorator';
-import { CacheInterceptor } from '@nestjs/cache-manager';
+import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 const blogSortableFields = ['slug', 'title'];
 const blogFilterableFields = ['content', 'title', 'excerpt'];
@@ -18,7 +19,10 @@ const blogFilterableFields = ['content', 'title', 'excerpt'];
 @UseInterceptors(CacheInterceptor)
 @Controller('blogs')
 export class BlogController {
-  constructor(private readonly blogService: BlogService) {}
+  constructor(
+    private readonly blogService: BlogService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
+  ) {}
 
   @ApiQuery({
     name: 'filter',
@@ -70,4 +74,16 @@ export class BlogController {
       data: blog,
     };
   }
+
+  @Delete('cache/:slug')
+  async deleteCache(@Param('slug') slug: string) {
+    const keys = [
+      `/blogs`,
+      `/blogs/${slug}`,
+    ];
+
+    await Promise.all(keys.map(key => this.cacheManager.del(key)));    
+    return { message: `Cache for blog with slug ${slug} has been invalidated` };
+  }
+
 }

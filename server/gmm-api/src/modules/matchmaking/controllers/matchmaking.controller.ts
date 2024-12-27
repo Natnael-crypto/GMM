@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Req,
   Res,
   UseGuards,
@@ -352,6 +353,32 @@ export class MatchMakingController {
     } catch (error) {
       return {
         message: 'Failed to fetch users in the match pool',
+        error: error.message,
+      };
+    }
+  }
+
+  // invalidate users matchmaking cache by userId
+  @Delete('cache')
+  async invalidateCache(@Query('maleUserId') maleUserId: string, @Query('femaleUserId') femaleUserId: string) {
+    try {
+      const match = await this.matchmakingService.getActiveMatch(maleUserId);
+
+      const keys = [
+        `/matchmaking/matches/${match.id}`,
+        `/matchmaking/current-match/${maleUserId}`,
+        `/matchmaking/current-match/${femaleUserId}`,
+        `/matchmaking/${maleUserId}`,
+        `/matchmaking/${femaleUserId}`,
+        `/matchmaking/matches/`,
+      ];
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+      return {
+        message: 'Cache invalidated successfully',
+      };
+    } catch (error) {
+      return {
+        message: 'Failed to invalidate cache',
         error: error.message,
       };
     }
