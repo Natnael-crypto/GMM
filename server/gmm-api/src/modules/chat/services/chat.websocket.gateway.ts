@@ -12,7 +12,8 @@ import { MessageDto } from '../dtos/chat.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { ChatService } from './chat.service';
-import { AuthConfig } from '@shared/config';
+import { AuthConfig, ChatEncryptionConfig } from '@shared/config';
+import { decryptText } from '@shared/utils/crypt';
 
 @WebSocketGateway({
   cors: {
@@ -113,6 +114,11 @@ export class ChatWebsocketGateway
       ...messageDto,
       senderId: socket.data.userId,
     });
+
+    // decrypt the message content
+    const encryptionKey = this.configService.get<ChatEncryptionConfig>('chat')!.key;
+    
+    newMessage.content = decryptText(newMessage.content, encryptionKey);
 
     socket.to(messageDto.roomId).emit('message:received', newMessage);
     socket.emit('message:delivered', { message: newMessage, sequence });
