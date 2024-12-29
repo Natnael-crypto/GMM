@@ -178,16 +178,18 @@ export default function MatchProfile({
               <FontAwesomeIcon icon={faUser} />
               <span>View Profile</span>
             </Link>
-            <Link
-              href={`/dashboard/compatibility/${stageUrls[stageIndex]}`}
-              className={cn(
-                buttonVariants({ variant: 'default' }),
-                'bg-secondary text-primary-foreground text-xs h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]'
-              )}
-            >
-              <FontAwesomeIcon icon={faRightLeft} />
-              <span>Compatibility</span>
-            </Link>
+            {stageIndex > 0 && (
+              <Link
+                href={`/dashboard/compatibility/${stageUrls[stageIndex]}`}
+                className={cn(
+                  buttonVariants({ variant: 'default' }),
+                  'bg-secondary text-primary-foreground text-xs h-fit flex justify-center items-center gap-2 p-[0.3rem] px-[0.4rem]'
+                )}
+              >
+                <FontAwesomeIcon icon={faRightLeft} />
+                <span>Compatibility</span>
+              </Link>
+            )}
             <Link
               href="/dashboard"
               className={cn(

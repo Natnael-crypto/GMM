@@ -215,7 +215,9 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
               text="Family Intro"
               active={stageIndex >= 4}
             />
-            <div className="absolute top-1/2 -translate-y-1/2 w-full h-[1px] bg-border"></div>
+            <div className="absolute top-1/3 translate-y-1/2 w-full h-[1px] px-14">
+              <div className="w-full bg-border h-full"></div>
+            </div>
           </div>
         </div>
       </div>

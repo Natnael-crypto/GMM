@@ -1,17 +1,16 @@
-import { auth } from "@/lib/auth/utils";
-import { redirect } from "@/lib/navigation";
-
+import { auth } from '@/lib/auth/utils';
+import { redirect } from '@/lib/navigation';
 
 export default async function UpdateProfileLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    const session = await auth()
+  const session = await auth();
 
-    if (session && session.user && session.user.isMatched) {
-        return redirect('/dashboard')
-    }
+  if (session && session.user && session.user.isMatched) {
+    return redirect('/dashboard');
+  }
 
-    return children
+  return children;
 }

@@ -124,7 +124,9 @@ export default function MatchedCard({
             </span>
           </button>
           <Link
-            href={`/dashboard/compatibility/${stageUrls[stageIndex]}`}
+            href={`/dashboard/compatibility/${
+              stageUrls[stageIndex === 0 ? 1 : stageIndex]
+            }`}
             className="flex gap-4 items-center"
           >
             <div className="rounded-md bg-primary p-2 aspect-square text-primary-foreground flex items-center justify-center">

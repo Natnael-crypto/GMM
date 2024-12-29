@@ -13,8 +13,6 @@ export default function ProfileDescription({ user }: { user: User }) {
   const code = countryToCountryCode[user.nationality] as keyof typeof flags;
   const NationalityFlag = flags[code];
 
-  console.log(code, user.nationality, NationalityFlag);
-
   return (
     <div className="w-full h-full rounded-se-3xl rounded-es-3xl overflow-hidden p-5 space-y-3">
       <h1 className="text-3xl font-bold">
