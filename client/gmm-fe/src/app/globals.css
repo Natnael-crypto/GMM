@@ -588,11 +588,6 @@
     padding-inline-start: 10%;
   }
 
-  .gmm-approach-icons-grid,
-  .gmm-other-platforms-icons-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
   .hero-container h1 {
     font-size: 2.5rem;
   }
