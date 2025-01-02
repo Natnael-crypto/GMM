@@ -82,7 +82,7 @@ export default function BasicInformationCard({ user }: { user: User }) {
                     Languages
                   </h2>
 
-                  <div className="flex gap-1">
+                  <div className="flex flex-wrap gap-1">
                     {user.languages.map((language) => (
                       <p
                         key={language}
