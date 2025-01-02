@@ -25,6 +25,7 @@ import { AcceptOrRejectInvitationDto } from '../dtos/invitation.dto';
 import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { UserSpecificCacheInterceptor } from '@shared/interceptors/cache.interceptor';
+import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
@@ -359,6 +360,7 @@ export class MatchMakingController {
   }
 
   // invalidate users matchmaking cache by userId
+  @UseGuards(ApiKeyAuthGuard)
   @Delete('cache')
   async invalidateCache(@Query('maleUserId') maleUserId: string, @Query('femaleUserId') femaleUserId: string) {
     try {

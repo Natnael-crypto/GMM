@@ -19,10 +19,14 @@ import { OtpService } from './services/otp.service';
 import { Otp } from './entities/otp.entity';
 import { JwtRefreshTokenStrategy } from './strategies/jwt-refresh.strategy';
 import { PassportModule } from '@nestjs/passport';
+import { ApiKeyStrategy } from './strategies/apikey.strategy';
+import { ApiKeysController } from './controllers/apikey.controller';
+import { ApiKeyService } from './services/apikey.service';
+import { ApiKey } from './entities/apikey.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Permission, Role, RefreshToken, Otp]),
+    TypeOrmModule.forFeature([Permission, Role, RefreshToken, Otp, ApiKey]),
     UserModule,
     PassportModule,
     JwtModule.registerAsync({
@@ -38,18 +42,20 @@ import { PassportModule } from '@nestjs/passport';
       },
     }),
   ],
-  controllers: [AuthController, RoleController],
+  controllers: [AuthController, RoleController, ApiKeysController],
   providers: [
     NewAuthService,
     AuthRepository,
     JwtService,
+    ApiKeyService,
     OtpService,
     RoleService,
     GoogleStrategy,
     FacebookStrategy,
     JwtStrategy,
     JwtRefreshTokenStrategy,
+    ApiKeyStrategy,
   ],
-  exports: [NewAuthService, JwtService],
+  exports: [NewAuthService, JwtService, ApiKeyService],
 })
 export class AuthModule {}

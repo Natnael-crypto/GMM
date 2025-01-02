@@ -1,4 +1,4 @@
-import { Controller, Get, NotFoundException, UseInterceptors, Delete, Param, Inject } from '@nestjs/common';
+import { Controller, Get, NotFoundException, UseInterceptors, Delete, Param, Inject, UseGuards } from '@nestjs/common';
 import { BlogService } from '../services/blog.service';
 import { ApiParam, ApiQuery } from '@nestjs/swagger';
 import {

@@ -35,6 +35,7 @@ import { UpdateUserDto } from '../dtos/update-user.dto';
 import { UserSpecificCacheInterceptor } from '@shared/interceptors/cache.interceptor';
 import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 
 @ApiTags('User')  
 @ApiBearerAuth()
@@ -434,7 +435,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(JwtAuthGuard, new PermissionGuard(['user:read']))
+  @UseGuards(ApiKeyAuthGuard, new PermissionGuard(['user:read']))
   @Delete(':id/cache')
   async invalidateUserCache(@Param('id') id: string) {
     const keys = [
