@@ -97,6 +97,7 @@ export interface RedisConfig {
   port: number;
   maxMemory: string;
   maxMemoryPolicy: string;
+  password: string;
 }
 
 export interface ChatEncryptionConfig {
@@ -170,6 +171,7 @@ const envSchema = z
     REDIS_PORT: z.string().transform((val) => parseInt(val, 10)),
     REDIS_MAX_MEMORY: z.string(),
     REDIS_MAX_MEMORY_POLICY: z.string(),
+    REDIS_PASSWORD: z.string(),
 
     // Chat
     CHAT_ENCRYPTION_KEY: z.string(),
@@ -196,6 +198,7 @@ export default (): AppConfiguration => {
       port: parsedEnv.REDIS_PORT,
       maxMemory: parsedEnv.REDIS_MAX_MEMORY,
       maxMemoryPolicy: parsedEnv.REDIS_MAX_MEMORY_POLICY,
+      password: parsedEnv.REDIS_PASSWORD
     },
 
     chat: {
