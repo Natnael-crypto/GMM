@@ -278,6 +278,7 @@ export const RedisOptions: CacheModuleAsyncOptions = {
         host: configService.get<RedisConfig>('redis')!.host,
         port: configService.get<RedisConfig>('redis')!.port,
       },
+      password: configService.get<RedisConfig>('redis')!.password, 
     });
     return {
       store: () => store,
