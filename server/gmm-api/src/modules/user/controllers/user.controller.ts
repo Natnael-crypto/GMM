@@ -435,7 +435,7 @@ export class UserController {
     };
   }
 
-  @UseGuards(ApiKeyAuthGuard, new PermissionGuard(['user:read']))
+  @UseGuards(ApiKeyAuthGuard)
   @Delete(':id/cache')
   async invalidateUserCache(@Param('id') id: string) {
     const keys = [

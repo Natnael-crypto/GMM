@@ -37,17 +37,12 @@ export class ApiKeyService {
   async validateApiKey(apiKey: string): Promise<boolean> {
     const [prefix, rawKey] = apiKey.split('.');
 
-    console.log(prefix, rawKey);
-
     if (!prefix) {
       return false;
     }
 
     const fullApiKey = `${prefix}.${rawKey}`;
     const hashedApiKey = await bcrypt.hash(fullApiKey, 10)
-    console.log("full api key", fullApiKey);
-
-    console.log('hashed api key', hashedApiKey);
 
     const apiKeyRecord = await this.apiKeyRepository.findOne({
       where: { prefix },
