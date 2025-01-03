@@ -16,6 +16,7 @@ import { FormService } from '../services/form.service';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 
 @ApiTags('forms')
 @ApiBearerAuth()
@@ -66,6 +67,7 @@ export class FormsController {
     return { data: submission };
   }
 
+  @UseGuards(ApiKeyAuthGuard)
   @ApiParam({ name: 'slug', type: 'string' })
   @Delete('cache/:slug')
   async invalidateFormCache(@Param('slug') slug: string) {
