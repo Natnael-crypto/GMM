@@ -398,6 +398,18 @@
   margin-top: .75rem;
 }
 
+.gmm-pic-name {
+  font-size: 30px;
+}
+
+.gmm-pic-age {
+  font-size: 20px;
+}
+
+.gmm-pic-info {
+  font-size: 14px;
+}
+
 @media (min-width: 640px) {
   .gmm-mpf-results-container {
     display: flex;
