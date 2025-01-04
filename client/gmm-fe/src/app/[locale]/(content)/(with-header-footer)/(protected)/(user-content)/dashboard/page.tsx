@@ -60,9 +60,9 @@ export default function Dashboard() {
                     match filters feature.
                   </p>
                 </div>
-                <div className="gmm-mpf-container flex flex-col flex-col-reverse md:grid md:grid-cols-12 gap-4 py-4">
+                <div className="gmm-mpf-container flex flex-col flex-col-reverse md:grid md:grid-cols-12 gap-4 pb-3">
                   <MatchPreferenceFilter />
-                  <div className="md:col-span-3 flex gap-3 sm:flex-col md:gap-y-5 items-center">
+                  <div className="gmm-mpf-results-container">
                     <MatchMeCard />
                     <MatchToleranceSelector />
                     <OutsideFilterCard />

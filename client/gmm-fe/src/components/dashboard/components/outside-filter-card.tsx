@@ -10,7 +10,7 @@ export default function OutsideFilterCard() {
   });
 
   return (
-    <div className="flex flex-col justify-center items-center rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 cursor-pointer border-2 border-muted-foreground text-muted-foreground min-h-32">
+    <div className="gmm-mpf-results-oyf-container bg-card border-2 border-muted-foreground text-muted-foreground min-h-32">
       <h1 className="text-2xl font-bold text-center">
         {stats?.outsidePreferenceCount}
       </h1>
