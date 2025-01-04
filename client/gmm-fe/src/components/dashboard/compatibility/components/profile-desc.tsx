@@ -15,10 +15,10 @@ export default function ProfileDescription({ user }: { user: User }) {
 
   return (
     <div className="w-full h-full rounded-se-3xl rounded-es-3xl overflow-hidden p-5 space-y-3">
-      <h1 className="text-3xl font-bold">
+      <h1 className="gmm-pic-name font-bold">
         {user.firstName}{' '}
         {user && user.dateOfBirth && (
-          <span className="text-sm">
+          <span className="gmm-pic-age">
             ({convertDateToAge(user.dateOfBirth)})
           </span>
         )}
