@@ -54,7 +54,7 @@ module.exports = {
         <body>
             <div class="container">
                 <div class="header">
-                    <img src="" alt="Guardian Wali Logo">
+                    <img src="/assets/guardian-logo-color.png" alt="Guardian Wali Logo">
                 </div>
                 <div class="content">
                     <p>To verify your email address, please use the following One Time Password (OTP):</p>
@@ -63,7 +63,7 @@ module.exports = {
                     <p>Thank you for choosing Guardian Wali! We hope to see you again soon.</p>
                 </div>
                 <div class="footer">
-                    &copy; 2024 Guardian Wali. All rights reserved.
+                    &copy; ${(new Date().getFullYear())} Guardian Wali. All rights reserved.
                 </div>
             </div>
         </body>

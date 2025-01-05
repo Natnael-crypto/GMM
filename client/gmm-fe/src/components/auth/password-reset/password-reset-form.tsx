@@ -117,7 +117,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
       <div className="w-full sm:min-w-96 sm:w-1/4 bg-background text-wrap flex flex-col items-center gap-3 mt-6">
         
         <p className="text-xs font-semibold text-center text-muted-foreground">
-          Copyright &copy; 2024 Guardian/Wali Project. All Rights Reserved.{' '}
+          Copyright &copy; {(new Date().getFullYear())} Guardian/Wali Project. All Rights Reserved.{' '}
         </p>
       </div>
     </div>
