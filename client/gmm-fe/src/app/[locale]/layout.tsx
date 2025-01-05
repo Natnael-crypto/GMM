@@ -31,8 +31,6 @@ export default async function LocaleLayout({
     .map((name) => pathname.endsWith(name))
     .some(Boolean);
 
-  console.log(pathname, attachFontAwesome);
-
   return (
     <html lang={locale} dir={localeDirection[locale]}>
       {attachFontAwesome && (
