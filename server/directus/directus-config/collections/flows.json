@@ -1,5 +1,70 @@
 [
   {
+    "name": "Create Match",
+    "icon": "bolt",
+    "color": null,
+    "description": "Create a match",
+    "status": "active",
+    "trigger": "manual",
+    "accountability": "all",
+    "options": {
+      "collections": [
+        "user"
+      ],
+      "requireConfirmation": true,
+      "confirmationDescription": null
+    },
+    "operation": "5b0aad88-93bc-440a-9ee9-47c596a80abc",
+    "_syncId": "2a615d0c-a73a-4f25-b581-a5f1f868e768"
+  },
+  {
+    "name": "Invalidate User Cache",
+    "icon": "cached",
+    "color": "#3399FF",
+    "description": "Invalidate redis cache on backend server when user is updated from directus",
+    "status": "active",
+    "trigger": "event",
+    "accountability": "all",
+    "options": {
+      "type": "filter",
+      "scope": [
+        "items.create",
+        "items.update",
+        "items.delete"
+      ],
+      "collections": [
+        "user"
+      ]
+    },
+    "operation": "0d9865e5-b70f-4ce4-b4f1-8c9da355e82a",
+    "_syncId": "453cd506-ce37-4e7f-8102-98f691f67407"
+  },
+  {
+    "name": "Invalidate Form Cache",
+    "icon": "cycle",
+    "color": "#3399FF",
+    "description": null,
+    "status": "active",
+    "trigger": "event",
+    "accountability": "all",
+    "options": {
+      "type": "action",
+      "scope": [
+        "items.update",
+        "items.delete",
+        "items.create"
+      ],
+      "collections": [
+        "form",
+        "form_field",
+        "form_field_answer",
+        "form_submission"
+      ]
+    },
+    "operation": "13ebe969-eaf7-42a8-9778-a97e96e27d4d",
+    "_syncId": "580eaec1-ffc9-4c02-86a6-48d91c6b1492"
+  },
+  {
     "name": "Send approval email",
     "icon": "bolt",
     "color": null,
