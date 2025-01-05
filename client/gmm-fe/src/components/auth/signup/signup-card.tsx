@@ -10,7 +10,7 @@ export default function SignUpCard() {
   const locale = useLocale();
 
   return (
-    <Card className="w-[22rem] bg-background px-8 py-6 mt-2 h-fit">
+    <Card className="md:w-[22rem] bg-background px-8 py-6 mt-2 h-fit">
       <div className="flex gap-5 justify-evenly mb-6 text-muted-foreground">
         <Link
           href={`/${locale}/login`}

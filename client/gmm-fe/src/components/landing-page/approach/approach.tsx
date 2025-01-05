@@ -114,7 +114,7 @@ export default function OurApproach() {
                 </OurApproachCard>
 
                 <OurApproachCard
-                  imageSrc="/assets/icon_guardian-family-involvement.svg"
+                  imageSrc="/assets/icon-globally-connecting-muslims.svg"
                   imageClassName="gmm-card-icon"
                   isActive={current === 5}
                   onClick={() => handleCardClick(5)}

@@ -156,7 +156,7 @@ export default function RegistrationOverview() {
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
-                imageSrc="/assets/icon_1-on-1-chats.svg"
+                imageSrc="/assets/icon-globally-connecting-muslims.svg"
                 imageClassName="gmm-icon w-auto"
                 isActive={false}
               >

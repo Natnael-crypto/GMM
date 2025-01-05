@@ -415,6 +415,10 @@
   max-width: 250px;
 }
 
+.gmm-available-matches {
+  height: 100%;
+}
+
 @media (min-width: 640px) {
   .gmm-mpf-results-container {
     display: flex;
@@ -620,7 +624,7 @@
   }
 
   .gmm-reg-body {
-    padding-top: 1.5rem;
+    padding-top: 0.5rem;
   }
 
   .gmm-reg-title h1 {
