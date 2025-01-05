@@ -6,13 +6,13 @@ import { Link } from '@/lib/navigation';
 export default function ForgotPassword() {
   return (
     <div className="flex flex-col items-center">
-      <div className="w-40 md:w-60 mb-10">
+      <div className="logo-wrapper mb-10">
         <Link href="/">
           <Image
             className="w-full overflow-hidden logo"
             src="/assets/guardian-logo-color.png"
-            width={537}
-            height={70}
+            width={640}
+            height={75}
             alt="Guardian logo"
           />
         </Link>
