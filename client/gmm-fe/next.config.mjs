@@ -23,6 +23,9 @@ const nextConfig = {
       },
     ],
   },
+  experimental: {
+    optimizeCss: true,
+  },
 };
 
 const withIntlConfig = withNextIntl(nextConfig);
