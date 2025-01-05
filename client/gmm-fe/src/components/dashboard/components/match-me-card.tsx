@@ -29,7 +29,7 @@ export default function MatchMeCard() {
 
   return (
     <div className="gmm-mpf-results-pm-container bg-primary text-primary-foreground group">
-      <div className="font-bold mb-8 space-y-1">
+      <div className="font-bold mb-5 space-y-1">
         <h1 className="text-lg md:text-xl lg:text-3xl text-center min-h-8">
           {stats?.potentialMatchCount}
         </h1>
