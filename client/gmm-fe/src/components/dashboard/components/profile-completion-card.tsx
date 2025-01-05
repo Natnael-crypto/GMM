@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ProfileCard from './profile-card';
 import ProfileCompletionProgress from './profile-completion';
 import { buttonVariants } from '@/components/ui/button';
 import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
-import { useAppSelector } from '@/lib/hooks';
+
 import {
   basicInformationCompletion,
   familyIntroductionCompletion,

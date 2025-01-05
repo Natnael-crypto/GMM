@@ -4,9 +4,16 @@ import Image from 'next/image';
 import { useAppSelector } from '@/lib/hooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import { useGetAvailableMatchesLeftQuery } from '@/lib/matchmaking/api';
+import Loading from '@/components/ui/loading';
+import { Link } from '@/lib/navigation';
 
 export default function NoMatchCard() {
   const user = useAppSelector((state) => state.auth.user);
+  const { data: availableMatches, isLoading } = useGetAvailableMatchesLeftQuery(
+    user?.id ?? '',
+    { skip: !user }
+  );
 
   return (
     <div className="gap-5 overflow-hidden text-md space-y-4 text-muted-foreground h-full flex flex-col md:flex-row items-center">
@@ -38,14 +45,22 @@ export default function NoMatchCard() {
       </div>
       <div className="w-full font-bold gmm-available-matches h-full bg-muted rounded-se-3xl rounded-es-3xl p-8 justify-center text-center m-auto flex flex-col">
         <p>You have</p>
-        <h1 className="text-3xl bg-primary text-primary-foreground rounded-full">7</h1>
+
+        <h1 className="text-3xl bg-primary text-primary-foreground rounded-full">
+          {availableMatches ?? <Loading />}
+        </h1>
+
         <p>Available Matches Left</p>
         <div className="gmm-buy mt-5 flex flex-col gap-2">
           <p>You can purchase more matches by clicking link below:</p>
-          <a href="/en/" className="cta bg-primary text-primary-foreground hover:by-secondary px-4 py-2 text-xs rounded-full">Purchase Now</a>
+          <Link
+            href="/checkout"
+            className="cta bg-primary text-primary-foreground hover:by-secondary px-4 py-2 text-xs rounded-full"
+          >
+            Purchase Now
+          </Link>
         </div>
       </div>
     </div>
-    
   );
 }

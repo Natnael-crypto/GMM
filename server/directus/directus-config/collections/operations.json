@@ -1,1 +1,101 @@
-[]
+[
+  {
+    "name": "Run Script",
+    "key": "exec_2dxgv",
+    "type": "exec",
+    "position_x": 42,
+    "position_y": 1,
+    "options": {
+      "code": "module.exports = async function(data) {\n\tif (data.length === 2) {\n        return data\n    }\n    throw {\n        message: 'Please select two users to match!',\n        extensions: {\n            code: 'Guardian Muslim Marriage',\n        }\n    }\n}"
+    },
+    "resolve": "0eb07236-cc25-4d8e-bd38-a55675a4b25b",
+    "reject": "d7747f10-4ee1-4d2a-84bb-529a7023a34f",
+    "flow": "2a615d0c-a73a-4f25-b581-a5f1f868e768",
+    "_syncId": "ecde9ca3-c329-4b01-bd68-ac38b9d3ef16"
+  },
+  {
+    "name": "Invalidate updated user cache",
+    "key": "invalidate_updated_user_cache",
+    "type": "request",
+    "position_x": 19,
+    "position_y": 1,
+    "options": {
+      "method": "DELETE",
+      "url": "https://api-dev.guardianmuslimmarriage.com/forms/cache/{{$trigger.keys[0]}}",
+      "headers": [
+        {
+          "header": "api-key",
+          "value": "dfP7fg==.uzknGVlwoIxO0ciPuJrWv9SKTaTtpaKRmB2GveiNG/E="
+        }
+      ]
+    },
+    "resolve": null,
+    "reject": null,
+    "flow": "580eaec1-ffc9-4c02-86a6-48d91c6b1492",
+    "_syncId": "13ebe969-eaf7-42a8-9778-a97e96e27d4d"
+  },
+  {
+    "name": "Read Data",
+    "key": "item_read_al43x",
+    "type": "item-read",
+    "position_x": 24,
+    "position_y": 1,
+    "options": {
+      "collection": "user",
+      "key": "{{$last.body.keys}}"
+    },
+    "resolve": "ecde9ca3-c329-4b01-bd68-ac38b9d3ef16",
+    "reject": null,
+    "flow": "2a615d0c-a73a-4f25-b581-a5f1f868e768",
+    "_syncId": "5b0aad88-93bc-440a-9ee9-47c596a80abc"
+  },
+  {
+    "name": "Log to Console",
+    "key": "log_7j2pf",
+    "type": "log",
+    "position_x": 61,
+    "position_y": 1,
+    "options": {
+      "message": "{{$last}}"
+    },
+    "resolve": null,
+    "reject": null,
+    "flow": "2a615d0c-a73a-4f25-b581-a5f1f868e768",
+    "_syncId": "0eb07236-cc25-4d8e-bd38-a55675a4b25b"
+  },
+  {
+    "name": "Log to Console",
+    "key": "log_wwshp",
+    "type": "log",
+    "position_x": 62,
+    "position_y": 17,
+    "options": {
+      "message": "Please select two users"
+    },
+    "resolve": null,
+    "reject": null,
+    "flow": "2a615d0c-a73a-4f25-b581-a5f1f868e768",
+    "_syncId": "d7747f10-4ee1-4d2a-84bb-529a7023a34f"
+  },
+  {
+    "name": "Invalidate updated user cache",
+    "key": "request_e8ea1",
+    "type": "request",
+    "position_x": 24,
+    "position_y": 1,
+    "options": {
+      "method": "DELETE",
+      "url": "https://api-dev.guardianmuslimmarriage.com/users/{{$trigger.keys[0]}}/cache",
+      "headers": [
+        {
+          "header": "api-key",
+          "value": "dfP7fg==.uzknGVlwoIxO0ciPuJrWv9SKTaTtpaKRmB2GveiNG/E="
+        }
+      ]
+    },
+    "resolve": null,
+    "reject": null,
+    "flow": "453cd506-ce37-4e7f-8102-98f691f67407",
+    "_syncId": "0d9865e5-b70f-4ce4-b4f1-8c9da355e82a"
+  }
+]
