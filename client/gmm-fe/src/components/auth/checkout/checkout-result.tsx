@@ -78,10 +78,10 @@ export function CheckoutCompletePage() {
         confirmPayment({ paymentIntentId: paymentIntent.id })
           .unwrap()
           .then(() => {
-            if (user.registered) {
-              router.replace('/dashboard');
-            } else {
+            if (user.accountStatus === 'Incomplete Registration') {
               router.replace('/registration');
+            } else {
+              router.replace('/dashboard');
             }
           })
           .catch((error) => {

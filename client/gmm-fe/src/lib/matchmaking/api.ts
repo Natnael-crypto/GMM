@@ -2,18 +2,13 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { constants } from '@/config';
 import { RootState } from '../store';
 import { BaseResponse } from '@/types/base-response';
-import {
-  Match,
-  MatchPreference,
-  MatchStatistics,
-  StageInvitationStatus,
-} from './types';
+import { Match, MatchStatistics, StageInvitationStatus } from './types';
 import { UserInMatchPool } from '../schemas/match';
 
 export const matchApi = createApi({
   reducerPath: 'matchApi',
 
-  tagTypes: ['Match', 'MatchCount', 'UserInMatchPool'],
+  tagTypes: ['Match', 'MatchCount', 'UserInMatchPool', 'RemainingMatches'],
 
   baseQuery: fetchBaseQuery({
     baseUrl: constants.apiBaseUrl,
@@ -77,8 +72,12 @@ export const matchApi = createApi({
       transformResponse: (response: BaseResponse<Match>) => {
         return response.data;
       },
-      invalidatesTags(result, error, arg, meta) {
-        return [{ type: 'Match' }];
+      invalidatesTags: (result, error, arg, meta) => {
+        return [
+          { type: 'Match' },
+          { type: 'MatchCount' },
+          { type: 'RemainingMatches' },
+        ];
       },
     }),
 
@@ -160,6 +159,18 @@ export const matchApi = createApi({
           : [{ type: 'Match' as const }];
       },
     }),
+
+    getAvailableMatchesLeft: builder.query<number, string>({
+      query: (userId) => `/payments/remaining-matches/${userId}`,
+      transformResponse: (
+        response: BaseResponse<{ remainingMatches: number }>
+      ) => {
+        return response.data.remainingMatches;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'RemainingMatches' as const }];
+      },
+    }),
   }),
 });
 
@@ -174,4 +185,5 @@ export const {
   useGetAllMatchesQuery,
   useInviteToNextStepMutation,
   useAcceptOrRejectInvitationMutation,
+  useGetAvailableMatchesLeftQuery,
 } = matchApi;
