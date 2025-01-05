@@ -44,7 +44,7 @@ export default function PersonalInfo() {
           </Button> */}
         </div>
 
-        <div className="flex justify-between items-center py-2 pt-3">
+        <div className="flex flex-col sm:flex-row justify-between md:items-center py-2 pt-3">
           <div className="flex flex-col gap-1">
             <span className="font-bold">
               Password{' '}
@@ -54,7 +54,7 @@ export default function PersonalInfo() {
             </span>
             <span>**********</span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <Button variant="outline" className="text-secondary h-7 text-xs">
               Retrieve Password
             </Button>

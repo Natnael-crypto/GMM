@@ -33,8 +33,8 @@ export default function Billing() {
             </thead>
             <tbody className="divide-y">
               <tr>
-                <td className="py-2">January 10, 2024</td>
-                <td className="py-2">6 Month Subscription</td>
+                <td className="py-2">01/10/24</td>
+                <td className="py-2">Silver</td>
                 <td className="py-2">
                   <Link
                     href=""
@@ -51,8 +51,8 @@ export default function Billing() {
               </tr>
 
               <tr className="py-2">
-                <td className="py-2">June 10, 2024</td>
-                <td className="py-2">6 Month Subscription</td>
+                <td className="py-2">06/10/24</td>
+                <td className="py-2">Silver</td>
                 <td className="py-2">
                   <Link
                     href=""
@@ -74,7 +74,7 @@ export default function Billing() {
         <div className="space-y-2">
           <h2 className="font-bold">Payment Method</h2>
 
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col md:flex-row justify-between md:items-center gap-2">
             <div className="flex gap-2 items-center">
               <div className="border rounded-sm p-1">
                 <Image
@@ -89,7 +89,7 @@ export default function Billing() {
               <span className="text-xs">Visa ending in 1234</span>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex flex-col md:flex-row gap-2">
               <Button variant="outline" className="text-secondary h-6 text-xs">
                 Add New Payment Method
               </Button>

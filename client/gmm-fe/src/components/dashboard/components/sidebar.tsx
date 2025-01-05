@@ -16,7 +16,7 @@ export default function Sidebar() {
   if (!user) return <Loading />;
 
   return (
-    <div className="text-secondary text-sm space-y-4">
+    <div className="col-span-4 md:col-span-1 text-secondary text-sm space-y-4">
       <div>
         <h1 className="font-bold">Profile Settings</h1>
 
