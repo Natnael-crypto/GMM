@@ -172,10 +172,10 @@ export class PaymentsController {
         await this.paymentService.handleFreeCheckout(userId);
       } else {
         await this.paymentService.handlePaymentSuccess(paymentIntentId, userId);
-        
-        const cacheKey = `/payments/current-subscription/${userId}`;
-        await this.cacheManager.del(cacheKey);
       }
+
+      const cacheKey = `/payments/current-subscription/${userId}`;
+      await this.cacheManager.del(cacheKey);
 
       return response.status(HttpStatus.OK).json({
         message: 'Subscription successfully created and stored',
