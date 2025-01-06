@@ -32,19 +32,11 @@ import { MatchedNotification } from '@modules/notifications/notifications/matche
 import { UserService } from '@modules/user/services/user.service';
 import { AddedToMatchPoolNotification } from '@modules/notifications/notifications/added-to-match-pool.notification';
 import { ResponseInviteNotification } from '@modules/notifications/notifications/response-invite.notification';
-import { InviteToNextStageNotification } from '@modules/notifications/notifications/invite-to-next-stage.notification';
-import { NotificationService } from '@modules/notifications/services/notification.service';
-import { MatchedNotification } from '@modules/notifications/notifications/matched.notification';
-import { UserService } from '@modules/user/services/user.service';
-import { AddedToMatchPoolNotification } from '@modules/notifications/notifications/added-to-match-pool.notification';
-import { ResponseInviteNotification } from '@modules/notifications/notifications/response-invite.notification';
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
   
   constructor(
     private readonly paymentService: PaymentsService,
-    private readonly notificationService: NotificationService,
-    private readonly userService: UserService,
     private readonly notificationService: NotificationService,
     private readonly userService: UserService,
     @Inject(REQUEST) req: Request,
