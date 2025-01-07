@@ -8,6 +8,7 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
+  Req,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -16,7 +17,9 @@ import { FormService } from '../services/form.service';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import { Request } from 'express';
 import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
+import { User } from '@modules/user/entities/user.entity';
 
 @ApiTags('forms')
 @ApiBearerAuth()
@@ -47,8 +50,17 @@ export class FormsController {
 
   @ApiBody({ type: Object })
   @Post(':slug')
-  async submit(@Param('slug') slug: string, @Body() data: any) {
-    return await this.formService.submit(slug, data);
+  async submit(@Param('slug') slug: string, @Body() data: any, @Req() req: Request,) {
+    const result = await this.formService.submit(slug, data);
+    const userId = (req.user as User).id;
+    
+    const keys = [
+      `/forms/${slug}/submissions/${userId}`
+    ];
+
+    await Promise.all(keys.map(key => this.cacheManager.del(key)));
+    
+    return result;
   }
 
   @ApiParam({ name: 'slug', type: 'string' })
