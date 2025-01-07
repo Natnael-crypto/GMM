@@ -24,12 +24,12 @@ import { User } from '@modules/user/entities/user.entity';
 @ApiTags('forms')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
-@UseInterceptors(CacheInterceptor)
+// @UseInterceptors(CacheInterceptor)
 @Controller('forms')
 export class FormsController {
   constructor(
     private readonly formService: FormService,
-    @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
+    // @Inject(CACHE_MANAGER) private readonly cacheManager: Cache,
   ) {}
 
   @Get()
@@ -54,11 +54,11 @@ export class FormsController {
     const result = await this.formService.submit(slug, data);
     const userId = (req.user as User).id;
     
-    const keys = [
-      `/forms/${slug}/submissions/${userId}`
-    ];
+    // const keys = [
+    //   `/forms/${slug}/submissions/${userId}`
+    // ];
 
-    await Promise.all(keys.map(key => this.cacheManager.del(key)));
+    // await Promise.all(keys.map(key => this.cacheManager.del(key)));
     
     return result;
   }
@@ -84,11 +84,11 @@ export class FormsController {
   @Delete('cache/:slug')
   async invalidateFormCache(@Param('slug') slug: string) {
     try {
-      const keys = [
-        `/forms`,
-        `/forms/${slug}`,
-      ];
-      await Promise.all(keys.map(key => this.cacheManager.del(key)));
+      // const keys = [
+      //   `/forms`,
+      //   `/forms/${slug}`,
+      // ];
+      // await Promise.all(keys.map(key => this.cacheManager.del(key)));
 
       return { message: `Cache for get form with slug '${slug}' invalidated successfully` };
     } catch (error) {
