@@ -382,6 +382,8 @@ export class PaymentsController {
         }
 
         await this.paymentService.handlePaymentSuccess(paymentIntent.id, userIdFromMetadata);
+
+        console.log('PaymentIntent succeeded handled from webhook');
         break;
 
       case 'payment_intent.payment_failed':
