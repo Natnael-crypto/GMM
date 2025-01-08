@@ -26,6 +26,7 @@ import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { UserSpecificCacheInterceptor } from '@shared/interceptors/cache.interceptor';
 import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
+import { Match } from '../entities/match.entity';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
@@ -382,11 +383,22 @@ export class MatchMakingController {
   @UseGuards(ApiKeyAuthGuard)
   @Delete('cache')
   async invalidateCache(
-    @Query('maleUserId') maleUserId: string,
-    @Query('femaleUserId') femaleUserId: string,
+    @Query('maleUserId') maleUserIdParam: string,
+    @Query('femaleUserId') femaleUserIdParam: string,
     @Query('matchId') matchId: string,
   ) {
     try {
+      let match: Match | undefined;
+
+      try {
+        if (matchId) {
+          match = await this.matchmakingService.getMatch(matchId);
+        }
+      } catch (error) {}
+
+      const maleUserId = maleUserIdParam ?? match?.maleUser?.id;
+      const femaleUserId = femaleUserIdParam ?? match?.femaleUser?.id;
+
       const keys = [
         `/matchmaking/matches/${matchId}`,
         `/matchmaking/current-match/${maleUserId}`,
