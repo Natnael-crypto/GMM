@@ -10,8 +10,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from '@/lib/navigation';
 import { useAppSelector } from '@/lib/hooks';
-import { useConfirmPaymentMutation } from '@/lib/checkout/api';
 import { toast } from '@/components/ui/use-toast';
+import { useLazyGetCurrentSubscriptionQuery } from '@/lib/checkout/api';
 
 const SuccessIcon = (
   <FontAwesomeIcon icon={faCheckCircle} className="text-2xl text-green-500" />
@@ -49,7 +49,8 @@ export function CheckoutCompletePage() {
 
   const [status, setStatus] = React.useState<any>('processing');
   const [intentId, setIntentId] = React.useState<any>(null);
-  const [confirmPayment, confirmPaymentResult] = useConfirmPaymentMutation();
+
+  const [getCurrentSubscription, result] = useLazyGetCurrentSubscriptionQuery();
 
   React.useEffect(() => {
     if (!stripe || !user) {
@@ -75,7 +76,7 @@ export function CheckoutCompletePage() {
       setIntentId(paymentIntent.id);
 
       if (paymentIntent.status === 'succeeded') {
-        confirmPayment({ paymentIntentId: paymentIntent.id })
+        getCurrentSubscription(user.id)
           .unwrap()
           .then(() => {
             if (user.accountStatus === 'Incomplete Registration') {
@@ -92,7 +93,7 @@ export function CheckoutCompletePage() {
           });
       }
     });
-  }, [stripe, router, user]);
+  }, [stripe, router, user, getCurrentSubscription]);
 
   return (
     <div className="flex gap-3 items-center justify-center">
