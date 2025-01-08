@@ -122,8 +122,23 @@ export class PaymentsService extends BaseRepository {
     try {
       // Retrieve the payment intent from Stripe
       const paymentIntent =
-        await this.stripe.paymentIntents.retrieve(paymentIntentId);
+        await this.stripe.paymentIntents.retrieve(paymentIntentId, {
+          expand: ['charges.data'],
+        });
 
+        const paymentIntentWithCharges = paymentIntent as Stripe.Response<
+          Stripe.PaymentIntent & { charges: { data: Stripe.Charge[] } }
+        >;
+
+      const receiptUrl = paymentIntentWithCharges.charges?.data[0]?.receipt_url;
+
+      console.log('receipt:', receiptUrl);
+
+      if (!receiptUrl) {
+        throw new Error('Receipt URL not found.');
+      }
+
+        
       if (!paymentIntent || paymentIntent.status !== 'succeeded') {
         throw new Error('Payment intent is not successful.');
       }
@@ -170,9 +185,10 @@ export class PaymentsService extends BaseRepository {
       if (existingSubscription) {
         existingSubscription.status = paymentIntent.status;
         existingSubscription.planId = tier.priceId;
-        existingSubscription.currentPeriodStart = new Date(); // Assuming current date is the start of the subscription
+        existingSubscription.currentPeriodStart = new Date();
         existingSubscription.amount = tier.amount;
         existingSubscription.remainingMatches += tier.matches;
+        existingSubscription.receiptUrl = receiptUrl;
       } else {
         existingSubscription = this.getRepository(Subscription).create({
           id: randomUUID(),
@@ -182,6 +198,7 @@ export class PaymentsService extends BaseRepository {
           currentPeriodStart: new Date(),
           amount: tier.amount,
           remainingMatches: tier.matches,
+          receiptUrl,
         });
       }
 
@@ -190,7 +207,7 @@ export class PaymentsService extends BaseRepository {
         await this.getRepository(Subscription).save(existingSubscription);
 
       // Save a record in subscription history
-      await this.saveSubscriptionHistory(user, existingSubscription);
+      await this.saveSubscriptionHistory(user, result);
 
       return result;
     } catch (error) {
