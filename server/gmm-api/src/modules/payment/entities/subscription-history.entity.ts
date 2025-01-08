@@ -28,4 +28,7 @@ export class SubscriptionHistory {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @Column({ nullable: true })
+  receiptUrl: string;
 }

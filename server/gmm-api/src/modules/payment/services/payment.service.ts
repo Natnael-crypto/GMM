@@ -122,8 +122,23 @@ export class PaymentsService extends BaseRepository {
     try {
       // Retrieve the payment intent from Stripe
       const paymentIntent =
-        await this.stripe.paymentIntents.retrieve(paymentIntentId);
+        await this.stripe.paymentIntents.retrieve(paymentIntentId, {
+          expand: ['charges.data'],
+        });
 
+      //   const paymentIntentWithCharges = paymentIntent as Stripe.Response<
+      //     Stripe.PaymentIntent & { charges: { data: Stripe.Charge[] } }
+      //   >;
+
+      // const receiptUrl = paymentIntentWithCharges.charges?.data[0]?.receipt_url;
+
+      // console.log('receipt:', receiptUrl);
+
+      // if (!receiptUrl) {
+      //   throw new Error('Receipt URL not found.');
+      // }
+
+        
       if (!paymentIntent || paymentIntent.status !== 'succeeded') {
         throw new Error('Payment intent is not successful.');
       }
@@ -166,39 +181,37 @@ export class PaymentsService extends BaseRepository {
         },
       );
 
-      // Update existing subscription or create a new one
+      const newSubscription = this.getRepository(Subscription).create({
+        id: randomUUID(),
+        user,
+        status: paymentIntent.status,
+        planId: tier.priceId,
+        currentPeriodStart: new Date(),
+        amount: tier.amount,
+        remainingMatches: tier.matches,
+        // receiptUrl,
+      });
+
+
+      // Save a record in subscription history
+      await this.saveSubscriptionHistory(user, newSubscription);
+      
+      
       if (existingSubscription) {
-        existingSubscription.status = paymentIntent.status;
-        existingSubscription.planId = tier.priceId;
-        existingSubscription.currentPeriodStart = new Date(); // Assuming current date is the start of the subscription
-        existingSubscription.amount = tier.amount;
-        existingSubscription.remainingMatches += tier.matches;
-      } else {
-        existingSubscription = this.getRepository(Subscription).create({
-          id: randomUUID(),
-          user,
-          status: paymentIntent.status,
-          planId: tier.priceId,
-          currentPeriodStart: new Date(),
-          amount: tier.amount,
-          remainingMatches: tier.matches,
-        });
+        newSubscription.remainingMatches += existingSubscription.remainingMatches;
       }
 
       // Save the subscription to the repository
       const result =
-        await this.getRepository(Subscription).save(existingSubscription);
+        await this.getRepository(Subscription).save(newSubscription);
 
-      // Save a record in subscription history
-      await this.saveSubscriptionHistory(user, existingSubscription);
+      
 
       return result;
     } catch (error) {
       throw new Error(`Failed to handle payment success: ${error.message}`);
     }
   }
-
-
 
 
 async handlePaymentFailure(paymentIntentId: string) {

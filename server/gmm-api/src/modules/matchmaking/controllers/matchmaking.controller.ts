@@ -119,6 +119,10 @@ export class MatchMakingController {
         `/matchmaking/${maleUserId}`,
         `/matchmaking/${femaleUserId}`,
         `/matchmaking/matches`,
+        `/users/${maleUserId}`,
+        `/users/${femaleUserId}`,
+        `/users/me/${maleUserId}`,
+        `/users/me/${femaleUserId}`,
       ];
       
       await Promise.all(keys.map(key => this.cacheManager.del(key)));
@@ -155,6 +159,10 @@ export class MatchMakingController {
         `/matchmaking/${femaleUserId}`,
         `/matchmaking/matches/${id}`,
         `/matchmaking/matches/`,
+        `/users/${maleUserId}`,
+        `/users/${femaleUserId}`,
+        `/users/me/${maleUserId}`,
+        `/users/me/${femaleUserId}`,
       ]
 
       await Promise.all(keys.map(key => this.cacheManager.del(key)));
@@ -225,6 +233,10 @@ export class MatchMakingController {
         `/matchmaking/${femaleUserId}`,
         `/matchmaking/matches/${match.id}`,
         `/matchmaking/matches/`,
+        `/users/${maleUserId}`,
+        `/users/${femaleUserId}`,
+        `/users/me/${maleUserId}`,
+        `/users/me/${femaleUserId}`,
       ]
 
       await Promise.all(keys.map(key => this.cacheManager.del(key)));
@@ -290,6 +302,10 @@ export class MatchMakingController {
           `/matchmaking/${femaleUserId}`,
           `/matchmaking/matches/${existingMatch.id}`,
           `/matchmaking/matches/`,
+          `/users/${maleUserId}`,
+          `/users/${femaleUserId}`,
+          `/users/me/${maleUserId}`,
+          `/users/me/${femaleUserId}`,
         ]
 
         await Promise.all(keys.map(key => this.cacheManager.del(key)));
@@ -373,6 +389,10 @@ export class MatchMakingController {
         `/matchmaking/${maleUserId}`,
         `/matchmaking/${femaleUserId}`,
         `/matchmaking/matches/`,
+        `/users/${maleUserId}`,
+        `/users/${femaleUserId}`,
+        `/users/me/${maleUserId}`,
+        `/users/me/${femaleUserId}`,
       ];
       await Promise.all(keys.map((key) => this.cacheManager.del(key)));
       return {
