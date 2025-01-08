@@ -10,8 +10,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from '@/lib/navigation';
 import { useAppSelector } from '@/lib/hooks';
-import { toast } from '@/components/ui/use-toast';
-import { useLazyGetCurrentSubscriptionQuery } from '@/lib/checkout/api';
 
 const SuccessIcon = (
   <FontAwesomeIcon icon={faCheckCircle} className="text-2xl text-green-500" />
@@ -50,8 +48,6 @@ export function CheckoutCompletePage() {
   const [status, setStatus] = React.useState<any>('processing');
   const [intentId, setIntentId] = React.useState<any>(null);
 
-  const [getCurrentSubscription, result] = useLazyGetCurrentSubscriptionQuery();
-
   React.useEffect(() => {
     if (!stripe || !user) {
       return;
@@ -76,24 +72,14 @@ export function CheckoutCompletePage() {
       setIntentId(paymentIntent.id);
 
       if (paymentIntent.status === 'succeeded') {
-        getCurrentSubscription(user.id)
-          .unwrap()
-          .then(() => {
-            if (user.accountStatus === 'Incomplete Registration') {
-              router.replace('/registration');
-            } else {
-              router.replace('/dashboard');
-            }
-          })
-          .catch((error) => {
-            toast({
-              title: 'Error',
-              description: error.message,
-            });
-          });
+        if (user.accountStatus === 'Incomplete Registration') {
+          router.replace('/registration');
+        } else {
+          router.replace('/dashboard');
+        }
       }
     });
-  }, [stripe, router, user, getCurrentSubscription]);
+  }, [stripe, router, user]);
 
   return (
     <div className="flex gap-3 items-center justify-center">
