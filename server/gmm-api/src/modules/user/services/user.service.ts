@@ -1,4 +1,10 @@
-import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+  Scope,
+} from '@nestjs/common';
 import { User } from '../entities/user.entity';
 import { UserDto } from '../dtos/user.dto';
 import { ExpectedIslamicLifestyleDto } from '../dtos/expected-islamic-lifestyle.dto';
@@ -141,10 +147,14 @@ export class UserService extends BaseRepository {
     const updatedUser = Object.assign(user, dto);
     updatedUser.accountStatus = AccountStatus.PENDING;
 
+    if (user.gender === Gender.MALE && !dto.guardianEmail) {
+      throw new BadRequestException('Guardian email is required');
+    }
+
     return await Promise.all([
       this.getRepository(User).save(updatedUser),
 
-      user.gender !== Gender.MALE &&
+      dto.guardianEmail &&
         dto.guardianEmail !== user.email &&
         this.updateFamilyInformation(userId, {
           guardianEmail: dto.guardianEmail,
@@ -154,7 +164,7 @@ export class UserService extends BaseRepository {
           relationshipToGuardian: dto.relationshipToGuardian,
         }),
 
-      user.gender !== Gender.MALE &&
+      dto.guardianEmail &&
         dto.guardianEmail !== user.email &&
         this.guardianService.requestGuardian(user, {
           guardianEmail: dto.guardianEmail,
