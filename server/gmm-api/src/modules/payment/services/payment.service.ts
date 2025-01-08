@@ -126,17 +126,17 @@ export class PaymentsService extends BaseRepository {
           expand: ['charges.data'],
         });
 
-        const paymentIntentWithCharges = paymentIntent as Stripe.Response<
-          Stripe.PaymentIntent & { charges: { data: Stripe.Charge[] } }
-        >;
+      //   const paymentIntentWithCharges = paymentIntent as Stripe.Response<
+      //     Stripe.PaymentIntent & { charges: { data: Stripe.Charge[] } }
+      //   >;
 
-      const receiptUrl = paymentIntentWithCharges.charges?.data[0]?.receipt_url;
+      // const receiptUrl = paymentIntentWithCharges.charges?.data[0]?.receipt_url;
 
-      console.log('receipt:', receiptUrl);
+      // console.log('receipt:', receiptUrl);
 
-      if (!receiptUrl) {
-        throw new Error('Receipt URL not found.');
-      }
+      // if (!receiptUrl) {
+      //   throw new Error('Receipt URL not found.');
+      // }
 
         
       if (!paymentIntent || paymentIntent.status !== 'succeeded') {
@@ -188,7 +188,7 @@ export class PaymentsService extends BaseRepository {
         existingSubscription.currentPeriodStart = new Date();
         existingSubscription.amount = tier.amount;
         existingSubscription.remainingMatches += tier.matches;
-        existingSubscription.receiptUrl = receiptUrl;
+        // existingSubscription.receiptUrl = receiptUrl;
       } else {
         existingSubscription = this.getRepository(Subscription).create({
           id: randomUUID(),
@@ -198,7 +198,7 @@ export class PaymentsService extends BaseRepository {
           currentPeriodStart: new Date(),
           amount: tier.amount,
           remainingMatches: tier.matches,
-          receiptUrl,
+          // receiptUrl,
         });
       }
 
