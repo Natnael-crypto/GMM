@@ -192,6 +192,10 @@ export class PaymentsService extends BaseRepository {
         // receiptUrl,
       });
 
+
+      // Save a record in subscription history
+      await this.saveSubscriptionHistory(user, newSubscription);
+      
       
       if (existingSubscription) {
         newSubscription.remainingMatches += existingSubscription.remainingMatches;
@@ -201,16 +205,13 @@ export class PaymentsService extends BaseRepository {
       const result =
         await this.getRepository(Subscription).save(newSubscription);
 
-      // Save a record in subscription history
-      await this.saveSubscriptionHistory(user, result);
+      
 
       return result;
     } catch (error) {
       throw new Error(`Failed to handle payment success: ${error.message}`);
     }
   }
-
-
 
 
 async handlePaymentFailure(paymentIntentId: string) {
