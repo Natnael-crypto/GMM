@@ -143,8 +143,6 @@ export class PaymentsService extends BaseRepository {
         throw new Error('User ID mismatch.');
       }
 
-      // Find the corresponding tier based on the plan in metadata
-      // Corrected way to find the tier by matching the plan with the key of SubscriptionTiers
       const tier = Object.entries(SubscriptionTiers).find(
         ([key, value]) => key === plan,
       )?.[1];
@@ -174,7 +172,7 @@ export class PaymentsService extends BaseRepository {
         existingSubscription.planId = tier.priceId;
         existingSubscription.currentPeriodStart = new Date(); // Assuming current date is the start of the subscription
         existingSubscription.amount = tier.amount;
-        existingSubscription.remainingMatches = tier.matches;
+        existingSubscription.remainingMatches += tier.matches;
       } else {
         existingSubscription = this.getRepository(Subscription).create({
           id: randomUUID(),

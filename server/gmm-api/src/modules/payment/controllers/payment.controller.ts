@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { PaymentsService } from '../services/payment.service';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiExcludeController, ApiExcludeEndpoint, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
@@ -353,6 +353,7 @@ export class PaymentsController {
   }
 
   @Post('stripe')
+  @ApiExcludeEndpoint()
   async handleStripeWebhook(@Req() req: Request, @Res() res: Response) {
     const sig = req.headers['stripe-signature']!;
     const webhookSecret = this.configService.get<StripeConfig>('stripe')!.webhookSecret!;
