@@ -19,3 +19,5 @@ export const apiUrls = {
     google: `${constants.apiBaseUrl}/auth/google`,
   },
 };
+
+export const mapLibraries = ['places' as const];

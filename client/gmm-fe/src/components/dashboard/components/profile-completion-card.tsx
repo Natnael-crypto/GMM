@@ -207,17 +207,19 @@ export default function ProfileCompletionCard({
             </Link>
           )}
           {!user && <Skeleton className="h-10 rounded-full" />}
-          {user && !user.isMatched && (
-            <Link
-              href={`/dashboard/profile/${user.id}/basic-information/edit`}
-              className={cn(
-                buttonVariants({ variant: 'outline' }),
-                'rounded-full h-8 text-secondary cta m-1 text-xs'
-              )}
-            >
-              Edit Profile
-            </Link>
-          )}
+          {user &&
+            user.accountStatus === AccountStatus.APPROVED &&
+            !user.isMatched && (
+              <Link
+                href={`/dashboard/profile/${user.id}/basic-information/edit`}
+                className={cn(
+                  buttonVariants({ variant: 'outline' }),
+                  'rounded-full h-8 text-secondary cta m-1 text-xs'
+                )}
+              >
+                Edit Profile
+              </Link>
+            )}
         </div>
       )}
     </div>

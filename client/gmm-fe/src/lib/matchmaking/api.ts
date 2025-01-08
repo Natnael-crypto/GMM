@@ -90,7 +90,7 @@ export const matchApi = createApi({
         return response.data;
       },
       invalidatesTags(result, error, arg, meta) {
-        return [{ type: 'Match', id: arg.matchId }];
+        return [{ type: 'Match', id: arg.matchId }, { type: 'Match' }];
       },
     }),
 

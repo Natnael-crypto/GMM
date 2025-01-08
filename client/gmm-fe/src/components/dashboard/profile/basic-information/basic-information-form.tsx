@@ -47,9 +47,7 @@ import { format } from 'date-fns';
 import { getEighteenYearsAgo } from '@/lib/format';
 import CountrySelector from '@/components/ui/country-selector';
 import { useLoadScript } from '@react-google-maps/api';
-import { constants } from '@/config';
-
-const libraries = ['places' as const];
+import { constants, mapLibraries } from '@/config';
 
 export default function BasicInformationForm() {
   const user = useAppSelector((state) => state.auth.user);
@@ -154,7 +152,7 @@ export default function BasicInformationForm() {
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: constants.google.mapApiKey,
-    libraries,
+    libraries: mapLibraries,
   });
 
   const handleChange = (event: any) => {
@@ -256,7 +254,7 @@ export default function BasicInformationForm() {
 
   return (
     <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] grid grid-cols-12 lg:grid-cols-4 gap-x-5 gap-y-4 py-8 text-md">
-      <div className="col-span-12 md:col-span-8 lg:col-span-1">
+      <div className="col-span-12 lg:col-span-1">
         <FormField
           name="pictures"
           control={form.control}
@@ -284,7 +282,7 @@ export default function BasicInformationForm() {
         <form
           ref={basicInfoFormRef}
           onSubmit={form.handleSubmit(onSubmit)}
-          className="col-span-12 sm:col-span-3 grid grid-cols-4 gap-x-5 gap-y-4 h-fit"
+          className="col-span-12 lg:col-span-3 grid grid-cols-4 gap-x-5 gap-y-4 h-fit"
         >
           <div className="col-span-4 sm:col-span-2 flex gap-5 items-center h-fit">
             <Label>First Name</Label>
@@ -418,10 +416,10 @@ export default function BasicInformationForm() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem className="text-sm max-w-80" value="Male">
+                        <SelectItem className="text-sm " value="Male">
                           Male
                         </SelectItem>
-                        <SelectItem className="text-sm max-w-80" value="Female">
+                        <SelectItem className="text-sm " value="Female">
                           Female
                         </SelectItem>
                       </SelectContent>
@@ -450,11 +448,7 @@ export default function BasicInformationForm() {
                       </SelectTrigger>
                       <SelectContent className="max-h-64">
                         {Object.keys(heights).map((h, i) => (
-                          <SelectItem
-                            className="text-sm max-w-80"
-                            key={i}
-                            value={h}
-                          >
+                          <SelectItem className="text-sm " key={i} value={h}>
                             {heights[h]}
                           </SelectItem>
                         ))}
@@ -484,11 +478,7 @@ export default function BasicInformationForm() {
                       </SelectTrigger>
                       <SelectContent className="max-h-64">
                         {Object.keys(weights).map((w, i) => (
-                          <SelectItem
-                            className="text-sm max-w-80"
-                            key={i}
-                            value={w}
-                          >
+                          <SelectItem className="text-sm " key={i} value={w}>
                             {weights[w]}
                           </SelectItem>
                         ))}
@@ -600,30 +590,27 @@ export default function BasicInformationForm() {
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-sm "
                           value="Single/Never Married"
                         >
                           Single/Never Married
                         </SelectItem>
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-sm "
                           value="Single/Legally Divorced"
                         >
                           Single/Legally Divorced
                         </SelectItem>
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-sm "
                           value="Single/Islamically-Divorced"
                         >
                           Single/Islamically-Divorced
                         </SelectItem>
-                        <SelectItem
-                          className="text-sm max-w-80"
-                          value="Widowed"
-                        >
+                        <SelectItem className="text-sm " value="Widowed">
                           Widowed
                         </SelectItem>
-                        <SelectItem className="text-sm max-w-80" value="Other">
+                        <SelectItem className="text-sm " value="Other">
                           Other
                         </SelectItem>
                       </SelectContent>
@@ -658,32 +645,29 @@ export default function BasicInformationForm() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem
-                          className="text-sm max-w-80"
-                          value="No kids"
-                        >
+                        <SelectItem className="text-sm " value="No kids">
                           No kids
                         </SelectItem>
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-sm "
                           value="Yes but not with me"
                         >
                           Yes but not with me
                         </SelectItem>
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-sm "
                           value="Yes 20%+ Shared parenting"
                         >
                           Yes 20%+ Shared Parenting
                         </SelectItem>
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-sm "
                           value="Yes: 50%+ Joint-Shared Parenting"
                         >
                           Yes: 50%+ Joint-Shared Parenting
                         </SelectItem>
                         <SelectItem
-                          className="text-sm max-w-80"
+                          className="text-sm "
                           value="Yes Full-Time Single Parent"
                         >
                           Yes Full-Time Single Parent
@@ -716,34 +700,19 @@ export default function BasicInformationForm() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem
-                            className="text-sm max-w-80"
-                            value="Hanafi"
-                          >
+                          <SelectItem className="text-sm " value="Hanafi">
                             Hanafi
                           </SelectItem>
-                          <SelectItem
-                            className="text-sm max-w-80"
-                            value="Hanbali"
-                          >
+                          <SelectItem className="text-sm " value="Hanbali">
                             Hanbali
                           </SelectItem>
-                          <SelectItem
-                            className="text-sm max-w-80"
-                            value="Maliki"
-                          >
+                          <SelectItem className="text-sm " value="Maliki">
                             Maliki
                           </SelectItem>
-                          <SelectItem
-                            className="text-sm max-w-80"
-                            value="Shafi"
-                          >
+                          <SelectItem className="text-sm " value="Shafi">
                             Shafi
                           </SelectItem>
-                          <SelectItem
-                            className="text-sm max-w-80"
-                            value="All Four"
-                          >
+                          <SelectItem className="text-sm " value="All Four">
                             All Four
                           </SelectItem>
                         </SelectContent>
@@ -772,31 +741,31 @@ export default function BasicInformationForm() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem
-                            className="text-sm max-w-80"
+                            className="text-sm "
                             value="Not Practicing Never Prays/Non-Muslim"
                           >
                             Not Practicing Never Prays/Non-Muslim
                           </SelectItem>
                           <SelectItem
-                            className="text-sm max-w-80"
+                            className="text-sm "
                             value="Occasionally Practicing"
                           >
                             Occasionally Practicing
                           </SelectItem>
                           <SelectItem
-                            className="text-sm max-w-80"
+                            className="text-sm "
                             value="Practicing and Trying to Get Better"
                           >
                             Practicing and Trying to get Better
                           </SelectItem>
                           <SelectItem
-                            className="text-sm max-w-80"
+                            className="text-sm "
                             value="Practicing/Fardh"
                           >
                             Practicing/Fardh
                           </SelectItem>
                           <SelectItem
-                            className="text-sm max-w-80"
+                            className="text-sm "
                             value="Very Practicing/Sunnah Nawafil Included"
                           >
                             Very Practicing/Sunnah Nawafil Included
@@ -825,14 +794,11 @@ export default function BasicInformationForm() {
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem
-                            className="text-sm max-w-80"
-                            value="Born Muslim"
-                          >
+                          <SelectItem className="text-sm " value="Born Muslim">
                             Born Muslim
                           </SelectItem>
                           <SelectItem
-                            className="text-sm max-w-80"
+                            className="text-sm "
                             value="Reverted to Islam"
                           >
                             Reverted to Islam
