@@ -30,4 +30,7 @@ export class Subscription {
 
   @Column({ type: 'int', default: 0 })
   remainingMatches: number;
+
+  @Column({ nullable: true })
+  receiptUrl: string;
 }
