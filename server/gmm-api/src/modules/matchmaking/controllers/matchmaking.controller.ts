@@ -57,13 +57,9 @@ export class MatchMakingController {
         `users/me/${userId}`,
         `users/${userId}`,
         `/matchmaking/potential-matches/${userId}`,
-
       ];
 
-      await Promise.all(
-        keys.map((key) => this.cacheManager.del(key)),
-      );
-
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
       return {
         message: 'User preference updated successfully',
@@ -103,7 +99,6 @@ export class MatchMakingController {
       const { match } = await this.matchmakingService.matchUser(userId);
 
       if (!match) {
-
         const key = `/matchmaking/pool`;
         await this.cacheManager.del(key);
 
@@ -124,8 +119,8 @@ export class MatchMakingController {
         `/users/me/${maleUserId}`,
         `/users/me/${femaleUserId}`,
       ];
-      
-      await Promise.all(keys.map(key => this.cacheManager.del(key)));
+
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
       return {
         message: 'Matched successfully',
@@ -142,7 +137,6 @@ export class MatchMakingController {
     @Req() request: Request & { user: User },
   ) {
     try {
-    
       const match = await this.matchmakingService.inviteToNextStage(
         id,
         request.user,
@@ -163,9 +157,9 @@ export class MatchMakingController {
         `/users/${femaleUserId}`,
         `/users/me/${maleUserId}`,
         `/users/me/${femaleUserId}`,
-      ]
+      ];
 
-      await Promise.all(keys.map(key => this.cacheManager.del(key)));
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
       return {
         message: 'You have invited your match to next stage',
@@ -237,9 +231,9 @@ export class MatchMakingController {
         `/users/${femaleUserId}`,
         `/users/me/${maleUserId}`,
         `/users/me/${femaleUserId}`,
-      ]
+      ];
 
-      await Promise.all(keys.map(key => this.cacheManager.del(key)));
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
       return {
         message: 'Successfully unmatched',
@@ -286,11 +280,10 @@ export class MatchMakingController {
           request.user,
           dto.action,
         );
-      
-      
+
       const invitation = await this.matchmakingService.getInvitationById(id);
       const existingMatch = invitation.match;
-      
+
       if (existingMatch) {
         const maleUserId = existingMatch.maleUser.id;
         const femaleUserId = existingMatch.femaleUser.id;
@@ -306,11 +299,11 @@ export class MatchMakingController {
           `/users/${femaleUserId}`,
           `/users/me/${maleUserId}`,
           `/users/me/${femaleUserId}`,
-        ]
+        ];
 
-        await Promise.all(keys.map(key => this.cacheManager.del(key)));
+        await Promise.all(keys.map((key) => this.cacheManager.del(key)));
       }
-      
+
       return {
         message: 'You have invited your match to next stage',
         data: match,
@@ -378,12 +371,14 @@ export class MatchMakingController {
   // invalidate users matchmaking cache by userId
   @UseGuards(ApiKeyAuthGuard)
   @Delete('cache')
-  async invalidateCache(@Query('maleUserId') maleUserId: string, @Query('femaleUserId') femaleUserId: string) {
+  async invalidateCache(
+    @Query('maleUserId') maleUserId: string,
+    @Query('femaleUserId') femaleUserId: string,
+    @Query('matchId') matchId: string,
+  ) {
     try {
-      const match = await this.matchmakingService.getActiveMatch(maleUserId);
-
       const keys = [
-        `/matchmaking/matches/${match.id}`,
+        `/matchmaking/matches/${matchId}`,
         `/matchmaking/current-match/${maleUserId}`,
         `/matchmaking/current-match/${femaleUserId}`,
         `/matchmaking/${maleUserId}`,
