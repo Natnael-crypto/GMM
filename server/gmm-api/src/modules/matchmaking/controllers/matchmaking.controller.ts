@@ -29,7 +29,6 @@ import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('matchmaking')
 export class MatchMakingController {
   constructor(
@@ -41,6 +40,7 @@ export class MatchMakingController {
     type: UpdatePreferenceDto,
     required: true,
   })
+  @UseGuards(JwtAuthGuard)
   @Put('preference')
   async updatePreference(
     @Body() preference: UpdatePreferenceDto,
@@ -74,6 +74,7 @@ export class MatchMakingController {
   }
 
   @UseInterceptors(UserSpecificCacheInterceptor)
+  @UseGuards(JwtAuthGuard)
   @Get('potential-matches')
   async getPotentialMatchesCount(@Req() req: Request) {
     try {
@@ -92,6 +93,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async match(@Req() req: Request & { user: User }) {
     try {
@@ -131,6 +133,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('matches/:id/invitations')
   async inviteToNextStage(
     @Param('id') id: string,
@@ -172,6 +175,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(UserSpecificCacheInterceptor)
   @Get()
   async getUserMatches(@Req() req: Request) {
@@ -191,6 +195,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(UserSpecificCacheInterceptor)
   @Get('current-match')
   async getMyActiveMatch(@Req() req: Request) {
@@ -210,6 +215,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('current-match')
   async unmatch(@Req() req: Request) {
     try {
@@ -247,6 +253,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(CacheInterceptor)
   @Get('matches/:id')
   async getMatch(@Param('id') id: string) {
@@ -267,6 +274,7 @@ export class MatchMakingController {
   @ApiBody({
     type: AcceptOrRejectInvitationDto,
   })
+  @UseGuards(JwtAuthGuard)
   @Put('matches/invitations/:id')
   async acceptOrRejectInvitation(
     @Param('id') id: string,
@@ -334,6 +342,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(CacheInterceptor)
   @Get()
   async getActiveMatches(@Res() response: Response) {
@@ -351,6 +360,7 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(CacheInterceptor)
   @Get('pool')
   async getUsersInMatchPool(@Res() response: Response) {
