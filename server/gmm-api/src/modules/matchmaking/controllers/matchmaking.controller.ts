@@ -294,8 +294,8 @@ export class MatchMakingController {
       const existingMatch = invitation.match;
 
       if (existingMatch) {
-        const maleUserId = existingMatch.maleUser.id;
-        const femaleUserId = existingMatch.femaleUser.id;
+        const maleUserId = existingMatch.maleUserId;
+        const femaleUserId = existingMatch.femaleUserId;
 
         const keys = [
           `/matchmaking/current-match/${maleUserId}`,
