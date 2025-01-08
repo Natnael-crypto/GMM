@@ -24,16 +24,24 @@ import { PermissionGuard } from '@modules/auth/guards/permission.guard';
 import { UpdateProductDto } from '../dtos/update-product.dto';
 import { CACHE_MANAGER, CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
+import Stripe from 'stripe';
+import { ConfigService } from '@nestjs/config';
+import { StripeConfig } from '@shared/config';
 
 @ApiTags('payments')
 @ApiBearerAuth()
 @UseInterceptors(CacheInterceptor)
 @Controller({ version: ApiVersion.V1, path: 'payments' })
 export class PaymentsController {
+  private stripe: Stripe;
+
   constructor(
+    private configService: ConfigService,
     private paymentService: PaymentsService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
-  ) {}
+  ) {
+    this.stripe = new Stripe(this.configService.get<StripeConfig>('stripe')!.apiKey!);
+  }
 
   @UseGuards(JwtAuthGuard)
   @Post('create-payment-intent')
@@ -344,26 +352,49 @@ export class PaymentsController {
     }
   }
 
-  // @Post('webhook')
-  // async handleStripeWebhook(
-  //   @Body() body: any,
-  //   @Headers('stripe-signature') signature: string,
-  //   @Res() res: Response
-  // ) {
-  //   let event: Stripe.Event;
+  @Post('stripe')
+  async handleStripeWebhook(@Req() req: Request, @Res() res: Response) {
+    const sig = req.headers['stripe-signature']!;
+    const webhookSecret = this.configService.get<StripeConfig>('stripe')!.webhookSecret!;
 
-  //   try {
-  //     event = this.paymentService.verifyStripeWebhook(body, signature);
-  //   } catch (err) {
-  //     return res.status(HttpStatus.BAD_REQUEST).send(`Webhook Error: ${err.message}`);
-  //   }
+    let event: Stripe.Event;
 
-  //   // Process the event
-  //   try {
-  //     await this.paymentService.processWebhookEvent(event);
-  //     return res.status(HttpStatus.OK).send({ received: true });
-  //   } catch (err) {
-  //     return res.status(HttpStatus.INTERNAL_SERVER_ERROR).send(`Failed to process event: ${err.message}`);
-  //   }
-  // }
+    try {
+      event = this.stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
+    } catch (err) {
+      console.error('Webhook signature verification failed:', err.message);
+      return res.status(HttpStatus.BAD_REQUEST).send(`Webhook Error: ${err.message}`);
+    }
+
+    // Handle the event
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+
+        console.log('PaymentIntent was successful triggered:', event.data.object);
+
+        const paymentIntent = event.data.object as Stripe.PaymentIntent;
+        const userIdFromMetadata = paymentIntent.metadata?.userId;
+
+        if (!userIdFromMetadata) {
+          console.error('User ID not found in metadata.');
+          return res.status(HttpStatus.BAD_REQUEST).send('User ID missing in metadata.');
+        }
+
+        await this.paymentService.handlePaymentSuccess(paymentIntent.id, userIdFromMetadata);
+        break;
+
+      case 'payment_intent.payment_failed':
+        const failedPaymentIntent = event.data.object as Stripe.PaymentIntent;
+        console.error('PaymentIntent failed:', failedPaymentIntent);
+        
+        await this.paymentService.handlePaymentFailure(failedPaymentIntent.id,);
+        break;
+
+
+      default:
+        console.warn(`Unhandled event type: ${event.type}`);
+    }
+
+    res.status(HttpStatus.OK).send('Webhook received successfully');
+  }
 }

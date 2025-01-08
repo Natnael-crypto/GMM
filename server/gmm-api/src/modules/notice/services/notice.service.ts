@@ -8,6 +8,7 @@ import { OnEvent } from '@nestjs/event-emitter';
 import { ConfigService } from '@nestjs/config';
 import { ClientConfig } from '@shared/config';
 import { GuardianRequestedEvent } from '@modules/user/events/guardian.events';
+import { PaymentFailedEvent } from '@modules/payment/events/payment-failed.event';
 
 // @Injectable()
 @Injectable({ scope: Scope.DEFAULT })
@@ -58,6 +59,17 @@ export class NoticeService {
       ),
     );
   }
+
+  @OnEvent(PaymentFailedEvent.name, { async: true })
+  async handlePaymentFailedEvent(event: PaymentFailedEvent) {
+  const { message, subject } = require('../templates/emails/payment-failed');
+
+  const { amount, paymentMethod, numMatches, user } = event;
+
+  await this.sendEmail(user.email, subject, message(amount, paymentMethod, numMatches));
+  }
+
+
 
   async sendEmail(
     email: string,

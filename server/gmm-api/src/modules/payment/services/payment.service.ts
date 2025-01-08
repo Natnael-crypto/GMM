@@ -15,6 +15,8 @@ import { BaseRepository } from '@shared/base-repository';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import { StripeConfig } from '@shared/config';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { PaymentFailedEvent } from '../events/payment-failed.event';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PaymentsService extends BaseRepository {
@@ -24,7 +26,7 @@ export class PaymentsService extends BaseRepository {
     private readonly configService: ConfigService,
     private readonly userService: UserService,
     private readonly noticeService: NoticeService,
-
+    private readonly eventEmitter: EventEmitter2,
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
   ) {
@@ -197,6 +199,44 @@ export class PaymentsService extends BaseRepository {
       throw new Error(`Failed to handle payment success: ${error.message}`);
     }
   }
+
+
+
+
+async handlePaymentFailure(paymentIntentId: string) {
+  try {
+    const paymentIntent = await this.stripe.paymentIntents.retrieve(paymentIntentId);
+
+    console.error('Payment failed for PaymentIntent:', paymentIntent.id);
+    console.error('Failure reason:', paymentIntent.last_payment_error?.message);
+
+    const user = await this.getRepository(User).findOne({ where: { id: paymentIntent.metadata.userId } });
+
+    if (!user) {
+      throw new Error('User not found.');
+    }
+
+    if (!paymentIntent.metadata.plan) {
+      throw new Error('Plan not found in payment intent metadata.');
+    }
+
+    const tier = SubscriptionTiers[paymentIntent.metadata.plan];
+
+    let payment_method = paymentIntent.payment_method?.toString();
+    
+    if (!payment_method) {
+      payment_method = "Unknown";
+    }
+
+    this.eventEmitter.emit(
+      PaymentFailedEvent.name,
+      new PaymentFailedEvent(user, paymentIntent.amount, payment_method, tier.matches),
+    );
+    
+  } catch (err) {
+    console.error('Error handling payment failure:', err);
+  }
+}
 
   async handleFreeCheckout(userId: string): Promise<void> {
     try {
