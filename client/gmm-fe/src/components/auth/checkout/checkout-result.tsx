@@ -10,8 +10,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from '@/lib/navigation';
 import { useAppSelector } from '@/lib/hooks';
-import { useConfirmPaymentMutation } from '@/lib/checkout/api';
-import { toast } from '@/components/ui/use-toast';
 
 const SuccessIcon = (
   <FontAwesomeIcon icon={faCheckCircle} className="text-2xl text-green-500" />
@@ -49,7 +47,6 @@ export function CheckoutCompletePage() {
 
   const [status, setStatus] = React.useState<any>('processing');
   const [intentId, setIntentId] = React.useState<any>(null);
-  const [confirmPayment, confirmPaymentResult] = useConfirmPaymentMutation();
 
   React.useEffect(() => {
     if (!stripe || !user) {
@@ -75,21 +72,11 @@ export function CheckoutCompletePage() {
       setIntentId(paymentIntent.id);
 
       if (paymentIntent.status === 'succeeded') {
-        confirmPayment({ paymentIntentId: paymentIntent.id })
-          .unwrap()
-          .then(() => {
-            if (user.accountStatus === 'Incomplete Registration') {
-              router.replace('/registration');
-            } else {
-              router.replace('/dashboard');
-            }
-          })
-          .catch((error) => {
-            toast({
-              title: 'Error',
-              description: error.message,
-            });
-          });
+        if (user.accountStatus === 'Incomplete Registration') {
+          router.replace('/registration');
+        } else {
+          router.replace('/dashboard');
+        }
       }
     });
   }, [stripe, router, user]);
