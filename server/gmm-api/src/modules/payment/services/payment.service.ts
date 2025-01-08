@@ -181,30 +181,25 @@ export class PaymentsService extends BaseRepository {
         },
       );
 
-      // Update existing subscription or create a new one
+      const newSubscription = this.getRepository(Subscription).create({
+        id: randomUUID(),
+        user,
+        status: paymentIntent.status,
+        planId: tier.priceId,
+        currentPeriodStart: new Date(),
+        amount: tier.amount,
+        remainingMatches: tier.matches,
+        // receiptUrl,
+      });
+
+      
       if (existingSubscription) {
-        existingSubscription.status = paymentIntent.status;
-        existingSubscription.planId = tier.priceId;
-        existingSubscription.currentPeriodStart = new Date();
-        existingSubscription.amount = tier.amount;
-        existingSubscription.remainingMatches += tier.matches;
-        // existingSubscription.receiptUrl = receiptUrl;
-      } else {
-        existingSubscription = this.getRepository(Subscription).create({
-          id: randomUUID(),
-          user,
-          status: paymentIntent.status,
-          planId: tier.priceId,
-          currentPeriodStart: new Date(),
-          amount: tier.amount,
-          remainingMatches: tier.matches,
-          // receiptUrl,
-        });
+        newSubscription.remainingMatches += existingSubscription.remainingMatches;
       }
 
       // Save the subscription to the repository
       const result =
-        await this.getRepository(Subscription).save(existingSubscription);
+        await this.getRepository(Subscription).save(newSubscription);
 
       // Save a record in subscription history
       await this.saveSubscriptionHistory(user, result);
