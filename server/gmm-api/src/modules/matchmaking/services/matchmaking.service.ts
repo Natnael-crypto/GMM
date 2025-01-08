@@ -34,7 +34,6 @@ import { AddedToMatchPoolNotification } from '@modules/notifications/notificatio
 import { ResponseInviteNotification } from '@modules/notifications/notifications/response-invite.notification';
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
-  
   constructor(
     private readonly paymentService: PaymentsService,
     private readonly notificationService: NotificationService,
@@ -275,7 +274,6 @@ export class MatchMakingService extends BaseRepository {
 
     return matchPoolEntry;
   }
-  
 
   async getActiveMatches(): Promise<Match[]> {
     return await this.getRepository(Match).find({ where: { isActive: true } });
@@ -404,7 +402,9 @@ export class MatchMakingService extends BaseRepository {
     return savedInvitation;
   }
 
-  async getInvitationById(invitationId: string): Promise<InvitationToMatchStage> {
+  async getInvitationById(
+    invitationId: string,
+  ): Promise<InvitationToMatchStage> {
     const invitation = await this.getRepository(InvitationToMatchStage).findOne(
       {
         where: { id: invitationId },
