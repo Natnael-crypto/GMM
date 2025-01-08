@@ -13,7 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
   Dialog,
@@ -30,6 +30,7 @@ import {
 } from '../ui/hover-card';
 import { upload } from '@/lib/file-upload';
 import { toast } from '../ui/use-toast';
+import Loading from '../ui/loading';
 
 export default function PhotoUploader({ field }: { field: any }) {
   const [images, setImages] = React.useState<string[]>([
@@ -41,6 +42,16 @@ export default function PhotoUploader({ field }: { field: any }) {
     '',
     '',
     '',
+  ]);
+  const [isImageUploading, setImageUploading] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
   ]);
   const form = useFormContext();
   const [generateUploadUrl] = useCreateUploadUrlMutation();
@@ -88,11 +99,15 @@ export default function PhotoUploader({ field }: { field: any }) {
 
       const blobUrl = URL.createObjectURL(file);
 
-      setImages((images) => {
-        return [...images.slice(0, index), blobUrl, ...images.slice(index + 1)];
-      });
-
       try {
+        setImageUploading((uploading) => {
+          return [
+            ...uploading.slice(0, index),
+            true,
+            ...uploading.slice(index + 1),
+          ];
+        });
+
         const fileInfo = await upload(file, generateUploadUrl);
 
         const prevImageKeys = field.value as string[];
@@ -106,8 +121,24 @@ export default function PhotoUploader({ field }: { field: any }) {
           fileInfo.fileKey,
           ...prevImageKeys.slice(index + 1),
         ]);
+
+        setImages((images) => {
+          return [
+            ...images.slice(0, index),
+            blobUrl,
+            ...images.slice(index + 1),
+          ];
+        });
       } catch (error) {
         console.error(error);
+      } finally {
+        setImageUploading((uploading) => {
+          return [
+            ...uploading.slice(0, index),
+            false,
+            ...uploading.slice(index + 1),
+          ];
+        });
       }
     } else {
       setImages((images) => {
@@ -125,14 +156,6 @@ export default function PhotoUploader({ field }: { field: any }) {
         '',
         ...prevImageKeys.slice(index + 1),
       ]);
-      toast({
-        title: 'inside',
-        description: JSON.stringify([
-          ...prevImageKeys.slice(0, index),
-          '',
-          ...prevImageKeys.slice(index + 1),
-        ]),
-      });
     }
   };
 
@@ -166,7 +189,7 @@ export default function PhotoUploader({ field }: { field: any }) {
 
   const showDragAndDropImage =
     images.find((image) => image === '') !== undefined;
-
+  console.log(isImageUploading);
   return (
     <Card className="shadow-none text-sm space-y-3">
       <div className="flex justify-between items-end">
@@ -198,13 +221,19 @@ export default function PhotoUploader({ field }: { field: any }) {
                   {image ? (
                     <HoverCard>
                       <HoverCardTrigger className="relative w-full h-full overflow-hidden">
-                        <Image
-                          src={image}
-                          className="object-cover w-full h-full"
-                          width={100}
-                          height={100}
-                          alt="upload profile picture cell"
-                        />
+                        {isImageUploading[index] ? (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Loading className="scale-50" />
+                          </div>
+                        ) : (
+                          <Image
+                            src={image}
+                            className="object-cover w-full h-full"
+                            width={100}
+                            height={100}
+                            alt="upload profile picture cell"
+                          />
+                        )}
                         <div
                           className="absolute bottom-1 right-1"
                           onClick={(e) => {
@@ -230,10 +259,16 @@ export default function PhotoUploader({ field }: { field: any }) {
                       </HoverCardContent>
                     </HoverCard>
                   ) : (
-                    <FontAwesomeIcon
-                      className="text-background"
-                      icon={faUser}
-                    />
+                    <>
+                      {isImageUploading[index] ? (
+                        <Loading className="scale-50" />
+                      ) : (
+                        <FontAwesomeIcon
+                          className="text-background"
+                          icon={faUser}
+                        />
+                      )}
+                    </>
                   )}
                   <input
                     type="file"

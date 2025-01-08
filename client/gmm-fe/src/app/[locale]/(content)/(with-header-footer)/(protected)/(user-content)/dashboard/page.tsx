@@ -19,6 +19,8 @@ export default function Dashboard() {
   const user = useAppSelector((state) => state.auth.user);
   const isAccountApproved = user?.accountStatus === AccountStatus.APPROVED;
 
+  console.log(user);
+
   return (
     <UpdateProfileProvider autoSave={false}>
       <>

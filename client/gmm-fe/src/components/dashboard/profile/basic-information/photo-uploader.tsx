@@ -18,7 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export interface PhotoUploaderProps {
   images: string[];
@@ -41,6 +41,16 @@ export default function PhotoUploader({
   const [imageMap, setImagesMap] = React.useState<{ [key: number]: string }>(
     {}
   );
+  const [isImageUploading, setImageUploading] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   const [generateUploadUrl] = useCreateUploadUrlMutation();
   const [generateDownloadUrl] = useCreateDownloadUrlMutation();
@@ -148,21 +158,37 @@ export default function PhotoUploader({
 
       const blobUrl = URL.createObjectURL(file);
 
-      setImagesMap((imageMap) => {
-        return {
-          ...imageMap,
-          [index]: blobUrl,
-        };
-      });
-
       try {
+        setImageUploading((uploading) => {
+          return [
+            ...uploading.slice(0, index),
+            true,
+            ...uploading.slice(index + 1),
+          ];
+        });
+
         const fileInfo = await upload(file, generateUploadUrl);
 
         onChange(
           images.map((image, i) => (i === index ? fileInfo.fileKey : image))
         );
+
+        setImagesMap((imageMap) => {
+          return {
+            ...imageMap,
+            [index]: blobUrl,
+          };
+        });
       } catch (error) {
         console.error(error);
+      } finally {
+        setImageUploading((uploading) => {
+          return [
+            ...uploading.slice(0, index),
+            false,
+            ...uploading.slice(index + 1),
+          ];
+        });
       }
     }
   };

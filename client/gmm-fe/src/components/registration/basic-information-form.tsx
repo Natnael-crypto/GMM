@@ -50,9 +50,7 @@ import { isValidPhoneNumber } from 'react-phone-number-input';
 import CountrySelector from '../ui/country-selector';
 import CitySelector from '../ui/city-selector';
 import { useLoadScript } from '@react-google-maps/api';
-import { constants } from '@/config';
-
-const libraries = ['places' as const];
+import { constants, mapLibraries } from '@/config';
 
 export default function BasicInformationForm({
   familyIntroduction,
@@ -172,7 +170,7 @@ export default function BasicInformationForm({
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: constants.google.mapApiKey,
-    libraries,
+    libraries: mapLibraries,
   });
 
   const handleChange = (event: any) => {
@@ -754,10 +752,9 @@ export default function BasicInformationForm({
                   )}
                 />
               </div>
-              {/* <div className="space-y-1 col-span-4 sm:col-span-2"></div> */}
 
               {isLoaded && (
-                <div className="space-y-1 col-span-4 sm:col-span-2">
+                <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                   <Label>Current City</Label>
                   <FormField
                     name="city"
@@ -779,26 +776,6 @@ export default function BasicInformationForm({
                   />
                 </div>
               )}
-              {/* <div className="space-y-1 col-span-4 sm:col-span-2">
-                <Label>Current Country</Label>
-                <FormField
-                  name="currentCountry"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Input
-                          name={'country'}
-                          value={input.country || ''}
-                          onChange={handleChange}
-                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-md" />
-                    </FormItem>
-                  )}
-                />
-              </div> */}
 
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Marital Status</Label>
