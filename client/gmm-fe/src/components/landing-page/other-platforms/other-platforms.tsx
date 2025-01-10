@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import OtherPlatformCard from './card';
-import { useTranslations } from 'next-intl';
-import OtherPlatformContent from './slide-content';
-import OtherPlatform from './other-platform-slide';
-import MobileOtherPlatformsCards from './other-platforms-mobile';
+import React, { useEffect, useState } from "react";
+import OtherPlatformCard from "./card";
+import { useTranslations } from "next-intl";
+import OtherPlatformContent from "./slide-content";
+import OtherPlatform from "./other-platform-slide";
+import MobileOtherPlatformsCards from "./other-platforms-mobile";
 
 export default function OtherPlatforms() {
-  const t = useTranslations('Landing.otherPlatforms');
+  const t = useTranslations("Landing.otherPlatforms");
 
   const [current, setCurrent] = useState(0);
   const [animation, setAnimationInterval] = useState<NodeJS.Timeout | null>(
@@ -48,58 +48,67 @@ export default function OtherPlatforms() {
         <div className="gmm-other-platforms-container my-5 grid lg:grid-cols-2 gap-4">
           <div className="gmm-other-platforms-slides bg-muted lg-rounded-br-[3rem]">
             {/* Card Slides */}
-            <OtherPlatform selected={current} setSelected={setCurrent} next={next} prev={prev}>
-              <OtherPlatformContent title={t('slide.endlessSearching.title')}>
+            <OtherPlatform
+              selected={current}
+              setSelected={setCurrent}
+              next={next}
+              prev={prev}
+            >
+              <OtherPlatformContent title={t("slide.endlessSearching.title")}>
                 <>
-                  {t.rich('slide.endlessSearching.description', {
+                  {t.rich("slide.endlessSearching.description", {
                     bold: (text) => <span className="font-bold">{text}</span>,
                   })}
                 </>
               </OtherPlatformContent>
 
-              <OtherPlatformContent title={t('slide.noOneOnOneChats.title')}>
+              <OtherPlatformContent title={t("slide.noOneOnOneChats.title")}>
                 <>
-                  {t.rich('slide.noOneOnOneChats.description', {
+                  {t.rich("slide.noOneOnOneChats.description", {
                     bold: (text) => <span className="font-bold">{text}</span>,
                   })}
                 </>
               </OtherPlatformContent>
 
-              <OtherPlatformContent title={t('slide.noFamilyInvolvement.title')}>
+              <OtherPlatformContent
+                title={t("slide.noFamilyInvolvement.title")}
+              >
                 <>
-                  {t.rich('slide.noFamilyInvolvement.description', {
+                  {t.rich("slide.noFamilyInvolvement.description", {
                     bold: (text) => <span className="font-bold">{text}</span>,
                   })}
                 </>
               </OtherPlatformContent>
 
-              <OtherPlatformContent title={t('slide.noMatchGuarantee.title')}>
+              <OtherPlatformContent title={t("slide.noMatchGuarantee.title")}>
                 <>
-                  {t.rich('slide.noMatchGuarantee.description', {
+                  {t.rich("slide.noMatchGuarantee.description", {
                     bold: (text) => <span className="font-bold">{text}</span>,
                   })}
                 </>
               </OtherPlatformContent>
 
-              <OtherPlatformContent title={t('slide.noTrueHalalApproach.title')}>
+              <OtherPlatformContent
+                title={t("slide.noTrueHalalApproach.title")}
+              >
                 <>
-                  {t.rich('slide.noTrueHalalApproach.description', {
+                  {t.rich("slide.noTrueHalalApproach.description", {
                     bold: (text) => <span className="font-bold">{text}</span>,
                   })}
                 </>
               </OtherPlatformContent>
 
-              <OtherPlatformContent title={t('slide.terribleHealth.title')}>
+              <OtherPlatformContent title={t("slide.terribleHealth.title")}>
                 <>
-                  {t.rich('slide.terribleHealth.description', {
+                  {t.rich("slide.terribleHealth.description", {
                     bold: (text) => <span className="font-bold">{text}</span>,
                   })}
                 </>
               </OtherPlatformContent>
 
-              <OtherPlatformContent title={t('slide.payment.title')}>
+              <OtherPlatformContent title={t("slide.payment.title")}>
                 <>
-                  {t.rich('slide.payment.description', {
+                  {t.rich("slide.payment.description", {
                     bold: (text) => <span className="font-bold">{text}</span>,
                   })}
                 </>
@@ -110,13 +119,11 @@ export default function OtherPlatforms() {
             {/* Title */}
             <h1 className="text-center sm:text-start z-20 flex flex-col lg:ps-0">
               <span className="z-20 uppercase font-bold text-primary">
-                {t('title')}
+                {t("title")}
               </span>
               <span className="z-20 text-lg sm:text-xl md:text-2xl lg:text-3xl text-accent">
-                {t.rich('subtitle', {
-                  bold: (text) => (
-                    <span className="font-bold">{text}</span>
-                  ),
+                {t.rich("subtitle", {
+                  bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </span>
             </h1>
@@ -130,7 +137,7 @@ export default function OtherPlatforms() {
                   isActive={current === 0}
                   onClick={() => handleCardClick(0)}
                 >
-                  {t.rich('card.endlessSearching', {
+                  {t.rich("card.endlessSearching", {
                     br: () => <br />,
                   })}
                 </OtherPlatformCard>
@@ -140,17 +147,17 @@ export default function OtherPlatforms() {
                   isActive={current === 1}
                   onClick={() => handleCardClick(1)}
                 >
-                  {t.rich('card.noOneOnOneChats', {
+                  {t.rich("card.noOneOnOneChats", {
                     br: () => <br />,
                   })}
                 </OtherPlatformCard>
                 <OtherPlatformCard
-                  imageSrc="/assets/ban-solid.svg"
+                  imageSrc="/assets/comments-dollar-solid.svg"
                   imageClassName="gmm-card-icon"
-                  isActive={current === 2}
+                  isActive={current === 6}
                   onClick={() => handleCardClick(2)}
                 >
-                  {t.rich('card.noFamilyInvolvement', {
+                  {t.rich("card.payment", {
                     br: () => <br />,
                   })}
                 </OtherPlatformCard>
@@ -160,49 +167,44 @@ export default function OtherPlatforms() {
                   isActive={current === 3}
                   onClick={() => handleCardClick(3)}
                 >
-                  {t.rich('card.noMatchGuarantee', {
+                  {t.rich("card.noMatchGuarantee", {
                     br: () => <br />,
                   })}
                 </OtherPlatformCard>
-                
                 <OtherPlatformCard
                   imageSrc="/assets/user-large-slash-solid.svg"
                   imageClassName="gmm-card-icon"
                   isActive={current === 4}
                   onClick={() => handleCardClick(4)}
                 >
-                  {t.rich('card.noTrueHalalApproach', {
+                  {t.rich("card.noTrueHalalApproach", {
                     br: () => <br />,
                   })}
                 </OtherPlatformCard>
-            
+
                 <OtherPlatformCard
                   imageSrc="/assets/heart-crack-solid.svg"
                   imageClassName="gmm-card-icon"
                   isActive={current === 5}
                   onClick={() => handleCardClick(5)}
                 >
-                  {t.rich('card.terribleHealth', {
+                  {t.rich("card.terribleHealth", {
                     br: () => <br />,
                   })}
                 </OtherPlatformCard>
                 <OtherPlatformCard
-                  imageSrc="/assets/comments-dollar-solid.svg"
+                  imageSrc="/assets/ban-solid.svg"
                   imageClassName="gmm-card-icon"
-                  isActive={current === 6}
+                  isActive={current === 2}
                   onClick={() => handleCardClick(6)}
                 >
-                  {t.rich('card.payment', {
+                  {t.rich("card.noFamilyInvolvement", {
                     br: () => <br />,
                   })}
                 </OtherPlatformCard>
               </div>
-          
             </div>
           </div>
-      
-      
-
         </div>
       </div>
     </div>
