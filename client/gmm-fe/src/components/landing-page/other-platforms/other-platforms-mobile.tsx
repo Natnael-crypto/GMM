@@ -1,9 +1,9 @@
-import { cn } from '@/lib/utils';
-import Image from 'next/image';
-import { Card } from '@/components/ui/card';
-import { OurApproachCardProps } from '@/types';
-import React from 'react';
-import { useTranslations } from 'next-intl';
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { Card } from "@/components/ui/card";
+import { OurApproachCardProps } from "@/types";
+import React from "react";
+import { useTranslations } from "next-intl";
 
 export function OtherPlatformsCard({
   className,
@@ -15,14 +15,14 @@ export function OtherPlatformsCard({
   return (
     <Card
       className={cn(
-        'z-20 flex flex-col items-center w-full cursor-pointer transition-colors duration-300 shadow-none border-none',
+        "z-20 flex flex-col items-center w-full cursor-pointer transition-colors duration-300 shadow-none border-none",
         className
       )}
       onClick={onClick}
     >
-      <div className={cn('w-20 lg:mt-5 overflow-hidden', imageClassName)}>
+      <div className={cn("w-20 lg:mt-5 overflow-hidden", imageClassName)}>
         <Image
-          className={cn('w-full overflow-hidden object-cover')}
+          className={cn("w-full overflow-hidden object-cover")}
           src={imageSrc}
           width={200}
           height={104}
@@ -36,7 +36,7 @@ export function OtherPlatformsCard({
 }
 
 export default function MobileOtherPlatformsCards() {
-  const t = useTranslations('Landing.otherPlatforms');
+  const t = useTranslations("Landing.otherPlatforms");
 
   return (
     <div className="sm:hidden overflow-auto no-scrollbar">
@@ -56,16 +56,16 @@ export default function MobileOtherPlatformsCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
               )}
             >
-              {t.rich('slide.endlessSearching.title', {
-                br: () => ' ',
+              {t.rich("slide.endlessSearching.title", {
+                br: () => " ",
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich('slide.endlessSearching.description', {
+              {t.rich("slide.endlessSearching.description", {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
@@ -80,40 +80,16 @@ export default function MobileOtherPlatformsCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
               )}
             >
-              {t.rich('slide.noOneOnOneChats.title', {
-                br: () => ' ',
+              {t.rich("slide.noOneOnOneChats.title", {
+                br: () => " ",
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich('slide.noOneOnOneChats.description', {
-                bold: (text) => <span className="font-bold">{text}</span>,
-              })}
-            </p>
-          </div>
-        </OtherPlatformsCard>
-        <OtherPlatformsCard
-          imageSrc="/assets/ban-solid.svg"
-          imageClassName="w-12"
-          isActive={false}
-          onClick={() => {}}
-        >
-          <div className="space-y-4">
-            <h1
-              className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
-              )}
-            >
-              {t.rich('slide.noFamilyInvolvement.title', {
-                br: () => ' ',
-              })}
-            </h1>
-
-            <p className="text-muted-foreground mb-1">
-              {t.rich('slide.noFamilyInvolvement.description', {
+              {t.rich("slide.noOneOnOneChats.description", {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
@@ -128,16 +104,16 @@ export default function MobileOtherPlatformsCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
               )}
             >
-              {t.rich('slide.noMatchGuarantee.title', {
-                br: () => ' ',
+              {t.rich("slide.noMatchGuarantee.title", {
+                br: () => " ",
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich('slide.noMatchGuarantee.description', {
+              {t.rich("slide.noMatchGuarantee.description", {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
@@ -152,16 +128,16 @@ export default function MobileOtherPlatformsCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
               )}
             >
-              {t.rich('slide.noTrueHalalApproach.title', {
-                br: () => ' ',
+              {t.rich("slide.noTrueHalalApproach.title", {
+                br: () => " ",
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich('slide.noTrueHalalApproach.description', {
+              {t.rich("slide.noTrueHalalApproach.description", {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
@@ -176,16 +152,16 @@ export default function MobileOtherPlatformsCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
               )}
             >
-              {t.rich('slide.terribleHealth.title', {
-                br: () => ' ',
+              {t.rich("slide.terribleHealth.title", {
+                br: () => " ",
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich('slide.terribleHealth.description', {
+              {t.rich("slide.terribleHealth.description", {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
@@ -200,16 +176,40 @@ export default function MobileOtherPlatformsCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
               )}
             >
-              {t.rich('slide.payment.title', {
-                br: () => ' ',
+              {t.rich("slide.payment.title", {
+                br: () => " ",
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich('slide.terribleHealth.description', {
+              {t.rich("slide.terribleHealth.description", {
+                bold: (text) => <span className="font-bold">{text}</span>,
+              })}
+            </p>
+          </div>
+        </OtherPlatformsCard>
+        <OtherPlatformsCard
+          imageSrc="/assets/ban-solid.svg"
+          imageClassName="w-12"
+          isActive={false}
+          onClick={() => {}}
+        >
+          <div className="space-y-4">
+            <h1
+              className={cn(
+                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
+              )}
+            >
+              {t.rich("slide.noFamilyInvolvement.title", {
+                br: () => " ",
+              })}
+            </h1>
+
+            <p className="text-muted-foreground mb-1">
+              {t.rich("slide.noFamilyInvolvement.description", {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
