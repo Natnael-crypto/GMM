@@ -21,43 +21,48 @@
         "neverPayToCompete": "Never Pay to<br></br>Compete for Views",
         "guardianFamilyInvolvement": "Verified Family<br></br>Awareness",
         "globallyConnectingMuslims": "Globally Connecting Muslims",
-        "loremIpsum": "Lorem Ipsum"
+        "freeMembershipForSisters": "Free Membership<br></br>for Sisters",
+        "noCringeMatchMakingGroups": "No Cringe <br></br>Matchmaking Groups"
       },
 
       "slide": {
         "guidedMatching": {
           "title": "Guided Matchmaking",
-          "description": "Never Run Out of things to Talk About! Our Step-By-Step Process is Designed Around the Fundamentals of Compatibility. Ensuring Meaningful Conversations take place that Move you and your Potential Spouse Towards the <bold>Goal of Marriage</bold> Insha'Allah."
+          "description": "Never Run Out of Things to Talk About! Our step-by-step matchmaking process is designed around the fundamentals of compatibility. Ensuring meaningful conversations take place that move you and your potential spouse towards the <bold>Goal of Marriage</bold>, In sha Allah."
         },
         "matchGuarantee": {
           "title": "Match Guarantee",
           "description": {
-            "p1": "Complete Your Profile. Set your Match Preferences, hit <bold>\"MATCH ME\"</bold> and Start Talking to your Potential Spouse.",
-            "p2": "<bold>No Money Wasted</bold> for Uncertain Message Attempts Hoping He or She Accepts. No Money Lost. Just Real Connections."
+            "p1": "Complete your profile. Set your match preferences in the <bold>\"Match Filter\"</bold> hit <bold>\"Match Me\"</bold> and start talking to your potential spouse.",
+            "p2": "<bold>No Money Wasted</bold> for uncertain message attempts hoping he/she accepts. No money lost. Just Real Connections."
           }
         },
         "oneOnOneChats": {
           "title": "1-On-1 Chats",
           "description": {
-            "p1": "No Distractions! Match and <bold>Talk to One</bold> Potential Spouse at a Time.",
-            "p2": "Having Meaningful Conversations via the <bold>Guardian Guided Match-Making Process</bold>."
+            "p1": "No Distractions! Match and <bold>Talk to One</bold> potential spouse at a time.",
+            "p2": "Having meaningful conversations via the <bold>Guardian-Guided Matchmaking Process</bold>."
           }
         },
         "neverPayToCompete": {
           "title": "Never Pay to Compete for Views",
-          "description": "<bold>WE DON'T SET YOU UP</bold> (by giving you the option) to Pay and stand out over other members. <bold>Paying for Visibility is OVER</bold>."
+          "description": "<bold> WE DON'T SET YOU UP!!!</bold> We won't Entice or compel you to pay to stand out over other members. <bold>Paying for Visibility is OVER.</bold>"
         },
         "guardianFamilyInvolvement": {
           "title": "Verified Family Awareness",
-          "description": "Casual \"Muslim Marriage\" dating apps/websites create a no family haram direct contact, hookup culture because their users can sign up without <bold>VERIFIED family Awareness and Involvement</bold>. GMM Verifies and registers the family member of our user before family contact information is exchanged. Revert Care Accommodated (for reverts only without Muslim family members)."
+          "description": "Casual \"Muslim Marriage\" dating apps/websites create a no-family, haram, direct-contact hookup culture because users can sign up without  <bold>Verified Family Awareness and Involvement</bold>. Guardian Muslim Marriage verifies and registers the family members of our users before family contact information is exchanged. <bold>Revert Care</bold> accommodated (for reverts only without Muslim family members). "
         },
         "globallyConnectingMuslims": {
           "title": "Globally Connecting Muslims",
-          "description": "Islam over culture. GMM is offered in English, Spanish, Arabic, Turkish, Bosnian, Russian, French, German, Portuguese, Malaysian, Indonesian and Mandarin with in chat auto translator. (coming soon)."
+          "description": "Islam Over Culture. Guardian Muslim Marriage is offered in English, Spanish, Arabic, Turkish, Bosnian, Russian, French, German, Portuguese, Malaysian, Indonesian and Mandarin within chat auto translator. (coming soon)."
         },
-        "loremIpsum": {
-          "title": "Lorem Ipsum",
-          "description": "No Cringy unprofessional facebook/telegram groups."
+        "freeMembershipForSisters": {
+          "title": "Free Memebership for Sisters",
+          "description": "Sisters who register with a verified male family member (wali), begin their membership on Guardian Muslim Marriage with free matches."
+        },
+        "noCringeMatchMakingGroups": {
+          "title": "No Cringe Matchmaking Groups",
+          "description": "No unprofessional Instagram, Telegram, WhatsApp, or Facebook “matrimonial services"
         }
       }
     },
