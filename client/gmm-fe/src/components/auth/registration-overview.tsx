@@ -1,25 +1,25 @@
-import { useTranslations } from 'next-intl';
-import React from 'react';
-import OurApproachCard from '@/components/landing-page/approach/card';
+import { useTranslations } from "next-intl";
+import React from "react";
+import OurApproachCard from "@/components/landing-page/approach/card";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from '../ui/hover-card';
+} from "../ui/hover-card";
 
 export default function RegistrationOverview() {
-  const approachT = useTranslations('Landing.ourApproach');
-  const t = useTranslations('Auth');
+  const approachT = useTranslations("Landing.ourApproach");
+  const t = useTranslations("Auth");
 
   return (
     <div className="w-full">
       <div className="gmm-reg-title text-center lg:text-start lg:text-primary-foreground text-accent">
         <h1 className="text-primary lg:text-primary-foreground">
-          {t.rich('common.title', {
+          {t.rich("common.title", {
             bold: (text) => <span className="font-bold">{text}</span>,
           })}
         </h1>
-        <h2 className="my-2 font-">{t('common.subtitle')}</h2>
+        <h2 className="my-2 font-">{t("common.subtitle")}</h2>
       </div>
 
       <div className="mt-[3rem] overflow-auto no-scrollbar">
@@ -40,14 +40,14 @@ export default function RegistrationOverview() {
                 imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
-                {approachT.rich('card.guidedMatching', {
+                {approachT.rich("card.guidedMatching", {
                   br: () => <br />,
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
             <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
-                {approachT.rich('slide.guidedMatching.description', {
+                {approachT.rich("slide.guidedMatching.description", {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
@@ -62,19 +62,19 @@ export default function RegistrationOverview() {
                 imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
-                {approachT.rich('card.matchGuarantee', {
+                {approachT.rich("card.matchGuarantee", {
                   br: () => <br />,
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
             <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
-                {approachT.rich('slide.matchGuarantee.description.p1', {
+                {approachT.rich("slide.matchGuarantee.description.p1", {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
               <>
-                {approachT.rich('slide.matchGuarantee.description.p2', {
+                {approachT.rich("slide.matchGuarantee.description.p2", {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
@@ -89,14 +89,14 @@ export default function RegistrationOverview() {
                 imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
-                {approachT.rich('card.neverPayToCompete', {
+                {approachT.rich("card.neverPayToCompete", {
                   br: () => <br />,
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
             <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
-                {approachT.rich('slide.neverPayToCompete.description', {
+                {approachT.rich("slide.neverPayToCompete.description", {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
@@ -111,14 +111,14 @@ export default function RegistrationOverview() {
                 imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
-                {approachT.rich('card.guardianFamilyInvolvement', {
+                {approachT.rich("card.guardianFamilyInvolvement", {
                   br: () => <br />,
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
             <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
-                {approachT.rich('slide.guardianFamilyInvolvement.description', {
+                {approachT.rich("slide.guardianFamilyInvolvement.description", {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
@@ -133,19 +133,19 @@ export default function RegistrationOverview() {
                 imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
-                {approachT.rich('card.oneOnOneChats', {
+                {approachT.rich("card.oneOnOneChats", {
                   br: () => <br />,
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
             <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
-                {approachT.rich('slide.oneOnOneChats.description.p1', {
+                {approachT.rich("slide.oneOnOneChats.description.p1", {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
               <>
-                {approachT.rich('slide.oneOnOneChats.description.p2', {
+                {approachT.rich("slide.oneOnOneChats.description.p2", {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
@@ -160,14 +160,14 @@ export default function RegistrationOverview() {
                 imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
-                {approachT.rich('card.globallyConnectingMuslims', {
+                {approachT.rich("card.globallyConnectingMuslims", {
                   br: () => <br />,
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
             <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
-                {approachT.rich('slide.globallyConnectingMuslims.description', {
+                {approachT.rich("slide.globallyConnectingMuslims.description", {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
@@ -182,14 +182,35 @@ export default function RegistrationOverview() {
                 imageClassName="gmm-icon w-auto"
                 isActive={false}
               >
-                {approachT.rich('card.loremIpsum', {
+                {approachT.rich("card.freeMembershipForSisters", {
                   br: () => <br />,
                 })}
               </OurApproachCard>
             </HoverCardTrigger>
             <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
               <>
-                {approachT.rich('slide.loremIpsum.description', {
+                {approachT.rich("slide.freeMembershipForSisters.description", {
+                  bold: (text) => <span className="font-bold">{text}</span>,
+                })}
+              </>
+            </HoverCardContent>
+          </HoverCard>
+          <HoverCard>
+            <HoverCardTrigger className="block overflow-hidden cursor-pointer">
+              <OurApproachCard
+                className="border-none shadow-none hover-disabled bg-transparent inline-flex"
+                imageSrc="/assets/icon_1-on-1-chats.svg"
+                imageClassName="gmm-icon w-auto"
+                isActive={false}
+              >
+                {approachT.rich("card.noCringeMatchMakingGroups", {
+                  br: () => <br />,
+                })}
+              </OurApproachCard>
+            </HoverCardTrigger>
+            <HoverCardContent className="lg:w-96 rounded-se-3xl col-span-3 rounded-es-3xl text-black text-lg">
+              <>
+                {approachT.rich("slide.noCringeMatchMakingGroups.description", {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
