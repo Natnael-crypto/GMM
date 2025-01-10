@@ -178,24 +178,24 @@
         },
         "monthlyPackage": {
           "title": "Bronze",
-          "price": "<bold>$35.57 per match</bold> for",
+          "price": "<bold>$35.57</bold> <br></br> per match for",
           "description": "<bold>7</bold> Matches"
         },
         "threeMonthsPackage": {
           "title": "Silver",
-          "price": "<bold>$25.5 per match</bold> for",
+          "price": "<bold>$25.50</bold> <br></br>  per match for",
           "description": "<bold>18</bold> Matches",
           "discount": "<bold>Save 89%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         },
         "sixMonthsPackage": {
           "title": "Gold",
-          "price": "<bold>$22.19 per match</bold> for",
+          "price": "<bold>$22.19</bold> <br></br> per match for",
           "description": "<bold>36</bold> Matches",
           "discount": "<bold>Save 91%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         },
         "twelveMonthsPackage": {
           "title": "Platinum",
-          "price": "<bold>19.85 per match</bold> for",
+          "price": "<bold>19.85</bold> <br></br> per match for",
           "description": "<bold>73</bold> Matches",
           "discount": "<bold>Save 92%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         }
