@@ -168,7 +168,7 @@ export default function FemaleCheckoutForm() {
                         </SelectTrigger>
 
                         <SelectContent>
-                          <SelectItem value="Father/Mother (parental involvement)">
+                          <SelectItem value="Father (parental involvement)">
                             Father/Mother (parental involvement)
                           </SelectItem>
                           <SelectItem value="Brother (above 18, min 12 years older)">
@@ -177,19 +177,16 @@ export default function FemaleCheckoutForm() {
                           <SelectItem value="Paternal/Maternal Uncle (no father or brother)">
                             Paternal/Maternal Uncle (no father or brother)
                           </SelectItem>
-                          <SelectItem value="Paternal/Maternal Aunts (no father or brother)">
-                            Paternal/Maternal Aunts (no father or brother)
+                          <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">
+                            Imam/Mosque (Imam/mufti is my guardian/family
+                            contact)
                           </SelectItem>
                           {!bornMuslim && (
                             <>
-                              <SelectItem value="Imam/Mosque (Imam/mufti is my guardian/family contact)">
-                                Imam/Mosque (Imam/mufti is my guardian/family
-                                contact)
-                              </SelectItem>
                               <SelectItem value="Revert Care appoint guardian/wali (option only for reverts subject to interview and approval)">
                                 Revert Care appoint guardian/wali (option only
                                 for reverts subject to interview and approval)
-                              </SelectItem>{' '}
+                              </SelectItem>{" "}
                             </>
                           )}
                         </SelectContent>

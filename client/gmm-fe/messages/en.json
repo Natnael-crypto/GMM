@@ -62,7 +62,7 @@
         },
         "noCringeMatchMakingGroups": {
           "title": "No Cringe Matchmaking Groups",
-          "description": "No unprofessional Instagram, Telegram, WhatsApp, or Facebook “matrimonial services"
+          "description": "No unprofessional Instagram, Telegram, WhatsApp, or Facebook \"matrimonial services\"."
         }
       }
     },
@@ -195,7 +195,7 @@
         },
         "twelveMonthsPackage": {
           "title": "Platinum",
-          "price": "<bold>19.85</bold> <br></br> per match for",
+          "price": "<bold>$19.85</bold> <br></br> per match for",
           "description": "<bold>73</bold> Matches",
           "discount": "<bold>Save 92%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         }
