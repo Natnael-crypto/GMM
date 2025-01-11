@@ -20,6 +20,7 @@ import { BlogModule } from '@modules/blog/blog.module';
 import { LocationModule } from '@modules/location/location.module';
 import { NotificationsModule } from '@modules/notifications/notifications.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { CommunicationModule } from '@modules/communication/communication.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { CacheModule } from '@nestjs/cache-manager';
     BlogModule,
     LocationModule,
     NotificationsModule,
+    CommunicationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
