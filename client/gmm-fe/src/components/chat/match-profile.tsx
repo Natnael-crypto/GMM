@@ -1,7 +1,7 @@
 'use client';
 
 import { Button, buttonVariants } from '@/components/ui/button';
-import { User } from '@/lib/schemas/user';
+import { Gender, User } from '@/lib/schemas/user';
 import {
   faChevronDown,
   faHome,
@@ -189,6 +189,10 @@ export default function MatchProfile({
     buttonText = 'Accept/Reject Invitation';
   }
 
+  const showImage =
+    matchedUser?.gender === Gender.MALE ||
+    match.femaleImageAccessExpiration > new Date();
+
   return (
     <div
       className="bg-[#f0f8f8] rounded-lg overflow-hidden h-full flex flex-col items-center relative "
@@ -221,7 +225,12 @@ export default function MatchProfile({
         className="p-6 flex flex-col item-center justify-between overflow-y-auto"
       >
         <div className="space-y-3">
-          <ProfileImages user={matchedUser} />
+          <ProfileImages
+            user={matchedUser}
+            blur={!showImage}
+            showRequestViewButton={!showImage}
+            requestViewButtonDisabled={stageIndex < 3}
+          />
 
           <ProfileCompletionCard user={matchedUser} hideProfile={true} />
 

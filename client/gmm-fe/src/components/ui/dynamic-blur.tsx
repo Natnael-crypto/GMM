@@ -21,10 +21,17 @@ export default function DynamicBlur(props: any) {
     fetchImage();
   }, [props.src]);
 
+  const { alwaysBlur: boolean, ...rest } = props;
+
   return (
     <>
-      {!blurFailure && base64 && (
-        <Image alt="" {...props} placeholder="blur" blurDataURL={base64} />
+      {props.alwaysBlur ? (
+        <>{base64 && <Image {...rest} src={base64} alt="Hidden image" />}</>
+      ) : (
+        !blurFailure &&
+        base64 && (
+          <Image alt="" {...rest} placeholder="blur" blurDataURL={base64} />
+        )
       )}
       {blurFailure && <Image alt="" {...props} />}
     </>

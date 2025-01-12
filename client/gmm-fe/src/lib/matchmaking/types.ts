@@ -18,6 +18,7 @@ export interface Match {
   femaleUser: User;
   invitations: MatchStageInvitation[];
   stage: MatchStage;
+  femaleImageAccessExpiration: Date;
 }
 
 export interface MatchPreference {

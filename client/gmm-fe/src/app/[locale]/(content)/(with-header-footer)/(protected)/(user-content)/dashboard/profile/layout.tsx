@@ -10,6 +10,8 @@ import React from 'react';
 import { useParams } from 'next/navigation';
 import { useGetUserQuery } from '@/lib/user/api';
 import Footer from '@/components/ui/footer';
+import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
+import { Gender } from '@/lib/schemas/user';
 
 export default function ProfileLayout({
   children,
@@ -49,6 +51,17 @@ export default function ProfileLayout({
 
   const data = params.userId === user?.id ? user : fetchedUser;
 
+  const { data: currentMatch, isLoading: isMatchLoading } =
+    useGetCurrentMatchQuery(undefined, {
+      skip: !user || !user.isMatched,
+    });
+
+  const showImage =
+    data?.gender === Gender.MALE ||
+    (currentMatch &&
+      currentMatch?.femaleImageAccessExpiration > new Date() &&
+      currentMatch?.maleUser?.id === user?.id);
+
   return (
     <div>
       <div className="px-6 sm:px-16 md:px-[2rem] lg:px-[3rem] 2xl:px-[13rem] 3xl:px-[20rem] py-6 space-y-8">
@@ -64,7 +77,9 @@ export default function ProfileLayout({
         <div className="grid grid-cols-12 gap-5 lg:py-8 sticky top-0">
           <div className="col-span-12 lg:col-span-3">
             <div className="sticky top-40">
-              {data && <ProfileImages key={data.id} user={data} />}
+              {data && (
+                <ProfileImages key={data.id} user={data} blur={!showImage} />
+              )}
             </div>
           </div>
           <div className="col-span-12 lg:col-span-9">{children}</div>
