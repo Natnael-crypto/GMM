@@ -16,9 +16,7 @@ export default function AuthLayout({
         <RegistrationOverview />
         <div className="flex grid mb-auto justify-center">
           {children}
-          <div className="text-sm mt-3 text-center">
-            <a className="text-sm text-primary font-semibold" href="/en/">Family Member Login</a>
-          </div>
+          
         </div>
       </div>
       <HowItWorks />
