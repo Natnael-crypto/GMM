@@ -18,7 +18,7 @@ export default function MarriageDiscussionCard({
 
   return (
     <>
-      {marriageDiscussionData && (
+      {marriageDiscussionData ? (
         <FieldViewer
           title={hideTitle ? undefined : 'Marriage Discussion'}
           description={
@@ -31,6 +31,10 @@ export default function MarriageDiscussionCard({
           }
           entity={marriageDiscussionData}
         />
+      ) : (
+        <p className="col-span-9 text-sm text-muted-foreground text-center p-3 bg-muted rounded-se-3xl rounded-es-3xl font-semibold">
+          Please complete your marriage discussion information
+        </p>
       )}
     </>
   );
