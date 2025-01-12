@@ -21,7 +21,7 @@ export default async function Header() {
         <Link href={session ? "/dashboard" : "/"} className="w-40 md:w-60">
           <Image
             className="w-full overflow-hidden logo"
-            src="/assets/guardian-logo-footer.png"
+            src="/assets/guardian-logo.png"
             width={537}
             height={70}
             alt="Guardian logo"
