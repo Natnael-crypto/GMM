@@ -1,6 +1,5 @@
 'use client';
 
-import IslamicLifestyleCard from '@/components/dashboard/profile/islamic-lifestyle/islamic-lifestyle-card';
 import React from 'react';
 import { useAppSelector } from '@/lib/hooks';
 import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';

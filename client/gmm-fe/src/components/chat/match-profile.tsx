@@ -34,6 +34,12 @@ import { allMatchStages } from '@/lib/schemas/match';
 import { useRef } from 'react';
 import { useInView } from 'framer-motion';
 import ProfileCompletionCard from '../dashboard/components/profile-completion-card';
+import { useProfileCompletion } from '@/lib/hooks/profile-completion';
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '../ui/hover-card';
 
 enum DialogType {
   SEND_INVITATION = 'send_invitation',
@@ -107,10 +113,64 @@ export default function MatchProfile({
     (invitation) => invitation.status === StageInvitationStatus.PENDING
   );
 
+  const stageIndex = allMatchStages.indexOf(match.stage);
+
+  const {
+    worldlyLifestyle: matchedUserWLSCompletion,
+    islamicLifestyle: matchedUserILSCompletion,
+    marriageDiscussion: matchedUserMDCompletion,
+    familyIntroduction: matchedUserFICompletion,
+  } = useProfileCompletion(matchedUser);
+  const {
+    worldlyLifestyle: userWLSCompletion,
+    islamicLifestyle: userILSCompletion,
+    marriageDiscussion: userMDCompletion,
+    familyIntroduction: userFICompletion,
+  } = useProfileCompletion(user);
+
+  // Rule: user/matched user has not completed their profile
+  const canNotInviteToWorldlyLifestyle =
+    stageIndex === 0 &&
+    (userWLSCompletion < 100 || matchedUserWLSCompletion < 100);
+
+  const canNotInviteToIslamicLifestyle =
+    stageIndex === 1 &&
+    (userILSCompletion < 100 || matchedUserILSCompletion < 100);
+
+  const canNotInviteToMarriageDiscussion =
+    stageIndex === 2 &&
+    (userMDCompletion < 100 || matchedUserMDCompletion < 100);
+
+  const canNotInviteToFamilyIntroduction =
+    stageIndex === 3 &&
+    (userFICompletion < 100 || matchedUserFICompletion < 100) &&
+    user?.guardian &&
+    matchedUser?.guardian;
+
   const disableInvitationButton =
-    pendingInvitation && pendingInvitation.inviterId === user?.id
+    // Rule: user has pending invitation
+    (pendingInvitation && pendingInvitation.inviterId === user?.id) ||
+    canNotInviteToWorldlyLifestyle ||
+    canNotInviteToIslamicLifestyle ||
+    canNotInviteToMarriageDiscussion ||
+    canNotInviteToFamilyIntroduction
       ? true
       : false;
+
+  let buttonTooltip = '';
+  if (canNotInviteToWorldlyLifestyle) {
+    buttonTooltip =
+      'Both you and your match should fill your worldly lifestyle information to invite each other';
+  } else if (canNotInviteToIslamicLifestyle) {
+    buttonTooltip =
+      'Both you and your match should fill your islamic lifestyle information to invite each other';
+  } else if (canNotInviteToMarriageDiscussion) {
+    buttonTooltip =
+      'Both you and your match should fill your marriage discussion information to invite each other';
+  } else if (canNotInviteToFamilyIntroduction) {
+    buttonTooltip =
+      'Both you and your match should fill your family information and your family should accept the guardian request to invite each other';
+  }
 
   let buttonText;
   let dialogDescription;
@@ -128,8 +188,6 @@ export default function MatchProfile({
     dialogType = DialogType.ACCEPT_OR_REJECT_INVITATION;
     buttonText = 'Accept/Reject Invitation';
   }
-
-  const stageIndex = allMatchStages.indexOf(match.stage);
 
   return (
     <div
@@ -203,81 +261,92 @@ export default function MatchProfile({
           </div>
         </div>
 
-        <div
-          className="flex justify-center border-t pt-3 mt-3"
-          ref={inviteToNextStepButtonRef}
-        >
-          <AlertDialog>
-            <AlertDialogTrigger
-              disabled={disableInvitationButton}
-              className={cn(
-                buttonVariants({ variant: 'default' }),
-                'bg-primary text-primary-foreground h-8 w-fit text-sm'
-              )}
+        <HoverCard>
+          <HoverCardTrigger>
+            <div
+              className="flex justify-center border-t pt-3 mt-3"
+              ref={inviteToNextStepButtonRef}
             >
-              {buttonText}
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  {dialogType === DialogType.SEND_INVITATION
-                    ? 'Send Invitation'
-                    : 'Accept/Reject Invitation'}
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  {dialogDescription}
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              {dialogType === DialogType.SEND_INVITATION && (
-                <AlertDialogFooter>
-                  <AlertDialogCancel
-                    className={cn(
-                      buttonVariants({ variant: 'outline' }),
-                      'bg-transparent text-muted-foreground h-7 w-fit text-sm'
-                    )}
-                  >
-                    Cancel
-                  </AlertDialogCancel>
-                  <AlertDialogAction
-                    className={cn(
-                      buttonVariants({ variant: 'outline' }),
-                      'bg-transparent text-muted-foreground h-7 w-fit text-sm'
-                    )}
-                    onClick={handleInvitation}
-                  >
-                    Invite to Next Step
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              )}
-              {dialogType === DialogType.ACCEPT_OR_REJECT_INVITATION && (
-                <AlertDialogFooter>
-                  <AlertDialogCancel
-                    className={cn(
-                      buttonVariants({ variant: 'outline' }),
-                      'bg-transparent text-muted-foreground h-7 w-fit text-sm'
-                    )}
-                    onClick={() =>
-                      handleDecision(StageInvitationStatus.REJECTED)
-                    }
-                  >
-                    Reject
-                  </AlertDialogCancel>
-                  <AlertDialogAction
-                    className={cn(
-                      buttonVariants({ variant: 'outline' }),
-                      'bg-transparent text-muted-foreground h-7 w-fit text-sm'
-                    )}
-                    onClick={() =>
-                      handleDecision(StageInvitationStatus.ACCEPTED)
-                    }
-                  >
-                    Accept
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              )}
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
+              <AlertDialog>
+                <AlertDialogTrigger
+                  disabled={disableInvitationButton}
+                  className={cn(
+                    buttonVariants({ variant: 'default' }),
+                    'bg-primary text-primary-foreground h-8 w-fit text-sm'
+                  )}
+                >
+                  {buttonText}
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      {dialogType === DialogType.SEND_INVITATION
+                        ? 'Send Invitation'
+                        : 'Accept/Reject Invitation'}
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      {dialogDescription}
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  {dialogType === DialogType.SEND_INVITATION && (
+                    <AlertDialogFooter>
+                      <AlertDialogCancel
+                        className={cn(
+                          buttonVariants({ variant: 'outline' }),
+                          'bg-transparent text-muted-foreground h-7 w-fit text-sm'
+                        )}
+                      >
+                        Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        className={cn(
+                          buttonVariants({ variant: 'outline' }),
+                          'bg-transparent text-muted-foreground h-7 w-fit text-sm'
+                        )}
+                        onClick={handleInvitation}
+                      >
+                        Invite to Next Step
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  )}
+                  {dialogType === DialogType.ACCEPT_OR_REJECT_INVITATION && (
+                    <AlertDialogFooter>
+                      <AlertDialogCancel
+                        className={cn(
+                          buttonVariants({ variant: 'outline' }),
+                          'bg-transparent text-muted-foreground h-7 w-fit text-sm'
+                        )}
+                        onClick={() =>
+                          handleDecision(StageInvitationStatus.REJECTED)
+                        }
+                      >
+                        Reject
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        className={cn(
+                          buttonVariants({ variant: 'outline' }),
+                          'bg-transparent text-muted-foreground h-7 w-fit text-sm'
+                        )}
+                        onClick={() =>
+                          handleDecision(StageInvitationStatus.ACCEPTED)
+                        }
+                      >
+                        Accept
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  )}
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </HoverCardTrigger>
+          <HoverCardContent>
+            {buttonTooltip && (
+              <div className="bg-white rounded-lg text-sm text-muted-foreground">
+                {buttonTooltip}
+              </div>
+            )}
+          </HoverCardContent>
+        </HoverCard>
       </div>
     </div>
   );
