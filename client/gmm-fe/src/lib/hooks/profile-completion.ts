@@ -117,7 +117,7 @@ export function useProfileCompletion(user?: User) {
             (worldlyLifestyleForm?.fields.length ?? 1) +
             (expectedWorldlyLifestyleForm?.fields.length ?? 1);
 
-          return Math.trunc((filled / total) * 100);
+          return Math.min(Math.trunc((filled / total) * 100), 100);
         },
       },
       {
@@ -138,7 +138,7 @@ export function useProfileCompletion(user?: User) {
             (islamicLifestyleForm?.fields.length ?? 1) +
             (expectedIslamicLifestyleForm?.fields.length ?? 1);
 
-          return Math.trunc((filled / total) * 100);
+          return Math.min(Math.trunc((filled / total) * 100), 100);
         },
       },
       {
@@ -151,7 +151,7 @@ export function useProfileCompletion(user?: User) {
           const filled = marriageDiscussionData?.length ?? 0;
           const total = marriageDiscussionForm?.fields.length ?? 1;
 
-          return Math.trunc((filled / total) * 100);
+          return Math.min(Math.trunc((filled / total) * 100), 100);
         },
       },
       {

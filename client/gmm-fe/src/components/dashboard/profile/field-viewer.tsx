@@ -37,26 +37,26 @@ const PillView = ({
   field: SubField;
 }) => (
   <>
-    <li
-      className={cn(
-        'text-nowrap flex gap-2 font-bold text-sm w-fit h-fit px-4 py-1 rounded-full shadow-lg',
-        field.className ?? 'outlined-pill'
-      )}
-    >
-      {field.icon && <FontAwesomeIcon icon={field.icon} />}
-
-      {field.iconName && !field.icon && (
-        <i className={`fa-solid ${field.iconName}`}></i>
-      )}
-
-      {field.label && isSubField ? (
-        <span className="text-sm">
-          {field.label}: {field.value}
-        </span>
-      ) : (
-        <span className="text-sm">{field.value}</span>
-      )}
-    </li>
+    {field && field.value && (
+      <li
+        className={cn(
+          'text-nowrap flex gap-2 font-bold text-sm w-fit h-fit px-4 py-1 rounded-full shadow-lg',
+          field.className ?? 'outlined-pill'
+        )}
+      >
+        {field.icon && <FontAwesomeIcon icon={field.icon} />}
+        {field.iconName && !field.icon && (
+          <i className={`fa-solid ${field.iconName}`}></i>
+        )}
+        {field.label && isSubField ? (
+          <span className="text-sm">
+            {field.label}: {field.value}
+          </span>
+        ) : (
+          <span className="text-sm">{field.value}</span>
+        )}
+      </li>
+    )}
     {field.context && <span className="text-sm mt-1">({field.context})</span>}
   </>
 );
@@ -79,9 +79,7 @@ export default function FieldViewer<T>({
     <div className="rounded-se-3xl rounded-es-3xl overflow-hidden py-5">
       <div className="">
         {title && (
-          <h1 className="text-secondary font-extrabold text-nowrap text-2xl">
-            {title}
-          </h1>
+          <h1 className="text-secondary font-extrabold text-2xl">{title}</h1>
         )}
 
         {description && (
@@ -127,29 +125,34 @@ export default function FieldViewer<T>({
                     field.value.length > 0 && (
                       <ul className="flex flex-wrap gap-5">
                         {field.value.map((innerField, fieldIndex) => (
-                          <div key={fieldIndex}>
-                            <h2 className="text-secondary font-bold mb-2 text-sm">
-                              {innerField.label}
-                            </h2>
+                          <React.Fragment key={fieldIndex}>
+                            {innerField.value &&
+                              innerField.value.toString().length > 0 && (
+                                <div>
+                                  <h2 className="text-secondary font-bold mb-2 text-sm">
+                                    {innerField.label}
+                                  </h2>
 
-                            {Array.isArray(innerField.value) ? (
-                              innerField.value.length > 0 && (
-                                <ul className="flex gap-1">
-                                  {innerField.value.map(
-                                    (subField, subIndex) => (
-                                      <PillView
-                                        key={subIndex}
-                                        field={subField}
-                                        isSubField={true}
-                                      />
+                                  {Array.isArray(innerField.value) ? (
+                                    innerField.value.length > 0 && (
+                                      <ul className="flex gap-1">
+                                        {innerField.value.map(
+                                          (subField, subIndex) => (
+                                            <PillView
+                                              key={subIndex}
+                                              field={subField}
+                                              isSubField={true}
+                                            />
+                                          )
+                                        )}
+                                      </ul>
                                     )
+                                  ) : (
+                                    <PillView field={innerField as SubField} />
                                   )}
-                                </ul>
-                              )
-                            ) : (
-                              <PillView field={innerField as SubField} />
-                            )}
-                          </div>
+                                </div>
+                              )}
+                          </React.Fragment>
                         ))}
                       </ul>
                     )}
