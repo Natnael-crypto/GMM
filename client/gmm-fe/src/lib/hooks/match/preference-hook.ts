@@ -189,6 +189,8 @@ const transformPreference = (data: PreferenceForm, isFilterInactive: any) => {
 export const usePreference = () => {
   const user = useAppSelector((state) => state.auth.user);
 
+  const matchTolerance = useAppSelector((state) => state.preference.tolerance);
+
   const form = useForm<PreferenceForm>({
     resolver: zodResolver(preferenceFormSchema),
     defaultValues: reset(user?.preference),
@@ -243,6 +245,60 @@ export const usePreference = () => {
   }, [updatePreference, user, preference, isFilterInactive]);
 
   const debouncedSavePreference = useDebouncedCallback(savePreference, 1000);
+
+  useEffect(() => {
+    if (user && user.preference) {
+      const p = form.getValues();
+      console.log({ p });
+
+      // 90% Match Requested
+      if (matchTolerance === 0.2) {
+        p.countryOfOrigin = null;
+        p.profession = null;
+        p.language = null;
+        p.nationality = null;
+        p.children = null;
+        p.numberOfChildren = null;
+        p.city = null;
+        p.country = null;
+      }
+
+      // 90% and 80% Match Requested
+      if (matchTolerance > 0) {
+        if (p.preferredAge) {
+          const [min, max] = p.preferredAge;
+          p.preferredAge = [
+            Math.max(min - 2, minAge),
+            Math.min(max + 2, maxAge),
+          ];
+        }
+
+        if (p.preferredHeight) {
+          const [min, max] = p.preferredHeight;
+          p.preferredHeight = [
+            Math.max(min - 7, minHeight),
+            Math.min(max + 7, maxHeight),
+          ];
+        }
+
+        if (p.preferredWeight) {
+          const [min, max] = p.preferredWeight;
+          p.preferredWeight = [
+            Math.max(min - 2, minWeight),
+            Math.min(max + 5, maxWeight),
+          ];
+        }
+
+        p.martialStatus = null;
+        p.bornOrRevert = null;
+
+        form.reset(p);
+        updatePreference(transformPreference(p, isFilterInactive));
+      }
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [matchTolerance]);
 
   const fieldToNotFilterMap: Record<string, keyof PreferenceForm> = {
     country: 'notCountry',
