@@ -58,6 +58,7 @@ export default function ProfileLayout({
 
   const showImage =
     data?.gender === Gender.MALE ||
+    data?.id === user?.id ||
     (currentMatch &&
       currentMatch?.femaleImageAccessExpiration > new Date() &&
       currentMatch?.maleUser?.id === user?.id);

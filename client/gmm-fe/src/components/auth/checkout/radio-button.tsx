@@ -1,8 +1,8 @@
-import { Card } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
-import { useTranslations } from "next-intl";
-import React, { forwardRef } from "react";
+import { useTranslations } from 'next-intl';
+import React, { forwardRef } from 'react';
 
 export const RadioButton = forwardRef(
   ({ name, value, selected, onClick }: any, ref: any) => {
@@ -24,7 +24,7 @@ export const RadioButton = forwardRef(
               bg-muted 
               group-hover:bg-primary peer-checked:group-[]:bg-secondary
               cursor-pointer`,
-              selected ? "bg-secondary" : ""
+              selected ? 'bg-secondary' : ''
             )}
           >
             <h1
@@ -33,29 +33,29 @@ export const RadioButton = forwardRef(
                               text-muted-foreground peer-checked:group-[]:text-secondary-foreground 
                               bg-muted peer-checked:group-[]:bg-secondary                              
                               tracking-widest text-[0.6rem] pt-2 pb-1 border-b w-full text-center shadow-lg`,
-                selected ? "text-secondary-foreground bg-secondary" : ""
+                selected ? 'text-secondary-foreground bg-secondary' : ''
               )}
             >
-              {t("title")}
+              {t('title')}
             </h1>
             <div
               className={cn(
-                "bg-background w-full flex flex-col items-center py-2 text-muted-foreground peer-checked:group-[]:bg-primary group-hover:bg-primary",
-                selected ? "bg-primary" : ""
+                'bg-background w-full flex flex-col items-center py-2 text-muted-foreground peer-checked:group-[]:bg-primary group-hover:bg-primary',
+                selected ? 'bg-primary' : ''
               )}
             >
               <p
                 className={cn(
-                  "text-muted-foreground text-[0.6rem] peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground",
-                  selected ? "text-primary-foreground" : ""
+                  'text-center text-muted-foreground text-[0.6rem] peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground',
+                  selected ? 'text-primary-foreground' : ''
                 )}
               >
-                {t.rich("price", {
+                {t.rich('price', {
                   bold: (text) => (
                     <span
                       className={cn(
-                        "font-bold text-primary text-3xl peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground",
-                        selected ? "text-primary-foreground" : ""
+                        'font-bold text-primary text-3xl peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground',
+                        selected ? 'text-primary-foreground' : ''
                       )}
                     >
                       {text}
@@ -67,25 +67,25 @@ export const RadioButton = forwardRef(
 
               <p
                 className={cn(
-                  "peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground text-[0.7rem]",
-                  selected ? "text-primary-foreground" : ""
+                  'peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground text-[0.7rem]',
+                  selected ? 'text-primary-foreground' : ''
                 )}
               >
-                {t.rich("description", {
+                {t.rich('description', {
                   bold: (text) => (
                     <span className="font-bold text-sm">{text}</span>
                   ),
                 })}
               </p>
 
-              {name !== "monthlyPackage" && (
+              {name !== 'monthlyPackage' && (
                 <p
                   className={cn(
-                    "peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground text-center border-t mx-2 text-[0.65rem] leading-tight pt-2 mt-2 font-normal",
-                    selected ? "text-primary-foreground" : ""
+                    'peer-checked:group-[]:text-primary-foreground group-hover:text-primary-foreground text-center border-t mx-2 text-[0.65rem] leading-tight pt-2 mt-2 font-normal',
+                    selected ? 'text-primary-foreground' : ''
                   )}
                 >
-                  {t.rich("discount", {
+                  {t.rich('discount', {
                     bold: (text) => (
                       <span className="font-bold text-sm">{text}</span>
                     ),
@@ -101,4 +101,4 @@ export const RadioButton = forwardRef(
   }
 );
 
-RadioButton.displayName = "RadioButton";
+RadioButton.displayName = 'RadioButton';
