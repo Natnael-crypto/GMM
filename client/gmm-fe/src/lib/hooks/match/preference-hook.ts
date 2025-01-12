@@ -249,7 +249,6 @@ export const usePreference = () => {
   useEffect(() => {
     if (user && user.preference) {
       const p = form.getValues();
-      console.log({ p });
 
       // 90% Match Requested
       if (matchTolerance === 0.2) {

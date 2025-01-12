@@ -252,40 +252,36 @@ export default function MatchPreferenceFilter() {
           }
         })}
 
-        {wlsCompletion >= 100 ? (
-          <>
-            <h2 className="col-span-9 font-bold mt-2">Advanced</h2>
-            {advancedPreferenceQuestions.map((question, index) => {
-              if (
-                user &&
-                (!question.gender || question.gender === user?.gender)
-              ) {
-                return (
-                  <PreferenceField
-                    key={`${question.label}_${index}`}
-                    question={question}
-                    onChange={debouncedSavePreference}
-                    type={question.type}
-                    notFilter={form.watch(fieldToNotFilterMap[question.name])}
-                    toggleNotFilter={() =>
-                      toggleNotFilter(question.name as unknown as any)
-                    }
-                    allowAny={
-                      isFilterInactive[
-                        question.name as keyof typeof isFilterInactive
-                      ]
-                    }
-                  />
-                );
-              }
-            })}
-          </>
-        ) : (
-          <p className="col-span-9 text-sm text-muted-foreground text-center p-3 bg-muted rounded-se-3xl rounded-es-3xl font-semibold">
-            Please complete your worldly lifestyle information to access
-            advanced filters
-          </p>
-        )}
+        <div className="col-span-9 grid-cols-9 grid gap-x-4 gap-y-5 relative">
+          {wlsCompletion && wlsCompletion < 100 && (
+            <div className="w-full absolute bg-muted opacity-60 rounded-md h-full top-0 scale-y-105 scale-x-[103%]"></div>
+          )}
+          <h2 className="col-span-9 font-bold mt-2">Advanced</h2>
+          {advancedPreferenceQuestions.map((question, index) => {
+            if (
+              user &&
+              (!question.gender || question.gender === user?.gender)
+            ) {
+              return (
+                <PreferenceField
+                  key={`${question.label}_${index}`}
+                  question={question}
+                  onChange={debouncedSavePreference}
+                  type={question.type}
+                  notFilter={form.watch(fieldToNotFilterMap[question.name])}
+                  toggleNotFilter={() =>
+                    toggleNotFilter(question.name as unknown as any)
+                  }
+                  allowAny={
+                    isFilterInactive[
+                      question.name as keyof typeof isFilterInactive
+                    ]
+                  }
+                />
+              );
+            }
+          })}
+        </div>
       </form>
     </Form>
   );
