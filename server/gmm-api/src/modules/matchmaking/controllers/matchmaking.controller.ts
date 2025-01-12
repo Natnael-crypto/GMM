@@ -55,8 +55,8 @@ export class MatchMakingController {
 
       const userId = (req.user as User).id;
       const keys = [
-        `users/me/${userId}`,
-        `users/${userId}`,
+        `/users/me/${userId}`,
+        `/users/${userId}`,
         `/matchmaking/potential-matches/${userId}`,
       ];
 
