@@ -20,6 +20,7 @@ import { Chat } from '@/lib/schemas/chat';
 import { useParams } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
 import Loading from '@/components/ui/loading';
+import { allMatchStages } from '@/lib/schemas/match';
 
 export default function ProfileHeader({
   pageName,
@@ -77,6 +78,10 @@ export default function ProfileHeader({
     user.id !== params.userId &&
     matchedUser.id === params.userId;
 
+  const stageIndex = currentMatch
+    ? allMatchStages.indexOf(currentMatch?.stage)
+    : 0;
+
   return (
     <div className="flex justify-between items-center">
       <Link
@@ -109,7 +114,8 @@ export default function ProfileHeader({
         {isViewingMatchedProfile && (
           <div className="space-x-2">
             {pageName !== 'Basic Information' &&
-              pageName !== 'Family Introduction' && (
+              pageName !== 'Family Introduction' &&
+              stageIndex >= 1 && (
                 <Link
                   href={compatibilityPath}
                   className={cn(

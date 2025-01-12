@@ -9,7 +9,7 @@ import {
   faRightLeft,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link, useRouter } from '@/lib/navigation';
-import { User } from '@/lib/schemas/user';
+import { Gender, User } from '@/lib/schemas/user';
 import { useInitiateChatMutation, useGetChatsQuery } from '@/lib/chat/api';
 import { cn } from '@/lib/utils';
 import { Chat } from '@/lib/schemas/chat';
@@ -19,6 +19,7 @@ import Loading from '@/components/ui/loading';
 import { Match } from '@/lib/matchmaking/types';
 import { allMatchStages } from '@/lib/schemas/match';
 import ProfileImages from './profile-image-card';
+import HiddenProfileImage from './hidden-profile-image';
 
 const stageUrls = [
   'basic-information',
@@ -74,10 +75,14 @@ export default function MatchedCard({
 
   const stageIndex = allMatchStages.indexOf(match.stage);
 
+  const showImage =
+    matchedUser?.gender === Gender.MALE ||
+    match.femaleImageAccessExpiration > new Date();
+
   return (
     <div className="grid grid-cols-9 gap-4 h-full">
       <div className="rounded-se-3xl col-span-9 md:col-span-3 rounded-es-3xl overflow-hidden">
-        {matchedUser && <ProfileImages user={matchedUser} />}
+        {matchedUser && <ProfileImages user={matchedUser} blur={!showImage} />}
       </div>
 
       <div className="rounded-se-3xl col-span-9 md:col-span-6 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">

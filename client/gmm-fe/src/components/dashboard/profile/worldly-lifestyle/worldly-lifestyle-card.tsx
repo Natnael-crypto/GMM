@@ -12,7 +12,7 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
 
   return (
     <>
-      {worldlyLifestyleData && (
+      {worldlyLifestyleData ? (
         <FieldViewer
           title="Your Current Worldly Lifestyle (that you live)"
           description="Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi quidem, recusandae ipsum nemo repellat natus alias magni labore omnis, quasi saepe quos! Ad quaerat doloremque delectus veniam eligendi maxime ea!"
@@ -21,6 +21,10 @@ export default function WorldlyLifestyleCard({ user }: { user: User }) {
           }
           entity={worldlyLifestyleData}
         />
+      ) : (
+        <p className="col-span-9 text-sm text-muted-foreground text-center p-3 bg-muted rounded-se-3xl rounded-es-3xl font-semibold">
+          Please complete your worldly lifestyle information
+        </p>
       )}
     </>
   );

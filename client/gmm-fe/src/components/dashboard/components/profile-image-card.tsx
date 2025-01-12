@@ -24,8 +24,19 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cmToFeetInches, convertDateToAge, kgToPounds } from '@/lib/format';
 import flags from 'react-phone-number-input/flags';
 import DynamicBlur from '@/components/ui/dynamic-blur';
+import { Button } from '@/components/ui/button';
 
-export default function ProfileImages({ user }: { user: User }) {
+export default function ProfileImages({
+  user,
+  blur,
+  requestViewButtonDisabled = true,
+  showRequestViewButton = false,
+}: {
+  user: User;
+  blur?: boolean;
+  requestViewButtonDisabled?: boolean;
+  showRequestViewButton?: boolean;
+}) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
 
@@ -97,13 +108,29 @@ export default function ProfileImages({ user }: { user: User }) {
                 <CarouselContent>
                   {imageUrls.map((image, index) => (
                     <CarouselItem key={`profile_pic_${index}`}>
-                      <DynamicBlur
-                        src={image}
-                        className="object-cover h-[30rem] object-top"
-                        width={600}
-                        height={1000}
-                        alt="Hero image"
-                      />
+                      <div className="relative">
+                        {showRequestViewButton && (
+                          <div className="group absolute top-4 right-3 flex flex-col items-center justify-center">
+                            <Button
+                              disabled={requestViewButtonDisabled}
+                              className="text-sm bg-primary text-primary-foreground"
+                            >
+                              Request View
+                            </Button>
+                            <div className="mt-2 font-semibold group-hover:opacity-100 opacity-0 transition-opacity text-sm">
+                              Available at Step 4
+                            </div>
+                          </div>
+                        )}
+                        <DynamicBlur
+                          src={image}
+                          className="object-cover h-[30rem] object-top"
+                          width={600}
+                          height={1000}
+                          alt="Hero image"
+                          alwaysBlur={blur}
+                        />
+                      </div>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
@@ -151,7 +178,10 @@ export default function ProfileImages({ user }: { user: User }) {
                     </span>
                   </motion.div>
 
-                  <motion.div variants={overlayInfo} className="gmm-pic-info flex gap-2">
+                  <motion.div
+                    variants={overlayInfo}
+                    className="gmm-pic-info flex gap-2"
+                  >
                     <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate px-2 shadow-lg w-fit text-white">
                       <span>
                         <FontAwesomeIcon icon={faUpDown} />

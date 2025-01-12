@@ -19,8 +19,6 @@ export default function Dashboard() {
   const user = useAppSelector((state) => state.auth.user);
   const isAccountApproved = user?.accountStatus === AccountStatus.APPROVED;
 
-  console.log(user);
-
   return (
     <UpdateProfileProvider autoSave={false}>
       <>
@@ -62,7 +60,7 @@ export default function Dashboard() {
                     match filters feature.
                   </p>
                 </div>
-                <div className="gmm-mpf-container flex flex-col flex-col-reverse md:grid md:grid-cols-12 gap-4 pb-3">
+                <div className="gmm-mpf-container flex flex-col-reverse md:grid md:grid-cols-12 gap-4 pb-3">
                   <MatchPreferenceFilter />
                   <div className="gmm-mpf-results-container">
                     <MatchMeCard />

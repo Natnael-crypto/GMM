@@ -23,6 +23,7 @@ import { MultiCitySelector } from '@/components/ui/city-selector';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useAppSelector } from '@/lib/hooks';
+import { useProfileCompletion } from '@/lib/hooks/profile-completion';
 
 export default function MatchPreferenceFilter() {
   const {
@@ -35,6 +36,8 @@ export default function MatchPreferenceFilter() {
   const user = useAppSelector((state) => state.auth.user);
 
   const countryNotFilter = !!form.watch('notCountry');
+
+  const { worldlyLifestyle: wlsCompletion } = useProfileCompletion(user);
 
   return (
     <Form {...form}>
@@ -248,28 +251,41 @@ export default function MatchPreferenceFilter() {
             );
           }
         })}
-        <h2 className="col-span-9 font-bold mt-2">Advanced</h2>
-        {advancedPreferenceQuestions.map((question, index) => {
-          if (user && (!question.gender || question.gender === user?.gender)) {
-            return (
-              <PreferenceField
-                key={`${question.label}_${index}`}
-                question={question}
-                onChange={debouncedSavePreference}
-                type={question.type}
-                notFilter={form.watch(fieldToNotFilterMap[question.name])}
-                toggleNotFilter={() =>
-                  toggleNotFilter(question.name as unknown as any)
-                }
-                allowAny={
-                  isFilterInactive[
-                    question.name as keyof typeof isFilterInactive
-                  ]
-                }
-              />
-            );
-          }
-        })}
+
+        {wlsCompletion >= 100 ? (
+          <>
+            <h2 className="col-span-9 font-bold mt-2">Advanced</h2>
+            {advancedPreferenceQuestions.map((question, index) => {
+              if (
+                user &&
+                (!question.gender || question.gender === user?.gender)
+              ) {
+                return (
+                  <PreferenceField
+                    key={`${question.label}_${index}`}
+                    question={question}
+                    onChange={debouncedSavePreference}
+                    type={question.type}
+                    notFilter={form.watch(fieldToNotFilterMap[question.name])}
+                    toggleNotFilter={() =>
+                      toggleNotFilter(question.name as unknown as any)
+                    }
+                    allowAny={
+                      isFilterInactive[
+                        question.name as keyof typeof isFilterInactive
+                      ]
+                    }
+                  />
+                );
+              }
+            })}
+          </>
+        ) : (
+          <p className="col-span-9 text-sm text-muted-foreground text-center p-3 bg-muted rounded-se-3xl rounded-es-3xl font-semibold">
+            Please complete your worldly lifestyle information to access
+            advanced filters
+          </p>
+        )}
       </form>
     </Form>
   );

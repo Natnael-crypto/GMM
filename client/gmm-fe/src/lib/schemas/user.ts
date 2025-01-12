@@ -18,6 +18,11 @@ export enum AccountVerificationStatus {
   UNVERIFIED = 'Unverified',
 }
 
+export enum Gender {
+  MALE = 'Male',
+  FEMALE = 'Female',
+}
+
 export const _userBasicInformationSchema = z
   .object({
     id: z.string(),
