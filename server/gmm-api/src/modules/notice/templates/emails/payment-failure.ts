@@ -73,7 +73,8 @@ module.exports = {
                       <p>Thank you for choosing Guardian Wali. We value your business!</p>
                   </div>
                   <div class="footer">
-                      &copy; ${(new Date().getFullYear())} Guardian Wali. All rights reserved.
+                      &copy; ${(new Date().getFullYear())} Guardian/Wali - Premium Guided Matchmaking
+        For Sunni Muslims with Revert Care.
                   </div>
               </div>
           </body>

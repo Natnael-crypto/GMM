@@ -15,7 +15,7 @@ export default function Footer() {
             <Link href="/">
               <Image
                 className="logo flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse w-60"
-                src="/assets/guardian-logo-footer.png"
+                src="/assets/guardian-logo.png"
                 width={537}
                 height={70}
                 alt="Guardian logo"
@@ -43,7 +43,8 @@ export default function Footer() {
             </ul>
         </div>
       <span className="block text-xs mt-6">
-        Copyright &copy; {(new Date().getFullYear())} Guardian/Wali Project. All Rights Reserved.{' '}
+        Copyright &copy; {(new Date().getFullYear())} Guardian/Wali - Premium Guided Matchmaking
+        For Sunni Muslims with Revert Care. {' '}
       </span>
     </div>
   );
