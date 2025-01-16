@@ -1,4 +1,5 @@
 import {
+  OtpRequestedEvent,
   PasswordResetRequestedEvent,
   UserRegisteredEvent,
 } from '@modules/auth/events/auth.event';
@@ -69,6 +70,15 @@ export class NoticeService {
   await this.sendEmail(user.email, subject, message(amount, paymentMethod, numMatches));
   }
 
+
+  @OnEvent(OtpRequestedEvent.name, { async: true })
+  async handleSendOtp(event: OtpRequestedEvent) {
+  const { message, subject } = require('../templates/emails/account-verification');
+
+  const { otp, user } = event;
+
+  await this.sendEmail(user.email, subject, message(otp));
+  }
 
 
   async sendEmail(

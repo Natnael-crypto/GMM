@@ -18,6 +18,7 @@ import { AuthConfig, AwsConfig } from '@shared/config';
 import { User } from '@modules/user/entities/user.entity';
 import { AccountVerificationStatus } from '@modules/user/enums/user.enum';
 import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 export type OtpPayload = {
   id: string;
@@ -42,6 +43,7 @@ export class OtpService extends BaseRepository {
     dataSource: DataSource,
     @Inject(REQUEST) req: Request,
     configService: ConfigService,
+    private readonly eventEmitter: EventEmitter2,
   ) {
     super(dataSource, req);
     this.encryptionKey =
@@ -90,7 +92,6 @@ export class OtpService extends BaseRepository {
     phoneNumber: string,
     role: string,
   ): Promise<OtpToken> {
-    console.log('Generating OTP for phone:', phoneNumber);
     const otp = otpGenerator.generate(6, {
       specialChars: false,
     });
@@ -135,7 +136,6 @@ export class OtpService extends BaseRepository {
         },
       });
       await this.snsClient.send(command);
-      console.log(`OTP sent successfully to ${phoneNumber}`);
     } catch (error) {
       console.error('Error sending SMS:', error);
       throw new Error('Failed to send OTP via SMS');
