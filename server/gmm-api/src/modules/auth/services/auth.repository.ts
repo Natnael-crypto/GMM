@@ -23,6 +23,13 @@ export class AuthRepository extends BaseRepository {
     });
   }
 
+  async findUserByPhoneNumber(phoneNumber: string) {
+    return await this.getRepository(User).findOne({
+      where: { phoneNumber },
+      select: ['id', 'email', 'roleId', 'password', 'verificationStatus'],
+    });
+  }
+
   async findUserById(id: string) {
     return await this.getRepository(User).findOne({
       where: { id },

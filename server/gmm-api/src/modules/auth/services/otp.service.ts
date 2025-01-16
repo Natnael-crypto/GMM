@@ -14,13 +14,15 @@ import {
 } from '../exceptions/auth.exceptions';
 import { OtpVerificationDto } from '../dtos/otp.dto';
 import { ConfigService } from '@nestjs/config';
-import { AuthConfig } from '@shared/config';
+import { AuthConfig, AwsConfig } from '@shared/config';
 import { User } from '@modules/user/entities/user.entity';
 import { AccountVerificationStatus } from '@modules/user/enums/user.enum';
+import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
 
 export type OtpPayload = {
   id: string;
-  email: string;
+  email?: string;
+  phoneNumber?: string;
   role: string;
   otpId: string;
   timestamp: Date;
@@ -34,6 +36,7 @@ export type OtpToken = {
 @Injectable({ scope: Scope.REQUEST })
 export class OtpService extends BaseRepository {
   private encryptionKey: string;
+  private snsClient: SNSClient;
 
   constructor(
     dataSource: DataSource,
@@ -43,9 +46,13 @@ export class OtpService extends BaseRepository {
     super(dataSource, req);
     this.encryptionKey =
       configService.get<AuthConfig>('auth')!.otp.encryptionKey;
+      
+      const region = configService.get<AwsConfig>('aws')?.region;
+      this.snsClient = new SNSClient({ region });
+
   }
 
-  async generateOtp(
+  async generateOtpForEmail(
     id: string,
     email: string,
     role: string,
@@ -78,14 +85,76 @@ export class OtpService extends BaseRepository {
     };
   }
 
+  async generateOtpForPhone(
+    id: string,
+    phoneNumber: string,
+    role: string,
+  ): Promise<OtpToken> {
+    console.log('Generating OTP for phone:', phoneNumber);
+    const otp = otpGenerator.generate(6, {
+      specialChars: false,
+    });
+
+    const now = new Date();
+    const expirationTime = addMinutesToDate(now, 10);
+
+    const otpInstance = await this.getRepository(Otp).save({
+      otp,
+      expirationTime,
+    });
+
+    const details: OtpPayload = {
+      id: id,
+      phoneNumber: phoneNumber,
+      role: role,
+      otpId: otpInstance.id,
+      timestamp: now,
+    };
+
+    const encoded = await encode(JSON.stringify(details), this.encryptionKey);
+
+    const message = `Your GMM OTP is: ${otp}`;
+    await this.sendSms(phoneNumber, message);
+
+    return {
+      otp,
+      verificationKey: encoded,
+    };
+  }
+
+  private async sendSms(phoneNumber: string, message: string): Promise<void> {
+    try {
+      const command = new PublishCommand({
+        Message: message,
+        PhoneNumber: phoneNumber,
+        MessageAttributes: {
+          'AWS.SNS.SMS.SenderID': {
+            DataType: 'String',
+            StringValue: 'GMM',
+          },
+        },
+      });
+      await this.snsClient.send(command);
+      console.log(`OTP sent successfully to ${phoneNumber}`);
+    } catch (error) {
+      console.error('Error sending SMS:', error);
+      throw new Error('Failed to send OTP via SMS');
+    }
+  }
+
+
   async verifyOtp(verificationDto: OtpVerificationDto): Promise<OtpPayload> {
-    const { otp, verificationKey, email } = verificationDto;
+    const { otp, verificationKey, email, phoneNumber } = verificationDto;
 
     const decoded: OtpPayload = JSON.parse(
       await decode(verificationKey, this.encryptionKey),
     );
 
-    if (decoded.email !== email) {
+    if (email && decoded.email !== email) {
+      throw new InvalidOtpException();
+    }
+
+    if (phoneNumber && decoded.phoneNumber !== phoneNumber) {
       throw new InvalidOtpException();
     }
 

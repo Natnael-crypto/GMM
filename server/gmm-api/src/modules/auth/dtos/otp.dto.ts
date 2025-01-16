@@ -1,14 +1,17 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, ValidateIf } from 'class-validator';
 
 export class OtpVerificationDto {
   @IsNotEmpty()
   @ApiProperty()
   otp: string;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @ApiProperty()
   email: string;
+
+  @ApiProperty()
+  phoneNumber: string;
 
   @IsNotEmpty()
   @ApiProperty()
@@ -16,7 +19,15 @@ export class OtpVerificationDto {
 }
 
 export class OtpRequestDto {
-  @IsNotEmpty()
-  @ApiProperty()
-  email: string;
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsEmail()
+  email?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  @ValidateIf((o) => !o.email)
+  phoneNumber?: string;
 }
+

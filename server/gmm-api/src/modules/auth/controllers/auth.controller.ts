@@ -138,7 +138,7 @@ export class AuthController {
       userRole.name,
       token,
     );
-    const { otp, verificationKey } = await this.otpService.generateOtp(
+    const { otp, verificationKey } = await this.otpService.generateOtpForEmail(
       user.id,
       user.email,
       user.roleId,
@@ -158,36 +158,56 @@ export class AuthController {
 
     return this.authService.generateTokens({
       sub: otpPayload.id,
-      email: otpPayload.email,
+      email: otpPayload.email || '',
       role: otpPayload.role,
     });
   }
 
   @Post('otp')
   async resendOtp(@Body() dto: OtpRequestDto) {
-    const user = await this.authRepo.findUserByEmail(dto.email);
-
+    if (!dto.email && !dto.phoneNumber) {
+      throw new BadRequestException('Either email or phoneNumber is required');
+    }
+  
+    let user;
+    if (dto.email) {
+      user = await this.authRepo.findUserByEmail(dto.email);
+    } else if (dto.phoneNumber) {
+      user = await this.authRepo.findUserByPhoneNumber(dto.phoneNumber); // Ensure you have this method in your repository
+    }
+  
     if (!user) {
       throw new BadRequestException('User not found');
     }
-
+  
     if (user.verificationStatus === AccountVerificationStatus.VERIFIED) {
       throw new BadRequestException('Your account is already verified');
     }
-
-    const { otp, verificationKey } = await this.otpService.generateOtp(
-      user.id,
-      user.email,
-      user.roleId,
-    );
-
+  
+    let otp, verificationKey;
+  
+    if (dto.email) {
+      ({ otp, verificationKey } = await this.otpService.generateOtpForEmail(
+        user.id,
+        user.email,
+        user.roleId,
+      ));
+    } else if (dto.phoneNumber) {
+      ({ otp, verificationKey } = await this.otpService.generateOtpForPhone(
+        user.id,
+        dto.phoneNumber,
+        user.roleId,
+      ));
+    }
+  
     this.eventEmitter.emitAsync(
       OtpRequestedEvent.name,
       new OtpRequestedEvent(user, otp),
     );
-
+  
     return { otpVerificationKey: verificationKey };
   }
+  
 
   @Post('password-reset')
   async requestResetPassword(@Body() dto: RequestResetPasswordDto) {
