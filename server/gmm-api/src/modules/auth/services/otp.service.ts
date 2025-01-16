@@ -135,7 +135,8 @@ export class OtpService extends BaseRepository {
           },
         },
       });
-      await this.snsClient.send(command);
+      const response = await this.snsClient.send(command);
+      console.log('SNS Publish Response:', response);
     } catch (error) {
       console.error('Error sending SMS:', error);
       throw new Error('Failed to send OTP via SMS');
