@@ -192,6 +192,12 @@ export class AuthController {
         user.email,
         user.roleId,
       ));
+
+      this.eventEmitter.emitAsync(
+        OtpRequestedEvent.name,
+        new OtpRequestedEvent(user, otp),
+      );
+      
     } else if (dto.phoneNumber) {
       ({ otp, verificationKey } = await this.otpService.generateOtpForPhone(
         user.id,
@@ -199,11 +205,6 @@ export class AuthController {
         user.roleId,
       ));
     }
-  
-    this.eventEmitter.emitAsync(
-      OtpRequestedEvent.name,
-      new OtpRequestedEvent(user, otp),
-    );
   
     return { otpVerificationKey: verificationKey };
   }
