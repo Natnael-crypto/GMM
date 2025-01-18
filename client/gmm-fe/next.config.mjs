@@ -17,6 +17,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'd2zvmj2uzo16gb.cloudfront.net',
+        port: '',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
         hostname: 'admin-dev.guardianmuslimmarriage.com',
         port: '',
         pathname: '/assets/**',
