@@ -1,11 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import {
-  GetObjectCommand,
-  NoSuchKey,
-  PutObjectCommand,
-  S3Client,
-} from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { NoSuchKey, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { getSignedUrl as getS3SignedUrl } from '@aws-sdk/s3-request-presigner';
+import { getSignedUrl as getCloudfrontSignedUrl } from '@aws-sdk/cloudfront-signer';
 import { randomUUID } from 'crypto';
 import {
   FileNotFoundException,
@@ -26,16 +22,17 @@ export class StorageService {
     this.awsConfig = configService.get<AwsConfig>('aws')!;
   }
 
-  async generatePresignedDownloadUrl(fileId: string) {
-    const command = new GetObjectCommand({
-      Bucket: this.awsConfig.s3.bucketName,
-      Key: fileId,
-    });
-
+  generatePresignedDownloadUrl(fileId: string) {
     try {
-      const signedUrl = await getSignedUrl(this.s3, command, {
-        expiresIn: this.awsConfig.s3.presignedUrlTTL,
+      const toMilliSeconds = this.awsConfig.s3.presignedUrlTTL * 1000;
+
+      const signedUrl = getCloudfrontSignedUrl({
+        url: `${this.awsConfig.cloudfront.domain}/${fileId}`,
+        keyPairId: this.awsConfig.cloudfront.keyPairId,
+        privateKey: this.awsConfig.cloudfront.privateKey,
+        dateLessThan: new Date(Date.now() + toMilliSeconds).toUTCString(),
       });
+
       return signedUrl;
     } catch (e) {
       if (e instanceof NoSuchKey) {
@@ -57,7 +54,7 @@ export class StorageService {
       ContentLength: file.size,
     });
 
-    const url = await getSignedUrl(this.s3, command, {
+    const url = await getS3SignedUrl(this.s3, command, {
       expiresIn: this.awsConfig.s3.presignedUrlTTL,
       signingDate: new Date(),
     });
