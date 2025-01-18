@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { CacheModuleAsyncOptions } from "@nestjs/cache-manager";
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { redisStore } from "cache-manager-redis-store";
+import { CacheModuleAsyncOptions } from '@nestjs/cache-manager';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { redisStore } from 'cache-manager-redis-store';
 
 export interface DatabaseConfig {
   host: string;
@@ -69,6 +69,12 @@ export interface AwsConfig {
   s3: {
     bucketName: string;
     presignedUrlTTL: number;
+  };
+
+  cloudfront: {
+    domain: string;
+    keyPairId: string;
+    privateKey: string;
   };
 }
 
@@ -155,6 +161,9 @@ const envSchema = z
     AWS_REGION: z.string(),
     AWS_S3_BUCKET_NAME: z.string(),
     AWS_S3_PRESIGNED_URL_TTL: z.string().transform((val) => parseInt(val, 10)),
+    AWS_CLOUDFRONT_DOMAIN: z.string(),
+    AWS_CLOUDFRONT_KEY_PAIR_ID: z.string(),
+    AWS_CLOUDFRONT_PRIVATE_KEY: z.string(),
 
     // Stripe
     STRIPE_API_SECRET_KEY: z.string(),
@@ -190,7 +199,7 @@ export default (): AppConfiguration => {
       port: parsedEnv.DATABASE_PORT,
       username: parsedEnv.DATABASE_USERNAME,
       password: parsedEnv.DATABASE_PASSWORD,
-      database: parsedEnv.DATABASE_NAME      
+      database: parsedEnv.DATABASE_NAME,
     },
 
     redis: {
@@ -198,7 +207,7 @@ export default (): AppConfiguration => {
       port: parsedEnv.REDIS_PORT,
       maxMemory: parsedEnv.REDIS_MAX_MEMORY,
       maxMemoryPolicy: parsedEnv.REDIS_MAX_MEMORY_POLICY,
-      password: parsedEnv.REDIS_PASSWORD
+      password: parsedEnv.REDIS_PASSWORD,
     },
 
     chat: {
@@ -252,6 +261,12 @@ export default (): AppConfiguration => {
         bucketName: parsedEnv.AWS_S3_BUCKET_NAME,
         presignedUrlTTL: parsedEnv.AWS_S3_PRESIGNED_URL_TTL,
       },
+
+      cloudfront: {
+        domain: parsedEnv.AWS_CLOUDFRONT_DOMAIN,
+        keyPairId: parsedEnv.AWS_CLOUDFRONT_KEY_PAIR_ID,
+        privateKey: parsedEnv.AWS_CLOUDFRONT_PRIVATE_KEY,
+      },
     },
 
     stripe: {
@@ -268,17 +283,16 @@ export default (): AppConfiguration => {
   };
 };
 
-
 export const RedisOptions: CacheModuleAsyncOptions = {
   isGlobal: true,
   imports: [ConfigModule],
   useFactory: async (configService: ConfigService) => {
     const store = await redisStore({
-      socket: { 
+      socket: {
         host: configService.get<RedisConfig>('redis')!.host,
         port: configService.get<RedisConfig>('redis')!.port,
       },
-      password: configService.get<RedisConfig>('redis')!.password, 
+      password: configService.get<RedisConfig>('redis')!.password,
     });
     return {
       store: () => store,
