@@ -26,6 +26,19 @@ export default function UpdateProfileHeader({
       </h1>
       <div className="flex gap-3 items-center">
         <Link
+          href="/dashboard"
+          className={cn(
+            buttonVariants({
+              variant: 'outline',
+              size: 'sm',
+            }),
+            'rounded-full text-xs text-secondary h-6 cta'
+          )}
+        >
+          Dashboard
+        </Link>
+
+        <Link
           href={viewProfileLink}
           className={cn(
             buttonVariants({
@@ -37,18 +50,7 @@ export default function UpdateProfileHeader({
         >
           View Profile
         </Link>
-        <Link
-          href="/dashboard"
-          className={cn(
-            buttonVariants({
-              variant: 'outline',
-              size: 'sm',
-            }),
-            'rounded-full text-xs text-secondary h-6 cta'
-          )}
-        >
-          Cancel
-        </Link>
+
         <Button
           onClick={onSave}
           className={cn(

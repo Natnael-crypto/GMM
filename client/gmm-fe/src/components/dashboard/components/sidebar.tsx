@@ -63,13 +63,13 @@ export default function Sidebar() {
             Profile
           </Link>
           <Link
-            href=""
+            href="/terms"
             className="ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full"
           >
             Legal
           </Link>
           <Link
-            href=""
+            href="/support"
             className="ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full"
           >
             FAQ
