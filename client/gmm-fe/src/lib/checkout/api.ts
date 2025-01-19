@@ -47,6 +47,11 @@ export const checkoutApi = createApi({
       query: (userId) => `payments/current-subscription/${userId}`,
       transformResponse: (response: any) => response.data,
     }),
+
+    getSubscriptionHistory: builder.query<Subscription[], string>({
+      query: (userId) => `payments/subscription-history/${userId}`,
+      transformResponse: (response: any) => response.data,
+    }),
   }),
 });
 
@@ -56,4 +61,5 @@ export const {
   useLazyGetCurrentSubscriptionQuery,
   useConfirmFreeSubscriptionMutation,
   useGetCurrentSubscriptionQuery,
+  useGetSubscriptionHistoryQuery,
 } = checkoutApi;

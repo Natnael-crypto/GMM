@@ -15,7 +15,7 @@ export function formatLocalizedDate(date: Date) {
   });
 }
 
-export function cmToFeetInches(cm: number) {
+export function cmToFeetInches(cm: number, round = true) {
   const cmPerInch = 2.54;
   const cmPerFoot = 30.48;
 
@@ -31,16 +31,24 @@ export function cmToFeetInches(cm: number) {
   return `${feet}'${inches}"`;
 }
 
-export function kgToPounds(kg: number) {
+export function kgToPounds(kg: number, round = true) {
   const kgPerPound = 2.20462;
   let pounds = kg * kgPerPound;
+
+  if (round) {
+    return `${Math.round(pounds)} lb`;
+  }
 
   return `${pounds.toFixed(2)} lb`;
 }
 
-export function poundsToKg(pounds: number) {
+export function poundsToKg(pounds: number, round = true) {
   const poundsPerKg = 0.453592;
   let kg = pounds * poundsPerKg;
+
+  if (round) {
+    return `${Math.round(kg)} kg`;
+  }
 
   return `${kg.toFixed(2)} kg`;
 }
