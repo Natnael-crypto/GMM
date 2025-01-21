@@ -18,15 +18,21 @@ export default function Profile({ user: profileUser }: { user: User }) {
   const locale = useLocale();
   const user = useAppSelector((state) => state.auth.user);
 
-  const { data: imageUrl } = useGetDownloadUrlQuery(profileUser?.pictures ? profileUser?.pictures[0] : '', { skip: !user || !profileUser?.pictures || !profileUser?.pictures[0] });
+  const { data: imageUrl } = useGetDownloadUrlQuery(
+    profileUser?.pictures ? profileUser?.pictures[0] : '',
+    { skip: !user || !profileUser?.pictures || !profileUser?.pictures[0] }
+  );
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Avatar className="rounded-full cursor-pointer w-6 h-6 overflow-clip">
-          <AvatarImage src={imageUrl} className='aspect-square w-6 rounded-full' />
+        <Avatar className="rounded-full cursor-pointer w-7 h-7 overflow-clip">
+          <AvatarImage
+            src={imageUrl}
+            className="aspect-square w-6 rounded-full"
+          />
           <AvatarFallback className="text-sm font-medium w-full h-full rounded-full">
-            <div className="rounded-full bg-gray-500 w-6 h-6"></div>
+            <div className="rounded-full bg-gray-500 w-7 h-7"></div>
           </AvatarFallback>
         </Avatar>
       </PopoverTrigger>

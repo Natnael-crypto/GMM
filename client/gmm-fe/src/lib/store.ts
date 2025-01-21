@@ -14,6 +14,7 @@ import { guardianApi } from './guardian/api';
 import { formApi } from './form/api';
 import { locationApi } from './location/api';
 import { verificationApi } from './verification/api';
+import { notificationApi } from './notification/api';
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -29,6 +30,7 @@ const reducer = combineReducers({
   [formApi.reducerPath]: formApi.reducer,
   [locationApi.reducerPath]: locationApi.reducer,
   [verificationApi.reducerPath]: verificationApi.reducer,
+  [notificationApi.reducerPath]: notificationApi.reducer,
 });
 
 export const makeStore = () => {
@@ -44,7 +46,8 @@ export const makeStore = () => {
         guardianApi.middleware,
         formApi.middleware,
         locationApi.middleware,
-        verificationApi.middleware
+        verificationApi.middleware,
+        notificationApi.middleware
       ),
   });
 };

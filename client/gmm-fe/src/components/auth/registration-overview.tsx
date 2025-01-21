@@ -32,7 +32,7 @@ export default function RegistrationOverview() {
           </span>
         </h1>
         <div className="gmm-approach-grid grid text-center">
-          <HoverCard>
+          <HoverCard openDelay={0} closeDelay={0}>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
@@ -54,7 +54,7 @@ export default function RegistrationOverview() {
             </HoverCardContent>
           </HoverCard>
 
-          <HoverCard>
+          <HoverCard openDelay={0} closeDelay={0}>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
@@ -81,7 +81,7 @@ export default function RegistrationOverview() {
             </HoverCardContent>
           </HoverCard>
 
-          <HoverCard>
+          <HoverCard openDelay={0} closeDelay={0}>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
@@ -103,7 +103,7 @@ export default function RegistrationOverview() {
             </HoverCardContent>
           </HoverCard>
 
-          <HoverCard>
+          <HoverCard openDelay={0} closeDelay={0}>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
@@ -125,7 +125,7 @@ export default function RegistrationOverview() {
             </HoverCardContent>
           </HoverCard>
 
-          <HoverCard>
+          <HoverCard openDelay={0} closeDelay={0}>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
@@ -152,7 +152,7 @@ export default function RegistrationOverview() {
             </HoverCardContent>
           </HoverCard>
 
-          <HoverCard>
+          <HoverCard openDelay={0} closeDelay={0}>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
@@ -174,7 +174,7 @@ export default function RegistrationOverview() {
             </HoverCardContent>
           </HoverCard>
 
-          <HoverCard>
+          <HoverCard openDelay={0} closeDelay={0}>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
@@ -195,7 +195,7 @@ export default function RegistrationOverview() {
               </>
             </HoverCardContent>
           </HoverCard>
-          <HoverCard>
+          <HoverCard openDelay={0} closeDelay={0}>
             <HoverCardTrigger className="block overflow-hidden cursor-pointer">
               <OurApproachCard
                 className="border-none shadow-none hover-disabled bg-transparent inline-flex"
