@@ -189,7 +189,7 @@ export default function PhotoUploader({ field }: { field: any }) {
 
   const showDragAndDropImage =
     images.find((image) => image === '') !== undefined;
-  console.log(isImageUploading);
+
   return (
     <Card className="shadow-none text-sm space-y-3">
       <div className="flex justify-between items-end">
