@@ -18,34 +18,17 @@ export default function Billing() {
     'Dashboard.updateProfile.marriageDiscussion.optionalVerifiable'
   );
 
-  const [x, sx] = useState(1);
-
   const user = useAppSelector((state) => state.auth.user);
   const { data: subscriptionHistory, isLoading } =
     useGetSubscriptionHistoryQuery(user?.id ?? '', {
       skip: !user,
     });
-  useEffect(() => {
-    const yyy = setTimeout(() => {
-      sx(Math.random());
-    }, 1000);
-
-    return () => {
-      clearTimeout(yyy);
-    };
-  }, []);
 
   return (
     <div className="rounded-xl bg-background shadow-lg p-5 space-y-7 text-sm">
       <div className="flex justify-between items-end">
         <h1 className="text-xl">Billing Information</h1>
       </div>
-
-      {/* {user && subscriptionHistory && (
-        <PDFViewer className="w-full h-[70vh]" key={x}>
-          <ReceiptPdf user={user} payment={subscriptionHistory[0]} />
-        </PDFViewer>
-      )} */}
 
       <div className="space-y-4">
         <div className="space-y-2">
@@ -79,7 +62,7 @@ export default function Billing() {
                         buttonVariants({
                           variant: 'outline',
                         }),
-                        'text-xs text-secondary h-6'
+                        'text-xs text-secondary h-6 cursor-pointer'
                       )}
                     >
                       Download
