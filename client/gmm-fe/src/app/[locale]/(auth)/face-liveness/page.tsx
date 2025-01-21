@@ -15,7 +15,7 @@ import {
 } from '@/lib/verification/api';
 import { useAppSelector } from '@/lib/hooks';
 import { VerificationStatus } from '@/lib/verification/types';
-import { redirect, useRouter } from '@/lib/navigation';
+import { useRouter } from '@/lib/navigation';
 import { toast } from '@/components/ui/use-toast';
 
 Amplify.configure(awsexports);

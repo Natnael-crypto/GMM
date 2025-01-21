@@ -1,17 +1,15 @@
 'use client';
 
 import ReceiptPdf from '@/components/auth/checkout/receipt-pdf';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { useGetSubscriptionHistoryQuery } from '@/lib/checkout/api';
 import { useAppSelector } from '@/lib/hooks';
-import { Link } from '@/lib/navigation';
-import { PackageTier, toTierName } from '@/lib/schemas/checkout';
+import { toTierName } from '@/lib/schemas/checkout';
 import { cn } from '@/lib/utils';
-import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
+import { PDFDownloadLink } from '@react-pdf/renderer';
 
 import { useTranslations } from 'next-intl';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export default function Billing() {
   const t = useTranslations(
@@ -73,35 +71,6 @@ export default function Billing() {
             </tbody>
           </table>
         </div>
-
-        {/* <div className="space-y-2">
-          <h2 className="font-bold">Payment Method</h2>
-
-          <div className="flex flex-col md:flex-row justify-between md:items-center gap-2">
-            <div className="flex gap-2 items-center">
-              <div className="border rounded-sm p-1">
-                <Image
-                  className="w-10 object-cover"
-                  width={512}
-                  height={512}
-                  src={`/icons/payment/visa-inc.logo.svg`}
-                  alt="Language Flag"
-                />
-              </div>
-
-              <span className="text-xs">Visa ending in 1234</span>
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-2">
-              <Button variant="outline" className="text-secondary h-6 text-xs">
-                Add New Payment Method
-              </Button>
-              <Button variant="outline" className="text-secondary h-6 text-xs">
-                Remove
-              </Button>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ export default function HowItWorksCard({
   return (
     <Card
       className={cn(
-        'z-10 flex flex-col justify-between items-center w-full sm:w-[12rem] h-[10rem] sm:h-[12rem] bg-background relative m-auto'
+        'z-10 flex flex-col justify-between items-center w-full sm:w-[12rem] h-[10rem] sm:h-[12rem] bg-background relative m-auto hover:z-20 hover:translate-y-1 transition-all duration-300 ease-in-out'
       )}
       onClick={onClick}
     >
