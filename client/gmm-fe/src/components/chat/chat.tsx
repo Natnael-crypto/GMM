@@ -189,7 +189,10 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
     >
       <div>
         <h1 className="text-center text-xl">
-          <span className="text-primary font-bold">Guardian/Wali</span> Chat
+          <span className="text-primary font-bold">
+            Guardian Muslim Marriage
+          </span>{' '}
+          Chat
         </h1>
 
         <div className="w-full overflow-auto no-scrollbar">

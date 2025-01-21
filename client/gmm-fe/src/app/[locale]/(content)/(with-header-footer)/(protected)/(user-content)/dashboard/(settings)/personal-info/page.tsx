@@ -56,9 +56,6 @@ export default function PersonalInfo() {
           </div>
           <div className="flex flex-col sm:flex-row gap-2">
             <Button variant="outline" className="text-secondary h-7 text-xs">
-              Retrieve Password
-            </Button>
-            <Button variant="outline" className="text-secondary h-7 text-xs">
               Change Password
             </Button>
           </div>

@@ -1,5 +1,28 @@
 import { z } from 'zod';
 
+export enum PackageTier {
+  Free = 'free',
+  Bronze = 'price_1PhYclJFH7Hbj3xGWHtTMlMs',
+  Silver = 'price_1PhYdoJFH7Hbj3xG84wru3Uv',
+  Gold = 'price_1PhYeUJFH7Hbj3xGsp5VLYwU',
+  Platinum = 'price_1PhYf1JFH7Hbj3xGgTrRP4mY',
+}
+
+export const toTierName = (planId: string) => {
+  switch (planId) {
+    case PackageTier.Free:
+      return 'Free';
+    case PackageTier.Bronze:
+      return 'Bronze';
+    case PackageTier.Silver:
+      return 'Silver';
+    case PackageTier.Gold:
+      return 'Gold';
+    default:
+      return '';
+  }
+};
+
 export const checkoutSchema = z
   .object({
     // email: z.string().email(),
@@ -29,6 +52,7 @@ export const subscriptionSchema = z.object({
   status: z.string(),
   planId: z.string(),
   currentPeriodStart: z.coerce.date(),
+  periodStart: z.coerce.date(),
   amount: z.number(),
   remainingMatches: z.number(),
 });

@@ -25,6 +25,7 @@ import { cmToFeetInches, convertDateToAge, kgToPounds } from '@/lib/format';
 import flags from 'react-phone-number-input/flags';
 import DynamicBlur from '@/components/ui/dynamic-blur';
 import { Button } from '@/components/ui/button';
+import OverflowText from '@/components/ui/overflow-text';
 
 export default function ProfileImages({
   user,
@@ -154,23 +155,23 @@ export default function ProfileImages({
                 <motion.div className="space-y-2 font-thin">
                   <motion.div
                     variants={overlayInfo}
-                    className="gmm-pic-info flex gap-2 bg-[#ffffffbb] rounded-full truncate font-semibold px-2 shadow-lg items-center"
+                    className="gmm-pic-info h-fit flex gap-2 bg-[#ffffffbb] rounded-full font-semibold px-2 shadow-lg items-center "
                   >
                     <div className="w-4 h-4 flex items-center justify-center">
                       {NationalityFlag && (
                         <NationalityFlag title={user.nationality} />
                       )}
                     </div>
-                    <span className="w-full truncate">
+                    <span className="w-full">
                       {user.nationality} Nationality / Passport
                     </span>
                   </motion.div>
 
-                  <motion.div className="gmm-pic-info flex item-center gap-2 bg-[#00000066] rounded-lg truncate px-2 shadow-lg w-full text-white">
+                  <motion.div className="gmm-pic-info flex item-center gap-2 bg-[#00000066] rounded-lg text-wrap px-2 shadow-lg w-full text-white">
                     <span>
                       <FontAwesomeIcon icon={faLocationDot} />
                     </span>
-                    <span className="w-full flex  items-center gap-2 truncate">
+                    <span className="w-full flex items-center gap-2 text-wrap">
                       <span>{user.city}</span>
                       <div className="w-4 h-4 flex items-center justify-center">
                         {CountryFlag && <CountryFlag title={user.country} />}
@@ -180,21 +181,21 @@ export default function ProfileImages({
 
                   <motion.div
                     variants={overlayInfo}
-                    className="gmm-pic-info flex gap-2"
+                    className="gmm-pic-info flex gap-2 h-fit"
                   >
-                    <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate px-2 shadow-lg w-fit text-white">
+                    <p className="flex item-center h-fit gap-2 bg-[#00000066] rounded-lg text-wrap px-2 shadow-lg w-fit text-white">
                       <span>
                         <FontAwesomeIcon icon={faUpDown} />
                       </span>
-                      <span className="w-full truncate">
+                      <span className="w-full text-wrap">
                         {cmToFeetInches(user.height)} ({user.height} cm)
                       </span>
                     </p>
-                    <p className="flex item-center gap-2 bg-[#00000066] rounded-lg truncate px-2 shadow-lg w-fit text-white">
+                    <p className="flex item-center h-fit gap-2 bg-[#00000066] rounded-lg text-wrap px-2 shadow-lg w-fit text-white">
                       <span>
                         <FontAwesomeIcon icon={faWeightScale} />
                       </span>
-                      <span className="w-full truncate">
+                      <span className="w-full text-wrap">
                         {kgToPounds(user.weight)} ({user.weight} kg){' '}
                       </span>
                     </p>

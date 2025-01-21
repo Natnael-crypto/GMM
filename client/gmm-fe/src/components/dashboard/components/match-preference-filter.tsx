@@ -253,7 +253,7 @@ export default function MatchPreferenceFilter() {
         })}
 
         <div className="col-span-9 grid-cols-9 grid gap-x-4 gap-y-5 relative">
-          {wlsCompletion && wlsCompletion < 100 && (
+          {wlsCompletion < 100 && (
             <div className="w-full absolute  rounded-md h-full top-0 scale-y-105 scale-x-[103%] flex items-center justify-center bg-[#f7f7f899] 1backdrop-blur-[2px] z-[999]">
               <span className="text-center font-bold text-2xl">
                 Complete your worldly lifestyle section to access advanced

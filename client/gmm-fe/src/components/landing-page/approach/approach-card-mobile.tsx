@@ -1,9 +1,9 @@
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { Card } from "@/components/ui/card";
-import { OurApproachCardProps } from "@/types";
-import React from "react";
-import { useTranslations } from "next-intl";
+import { cn } from '@/lib/utils';
+import Image from 'next/image';
+import { Card } from '@/components/ui/card';
+import { OurApproachCardProps } from '@/types';
+import React from 'react';
+import { useTranslations } from 'next-intl';
 
 export function OurApproachCard({
   className,
@@ -15,14 +15,14 @@ export function OurApproachCard({
   return (
     <Card
       className={cn(
-        "z-20 flex flex-col items-center w-full cursor-pointer transition-colors duration-300 shadow-none border-none",
+        'z-20 flex flex-col items-center w-full cursor-pointer transition-colors duration-300 shadow-none border-none',
         className
       )}
       onClick={onClick}
     >
-      <div className={cn("w-20 lg:mt-5 overflow-hidden", imageClassName)}>
+      <div className={cn('w-20 lg:mt-5 overflow-hidden', imageClassName)}>
         <Image
-          className={cn("w-full overflow-hidden object-cover")}
+          className={cn('w-full overflow-hidden object-cover')}
           src={imageSrc}
           width={200}
           height={104}
@@ -36,7 +36,7 @@ export function OurApproachCard({
 }
 
 export default function MobileApproachCards() {
-  const t = useTranslations("Landing.ourApproach");
+  const t = useTranslations('Landing.ourApproach');
 
   return (
     <div className="sm:hidden overflow-auto no-scrollbar">
@@ -56,16 +56,16 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
-              {t.rich("card.guidedMatching", {
-                br: () => " ",
+              {t.rich('card.guidedMatching', {
+                br: () => ' ',
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich("slide.guidedMatching.description", {
+              {t.rich('slide.guidedMatching.description', {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
@@ -80,21 +80,21 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
-              {t.rich("card.matchGuarantee", {
-                br: () => " ",
+              {t.rich('card.matchGuarantee', {
+                br: () => ' ',
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich("slide.matchGuarantee.description.p1", {
+              {t.rich('slide.matchGuarantee.description.p1', {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
             <p className="text-muted-foreground mb-1">
-              {t.rich("slide.matchGuarantee.description.p2", {
+              {t.rich('slide.matchGuarantee.description.p2', {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
@@ -109,21 +109,21 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
-              {t.rich("card.oneOnOneChats", {
-                br: () => " ",
+              {t.rich('card.oneOnOneChats', {
+                br: () => ' ',
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich("slide.oneOnOneChats.description.p1", {
+              {t.rich('slide.oneOnOneChats.description.p1', {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
             <p className="text-muted-foreground mb-1">
-              {t.rich("slide.oneOnOneChats.description.p2", {
+              {t.rich('slide.oneOnOneChats.description.p2', {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
@@ -138,16 +138,16 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
-              {t.rich("card.neverPayToCompete", {
-                br: () => " ",
+              {t.rich('card.neverPayToCompete', {
+                br: () => ' ',
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich("slide.neverPayToCompete.description", {
+              {t.rich('slide.neverPayToCompete.description', {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
@@ -162,40 +162,16 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
-              {t.rich("card.guardianFamilyInvolvement", {
-                br: () => " ",
+              {t.rich('card.guardianFamilyInvolvement', {
+                br: () => ' ',
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich("slide.guardianFamilyInvolvement.description", {
-                bold: (text) => <span className="font-bold">{text}</span>,
-              })}
-            </p>
-          </div>
-        </OurApproachCard>
-        <OurApproachCard
-          imageSrc="/assets/icon_never-pay-to-compete.svg"
-          imageClassName=""
-          isActive={false}
-          onClick={() => {}}
-        >
-          <div className="space-y-4">
-            <h1
-              className={cn(
-                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
-              )}
-            >
-              {t.rich("card.freeMembershipForSisters", {
-                br: () => " ",
-              })}
-            </h1>
-
-            <p className="text-muted-foreground mb-1">
-              {t.rich("slide.freeMembershipForSisters.description", {
+              {t.rich('slide.guardianFamilyInvolvement.description', {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
@@ -210,16 +186,64 @@ export default function MobileApproachCards() {
           <div className="space-y-4">
             <h1
               className={cn(
-                "text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary"
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
               )}
             >
-              {t.rich("card.noCringeMatchMakingGroups", {
-                br: () => " ",
+              {t.rich('card.globallyConnectingMuslims', {
+                br: () => ' ',
               })}
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich("slide.noCringeMatchMakingGroups.description", {
+              {t.rich('slide.globallyConnectingMuslims.description', {
+                bold: (text) => <span className="font-bold">{text}</span>,
+              })}
+            </p>
+          </div>
+        </OurApproachCard>
+        <OurApproachCard
+          imageSrc="/assets/icon_never-pay-to-compete.svg"
+          imageClassName=""
+          isActive={false}
+          onClick={() => {}}
+        >
+          <div className="space-y-4">
+            <h1
+              className={cn(
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+              )}
+            >
+              {t.rich('card.freeMembershipForSisters', {
+                br: () => ' ',
+              })}
+            </h1>
+
+            <p className="text-muted-foreground mb-1">
+              {t.rich('slide.freeMembershipForSisters.description', {
+                bold: (text) => <span className="font-bold">{text}</span>,
+              })}
+            </p>
+          </div>
+        </OurApproachCard>
+        <OurApproachCard
+          imageSrc="/assets/icon-globally-connecting-muslims.svg"
+          imageClassName=""
+          isActive={false}
+          onClick={() => {}}
+        >
+          <div className="space-y-4">
+            <h1
+              className={cn(
+                'text-lg w-full font-bold mt-5 text-center transition-colors duration-300 text-primary'
+              )}
+            >
+              {t.rich('card.noCringeMatchMakingGroups', {
+                br: () => ' ',
+              })}
+            </h1>
+
+            <p className="text-muted-foreground mb-1">
+              {t.rich('slide.noCringeMatchMakingGroups.description', {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
