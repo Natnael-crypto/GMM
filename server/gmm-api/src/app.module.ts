@@ -21,6 +21,8 @@ import { LocationModule } from '@modules/location/location.module';
 import { NotificationsModule } from '@modules/notifications/notifications.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { CommunicationModule } from '@modules/communication/communication.module';
+import { FaceRecognitionModule } from '@modules/face-recognition/face-recognition.module';
+import { VerificationModule } from '@modules/verification/verification.module';
 
 @Module({
   imports: [
@@ -41,6 +43,8 @@ import { CommunicationModule } from '@modules/communication/communication.module
     LocationModule,
     NotificationsModule,
     CommunicationModule,
+    FaceRecognitionModule,
+    VerificationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

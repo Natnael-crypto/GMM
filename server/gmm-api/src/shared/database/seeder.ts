@@ -29,6 +29,7 @@ import { FormFieldAnswer } from '@modules/form/entities/form-field-answer.entity
 import { Country } from '@modules/location/entities/country.entity';
 import { City } from '@modules/location/entities/city.entity';
 import { State } from '@modules/location/entities/state.entity';
+import { Verification } from '@modules/verification/entities/verification.entity';
 
 require('dotenv').config();
 
@@ -66,6 +67,7 @@ const options: DataSourceOptions & SeederOptions = {
     Country,
     State,
     City,
+    Verification,
   ],
 };
 

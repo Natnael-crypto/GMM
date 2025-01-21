@@ -41,13 +41,10 @@ async function bootstrap() {
 
   app.useWebSocketAdapter(new IoAdapter(app));
 
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  // app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.useGlobalInterceptors(new TransactionInterceptor(app.get(DataSource)));
 
-  app.use(
-    '/payments/stripe',
-    bodyParser.raw({ type: 'application/json' }),
-  );
+  app.use('/payments/stripe', bodyParser.raw({ type: 'application/json' }));
 
   const config = new DocumentBuilder()
     .setTitle('Guardian / Wali Documentation')

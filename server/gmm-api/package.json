@@ -29,6 +29,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.637.0",
     "@aws-sdk/client-lambda": "^3.726.1",
+    "@aws-sdk/client-rekognition": "^3.731.1",
     "@aws-sdk/client-s3": "^3.637.0",
     "@aws-sdk/client-sns": "^3.731.1",
     "@aws-sdk/cloudfront-signer": "^3.723.0",

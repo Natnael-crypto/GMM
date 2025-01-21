@@ -22,7 +22,7 @@ export default function Dashboard() {
   return (
     <UpdateProfileProvider autoSave={false}>
       <>
-        <div className="py-6 space-y-8">
+        <div className="py-6 space-y-8 min-h-[80vh]">
           <h1 className="text-xl text-center font-medium">Your Dashboard</h1>
 
           <div className="gmm-dashboard grid gap-4 px-3">

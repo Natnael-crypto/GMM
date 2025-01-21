@@ -38,6 +38,7 @@ import {
   UserOptionalVerifiable,
   UserFamilyInformation,
 } from '@modules/user/entities';
+import { Verification } from '@modules/verification/entities/verification.entity';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserService extends BaseRepository {
