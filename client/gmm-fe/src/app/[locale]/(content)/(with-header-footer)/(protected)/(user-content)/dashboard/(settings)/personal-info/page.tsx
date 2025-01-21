@@ -1,7 +1,9 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { useAppSelector } from '@/lib/hooks';
+import { Link } from '@/lib/navigation';
+import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 
 export default function PersonalInfo() {
@@ -55,9 +57,15 @@ export default function PersonalInfo() {
             <span>**********</span>
           </div>
           <div className="flex flex-col sm:flex-row gap-2">
-            <Button variant="outline" className="text-secondary h-7 text-xs">
+            <Link
+              href="/auth/forgot-password"
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'text-secondary h-7 text-xs'
+              )}
+            >
               Change Password
-            </Button>
+            </Link>
           </div>
         </div>
 
