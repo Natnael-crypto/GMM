@@ -4,14 +4,12 @@ import CreateAccount from '@/components/landing-page/create-account/create-accou
 import HowItWorks from '@/components/landing-page/how-it-works/how-it-works';
 import OtherPlatforms from '@/components/landing-page/other-platforms/other-platforms';
 import GuardianServices from '@/components/landing-page/services/guardian-services';
+import NotificationBell from '@/components/notification/bell';
 
 import Footer from '@/components/ui/footer';
 import LanguageSelector from '@/components/ui/language-selector';
 import Profile from '@/components/ui/profile';
 import { auth } from '@/lib/auth/utils';
-
-import { faBell } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default async function Home() {
   const session = await auth();
@@ -25,7 +23,7 @@ export default async function Home() {
         />
         {session ? (
           <div className="flex gap-2 items-center">
-            <FontAwesomeIcon icon={faBell} />
+            <NotificationBell />
             <div className="px-2">
               <Profile user={session?.user} />
             </div>
