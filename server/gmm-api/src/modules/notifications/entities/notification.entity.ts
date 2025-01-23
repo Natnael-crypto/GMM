@@ -1,4 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity('notifications')
 export class NotificationEntity {
@@ -27,7 +32,7 @@ export class NotificationEntity {
   createdAt: Date;
 
   broadcastOn(): string[] {
-    return ['InAppChannelService'];  // Adjust as needed
+    return ['InAppChannelService']; // Adjust as needed
   }
 
   toPayload(): any {

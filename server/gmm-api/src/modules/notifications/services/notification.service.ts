@@ -1,14 +1,17 @@
-// src/notifications/notification.service.ts
-
 import { Injectable } from '@nestjs/common';
-import { Notification, NotificationChannel } from '../types/notification.interface';
+import {
+  Notification,
+  NotificationChannel,
+} from '../types/notification.interface';
 import { InAppChannelService } from '../channels/in-app-channel.service';
 import { NotificationRepository } from './notification.repository';
 import { NotificationEntity } from '../entities/notification.entity';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class NotificationService {
   private channels: Record<string, NotificationChannel>;
+  private notificationStream: Subject<NotificationEntity>;
 
   constructor(
     private readonly inAppChannel: InAppChannelService,
@@ -17,27 +20,27 @@ export class NotificationService {
     this.channels = {
       InAppChannelService: inAppChannel,
     };
+    this.notificationStream = new Subject<NotificationEntity>();
+  }
+
+  getNotificationStream() {
+    return this.notificationStream.asObservable();
   }
 
   async getMyNotifications(id: string): Promise<NotificationEntity[]> {
-    const notifications = await this.notificationRepository.findByRecipientUserId(id);
-
-    return notifications;
+    return await this.notificationRepository.findByRecipientUserId(id);
   }
 
   async getMyUnreadNotifications(id: string): Promise<NotificationEntity[]> {
-    const notifications = await this.notificationRepository.findUnreadByRecipientUserId(id);
-
-    return notifications;
+    return await this.notificationRepository.findUnreadByRecipientUserId(id);
   }
 
   async markNotificationAsRead(id: string, userId: string): Promise<void> {
-
     const notification = await this.notificationRepository.findById(id);
     if (!notification) {
       throw new Error(`Notification not found`);
     }
-      
+
     if (notification.recipientId !== userId) {
       throw new Error(`Notification does not exist or does not belong to user`);
     }
@@ -54,5 +57,7 @@ export class NotificationService {
         await channel.send(notification);
       }
     }
+
+    this.notificationStream.next(notification as unknown as NotificationEntity);
   }
 }
