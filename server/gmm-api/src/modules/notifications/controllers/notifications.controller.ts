@@ -60,9 +60,6 @@ export class NotificationController {
     const userId = (req.user as User).id;
 
     return fromEvent(this.eventEmitter, `notification:${userId}`).pipe(
-      tap((notification) => {
-        console.debug(`Event emitted for userId ${userId}:`, notification);
-      }),
       map((notification: any) => {
         return { data: notification };
       }),
