@@ -154,7 +154,7 @@ export default function OtherPlatforms() {
                 <OtherPlatformCard
                   imageSrc="/assets/comments-dollar-solid.svg"
                   imageClassName="gmm-card-icon"
-                  isActive={current === 6}
+                  isActive={current === 2}
                   onClick={() => handleCardClick(2)}
                 >
                   {t.rich("card.payment", {
@@ -195,7 +195,7 @@ export default function OtherPlatforms() {
                 <OtherPlatformCard
                   imageSrc="/assets/ban-solid.svg"
                   imageClassName="gmm-card-icon"
-                  isActive={current === 2}
+                  isActive={current === 6}
                   onClick={() => handleCardClick(6)}
                 >
                   {t.rich("card.noFamilyInvolvement", {
