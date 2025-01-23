@@ -1,16 +1,5 @@
 // notification.controller.ts
-import {
-  Controller,
-  Body,
-  Get,
-  Post,
-  Put,
-  Query,
-  Req,
-  Res,
-  Sse,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Req, Sse, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { NotificationService } from '../services/notification.service';
 import { User } from '@modules/user/entities/user.entity';
@@ -19,8 +8,8 @@ import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { Observable, interval, map } from 'rxjs';
 
 @ApiTags('notifications')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+// @ApiBearerAuth()
+// @UseGuards(JwtAuthGuard)
 @Controller('notifications')
 export class NotificationController {
   constructor(private notificationService: NotificationService) {}
@@ -64,25 +53,6 @@ export class NotificationController {
     }
   }
 
-  // Mark as read
-  @Put('mark-as-read')
-  async markAsRead(@Req() req: Request, @Query('id') id: string) {
-    try {
-      await this.notificationService.markNotificationAsRead(
-        id,
-        (req.user as User).id,
-      );
-      return {
-        message: 'Notification marked as read successfully',
-      };
-    } catch (error) {
-      return {
-        message: 'Failed to mark notification as read',
-        error: error.message,
-      };
-    }
-  }
-
   @Sse('real-time')
   realTimeNotifications(@Req() req: Request): Observable<any> {
     const userId = (req.user as User).id;
@@ -91,7 +61,10 @@ export class NotificationController {
       map(async () => {
         const unreadNotifications =
           await this.notificationService.getMyUnreadNotifications(userId);
-        return { data: unreadNotifications };
+
+        const data = JSON.stringify(unreadNotifications);
+        console.log(data);
+        return { data: data };
       }),
     );
   }
