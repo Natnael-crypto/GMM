@@ -5,16 +5,19 @@ import { NotificationService } from '../services/notification.service';
 import { User } from '@modules/user/entities/user.entity';
 import { Request, Response } from 'express';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
-import { Observable, interval, map } from 'rxjs';
+import { Observable, fromEvent, interval, map, tap } from 'rxjs';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @ApiTags('notifications')
-// @ApiBearerAuth()
-// @UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('notifications')
 export class NotificationController {
-  constructor(private notificationService: NotificationService) {}
+  constructor(
+    private notificationService: NotificationService,
+    private readonly eventEmitter: EventEmitter2,
+  ) {}
 
-  // Get my notifications
   @Get('my-notifications')
   async getMyNotifications(@Req() req: Request) {
     try {
@@ -33,7 +36,6 @@ export class NotificationController {
     }
   }
 
-  // Get my unread notifications
   @Get('my-unread-notifications')
   async getMyUnreadNotifications(@Req() req: Request) {
     try {
@@ -57,14 +59,12 @@ export class NotificationController {
   realTimeNotifications(@Req() req: Request): Observable<any> {
     const userId = (req.user as User).id;
 
-    return interval(1000).pipe(
-      map(async () => {
-        const unreadNotifications =
-          await this.notificationService.getMyUnreadNotifications(userId);
-
-        const data = JSON.stringify(unreadNotifications);
-        console.log(data);
-        return { data: data };
+    return fromEvent(this.eventEmitter, `notification:${userId}`).pipe(
+      tap((notification) => {
+        console.debug(`Event emitted for userId ${userId}:`, notification);
+      }),
+      map((notification: any) => {
+        return { data: notification };
       }),
     );
   }
