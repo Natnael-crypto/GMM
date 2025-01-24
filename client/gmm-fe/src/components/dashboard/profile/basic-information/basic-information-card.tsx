@@ -19,7 +19,7 @@ export default function BasicInformationCard({ user }: { user: User }) {
   const [generateDownloadUrl] = useCreateDownloadUrlMutation();
 
   useEffect(() => {
-    if (user.video && !videoUrl) {
+    if (user.video && !videoUrl && false) {
       generateDownloadUrl(user.video)
         .unwrap()
         .then((url) => {
@@ -56,7 +56,7 @@ export default function BasicInformationCard({ user }: { user: User }) {
             <div className="md:hidden col-span-12 rounded-2xl overflow-hidden">
               <video
                 ref={videoRef}
-                className={cn('aspect-video', videoUrl ? '' : 'hidden')}
+                className={cn('aspect-video hidden', videoUrl ? '' : 'hidden')}
                 src={videoUrl}
                 controls
               />
@@ -99,7 +99,7 @@ export default function BasicInformationCard({ user }: { user: User }) {
             <div className="hidden md:block col-span-4 rounded-2xl overflow-hidden">
               <video
                 ref={videoRef}
-                className={cn('aspect-video', videoUrl ? '' : 'hidden')}
+                className={cn('aspect-video hidden', videoUrl ? '' : 'hidden')}
                 src={videoUrl}
                 controls
               />
