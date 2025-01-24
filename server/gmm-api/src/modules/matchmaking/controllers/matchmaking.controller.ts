@@ -121,6 +121,8 @@ export class MatchMakingController {
         `/users/${femaleUserId}`,
         `/users/me/${maleUserId}`,
         `/users/me/${femaleUserId}`,
+        `/payments/remaining-matches/${maleUserId}`,
+        `/payments/remaining-matches/${femaleUserId}`,
       ];
 
       await Promise.all(keys.map((key) => this.cacheManager.del(key)));
@@ -410,6 +412,8 @@ export class MatchMakingController {
         `/users/${femaleUserId}`,
         `/users/me/${maleUserId}`,
         `/users/me/${femaleUserId}`,
+        `/payments/remaining-matches/${maleUserId}`,
+        `/payments/remaining-matches/${femaleUserId}`,
       ];
       await Promise.all(keys.map((key) => this.cacheManager.del(key)));
       return {
