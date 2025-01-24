@@ -9,6 +9,8 @@ import { PaymentsModule } from '@modules/payment/payment.module';
 import { MatchPool } from './entities/match-pool.entity';
 import { InvitationToMatchStage } from './entities/invitation-to-match-stage.entity';
 import { NotificationsModule } from '@modules/notifications/notifications.module';
+import { ImageAccessRequestService } from './services/image-request.service';
+import { ImageAccessRequest } from './entities/image-access-request.entity';
 
 @Module({
   imports: [
@@ -17,13 +19,14 @@ import { NotificationsModule } from '@modules/notifications/notifications.module
       Preference,
       MatchPool,
       InvitationToMatchStage,
+      ImageAccessRequest,
     ]),
     UserModule,
     PaymentsModule,
-    NotificationsModule
+    NotificationsModule,
   ],
   controllers: [MatchMakingController],
-  providers: [MatchMakingService],
+  providers: [MatchMakingService, ImageAccessRequestService],
   exports: [TypeOrmModule],
 })
 export class MatchMakingModule {}

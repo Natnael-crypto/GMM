@@ -27,6 +27,8 @@ import { FormSubmission } from '@modules/form/entities/submission.entity';
 import { FormFieldAnswer } from '@modules/form/entities/form-field-answer.entity';
 import { Form } from '@modules/form/entities/form.entity';
 import { FormField } from '@modules/form/entities/form-field.entity';
+import { ImageAccessRequest } from '@modules/matchmaking/entities/image-access-request.entity';
+import { Verification } from '@modules/verification/entities/verification.entity';
 
 require('dotenv').config();
 
@@ -61,8 +63,8 @@ const options: DataSourceOptions & SeederOptions = {
     FormField,
     FormFieldAnswer,
     Form,
-    
-
+    ImageAccessRequest,
+    Verification,
   ],
 };
 

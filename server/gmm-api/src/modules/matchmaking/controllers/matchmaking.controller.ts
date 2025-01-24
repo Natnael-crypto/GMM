@@ -27,6 +27,8 @@ import { Cache } from 'cache-manager';
 import { UserSpecificCacheInterceptor } from '@shared/interceptors/cache.interceptor';
 import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 import { Match } from '../entities/match.entity';
+import { ImageAccessRequestService } from '../services/image-request.service';
+import { ImageAccessRequestDto } from '../dtos/image-access-request.dto';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
@@ -34,6 +36,7 @@ import { Match } from '../entities/match.entity';
 export class MatchMakingController {
   constructor(
     private readonly matchmakingService: MatchMakingService,
+    private readonly imageAccessRequestService: ImageAccessRequestService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
@@ -377,6 +380,57 @@ export class MatchMakingController {
         error: error.message,
       };
     }
+  }
+
+  // @Post('matches/image-requests/:id') -> natchId
+  @UseGuards(JwtAuthGuard)
+  @Post('matches/image-requests/:id')
+  async createImageAccessRequest(@Param('id') id: string, @Req() req: Request) {
+    const imageAccess =
+      await this.imageAccessRequestService.createImageAccessRequest(
+        id,
+        (req.user as User).id,
+      );
+
+    return {
+      message: 'Image access request created successfully',
+      data: imageAccess,
+    };
+  }
+
+  // @Put('matches/image-requests/:id') -> imageRequestAccessId
+  @UseGuards(JwtAuthGuard)
+  @Put('matches/image-requests/:id')
+  async updateImageAccessRequest(
+    @Param('id') id: string,
+    @Body() dto: ImageAccessRequestDto,
+    @Req() req: Request,
+  ) {
+    await this.imageAccessRequestService.updateImageAccessRequest(
+      id,
+      (req.user as User).id,
+      dto,
+    );
+
+    return {
+      message: 'Image access updated successfully',
+    };
+  }
+
+  // @Get('matches/image-requests/:id') -> imageRequestAccessId
+  @UseGuards(JwtAuthGuard)
+  @Get('matches/image-requests/:id')
+  async getImageAccessRequest(@Param('id') id: string, @Req() req: Request) {
+    const imageAccess =
+      await this.imageAccessRequestService.getImageAccessRequest(
+        id,
+        (req.user as User).id,
+      );
+
+    return {
+      message: 'Image access fetched successfully',
+      data: imageAccess,
+    };
   }
 
   // invalidate users matchmaking cache by userId

@@ -30,6 +30,7 @@ import { Country } from '@modules/location/entities/country.entity';
 import { City } from '@modules/location/entities/city.entity';
 import { State } from '@modules/location/entities/state.entity';
 import { Verification } from '@modules/verification/entities/verification.entity';
+import { ImageAccessRequest } from '@modules/matchmaking/entities/image-access-request.entity';
 
 require('dotenv').config();
 
@@ -68,6 +69,7 @@ const options: DataSourceOptions & SeederOptions = {
     State,
     City,
     Verification,
+    ImageAccessRequest,
   ],
 };
 
