@@ -79,7 +79,7 @@ export default function FamilyIntroductionCard({ user }: { user: User }) {
       )}
 
       <h1 className="text-secondary font-bold text-xl pb-3 border-t border-muted-foreground py-4">
-        Introductions <span className="font-bold text-sm">- Coming Soon</span>
+      Proposals <span className="font-bold text-sm">- Coming Soon</span>
       </h1>
 
       <h1 className="text-secondary font-bold text-xl pb-3 border-t border-muted-foreground py-4">
