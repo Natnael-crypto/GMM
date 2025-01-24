@@ -55,6 +55,13 @@ export default function Billing() {
                   <td className="py-2">{toTierName(history.planId)}</td>
                   <td className="py-2">
                     <PDFDownloadLink
+                      fileName={`GMM-Invoice-${new Date(history.periodStart)
+                        .toLocaleString('en-GB', {
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit',
+                        })
+                        .replaceAll('/', '-')}.pdf`}
                       document={<ReceiptPdf user={user!} payment={history} />}
                       className={cn(
                         buttonVariants({
