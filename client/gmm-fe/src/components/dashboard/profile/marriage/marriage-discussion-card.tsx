@@ -15,7 +15,13 @@ export default function MarriageDiscussionCard({
 }) {
   const { form: marriageDiscussionForm, formData: marriageDiscussionData } =
     useUserData(user, 'marriage-discussion');
-
+    const description = `
+    <div style="text-align: center;">
+      <strong>Picture Reveal & The Logistics of Getting MARRIED!!! </strong>
+      The 4th step of the Guardian Muslim Marriage Guided Matchmaking Process.
+      <br>“The picture reveal and where you and your potential spouse talk about the details of Marriage”
+    </div>
+  `;
   return (
     <>
       {marriageDiscussionData ? (
@@ -24,7 +30,7 @@ export default function MarriageDiscussionCard({
           description={
             hideTitle
               ? undefined
-              : 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Modi quidem, recusandae ipsum nemo repellat natus alias magni labore omnis, quasi saepe quos! Ad quaerat doloremque delectus veniam eligendi maxime ea!'
+              : description
           }
           getFields={(data) =>
             getFields(data, marriageDiscussionForm?.displayTemplate)
