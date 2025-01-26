@@ -46,10 +46,8 @@ export default function BasicInformationCard({ user }: { user: User }) {
           </h1>
 
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
+            Welcome to the <strong>Basic</strong> Section, the <strong>1st step of the Guardian Muslim Marriage Guided Matchmaking Process.
+            </strong>
           </p>
 
           <div className="grid grid-cols-12 my-5 gap-y-8">

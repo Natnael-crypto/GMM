@@ -83,7 +83,7 @@ export default function FieldViewer<T>({
         )}
 
         {description && (
-          <p className="mt-3 bg-muted rounded-2xl p-4 text-sm">{description}</p>
+          <p className="mt-3 bg-muted rounded-2xl p-4 text-sm" dangerouslySetInnerHTML={{ __html: description }}/>
         )}
       </div>
 

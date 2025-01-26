@@ -24,10 +24,9 @@ export default function FamilyIntroductionCard({ user }: { user: User }) {
       </h1>
 
       <p className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat.
+      <strong>Your People Contact My People!!! </strong>The 5th and final step of the Guardian Muslim Marriage Guided Matchmaking Process.
+When you and your potential spouse reach this step, your Guardian Family Member’s/Imam’s contact information will be exchanged with your match’s Guardian Family Member’s/Imam’s contact information to initiate family contact.
+
       </p>
 
       {familyIntroduction && (
