@@ -43,7 +43,7 @@ export default function ChildrenStatus() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      {Array.from({ length: 15 }, (_, i) => i + 1).map((i) => (
+                      {Array.from({ length: 4 }, (_, i) => i + 1).map((i) => (
                         <SelectItem
                           className="text-md max-w-80"
                           key={i}
@@ -53,7 +53,7 @@ export default function ChildrenStatus() {
                         </SelectItem>
                       ))}
                       <SelectItem className="text-md max-w-80" value="16">
-                        More than 15
+                        5+
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -81,10 +81,8 @@ export default function ChildrenStatus() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent className="max-h-64">
-                      <SelectItem className="text-md max-w-80" value="0">
-                        Under 1 year
-                      </SelectItem>
-                      {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => {
+                      
+                      {Array.from({ length: 4 }, (_, i) => i + 1).map((i) => {
                         if (parseInt(form.watch('ageOfYoungestChild')) > i) {
                           return null;
                         }
@@ -98,6 +96,9 @@ export default function ChildrenStatus() {
                           </SelectItem>
                         );
                       })}
+                      <SelectItem className="text-md max-w-80" value="6">
+                        5+
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </FormControl>
@@ -133,9 +134,9 @@ export default function ChildrenStatus() {
                     </SelectTrigger>
                     <SelectContent className="max-h-64">
                       <SelectItem className="text-md max-w-80" value="0">
-                        Under 1 year
+                      0 - 12 Months
                       </SelectItem>
-                      {Array.from({ length: 100 }, (_, i) => i + 1).map((i) => {
+                      {Array.from({ length: 4 }, (_, i) => i + 1).map((i) => {
                         if (
                           numberOfChildren > 1 &&
                           parseInt(form.watch('ageOfOldestChild')) < i
@@ -153,6 +154,13 @@ export default function ChildrenStatus() {
                           </SelectItem>
                         );
                       })}
+                      {numberOfChildren > 1 &&
+                      parseInt(form.watch('ageOfOldestChild')) > 5 &&
+                      <SelectItem className="text-md max-w-80" value="6">
+                      5+ 
+                      </SelectItem>
+                      
+                      }
                     </SelectContent>
                   </Select>
                 </FormControl>
