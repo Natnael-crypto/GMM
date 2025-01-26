@@ -14,7 +14,7 @@ export default function IslamicLifestyleCard({ user }: { user: User }) {
     <>
       {islamicLifestyleData ? (
         <FieldViewer
-          title="Your Current Islamic Lifestyle (that you live)"
+          title="Current Islamic Lifestyle"
           description="<strong>DEEN LIFE!!!</strong> 3rd step of the <strong>Guardian Muslim Marriage Guided Matchmaking Process.</strong> Show your potential spouse the<strong> Current Islamic Lifestyle</strong> you live, and the<strong> Islamic Lifestyle you Expect to Live After Marriage.</strong>"
           getFields={(data) =>
             getFields(data, islamicLifestyleForm?.displayTemplate)
