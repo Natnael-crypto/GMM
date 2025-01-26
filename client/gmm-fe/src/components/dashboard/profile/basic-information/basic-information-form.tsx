@@ -742,21 +742,9 @@ export default function BasicInformationForm() {
                         <SelectContent>
                           <SelectItem
                             className="text-sm "
-                            value="Not Practicing Never Prays/Non-Muslim"
+                            value="Not Practicing (never prays/non-muslim)"
                           >
-                            Not Practicing Never Prays/Non-Muslim
-                          </SelectItem>
-                          <SelectItem
-                            className="text-sm "
-                            value="Occasionally Practicing"
-                          >
-                            Occasionally Practicing
-                          </SelectItem>
-                          <SelectItem
-                            className="text-sm "
-                            value="Practicing and Trying to Get Better"
-                          >
-                            Practicing and Trying to get Better
+                            Not Practicing (never prays/non-muslim)
                           </SelectItem>
                           <SelectItem
                             className="text-sm "
@@ -770,6 +758,7 @@ export default function BasicInformationForm() {
                           >
                             Very Practicing/Sunnah Nawafil Included
                           </SelectItem>
+                          
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -814,7 +803,7 @@ export default function BasicInformationForm() {
           </div>
 
           <div className="space-y-1 col-span-4 sm:col-span-2">
-            <Label>Drinks/Alcohol</Label>
+            <Label>Drinking</Label>
             <FormField
               name="drinks"
               control={form.control}
@@ -845,7 +834,7 @@ export default function BasicInformationForm() {
           </div>
           <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>
-              Drugs <span className="text-nowrap">(Cannabis/Cocaine)</span>
+              Drugs <span className="text-nowrap">(including Cannabis)</span>
             </Label>
             <FormField
               name="drugs"
@@ -877,7 +866,7 @@ export default function BasicInformationForm() {
           </div>
           <div className="space-y-1 col-span-4 sm:col-span-2">
             <Label>
-              Smokes <span>(Vapes/Shisha)</span>
+              Smoking
             </Label>
             <FormField
               name="smokes"
@@ -931,22 +920,22 @@ export default function BasicInformationForm() {
                           className="text-sm"
                           value="Minimal, not visible"
                         >
-                          Minimal, not visible
+                          Minimal, Not Visible
                         </SelectItem>
                         <SelectItem
                           className="text-sm"
                           value="Small, visible or concealed"
                         >
-                          Small, visible or concealed
+                          Small, Visible or Concealed
                         </SelectItem>
                         <SelectItem
                           className="text-sm"
                           value="Large or multiple tattoos"
                         >
-                          Large or multiple tattoos
+                          Large or Multiple
                         </SelectItem>
                         <SelectItem className="text-sm" value="Doesn’t matter">
-                          Doesn’t matter
+                          Doesn’t Matter
                         </SelectItem>
                       </SelectContent>
                     </Select>
