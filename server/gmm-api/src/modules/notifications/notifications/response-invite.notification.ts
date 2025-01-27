@@ -1,4 +1,3 @@
-import { title } from 'process';
 import { InAppChannelService } from '../channels/in-app-channel.service';
 import { Notification } from '../types/notification.interface';
 
@@ -8,7 +7,7 @@ export class ResponseInviteNotification implements Notification {
       userName: string;
       recipientId: string;
       action: 'accepted' | 'rejected';
-    }
+    },
   ) {}
 
   broadcastOn() {

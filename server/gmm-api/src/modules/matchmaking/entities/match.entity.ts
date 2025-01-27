@@ -6,10 +6,12 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { InvitationToMatchStage } from './invitation-to-match-stage.entity';
 import { MatchStage } from '../enums/matchmaking.enum';
+import { ImageAccessRequest } from './image-access-request.entity';
 
 @Entity()
 export class Match {
@@ -46,6 +48,11 @@ export class Match {
     onDelete: 'CASCADE',
   })
   invitations: InvitationToMatchStage[];
+
+  @OneToOne(() => ImageAccessRequest, (request) => request.match, {
+    onDelete: 'CASCADE',
+  })
+  imageRequest: ImageAccessRequest;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -27,6 +27,8 @@ import { Cache } from 'cache-manager';
 import { UserSpecificCacheInterceptor } from '@shared/interceptors/cache.interceptor';
 import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 import { Match } from '../entities/match.entity';
+import { ImageAccessRequestService } from '../services/image-request.service';
+import { ImageAccessRequestDto } from '../dtos/image-access-request.dto';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
@@ -34,6 +36,7 @@ import { Match } from '../entities/match.entity';
 export class MatchMakingController {
   constructor(
     private readonly matchmakingService: MatchMakingService,
+    private readonly imageAccessRequestService: ImageAccessRequestService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
@@ -72,6 +75,53 @@ export class MatchMakingController {
         error: error.message,
       };
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('matches/image-requests')
+  async createImageAccessRequest(@Req() req: Request) {
+    const imageAccess =
+      await this.imageAccessRequestService.createImageAccessRequest(
+        (req.user as User).id,
+      );
+
+    return {
+      message: 'Image access request created successfully',
+      data: imageAccess,
+    };
+  }
+
+  // @Put('matches/image-requests/:id') -> imageRequestAccessId
+  @UseGuards(JwtAuthGuard)
+  @Put('matches/image-requests/:id')
+  async updateImageAccessRequest(
+    @Param('id') id: string,
+    @Body() dto: ImageAccessRequestDto,
+    @Req() req: Request,
+  ) {
+    await this.imageAccessRequestService.updateImageAccessRequest(
+      id,
+      (req.user as User).id,
+      dto,
+    );
+
+    return {
+      message: 'Image access updated successfully',
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('matches/image-requests')
+  async getImageAccessRequests(@Req() req: Request) {
+    const imageAccess =
+      await this.imageAccessRequestService.getImageAccessRequests(
+        (req.user as User).id,
+      );
+
+    return {
+      message: 'Image access fetched successfully',
+      data: imageAccess,
+    };
   }
 
   @UseInterceptors(UserSpecificCacheInterceptor)

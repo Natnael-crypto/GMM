@@ -281,7 +281,7 @@ export class MatchMakingService extends BaseRepository {
 
   async getAllMatches(): Promise<Match[]> {
     return await this.getRepository(Match).find({
-      relations: ['maleUser', 'femaleUser', 'invitations'],
+      relations: ['maleUser', 'femaleUser', 'invitations', 'imageRequest'],
     });
   }
 
@@ -298,7 +298,7 @@ export class MatchMakingService extends BaseRepository {
   async getUserMatches(userId: string): Promise<Match[]> {
     return await this.getRepository(Match).find({
       where: [{ maleUserId: userId }, { femaleUserId: userId }],
-      relations: ['maleUser', 'femaleUser', 'invitations'],
+      relations: ['maleUser', 'femaleUser', 'invitations', 'imageRequest'],
     });
   }
 
@@ -317,7 +317,7 @@ export class MatchMakingService extends BaseRepository {
   async getMatch(matchId: string): Promise<Match> {
     const match = await this.getRepository(Match).findOne({
       where: { id: matchId },
-      relations: ['maleUser', 'femaleUser', 'invitations'],
+      relations: ['maleUser', 'femaleUser', 'invitations', 'imageRequest'],
     });
 
     if (!match) {
