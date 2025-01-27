@@ -77,6 +77,53 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Post('matches/image-requests')
+  async createImageAccessRequest(@Req() req: Request) {
+    const imageAccess =
+      await this.imageAccessRequestService.createImageAccessRequest(
+        (req.user as User).id,
+      );
+
+    return {
+      message: 'Image access request created successfully',
+      data: imageAccess,
+    };
+  }
+
+  // @Put('matches/image-requests/:id') -> imageRequestAccessId
+  @UseGuards(JwtAuthGuard)
+  @Put('matches/image-requests/:id')
+  async updateImageAccessRequest(
+    @Param('id') id: string,
+    @Body() dto: ImageAccessRequestDto,
+    @Req() req: Request,
+  ) {
+    await this.imageAccessRequestService.updateImageAccessRequest(
+      id,
+      (req.user as User).id,
+      dto,
+    );
+
+    return {
+      message: 'Image access updated successfully',
+    };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('matches/image-requests')
+  async getImageAccessRequests(@Req() req: Request) {
+    const imageAccess =
+      await this.imageAccessRequestService.getImageAccessRequests(
+        (req.user as User).id,
+      );
+
+    return {
+      message: 'Image access fetched successfully',
+      data: imageAccess,
+    };
+  }
+
   @UseInterceptors(UserSpecificCacheInterceptor)
   @UseGuards(JwtAuthGuard)
   @Get('potential-matches')
@@ -380,57 +427,6 @@ export class MatchMakingController {
         error: error.message,
       };
     }
-  }
-
-  // @Post('matches/image-requests/:id') -> natchId
-  @UseGuards(JwtAuthGuard)
-  @Post('matches/image-requests/:id')
-  async createImageAccessRequest(@Param('id') id: string, @Req() req: Request) {
-    const imageAccess =
-      await this.imageAccessRequestService.createImageAccessRequest(
-        id,
-        (req.user as User).id,
-      );
-
-    return {
-      message: 'Image access request created successfully',
-      data: imageAccess,
-    };
-  }
-
-  // @Put('matches/image-requests/:id') -> imageRequestAccessId
-  @UseGuards(JwtAuthGuard)
-  @Put('matches/image-requests/:id')
-  async updateImageAccessRequest(
-    @Param('id') id: string,
-    @Body() dto: ImageAccessRequestDto,
-    @Req() req: Request,
-  ) {
-    await this.imageAccessRequestService.updateImageAccessRequest(
-      id,
-      (req.user as User).id,
-      dto,
-    );
-
-    return {
-      message: 'Image access updated successfully',
-    };
-  }
-
-  // @Get('matches/image-requests/:id') -> imageRequestAccessId
-  @UseGuards(JwtAuthGuard)
-  @Get('matches/image-requests/:id')
-  async getImageAccessRequest(@Param('id') id: string, @Req() req: Request) {
-    const imageAccess =
-      await this.imageAccessRequestService.getImageAccessRequest(
-        id,
-        (req.user as User).id,
-      );
-
-    return {
-      message: 'Image access fetched successfully',
-      data: imageAccess,
-    };
   }
 
   // invalidate users matchmaking cache by userId

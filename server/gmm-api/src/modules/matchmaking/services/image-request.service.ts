@@ -14,11 +14,9 @@ import { MatchMakingService } from './matchmaking.service';
 import { ImageAccessRequestStatus } from '../enums/request-status.enum';
 import { ImageAccessRequestNotification } from '@modules/notifications/notifications/image-access-request.notification';
 import { NotificationService } from '@modules/notifications/services/notification.service';
-import {
-  ImageAccessRequestPayload,
-  ImageRequestNotificationPayload,
-} from '../interfaces/matchmaking.interface';
+import { ImageRequestNotificationPayload } from '../interfaces/matchmaking.interface';
 import { ImageAccessRequestDto } from '../dtos/image-access-request.dto';
+import { MatchStage } from '../enums/matchmaking.enum';
 
 @Injectable({ scope: Scope.REQUEST })
 export class ImageAccessRequestService extends BaseRepository {
@@ -40,19 +38,25 @@ export class ImageAccessRequestService extends BaseRepository {
    *
    * Additionally, a notification is sent to the recipient of the image access request.
    *
-   * @param id - The ID of the user requesting image access.
+   * @param userId - The ID of the user requesting image access.
    * @returns A promise that resolves to the created or updated ImageAccessRequest.
    *
    * @throws Will throw an error if the match cannot be retrieved or if there is an issue saving the request.
    */
-  async createImageAccessRequest(
-    id: string,
-    userId: string,
-  ): Promise<ImageAccessRequest> {
-    const currentMatch = await this.matchMakingService.getActiveMatch(id);
+  async createImageAccessRequest(userId: string): Promise<ImageAccessRequest> {
+    const currentMatch = await this.matchMakingService.getActiveMatch(userId);
 
     if (userId !== currentMatch.maleUserId) {
       throw new UnauthorizedException();
+    }
+
+    if (
+      currentMatch.stage !== MatchStage.MARRIAGE_DISCUSSION &&
+      currentMatch.stage !== MatchStage.FAMILY_INTRODUCTION
+    ) {
+      throw new BadRequestException(
+        'Image request can only be made during marriage discussion or family introduction stage',
+      );
     }
 
     const imageAccessRequest = await this.getRepository(
@@ -75,19 +79,23 @@ export class ImageAccessRequestService extends BaseRepository {
 
     if (!imageAccessRequest) {
       const newImageAccessRequest = new ImageAccessRequest();
-      newImageAccessRequest.userId = id;
+      newImageAccessRequest.userId = userId;
       newImageAccessRequest.matchId = currentMatch.id;
 
       response = await this.getRepository(ImageAccessRequest).save(
         newImageAccessRequest,
       );
+
+      await this.notificationService.send(notification);
     } else {
+      if (imageAccessRequest.status !== ImageAccessRequestStatus.PENDING) {
+        await this.notificationService.send(notification);
+      }
+
       imageAccessRequest.status = ImageAccessRequestStatus.PENDING;
       response =
         await this.getRepository(ImageAccessRequest).save(imageAccessRequest);
     }
-
-    await this.notificationService.send(notification);
 
     return response;
   }
@@ -107,9 +115,16 @@ export class ImageAccessRequestService extends BaseRepository {
   ) {
     const imageAccessRequest = await this.getRepository(
       ImageAccessRequest,
-    ).findOneByOrFail({
-      id: id,
+    ).findOne({
+      where: {
+        id,
+      },
+      relations: ['match', 'match.femaleUser', 'match.maleUser'],
     });
+
+    if (!imageAccessRequest) {
+      throw new BadRequestException('Image access request not found');
+    }
 
     if (userId !== imageAccessRequest.match.femaleUserId) {
       throw new UnauthorizedException();
@@ -121,9 +136,11 @@ export class ImageAccessRequestService extends BaseRepository {
       );
     }
 
-    const currentMatch = await this.matchMakingService.getActiveMatch(
-      imageAccessRequest.matchId,
-    );
+    const currentMatch = imageAccessRequest.match;
+
+    if (!currentMatch.isActive) {
+      throw new BadRequestException('Match is not active');
+    }
 
     const imageRequestNotificationPayload: ImageRequestNotificationPayload = {
       recipientId: currentMatch.maleUserId,
@@ -154,26 +171,15 @@ export class ImageAccessRequestService extends BaseRepository {
   /**
    * Retrieves an ImageAccessRequest by its ID.
    *
-   * @param {string} id - The unique identifier of the ImageAccessRequest.
-   * @returns {Promise<ImageAccessRequest>} A promise that resolves to the ImageAccessRequest object.
+   * @returns {Promise<ImageAccessRequest[]>} A promise that resolves to the ImageAccessRequest object.
    * @throws Will throw an error if no ImageAccessRequest is found with the given ID.
    */
-  async getImageAccessRequest(
-    id: string,
-    userId: string,
-  ): Promise<ImageAccessRequest> {
-    const imageAccess = await this.getRepository(
-      ImageAccessRequest,
-    ).findOneByOrFail({
-      id: id,
-    });
+  async getImageAccessRequests(userId: string): Promise<ImageAccessRequest[]> {
+    const currentMatch = await this.matchMakingService.getActiveMatch(userId);
 
-    if (
-      userId !== imageAccess.match.maleUserId &&
-      userId !== imageAccess.match.femaleUserId
-    ) {
-      throw new UnauthorizedException();
-    }
+    const imageAccess = await this.getRepository(ImageAccessRequest).findBy({
+      matchId: currentMatch.id,
+    });
 
     return imageAccess;
   }
