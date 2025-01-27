@@ -1,11 +1,11 @@
 // notification.controller.ts
-import { Controller, Get, Req, Sse, UseGuards } from '@nestjs/common';
+import { Controller, Get, Put, Req, Sse, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { NotificationService } from '../services/notification.service';
 import { User } from '@modules/user/entities/user.entity';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
-import { Observable, fromEvent, interval, map, tap } from 'rxjs';
+import { Observable, fromEvent, map } from 'rxjs';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @ApiTags('notifications')
@@ -17,6 +17,22 @@ export class NotificationController {
     private notificationService: NotificationService,
     private readonly eventEmitter: EventEmitter2,
   ) {}
+
+  @Put(':id')
+  async markAsRead(@Req() req: Request & { user: User }) {
+    try {
+      await this.notificationService.markNotificationAsRead(
+        req.params.id,
+        req.user.id,
+      );
+      return { message: 'Notification marked as read' };
+    } catch (error) {
+      return {
+        message: 'Failed to mark notification as read',
+        error: error.message,
+      };
+    }
+  }
 
   @Get('my-notifications')
   async getMyNotifications(@Req() req: Request) {
