@@ -39,3 +39,8 @@ export interface MatchStatistics {
   outsidePreferenceCount: number;
   poolSize: number;
 }
+
+export interface CreateMatchResponse {
+  data: Match;
+  message: string;
+}

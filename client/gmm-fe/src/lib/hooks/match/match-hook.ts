@@ -14,8 +14,8 @@ export const useMatch = () => {
     if (user) {
       createMatch()
         .unwrap()
-        .then((data) => {
-          if (data) {
+        .then((response) => {
+          if (response?.data) {
             toast({
               title: 'Match found',
               description: 'We have found a new match for you.',
@@ -24,8 +24,7 @@ export const useMatch = () => {
           } else {
             toast({
               title: 'Match status',
-              description:
-                'Finding you a match message, we will notify you soon.',
+              description: response?.message ?? 'No match found.',
             });
           }
         });

@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/ui/button';
 import React from 'react';
-import { useUpdateProfileContext } from '../profile/update-profile-context';
 import Loading from '@/components/ui/loading';
 import { useCountPotentialMatchesQuery } from '@/lib/matchmaking/api';
 import { useAppSelector } from '@/lib/hooks';
@@ -41,7 +40,7 @@ export default function MatchMeCard() {
           fuzzyMatchThreshold === 0 ? 'cta' : ''
         )}
         onClick={findNewMatch}
-        disabled={result.isLoading}
+        disabled={result.isLoading || stats?.potentialMatchCount === 0}
       >
         {result.isLoading ? <Loading /> : matchMeText}
       </Button>

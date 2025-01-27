@@ -2,7 +2,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { constants } from '@/config';
 import { RootState } from '../store';
 import { BaseResponse } from '@/types/base-response';
-import { Match, MatchStatistics, StageInvitationStatus } from './types';
+import {
+  CreateMatchResponse,
+  Match,
+  MatchStatistics,
+  StageInvitationStatus,
+} from './types';
 import { UserInMatchPool } from '../schemas/match';
 
 export const matchApi = createApi({
@@ -62,15 +67,15 @@ export const matchApi = createApi({
       },
     }),
 
-    createMatch: builder.mutation<Match, void>({
+    createMatch: builder.mutation<CreateMatchResponse, void>({
       query: () => {
         return {
           url: `matchmaking`,
           method: 'POST',
         };
       },
-      transformResponse: (response: BaseResponse<Match>) => {
-        return response.data;
+      transformResponse: (response: CreateMatchResponse) => {
+        return response;
       },
       invalidatesTags: (result, error, arg, meta) => {
         return [

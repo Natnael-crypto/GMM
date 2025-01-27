@@ -25,6 +25,7 @@ import {
 import { MarriageDiscussion } from '../schemas/marriage-discussion';
 import { Preference } from '../schemas/preference';
 import { FamilyIntroduction } from '../schemas/family-introduction';
+import { matchApi } from '../matchmaking/api';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -104,6 +105,10 @@ export const userApi = createApi({
       },
       invalidatesTags(result, error, arg, meta) {
         return [{ type: 'User' }];
+      },
+      async onQueryStarted(_, { dispatch, queryFulfilled }) {
+        await queryFulfilled;
+        dispatch(matchApi.util.invalidateTags([{ type: 'MatchCount' }]));
       },
     }),
 
