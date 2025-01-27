@@ -3,9 +3,9 @@
 import { buttonVariants } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { matchApi, useUnmatchMutation } from '@/lib/matchmaking/api';
-import { Match } from '@/lib/matchmaking/types';
+import { ImageAccessRequestStatus, Match } from '@/lib/matchmaking/types';
 import { useRouter } from '@/lib/navigation';
-import { User } from '@/lib/schemas/user';
+import { Gender, User } from '@/lib/schemas/user';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect } from 'react';
@@ -23,6 +23,7 @@ import {
 import { cn } from '@/lib/utils';
 import { setUser } from '@/lib/auth/slice';
 import { allMatchStages } from '@/lib/schemas/match';
+import RequestImageView from './request-image-view';
 
 export default function GuardianGuide({
   matchedUser,
@@ -47,6 +48,11 @@ export default function GuardianGuide({
   }, [unmatchResult, router, dispatch]);
 
   const stageIndex = allMatchStages.indexOf(match.stage);
+
+  const showReviewRequestsButton =
+    user?.gender === Gender.FEMALE &&
+    match?.imageRequest?.status === ImageAccessRequestStatus.PENDING;
+  console.log({ showReviewRequestsButton });
 
   return (
     <div
@@ -91,7 +97,9 @@ export default function GuardianGuide({
         </div>
 
         {stageIndex != undefined && stageIndex >= 1 && (
-          <div className="flex justify-end">
+          <div className="flex gap-2 justify-end">
+            {showReviewRequestsButton && <RequestImageView />}
+
             <AlertDialog>
               <AlertDialogTrigger
                 className={cn(

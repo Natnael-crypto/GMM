@@ -4,6 +4,8 @@ import { RootState } from '../store';
 import { BaseResponse } from '@/types/base-response';
 import {
   CreateMatchResponse,
+  ImageAccessPayload,
+  ImageAccessRequest,
   Match,
   MatchStatistics,
   StageInvitationStatus,
@@ -13,7 +15,13 @@ import { UserInMatchPool } from '../schemas/match';
 export const matchApi = createApi({
   reducerPath: 'matchApi',
 
-  tagTypes: ['Match', 'MatchCount', 'UserInMatchPool', 'RemainingMatches'],
+  tagTypes: [
+    'Match',
+    'MatchCount',
+    'UserInMatchPool',
+    'RemainingMatches',
+    'ImageAccessRequest',
+  ],
 
   baseQuery: fetchBaseQuery({
     baseUrl: constants.apiBaseUrl,
@@ -176,6 +184,34 @@ export const matchApi = createApi({
         return [{ type: 'RemainingMatches' as const }];
       },
     }),
+
+    requestImageAccess: builder.mutation<ImageAccessRequest, void>({
+      query: () => {
+        return {
+          url: 'matchmaking/matches/image-requests',
+          method: 'POST',
+        };
+      },
+      transformResponse: (response: BaseResponse<ImageAccessRequest>) => {
+        return response.data;
+      },
+      invalidatesTags: (result, error, arg, meta) => {
+        return [{ type: 'ImageAccessRequest' }, { type: 'Match' }];
+      },
+    }),
+
+    acceptOrRejectImageAccess: builder.mutation<any, ImageAccessPayload>({
+      query: ({ status, imageAccessRequestId }) => ({
+        url: `matchmaking/matches/image-requests/${imageAccessRequestId}`,
+        method: 'PUT',
+        body: {
+          status,
+        },
+      }),
+      invalidatesTags: (result, error, arg, meta) => {
+        return [{ type: 'ImageAccessRequest' }, { type: 'Match' }];
+      },
+    }),
   }),
 });
 
@@ -191,4 +227,6 @@ export const {
   useInviteToNextStepMutation,
   useAcceptOrRejectInvitationMutation,
   useGetAvailableMatchesLeftQuery,
+  useRequestImageAccessMutation,
+  useAcceptOrRejectImageAccessMutation,
 } = matchApi;

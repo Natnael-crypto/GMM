@@ -16,10 +16,11 @@ import { Chat } from '@/lib/schemas/chat';
 import { useAppSelector } from '@/lib/hooks';
 import { toast } from '@/components/ui/use-toast';
 import Loading from '@/components/ui/loading';
-import { Match } from '@/lib/matchmaking/types';
+import { ImageAccessRequestStatus, Match } from '@/lib/matchmaking/types';
 import { allMatchStages } from '@/lib/schemas/match';
 import ProfileImages from './profile-image-card';
 import HiddenProfileImage from './hidden-profile-image';
+import { MINUTE } from '@/lib/format';
 
 const stageUrls = [
   'basic-information',
@@ -77,7 +78,10 @@ export default function MatchedCard({
 
   const showImage =
     matchedUser?.gender === Gender.MALE ||
-    match.femaleImageAccessExpiration > new Date();
+    (match &&
+      new Date(match?.imageRequest?.updatedAt).getTime() + 1 * MINUTE >
+        Date.now() &&
+      match?.imageRequest?.status === ImageAccessRequestStatus.ACCEPTED);
 
   return (
     <div className="grid grid-cols-9 gap-4 h-full">

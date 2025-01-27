@@ -12,6 +12,8 @@ import { useGetUserQuery } from '@/lib/user/api';
 import Footer from '@/components/ui/footer';
 import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
 import { Gender } from '@/lib/schemas/user';
+import { MINUTE } from '@/lib/format';
+import { ImageAccessRequestStatus } from '@/lib/matchmaking/types';
 
 export default function ProfileLayout({
   children,
@@ -60,7 +62,10 @@ export default function ProfileLayout({
     data?.gender === Gender.MALE ||
     data?.id === user?.id ||
     (currentMatch &&
-      currentMatch?.femaleImageAccessExpiration > new Date() &&
+      new Date(currentMatch?.imageRequest?.updatedAt).getTime() + 1 * MINUTE >
+        Date.now() &&
+      currentMatch?.imageRequest?.status ===
+        ImageAccessRequestStatus.ACCEPTED &&
       currentMatch?.maleUser?.id === user?.id);
 
   return (

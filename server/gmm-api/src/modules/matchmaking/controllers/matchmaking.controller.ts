@@ -85,6 +85,27 @@ export class MatchMakingController {
         (req.user as User).id,
       );
 
+    const existingMatch = await this.matchmakingService.getMatch(
+      imageAccess.matchId,
+    );
+    const maleUserId = existingMatch.maleUser.id;
+    const femaleUserId = existingMatch.femaleUser.id;
+
+    const keys = [
+      `/matchmaking/current-match/${maleUserId}`,
+      `/matchmaking/current-match/${femaleUserId}`,
+      `/matchmaking/${maleUserId}`,
+      `/matchmaking/${femaleUserId}`,
+      `/matchmaking/matches/${imageAccess.matchId}`,
+      `/matchmaking/matches/`,
+      `/users/${maleUserId}`,
+      `/users/${femaleUserId}`,
+      `/users/me/${maleUserId}`,
+      `/users/me/${femaleUserId}`,
+    ];
+
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+
     return {
       message: 'Image access request created successfully',
       data: imageAccess,
@@ -99,11 +120,33 @@ export class MatchMakingController {
     @Body() dto: ImageAccessRequestDto,
     @Req() req: Request,
   ) {
-    await this.imageAccessRequestService.updateImageAccessRequest(
-      id,
-      (req.user as User).id,
-      dto,
+    const imageAccess =
+      await this.imageAccessRequestService.updateImageAccessRequest(
+        id,
+        (req.user as User).id,
+        dto,
+      );
+
+    const existingMatch = await this.matchmakingService.getMatch(
+      imageAccess.matchId,
     );
+    const maleUserId = existingMatch.maleUser.id;
+    const femaleUserId = existingMatch.femaleUser.id;
+
+    const keys = [
+      `/matchmaking/current-match/${maleUserId}`,
+      `/matchmaking/current-match/${femaleUserId}`,
+      `/matchmaking/${maleUserId}`,
+      `/matchmaking/${femaleUserId}`,
+      `/matchmaking/matches/${imageAccess.matchId}`,
+      `/matchmaking/matches/`,
+      `/users/${maleUserId}`,
+      `/users/${femaleUserId}`,
+      `/users/me/${maleUserId}`,
+      `/users/me/${femaleUserId}`,
+    ];
+
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
     return {
       message: 'Image access updated successfully',

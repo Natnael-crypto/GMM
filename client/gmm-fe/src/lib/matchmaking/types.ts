@@ -19,6 +19,7 @@ export interface Match {
   invitations: MatchStageInvitation[];
   stage: MatchStage;
   femaleImageAccessExpiration: Date;
+  imageRequest: ImageAccessRequest;
 }
 
 export interface MatchPreference {
@@ -43,4 +44,23 @@ export interface MatchStatistics {
 export interface CreateMatchResponse {
   data: Match;
   message: string;
+}
+
+export enum ImageAccessRequestStatus {
+  PENDING = 'Pending',
+  ACCEPTED = 'Accepted',
+  REJECTED = 'Rejected',
+}
+
+export interface ImageAccessRequest {
+  id: string;
+  userId: string;
+  matchId: string;
+  status: ImageAccessRequestStatus;
+  updatedAt: Date;
+}
+
+export interface ImageAccessPayload {
+  status: ImageAccessRequestStatus;
+  imageAccessRequestId: string;
 }

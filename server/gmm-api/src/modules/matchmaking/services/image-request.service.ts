@@ -148,7 +148,7 @@ export class ImageAccessRequestService extends BaseRepository {
       action: 'requested',
     };
 
-    if (payload.status === 'accepted') {
+    if (payload.status === ImageAccessRequestStatus.ACCEPTED) {
       imageAccessRequest.status = ImageAccessRequestStatus.ACCEPTED;
       imageRequestNotificationPayload.action = 'accepted';
     } else {
@@ -171,13 +171,15 @@ export class ImageAccessRequestService extends BaseRepository {
   /**
    * Retrieves an ImageAccessRequest by its ID.
    *
-   * @returns {Promise<ImageAccessRequest[]>} A promise that resolves to the ImageAccessRequest object.
+   * @returns {Promise<ImageAccessRequest>} A promise that resolves to the ImageAccessRequest object.
    * @throws Will throw an error if no ImageAccessRequest is found with the given ID.
    */
-  async getImageAccessRequests(userId: string): Promise<ImageAccessRequest[]> {
+  async getImageAccessRequests(
+    userId: string,
+  ): Promise<ImageAccessRequest | null> {
     const currentMatch = await this.matchMakingService.getActiveMatch(userId);
 
-    const imageAccess = await this.getRepository(ImageAccessRequest).findBy({
+    const imageAccess = await this.getRepository(ImageAccessRequest).findOneBy({
       matchId: currentMatch.id,
     });
 
