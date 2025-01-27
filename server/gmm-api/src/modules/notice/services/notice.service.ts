@@ -63,23 +63,37 @@ export class NoticeService {
 
   @OnEvent(PaymentFailedEvent.name, { async: true })
   async handlePaymentFailedEvent(event: PaymentFailedEvent) {
-  const { message, subject } = require('../templates/emails/payment-failed');
+    const { message, subject } = require('../templates/emails/payment-failed');
 
-  const { amount, paymentMethod, numMatches, user } = event;
+    const { amount, paymentMethod, numMatches, user } = event;
 
-  await this.sendEmail(user.email, subject, message(amount, paymentMethod, numMatches));
+    await this.sendEmail(
+      user.email,
+      subject,
+      message(amount, paymentMethod, numMatches),
+    );
   }
-
 
   @OnEvent(OtpRequestedEvent.name, { async: true })
   async handleSendOtp(event: OtpRequestedEvent) {
-  const { message, subject } = require('../templates/emails/account-verification');
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/account-verification');
 
-  const { otp, user } = event;
+    const { otp, user } = event;
 
-  await this.sendEmail(user.email, subject, message(otp));
+    await this.sendEmail(user.email, subject, message(otp));
   }
 
+  async sendFamilyInformationEmail(email: string, familyData) {
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/family-information');
+
+    await this.sendEmail(email, subject, message(familyData));
+  }
 
   async sendEmail(
     email: string,

@@ -32,12 +32,16 @@ import { MatchedNotification } from '@modules/notifications/notifications/matche
 import { UserService } from '@modules/user/services/user.service';
 import { AddedToMatchPoolNotification } from '@modules/notifications/notifications/added-to-match-pool.notification';
 import { ResponseInviteNotification } from '@modules/notifications/notifications/response-invite.notification';
+import { NoticeService } from '@modules/notice/services/notice.service';
+import { FamilyInfoDto } from '../dtos/family-info.dto';
+import { FamilyInformationNotification } from '@modules/notifications/notifications/family-information-sent.notification';
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
   constructor(
     private readonly paymentService: PaymentsService,
     private readonly notificationService: NotificationService,
     private readonly userService: UserService,
+    private readonly noticeService: NoticeService,
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
   ) {
@@ -390,6 +394,64 @@ export class MatchMakingService extends BaseRepository {
     // Rule 4: User not must be at the last stage
     if (match.stage === MatchStage.FAMILY_INTRODUCTION) {
       throw new BadRequestException('You are already at the last stage');
+    }
+
+    // If Step 5 is reached, send family information to each other
+    if (match.stage === MatchStage.MARRIAGE_DISCUSSION) {
+      const maleFamilyInfo = new FamilyInfoDto();
+      const femaleFamilyInfo = new FamilyInfoDto();
+
+      const maleUser = await this.userService.getFamilyInformation(
+        match.maleUserId,
+      );
+      const femaleUser = await this.userService.getFamilyInformation(
+        match.femaleUserId,
+      );
+
+      // Assign Information to the respective user
+      maleFamilyInfo.guardianFirstName = maleUser.guardianFirstName;
+      maleFamilyInfo.guardianLastName = maleUser.guardianLastName;
+      maleFamilyInfo.relationshipToGuardian = maleUser.relationshipToGuardian;
+      maleFamilyInfo.guardianPhoneNumber = maleUser.guardianPhoneNumber;
+      maleFamilyInfo.guardianEmail = maleUser.guardianEmail;
+      maleFamilyInfo.guardianIdCard = maleUser.guardianIdCard;
+
+      femaleFamilyInfo.guardianFirstName = femaleUser.guardianFirstName;
+      femaleFamilyInfo.guardianLastName = femaleUser.guardianLastName;
+      femaleFamilyInfo.relationshipToGuardian =
+        femaleUser.relationshipToGuardian;
+      femaleFamilyInfo.guardianPhoneNumber = femaleUser.guardianPhoneNumber;
+      femaleFamilyInfo.guardianEmail = femaleUser.guardianEmail;
+      femaleFamilyInfo.guardianIdCard = femaleUser.guardianIdCard;
+
+      // Send email to each other
+      await this.noticeService.sendFamilyInformationEmail(
+        match.maleUser.email,
+        femaleFamilyInfo,
+      );
+
+      // female information sent to male notification
+      const maleNotification = new FamilyInformationNotification({
+        userName: user.firstName,
+        recipientId: match.femaleUserId,
+        action: 'sent',
+      });
+
+      await this.notificationService.send(maleNotification);
+
+      await this.noticeService.sendFamilyInformationEmail(
+        match.femaleUser.email,
+        maleFamilyInfo,
+      );
+
+      // male information sent to female notification
+      const femaleNotification = new FamilyInformationNotification({
+        userName: match.femaleUser.firstName,
+        recipientId: user.id,
+        action: 'sent',
+      });
+
+      await this.notificationService.send(femaleNotification);
     }
 
     const invitationRepo = this.getRepository(InvitationToMatchStage);
