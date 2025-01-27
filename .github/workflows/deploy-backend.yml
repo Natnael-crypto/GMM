@@ -46,12 +46,22 @@ jobs:
             # export NODE_ENV=${{ github.ref_name }}
             # echo "NODE_ENV set to $NODE_ENV"
 
+            # Stop the specific PM2 app based on the branch
+            pm2 stop gmm-api-${{ github.ref_name }}
+
+            # Stop directus
+            docker stop 562
+
             # Install dependencies and build the project
             npm install
-            npm run build
+            NODE_OPTIONS=--max-old-space-size=600 npm run build
             
             # Restart the specific PM2 app based on the branch
             pm2 restart gmm-api-${{ github.ref_name }}
+
+            # Restart directus
+            docker start 562
+            
             echo "Deployment complete"
             exit 0
           EOF

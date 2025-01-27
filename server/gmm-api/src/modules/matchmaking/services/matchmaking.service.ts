@@ -167,8 +167,8 @@ export class MatchMakingService extends BaseRepository {
     });
 
     if (qualifiedCandidates.length === 0) {
-      await this.addToMatchingPool(user);
-      return { match: null, score };
+      const newlyAddedToPool = await this.addToMatchingPool(user);
+      return { match: null, score, newlyAddedToPool };
     }
 
     const randomIndex = Math.floor(Math.random() * qualifiedCandidates.length);
@@ -254,12 +254,18 @@ export class MatchMakingService extends BaseRepository {
   }
 
   async addToMatchingPool(user: User) {
+    const pool = await this.getRepository(MatchPool).findOne({
+      where: { userId: user.id },
+    });
+
+    if (pool) {
+      return false;
+    }
+
     const matchPoolEntry = await this.getRepository(MatchPool).save({
       ...user,
       userId: user.id,
     });
-
-    console.log('User added to match pool');
 
     const notificationPayload = {
       recipientId: user.id,

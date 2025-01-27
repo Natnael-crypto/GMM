@@ -149,19 +149,26 @@ export class MatchMakingController {
   async match(@Req() req: Request & { user: User }) {
     try {
       const userId = req.user.id;
-      const { match } = await this.matchmakingService.matchUser(userId);
+      const { match, newlyAddedToPool } =
+        await this.matchmakingService.matchUser(userId);
 
       if (!match) {
         const key = `/matchmaking/pool`;
         await this.cacheManager.del(key);
 
-        return {
-          message: 'Finding you a match. You will be notified when matched.',
-        };
+        if (newlyAddedToPool) {
+          return {
+            message: 'Finding you a match. You will be notified when matched.',
+          };
+        } else {
+          return {
+            message: 'No matches found. Please try again later.',
+          };
+        }
       }
 
-      const maleUserId = match.maleUser.id;
-      const femaleUserId = match.femaleUser.id;
+      const maleUserId = match.maleUserId;
+      const femaleUserId = match.femaleUserId;
 
       const keys = [
         `/matchmaking/${maleUserId}`,
@@ -276,8 +283,8 @@ export class MatchMakingController {
         (req.user as User).id,
       );
 
-      const maleUserId = match.maleUser.id;
-      const femaleUserId = match.femaleUser.id;
+      const maleUserId = match.maleUserId;
+      const femaleUserId = match.femaleUserId;
 
       const keys = [
         `/matchmaking/current-match/${maleUserId}`,
