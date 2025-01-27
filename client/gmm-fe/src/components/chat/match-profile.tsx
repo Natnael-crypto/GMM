@@ -12,7 +12,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 import ProfileImages from '../dashboard/components/profile-image-card';
-import { Match, StageInvitationStatus } from '@/lib/matchmaking/types';
+import {
+  ImageAccessRequestStatus,
+  Match,
+  StageInvitationStatus,
+} from '@/lib/matchmaking/types';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -40,6 +44,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '../ui/hover-card';
+import { MINUTE } from '@/lib/format';
 
 enum DialogType {
   SEND_INVITATION = 'send_invitation',
@@ -191,7 +196,10 @@ export default function MatchProfile({
 
   const showImage =
     matchedUser?.gender === Gender.MALE ||
-    match.femaleImageAccessExpiration > new Date();
+    (match &&
+      new Date(match?.imageRequest?.updatedAt).getTime() + 1 * MINUTE >
+        Date.now() &&
+      match?.imageRequest?.status === ImageAccessRequestStatus.ACCEPTED);
 
   return (
     <div

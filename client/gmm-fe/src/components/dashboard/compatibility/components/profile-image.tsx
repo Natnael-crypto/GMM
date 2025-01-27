@@ -1,15 +1,22 @@
-import Image from 'next/image';
+import DynamicBlur from '@/components/ui/dynamic-blur';
 import React from 'react';
 
-export default function ProfileImage({ imageUrl }: { imageUrl: string }) {
+export default function ProfileImage({
+  imageUrl,
+  blur,
+}: {
+  imageUrl: string;
+  blur: boolean;
+}) {
   return (
     <div className="w-full rounded-se-3xl rounded-es-3xl overflow-hidden">
-      <Image
+      <DynamicBlur
         src={imageUrl}
         className="object-cover w-full h-[12rem] object-top"
         width={297}
         height={384}
         alt="Hero image"
+        alwaysBlur={blur}
       />
     </div>
   );

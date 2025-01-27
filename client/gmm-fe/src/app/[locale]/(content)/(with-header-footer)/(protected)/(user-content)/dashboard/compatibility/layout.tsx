@@ -15,6 +15,7 @@ import Loading from '@/components/ui/loading';
 import React from 'react';
 import Footer from '@/components/ui/footer';
 import ProfileOverview from '@/components/dashboard/compatibility/components/profile-overview-card';
+import { MINUTE } from '@/lib/format';
 
 const pageNames: Record<string, string> = {
   '/dashboard/compatibility/basic-information': 'Basics',
@@ -91,6 +92,12 @@ export default function CompatibilityLayout({
     }
   };
 
+  const showImage =
+    currentMatch &&
+    new Date(currentMatch?.imageRequest?.updatedAt).getTime() + 1 * MINUTE >
+      Date.now() &&
+    currentMatch?.maleUser?.id === user?.id;
+
   return (
     <div>
       <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] py-6 space-y-8">
@@ -153,12 +160,19 @@ export default function CompatibilityLayout({
             <div className="grid grid-cols-2 gap-5 mt-3">
               <div className="space-y-5">
                 {userImageUrl && user && (
-                  <ProfileOverview imageUrl={userImageUrl} user={user} />
+                  <ProfileOverview
+                    imageUrl={userImageUrl}
+                    user={user}
+                    showImage
+                  />
                 )}
               </div>
               <div className="space-y-5">
                 {matchImageUrl && currentMatch && (
                   <ProfileOverview
+                    showImage={
+                      matchedUser?.gender === 'Male' ? true : !!showImage
+                    }
                     imageUrl={matchImageUrl}
                     user={
                       user?.gender === 'Male'

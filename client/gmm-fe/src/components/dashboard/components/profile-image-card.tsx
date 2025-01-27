@@ -24,8 +24,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cmToFeetInches, convertDateToAge, kgToPounds } from '@/lib/format';
 import flags from 'react-phone-number-input/flags';
 import DynamicBlur from '@/components/ui/dynamic-blur';
-import { Button } from '@/components/ui/button';
-import OverflowText from '@/components/ui/overflow-text';
+import RequestImageView from '@/components/chat/request-image-view';
 
 export default function ProfileImages({
   user,
@@ -58,7 +57,7 @@ export default function ProfileImages({
     async function downloadUrl() {
       const images = [];
       let url = '';
-      for (const image of user.pictures) {
+      for (const image of user.pictures ?? []) {
         try {
           if (image === '') continue;
           url = await generateDownloadUrl(image).unwrap();
@@ -112,17 +111,10 @@ export default function ProfileImages({
                       <div className="relative">
                         {showRequestViewButton && (
                           <div className="group absolute top-4 right-3 flex flex-col items-center justify-center">
-                            <Button
-                              disabled={requestViewButtonDisabled}
-                              className="text-sm bg-primary text-primary-foreground"
-                            >
-                              Request View
-                            </Button>
-                            <div className="mt-2 font-semibold group-hover:opacity-100 opacity-0 transition-opacity text-sm">
-                              Available at Step 4
-                            </div>
+                            <RequestImageView />
                           </div>
                         )}
+
                         <DynamicBlur
                           src={image}
                           className="object-cover h-[30rem] object-top"
