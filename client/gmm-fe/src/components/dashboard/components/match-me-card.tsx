@@ -40,7 +40,7 @@ export default function MatchMeCard() {
           fuzzyMatchThreshold === 0 ? 'cta' : ''
         )}
         onClick={findNewMatch}
-        disabled={result.isLoading || stats?.potentialMatchCount === 0}
+        disabled={result.isLoading}
       >
         {result.isLoading ? <Loading /> : matchMeText}
       </Button>
