@@ -2,10 +2,7 @@
 
 import * as React from 'react';
 import { useAppSelector } from '@/lib/hooks';
-import {
-  useGetNotificationsQuery,
-  useMarkAsReadMutation,
-} from '@/lib/notification/api';
+import { useMarkAsReadMutation } from '@/lib/notification/api';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,6 +21,7 @@ import {
   TooltipTrigger,
 } from '../ui/tooltip';
 import { toast } from '../ui/use-toast';
+import { useNotifications } from '@/lib/notification/sse';
 
 export default function NotificationBell({
   className,
@@ -32,9 +30,7 @@ export default function NotificationBell({
 }) {
   const [open, setOpen] = React.useState(false);
   const user = useAppSelector((state) => state.auth.user);
-  const { data: notifications, refetch } = useGetNotificationsQuery(undefined, {
-    skip: !user,
-  });
+  const { notifications, refetch } = useNotifications();
 
   const [markAsRead] = useMarkAsReadMutation();
   const hasUnread = notifications?.some((n) => !n.isRead);

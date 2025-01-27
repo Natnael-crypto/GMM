@@ -52,7 +52,6 @@ export default function GuardianGuide({
   const showReviewRequestsButton =
     user?.gender === Gender.FEMALE &&
     match?.imageRequest?.status === ImageAccessRequestStatus.PENDING;
-  console.log({ showReviewRequestsButton });
 
   return (
     <div

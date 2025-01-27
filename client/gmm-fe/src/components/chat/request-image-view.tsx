@@ -54,8 +54,6 @@ export default function RequestImageView() {
     requestViewAccess();
   };
 
-  console.log(currentMatch);
-
   const handleDecision = async (status: ImageAccessRequestStatus) => {
     try {
       if (!currentMatch?.imageRequest) return;
