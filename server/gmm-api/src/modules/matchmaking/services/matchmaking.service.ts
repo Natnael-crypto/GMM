@@ -426,7 +426,7 @@ export class MatchMakingService extends BaseRepository {
 
       // Send email to each other
       await this.noticeService.sendFamilyInformationEmail(
-        match.maleUser.email,
+        maleFamilyInfo.guardianEmail,
         femaleFamilyInfo,
       );
 
@@ -440,7 +440,7 @@ export class MatchMakingService extends BaseRepository {
       await this.notificationService.send(maleNotification);
 
       await this.noticeService.sendFamilyInformationEmail(
-        match.femaleUser.email,
+        femaleFamilyInfo.guardianEmail,
         maleFamilyInfo,
       );
 
