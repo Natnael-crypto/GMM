@@ -22,6 +22,7 @@ import {
 } from '../ui/tooltip';
 import { toast } from '../ui/use-toast';
 import { useNotifications } from '@/lib/notification/sse';
+import { Link } from '@/lib/navigation';
 
 export default function NotificationBell({
   className,
@@ -114,7 +115,20 @@ export default function NotificationBell({
                       'p-4 border-b last:border-b-0 hover:bg-muted transition-colors'
                     )}
                   >
-                    <div className="flex items-start gap-3">
+                    <Link
+                      href={
+                        notification.url
+                          ? `${notification.url}&r=${Math.random()
+                              .toString()
+                              .slice(2)}`
+                          : '#'
+                      }
+                      onClick={() => {
+                        markAsRead(notification.id);
+                        refetch();
+                      }}
+                      className="flex items-start gap-3"
+                    >
                       <div
                         className={cn(
                           'w-2 h-2 mt-2 rounded-full  flex-shrink-0',
@@ -129,7 +143,7 @@ export default function NotificationBell({
                           {notification.message}
                         </p>
                       </div>
-                    </div>
+                    </Link>
                   </motion.div>
                 ))
               ) : (

@@ -5,9 +5,9 @@ import { title } from 'process';
 
 export class MatchedNotification implements Notification {
   constructor(
-    private readonly match: Match, 
-    private readonly maleFirstName: string, 
-    private readonly femaleFirstName: string
+    private readonly match: Match,
+    private readonly maleFirstName: string,
+    private readonly femaleFirstName: string,
   ) {}
 
   broadcastOn() {
