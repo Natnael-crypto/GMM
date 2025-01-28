@@ -18,9 +18,11 @@ export function useProfileView(stage: MatchStage) {
   });
 
   const isMyInformation = params.userId === loggedInUser?.id;
-  const isMyMatchInformation =
-    params.userId === currentMatch?.femaleUserId ||
-    params.userId === currentMatch?.maleUserId;
+  const isMyMatchInformation = !!(
+    currentMatch &&
+    (params.userId === currentMatch?.femaleUserId ||
+      params.userId === currentMatch?.maleUserId)
+  );
 
   const showInfo =
     isMyInformation ||
