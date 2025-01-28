@@ -212,21 +212,35 @@ export class PaymentsService extends BaseRepository {
       console.log('Customer ID:', user.stripeCustomerId);
 
       try {
-        if (paymentMethodId) {
-          await this.stripe.paymentMethods.attach(paymentMethodId, {
-            customer: user.stripeCustomerId,
-          });
+        const setupIntent = await this.stripe.setupIntents.create({
+          customer: user.stripeCustomerId,
+          payment_method: paymentMethodId,
+          usage: 'off_session',
+        });
 
-          await this.stripe.customers.update(user.stripeCustomerId, {
-            invoice_settings: { default_payment_method: paymentMethodId },
-          });
-        }
-      } catch (error) {
-        console.error(
-          'Failed to attach payment method or update customer:',
-          error,
+        const confirmedSetupIntent = await this.stripe.setupIntents.confirm(
+          setupIntent.id,
+          {
+            payment_method: paymentMethodId,
+          },
         );
-        throw new Error('Unable to process payment method attachment.');
+
+        if (confirmedSetupIntent.status !== 'succeeded') {
+          throw new Error('SetupIntent confirmation failed.');
+        }
+
+        await this.stripe.paymentMethods.attach(paymentMethodId, {
+          customer: user.stripeCustomerId,
+        });
+
+        await this.stripe.customers.update(user.stripeCustomerId, {
+          invoice_settings: { default_payment_method: paymentMethodId },
+        });
+
+        console.log('PaymentMethod successfully attached and set as default.');
+      } catch (error) {
+        console.error('Error handling payment method:', error.message);
+        throw new Error('Failed to handle payment method attachment.');
       }
 
       if (!paymentMethodId) {
