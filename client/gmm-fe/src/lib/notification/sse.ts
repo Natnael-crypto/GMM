@@ -32,7 +32,7 @@ export function useNotifications() {
 
       eventSource.onmessage = (event) => {
         const notification = JSON.parse(event.data);
-        console.log(notification, '<<<');
+
         if (notification?.url?.includes('action')) {
           dispatch(
             matchApi.util.invalidateTags(['Match', 'ImageAccessRequest'])
