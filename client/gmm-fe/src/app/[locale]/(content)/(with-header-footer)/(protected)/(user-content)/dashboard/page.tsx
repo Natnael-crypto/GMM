@@ -8,6 +8,8 @@ import OutsideFilterCard from '@/components/dashboard/components/outside-filter-
 import ProfileCompletionCard from '@/components/dashboard/components/profile-completion-card';
 import MatchFilterSkeleton from '@/components/dashboard/components/skeletons/match-filter-skeleton';
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
+import ImageRequestPopup from '@/components/notification/image-request-popup';
+import StageInvitationPopup from '@/components/notification/stage-invitation-popup';
 import Footer from '@/components/ui/footer';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useAppSelector } from '@/lib/hooks';
@@ -22,6 +24,9 @@ export default function Dashboard() {
   return (
     <UpdateProfileProvider autoSave={false}>
       <>
+        <ImageRequestPopup />
+        <StageInvitationPopup />
+
         <div className="py-6 space-y-8 min-h-[80vh]">
           <h1 className="text-xl text-center font-medium">Your Dashboard</h1>
 
