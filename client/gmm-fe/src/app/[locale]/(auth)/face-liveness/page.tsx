@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { Amplify } from 'aws-amplify';
 import '@aws-amplify/ui-react/styles.css';
 import { FaceLivenessDetector } from '@aws-amplify/ui-react-liveness';
-import { Loader, ThemeProvider } from '@aws-amplify/ui-react';
+import { Loader, Theme, ThemeProvider, useTheme } from '@aws-amplify/ui-react';
 
 import awsexports from '@/aws-exports';
 import {
@@ -63,21 +63,71 @@ export default function FaceLivenessDetection() {
     router.replace('/dashboard');
   };
 
+  const { tokens } = useTheme();
+  const theme: Theme = {
+    name: 'Face Liveness Theme',
+
+    tokens: {
+      colors: {
+        overlay: {
+          primary: {
+            value: tokens.colors.black.value,
+          },
+          secondary: {
+            value: tokens.colors.black.value,
+          },
+        },
+        background: {
+          primary: {
+            value: '#197149',
+          },
+          secondary: {
+            value: '#0b3e27',
+          },
+          tertiary: {
+            value: '#1d1d1d',
+          },
+        },
+        border: {
+          primary: {
+            value: tokens.colors.transparent.value,
+          },
+        },
+        font: {
+          primary: {
+            value: tokens.colors.white.value,
+          },
+        },
+      },
+    },
+  };
+
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={theme}>
       {isLoading || !sessionId || isStatusLoading ? (
         <div className="flex justify-center items-center h-screen">
           <Loader />
         </div>
       ) : (
-        <FaceLivenessDetector
-          sessionId={sessionId}
-          region="us-east-1"
-          onAnalysisComplete={handleAnalysisComplete}
-          onError={(error) => {
-            console.error(error);
+        <div
+          className="bg-primary"
+          style={{
+            width: '100vw',
+            height: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-        />
+        >
+          <FaceLivenessDetector
+            sessionId={sessionId}
+            region="us-east-1"
+            onAnalysisComplete={handleAnalysisComplete}
+            onError={(error) => {
+              console.error(error);
+            }}
+          />
+        </div>
       )}
     </ThemeProvider>
   );
