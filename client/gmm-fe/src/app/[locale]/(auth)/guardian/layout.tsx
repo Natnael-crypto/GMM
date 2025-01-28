@@ -1,4 +1,6 @@
 import AuthGuard from '@/components/auth/guard/auth-guard';
+import Footer from '@/components/ui/footer';
+import Header from '@/components/ui/header';
 import { Role } from '@/lib/schemas/role';
 
 function GuardianLayout({
@@ -7,9 +9,11 @@ function GuardianLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <main className="flex flex-col items-center justify-center h-screen">
-      {children}
-    </main>
+    <>
+      <Header wide={true} />
+      <main className="min-h-[85vh] py-3 px-6 sm:px-16">{children}</main>
+      <Footer />
+    </>
   );
 }
 
