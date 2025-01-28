@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Inject,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -276,6 +277,30 @@ export class PaymentsController {
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         message: 'Failed to renew subscription',
+        error: error.message,
+      });
+    }
+  }
+
+  @Patch('activate-renewal/:userId')
+  async activateRenewal(
+    @Res() response: Response,
+    @Param('userId') userId: string,
+  ) {
+    try {
+      console.log(userId);
+      await this.paymentService.activateRenewal(userId);
+
+      const cacheKey = `/payments/current-subscription/${userId}`;
+      await this.cacheManager.del(cacheKey);
+
+      return response.status(HttpStatus.OK).json({
+        message:
+          'Renewal job activated successfully, and auto-renewal enabled.',
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to activate renewal',
         error: error.message,
       });
     }

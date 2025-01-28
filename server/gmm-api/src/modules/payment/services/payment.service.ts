@@ -492,6 +492,29 @@ export class PaymentsService extends BaseRepository {
     throw new Error(`Failed to renew subscription: ${error.message}`);
   }
 
+  async activateRenewal(userId: string) {
+    const subscription = await this.subscriptionRepository.findOne({
+      where: { user: { id: userId } },
+    });
+
+    if (!subscription) {
+      throw new HttpException(
+        'Subscription not found for the user.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (subscription.autoRenew) {
+      throw new HttpException(
+        'Subscription auto-renewal is already enabled.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    subscription.autoRenew = true;
+    await this.subscriptionRepository.save(subscription);
+  }
+
   async cancelRenewal(userId: string) {
     const subscription = await this.subscriptionRepository.findOne({
       where: { user: { id: userId } },
