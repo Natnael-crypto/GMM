@@ -221,8 +221,12 @@ export class PaymentsController {
     try {
       await this.paymentService.consumeMatch(userId);
 
-      const cacheKey = `/payments/remaining-matches/${userId}`;
-      await this.cacheManager.del(cacheKey);
+      const cacheKeys = [
+        `/payments/remaining-matches/${userId}`,
+        `/payments/current-subscription/${userId}`,
+      ];
+
+      await Promise.all(cacheKeys.map((key) => this.cacheManager.del(key)));
 
       return response.status(HttpStatus.OK).json({
         message: 'Match consumed successfully',
@@ -277,20 +281,27 @@ export class PaymentsController {
     }
   }
 
-  @Delete(':subscriptionId/cancel-renewal')
+  @Delete('cancel-renewal/:userId')
   async cancelRenewal(
-    @Param('subscriptionId') subscriptionId: string,
-  ): Promise<{ message: string }> {
+    @Res() response: Response,
+    @Param('userId') userId: string,
+  ) {
     try {
-      const jobId = `renew-${subscriptionId}`;
-      this.schedulerService.deleteJob(jobId);
+      console.log(userId);
+      await this.paymentService.cancelRenewal(userId);
 
-      return { message: 'Renewal job canceled successfully.' };
+      const cacheKey = `/payments/current-subscription/${userId}`;
+      await this.cacheManager.del(cacheKey);
+
+      return response.status(HttpStatus.OK).json({
+        message:
+          'Renewal job canceled successfully, and auto-renewal disabled.',
+      });
     } catch (error) {
-      throw new HttpException(
-        'Failed to cancel the renewal job.',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to cancel renewal',
+        error: error.message,
+      });
     }
   }
 

@@ -1,4 +1,11 @@
-import { BadRequestException, Inject, Injectable, Scope } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Scope,
+} from '@nestjs/common';
 import Stripe from 'stripe';
 
 import { ConfigService } from '@nestjs/config';
@@ -363,10 +370,10 @@ export class PaymentsService extends BaseRepository {
     subscription.remainingMatches--;
 
     if (subscription.remainingMatches === 0 && subscription.autoRenew) {
-      // const threeDaysLater = new Date();
-      // threeDaysLater.setSeconds(threeDaysLater.getSeconds() + 10);
       const threeDaysLater = new Date();
-      threeDaysLater.setDate(threeDaysLater.getDate() + 3);
+      threeDaysLater.setSeconds(threeDaysLater.getSeconds() + 10);
+      // const threeDaysLater = new Date();
+      // threeDaysLater.setDate(threeDaysLater.getDate() + 3);
 
       this.eventEmitter.emitAsync(
         SubscriptionAutoRenewalUpcomingEvent.name,
@@ -483,6 +490,30 @@ export class PaymentsService extends BaseRepository {
   }
   catch(error) {
     throw new Error(`Failed to renew subscription: ${error.message}`);
+  }
+
+  async cancelRenewal(userId: string) {
+    const subscription = await this.subscriptionRepository.findOne({
+      where: { user: { id: userId } },
+    });
+    if (!subscription) {
+      throw new HttpException(
+        'Subscription not found for the user.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (subscription.autoRenew === false) {
+      throw new HttpException(
+        'Subscription auto-renewal is already disabled.',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    subscription.autoRenew = false;
+    await this.subscriptionRepository.save(subscription);
+
+    const jobId = `renew-${subscription.id}`;
+    await this.schedulerService.deleteJob(jobId);
   }
 
   private getMatchesForPlan(planId: string): number {
