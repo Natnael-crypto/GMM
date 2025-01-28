@@ -20,6 +20,7 @@ import { BlogModule } from '@modules/blog/blog.module';
 import { LocationModule } from '@modules/location/location.module';
 import { NotificationsModule } from '@modules/notifications/notifications.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { ScheduleModule } from '@nestjs/schedule';
 import { CommunicationModule } from '@modules/communication/communication.module';
 import { FaceRecognitionModule } from '@modules/face-recognition/face-recognition.module';
 import { VerificationModule } from '@modules/verification/verification.module';
@@ -30,6 +31,7 @@ import { VerificationModule } from '@modules/verification/verification.module';
     CacheModule.registerAsync(RedisOptions),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     EventEmitterModule.forRoot(),
+    ScheduleModule.forRoot(),
     UserModule,
     AuthModule,
     NoticeModule.forRootAsync(),

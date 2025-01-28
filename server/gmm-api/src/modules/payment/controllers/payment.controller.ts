@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpException,
   HttpStatus,
   Inject,
   Param,
@@ -15,18 +17,29 @@ import {
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { PaymentsService } from '../services/payment.service';
-import { ApiBearerAuth, ApiExcludeController, ApiExcludeEndpoint, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiExcludeController,
+  ApiExcludeEndpoint,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { User } from '@modules/user/entities/user.entity';
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
 import { UpdateProductDto } from '../dtos/update-product.dto';
-import { CACHE_MANAGER, CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
+import {
+  CACHE_MANAGER,
+  CacheInterceptor,
+  CacheTTL,
+} from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import { StripeConfig } from '@shared/config';
+import { SchedulerService } from '@shared/services/scheduler.service';
 
 @ApiTags('payments')
 @ApiBearerAuth()
@@ -39,8 +52,11 @@ export class PaymentsController {
     private configService: ConfigService,
     private paymentService: PaymentsService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
+    private readonly schedulerService: SchedulerService,
   ) {
-    this.stripe = new Stripe(this.configService.get<StripeConfig>('stripe')!.apiKey!);
+    this.stripe = new Stripe(
+      this.configService.get<StripeConfig>('stripe')!.apiKey!,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
@@ -100,10 +116,10 @@ export class PaymentsController {
         productId,
         updateProductDto,
       );
-      
+
       const cacheKey = `/payments/products`;
       await this.cacheManager.del(cacheKey);
-      
+
       return response.status(HttpStatus.OK).json({
         message: 'Product updated successfully',
         data: updatedProduct,
@@ -205,8 +221,12 @@ export class PaymentsController {
     try {
       await this.paymentService.consumeMatch(userId);
 
-      const cacheKey = `/payments/remaining-matches/${userId}`;
-      await this.cacheManager.del(cacheKey);
+      const cacheKeys = [
+        `/payments/remaining-matches/${userId}`,
+        `/payments/current-subscription/${userId}`,
+      ];
+
+      await Promise.all(cacheKeys.map((key) => this.cacheManager.del(key)));
 
       return response.status(HttpStatus.OK).json({
         message: 'Match consumed successfully',
@@ -247,8 +267,8 @@ export class PaymentsController {
         `/payments/current-subscription/${userId}`,
         `/payments/subscription-history/${userId}`,
         '/payments/all-subscription-history',
-      ]
-      await Promise.all(keys.map(key => this.cacheManager.del(key)));
+      ];
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
       return response.status(HttpStatus.OK).json({
         message: 'Subscription renewed successfully',
@@ -261,20 +281,25 @@ export class PaymentsController {
     }
   }
 
-  @Post('notify-renewal/:userId')
-  @UseGuards(JwtAuthGuard)
-  async notifyUserOfRenewal(
+  @Delete('cancel-renewal/:userId')
+  async cancelRenewal(
     @Res() response: Response,
     @Param('userId') userId: string,
   ) {
     try {
-      await this.paymentService.notifyUserOfRenewal(userId);
+      console.log(userId);
+      await this.paymentService.cancelRenewal(userId);
+
+      const cacheKey = `/payments/current-subscription/${userId}`;
+      await this.cacheManager.del(cacheKey);
+
       return response.status(HttpStatus.OK).json({
-        message: 'User notified of subscription renewal',
+        message:
+          'Renewal job canceled successfully, and auto-renewal disabled.',
       });
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Failed to notify user of renewal',
+        message: 'Failed to cancel renewal',
         error: error.message,
       });
     }
@@ -356,7 +381,8 @@ export class PaymentsController {
   @ApiExcludeEndpoint()
   async handleStripeWebhook(@Req() req: Request, @Res() res: Response) {
     const sig = req.headers['stripe-signature']!;
-    const webhookSecret = this.configService.get<StripeConfig>('stripe')!.webhookSecret!;
+    const webhookSecret =
+      this.configService.get<StripeConfig>('stripe')!.webhookSecret!;
 
     let event: Stripe.Event;
 
@@ -364,24 +390,33 @@ export class PaymentsController {
       event = this.stripe.webhooks.constructEvent(req.body, sig, webhookSecret);
     } catch (err) {
       console.error('Webhook signature verification failed:', err.message);
-      return res.status(HttpStatus.BAD_REQUEST).send(`Webhook Error: ${err.message}`);
+      return res
+        .status(HttpStatus.BAD_REQUEST)
+        .send(`Webhook Error: ${err.message}`);
     }
 
     // Handle the event
     switch (event.type) {
       case 'payment_intent.succeeded':
-
-        console.log('PaymentIntent was successful triggered:', event.data.object);
+        console.log(
+          'PaymentIntent was successful triggered:',
+          event.data.object,
+        );
 
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
         const userIdFromMetadata = paymentIntent.metadata?.userId;
 
         if (!userIdFromMetadata) {
           console.error('User ID not found in metadata.');
-          return res.status(HttpStatus.BAD_REQUEST).send('User ID missing in metadata.');
+          return res
+            .status(HttpStatus.BAD_REQUEST)
+            .send('User ID missing in metadata.');
         }
 
-        await this.paymentService.handlePaymentSuccess(paymentIntent.id, userIdFromMetadata);
+        await this.paymentService.handlePaymentSuccess(
+          paymentIntent.id,
+          userIdFromMetadata,
+        );
 
         console.log('PaymentIntent succeeded handled from webhook');
         break;
@@ -389,10 +424,9 @@ export class PaymentsController {
       case 'payment_intent.payment_failed':
         const failedPaymentIntent = event.data.object as Stripe.PaymentIntent;
         console.error('PaymentIntent failed:', failedPaymentIntent);
-        
-        await this.paymentService.handlePaymentFailure(failedPaymentIntent.id,);
-        break;
 
+        await this.paymentService.handlePaymentFailure(failedPaymentIntent.id);
+        break;
 
       default:
         console.warn(`Unhandled event type: ${event.type}`);
