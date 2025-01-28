@@ -201,11 +201,18 @@ export class PaymentsService extends BaseRepository {
       }
 
       const paymentMethodId = paymentIntent.payment_method as string;
-      if (paymentMethodId && user.stripeCustomerId) {
-        const paymentMethod =
-          await this.stripe.paymentMethods.retrieve(paymentMethodId);
+      console.log('Payment method ID:', paymentMethodId);
+      if (paymentMethodId) {
+        await this.stripe.paymentMethods.attach(paymentMethodId, {
+          customer: user.stripeCustomerId,
+        });
+      }
 
-        if (!paymentMethod.customer) {
+      console.log('Attaching payment method:', paymentMethodId);
+      console.log('Customer ID:', user.stripeCustomerId);
+
+      try {
+        if (paymentMethodId) {
           await this.stripe.paymentMethods.attach(paymentMethodId, {
             customer: user.stripeCustomerId,
           });
@@ -214,6 +221,18 @@ export class PaymentsService extends BaseRepository {
             invoice_settings: { default_payment_method: paymentMethodId },
           });
         }
+      } catch (error) {
+        console.error(
+          'Failed to attach payment method or update customer:',
+          error,
+        );
+        throw new Error('Unable to process payment method attachment.');
+      }
+
+      if (!paymentMethodId) {
+        throw new Error(
+          'Payment method ID is not available in the payment intent.',
+        );
       }
 
       let existingSubscription = await this.getRepository(Subscription).findOne(
