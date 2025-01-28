@@ -9,7 +9,11 @@ import { OnEvent } from '@nestjs/event-emitter';
 import { ConfigService } from '@nestjs/config';
 import { ClientConfig } from '@shared/config';
 import { GuardianRequestedEvent } from '@modules/user/events/guardian.events';
-import { PaymentFailedEvent } from '@modules/payment/events/payment-failed.event';
+import {
+  PaymentFailedEvent,
+  SubscriptionAutoRenewalUpcomingEvent,
+  SubscriptionAutoRenewedEvent,
+} from '@modules/payment/events/payment.event';
 
 // @Injectable()
 @Injectable({ scope: Scope.DEFAULT })
@@ -63,23 +67,65 @@ export class NoticeService {
 
   @OnEvent(PaymentFailedEvent.name, { async: true })
   async handlePaymentFailedEvent(event: PaymentFailedEvent) {
-  const { message, subject } = require('../templates/emails/payment-failed');
+    const { message, subject } = require('../templates/emails/payment-failed');
 
-  const { amount, paymentMethod, numMatches, user } = event;
+    const { amount, paymentMethod, numMatches, user } = event;
 
-  await this.sendEmail(user.email, subject, message(amount, paymentMethod, numMatches));
+    await this.sendEmail(
+      user.email,
+      subject,
+      message(amount, paymentMethod, numMatches),
+    );
   }
-
 
   @OnEvent(OtpRequestedEvent.name, { async: true })
   async handleSendOtp(event: OtpRequestedEvent) {
-  const { message, subject } = require('../templates/emails/account-verification');
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/account-verification');
 
-  const { otp, user } = event;
+    const { otp, user } = event;
 
-  await this.sendEmail(user.email, subject, message(otp));
+    await this.sendEmail(user.email, subject, message(otp));
   }
 
+  @OnEvent(SubscriptionAutoRenewedEvent.name, { async: true })
+  async handleSubscriptionAutoRenewalEvent(
+    event: SubscriptionAutoRenewedEvent,
+  ) {
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/subscription-renewal');
+
+    const { user, tier, amount, numMatches } = event;
+    const renewalDate = new Date();
+
+    await this.sendEmail(
+      user.email,
+      subject,
+      message(user.firstName, tier, renewalDate, amount, numMatches),
+    );
+  }
+
+  @OnEvent(SubscriptionAutoRenewalUpcomingEvent.name, { async: true })
+  async handleSubscriptionAutoRenewalUpcomingEvent(
+    event: SubscriptionAutoRenewalUpcomingEvent,
+  ) {
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/subscription-autorenewal-upcoming');
+
+    const { user, renewalDate, daysUntilRenewal } = event;
+
+    await this.sendEmail(
+      user.email,
+      subject,
+      message(user.firstName, renewalDate, daysUntilRenewal),
+    );
+  }
 
   async sendEmail(
     email: string,

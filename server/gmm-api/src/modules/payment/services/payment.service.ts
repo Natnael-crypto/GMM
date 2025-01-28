@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
 import { Subscription } from '../entities/subscription.entity';
-import { DataSource, In } from 'typeorm';
+import { DataSource, In, Repository } from 'typeorm';
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { User } from '@modules/user/entities/user.entity';
 import { SubscriptionTiers } from '../entities/tiers';
@@ -13,10 +13,17 @@ import { randomUUID } from 'crypto';
 import { UserService } from '@modules/user/services/user.service';
 import { BaseRepository } from '@shared/base-repository';
 import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
+import e, { Request } from 'express';
 import { StripeConfig } from '@shared/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { PaymentFailedEvent } from '../events/payment-failed.event';
+import {
+  PaymentFailedEvent,
+  SubscriptionAutoRenewalUpcomingEvent,
+  SubscriptionAutoRenewedEvent,
+} from '../events/payment.event';
+import { SchedulerService } from '@shared/services/scheduler.service';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Payment } from '../entities/payment.entity';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PaymentsService extends BaseRepository {
@@ -27,8 +34,15 @@ export class PaymentsService extends BaseRepository {
     private readonly userService: UserService,
     private readonly noticeService: NoticeService,
     private readonly eventEmitter: EventEmitter2,
+    private readonly schedulerService: SchedulerService,
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    @InjectRepository(Subscription)
+    private readonly subscriptionRepository: Repository<Subscription>,
+    @InjectRepository(SubscriptionHistory)
+    private readonly subscriptionHistoryRepository: Repository<SubscriptionHistory>,
   ) {
     super(dataSource, req);
 
@@ -101,16 +115,6 @@ export class PaymentsService extends BaseRepository {
     return customers.data;
   }
 
-  async createStripeCustomer(user: User): Promise<void> {
-    const customer = await this.stripe.customers.create({
-      email: user.email,
-      name: `${user.firstName} ${user.lastName}`,
-    });
-
-    user.stripeCustomerId = customer.id;
-    await this.getRepository(User).save(user);
-  }
-
   async getCurrentSubscription(userId: string): Promise<Subscription | null> {
     const subscription = await this.getRepository(Subscription).findOne({
       where: { user: { id: userId.toString() } },
@@ -118,32 +122,49 @@ export class PaymentsService extends BaseRepository {
     return subscription;
   }
 
+  async getUserLastPaymentMethod(
+    userId: string,
+  ): Promise<Stripe.PaymentMethod> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new Error('User not found.');
+    }
+
+    const paymentMethods = await this.stripe.paymentMethods.list({
+      customer: user.stripeCustomerId,
+      type: 'card',
+    });
+
+    if (paymentMethods.data.length === 0) {
+      throw new Error('No payment methods are attached to this customer.');
+    }
+
+    // Get the first payment method (most recently attached)
+    const attachedPaymentMethod = paymentMethods.data[0];
+
+    if (!attachedPaymentMethod) {
+      throw new Error('No payment method found in the last charge.');
+    }
+
+    return attachedPaymentMethod;
+  }
+
   async handlePaymentSuccess(paymentIntentId: string, userId: string) {
     try {
-      // Retrieve the payment intent from Stripe
-      const paymentIntent =
-        await this.stripe.paymentIntents.retrieve(paymentIntentId, {
+      const paymentIntent = await this.stripe.paymentIntents.retrieve(
+        paymentIntentId,
+        {
           expand: ['charges.data'],
-        });
+        },
+      );
 
-      //   const paymentIntentWithCharges = paymentIntent as Stripe.Response<
-      //     Stripe.PaymentIntent & { charges: { data: Stripe.Charge[] } }
-      //   >;
-
-      // const receiptUrl = paymentIntentWithCharges.charges?.data[0]?.receipt_url;
-
-      // console.log('receipt:', receiptUrl);
-
-      // if (!receiptUrl) {
-      //   throw new Error('Receipt URL not found.');
-      // }
-
-        
       if (!paymentIntent || paymentIntent.status !== 'succeeded') {
         throw new Error('Payment intent is not successful.');
       }
 
-      // Extract plan and user ID from metadata
       const plan = paymentIntent.metadata?.plan;
       const userIdFromMetadata = paymentIntent.metadata?.userId;
 
@@ -153,7 +174,6 @@ export class PaymentsService extends BaseRepository {
         );
       }
 
-      // Ensure the userId from the metadata matches the request userId
       if (userId !== userIdFromMetadata) {
         throw new Error('User ID mismatch.');
       }
@@ -166,7 +186,6 @@ export class PaymentsService extends BaseRepository {
         throw new Error('Unknown subscription plan.');
       }
 
-      // Find the user in your database
       const user = await this.getRepository(User).findOne({
         where: { id: userId },
       });
@@ -174,7 +193,22 @@ export class PaymentsService extends BaseRepository {
         throw new Error('User not found.');
       }
 
-      // Check if the user already has a subscription
+      const paymentMethodId = paymentIntent.payment_method as string;
+      if (paymentMethodId && user.stripeCustomerId) {
+        const paymentMethod =
+          await this.stripe.paymentMethods.retrieve(paymentMethodId);
+
+        if (!paymentMethod.customer) {
+          await this.stripe.paymentMethods.attach(paymentMethodId, {
+            customer: user.stripeCustomerId,
+          });
+
+          await this.stripe.customers.update(user.stripeCustomerId, {
+            invoice_settings: { default_payment_method: paymentMethodId },
+          });
+        }
+      }
+
       let existingSubscription = await this.getRepository(Subscription).findOne(
         {
           where: { user: { id: userId } },
@@ -189,23 +223,17 @@ export class PaymentsService extends BaseRepository {
         currentPeriodStart: new Date(),
         amount: tier.amount,
         remainingMatches: tier.matches,
-        // receiptUrl,
       });
 
-
-      // Save a record in subscription history
       await this.saveSubscriptionHistory(user, newSubscription);
-      
-      
+
       if (existingSubscription) {
-        newSubscription.remainingMatches += existingSubscription.remainingMatches;
+        newSubscription.remainingMatches +=
+          existingSubscription.remainingMatches;
       }
 
-      // Save the subscription to the repository
       const result =
         await this.getRepository(Subscription).save(newSubscription);
-
-      
 
       return result;
     } catch (error) {
@@ -213,41 +241,50 @@ export class PaymentsService extends BaseRepository {
     }
   }
 
+  async handlePaymentFailure(paymentIntentId: string) {
+    try {
+      const paymentIntent =
+        await this.stripe.paymentIntents.retrieve(paymentIntentId);
 
-async handlePaymentFailure(paymentIntentId: string) {
-  try {
-    const paymentIntent = await this.stripe.paymentIntents.retrieve(paymentIntentId);
+      console.error('Payment failed for PaymentIntent:', paymentIntent.id);
+      console.error(
+        'Failure reason:',
+        paymentIntent.last_payment_error?.message,
+      );
 
-    console.error('Payment failed for PaymentIntent:', paymentIntent.id);
-    console.error('Failure reason:', paymentIntent.last_payment_error?.message);
+      const user = await this.getRepository(User).findOne({
+        where: { id: paymentIntent.metadata.userId },
+      });
 
-    const user = await this.getRepository(User).findOne({ where: { id: paymentIntent.metadata.userId } });
+      if (!user) {
+        throw new Error('User not found.');
+      }
 
-    if (!user) {
-      throw new Error('User not found.');
+      if (!paymentIntent.metadata.plan) {
+        throw new Error('Plan not found in payment intent metadata.');
+      }
+
+      const tier = SubscriptionTiers[paymentIntent.metadata.plan];
+
+      let payment_method = paymentIntent.payment_method?.toString();
+
+      if (!payment_method) {
+        payment_method = 'Unknown';
+      }
+
+      this.eventEmitter.emit(
+        PaymentFailedEvent.name,
+        new PaymentFailedEvent(
+          user,
+          paymentIntent.amount,
+          payment_method,
+          tier.matches,
+        ),
+      );
+    } catch (err) {
+      console.error('Error handling payment failure:', err);
     }
-
-    if (!paymentIntent.metadata.plan) {
-      throw new Error('Plan not found in payment intent metadata.');
-    }
-
-    const tier = SubscriptionTiers[paymentIntent.metadata.plan];
-
-    let payment_method = paymentIntent.payment_method?.toString();
-    
-    if (!payment_method) {
-      payment_method = "Unknown";
-    }
-
-    this.eventEmitter.emit(
-      PaymentFailedEvent.name,
-      new PaymentFailedEvent(user, paymentIntent.amount, payment_method, tier.matches),
-    );
-    
-  } catch (err) {
-    console.error('Error handling payment failure:', err);
   }
-}
 
   async handleFreeCheckout(userId: string): Promise<void> {
     try {
@@ -303,9 +340,16 @@ async handlePaymentFailure(paymentIntentId: string) {
   }
 
   async consumeMatch(userId: string): Promise<void> {
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
+    if (!user) {
+      throw new Error('User not found.');
+    }
+
     const subscription = await this.getRepository(Subscription).findOne({
       where: { user: { id: userId }, status: 'succeeded' },
-      relations: ['user'], // Include the user relation
+      relations: ['user'],
     });
 
     if (!subscription) {
@@ -318,21 +362,39 @@ async handlePaymentFailure(paymentIntentId: string) {
 
     subscription.remainingMatches--;
 
-    if (subscription.remainingMatches === 0) {
-      await this.renewSubscription(subscription, userId);
-    }
+    if (subscription.remainingMatches === 0 && subscription.autoRenew) {
+      // const threeDaysLater = new Date();
+      // threeDaysLater.setSeconds(threeDaysLater.getSeconds() + 10);
+      const threeDaysLater = new Date();
+      threeDaysLater.setDate(threeDaysLater.getDate() + 3);
 
+      this.eventEmitter.emitAsync(
+        SubscriptionAutoRenewalUpcomingEvent.name,
+        new SubscriptionAutoRenewalUpcomingEvent(
+          user,
+          threeDaysLater.toString(),
+          3,
+        ),
+      );
+
+      const jobId = `renew-${subscription.id}`;
+      this.schedulerService.scheduleJob(jobId, threeDaysLater, async () => {
+        try {
+          await this.renewSubscription(subscription, userId);
+        } catch (error) {
+          console.error(`Error executing job ${jobId}:`, error.message);
+        }
+      });
+    }
     await this.getRepository(Subscription).save(subscription);
   }
 
   async renewSubscription(
     subscription: Subscription,
     userId: string,
-  ): Promise<void> {
+  ): Promise<Subscription> {
     const { planId } = subscription;
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-    });
+    const user = await this.userRepository.findOne({ where: { id: userId } });
 
     if (!user) {
       throw new Error('User not found.');
@@ -348,22 +410,79 @@ async handlePaymentFailure(paymentIntentId: string) {
       await this.getRepository(User).save(user);
     }
 
-    const newStripeSubscription = await this.stripe.subscriptions.create({
+    const tier = Object.values(SubscriptionTiers).find(
+      (tier) => tier.priceId === subscription.planId,
+    );
+
+    if (!tier) {
+      throw new Error('Failed to identify the subscription tier.');
+    }
+
+    const paymentMethod = await this.getUserLastPaymentMethod(userId);
+
+    const paymentIntent = await this.stripe.paymentIntents.create({
+      amount: tier.amount,
+      currency: 'usd', // Could be replaced
       customer: user.stripeCustomerId,
-      items: [{ price: planId }],
-      expand: ['latest_invoice.payment_intent'],
+      payment_method: paymentMethod.id,
+      off_session: true,
+      confirm: true,
+      description: `Renewal of ${user.id} subscription`,
+      metadata: {
+        userId,
+        plan: tier.priceId,
+      },
     });
 
-    subscription.remainingMatches = this.getMatchesForPlan(planId);
-    subscription.id = newStripeSubscription.id;
-    subscription.currentPeriodStart = new Date(
-      newStripeSubscription.current_period_start * 1000,
+    if (paymentIntent.status !== 'succeeded') {
+      throw new Error('Payment for renewal failed.');
+    }
+
+    const existingSubscription = await this.subscriptionRepository.findOne({
+      where: { user: { id: userId } },
+    });
+    let result;
+
+    if (existingSubscription) {
+      existingSubscription.remainingMatches += tier.matches;
+      existingSubscription.status = paymentIntent.status;
+      existingSubscription.amount = tier.amount;
+
+      result = existingSubscription;
+    } else {
+      const newSubscription = this.subscriptionRepository.create({
+        id: randomUUID(),
+        user,
+        status: paymentIntent.status,
+        planId: tier.priceId,
+        currentPeriodStart: new Date(),
+        amount: tier.amount,
+        remainingMatches: tier.matches,
+      });
+
+      result = newSubscription;
+    }
+
+    result = await this.subscriptionRepository.save(result);
+    await this.saveSubscriptionHistory(user, result);
+
+    const tier_name = Object.keys(SubscriptionTiers).find(
+      (key) => SubscriptionTiers[key] === tier,
+    )!;
+
+    this.eventEmitter.emitAsync(
+      SubscriptionAutoRenewedEvent.name,
+      new SubscriptionAutoRenewedEvent(
+        user,
+        tier_name,
+        result.amount.toString().slice(0, -2),
+        result.remainingMatches,
+      ),
     );
-    subscription.status = newStripeSubscription.status;
-
-    await this.getRepository(Subscription).save(subscription);
-
-    await this.saveSubscriptionHistory(user, subscription);
+    return result;
+  }
+  catch(error) {
+    throw new Error(`Failed to renew subscription: ${error.message}`);
   }
 
   private getMatchesForPlan(planId: string): number {
@@ -376,8 +495,8 @@ async handlePaymentFailure(paymentIntentId: string) {
   async notifyUserOfRenewal(userId: string) {
     const user = await this.getRepository(User).findOne({
       where: { id: userId },
+      relations: ['subscription'],
     });
-
     if (user && user.email) {
       await this.noticeService.sendEmail(
         user.email,
@@ -410,16 +529,12 @@ async handlePaymentFailure(paymentIntentId: string) {
     user: User,
     subscription: Subscription,
   ): Promise<void> {
-    const subscriptionHistory = this.getRepository(SubscriptionHistory).create({
-      user,
-      status: subscription.status,
-      planId: subscription.planId,
+    const subscriptionHistory = this.subscriptionHistoryRepository.create({
+      ...subscription,
       periodStart: subscription.currentPeriodStart,
-      amount: subscription.amount,
-      remainingMatches: subscription.remainingMatches,
     });
 
-    await this.getRepository(SubscriptionHistory).save(subscriptionHistory);
+    await this.subscriptionHistoryRepository.save(subscriptionHistory);
   }
 
   async getSubscriptionHistory(userId: string): Promise<SubscriptionHistory[]> {
