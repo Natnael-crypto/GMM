@@ -18,11 +18,13 @@ export default function MatchToleranceSelector() {
     }
   };
 
-  return (
-    <div className="gmm-mpf-results-pm-cta-container">
+
+return (
+  <div className=" flex flex-col items-center gap-4">
+    <div className="flex items-center flex-col gap-2">
       <Button
         className={cn(
-          'text-xs w-full h-8 hover:bg-primary cta',
+          'text-xs w-[40%] h-8 hover:bg-primary cta',
           matchTolerance === 0.1 ? 'bg-primary' : ''
         )}
         variant="secondary"
@@ -30,9 +32,13 @@ export default function MatchToleranceSelector() {
       >
         &gt; 90% Match
       </Button>
+      <p className="text-center font-semibold text-sm">Expands Age, Height, Weight, Marital Status & Born/Reverted fields.</p>
+    </div>
+
+    <div className="flex items-center flex-col gap-2">
       <Button
         className={cn(
-          'text-xs w-full h-8 hover:bg-primary cta',
+          'text-xs w-[40%] h-8 hover:bg-primary cta items-center',
           matchTolerance === 0.2 ? 'bg-primary' : ''
         )}
         variant="secondary"
@@ -40,6 +46,9 @@ export default function MatchToleranceSelector() {
       >
         &gt; 80% Match
       </Button>
+      <p className="text-center font-semibold text-sm">Further expands Country of Origin, City Country, Children, Employment, Education, Languages, Nationality/Passport.</p>
     </div>
-  );
+    {/* Add more buttons and text as needed */}
+  </div>
+);
 }
