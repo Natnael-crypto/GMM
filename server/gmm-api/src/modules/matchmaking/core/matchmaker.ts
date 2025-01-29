@@ -1,15 +1,6 @@
 import { Preference } from '@modules/matchmaking/entities/preference.entity';
 import { User } from '@modules/user/entities/user.entity';
 
-export type ExtendedUser = User & {
-  salat: string;
-  hijab: string;
-  children: string;
-  wantsChildren: string;
-  education: string;
-  profession: string;
-};
-
 export interface Score {
   userLikesCandidate: number;
   candidateLikesUser: number;
@@ -155,6 +146,17 @@ export class Matchmaker {
       },
     },
     {
+      field: 'salah',
+      weight: 1,
+      evaluate: (pref: Preference, user: User) => {
+        if (!user.salah) return false;
+
+        return pref.notSalah
+          ? !pref.salah.includes(user.salah)
+          : pref.salah.includes(user.salah);
+      },
+    },
+    {
       field: 'children',
       weight: 1,
       evaluate: (pref: Preference, user: User) => {
@@ -166,14 +168,13 @@ export class Matchmaker {
       },
     },
     {
-      field: 'wantsChildren',
+      field: 'beard',
       weight: 1,
       evaluate: (pref: Preference, user: User) => {
-        if (!user.wantsChildren) return false;
-
-        return pref.notWantsChildren
-          ? !pref.wantsChildren.includes(user.wantsChildren)
-          : pref.wantsChildren.includes(user.wantsChildren);
+        if (!user.beard) return false;
+        return pref.notBeard
+          ? !pref.beard.includes(user.beard)
+          : pref.beard.includes(user.beard);
       },
     },
     {
@@ -188,10 +189,11 @@ export class Matchmaker {
       },
     },
     {
-      field: 'profession',
+      field: 'employmentType',
       weight: 1,
       evaluate: (pref: Preference, user: User) =>
-        user.profession && pref.profession.includes(user.profession),
+        user.employmentType &&
+        pref.employmentType.includes(user.employmentType),
     },
     {
       field: 'drinking',
