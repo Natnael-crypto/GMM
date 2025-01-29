@@ -52,7 +52,6 @@ export class FaceRecognitionService {
 
     try {
       const result = await this.rekognition.send(cmd);
-      console.log({ aws: result });
 
       if (result) {
         completed =

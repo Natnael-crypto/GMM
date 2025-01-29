@@ -29,6 +29,7 @@ interface PreferenceFieldProps {
   notFilter?: any;
   toggleNotFilter?: () => void;
   onChange: (value: any) => void;
+  disabled?: boolean;
 }
 
 export default function PreferenceField({
@@ -38,6 +39,7 @@ export default function PreferenceField({
   question,
   type,
   onChange,
+  disabled,
 }: PreferenceFieldProps) {
   const form = useFormContext();
 
@@ -151,6 +153,7 @@ export default function PreferenceField({
                   />
                 ) : (
                   <Select
+                    disabled={disabled}
                     onValueChange={field.onChange}
                     value={
                       field.value?.toString() === 'true'

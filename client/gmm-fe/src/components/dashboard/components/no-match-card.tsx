@@ -36,11 +36,9 @@ export default function NoMatchCard() {
         </div>
         <h1 className="text-bold font-bold text-xl">No Match Found!</h1>
         <p className="text-center">
-          You can get better matches by making sure that you have{' '}
-          <span className="font-bold underline">
-            completed all sections of your profile
-          </span>{' '}
-          with accurate information.
+          You can get better matches by completing all sections of your profile
+          by clicking <span className="font-bold underline">EDIT PROFILE</span>{' '}
+          .
         </p>
       </div>
       <div className="w-full font-bold gmm-available-matches h-full bg-muted rounded-se-3xl rounded-es-3xl p-8 justify-center text-center m-auto flex flex-col">

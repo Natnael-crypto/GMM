@@ -1132,32 +1132,17 @@ export default function BasicInformationForm({
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem className="text-md " value="None">
+                            <SelectItem className="text-md " value="none">
                               None
                             </SelectItem>
-                            <SelectItem
-                              className="text-md "
-                              value="Minimal, not visible"
-                            >
+                            <SelectItem className="text-md " value="minimal">
                               Minimal, not visible
                             </SelectItem>
-                            <SelectItem
-                              className="text-md "
-                              value="Small, visible or concealed"
-                            >
+                            <SelectItem className="text-md " value="small">
                               Small, visible or concealed
                             </SelectItem>
-                            <SelectItem
-                              className="text-md "
-                              value="Large or multiple tattoos"
-                            >
+                            <SelectItem className="text-md " value="large">
                               Large or multiple tattoos
-                            </SelectItem>
-                            <SelectItem
-                              className="text-md "
-                              value="Doesn’t matter"
-                            >
-                              Doesn’t matter
                             </SelectItem>
                           </SelectContent>
                         </Select>

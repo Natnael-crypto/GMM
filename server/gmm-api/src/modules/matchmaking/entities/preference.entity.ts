@@ -29,28 +29,16 @@ export class Preference {
   maxWeight: number;
 
   @Column({ default: false })
-  notNationality: boolean;
+  notCity: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
-  nationality: string[];
-
-  @Column({ default: false })
-  notLanguage: boolean;
-
-  @Column({ nullable: true, type: 'simple-array' })
-  language: string[];
+  city: string[];
 
   @Column({ default: false })
   notCountry: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
   country: string[];
-
-  @Column({ default: false })
-  notCity: boolean;
-
-  @Column({ nullable: true, type: 'simple-array' })
-  city: string[];
 
   @Column({ default: false })
   notCountryOfOrigin: boolean;
@@ -65,10 +53,31 @@ export class Preference {
   martialStatus: string[];
 
   @Column({ default: false })
+  notChildren: boolean;
+
+  @Column({ nullable: true, type: 'simple-array' })
+  children: string[];
+
+  @Column({ default: false })
   notReligiousPractice: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
   religiousPractice: string[];
+
+  @Column({ nullable: true })
+  drinking: boolean;
+
+  @Column({ nullable: true })
+  drugs: boolean;
+
+  @Column({ nullable: true })
+  smoking: boolean;
+
+  @Column({ default: false })
+  notTattoos: boolean;
+
+  @Column({ nullable: true, type: 'simple-array' })
+  tattoos: string[];
 
   @Column({ default: false })
   notBornOrRevert: boolean;
@@ -77,28 +86,22 @@ export class Preference {
   bornOrRevert: string[];
 
   @Column({ default: false })
-  notNumberOfChildren: boolean;
+  notLanguage: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
-  numberOfChildren: string[];
+  language: string[];
 
   @Column({ default: false })
-  notHijab: boolean;
+  notNationality: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
-  hijab: string[];
+  nationality: string[];
 
   @Column({ default: false })
-  notChildren: boolean;
+  notEmploymentType: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
-  children: string[];
-
-  @Column({ default: false })
-  notWantsChildren: boolean;
-
-  @Column({ nullable: true, type: 'simple-array' })
-  wantsChildren: string[];
+  employmentType: string[];
 
   @Column({ default: false })
   notEducation: boolean;
@@ -107,25 +110,22 @@ export class Preference {
   education: string[];
 
   @Column({ default: false })
-  notProfession: boolean;
+  notSalah: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
-  profession: string[];
-
-  @Column({ nullable: true })
-  drinking: boolean;
-
-  @Column({ nullable: true })
-  smoking: boolean;
-
-  @Column({ nullable: true })
-  drugs: boolean;
+  salah: string[];
 
   @Column({ default: false })
-  notTattoos: boolean;
+  notHijab: boolean;
 
   @Column({ nullable: true, type: 'simple-array' })
-  tattoos: string[];
+  hijab: string[];
+
+  @Column({ default: false })
+  notBeard: boolean;
+
+  @Column({ nullable: true, type: 'simple-array' })
+  beard: string[];
 
   @Column({
     type: 'numeric',
