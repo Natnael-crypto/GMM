@@ -174,9 +174,9 @@ export default function MatchPreferenceFilter() {
         })}
 
         <div className="col-span-9 grid-cols-9 grid gap-x-4 gap-y-5 relative">
-          {/* {wlsCompletion < 100 && (
+          {wlsCompletion < 100 && (
             <div className="w-full absolute  rounded-md h-full top-0 scale-y-105 scale-x-[103%] flex items-center justify-center bg-[#f7f7f899] z-[50]"></div>
-          )} */}
+          )}
           <h2 className="col-span-9 font-bold mt-2">Advanced</h2>
 
           <div className="col-span-10 md:col-span-3 space-y-1">
@@ -278,7 +278,7 @@ export default function MatchPreferenceFilter() {
               user &&
               (!question.gender || question.gender === user?.gender)
             ) {
-              if (ilsCompletion > 100) {
+              if (ilsCompletion < 100) {
                 return (
                   <Tooltip key={`${question.label}_${index}`}>
                     <TooltipTrigger className={question.width}>
