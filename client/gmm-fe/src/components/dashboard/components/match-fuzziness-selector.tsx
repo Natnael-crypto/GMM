@@ -32,7 +32,7 @@ return (
       >
         &gt; 90% Match
       </Button>
-      <p className="text-center font-semibold text-sm">Expands Age, Height, Weight, Marital Status & Born/Reverted fields.</p>
+      <p className="text-center font-semibold text-[14px]">Expands Age, Height, Weight, Marital Status & Born/Reverted fields.</p>
     </div>
 
     <div className="flex items-center flex-col gap-2">
@@ -46,7 +46,7 @@ return (
       >
         &gt; 80% Match
       </Button>
-      <p className="text-center font-semibold text-sm">Further expands Country of Origin, City Country, Children, Employment, Education, Languages, Nationality/Passport.</p>
+      <p className="text-center font-semibold text-[14px]">Further expands Country of Origin, City Country, Children, Employment, Education, Languages, Nationality/Passport.</p>
     </div>
     {/* Add more buttons and text as needed */}
   </div>
