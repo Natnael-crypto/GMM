@@ -150,14 +150,14 @@ export class UserDto {
   @IsBoolean()
   smokes?: boolean;
 
-  @ApiProperty({ 
-    example: TattooPreference.NONE, 
-    enum: TattooPreference, 
-    required: false 
+  @ApiProperty({
+    example: TattooPreference.NONE,
+    enum: TattooPreference,
+    required: false,
   })
   @IsOptional()
-  @IsEnum(TattooPreference)
-  tattoos?: TattooPreference;
+  @IsString()
+  tattoos?: string;
 
   @ApiProperty({ example: ['string'], required: false })
   @IsOptional()
