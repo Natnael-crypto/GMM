@@ -187,43 +187,36 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
         height: 'calc(100vh - 4.50rem)',
       }}
     >
-      <div>
-        <h1 className="text-center text-xl">
-          <span className="text-primary font-bold">
-            Guardian Muslim Marriage
-          </span>{' '}
-          Chat
-        </h1>
 
-        <div className="w-full overflow-auto no-scrollbar">
-          <div className="relative grid grid-cols-5 gap-3 py-4 w-[600px] mx-auto">
-            <StepperItem icon={faUser} text="Basics" active={stageIndex >= 0} />
-            <StepperItem
-              icon={faHouse}
-              text="Worldly / Duniya"
-              active={stageIndex >= 1}
-            />
-            <StepperItem
-              icon={faMosque}
-              text="Islamic / Deen"
-              active={stageIndex >= 2}
-            />
-            <StepperItem
-              icon={faComments}
-              text="Marriage Talk"
-              active={stageIndex >= 3}
-            />
-            <StepperItem
-              icon={faPeopleRoof}
-              text="Family Intro"
-              active={stageIndex >= 4}
-            />
-            <div className="absolute top-1/3 translate-y-1/2 w-full h-[1px] px-14">
-              <div className="w-full bg-border h-full"></div>
-            </div>
+      <div className="w-full overflow-auto no-scrollbar">
+        <div className="relative grid grid-cols-5 gap-3 py-4 w-[600px] mx-auto">
+          <StepperItem icon={faUser} text="Basics" active={stageIndex >= 0} />
+          <StepperItem
+            icon={faHouse}
+            text="Worldly / Duniya"
+            active={stageIndex >= 1}
+          />
+          <StepperItem
+            icon={faMosque}
+            text="Islamic / Deen"
+            active={stageIndex >= 2}
+          />
+          <StepperItem
+            icon={faComments}
+            text="Marriage Talk"
+            active={stageIndex >= 3}
+          />
+          <StepperItem
+            icon={faPeopleRoof}
+            text="Family Intro"
+            active={stageIndex >= 4}
+          />
+          <div className="absolute top-1/3 translate-y-1/2 w-full h-[1px] px-14">
+            <div className="w-full bg-border h-full"></div>
           </div>
         </div>
       </div>
+
 
       {user && otherUser && (
         <div
