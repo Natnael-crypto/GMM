@@ -20,7 +20,6 @@ import {
 } from '@/components/ui/select';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import {
-  countries,
   heights,
   weights,
   userRegistrationSchema,
@@ -48,9 +47,9 @@ import { getEighteenYearsAgo } from '@/lib/format';
 import { FamilyIntroduction } from '@/lib/schemas/family-introduction';
 import { isValidPhoneNumber } from 'react-phone-number-input';
 import CountrySelector from '../ui/country-selector';
-import CitySelector from '../ui/city-selector';
 import { useLoadScript } from '@react-google-maps/api';
 import { constants, mapLibraries } from '@/config';
+import useLocation from '@/lib/hooks/use-location';
 
 export default function BasicInformationForm({
   familyIntroduction,
@@ -108,8 +107,9 @@ export default function BasicInformationForm({
     }
   }, [form, familyIntroduction]);
 
-  const [input, setInput] = useState<any>({});
-  const inputRef = useRef(null);
+  const locationInputRef = useRef<HTMLInputElement>(null);
+  const { location, onLocationChange, isLoaded, setLocation } =
+    useLocation(locationInputRef);
 
   const registrationFormRef = useRef<HTMLFormElement>(null);
   const { registerForm, setSaving } = useUpdateProfileContext();
@@ -161,115 +161,17 @@ export default function BasicInformationForm({
     }
 
     if (user) {
-      setInput({
+      setLocation({
         country: user.currentCountry,
         city: user.city,
       });
     }
-  }, [form, user]);
-
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: constants.google.mapApiKey,
-    libraries: mapLibraries,
-  });
-
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
-    setInput((values: any) => ({ ...values, [name]: value }));
-  };
-
-  const formData = useCallback(
-    (data: any) => {
-      const addressComponents = data?.address_components;
-
-      const componentMap = {
-        subPremise: '',
-        premise: '',
-        street_number: '',
-        route: '',
-        country: '',
-        postal_code: '',
-        administrative_area_level_2: '',
-        administrative_area_level_1: '',
-      };
-
-      for (const component of addressComponents) {
-        const componentType = component.types[0];
-        if (componentMap.hasOwnProperty(componentType)) {
-          componentMap[componentType as keyof typeof componentMap] =
-            component.long_name;
-        }
-      }
-
-      const formattedAddress =
-        `${componentMap.subPremise} ${componentMap.premise} ${componentMap.street_number} ${componentMap.route}`.trim();
-
-      // const latitude = data?.geometry?.location?.lat();
-      // const longitude = data?.geometry?.location?.lng();
-
-      const city = componentMap.administrative_area_level_2
-        ? componentMap.administrative_area_level_2 !== ''
-          ? componentMap.administrative_area_level_2
-          : componentMap.administrative_area_level_1
-        : componentMap.administrative_area_level_1;
-
-      const cityCountry = city && `${city}, ${componentMap.country}`.trim();
-
-      form.setValue('currentCountry', componentMap.country);
-      form.setValue('city', cityCountry);
-
-      setInput((values: any) => ({
-        ...values,
-        streetAddress: formattedAddress,
-        country: componentMap.country,
-        zipCode: componentMap.postal_code,
-        city: cityCountry,
-        state: componentMap.administrative_area_level_1,
-        // latitude: latitude,
-        // longitude: longitude,
-      }));
-    },
-    [form]
-  );
-
-  const handlePlaceChanged = useCallback(
-    async (address: any) => {
-      if (!isLoaded) return;
-      const place = address.getPlace();
-
-      if (!place) {
-        setInput({});
-        return;
-      }
-      formData(place);
-    },
-    [formData, isLoaded]
-  );
+  }, [form, user, setLocation]);
 
   useEffect(() => {
-    if (!isLoaded || loadError) return;
-
-    const options = {
-      types: ['(cities)'],
-      fields: ['address_components'],
-    };
-
-    if (!inputRef.current) return;
-
-    const autocomplete = new google.maps.places.Autocomplete(
-      inputRef.current,
-      options
-    );
-    const eventListener = autocomplete.addListener('place_changed', () =>
-      handlePlaceChanged(autocomplete)
-    );
-
-    return () => {
-      if (eventListener) {
-        google.maps.event.removeListener(eventListener);
-      }
-    };
-  }, [handlePlaceChanged, isLoaded, loadError]);
+    form.setValue('currentCountry', location?.country);
+    form.setValue('city', location?.city);
+  }, [location, form]);
 
   const onSubmit = (data: UserRegistration) => {
     try {
@@ -660,57 +562,13 @@ export default function BasicInformationForm({
                           value={field.value}
                           onChange={field.onChange}
                         />
-                        {/* <AutoComplete
-                          onChange={field.onChange}
-                          selectedOption={field.value}
-                          options={countryOptions.map((c) => {
-                            const countryCode = countryToCountryCode[c.value];
-                            const Flag =
-                              flags[countryCode as keyof typeof flags];
-                            const icon = (
-                              <div className="w-5">
-                                {Flag && <Flag title={c.label} />}
-                              </div>
-                            );
-                            return {
-                              label: c.label,
-                              value: c.value,
-                              icon: icon,
-                            };
-                          })}
-                          placeholder=""
-                          className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
-                        /> */}
                       </FormControl>
                       <FormMessage className="text-md" />
                     </FormItem>
                   )}
                 />
               </div>
-              {/* <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
-                <Label>Skin Color</Label>
-                <FormField
-                  name='skinColor'
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Select onValueChange={field.onChange} value={field.value}>
-                          <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem className="text-md " value="Asian">Asian</SelectItem>
-                            <SelectItem className="text-md " value="Black">Black</SelectItem>
-                            <SelectItem className="text-md " value="Brown">Brown</SelectItem>
-                            <SelectItem className="text-md " value="White">White</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage className="text-md" />
-                    </FormItem>)}
-                />
-              </div> */}
+
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>Language(s)</Label>
                 <FormField
@@ -763,10 +621,10 @@ export default function BasicInformationForm({
                       <FormItem>
                         <FormControl>
                           <Input
-                            ref={inputRef}
+                            ref={locationInputRef}
                             name={field.name}
-                            value={input.city || ''}
-                            onChange={handleChange}
+                            value={location.city || ''}
+                            onChange={onLocationChange}
                             className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                           />
                         </FormControl>
