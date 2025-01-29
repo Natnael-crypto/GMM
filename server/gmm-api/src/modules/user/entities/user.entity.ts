@@ -126,11 +126,9 @@ export class User {
   smokes: boolean;
 
   @Column({
-    type: 'enum',
-    enum: TattooPreference,
     nullable: true,
   })
-  tattoos: TattooPreference;
+  tattoos: string;
 
   @Column({ nullable: true })
   guardianId: string | null;
