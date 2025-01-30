@@ -68,17 +68,15 @@ export default function GuardianRegistrationPage() {
         email: string;
         phone: string;
       };
-      console.log(userInfo);
+
       form.reset({
         firstName: userInfo.firstName ?? '',
         lastName: userInfo.lastName ?? '',
         phoneNumber: userInfo.phone ?? '',
         token: token,
       });
-      console.log(form.getValues(), '<<');
     }
   }, [params, form]);
-  console.log(form.formState.errors);
 
   const [isLoading, setIsLoading] = useState(false);
 

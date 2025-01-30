@@ -61,7 +61,6 @@ export const signUpWithLink = async (data: SignUpWithLink) => {
   try {
     email = (jwtDecode(data.token) as any).email;
   } catch (e) {
-    console.log(e);
     return { status: 400, message: 'Invalid registration link' };
   }
 
@@ -91,14 +90,12 @@ export const signUpWithLink = async (data: SignUpWithLink) => {
   const res = await response.json();
 
   if (!response.ok) {
-    console.log(res);
     return {
       status: response.status,
       message: 'Unable to register',
     };
   }
 
-  console.log(res);
   return {
     status: 200,
     message: res.message,
