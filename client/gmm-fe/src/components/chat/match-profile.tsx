@@ -239,6 +239,9 @@ export default function MatchProfile({
             blur={!showImage}
             showRequestViewButton={!showImage}
             requestViewButtonDisabled={stageIndex < 3}
+            h1='19rem'
+            h2='20rem'
+            h3='20rem'
           />
 
           <ProfileCompletionCard user={matchedUser} hideProfile={true} />

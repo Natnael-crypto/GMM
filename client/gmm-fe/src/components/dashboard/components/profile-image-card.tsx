@@ -31,11 +31,17 @@ export default function ProfileImages({
   blur,
   requestViewButtonDisabled = true,
   showRequestViewButton = false,
+  h1 = "25rem",
+  h2 = "30rem",
+  h3 = "30rem"
 }: {
   user: User;
   blur?: boolean;
   requestViewButtonDisabled?: boolean;
   showRequestViewButton?: boolean;
+  h1?: string;
+  h2?: string;
+  h3?: string;
 }) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
@@ -98,11 +104,11 @@ export default function ProfileImages({
     <motion.div
       initial="visible"
       whileHover="hidden"
-      className="min-h-[19rem] flex flex-col items-center"
+      className={`min-h-[${h1}] flex flex-col items-center`}
     >
       <AnimatePresence>
         {imageUrls && (
-          <motion.div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[20rem] w-full aspect-[9/16]">
+          <motion.div className = {`rounded-se-3xl rounded-es-3xl overflow-hidden h-[${h2}] w-full aspect-[9/16]`}>
             {imageUrls && imageUrls.length > 0 && (
               <Carousel setApi={setApi}>
                 <CarouselContent>
@@ -117,7 +123,7 @@ export default function ProfileImages({
 
                         <DynamicBlur
                           src={image}
-                          className="object-cover h-[20rem] object-top"
+                          className={`object-cover h-[${h3}] object-top`}
                           width={600}
                           height={1000}
                           alt="Hero image"
