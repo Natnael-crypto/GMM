@@ -23,6 +23,7 @@ import { ApiKeyStrategy } from './strategies/apikey.strategy';
 import { ApiKeysController } from './controllers/apikey.controller';
 import { ApiKeyService } from './services/apikey.service';
 import { ApiKey } from './entities/apikey.entity';
+import { NoticeModule } from '@modules/notice/notice.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { ApiKey } from './entities/apikey.entity';
         };
       },
     }),
+    NoticeModule.forRootAsync(),
   ],
   controllers: [AuthController, RoleController, ApiKeysController],
   providers: [

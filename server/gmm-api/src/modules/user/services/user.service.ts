@@ -108,7 +108,7 @@ export class UserService extends BaseRepository {
     try {
       const user = await this.getRepository(User).findOne({
         where: { id },
-        relations: ['guardian'],
+        relations: ['guardian', 'dependents'],
       });
       if (!user) {
         throw new NotFoundException(`User with ID ${id} not found`);
@@ -168,7 +168,10 @@ export class UserService extends BaseRepository {
       dto.guardianEmail &&
         dto.guardianEmail !== user.email &&
         this.guardianService.requestGuardian(user, {
-          guardianEmail: dto.guardianEmail,
+          email: dto.guardianEmail,
+          phoneNumber: dto.guardianPhoneNumber,
+          firstName: dto.guardianFirstName,
+          lastName: dto.guardianLastName,
           relationshipToGuardian: dto.relationshipToGuardian,
         }),
     ]);

@@ -13,6 +13,7 @@ import {
   Query,
   Req,
   Res,
+  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -41,10 +42,11 @@ import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
 import { StripeConfig } from '@shared/config';
 import { SchedulerService } from '@shared/services/scheduler.service';
+import { UserService } from '@modules/user/services/user.service';
 
 @ApiTags('payments')
 @ApiBearerAuth()
-@UseInterceptors(CacheInterceptor)
+// @UseInterceptors(CacheInterceptor)
 @Controller({ version: ApiVersion.V1, path: 'payments' })
 export class PaymentsController {
   private stripe: Stripe;
@@ -54,6 +56,7 @@ export class PaymentsController {
     private paymentService: PaymentsService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly schedulerService: SchedulerService,
+    private readonly userService: UserService,
   ) {
     this.stripe = new Stripe(
       this.configService.get<StripeConfig>('stripe')!.apiKey!,
@@ -152,18 +155,22 @@ export class PaymentsController {
   }
 
   @Get('current-subscription/:userId')
-  @UseGuards(
-    JwtAuthGuard,
-    new PermissionGuard(
-      ['payment:read'],
-      (req) => req.params.userId === req.user.id,
-    ),
-  )
+  @UseGuards(JwtAuthGuard)
   async getCurrentSubscription(
+    @Req() req: Request & { user: User },
     @Res() response: Response,
     @Param('userId') userId: string,
   ) {
     try {
+      const user = await this.userService.getUserById(userId);
+
+      if (
+        req.params.userId !== req.user.id &&
+        req.user.id !== user.guardianId
+      ) {
+        throw new UnauthorizedException();
+      }
+
       const subscription =
         await this.paymentService.getCurrentSubscription(userId);
       if (!subscription) {
@@ -288,7 +295,6 @@ export class PaymentsController {
     @Param('userId') userId: string,
   ) {
     try {
-      console.log(userId);
       await this.paymentService.activateRenewal(userId);
 
       const cacheKey = `/payments/current-subscription/${userId}`;
@@ -312,7 +318,6 @@ export class PaymentsController {
     @Param('userId') userId: string,
   ) {
     try {
-      console.log(userId);
       await this.paymentService.cancelRenewal(userId);
 
       const cacheKey = `/payments/current-subscription/${userId}`;

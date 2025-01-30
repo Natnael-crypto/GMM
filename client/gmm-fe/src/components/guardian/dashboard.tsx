@@ -1,10 +1,22 @@
 'use client';
 import { useAppSelector } from '@/lib/hooks';
 import React from 'react';
-import { Button } from '../ui/button';
+import { Button, buttonVariants } from '../ui/button';
+import { useGetCurrentSubscriptionQuery } from '@/lib/checkout/api';
+import Loading from '../ui/loading';
+import { Link } from '@/lib/navigation';
+import { cn } from '@/lib/utils';
 
 export default function GuardianDashboard() {
   const user = useAppSelector((state) => state.auth.user);
+
+  const dependent = user?.dependents?.[0];
+  const { data: subscription, isLoading } = useGetCurrentSubscriptionQuery(
+    dependent?.id || '',
+    {
+      skip: !dependent,
+    }
+  );
 
   return (
     <div className="flex flex-col gap-5">
@@ -19,13 +31,13 @@ export default function GuardianDashboard() {
             <div className="space-y-1">
               <p className="font-bold">Full Name</p>
               <p className="text-sm">
-                {user?.firstName} {user?.lastName}
+                {dependent?.firstName} {dependent?.lastName}
               </p>
             </div>
 
             <div className="space-y-1">
               <p className="font-bold">Email</p>
-              <p className="text-sm">{user?.email}</p>
+              <p className="text-sm">{dependent?.email}</p>
             </div>
 
             <div className="space-y-1">
@@ -41,7 +53,7 @@ export default function GuardianDashboard() {
 
           <div className="flex flex-col gap-3 items-center justify-center w-full">
             <h1 className="text-3xl bg-primary text-primary-foreground rounded-full w-12 h-12 flex items-center justify-center text-center font-extrabold">
-              7
+              {isLoading ? <Loading /> : subscription?.remainingMatches}
             </h1>
 
             <p className="font-bold">Available Matches Left</p>
@@ -81,9 +93,19 @@ export default function GuardianDashboard() {
             </div>
 
             <div className="flex items-center justify-center">
-              <Button className="bg-primary text-primary-foreground h-7 w-fit text-sm">
-                View Full Information
-              </Button>
+              {dependent && (
+                <Link
+                  href={`/guardian/profile/${dependent?.id}/basic-information`}
+                  className={cn(
+                    buttonVariants({
+                      variant: 'default',
+                    }),
+                    'bg-primary text-primary-foreground h-7 w-fit text-sm'
+                  )}
+                >
+                  View Full Information
+                </Link>
+              )}
             </div>
           </div>
         </div>

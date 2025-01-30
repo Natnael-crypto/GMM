@@ -37,7 +37,7 @@ import { CACHE_MANAGER, CacheInterceptor } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 
-@ApiTags('User')  
+@ApiTags('User')
 @ApiBearerAuth()
 @Controller('users')
 export class UserController {
@@ -46,7 +46,7 @@ export class UserController {
     private readonly userService: UserService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
-  
+
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(UserSpecificCacheInterceptor)
   @Get('me')
@@ -79,6 +79,20 @@ export class UserController {
         id,
         registrationDto,
       );
+
+      const keys = [
+        `/users/${id}`,
+        `/users/me/${id}`,
+        `/users/${id}/worldly-lifestyle`,
+        `/users/${id}/expected-worldly-lifestyle`,
+        `/users/${id}/islamic-lifestyle`,
+        `/users/${id}/expected-islamic-lifestyle`,
+        `/users/${id}/marriage-discussion`,
+        `/users/${id}/optional-verifiable`,
+        `/users/${id}/family-introduction`,
+      ];
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+
       return {
         message: 'User registration updated successfully',
         data: result[0],
@@ -114,11 +128,8 @@ export class UserController {
     user.accountStatus = dto.status;
     await this.userRepository.save(user);
 
-    const keys = [
-      `/users/${id}`,
-      `/users/me/${id}`,
-    ]
-    await Promise.all(keys.map(key => this.cacheManager.del(key)));
+    const keys = [`/users/${id}`, `/users/me/${id}`];
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
     return {
       message: 'User account status updated successfully',
@@ -152,11 +163,8 @@ export class UserController {
     this.userRepository.merge(user, userDto);
     await this.userRepository.save(user);
 
-    const keys = [
-      `/users/${id}`,
-      `/users/me/${id}`,
-    ]
-    await Promise.all(keys.map(key => this.cacheManager.del(key)));
+    const keys = [`/users/${id}`, `/users/me/${id}`];
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
     return {
       message: 'User updated successfully',
@@ -173,18 +181,19 @@ export class UserController {
     }
     await this.userRepository.remove(user);
 
-    const keys = [`/users/${id}`,
-                  `/users/me/${id}`,
-                  `/users/${id}/worldly-lifestyle`,
-                  `/users/${id}/expected-worldly-lifestyle`,
-                  `/users/${id}/islamic-lifestyle`,
-                  `/users/${id}/expected-islamic-lifestyle`,
-                  `/users/${id}/marriage-discussion`,
-                  `/users/${id}/optional-verifiable`,
-                  `/users/${id}/family-introduction`
-                ];
+    const keys = [
+      `/users/${id}`,
+      `/users/me/${id}`,
+      `/users/${id}/worldly-lifestyle`,
+      `/users/${id}/expected-worldly-lifestyle`,
+      `/users/${id}/islamic-lifestyle`,
+      `/users/${id}/expected-islamic-lifestyle`,
+      `/users/${id}/marriage-discussion`,
+      `/users/${id}/optional-verifiable`,
+      `/users/${id}/family-introduction`,
+    ];
 
-    await Promise.all(keys.map(key => this.cacheManager.del(key)));
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
     return { message: 'User deleted successfully' };
   }
@@ -438,12 +447,9 @@ export class UserController {
   @UseGuards(ApiKeyAuthGuard)
   @Delete(':id/cache')
   async invalidateUserCache(@Param('id') id: string) {
-    const keys = [
-      `/users/${id}`,
-      `/users/me/${id}`,
-    ];
+    const keys = [`/users/${id}`, `/users/me/${id}`];
 
-    await Promise.all(keys.map(key => this.cacheManager.del(key)));
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
     return { message: 'User cache invalidated successfully' };
   }

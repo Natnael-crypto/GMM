@@ -160,12 +160,10 @@ export default function BasicInformationForm({
       });
     }
 
-    if (user) {
-      setLocation({
-        country: user.currentCountry,
-        city: user.city,
-      });
-    }
+    setLocation({
+      country: user?.currentCountry ?? '',
+      city: user?.city ?? '',
+    });
   }, [form, user, setLocation]);
 
   useEffect(() => {
