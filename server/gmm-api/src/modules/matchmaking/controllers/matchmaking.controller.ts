@@ -426,6 +426,21 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Put('matches/matched-user-profile/:id')
+  async accessMatchedUserProfile(@Param('id') id: string, @Req() req: Request) {
+    await this.matchmakingService.allowMatchUserProfile(
+      (req.user as User).id,
+      id,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('matches/matched-chat/:id')
+  async accessMatchedChat(@Param('id') id: string, @Req() req: Request) {
+    await this.matchmakingService.allowMatchChat((req.user as User).id, id);
+  }
+
   /** ADMIN ROUTES */
   @UseGuards(JwtAuthGuard, new PermissionGuard(['match:read']))
   @UseInterceptors(CacheInterceptor)

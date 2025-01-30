@@ -6,6 +6,7 @@ import {
   Injectable,
   NotFoundException,
   Scope,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Preference } from '../entities/preference.entity';
 import { And, DataSource, In, Not } from 'typeorm';
@@ -576,6 +577,50 @@ export class MatchMakingService extends BaseRepository {
     const match = await this.getActiveMatch(userId);
 
     match.isActive = false;
+
+    return await this.getRepository(Match).save(match);
+  }
+
+  async allowMatchUserProfile(userId: string, matchId: string) {
+    const match = await this.getMatch(matchId);
+
+    if (!match.isActive) {
+      throw new BadRequestException('Match is inactive');
+    }
+
+    if (match.maleUserId !== userId && match.femaleUserId !== userId) {
+      throw new UnauthorizedException();
+    }
+
+    if (match.allowMatchedUserView) {
+      throw new BadRequestException(
+        'Access to matched user profile already granted',
+      );
+    }
+
+    match.allowMatchedUserView = true;
+
+    return await this.getRepository(Match).save(match);
+  }
+
+  async allowMatchChat(userId: string, matchId: string) {
+    const match = await this.getMatch(matchId);
+
+    if (!match.isActive) {
+      throw new BadRequestException('Match is inactive');
+    }
+
+    if (match.maleUserId !== userId && match.femaleUserId !== userId) {
+      throw new UnauthorizedException();
+    }
+
+    if (match.allowChatView) {
+      throw new BadRequestException(
+        'Access to matched chat view already granted',
+      );
+    }
+
+    match.allowChatView = true;
 
     return await this.getRepository(Match).save(match);
   }
