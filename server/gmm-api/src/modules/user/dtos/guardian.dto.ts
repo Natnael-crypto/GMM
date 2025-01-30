@@ -1,11 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class RequestGuardianDto {
   @ApiProperty()
   @IsString()
+  @IsOptional()
+  firstName: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  lastName: string;
+
+  @ApiProperty()
+  @IsString()
   @IsEmail()
-  guardianEmail: string;
+  email: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  phoneNumber: string;
 
   @ApiProperty()
   @IsString()

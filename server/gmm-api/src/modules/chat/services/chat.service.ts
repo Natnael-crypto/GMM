@@ -36,7 +36,7 @@ export class ChatService {
     return user;
   }
 
-  async getUserChats(user: User): Promise<ChatDto[]> {
+  async getUserChats(userId: string): Promise<ChatDto[]> {
     const rooms = await RoomModel.scan().exec();
 
     return rooms
@@ -45,7 +45,7 @@ export class ChatService {
         user1: room.user1,
         user2: room.user2,
       }))
-      .filter((room: any) => room.user1 === user.id || room.user2 === user.id);
+      .filter((room: any) => room.user1 === userId || room.user2 === userId);
   }
 
   async createChat(
@@ -134,7 +134,8 @@ export class ChatService {
         .exec();
     }
 
-    const encryptionKey = this.configService.get<ChatEncryptionConfig>('chat')!.key;
+    const encryptionKey =
+      this.configService.get<ChatEncryptionConfig>('chat')!.key;
 
     // Decrypt the message content
     const decryptedMessages = messages.map((message: any) => ({
@@ -156,7 +157,8 @@ export class ChatService {
       );
     }
 
-    const encryptionKey = this.configService.get<ChatEncryptionConfig>('chat')!.key;
+    const encryptionKey =
+      this.configService.get<ChatEncryptionConfig>('chat')!.key;
     const encryptedContent = encryptText(messageDto.content, encryptionKey);
 
     messageDto.content = encryptedContent;

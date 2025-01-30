@@ -17,6 +17,10 @@ export function useProfileView(stage: MatchStage) {
     skip: !loggedInUser || loggedInUser.id === params.userId,
   });
 
+  const isMyDependent = !!(loggedInUser?.dependents || []).find(
+    (dependent) => dependent.id === params.userId
+  );
+
   const isMyInformation = params.userId === loggedInUser?.id;
   const isMyMatchInformation = !!(
     currentMatch &&
@@ -26,6 +30,7 @@ export function useProfileView(stage: MatchStage) {
 
   const showInfo =
     isMyInformation ||
+    isMyDependent ||
     (isMyMatchInformation && hasAccessToStage(currentMatch.stage, stage));
 
   const requestedUser = isMyInformation ? loggedInUser : fetchedUser;

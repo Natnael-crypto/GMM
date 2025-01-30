@@ -88,7 +88,7 @@ module.exports = {
                   <h2>Guardian Registration Request</h2>
                   <p class="message"><strong>${userName}</strong> has invited you as their <strong>${relationship}</strong> on the Guardian Muslim Marriage platform.</p>
                   <p class="message">Click the button below to join:</p>
-                  <a href="${domain}/en/auth/guardian-registration?token=${token}" class="button" style="color: #fff !important;">Join Guardian Muslim Marriage</a>
+                  <a href="${domain}/en/register-via-link?token=${token}" class="button" style="color: #fff !important;">Join Guardian Muslim Marriage</a>
               </div>
               <div class="footer">
                   &copy; ${new Date().getFullYear()} Guardian Muslim Marriage - Premium Guided Matchmaking

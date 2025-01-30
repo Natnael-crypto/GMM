@@ -8,7 +8,7 @@ import { Injectable, Scope } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { ConfigService } from '@nestjs/config';
 import { ClientConfig } from '@shared/config';
-import { GuardianRequestedEvent } from '@modules/user/events/guardian.events';
+import { GuardianRegistrationEvent } from '@modules/user/events/guardian.events';
 import {
   PaymentFailedEvent,
   SubscriptionAutoRenewalUpcomingEvent,
@@ -47,20 +47,21 @@ export class NoticeService {
     );
   }
 
-  @OnEvent(GuardianRequestedEvent.name, { async: true })
-  async handleGuardianRequestedEvent(event: GuardianRequestedEvent) {
+  @OnEvent(GuardianRegistrationEvent.name, { async: true })
+  async handleGuardianRequestedEvent(event: GuardianRegistrationEvent) {
     const {
       message,
       subject,
     } = require('../templates/emails/guardian-registration');
 
     await this.sendEmail(
-      event.guardianEmail,
+      event.guardian.email,
       subject,
       message(
         event.user.firstName + ' ' + event.user.lastName,
-        event.relationshipToGuardian,
+        event.relationship,
         this.domain,
+        event.token,
       ),
     );
   }

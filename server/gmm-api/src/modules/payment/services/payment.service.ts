@@ -91,8 +91,13 @@ export class PaymentsService extends BaseRepository {
         amount: tier.amount,
         currency: 'usd',
         customer: user.stripeCustomerId,
-        payment_method_types: ['card'],
         metadata: { userId: user.id, plan },
+        setup_future_usage: 'off_session',
+
+        automatic_payment_methods: {
+          enabled: true,
+          allow_redirects: 'never',
+        },
       });
 
       return { clientSecret: paymentIntent.client_secret };
@@ -184,7 +189,7 @@ export class PaymentsService extends BaseRepository {
       if (userId !== userIdFromMetadata) {
         throw new Error('User ID mismatch.');
       }
-
+      console.log('Plan:', plan);
       const tier = Object.entries(SubscriptionTiers).find(
         ([key, value]) => key === plan,
       )?.[1];
@@ -216,6 +221,10 @@ export class PaymentsService extends BaseRepository {
           customer: user.stripeCustomerId,
           payment_method: paymentMethodId,
           usage: 'off_session',
+          automatic_payment_methods: {
+            enabled: true,
+            allow_redirects: 'never',
+          },
         });
 
         const confirmedSetupIntent = await this.stripe.setupIntents.confirm(
@@ -268,6 +277,7 @@ export class PaymentsService extends BaseRepository {
       await this.saveSubscriptionHistory(user, newSubscription);
 
       if (existingSubscription) {
+        newSubscription.id = existingSubscription.id;
         newSubscription.remainingMatches +=
           existingSubscription.remainingMatches;
       }
