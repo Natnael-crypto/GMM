@@ -98,11 +98,11 @@ export default function ProfileImages({
     <motion.div
       initial="visible"
       whileHover="hidden"
-      className="min-h-[25rem] flex flex-col items-center"
+      className="min-h-[19rem] flex flex-col items-center"
     >
       <AnimatePresence>
         {imageUrls && (
-          <motion.div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[30rem] w-full aspect-[9/16]">
+          <motion.div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[20rem] w-full aspect-[9/16]">
             {imageUrls && imageUrls.length > 0 && (
               <Carousel setApi={setApi}>
                 <CarouselContent>
@@ -117,7 +117,7 @@ export default function ProfileImages({
 
                         <DynamicBlur
                           src={image}
-                          className="object-cover h-[30rem] object-top"
+                          className="object-cover h-[20rem] object-top"
                           width={600}
                           height={1000}
                           alt="Hero image"
@@ -136,7 +136,7 @@ export default function ProfileImages({
               <div className="gmm-pic-container absolute bottom-0 left-0 right-0 p-5 space-y-3">
                 <motion.h2
                   variants={overlayName}
-                  className="gmm-pic-name text-background font-semibold user-information-overlay"
+                  className="gmm-pic-name text-background font-semibold user-information-overlay text-lg"
                 >
                   {user.firstName}{' '}
                   <span className="gmm-pic-age">
@@ -149,13 +149,13 @@ export default function ProfileImages({
                     variants={overlayInfo}
                     className="gmm-pic-info h-fit flex gap-2 bg-[#ffffffbb] rounded-full font-semibold px-2 shadow-lg items-center "
                   >
-                    <div className="w-4 h-4 flex items-center justify-center">
+                    <div className="w-4 h-2 flex items-center justify-center">
                       {NationalityFlag && (
                         <NationalityFlag title={user.nationality} />
                       )}
                     </div>
-                    <span className="w-full">
-                      {user.nationality} Nationality / Passport
+                    <span className="w-full font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">
+                      {user.nationality} CitizenShip / Nationality
                     </span>
                   </motion.div>
 
@@ -179,7 +179,7 @@ export default function ProfileImages({
                       <span>
                         <FontAwesomeIcon icon={faUpDown} />
                       </span>
-                      <span className="w-full text-wrap">
+                      <span className="w-full text-wrap text-xs">
                         {cmToFeetInches(user.height)} ({user.height} cm)
                       </span>
                     </p>
@@ -187,7 +187,7 @@ export default function ProfileImages({
                       <span>
                         <FontAwesomeIcon icon={faWeightScale} />
                       </span>
-                      <span className="w-full text-wrap">
+                      <span className="w-full text-wrap text-xs">
                         {kgToPounds(user.weight)} ({user.weight} kg){' '}
                       </span>
                     </p>

@@ -230,7 +230,8 @@ export default function MatchProfile({
 
       <div
         ref={containerRef}
-        className="p-6 flex flex-col item-center justify-between overflow-y-auto"
+        className="pl-6 pr-6 pb-6 flex flex-col item-center justify-between overflow-y-auto no-scrollbar"
+        style={{ marginTop: '1rem' }}
       >
         <div className="space-y-3">
           <ProfileImages

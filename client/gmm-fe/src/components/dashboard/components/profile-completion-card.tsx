@@ -23,7 +23,7 @@ export default function ProfileCompletionCard({
   const { profileCompletion: completion } = useProfileCompletion(user);
 
   return (
-    <div className="gmm-profile-completion rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5 text-md font-medium space-y-5">
+    <div className="gmm-profile-completion rounded-se-3xl rounded-es-3xl overflow-hidden bg-green p-5 text-md font-medium space-y-5">
       {!hideProfile && (
         <AnimatePresence mode="wait">
           {user && <ProfileCard user={user} />}

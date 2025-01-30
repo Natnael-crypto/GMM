@@ -46,15 +46,15 @@ export default function ChatPage() {
   }, [user]);
 
   return (
-    <div className="flex flex-col justify-between bg-[#c9e2aa]">
+    <div className="flex flex-col justify-between bg-[#dedede]">
       <div
-        className="flex w-full px-5 p-3"
+        className="flex w-full px-1 p-3"
         style={{
           height: 'calc(100vh - 3rem)',
         }}
       >
-        <div className="lg:grid grid-cols-18 gap-x-[0.4rem] gap-y-5 h-full w-full">
-          <div className="hidden col-span-4 lg:flex">
+        <div className="lg:grid grid-cols-18 gap-x-[0.5rem] gap-y-5 h-full w-full">
+          <div className="hidden pl-0 ml-0 col-span-4 lg:flex flex-col">
             {matchedUser && currentMatch && (
               <MatchProfile matchedUser={matchedUser} match={currentMatch} />
             )}

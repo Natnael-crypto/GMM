@@ -195,43 +195,43 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
           icon={faUser} 
           text="Basics" 
           active={stageIndex >= 0} 
-          size='2x'
-          text_size='0.70rem'
+          size='1x'
+          text_size='0.65rem'
           />
           <StepperItem
             icon={faHouse}
             text="Worldly / Duniya"
             active={stageIndex >= 1}
-            size='2x'
-            text_size='0.70rem'
+            size='1x'
+            text_size='0.65rem'
           />
           <StepperItem
             icon={faMosque}
             text="Islamic / Deen"
             active={stageIndex >= 2}
-            size='2x'
-            text_size='0.70rem'
+            size='1x'
+            text_size='0.65rem'
           />
           <StepperItem
             icon={faComments}
             text="Marriage Talk"
             active={stageIndex >= 3}
-            size='2x'
-            text_size='0.70rem'
+            size='1x'
+            text_size='0.65rem'
           />
           <StepperItem
             icon={faPeopleRoof}
             text="Family Intro"
             active={stageIndex >= 4}
-            size='2x'
-            text_size='0.70rem'
+            size='1x'
+            text_size='0.65rem'
           />
           <div className="absolute top-1/3 translate-y-1/2 w-full h-[1px] px-14">
             <div className="w-full bg-border h-full"></div>
           </div>
         </div>
       </div>
-
+      <hr />
 
       {user && otherUser && (
         <div
