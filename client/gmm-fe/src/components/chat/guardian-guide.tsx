@@ -72,8 +72,9 @@ export default function GuardianGuide({
               Guardian Service
             </span>
           </div>
-          <p className= "text-center ">(Available at Step 4)</p>
-          <p className="font-bold text-sm text-center px-10 border-t">
+          <p className= "text-center text-sm  ">(Available at Step 4)</p>
+          <hr />
+          <p className="font-bold text-sm text-center px-10">
             You are on [Step {stageIndex + 1}] with {matchedUser.firstName} from{' '}
             {matchedUser.country}
           </p>
