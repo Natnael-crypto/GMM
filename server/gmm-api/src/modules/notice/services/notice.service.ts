@@ -137,6 +137,7 @@ export class NoticeService {
 
     try {
       await this._mailer.sendMail({
+        from: '"Guardian Muslim Marriage" <info@guardianmuslimmarriage.com>',
         to: email,
         subject: subject,
         html: htmlMessage,
