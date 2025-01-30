@@ -1,6 +1,6 @@
 module.exports = {
   subject: 'Guardian Request',
-  message: (userName, relationship, domain, token) => `
+  message: (userName, relationship, domain, token) => ` 
       <!DOCTYPE html>
       <html>
       <head>
@@ -87,7 +87,7 @@ module.exports = {
               <div class="content">
                   <h2>Guardian Registration Request</h2>
                   <p class="message"><strong>${userName}</strong> has invited you as their <strong>${relationship}</strong> on the Guardian Muslim Marriage platform.</p>
-                  <p class="message">Click the button below to join:</p>
+                  <p class="message">Click the button below to join Guardian Muslim Marriage:</p>
                   <a href="${domain}/en/register-via-link?token=${token}" class="button" style="color: #fff !important;">Join Guardian Muslim Marriage</a>
               </div>
               <div class="footer">
