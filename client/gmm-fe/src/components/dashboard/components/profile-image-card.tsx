@@ -161,7 +161,7 @@ export default function ProfileImages({
                       )}
                     </div>
                     <span className="w-full font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">
-                      {user.nationality} CitizenShip / Nationality
+                      {user.nationality} Citizenship / Nationality
                     </span>
                   </motion.div>
 
