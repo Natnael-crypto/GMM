@@ -22,6 +22,7 @@ import {
   UserOptionalVerifiable,
   UserFamilyInformation,
 } from '@modules/user/entities';
+import { AuthModule } from '@modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -41,7 +42,7 @@ import {
       Preference,
       GuardianRequest,
     ]),
-    NoticeModule.forRootAsync(), 
+    NoticeModule.forRootAsync(),
   ],
   controllers: [UserController, GuardianController],
   providers: [GuardianService, UserService],

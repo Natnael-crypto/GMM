@@ -21,6 +21,7 @@ import { useParams } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
 import Loading from '@/components/ui/loading';
 import { allMatchStages } from '@/lib/schemas/match';
+import { Role } from '@/lib/schemas/role';
 
 export default function ProfileHeader({
   pageName,
@@ -85,7 +86,7 @@ export default function ProfileHeader({
   return (
     <div className="flex justify-between items-center">
       <Link
-        href="/dashboard"
+        href={user?.roleId === Role.Guardian ? '/guardian' : '/dashboard'}
         className={cn(
           buttonVariants({
             variant: 'outline',
@@ -97,7 +98,7 @@ export default function ProfileHeader({
         Your Dashboard
       </Link>
       <div>
-        {user && !user.isMatched && (
+        {user && !user.isMatched && user.roleId === Role.User && (
           <Link
             href={editLink}
             className={cn(

@@ -497,6 +497,7 @@ export const baseUserSchema = z
 
 export const userSchema = baseUserSchema.extend({
   guardian: baseUserSchema.optional().nullable(),
+  dependents: z.array(baseUserSchema).default([]).optional(),
 });
 
 export const userRegistrationSchema = _userBasicInformationSchema

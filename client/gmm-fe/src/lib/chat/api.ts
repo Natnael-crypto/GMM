@@ -30,6 +30,11 @@ export const chatApi = createApi({
       transformResponse: (response: BaseResponse<Chat[]>) => response.data,
     }),
 
+    getUserChats: builder.query<Chat[], string>({
+      query: (userId) => `chats/user/${userId}`,
+      transformResponse: (response: BaseResponse<Chat[]>) => response.data,
+    }),
+
     initiateChat: builder.mutation<Chat, string>({
       query: (userId) => ({
         url: 'chats',
@@ -53,6 +58,7 @@ export const chatApi = createApi({
 export const {
   useGetChatQuery,
   useGetChatsQuery,
+  useGetUserChatsQuery,
   useInitiateChatMutation,
   useGetMessagesQuery,
   useLazyGetMessagesQuery,

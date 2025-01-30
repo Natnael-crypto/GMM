@@ -30,7 +30,7 @@ export default function Sidebar() {
             href="/guardian/settings"
             className={cn(
               'ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full',
-              isActive('/dashboard/billing')
+              isActive('/guardian/settings')
                 ? 'bg-secondary text-secondary-foreground'
                 : ''
             )}
@@ -41,7 +41,7 @@ export default function Sidebar() {
             href="/guardian/help"
             className={cn(
               'ps-3 text-secondary hover:text-secondary-foreground bg-transparent hover:bg-secondary transition-colors duration-300 rounded-full',
-              isActive('/dashboard/billing')
+              isActive('/dashboard/help')
                 ? 'bg-secondary text-secondary-foreground'
                 : ''
             )}
