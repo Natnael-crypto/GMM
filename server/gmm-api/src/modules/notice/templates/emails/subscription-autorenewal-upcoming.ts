@@ -1,6 +1,6 @@
 module.exports = {
   subject: 'Your Subscription Auto-Renewal is Coming Soon',
-  message: (userFirstName, renewalDate, daysUntilRenewal, domain) => `
+  message: (userFirstName) => `
         <!DOCTYPE html>
         <html>
         <head>
@@ -66,9 +66,10 @@ module.exports = {
                 <div class="content">
                     <h2>Subscription Auto-Renewal Notice</h2>
                     <p>Dear <strong>${userFirstName}</strong>,</p>
-                    <p>We wanted to remind you that your subscription will be automatically renewed in <strong>${daysUntilRenewal} days</strong>, on <strong>${renewalDate}</strong>.</p>
+                    <p>We wanted to remind you that your subscription will be automatically renewed when your match balance runs out to ensure uninterrupted access to your matches.</p>
+                    <p><strong>You currently have only 2 matches left.</strong></p>
                     <p>Thank you for being a valued member of Guardian Muslim Marriage! We appreciate your continued trust in our services.</p>
-                    <p>You can manage your subscription settings, including auto-renewal preferences, from your account.</p>
+                    <p>You can manage your subscription settings, including auto-renewal preferences, from your account billing setting.</p>
                     <p>If you have any questions, feel free to contact us at <a href="mailto:info@guardianmuslimmarriage.com">info@guardianmuslimmarriage.com</a>.</p>
                 </div>
                 <div class="footer">

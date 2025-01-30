@@ -100,13 +100,12 @@ export class NoticeService {
       subject,
     } = require('../templates/emails/subscription-renewal');
 
-    const { user, tier, amount, numMatches } = event;
-    const renewalDate = new Date();
+    const { user, amount, numMatches } = event;
 
     await this.sendEmail(
       user.email,
       subject,
-      message(user.firstName, tier, renewalDate, amount, numMatches),
+      message(user.firstName, amount, numMatches),
     );
   }
 
@@ -119,13 +118,9 @@ export class NoticeService {
       subject,
     } = require('../templates/emails/subscription-autorenewal-upcoming');
 
-    const { user, renewalDate, daysUntilRenewal } = event;
+    const { user } = event;
 
-    await this.sendEmail(
-      user.email,
-      subject,
-      message(user.firstName, renewalDate, daysUntilRenewal),
-    );
+    await this.sendEmail(user.email, subject, message(user.firstName));
   }
 
   async sendEmail(

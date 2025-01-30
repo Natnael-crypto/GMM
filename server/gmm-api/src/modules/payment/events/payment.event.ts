@@ -12,16 +12,11 @@ export class PaymentFailedEvent {
 export class SubscriptionAutoRenewedEvent {
   constructor(
     public user: User,
-    public tier: string,
     public amount: number,
     public numMatches: number,
   ) {}
 }
 
 export class SubscriptionAutoRenewalUpcomingEvent {
-  constructor(
-    public user: User,
-    public renewalDate: string,
-    public daysUntilRenewal: number,
-  ) {}
+  constructor(public user: User) {}
 }

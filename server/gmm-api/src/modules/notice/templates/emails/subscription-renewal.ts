@@ -1,13 +1,6 @@
 module.exports = {
   subject: 'Your Subscription Has Been Renewed',
-  message: (
-    userFirstName,
-    planName,
-    renewalDate,
-    amount,
-    numMatches,
-    domain,
-  ) => `
+  message: (userFirstName, amount, numMatches) => `
         <!DOCTYPE html>
         <html>
         <head>
@@ -35,18 +28,22 @@ module.exports = {
                     text-align: center;
                     padding: 15px;
                     background-color: #0b3e27;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     border-top-left-radius: 10px;
                     border-top-right-radius: 10px;
                 }
                 .header img {
-                    width: 200px;
-                    height: auto;
+                    color: transparent;
+                    width: auto;
+                    max-width: 100%;
+                    height: 50px;
                     display: block;
-                    margin: 0 auto;
+                    margin: auto;
                 }
                 .content {
                     padding: 20px;
-                    text-align: center;
                 }
                 .details {
                     font-size: 18px;
@@ -84,15 +81,12 @@ module.exports = {
         <body>
             <div class="container">
                 <div class="header">
-                    <img src="https://gmm-assets.s3.us-east-1.amazonaws.com/guardian-logo.png" alt="Guardian Muslim Marriage Logo">
+                    <img src="https://gmm-assets.s3.us-east-1.amazonaws.com/guardian-logo.png" width=340 height=50 alt="Guardian Muslim Marriage Logo">
                 </div>
                 <div class="content">
-                    <h2>Subscription Renewed Successfully</h2>
                     <p>Dear <strong>${userFirstName}</strong>,</p>
                     <p>Your subscription has been successfully renewed.</p>
                     <div class="details">
-                        <p><strong>Plan Name:</strong> ${planName}</p>
-                        <p><strong>Renewal Date:</strong> ${renewalDate}</p>
                         <p><strong>Amount Charged:</strong> $${amount}</p>
                         <p><strong>Your Match Balance:</strong> ${numMatches}</p>
                     </div>

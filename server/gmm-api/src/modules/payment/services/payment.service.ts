@@ -412,29 +412,29 @@ export class PaymentsService extends BaseRepository {
 
     subscription.remainingMatches--;
 
+    if (subscription.remainingMatches === 2) {
+      this.eventEmitter.emitAsync(
+        SubscriptionAutoRenewalUpcomingEvent.name,
+        new SubscriptionAutoRenewalUpcomingEvent(user),
+      );
+    }
+
     if (subscription.remainingMatches === 0 && subscription.autoRenew) {
-      const threeDaysLater = new Date();
-      threeDaysLater.setSeconds(threeDaysLater.getSeconds() + 10);
+      // const threeDaysLater = new Date();
+      // threeDaysLater.setSeconds(threeDaysLater.getSeconds() + 10);
       // const threeDaysLater = new Date();
       // threeDaysLater.setDate(threeDaysLater.getDate() + 3);
 
-      this.eventEmitter.emitAsync(
-        SubscriptionAutoRenewalUpcomingEvent.name,
-        new SubscriptionAutoRenewalUpcomingEvent(
-          user,
-          threeDaysLater.toString(),
-          3,
-        ),
-      );
+      // const jobId = `renew-${subscription.id}`;
+      // this.schedulerService.scheduleJob(jobId, threeDaysLater, async () => {
+      //   try {
+      //     await this.renewSubscription(subscription, userId);
+      //   } catch (error) {
+      //     console.error(`Error executing job ${jobId}:`, error.message);
+      //   }
+      // });
 
-      const jobId = `renew-${subscription.id}`;
-      this.schedulerService.scheduleJob(jobId, threeDaysLater, async () => {
-        try {
-          await this.renewSubscription(subscription, userId);
-        } catch (error) {
-          console.error(`Error executing job ${jobId}:`, error.message);
-        }
-      });
+      await this.renewSubscription(subscription, userId);
     }
     await this.getRepository(Subscription).save(subscription);
   }
@@ -451,6 +451,7 @@ export class PaymentsService extends BaseRepository {
     }
 
     if (!user.stripeCustomerId) {
+      console.log('Creating stripe customer for user:', user.id);
       const stripeCustomer = await this.stripe.customers.create({
         email: user.email,
         name: `${user.firstName} ${user.lastName}`,
@@ -488,48 +489,23 @@ export class PaymentsService extends BaseRepository {
       throw new Error('Payment for renewal failed.');
     }
 
-    const existingSubscription = await this.subscriptionRepository.findOne({
-      where: { user: { id: userId } },
-    });
-    let result;
+    subscription.remainingMatches = tier.matches;
+    subscription.status = paymentIntent.status;
+    subscription.amount = tier.amount;
+    subscription.currentPeriodStart = new Date();
 
-    if (existingSubscription) {
-      existingSubscription.remainingMatches += tier.matches;
-      existingSubscription.status = paymentIntent.status;
-      existingSubscription.amount = tier.amount;
-
-      result = existingSubscription;
-    } else {
-      const newSubscription = this.subscriptionRepository.create({
-        id: randomUUID(),
-        user,
-        status: paymentIntent.status,
-        planId: tier.priceId,
-        currentPeriodStart: new Date(),
-        amount: tier.amount,
-        remainingMatches: tier.matches,
-      });
-
-      result = newSubscription;
-    }
-
-    result = await this.subscriptionRepository.save(result);
-    await this.saveSubscriptionHistory(user, result);
-
-    const tier_name = Object.keys(SubscriptionTiers).find(
-      (key) => SubscriptionTiers[key] === tier,
-    )!;
+    await this.subscriptionRepository.save(subscription);
+    await this.saveSubscriptionHistory(user, subscription);
 
     this.eventEmitter.emitAsync(
       SubscriptionAutoRenewedEvent.name,
       new SubscriptionAutoRenewedEvent(
         user,
-        tier_name,
-        result.amount.toString().slice(0, -2),
-        result.remainingMatches,
+        parseInt(subscription.amount!.toString().slice(0, -2)),
+        subscription.remainingMatches,
       ),
     );
-    return result;
+    return subscription;
   }
   catch(error) {
     throw new Error(`Failed to renew subscription: ${error.message}`);
@@ -589,20 +565,6 @@ export class PaymentsService extends BaseRepository {
     return tier ? tier.matches : 0;
   }
 
-  async notifyUserOfRenewal(userId: string) {
-    const user = await this.getRepository(User).findOne({
-      where: { id: userId },
-      relations: ['subscription'],
-    });
-    if (user && user.email) {
-      await this.noticeService.sendEmail(
-        user.email,
-        'Subscription Renewed',
-        `Your subscription has been renewed and you now have ${this.getMatchesForPlan(user.subscription.planId)} matches available.`,
-      );
-    }
-  }
-
   verifyStripeWebhook(body: any, signature: string): Stripe.Event {
     const webhookSecret =
       this.configService.get<StripeConfig>('stripe')?.webhookSecret!;
@@ -627,8 +589,12 @@ export class PaymentsService extends BaseRepository {
     subscription: Subscription,
   ): Promise<void> {
     const subscriptionHistory = this.subscriptionHistoryRepository.create({
-      ...subscription,
+      user,
+      status: subscription.status,
+      planId: subscription.planId,
       periodStart: subscription.currentPeriodStart,
+      amount: subscription.amount,
+      remainingMatches: subscription.remainingMatches,
     });
 
     await this.subscriptionHistoryRepository.save(subscriptionHistory);
