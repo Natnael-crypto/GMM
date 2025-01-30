@@ -66,7 +66,11 @@ export class GuardianService {
     if (!guardian) {
       this.eventEmitter.emit(
         GuardianRequestedEvent.name,
-        new GuardianRequestedEvent(user, dto.guardianEmail),
+        new GuardianRequestedEvent(
+          user,
+          dto.guardianEmail,
+          dto.relationshipToGuardian,
+        ),
       );
 
       return 'Guardian is not registered at Guardian/Wali. Registration request has been sent to their email successfully.';

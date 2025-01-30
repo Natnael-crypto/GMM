@@ -52,14 +52,14 @@ export class NoticeService {
     const {
       message,
       subject,
-    } = require('../templates/emails/guardian-request');
+    } = require('../templates/emails/guardian-registration');
 
     await this.sendEmail(
       event.guardianEmail,
       subject,
       message(
         event.user.firstName + ' ' + event.user.lastName,
-
+        event.relationshipToGuardian,
         this.domain,
       ),
     );
@@ -136,6 +136,7 @@ export class NoticeService {
 
     try {
       await this._mailer.sendMail({
+        from: '"Guardian Muslim Marriage" <info@guardianmuslimmarriage.com>',
         to: email,
         subject: subject,
         html: htmlMessage,
