@@ -396,14 +396,44 @@ export class MatchMakingService extends BaseRepository {
       throw new BadRequestException('You are already at the last stage');
     }
 
+    const invitationRepo = this.getRepository(InvitationToMatchStage);
+
+    const invitation = invitationRepo.create({
+      inviterId: user.id,
+      matchId: matchId,
+    });
+
+    const savedInvitation = await invitationRepo.save(invitation);
+
+    // Trigger the notification
+    const notification = new InviteToNextStageNotification(user, match);
+    await this.notificationService.send(notification);
+
+    return savedInvitation;
+  }
+
+  async shareFamilyInfo(matchId: string, user: User) {
+    const match = await this.getMatch(matchId);
+
+    if (!match.isActive) {
+      throw new BadRequestException(
+        'You are no longer matched with this user.',
+      );
+    }
+
+    if (user.id !== match.femaleUserId && user.id !== match.maleUserId) {
+      throw new ForbiddenException();
+    }
+
     // If Step 5 is reached, send family information to each other
-    if (match.stage === MatchStage.MARRIAGE_DISCUSSION) {
+    if (match.stage === MatchStage.FAMILY_INTRODUCTION) {
       const maleFamilyInfo = new FamilyInfoDto();
       const femaleFamilyInfo = new FamilyInfoDto();
 
       const maleUser = await this.userService.getFamilyInformation(
         match.maleUserId,
       );
+
       const femaleUser = await this.userService.getFamilyInformation(
         match.femaleUserId,
       );
@@ -430,6 +460,11 @@ export class MatchMakingService extends BaseRepository {
         femaleFamilyInfo,
       );
 
+      await this.noticeService.sendFamilyInformationEmail(
+        femaleFamilyInfo.guardianEmail,
+        maleFamilyInfo,
+      );
+
       // female information sent to male notification
       const maleNotification = new FamilyInformationNotification({
         userName: user.firstName,
@@ -438,11 +473,6 @@ export class MatchMakingService extends BaseRepository {
       });
 
       await this.notificationService.send(maleNotification);
-
-      await this.noticeService.sendFamilyInformationEmail(
-        femaleFamilyInfo.guardianEmail,
-        maleFamilyInfo,
-      );
 
       // male information sent to female notification
       const femaleNotification = new FamilyInformationNotification({
@@ -453,21 +483,6 @@ export class MatchMakingService extends BaseRepository {
 
       await this.notificationService.send(femaleNotification);
     }
-
-    const invitationRepo = this.getRepository(InvitationToMatchStage);
-
-    const invitation = invitationRepo.create({
-      inviterId: user.id,
-      matchId: matchId,
-    });
-
-    const savedInvitation = await invitationRepo.save(invitation);
-
-    // Trigger the notification
-    const notification = new InviteToNextStageNotification(user, match);
-    await this.notificationService.send(notification);
-
-    return savedInvitation;
   }
 
   async getInvitationById(
