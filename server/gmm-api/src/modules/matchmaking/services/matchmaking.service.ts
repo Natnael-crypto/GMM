@@ -581,7 +581,8 @@ export class MatchMakingService extends BaseRepository {
     return await this.getRepository(Match).save(match);
   }
 
-  async allowMatchUserProfile(userId: string, matchId: string) {
+  // TODO - check whether userId or guardianId is needed
+  async toggleMatchUserProfile(userId: string, matchId: string) {
     const match = await this.getMatch(matchId);
 
     if (!match.isActive) {
@@ -603,7 +604,8 @@ export class MatchMakingService extends BaseRepository {
     return await this.getRepository(Match).save(match);
   }
 
-  async allowMatchChat(userId: string, matchId: string) {
+  // TODO - check whether userId or guardianId is needed
+  async toggleMatchChat(userId: string, matchId: string) {
     const match = await this.getMatch(matchId);
 
     if (!match.isActive) {
