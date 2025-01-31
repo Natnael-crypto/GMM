@@ -1,28 +1,56 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useAppSelector } from '@/lib/hooks';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { useGetAvailableMatchesLeftQuery } from '@/lib/matchmaking/api';
-import Loading from '@/components/ui/loading';
-import { Link } from '@/lib/navigation';
+import Image from "next/image";
+import { useAppSelector } from "@/lib/hooks";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useGetAvailableMatchesLeftQuery } from "@/lib/matchmaking/api";
+import Loading from "@/components/ui/loading";
+import { Link } from "@/lib/navigation";
+import { useProfileCompletion } from "@/lib/hooks/profile-completion";
 
 export default function NoMatchCard() {
   const user = useAppSelector((state) => state.auth.user);
   const { data: availableMatches, isLoading } = useGetAvailableMatchesLeftQuery(
-    user?.id ?? '',
+    user?.id ?? "",
     { skip: !user }
   );
+
+  const {
+    worldlyLifestyle,
+    islamicLifestyle,
+    marriageDiscussion,
+    familyIntroduction,
+    basics,
+  } = useProfileCompletion(user);
+
+  const editProfileLink = (() => {
+    if (worldlyLifestyle < 100) {
+      return `/dashboard/profile/${user?.id}/worldly-lifestyle/edit`;
+    }
+    if (islamicLifestyle < 100) {
+      return `/dashboard/profile/${user?.id}/islamic-lifestyle/edit`;
+    }
+    if (marriageDiscussion < 100) {
+      return `/dashboard/profile/${user?.id}/marriage-discussion/edit`;
+    }
+    if (familyIntroduction < 100) {
+      return `/dashboard/profile/${user?.id}/family-introduction/edit`;
+    }
+    if (basics < 100) {
+      return `/dashboard/profile/${user?.id}/basic-information/edit`;
+    }
+    return `/dashboard/profile/${user?.id}/worldly-lifestyle/edit`;
+  })();
 
   return (
     <div className="gap-5 overflow-hidden text-md space-y-4 text-muted-foreground h-full flex flex-col md:flex-row items-center">
       <div className="w-full h-full bg-[#e8f3db] rounded-se-3xl rounded-es-3xl py-5 p-8 flex flex-col items-center justify-center gap-4">
         <div className="w-24">
-          {user?.gender === 'Male' ? (
+          {user?.gender === "Male" ? (
             <Image
               className="w-full"
-              src={'/assets/woman-hijab.svg'}
+              src={"/assets/woman-hijab.svg"}
               width={221}
               height={234}
               alt="Woman in hihab"
@@ -37,7 +65,13 @@ export default function NoMatchCard() {
         <h1 className="text-bold font-bold text-xl">No Match Found!</h1>
         <p className="text-center">
           You can get better matches by completing all sections of your profile
-          by clicking <span className="font-bold underline">EDIT PROFILE</span>{' '}
+          by clicking
+          <Link
+            href={editProfileLink}
+            className="font-bold underline text-primary ml-1"
+          >
+            EDIT PROFILE
+          </Link>
           .
         </p>
       </div>
