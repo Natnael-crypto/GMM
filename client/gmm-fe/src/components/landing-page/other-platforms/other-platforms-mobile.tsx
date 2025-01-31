@@ -185,7 +185,7 @@ export default function MobileOtherPlatformsCards() {
             </h1>
 
             <p className="text-muted-foreground mb-1">
-              {t.rich("slide.terribleHealth.description", {
+              {t.rich("slide.payment.description", {
                 bold: (text) => <span className="font-bold">{text}</span>,
               })}
             </p>
