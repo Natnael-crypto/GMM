@@ -445,7 +445,7 @@ export class MatchMakingController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('share-family-info')
+  @Post('share-family-info')
   async shareFamilyInfo(
     @Param('id') id: string,
     @Req() request: Request & { user: User },

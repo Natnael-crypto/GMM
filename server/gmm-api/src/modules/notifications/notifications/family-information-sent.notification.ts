@@ -1,5 +1,6 @@
 import { Notification } from '../types/notification.interface';
 import { InAppChannelService } from '../channels/in-app-channel.service';
+import { Gender } from '@modules/user/enums/user.enum';
 
 /**
  * Class representing a notification for family information being sent.
@@ -17,6 +18,7 @@ export class FamilyInformationNotification implements Notification {
     private readonly response: {
       userName: string;
       recipientId: string;
+      senderGender: Gender;
       action: 'sent';
     },
   ) {}
@@ -38,7 +40,7 @@ export class FamilyInformationNotification implements Notification {
 
     switch (this.response.action) {
       case 'sent':
-        message = `${this.response.userName} has sent ${this.response.recipientId} their family information.`;
+        message = `${this.response.userName} has sent ${this.response.senderGender === Gender.MALE ? 'his' : 'her'} family information.`;
         break;
 
       default:

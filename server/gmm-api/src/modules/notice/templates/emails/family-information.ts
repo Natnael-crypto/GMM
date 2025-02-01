@@ -58,15 +58,13 @@ module.exports = {
                 <img src="/assets/guardian-logo-color.png" alt="Guardian Wali Logo">
             </div>
             <div class="content">
-                <p>Dear User,</p>
-                <p>Below are the detailed family information for your reference:</p>
+                <p>Dear ${familyInfo.recipientName},</p>
+                <p>The family information of ${familyInfo.matchedUserName} has been shared.</p>
                 <div class="details">
-                    <p><strong>Guardian First Name:</strong> ${familyInfo.guardianFirstName}</p>
-                    <p><strong>Guardian Last Name:</strong> ${familyInfo.guardianLastName}</p>
+                    <p><strong>Guardian Full Name:</strong> ${familyInfo.guardianFirstName} ${familyInfo.guardianLastName}</p>
                     <p><strong>Relationship to Guardian:</strong> ${familyInfo.relationshipToGuardian}</p>
                     <p><strong>Guardian Phone Number:</strong> ${familyInfo.guardianPhoneNumber}</p>
-                    <p><strong>Guardian Email:</strong> ${familyInfo.guardianEmail}</p>
-                    <p><strong>Guardian ID Card:</strong> ${familyInfo.guardianIdCard}</p>
+                    <p><strong>Guardian Email:</strong> ${familyInfo.guardianEmail}</p>                    
                 </div>
                 <p>Please ensure that the information provided is accurate and up-to-date. If you have any questions or need to make changes, feel free to contact us.</p>
                 <p>Thank you for trusting Guardian Wali with your family information.</p>

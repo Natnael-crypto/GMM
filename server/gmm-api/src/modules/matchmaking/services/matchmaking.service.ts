@@ -433,29 +433,35 @@ export class MatchMakingService extends BaseRepository {
       const maleFamilyInfo = new FamilyInfoDto();
       const femaleFamilyInfo = new FamilyInfoDto();
 
-      const maleUser = await this.userService.getFamilyInformation(
+      const maleUserFamily = await this.userService.getFamilyInformation(
         match.maleUserId,
       );
 
-      const femaleUser = await this.userService.getFamilyInformation(
+      const femaleUserFamily = await this.userService.getFamilyInformation(
         match.femaleUserId,
       );
 
       // Assign Information to the respective user
-      maleFamilyInfo.guardianFirstName = maleUser.guardianFirstName;
-      maleFamilyInfo.guardianLastName = maleUser.guardianLastName;
-      maleFamilyInfo.relationshipToGuardian = maleUser.relationshipToGuardian;
-      maleFamilyInfo.guardianPhoneNumber = maleUser.guardianPhoneNumber;
-      maleFamilyInfo.guardianEmail = maleUser.guardianEmail;
-      maleFamilyInfo.guardianIdCard = maleUser.guardianIdCard;
+      maleFamilyInfo.guardianFirstName = maleUserFamily.guardianFirstName;
+      maleFamilyInfo.guardianLastName = maleUserFamily.guardianLastName;
+      maleFamilyInfo.relationshipToGuardian =
+        maleUserFamily.relationshipToGuardian;
+      maleFamilyInfo.guardianPhoneNumber = maleUserFamily.guardianPhoneNumber;
+      maleFamilyInfo.guardianEmail = maleUserFamily.guardianEmail;
+      maleFamilyInfo.guardianIdCard = maleUserFamily.guardianIdCard;
+      maleFamilyInfo.recipientName = femaleUserFamily.guardianFirstName;
+      maleFamilyInfo.matchedUserName = match.femaleUser.firstName;
 
-      femaleFamilyInfo.guardianFirstName = femaleUser.guardianFirstName;
-      femaleFamilyInfo.guardianLastName = femaleUser.guardianLastName;
+      femaleFamilyInfo.guardianFirstName = femaleUserFamily.guardianFirstName;
+      femaleFamilyInfo.guardianLastName = femaleUserFamily.guardianLastName;
       femaleFamilyInfo.relationshipToGuardian =
-        femaleUser.relationshipToGuardian;
-      femaleFamilyInfo.guardianPhoneNumber = femaleUser.guardianPhoneNumber;
-      femaleFamilyInfo.guardianEmail = femaleUser.guardianEmail;
-      femaleFamilyInfo.guardianIdCard = femaleUser.guardianIdCard;
+        femaleUserFamily.relationshipToGuardian;
+      femaleFamilyInfo.guardianPhoneNumber =
+        femaleUserFamily.guardianPhoneNumber;
+      femaleFamilyInfo.guardianEmail = femaleUserFamily.guardianEmail;
+      femaleFamilyInfo.guardianIdCard = femaleUserFamily.guardianIdCard;
+      femaleFamilyInfo.recipientName = maleUserFamily.guardianFirstName;
+      femaleFamilyInfo.matchedUserName = match.maleUser.firstName;
 
       // Send email to each other
       await this.noticeService.sendFamilyInformationEmail(
@@ -470,8 +476,9 @@ export class MatchMakingService extends BaseRepository {
 
       // female information sent to male notification
       const maleNotification = new FamilyInformationNotification({
-        userName: user.firstName,
-        recipientId: match.femaleUserId,
+        userName: match.femaleUser.firstName,
+        senderGender: Gender.FEMALE,
+        recipientId: match.maleUser.id,
         action: 'sent',
       });
 
@@ -479,12 +486,17 @@ export class MatchMakingService extends BaseRepository {
 
       // male information sent to female notification
       const femaleNotification = new FamilyInformationNotification({
-        userName: match.femaleUser.firstName,
-        recipientId: user.id,
+        userName: match.maleUser.firstName,
+        senderGender: Gender.MALE,
+        recipientId: match.femaleUser.id,
         action: 'sent',
       });
 
       await this.notificationService.send(femaleNotification);
+    } else {
+      throw new BadRequestException(
+        'You are not at the family introduction stage',
+      );
     }
   }
 

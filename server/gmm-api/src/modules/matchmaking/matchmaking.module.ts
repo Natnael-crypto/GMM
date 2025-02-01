@@ -11,6 +11,7 @@ import { InvitationToMatchStage } from './entities/invitation-to-match-stage.ent
 import { NotificationsModule } from '@modules/notifications/notifications.module';
 import { ImageAccessRequestService } from './services/image-request.service';
 import { ImageAccessRequest } from './entities/image-access-request.entity';
+import { NoticeModule } from '@modules/notice/notice.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ImageAccessRequest } from './entities/image-access-request.entity';
     UserModule,
     PaymentsModule,
     NotificationsModule,
+    NoticeModule.forRootAsync(),
   ],
   controllers: [MatchMakingController],
   providers: [MatchMakingService, ImageAccessRequestService],
