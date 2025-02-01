@@ -33,8 +33,10 @@ import { MatchedNotification } from '@modules/notifications/notifications/matche
 import { UserService } from '@modules/user/services/user.service';
 import { AddedToMatchPoolNotification } from '@modules/notifications/notifications/added-to-match-pool.notification';
 import { ResponseInviteNotification } from '@modules/notifications/notifications/response-invite.notification';
-import { AllowMatchUserProfileDto } from '../dtos/allow-match-user.dto';
-import { AllowMatchChatDto } from '../dtos/allow-match-chat.dto';
+import {
+  AllowMatchUserProfileDto,
+  AllowMatchChatDto,
+} from '../dtos/allow-match-data.dto';
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
   constructor(
@@ -333,7 +335,6 @@ export class MatchMakingService extends BaseRepository {
       throw new NotFoundException('Match not found');
     }
 
-    // if (match.allowMatchedUserView)
     return match;
   }
 

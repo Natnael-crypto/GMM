@@ -11,6 +11,7 @@ import {
   Query,
   Req,
   Res,
+  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -29,8 +30,10 @@ import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 import { Match } from '../entities/match.entity';
 import { ImageAccessRequestService } from '../services/image-request.service';
 import { ImageAccessRequestDto } from '../dtos/image-access-request.dto';
-import { AllowMatchUserProfileDto } from '../dtos/allow-match-user.dto';
-import { AllowMatchChatDto } from '../dtos/allow-match-chat.dto';
+import {
+  AllowMatchUserProfileDto,
+  AllowMatchChatDto,
+} from '../dtos/allow-match-data.dto';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
@@ -367,10 +370,21 @@ export class MatchMakingController {
   ) {
     try {
       const match = await this.matchmakingService.getMatch(id);
-      return {
-        message: 'Match fetched successfully',
-        data: match,
-      };
+
+      if (
+        match.allowMatchedUserView ||
+        match.maleUserId === request.user.id ||
+        match.femaleUserId === request.user.id
+      ) {
+        return {
+          message: 'Match fetched successfully',
+          data: match,
+        };
+      } else {
+        throw new UnauthorizedException(
+          'You are not authorized to view this match.',
+        );
+      }
     } catch (error) {
       return {
         message: 'Failed to fetch match',
@@ -438,26 +452,31 @@ export class MatchMakingController {
     @Req() req: Request,
     @Body() dto: AllowMatchUserProfileDto,
   ) {
-    await this.matchmakingService.toggleMatchUserProfile(
-      (req.user as User).id,
-      matchId,
-      dto,
-    );
-
-    const match = await this.matchmakingService.getMatch(matchId);
-    const maleUserId = match.maleUserId;
-    const femaleUserId = match.femaleUserId;
-
-    const keys = [
-      `/matchmaking/current-match/${maleUserId}`,
-      `/matchmaking/current-match/${femaleUserId}`,
-      `/matchmaking/${maleUserId}`,
-      `/matchmaking/${femaleUserId}`,
-      `/matchmaking/matches/${matchId}`,
-    ];
-
     try {
+      await this.matchmakingService.toggleMatchUserProfile(
+        (req.user as User).id,
+        matchId,
+        dto,
+      );
+
+      const match = await this.matchmakingService.getMatch(matchId);
+      const maleUserId = match.maleUserId;
+      const femaleUserId = match.femaleUserId;
+
+      const keys = [
+        `/matchmaking/current-match/${maleUserId}`,
+        `/matchmaking/current-match/${femaleUserId}`,
+        `/matchmaking/${maleUserId}`,
+        `/matchmaking/${femaleUserId}`,
+        `/matchmaking/matches/${matchId}`,
+      ];
+
       await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+
+      return {
+        message: 'Access to matched user profiles updated',
+        success: true,
+      };
     } catch (error) {
       return {
         message: error.message,
@@ -472,26 +491,30 @@ export class MatchMakingController {
     @Req() req: Request,
     @Body() dto: AllowMatchChatDto,
   ) {
-    await this.matchmakingService.toggleMatchChat(
-      (req.user as User).id,
-      matchId,
-      dto,
-    );
-
-    const match = await this.matchmakingService.getMatch(matchId);
-    const maleUserId = match.maleUserId;
-    const femaleUserId = match.femaleUserId;
-
-    const keys = [
-      `/matchmaking/current-match/${maleUserId}`,
-      `/matchmaking/current-match/${femaleUserId}`,
-      `/matchmaking/${maleUserId}`,
-      `/matchmaking/${femaleUserId}`,
-      `/matchmaking/matches/${matchId}`,
-    ];
-
     try {
+      await this.matchmakingService.toggleMatchChat(
+        (req.user as User).id,
+        matchId,
+        dto,
+      );
+
+      const match = await this.matchmakingService.getMatch(matchId);
+      const maleUserId = match.maleUserId;
+      const femaleUserId = match.femaleUserId;
+
+      const keys = [
+        `/matchmaking/current-match/${maleUserId}`,
+        `/matchmaking/current-match/${femaleUserId}`,
+        `/matchmaking/${maleUserId}`,
+        `/matchmaking/${femaleUserId}`,
+        `/matchmaking/matches/${matchId}`,
+      ];
+
       await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+      return {
+        message: 'Access to matched chat updated',
+        success: true,
+      };
     } catch (error) {
       return {
         message: error.message,
