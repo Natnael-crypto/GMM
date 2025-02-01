@@ -12,6 +12,7 @@ import {
 import { InvitationToMatchStage } from './invitation-to-match-stage.entity';
 import { MatchStage } from '../enums/matchmaking.enum';
 import { ImageAccessRequest } from './image-access-request.entity';
+import { FamilyInformationExchangeStatus } from '../enums/family-information-exchange-status.enum';
 
 @Entity()
 export class Match {
@@ -43,6 +44,13 @@ export class Match {
     default: MatchStage.BASIC_INFORMATION,
   })
   stage: MatchStage;
+
+  @Column({
+    type: 'enum',
+    enum: FamilyInformationExchangeStatus,
+    default: FamilyInformationExchangeStatus.NONE,
+  })
+  familyInformationExchangeStatus: FamilyInformationExchangeStatus;
 
   @OneToMany(() => InvitationToMatchStage, (invitation) => invitation.match, {
     onDelete: 'CASCADE',

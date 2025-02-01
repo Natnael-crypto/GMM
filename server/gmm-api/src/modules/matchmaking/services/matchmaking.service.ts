@@ -35,6 +35,7 @@ import { ResponseInviteNotification } from '@modules/notifications/notifications
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { FamilyInfoDto } from '../dtos/family-info.dto';
 import { FamilyInformationNotification } from '@modules/notifications/notifications/family-information-sent.notification';
+import { FamilyInformationExchangeStatus } from '../enums/family-information-exchange-status.enum';
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
   constructor(
@@ -415,10 +416,10 @@ export class MatchMakingService extends BaseRepository {
     return savedInvitation;
   }
 
-  async shareFamilyInfo(matchId: string, user: User) {
-    const match = await this.getMatch(matchId);
+  async shareFamilyInfo(user: User) {
+    const match = await this.getActiveMatch(user.id);
 
-    if (!match.isActive) {
+    if (!match) {
       throw new BadRequestException(
         'You are no longer matched with this user.',
       );
@@ -426,6 +427,15 @@ export class MatchMakingService extends BaseRepository {
 
     if (user.id !== match.femaleUserId && user.id !== match.maleUserId) {
       throw new ForbiddenException();
+    }
+
+    if (
+      match.familyInformationExchangeStatus ===
+      FamilyInformationExchangeStatus.EXCHANGED
+    ) {
+      throw new BadRequestException(
+        'Family information has already been shared',
+      );
     }
 
     // If Step 5 is reached, send family information to each other
@@ -493,6 +503,17 @@ export class MatchMakingService extends BaseRepository {
       });
 
       await this.notificationService.send(femaleNotification);
+
+      await this.getRepository(Match).update(match.id, {
+        familyInformationExchangeStatus:
+          FamilyInformationExchangeStatus.EXCHANGED,
+      });
+
+      return {
+        maleUserId: match.maleUserId,
+        femaleUserId: match.femaleUserId,
+        matchId: match.id,
+      };
     } else {
       throw new BadRequestException(
         'You are not at the family introduction stage',
