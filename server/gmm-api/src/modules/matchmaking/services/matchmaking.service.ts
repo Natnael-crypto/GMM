@@ -406,7 +406,10 @@ export class MatchMakingService extends BaseRepository {
     const savedInvitation = await invitationRepo.save(invitation);
 
     // Trigger the notification
-    const notification = new InviteToNextStageNotification(user, match);
+    const notification = new InviteToNextStageNotification(
+      match.femaleUserId === user.id ? match.maleUser : match.maleUser,
+      match,
+    );
     await this.notificationService.send(notification);
 
     return savedInvitation;
@@ -510,7 +513,7 @@ export class MatchMakingService extends BaseRepository {
     const invitation = await this.getRepository(InvitationToMatchStage).findOne(
       {
         where: { id: invitationId },
-        relations: ['match'],
+        relations: ['match', 'match.maleUser', 'match.femaleUser'],
       },
     );
 
@@ -597,7 +600,10 @@ export class MatchMakingService extends BaseRepository {
           action: 'accepted' | 'rejected';
         } = {
           recipientId: inviter.id,
-          userName: user.firstName,
+          userName:
+            invitation.match.femaleUserId === user.id
+              ? invitation.match.femaleUser.firstName
+              : invitation.match.maleUser.firstName,
           action: 'accepted',
         };
 
@@ -622,7 +628,10 @@ export class MatchMakingService extends BaseRepository {
           action: 'accepted' | 'rejected';
         } = {
           recipientId: inviterReject.id,
-          userName: user.firstName,
+          userName:
+            invitation.match.femaleUserId === user.id
+              ? invitation.match.femaleUser.firstName
+              : invitation.match.maleUser.firstName,
           action: 'rejected',
         };
 

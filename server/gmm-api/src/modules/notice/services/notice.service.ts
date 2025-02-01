@@ -8,8 +8,12 @@ import { Injectable, Scope } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { ConfigService } from '@nestjs/config';
 import { ClientConfig } from '@shared/config';
-import { GuardianRequestedEvent } from '@modules/user/events/guardian.events';
-import { PaymentFailedEvent } from '@modules/payment/events/payment-failed.event';
+import { GuardianRegistrationEvent } from '@modules/user/events/guardian.events';
+import {
+  PaymentFailedEvent,
+  SubscriptionAutoRenewalUpcomingEvent,
+  SubscriptionAutoRenewedEvent,
+} from '@modules/payment/events/payment.event';
 
 // @Injectable()
 @Injectable({ scope: Scope.DEFAULT })
@@ -43,20 +47,21 @@ export class NoticeService {
     );
   }
 
-  @OnEvent(GuardianRequestedEvent.name, { async: true })
-  async handleGuardianRequestedEvent(event: GuardianRequestedEvent) {
+  @OnEvent(GuardianRegistrationEvent.name, { async: true })
+  async handleGuardianRequestedEvent(event: GuardianRegistrationEvent) {
     const {
       message,
       subject,
-    } = require('../templates/emails/guardian-request');
+    } = require('../templates/emails/guardian-registration');
 
     await this.sendEmail(
-      event.guardianEmail,
+      event.guardian.email,
       subject,
       message(
         event.user.firstName + ' ' + event.user.lastName,
-
+        event.relationship,
         this.domain,
+        event.token,
       ),
     );
   }
@@ -95,6 +100,38 @@ export class NoticeService {
     await this.sendEmail(email, subject, message(familyData));
   }
 
+  @OnEvent(SubscriptionAutoRenewedEvent.name, { async: true })
+  async handleSubscriptionAutoRenewalEvent(
+    event: SubscriptionAutoRenewedEvent,
+  ) {
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/subscription-renewal');
+
+    const { user, amount, numMatches } = event;
+
+    await this.sendEmail(
+      user.email,
+      subject,
+      message(user.firstName, amount, numMatches),
+    );
+  }
+
+  @OnEvent(SubscriptionAutoRenewalUpcomingEvent.name, { async: true })
+  async handleSubscriptionAutoRenewalUpcomingEvent(
+    event: SubscriptionAutoRenewalUpcomingEvent,
+  ) {
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/subscription-autorenewal-upcoming');
+
+    const { user } = event;
+
+    await this.sendEmail(user.email, subject, message(user.firstName));
+  }
+
   async sendEmail(
     email: string,
     subject: string,
@@ -104,6 +141,7 @@ export class NoticeService {
 
     try {
       await this._mailer.sendMail({
+        from: '"Guardian Muslim Marriage" <info@guardianmuslimmarriage.com>',
         to: email,
         subject: subject,
         html: htmlMessage,

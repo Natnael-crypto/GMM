@@ -374,6 +374,24 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(CacheInterceptor)
+  @Get('matches/user/:id')
+  async getUserMatch(@Param('id') userId: string) {
+    try {
+      const match = await this.matchmakingService.getActiveMatch(userId);
+      return {
+        message: 'Match fetched successfully',
+        data: match,
+      };
+    } catch (error) {
+      return {
+        message: 'Failed to fetch match',
+        error: error.message,
+      };
+    }
+  }
+
   @ApiBody({
     type: AcceptOrRejectInvitationDto,
   })

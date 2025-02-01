@@ -15,7 +15,11 @@ import { useLocale, useTranslations } from 'next-intl';
 import { usePathname } from '@/lib/navigation';
 import { useParams } from 'next/navigation';
 
-export default function ProfileStepper() {
+export default function ProfileStepper({
+  segment = 'dashboard',
+}: {
+  segment?: string;
+}) {
   const t = useTranslations('Dashboard.common.stepper');
   const locale = useLocale();
   const pathname = usePathname();
@@ -26,18 +30,20 @@ export default function ProfileStepper() {
   return (
     <div className="flex justify-center items-center">
       <StepperItem
-        href={`/${locale}/dashboard/profile/${params.userId}/basic-information`}
+        href={`/${locale}/${segment}/profile/${params.userId}/basic-information`}
         icon={
           <FontAwesomeIcon icon={faUser} className="text-background text-2xl" />
         }
         text={t('basicInformation')}
         className={
-          isActive(`/dashboard/profile/${params.userId}/basic-information`) ? 'bg-primary' : ''
+          isActive(`/${segment}/profile/${params.userId}/basic-information`)
+            ? 'bg-primary'
+            : ''
         }
       />
       <StepperSeparator />
       <StepperItem
-        href={`/${locale}/dashboard/profile/${params.userId}/worldly-lifestyle`}
+        href={`/${locale}/${segment}/profile/${params.userId}/worldly-lifestyle`}
         icon={
           <FontAwesomeIcon
             icon={faHouse}
@@ -46,12 +52,14 @@ export default function ProfileStepper() {
         }
         text={t('worldlyLifestyle')}
         className={
-          isActive(`/dashboard/profile/${params.userId}/worldly-lifestyle`) ? 'bg-primary' : ''
+          isActive(`/${segment}/profile/${params.userId}/worldly-lifestyle`)
+            ? 'bg-primary'
+            : ''
         }
       />
       <StepperSeparator />
       <StepperItem
-        href={`/${locale}/dashboard/profile/${params.userId}/islamic-lifestyle`}
+        href={`/${locale}/${segment}/profile/${params.userId}/islamic-lifestyle`}
         icon={
           <FontAwesomeIcon
             icon={faMosque}
@@ -60,12 +68,14 @@ export default function ProfileStepper() {
         }
         text={t('islamicLifestyle')}
         className={
-          isActive(`/dashboard/profile/${params.userId}/islamic-lifestyle`) ? 'bg-primary' : ''
+          isActive(`/${segment}/profile/${params.userId}/islamic-lifestyle`)
+            ? 'bg-primary'
+            : ''
         }
       />
       <StepperSeparator />
       <StepperItem
-        href={`/${locale}/dashboard/profile/${params.userId}/marriage`}
+        href={`/${locale}/${segment}/profile/${params.userId}/marriage`}
         icon={
           <FontAwesomeIcon
             icon={faComments}
@@ -73,11 +83,15 @@ export default function ProfileStepper() {
           />
         }
         text={t('marriageDiscussion')}
-        className={isActive(`/dashboard/profile/${params.userId}/marriage`) ? 'bg-primary' : ''}
+        className={
+          isActive(`/${segment}/profile/${params.userId}/marriage`)
+            ? 'bg-primary'
+            : ''
+        }
       />
       <StepperSeparator />
       <StepperItem
-        href={`/${locale}/dashboard/profile/${params.userId}/family`}
+        href={`/${locale}/${segment}/profile/${params.userId}/family`}
         icon={
           <FontAwesomeIcon
             icon={faPeopleRoof}
@@ -85,7 +99,11 @@ export default function ProfileStepper() {
           />
         }
         text={t('familyIntroduction')}
-        className={isActive(`/dashboard/profile/${params.userId}/family`) ? 'bg-primary' : ''}
+        className={
+          isActive(`/${segment}/profile/${params.userId}/family`)
+            ? 'bg-primary'
+            : ''
+        }
       />
     </div>
   );

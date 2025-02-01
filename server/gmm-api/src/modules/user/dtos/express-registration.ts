@@ -162,13 +162,13 @@ export class ExpressRegistrationDto {
   @IsBoolean()
   smokes: boolean;
 
-  @ApiProperty({ 
-    example: TattooPreference.NONE, 
-    enum: TattooPreference, 
-    required: false 
+  @ApiProperty({
+    example: TattooPreference.NONE,
+    enum: TattooPreference,
+    required: false,
   })
-  @IsEnum(TattooPreference)
-  tattoos?: TattooPreference;
+  @IsString()
+  tattoos?: string;
 
   @ApiProperty()
   @IsArray()

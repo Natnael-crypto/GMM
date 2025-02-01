@@ -71,10 +71,10 @@ export default function OtherPlatforms() {
               </OtherPlatformContent>
 
               <OtherPlatformContent
-                title={t("slide.noFamilyInvolvement.title")}
+                title={t("slide.payment.title")}
               >
                 <>
-                  {t.rich("slide.noFamilyInvolvement.description", {
+                  {t.rich("slide.payment.description", {
                     bold: (text) => <span className="font-bold">{text}</span>,
                   })}
                 </>
@@ -106,9 +106,9 @@ export default function OtherPlatforms() {
                 </>
               </OtherPlatformContent>
 
-              <OtherPlatformContent title={t("slide.payment.title")}>
+              <OtherPlatformContent title={t("slide.noFamilyInvolvement.title")}>
                 <>
-                  {t.rich("slide.payment.description", {
+                  {t.rich("slide.noFamilyInvolvement.description", {
                     bold: (text) => <span className="font-bold">{text}</span>,
                   })}
                 </>

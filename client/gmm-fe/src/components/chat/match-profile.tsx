@@ -45,6 +45,7 @@ import {
   HoverCardTrigger,
 } from '../ui/hover-card';
 import { MINUTE } from '@/lib/format';
+import ChatProfileImages from './chat-profile-image-card';
 
 enum DialogType {
   SEND_INVITATION = 'send_invitation',
@@ -230,14 +231,16 @@ export default function MatchProfile({
 
       <div
         ref={containerRef}
-        className="p-6 flex flex-col item-center justify-between overflow-y-auto"
+        className="pl-6 pr-6 pb-6 flex flex-col item-center w-full justify-between overflow-y-auto no-scrollbar"
+        style={{ marginTop: '1rem' }}
       >
         <div className="space-y-3">
-          <ProfileImages
+          <ChatProfileImages
             user={matchedUser}
             blur={!showImage}
             showRequestViewButton={!showImage}
             requestViewButtonDisabled={stageIndex < 3}
+            
           />
 
           <ProfileCompletionCard user={matchedUser} hideProfile={true} />

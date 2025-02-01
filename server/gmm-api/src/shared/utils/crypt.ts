@@ -24,7 +24,6 @@ export function decode(data: string, encryptionKey: string): Promise<string> {
   });
 }
 
-
 export function encryptText(plainText: string, encryptionKey: string): string {
   const key_in_bytes = Buffer.from(encryptionKey, 'base64');
   if (key_in_bytes.length !== 32) {
@@ -36,7 +35,10 @@ export function encryptText(plainText: string, encryptionKey: string): string {
   return `${iv.toString('hex')}:${encrypted.toString('hex')}`;
 }
 
-export function decryptText(encryptedText: string, encryptionKey: string): string {
+export function decryptText(
+  encryptedText: string,
+  encryptionKey: string,
+): string {
   const key_in_bytes = Buffer.from(encryptionKey, 'base64');
   if (key_in_bytes.length !== 32) {
     throw new Error('Encryption key must be 32 bytes for AES-256.');
@@ -45,6 +47,9 @@ export function decryptText(encryptedText: string, encryptionKey: string): strin
   const iv = Buffer.from(ivHex, 'hex');
   const encrypted = Buffer.from(encryptedHex, 'hex');
   const decipher = crypto.createDecipheriv('aes-256-ctr', key_in_bytes, iv);
-  const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()]);
+  const decrypted = Buffer.concat([
+    decipher.update(encrypted),
+    decipher.final(),
+  ]);
   return decrypted.toString();
 }

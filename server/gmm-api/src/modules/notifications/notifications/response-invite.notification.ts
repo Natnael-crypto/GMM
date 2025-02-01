@@ -23,6 +23,10 @@ export class ResponseInviteNotification implements Notification {
     return {
       recipientId: this.response.recipientId,
       message: message,
+      url:
+        this.response.action === 'accepted'
+          ? '/dashboard?action=accepted-to-next-stage'
+          : null,
       title: 'Response to Invitation',
     };
   }

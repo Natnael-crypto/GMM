@@ -8,9 +8,9 @@ export default function ProfileCompletionProgress({
   loading,
 }: ProfileCompletionProgressProps) {
   return (
-    <div className="space-y-1">
-      <div className="flex justify-between">
-        <span>{criteria}</span>
+    <div className="space-y-1" >
+      <div className="flex justify-between ">
+        <span className='font-bold'>{criteria}</span>
         {!loading && <span>{progress}%</span>}
       </div>
 

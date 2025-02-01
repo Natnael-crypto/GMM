@@ -8,9 +8,13 @@ import OutsideFilterCard from '@/components/dashboard/components/outside-filter-
 import ProfileCompletionCard from '@/components/dashboard/components/profile-completion-card';
 import MatchFilterSkeleton from '@/components/dashboard/components/skeletons/match-filter-skeleton';
 import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
+import ImageRequestPopup from '@/components/notification/image-request-popup';
+import StageInvitationPopup from '@/components/notification/stage-invitation-popup';
 import Footer from '@/components/ui/footer';
 import { Skeleton } from '@/components/ui/skeleton';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { useAppSelector } from '@/lib/hooks';
+import { useProfileCompletion } from '@/lib/hooks/profile-completion';
 import { AccountStatus } from '@/lib/schemas/user';
 import { cn } from '@/lib/utils';
 import React from 'react';
@@ -18,10 +22,14 @@ import React from 'react';
 export default function Dashboard() {
   const user = useAppSelector((state) => state.auth.user);
   const isAccountApproved = user?.accountStatus === AccountStatus.APPROVED;
+  const { worldlyLifestyle: wlsCompletion } = useProfileCompletion(user);
 
   return (
     <UpdateProfileProvider autoSave={false}>
       <>
+        <ImageRequestPopup />
+        <StageInvitationPopup />
+
         <div className="py-6 space-y-8 min-h-[80vh]">
           <h1 className="text-xl text-center font-medium">Your Dashboard</h1>
 
@@ -56,12 +64,24 @@ export default function Dashboard() {
                 </h1>
                 <div className="bg-muted text-muted-foreground flex flex-col items-center justify-center p-4 text-md font-medium rounded-se-3xl rounded-es-3xl">
                   <p>
-                    Find your potential spouse using Guardian Muslim Marriage
-                    match filters feature.
+                    {wlsCompletion < 100 ? (
+                      <span>
+                        Complete Worldly/Dunya lifestyle questions to unlock
+                        advanced questions and find your potential spouse using
+                        Guardian Muslim Marriage match preferences filters.
+                      </span>
+                    ) : (
+                      <span>
+                        Find your potential spouse using Guardian Muslim
+                        Marriage match preferences filters.
+                      </span>
+                    )}
                   </p>
                 </div>
                 <div className="gmm-mpf-container flex flex-col-reverse md:grid md:grid-cols-12 gap-4 pb-3">
-                  <MatchPreferenceFilter />
+                  <TooltipProvider>
+                    <MatchPreferenceFilter />
+                  </TooltipProvider>
                   <div className="gmm-mpf-results-container">
                     <MatchMeCard />
                     <MatchToleranceSelector />

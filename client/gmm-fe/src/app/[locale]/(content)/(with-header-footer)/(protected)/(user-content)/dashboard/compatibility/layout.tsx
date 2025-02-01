@@ -16,6 +16,7 @@ import React from 'react';
 import Footer from '@/components/ui/footer';
 import ProfileOverview from '@/components/dashboard/compatibility/components/profile-overview-card';
 import { MINUTE } from '@/lib/format';
+import { Role } from '@/lib/schemas/role';
 
 const pageNames: Record<string, string> = {
   '/dashboard/compatibility/basic-information': 'Basics',
@@ -105,7 +106,7 @@ export default function CompatibilityLayout({
           <h1 className="text-2xl text-center font-semibold">Compatibility</h1>
           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full flex justify-between">
             <Link
-              href="/dashboard"
+              href={user?.roleId === Role.Guardian ? '/guardian' : '/dashboard'}
               className={cn(
                 buttonVariants({
                   variant: 'outline',

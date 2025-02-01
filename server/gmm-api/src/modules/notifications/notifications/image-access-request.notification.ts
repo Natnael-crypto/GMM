@@ -54,6 +54,7 @@ export class ImageAccessRequestNotification implements Notification {
     return {
       recipientId: this.response.recipientId,
       message: message,
+      url: '/dashboard?action=image-access-request',
       title: 'Image Access Request',
     };
   }

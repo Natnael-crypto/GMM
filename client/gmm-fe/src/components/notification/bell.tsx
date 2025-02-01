@@ -2,10 +2,7 @@
 
 import * as React from 'react';
 import { useAppSelector } from '@/lib/hooks';
-import {
-  useGetNotificationsQuery,
-  useMarkAsReadMutation,
-} from '@/lib/notification/api';
+import { useMarkAsReadMutation } from '@/lib/notification/api';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -24,6 +21,8 @@ import {
   TooltipTrigger,
 } from '../ui/tooltip';
 import { toast } from '../ui/use-toast';
+import { useNotifications } from '@/lib/notification/sse';
+import { Link } from '@/lib/navigation';
 
 export default function NotificationBell({
   className,
@@ -32,9 +31,7 @@ export default function NotificationBell({
 }) {
   const [open, setOpen] = React.useState(false);
   const user = useAppSelector((state) => state.auth.user);
-  const { data: notifications, refetch } = useGetNotificationsQuery(undefined, {
-    skip: !user,
-  });
+  const { notifications, refetch } = useNotifications();
 
   const [markAsRead] = useMarkAsReadMutation();
   const hasUnread = notifications?.some((n) => !n.isRead);
@@ -118,7 +115,20 @@ export default function NotificationBell({
                       'p-4 border-b last:border-b-0 hover:bg-muted transition-colors'
                     )}
                   >
-                    <div className="flex items-start gap-3">
+                    <Link
+                      href={
+                        notification.url
+                          ? `${notification.url}&r=${Math.random()
+                              .toString()
+                              .slice(2)}`
+                          : '#'
+                      }
+                      onClick={() => {
+                        markAsRead(notification.id);
+                        refetch();
+                      }}
+                      className="flex items-start gap-3"
+                    >
                       <div
                         className={cn(
                           'w-2 h-2 mt-2 rounded-full  flex-shrink-0',
@@ -133,7 +143,7 @@ export default function NotificationBell({
                           {notification.message}
                         </p>
                       </div>
-                    </div>
+                    </Link>
                   </motion.div>
                 ))
               ) : (

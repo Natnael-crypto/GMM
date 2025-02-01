@@ -126,11 +126,9 @@ export class User {
   smokes: boolean;
 
   @Column({
-    type: 'enum',
-    enum: TattooPreference,
     nullable: true,
   })
-  tattoos: TattooPreference;
+  tattoos: string;
 
   @Column({ nullable: true })
   guardianId: string | null;
@@ -208,7 +206,7 @@ export class User {
 
   // TODO: Remove Fields for matchmaking
   @Column({ nullable: true })
-  salat: string;
+  salah: string;
 
   @Column({ nullable: true })
   hijab: string;
@@ -217,13 +215,13 @@ export class User {
   children: string;
 
   @Column({ nullable: true })
-  wantsChildren: string;
+  beard: string;
 
   @Column({ nullable: true })
   education: string;
 
   @Column({ nullable: true })
-  profession: string;
+  employmentType: string;
   // ===== End of Fields for matchmaking
 
   // Worldly Lifestyle

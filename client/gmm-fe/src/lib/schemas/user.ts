@@ -217,19 +217,9 @@ export const _userBasicInformationSchema = z
         .transform((value) => value === 'true'),
     ]),
 
-    tattoos: z.enum(
-      [
-        'None',
-        'Minimal, not visible',
-        'Small, visible or concealed',
-        'Large or multiple tattoos',
-        'Doesn’t matter',
-      ],
-      {
-        required_error: 'Please select a valid option for tattoos',
-        invalid_type_error: 'Invalid option for tattoos',
-      }
-    ),
+    tattoos: z.string({
+      required_error: 'Please specify',
+    }),
 
     pictures: z
       .array(
@@ -468,19 +458,9 @@ export const baseUserSchema = z
         .transform((value) => value === 'true'),
     ]),
 
-    tattoos: z.enum(
-      [
-        'None',
-        'Minimal, not visible',
-        'Small, visible or concealed',
-        'Large or multiple tattoos',
-        'Doesn’t matter',
-      ],
-      {
-        required_error: 'Please select a valid option for tattoos',
-        invalid_type_error: 'Invalid option for tattoos',
-      }
-    ),
+    tattoos: z.string({
+      required_error: 'Please specify',
+    }),
 
     pictures: z
       .array(
@@ -517,6 +497,7 @@ export const baseUserSchema = z
 
 export const userSchema = baseUserSchema.extend({
   guardian: baseUserSchema.optional().nullable(),
+  dependents: z.array(baseUserSchema).default([]).optional(),
 });
 
 export const userRegistrationSchema = _userBasicInformationSchema
