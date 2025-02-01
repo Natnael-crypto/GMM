@@ -222,6 +222,16 @@ export const matchApi = createApi({
         return [{ type: 'ImageAccessRequest' }, { type: 'Match' }];
       },
     }),
+
+    exchangeFamilyInformation: builder.mutation<void, void>({
+      query: () => ({
+        url: 'matchmaking/share-family-information',
+        method: 'POST',
+      }),
+      invalidatesTags: (result, error, arg, meta) => {
+        return [{ type: 'Match' }];
+      },
+    }),
   }),
 });
 
@@ -240,4 +250,5 @@ export const {
   useRequestImageAccessMutation,
   useAcceptOrRejectImageAccessMutation,
   useGetUserMatchQuery,
+  useExchangeFamilyInformationMutation,
 } = matchApi;

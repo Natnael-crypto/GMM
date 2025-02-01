@@ -445,12 +445,25 @@ export class MatchMakingController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('share-family-info')
-  async shareFamilyInfo(
-    @Param('id') id: string,
-    @Req() request: Request & { user: User },
-  ) {
-    await this.matchmakingService.shareFamilyInfo(id, request.user);
+  @Post('share-family-information')
+  async shareFamilyInfo(@Req() request: Request & { user: User }) {
+    const { maleUserId, femaleUserId, matchId } =
+      await this.matchmakingService.shareFamilyInfo(request.user);
+
+    const keys = [
+      `/matchmaking/matches/${matchId}`,
+      `/matchmaking/current-match/${maleUserId}`,
+      `/matchmaking/current-match/${femaleUserId}`,
+      `/matchmaking/${maleUserId}`,
+      `/matchmaking/${femaleUserId}`,
+      `/matchmaking/matches/`,
+      `/users/${maleUserId}`,
+      `/users/${femaleUserId}`,
+      `/users/me/${maleUserId}`,
+      `/users/me/${femaleUserId}`,
+    ];
+
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
   }
 
   /** ADMIN ROUTES */
