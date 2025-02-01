@@ -33,6 +33,8 @@ import { MatchedNotification } from '@modules/notifications/notifications/matche
 import { UserService } from '@modules/user/services/user.service';
 import { AddedToMatchPoolNotification } from '@modules/notifications/notifications/added-to-match-pool.notification';
 import { ResponseInviteNotification } from '@modules/notifications/notifications/response-invite.notification';
+import { AllowMatchUserProfileDto } from '../dtos/allow-match-user.dto';
+import { AllowMatchChatDto } from '../dtos/allow-match-chat.dto';
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
   constructor(
@@ -331,6 +333,7 @@ export class MatchMakingService extends BaseRepository {
       throw new NotFoundException('Match not found');
     }
 
+    // if (match.allowMatchedUserView)
     return match;
   }
 
@@ -581,8 +584,11 @@ export class MatchMakingService extends BaseRepository {
     return await this.getRepository(Match).save(match);
   }
 
-  // TODO - check whether userId or guardianId is needed
-  async toggleMatchUserProfile(userId: string, matchId: string) {
+  async toggleMatchUserProfile(
+    userId: string,
+    matchId: string,
+    dto: AllowMatchUserProfileDto,
+  ) {
     const match = await this.getMatch(matchId);
 
     if (!match.isActive) {
@@ -593,19 +599,20 @@ export class MatchMakingService extends BaseRepository {
       throw new UnauthorizedException();
     }
 
-    if (match.allowMatchedUserView) {
-      throw new BadRequestException(
-        'Access to matched user profile already granted',
-      );
+    if (dto.status) {
+      match.allowMatchedUserView = true;
+    } else {
+      match.allowMatchedUserView = false;
     }
-
-    match.allowMatchedUserView = true;
 
     return await this.getRepository(Match).save(match);
   }
 
-  // TODO - check whether userId or guardianId is needed
-  async toggleMatchChat(userId: string, matchId: string) {
+  async toggleMatchChat(
+    userId: string,
+    matchId: string,
+    dto: AllowMatchChatDto,
+  ) {
     const match = await this.getMatch(matchId);
 
     if (!match.isActive) {
@@ -616,13 +623,11 @@ export class MatchMakingService extends BaseRepository {
       throw new UnauthorizedException();
     }
 
-    if (match.allowChatView) {
-      throw new BadRequestException(
-        'Access to matched chat view already granted',
-      );
+    if (dto.status) {
+      match.allowChatView = true;
+    } else {
+      match.allowChatView = false;
     }
-
-    match.allowChatView = true;
 
     return await this.getRepository(Match).save(match);
   }

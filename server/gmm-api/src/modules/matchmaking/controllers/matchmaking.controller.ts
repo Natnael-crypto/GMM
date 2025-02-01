@@ -29,6 +29,8 @@ import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 import { Match } from '../entities/match.entity';
 import { ImageAccessRequestService } from '../services/image-request.service';
 import { ImageAccessRequestDto } from '../dtos/image-access-request.dto';
+import { AllowMatchUserProfileDto } from '../dtos/allow-match-user.dto';
+import { AllowMatchChatDto } from '../dtos/allow-match-chat.dto';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
@@ -359,7 +361,10 @@ export class MatchMakingController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(CacheInterceptor)
   @Get('matches/:id')
-  async getMatch(@Param('id') id: string) {
+  async getMatch(
+    @Param('id') id: string,
+    @Req() request: Request & { user: User },
+  ) {
     try {
       const match = await this.matchmakingService.getMatch(id);
       return {
@@ -427,18 +432,71 @@ export class MatchMakingController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('matches/matched-user-profile/:id')
-  async accessMatchedUserProfile(@Param('id') id: string, @Req() req: Request) {
+  @Put('matches/matched-user-profile/:matchId')
+  async accessMatchedUserProfile(
+    @Param('matchId') matchId: string,
+    @Req() req: Request,
+    @Body() dto: AllowMatchUserProfileDto,
+  ) {
     await this.matchmakingService.toggleMatchUserProfile(
       (req.user as User).id,
-      id,
+      matchId,
+      dto,
     );
+
+    const match = await this.matchmakingService.getMatch(matchId);
+    const maleUserId = match.maleUserId;
+    const femaleUserId = match.femaleUserId;
+
+    const keys = [
+      `/matchmaking/current-match/${maleUserId}`,
+      `/matchmaking/current-match/${femaleUserId}`,
+      `/matchmaking/${maleUserId}`,
+      `/matchmaking/${femaleUserId}`,
+      `/matchmaking/matches/${matchId}`,
+    ];
+
+    try {
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+    } catch (error) {
+      return {
+        message: error.message,
+      };
+    }
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put('matches/matched-chat/:id')
-  async accessMatchedChat(@Param('id') id: string, @Req() req: Request) {
-    await this.matchmakingService.toggleMatchChat((req.user as User).id, id);
+  @Put('matches/matched-chat/:matchId')
+  async accessMatchedChat(
+    @Param('matchId') matchId: string,
+    @Req() req: Request,
+    @Body() dto: AllowMatchChatDto,
+  ) {
+    await this.matchmakingService.toggleMatchChat(
+      (req.user as User).id,
+      matchId,
+      dto,
+    );
+
+    const match = await this.matchmakingService.getMatch(matchId);
+    const maleUserId = match.maleUserId;
+    const femaleUserId = match.femaleUserId;
+
+    const keys = [
+      `/matchmaking/current-match/${maleUserId}`,
+      `/matchmaking/current-match/${femaleUserId}`,
+      `/matchmaking/${maleUserId}`,
+      `/matchmaking/${femaleUserId}`,
+      `/matchmaking/matches/${matchId}`,
+    ];
+
+    try {
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+    } catch (error) {
+      return {
+        message: error.message,
+      };
+    }
   }
 
   /** ADMIN ROUTES */
