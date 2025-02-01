@@ -91,6 +91,15 @@ export class NoticeService {
     await this.sendEmail(user.email, subject, message(otp));
   }
 
+  async sendFamilyInformationEmail(email: string, familyData) {
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/family-information');
+
+    await this.sendEmail(email, subject, message(familyData));
+  }
+
   @OnEvent(SubscriptionAutoRenewedEvent.name, { async: true })
   async handleSubscriptionAutoRenewalEvent(
     event: SubscriptionAutoRenewedEvent,

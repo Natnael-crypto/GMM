@@ -444,6 +444,15 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Post('share-family-info')
+  async shareFamilyInfo(
+    @Param('id') id: string,
+    @Req() request: Request & { user: User },
+  ) {
+    await this.matchmakingService.shareFamilyInfo(id, request.user);
+  }
+
   /** ADMIN ROUTES */
   @UseGuards(JwtAuthGuard, new PermissionGuard(['match:read']))
   @UseInterceptors(CacheInterceptor)
