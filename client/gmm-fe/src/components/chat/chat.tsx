@@ -188,8 +188,8 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
       }}
     >
 
-      <div className="w-full overflow-auto no-scrollbar">
-        <div className="relative grid grid-cols-5 gap-5 py-4 w-[full] mx-auto">
+      <div className="w-full overflow-hidden pb-10">
+        <div className="sticky relative grid grid-cols-5 gap-5 py-4 w-[full] h-[full] mx-auto">
           
           <StepperItem 
           icon={faUser} 
@@ -226,16 +226,15 @@ export default function ChatBox({ chat, match }: { chat: Chat; match: Match }) {
             size='1x'
             text_size='0.65rem'
           />
-          <div className="absolute top-1/3 translate-y-1/2 w-full h-[1px] px-14">
-            <div className="w-full bg-border h-full"></div>
-          </div>
+          
         </div>
+      <hr  />
+
       </div>
-      <hr />
 
       {user && otherUser && (
         <div
-          className="overflow-auto flex-grow space-y-3 pb-3 no-scrollbar"
+          className="overflow-auto space-y-3 no-scrollbar"
           onScroll={handleLoadOldMessages}
         >
           {(oldMessagesResult?.isLoading || initialLoading) && (
