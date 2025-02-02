@@ -8,7 +8,7 @@ import { useRouter } from '@/lib/navigation';
 import { Gender, User } from '@/lib/schemas/user';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -53,9 +53,36 @@ export default function GuardianGuide({
     user?.gender === Gender.FEMALE &&
     match?.imageRequest?.status === ImageAccessRequestStatus.PENDING;
 
+  const [checkbox1Checked, setCheckbox1Checked] = useState(false);
+  const [checkbox2Checked, setCheckbox2Checked] = useState(false);
+
+  const handleCheckbox1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckbox1Checked(event.target.checked);
+    // Add functionality for checkbox 1
+    if (event.target.checked) {
+      console.log('Checkbox 1 checked');
+      // Add your functionality here
+    } else {
+      console.log('Checkbox 1 unchecked');
+      // Add your functionality here
+    }
+  };
+
+  const handleCheckbox2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCheckbox2Checked(event.target.checked);
+    // Add functionality for checkbox 2
+    if (event.target.checked) {
+      console.log('Checkbox 2 checked');
+      // Add your functionality here
+    } else {
+      console.log('Checkbox 2 unchecked');
+      // Add your functionality here
+    }
+  };
+
   return (
     <div
-      className="h-full bg-background rounded-lg overflow-hidden"
+      className="h-full bg-background rounded-lg overflow-auto"
       style={{
         height: 'calc(100vh - 4.50rem)',
       }}
@@ -72,14 +99,14 @@ export default function GuardianGuide({
               Guardian Service
             </span>
           </div>
-          <p className= "text-center text-sm  ">(Available at Step 4)</p>
+          <p className="text-center text-sm  ">(Available at Step 4)</p>
           <hr />
           <p className="font-bold text-sm text-center px-10">
             You are on [Step {stageIndex + 1}] with {matchedUser.firstName} from{' '}
             {matchedUser.country}
           </p>
 
-          <div className="text-sm space-y-3 py-5">
+          <div className="text-sm space-y-3 pt-5">
             <p>Talk to each other and exchange pleasantries</p>
             <p>
               Guardians do not have access to your chat. Only you and{' '}
@@ -94,6 +121,37 @@ export default function GuardianGuide({
               have the following options:
             </p>
           </div>
+          {
+            matchedUser.gender == 'Male' && (
+              <>
+                <p className="font-bold text-sm text-center">
+                  Family Access
+                </p>
+                <hr />
+                <div className="text-sm flex justify-between items-center">
+                  <span>Show Matched User Profile</span>
+                  <input
+                    type="checkbox"
+                    checked={checkbox1Checked}
+                    onChange={handleCheckbox1Change}
+                    className="mr-2"
+                  />
+                </div>
+                <div className="text-sm flex justify-between items-center">
+                  <span>Show Chat History</span>
+                  <input
+                    type="checkbox"
+                    checked={checkbox2Checked}
+                    onChange={handleCheckbox2Change}
+                    className="mr-2"
+                  />
+                </div>
+
+              </>
+
+            )
+          }
+
         </div>
 
         {stageIndex != undefined && stageIndex >= 1 && (
