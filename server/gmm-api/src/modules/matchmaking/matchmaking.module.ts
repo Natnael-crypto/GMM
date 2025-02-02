@@ -29,6 +29,6 @@ import { NoticeModule } from '@modules/notice/notice.module';
   ],
   controllers: [MatchMakingController],
   providers: [MatchMakingService, ImageAccessRequestService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, MatchMakingService],
 })
 export class MatchMakingModule {}
