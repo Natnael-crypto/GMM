@@ -6,6 +6,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
+import { boolean } from 'zod';
 
 @Entity('subscriptions')
 export class Subscription {
@@ -31,6 +32,6 @@ export class Subscription {
   @Column({ type: 'int', default: 0 })
   remainingMatches: number;
 
-  @Column({ nullable: true })
-  receiptUrl: string;
+  @Column({ default: true })
+  autoRenew: boolean;
 }

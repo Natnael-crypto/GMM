@@ -34,7 +34,15 @@ export class ChatController {
   async getUserChats(
     @Req() req: any,
   ): Promise<{ message: string; data: ChatDto[] }> {
-    const chats = await this.chatService.getUserChats(req.user);
+    const chats = await this.chatService.getUserChats(req.user.id);
+    return { message: 'Chats retrieved successfully', data: chats };
+  }
+
+  @Get('user/:id')
+  async getUserChatsByUserId(
+    @Param('id') userId: string,
+  ): Promise<{ message: string; data: ChatDto[] }> {
+    const chats = await this.chatService.getUserChats(userId);
     return { message: 'Chats retrieved successfully', data: chats };
   }
 

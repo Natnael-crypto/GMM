@@ -34,7 +34,7 @@ import {
 } from '@/lib/matchmaking/api';
 import { toast } from '../ui/use-toast';
 import { useAppSelector } from '@/lib/hooks';
-import { allMatchStages } from '@/lib/schemas/match';
+import { allMatchStages, MatchStage } from '@/lib/schemas/match';
 import { useRef } from 'react';
 import { useInView } from 'framer-motion';
 import ProfileCompletionCard from '../dashboard/components/profile-completion-card';
@@ -45,6 +45,8 @@ import {
   HoverCardTrigger,
 } from '../ui/hover-card';
 import { MINUTE } from '@/lib/format';
+import ChatProfileImages from './chat-profile-image-card';
+import ExchangeFamilyInformation from './exchange-family-info';
 
 enum DialogType {
   SEND_INVITATION = 'send_invitation',
@@ -230,10 +232,11 @@ export default function MatchProfile({
 
       <div
         ref={containerRef}
-        className="p-6 flex flex-col item-center justify-between overflow-y-auto"
+        className="pl-6 pr-6 pb-6 flex flex-col item-center w-full justify-between overflow-y-auto no-scrollbar"
+        style={{ marginTop: '1rem' }}
       >
         <div className="space-y-3">
-          <ProfileImages
+          <ChatProfileImages
             user={matchedUser}
             blur={!showImage}
             showRequestViewButton={!showImage}
@@ -278,92 +281,99 @@ export default function MatchProfile({
           </div>
         </div>
 
-        <HoverCard>
-          <HoverCardTrigger>
-            <div
-              className="flex justify-center border-t pt-3 mt-3"
-              ref={inviteToNextStepButtonRef}
-            >
-              <AlertDialog>
-                <AlertDialogTrigger
-                  disabled={disableInvitationButton}
-                  className={cn(
-                    buttonVariants({ variant: 'default' }),
-                    'bg-primary text-primary-foreground h-8 w-fit text-sm'
-                  )}
-                >
-                  {buttonText}
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      {dialogType === DialogType.SEND_INVITATION
-                        ? 'Send Invitation'
-                        : 'Accept/Reject Invitation'}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      {dialogDescription}
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  {dialogType === DialogType.SEND_INVITATION && (
-                    <AlertDialogFooter>
-                      <AlertDialogCancel
-                        className={cn(
-                          buttonVariants({ variant: 'outline' }),
-                          'bg-transparent text-muted-foreground h-7 w-fit text-sm'
-                        )}
-                      >
-                        Cancel
-                      </AlertDialogCancel>
-                      <AlertDialogAction
-                        className={cn(
-                          buttonVariants({ variant: 'outline' }),
-                          'bg-transparent text-muted-foreground h-7 w-fit text-sm'
-                        )}
-                        onClick={handleInvitation}
-                      >
-                        Invite to Next Step
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  )}
-                  {dialogType === DialogType.ACCEPT_OR_REJECT_INVITATION && (
-                    <AlertDialogFooter>
-                      <AlertDialogCancel
-                        className={cn(
-                          buttonVariants({ variant: 'outline' }),
-                          'bg-transparent text-muted-foreground h-7 w-fit text-sm'
-                        )}
-                        onClick={() =>
-                          handleDecision(StageInvitationStatus.REJECTED)
-                        }
-                      >
-                        Reject
-                      </AlertDialogCancel>
-                      <AlertDialogAction
-                        className={cn(
-                          buttonVariants({ variant: 'outline' }),
-                          'bg-transparent text-muted-foreground h-7 w-fit text-sm'
-                        )}
-                        onClick={() =>
-                          handleDecision(StageInvitationStatus.ACCEPTED)
-                        }
-                      >
-                        Accept
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  )}
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
-          </HoverCardTrigger>
-          <HoverCardContent>
-            {buttonTooltip && (
-              <div className="bg-white rounded-lg text-sm text-muted-foreground">
-                {buttonTooltip}
-              </div>
-            )}
-          </HoverCardContent>
-        </HoverCard>
+        <div
+          className="flex flex-col border-t pt-3 mt-3"
+          ref={inviteToNextStepButtonRef}
+        >
+          {match?.stage !== MatchStage.FAMILY_INTRODUCTION ? (
+            <HoverCard>
+              <HoverCardTrigger>
+                <div className="flex justify-center">
+                  <AlertDialog>
+                    <AlertDialogTrigger
+                      disabled={disableInvitationButton}
+                      className={cn(
+                        buttonVariants({ variant: 'default' }),
+                        'bg-primary text-primary-foreground h-8 w-fit text-sm'
+                      )}
+                    >
+                      {buttonText}
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          {dialogType === DialogType.SEND_INVITATION
+                            ? 'Send Invitation'
+                            : 'Accept/Reject Invitation'}
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          {dialogDescription}
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      {dialogType === DialogType.SEND_INVITATION && (
+                        <AlertDialogFooter>
+                          <AlertDialogCancel
+                            className={cn(
+                              buttonVariants({ variant: 'outline' }),
+                              'bg-transparent text-muted-foreground h-7 w-fit text-sm'
+                            )}
+                          >
+                            Cancel
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            className={cn(
+                              buttonVariants({ variant: 'outline' }),
+                              'bg-transparent text-muted-foreground h-7 w-fit text-sm'
+                            )}
+                            onClick={handleInvitation}
+                          >
+                            Invite to Next Step
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      )}
+                      {dialogType ===
+                        DialogType.ACCEPT_OR_REJECT_INVITATION && (
+                        <AlertDialogFooter>
+                          <AlertDialogCancel
+                            className={cn(
+                              buttonVariants({ variant: 'outline' }),
+                              'bg-transparent text-muted-foreground h-7 w-fit text-sm'
+                            )}
+                            onClick={() =>
+                              handleDecision(StageInvitationStatus.REJECTED)
+                            }
+                          >
+                            Reject
+                          </AlertDialogCancel>
+                          <AlertDialogAction
+                            className={cn(
+                              buttonVariants({ variant: 'outline' }),
+                              'bg-transparent text-muted-foreground h-7 w-fit text-sm'
+                            )}
+                            onClick={() =>
+                              handleDecision(StageInvitationStatus.ACCEPTED)
+                            }
+                          >
+                            Accept
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      )}
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
+              </HoverCardTrigger>
+              <HoverCardContent>
+                {buttonTooltip && (
+                  <div className="bg-white rounded-lg text-sm text-muted-foreground">
+                    {buttonTooltip}
+                  </div>
+                )}
+              </HoverCardContent>
+            </HoverCard>
+          ) : (
+            <ExchangeFamilyInformation />
+          )}
+        </div>
       </div>
     </div>
   );

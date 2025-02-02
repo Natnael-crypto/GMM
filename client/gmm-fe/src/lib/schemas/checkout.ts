@@ -18,6 +18,8 @@ export const toTierName = (planId: string) => {
       return 'Silver';
     case PackageTier.Gold:
       return 'Gold';
+    case PackageTier.Platinum:
+      return 'Platinum';
     default:
       return '';
   }

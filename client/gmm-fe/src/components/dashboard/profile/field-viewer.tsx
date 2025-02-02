@@ -83,7 +83,10 @@ export default function FieldViewer<T>({
         )}
 
         {description && (
-          <p className="mt-3 bg-muted rounded-2xl p-4 text-sm" dangerouslySetInnerHTML={{ __html: description }}/>
+          <p
+            className="mt-3 bg-muted rounded-2xl p-4 text-sm"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
         )}
       </div>
 
@@ -94,7 +97,7 @@ export default function FieldViewer<T>({
             ((Array.isArray(field.value) && field.value.length > 0) ||
               !Array.isArray(field.value)) && (
               <div key={index} className="grid grid-cols-12 gap-6 mt-6">
-                <div className="flex-auto col-span-12 gap-4">
+                <div className="flex-auto col-span-12 gap-4 flex-wrap">
                   {field.label && (
                     <>
                       <h2 className="text-secondary font-bold mb-2">
@@ -103,7 +106,7 @@ export default function FieldViewer<T>({
 
                       {Array.isArray(field.value) ? (
                         field.value.length > 0 && (
-                          <ul className="flex gap-1">
+                          <ul className="flex gap-1 flex-wrap">
                             {field.value.map((subField, subIndex) => (
                               <PillView
                                 key={subIndex}
@@ -135,7 +138,7 @@ export default function FieldViewer<T>({
 
                                   {Array.isArray(innerField.value) ? (
                                     innerField.value.length > 0 && (
-                                      <ul className="flex gap-1">
+                                      <ul className="flex gap-1 flex-wrap">
                                         {innerField.value.map(
                                           (subField, subIndex) => (
                                             <PillView

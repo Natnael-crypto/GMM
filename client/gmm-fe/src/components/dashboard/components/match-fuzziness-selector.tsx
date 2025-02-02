@@ -17,12 +17,14 @@ export default function MatchToleranceSelector() {
       dispatch(setMatchTolerance(0));
     }
   };
+  const buttonClass = "inline-flex items-center justify-center whitespace-nowrap rounded-full font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground px-4 py-2 text-sm h-8 hover:bg-primary cta px-6";
 
-  return (
-    <div className="gmm-mpf-results-pm-cta-container">
+return (
+  <div className="flex flex-col items-center gap-4 justify-center">
+    <div className="flex flex-col items-center gap-2 justify-center text-center">
       <Button
         className={cn(
-          'text-xs w-full h-8 hover:bg-primary cta',
+          buttonClass,
           matchTolerance === 0.1 ? 'bg-primary' : ''
         )}
         variant="secondary"
@@ -30,9 +32,15 @@ export default function MatchToleranceSelector() {
       >
         &gt; 90% Match
       </Button>
+      <p className="text-center text-[11px] mt-2 font-semibold">
+        Expands Age, Height, Weight, Marital Status & Born/Reverted fields.
+      </p>
+    </div>
+
+    <div className="flex flex-col items-center gap-2 justify-center text-center mt-2">
       <Button
         className={cn(
-          'text-xs w-full h-8 hover:bg-primary cta',
+          buttonClass,
           matchTolerance === 0.2 ? 'bg-primary' : ''
         )}
         variant="secondary"
@@ -40,6 +48,11 @@ export default function MatchToleranceSelector() {
       >
         &gt; 80% Match
       </Button>
+      <p className="text-center text-[11px] mt-2 font-semibold">
+        Further Expands Country of Origin, City Country, Children, Employment, Education, Languages, Nationality/Passport.
+      </p>
     </div>
-  );
+  </div>
+);
+
 }

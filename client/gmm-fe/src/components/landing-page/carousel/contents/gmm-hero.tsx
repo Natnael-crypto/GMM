@@ -1,6 +1,6 @@
 import { buttonVariants } from '@/components/ui/button';
-import { localeDirection } from '@/config';
 import { auth } from '@/lib/auth/utils';
+import { Role } from '@/lib/schemas/role';
 import { AccountStatus } from '@/lib/schemas/user';
 import { cn } from '@/lib/utils';
 import { getLocale, getTranslations } from 'next-intl/server';
@@ -27,15 +27,12 @@ export default async function GMMHero() {
             alt="Guardian logo"
           />
         </div>
-
         {/* Hero text */}
         <div className="z-20">
           <h1 className="lg:leading-[3.3rem] font-bold text-primary-foreground text-wrap">
             {t('hero.title')}
           </h1>
-          <h2 className="text-white mt-3 text-wrap">
-            {t('hero.subtitle')}
-          </h2>
+          <h2 className="text-white mt-3 text-wrap">{t('hero.subtitle')}</h2>
         </div>
 
         {/* Call to action */}
@@ -43,8 +40,10 @@ export default async function GMMHero() {
           {session ? (
             <Link
               href={
-                session.user.accountStatus ===
-                AccountStatus.INCOMPLETE_REGISTRATION
+                session.user.roleId === Role.Guardian
+                  ? `/${locale}/guardian`
+                  : session.user.accountStatus ===
+                    AccountStatus.INCOMPLETE_REGISTRATION
                   ? `/${locale}/registration`
                   : `/${locale}/dashboard`
               }
@@ -68,8 +67,7 @@ export default async function GMMHero() {
           )}
         </div>
       </div>
-      <span className='hero-slide-image'>
-      </span>
+      <span className="hero-slide-image"></span>
     </div>
   );
 }

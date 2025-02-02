@@ -13,7 +13,6 @@
     "ourApproach": {
       "title": "Our approach",
       "subtitle": "<bold>Guardian</bold> Muslim Marriage",
-
       "card": {
         "guidedMatching": "Guided<br></br>Matchmaking",
         "matchGuarantee": "Match<br></br>Guarantee",
@@ -24,7 +23,6 @@
         "freeMembershipForSisters": "Free Membership<br></br>for Sisters",
         "noCringeMatchMakingGroups": "No Cringe <br></br>Matchmaking Groups"
       },
-
       "slide": {
         "guidedMatching": {
           "title": "Guided Matchmaking",
@@ -75,7 +73,6 @@
     "otherPlatforms": {
       "title": "Other platforms",
       "subtitle": "Most <bold>\"Marriage\"</bold> Dating Options For Muslims",
-
       "card": {
         "endlessSearching": "Endless Searching<br></br>& Swiping",
         "noOneOnOneChats": "No 1-On-1<br></br>Chats",
@@ -85,7 +82,6 @@
         "terribleHealth": "Terrible Mental<br></br>Health",
         "payment": "PAY!!! PAY!!! PAY!!!"
       },
-
       "slide": {
         "endlessSearching": {
           "title": "Endless Searching & Swiping",
@@ -132,7 +128,6 @@
       "exploreGuardianBlog": "Explore Guardian Blog"
     }
   },
-
   "Auth": {
     "common": {
       "title": "<bold>Premium Guided Matchmaking</bold>",
@@ -178,24 +173,24 @@
         },
         "monthlyPackage": {
           "title": "Bronze",
-          "price": "<bold>$35.57</bold> <br></br> per match for",
+          "price": "<bold>$249</bold> <br></br> per match for",
           "description": "<bold>7</bold> Matches"
         },
         "threeMonthsPackage": {
           "title": "Silver",
-          "price": "<bold>$25.50</bold> <br></br> per match for",
+          "price": "<bold>$459</bold> <br></br> per match for",
           "description": "<bold>18</bold> Matches",
           "discount": "<bold>Save 89%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         },
         "sixMonthsPackage": {
           "title": "Gold",
-          "price": "<bold>$22.19</bold> <br></br> per match for",
+          "price": "<bold>$799</bold> <br></br> per match for",
           "description": "<bold>36</bold> Matches",
           "discount": "<bold>Save 91%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         },
         "twelveMonthsPackage": {
           "title": "Platinum",
-          "price": "<bold>$19.85</bold> <br></br> per match for",
+          "price": "<bold>$1449</bold> <br></br> per match for",
           "description": "<bold>73</bold> Matches",
           "discount": "<bold>Save 92%</bold><br></br>Compared to Leading Premium Matchmaking Services."
         }
@@ -216,7 +211,6 @@
       "processPayment": "Process Payment"
     }
   },
-
   "Dashboard": {
     "common": {
       "title": "Dashboard",
@@ -259,29 +253,27 @@
         "title": "Marriage Talk",
         "optionalVerifiable": {
           "title": "Optional Verifiable - Coming Soon",
-          "p1": "Either match may request verification on the items listed below to be verified by guardian marriages to ensure any claims regarding nationality, annual income, debts, DUIs, criminal background checks, STD panel are accruate.",
-          "p2": "Guardian marriages will never share materials provided as evidence but will indicate on member profile that optional items has been verified on such and so date.",
+          "p1": "Voluntarily submit any of the optional verifiable documents (subject to the Guardian Muslim Marriage data usage policy and approval) to demonstrate your transparency, showcase your stability, and establish credibility during marriage discussions with your potential spouse. You will enable your potential spouse to “View Once” the documents you upload.",
           "verified": "Verified",
           "unverified": "Unverified",
           "upload": "Upload",
-          "annualIncome": "Annual Income: Submit employment letter stating occupation, income and job status (permanent, probationary, full-time or part-time)",
-          "annualTax": "Annual Tax Report",
-          "fullCredit": "Full Credit Report: Disclosing debts.",
-          "drivingRecord": "Driving Record: Valid Driver License",
-          "nationality": "Nationality: Valid Passport ID",
-          "stdTesting": "STD Testing",
-          "criminalBackgroundCheck": "Criminal Background Check",
-          "divorced": "Divorced: Has the legal divorce finalized with the other spouse?",
-          "custody": "If Children Involved: Custody and parenting arrangements"
+          "annualIncome": "Employment & Income (submit employment letter to confirm stated occupation, income, salary and job status)",
+          "fullCredit": "Debts & Financial History (submit full credit report to show financial debts)",
+          "annualTax": "Assessed Tax Filings (submit assessed tax filings to show declared personal and business income)",
+          "drivingRecord": "Driver's History (submit last 3 years of drivers history showing DUIs)",
+          "nationality": "Passport/Nationality (submit valid passport picture front and back)",
+          "criminalBackgroundCheck": "Background Check Report (submit criminal background check report covering criminal records, sex offender status, court records, incarcerations, warrants, and terrorists watch list)",
+          "maritalHistory": "Marital History Background Check: (submit criminal background check report covering past marital history and current marital status)",
+          "divorced": "Finalized Legal Divorce (submit final settlement or court orders confirming finalization of previous marriage)",
+          "custody": "Custody & Parenting Arrangements (submit final court order confirming custody and parenting arrangements of children from a previous marriage)"
         }
       },
       "familyIntroduction": {
         "title": "Family Intro",
-
         "guardianInformation": {
           "firstName": "First Name",
           "lastName": "Last Name",
-          "relationship": "Relationship",
+          "relationship": "Relationship to the Family Member",
           "phoneNumber": "Phone Number",
           "email": "Email"
         },
@@ -293,7 +285,6 @@
       }
     }
   },
-
   "forms": {
     "worldlyLifestyle": {
       "female": {
@@ -332,13 +323,22 @@
             "question": "Husband to Financially support wife's career, business or education",
             "name": "willFinanciallySupportWifeEducation",
             "type": "select",
-            "options": ["Yes", "No", "Maybe"]
+            "options": [
+              "Yes",
+              "No",
+              "Maybe"
+            ]
           },
           {
             "question": "Husband to relocate to Wife's city",
             "name": "husbandRelocation",
             "type": "select",
-            "options": ["Yes", "No", "Maybe", "To be discussed"]
+            "options": [
+              "Yes",
+              "No",
+              "Maybe",
+              "To be discussed"
+            ]
           },
           {
             "question": "Joint Family living",
@@ -354,25 +354,39 @@
             "question": "Husband must live alone with wife separate from their families",
             "name": "husbandMustLiveAloneWithWife",
             "type": "select",
-            "options": ["Yes", "No", "Maybe"]
+            "options": [
+              "Yes",
+              "No",
+              "Maybe"
+            ]
           },
           {
             "question": "Husband must be willing to live with wife's family",
             "name": "husbandWillingToLiveWithWifeFamily",
             "type": "select",
-            "options": ["Yes", "No", "Maybe"]
+            "options": [
+              "Yes",
+              "No",
+              "Maybe"
+            ]
           },
           {
             "question": "Requires Husband to accept/financially be responsible for wife's children from previous marriage",
             "name": "acceptWifesChildren",
             "type": "select",
-            "options": ["Yes", "No"]
+            "options": [
+              "Yes",
+              "No"
+            ]
           },
           {
             "question": "Wife willing to accept/take care of husband's children from previous marriage",
             "name": "acceptHusbandsChildren",
             "type": "select",
-            "options": ["Yes", "No"]
+            "options": [
+              "Yes",
+              "No"
+            ]
           },
           {
             "question": "Wife & Having Children",
@@ -460,7 +474,11 @@
             "question": "Wife must relocate to Husband's City",
             "name": "wifeRelocation",
             "type": "select",
-            "options": ["Yes", "No", "Maybe"]
+            "options": [
+              "Yes",
+              "No",
+              "Maybe"
+            ]
           },
           {
             "question": "Wife & Joint Family living",
@@ -476,31 +494,50 @@
             "question": "Wife to live with husband's parents",
             "name": "wifeOpenToLiveWithHusbandsParents",
             "type": "select",
-            "options": ["Yes", "No", "Possibly"]
+            "options": [
+              "Yes",
+              "No",
+              "Possibly"
+            ]
           },
           {
             "question": "Wife & husband to have their home separate from their families",
             "name": "haveTheirHomeSeparateFromTheirFamilies",
             "type": "select",
-            "options": ["Yes", "No"]
+            "options": [
+              "Yes",
+              "No"
+            ]
           },
           {
             "question": "Husband open to living with wife's family",
             "name": "husbandOpenToLiveWithWifeFamily",
             "type": "select",
-            "options": ["Yes", "No", "Will consider it"]
+            "options": [
+              "Yes",
+              "No",
+              "Will consider it"
+            ]
           },
           {
             "question": "Wife must accept responsibility of husband's children from previous marriage",
             "name": "acceptHusbandsChildren",
             "type": "select",
-            "options": ["Yes", "No", "Maybe"]
+            "options": [
+              "Yes",
+              "No",
+              "Maybe"
+            ]
           },
           {
             "question": "Husband willing to accept responsibility of wife's children from previous marriage",
             "name": "acceptWifesChildren",
             "type": "select",
-            "options": ["Yes", "No", "Maybe"]
+            "options": [
+              "Yes",
+              "No",
+              "Maybe"
+            ]
           },
           {
             "question": "Husband & Having Children",
@@ -1143,7 +1180,6 @@
       ]
     }
   },
-
   "Terms": {
     "title": "Terms and Conditions",
     "introduction": {

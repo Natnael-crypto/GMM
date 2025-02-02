@@ -393,6 +393,24 @@ export class MatchMakingController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(CacheInterceptor)
+  @Get('matches/user/:id')
+  async getUserMatch(@Param('id') userId: string) {
+    try {
+      const match = await this.matchmakingService.getActiveMatch(userId);
+      return {
+        message: 'Match fetched successfully',
+        data: match,
+      };
+    } catch (error) {
+      return {
+        message: 'Failed to fetch match',
+        error: error.message,
+      };
+    }
+  }
+
   @ApiBody({
     type: AcceptOrRejectInvitationDto,
   })
@@ -520,6 +538,27 @@ export class MatchMakingController {
         message: error.message,
       };
     }
+  }
+
+  @Post('share-family-information')
+  async shareFamilyInfo(@Req() request: Request & { user: User }) {
+    const { maleUserId, femaleUserId, matchId } =
+      await this.matchmakingService.shareFamilyInfo(request.user);
+
+    const keys = [
+      `/matchmaking/matches/${matchId}`,
+      `/matchmaking/current-match/${maleUserId}`,
+      `/matchmaking/current-match/${femaleUserId}`,
+      `/matchmaking/${maleUserId}`,
+      `/matchmaking/${femaleUserId}`,
+      `/matchmaking/matches/`,
+      `/users/${maleUserId}`,
+      `/users/${femaleUserId}`,
+      `/users/me/${maleUserId}`,
+      `/users/me/${femaleUserId}`,
+    ];
+
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
   }
 
   /** ADMIN ROUTES */

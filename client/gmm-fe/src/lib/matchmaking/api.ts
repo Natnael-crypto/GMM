@@ -65,6 +65,16 @@ export const matchApi = createApi({
       },
     }),
 
+    getUserMatch: builder.query<Match, string>({
+      query: (id) => `matchmaking/matches/user/${id}`,
+      transformResponse: (response: BaseResponse<Match>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'Match', id: arg }];
+      },
+    }),
+
     countPotentialMatches: builder.query<MatchStatistics, void>({
       query: () => 'matchmaking/potential-matches',
       transformResponse: (response: BaseResponse<MatchStatistics>) => {
@@ -212,6 +222,16 @@ export const matchApi = createApi({
         return [{ type: 'ImageAccessRequest' }, { type: 'Match' }];
       },
     }),
+
+    exchangeFamilyInformation: builder.mutation<void, void>({
+      query: () => ({
+        url: 'matchmaking/share-family-information',
+        method: 'POST',
+      }),
+      invalidatesTags: (result, error, arg, meta) => {
+        return [{ type: 'Match' }];
+      },
+    }),
   }),
 });
 
@@ -229,4 +249,6 @@ export const {
   useGetAvailableMatchesLeftQuery,
   useRequestImageAccessMutation,
   useAcceptOrRejectImageAccessMutation,
+  useGetUserMatchQuery,
+  useExchangeFamilyInformationMutation,
 } = matchApi;

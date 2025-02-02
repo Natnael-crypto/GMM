@@ -36,9 +36,6 @@ export default function FamilyIntroductionPage() {
             <p className="text-muted-foreground">
               {t('optionalVerifiable.p1')}
             </p>
-            <p className="text-muted-foreground">
-              {t('optionalVerifiable.p2')}
-            </p>
           </div>
         </div>
 
@@ -48,7 +45,7 @@ export default function FamilyIntroductionPage() {
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3  flex items-center">
-              {t('optionalVerifiable.annualIncome')}
+            <strong>{t('optionalVerifiable.annualIncome').substring(0,19)}</strong> :{t('optionalVerifiable.annualIncome').substring(19)}
             </p>
           </div>
           <div className="col-span-1">
@@ -72,7 +69,7 @@ export default function FamilyIntroductionPage() {
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.annualTax')}
+            <strong>{t('optionalVerifiable.annualTax').substring(0 ,21 )} </strong>: {t('optionalVerifiable.annualTax').substring(21)}
             </p>
           </div>
           <div className="col-span-1">
@@ -95,7 +92,8 @@ export default function FamilyIntroductionPage() {
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.fullCredit')}
+      
+              <strong>{t('optionalVerifiable.fullCredit').substring(0 , 25)} {" "}</strong> : {t('optionalVerifiable.fullCredit').substring(25)}
             </p>
           </div>
           <div className="col-span-1">
@@ -118,7 +116,8 @@ export default function FamilyIntroductionPage() {
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.drivingRecord')}
+              <strong>{t('optionalVerifiable.drivingRecord').substring(0 , 16)} </strong>
+              : {t('optionalVerifiable.drivingRecord').substring(16)}
             </p>
           </div>
           <div className="col-span-1">
@@ -141,7 +140,8 @@ export default function FamilyIntroductionPage() {
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.nationality')}
+              <strong>{t('optionalVerifiable.nationality').substring(0 , 21)} </strong>
+              : {t('optionalVerifiable.nationality').substring(21)}
             </p>
           </div>
           <div className="col-span-1">
@@ -164,7 +164,31 @@ export default function FamilyIntroductionPage() {
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.stdTesting')}
+              <strong>{t('optionalVerifiable.maritalHistory').substring(0 , 32)} </strong>
+               {t('optionalVerifiable.maritalHistory').substring(32)}
+            </p>
+          </div>
+          <div className="col-span-1">
+            <Link
+              href={''}
+              className={cn(
+                buttonVariants({
+                  variant: 'outline',
+                  size: 'sm',
+                }),
+                'rounded-full text-xs text-secondary h-6'
+              )}
+            >
+              {t('optionalVerifiable.upload')}
+            </Link>
+          </div>
+          {/*  */}
+          <div className="col-span-1">
+            <Unverified />
+          </div>
+          <div className="col-span-10 grid grid-cols-4">
+            <p className="col-span-4 flex items-center">
+              <strong>{t('optionalVerifiable.criminalBackgroundCheck').substring(0 , 24)} </strong>: {t('optionalVerifiable.criminalBackgroundCheck').substring(24)}
             </p>
           </div>
           <div className="col-span-1">
@@ -187,7 +211,8 @@ export default function FamilyIntroductionPage() {
           </div>
           <div className="col-span-10 grid grid-cols-4">
             <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.criminalBackgroundCheck')}
+              <strong>{t('optionalVerifiable.divorced').substring(0 , 24)} </strong>
+              : {t('optionalVerifiable.divorced').substring(24)}
             </p>
           </div>
           <div className="col-span-1">
@@ -209,31 +234,9 @@ export default function FamilyIntroductionPage() {
             <Unverified />
           </div>
           <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.divorced')}
-            </p>
-          </div>
-          <div className="col-span-1">
-            <Link
-              href={''}
-              className={cn(
-                buttonVariants({
-                  variant: 'outline',
-                  size: 'sm',
-                }),
-                'rounded-full text-xs text-secondary h-6'
-              )}
-            >
-              {t('optionalVerifiable.upload')}
-            </Link>
-          </div>
-          {/*  */}
-          <div className="col-span-1">
-            <Unverified />
-          </div>
-          <div className="col-span-10 grid grid-cols-4">
-            <p className="col-span-3 flex items-center">
-              {t('optionalVerifiable.custody')}
+            <p className="col-span-4 flex items-center">
+              <strong>{t('optionalVerifiable.custody').substring(0 , 32)} </strong>
+              : {t('optionalVerifiable.custody').substring(32)}
             </p>
           </div>
           <div className="col-span-1">

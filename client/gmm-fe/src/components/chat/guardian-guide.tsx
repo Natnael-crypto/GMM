@@ -52,7 +52,6 @@ export default function GuardianGuide({
   const showReviewRequestsButton =
     user?.gender === Gender.FEMALE &&
     match?.imageRequest?.status === ImageAccessRequestStatus.PENDING;
-  console.log({ showReviewRequestsButton });
 
   return (
     <div
@@ -69,17 +68,18 @@ export default function GuardianGuide({
         <div className="space-y-5">
           <div className="rounded-full bg-[#bababa] text-background p-2 items-center justify-center flex gap-2 font-bold">
             <FontAwesomeIcon icon={faGlobe} />
-            <span className="text-[0.62rem]">
-              Guardian Service (Available at Step 4)
+            <span className="text-[0.87rem]">
+              Guardian Service
             </span>
           </div>
-
+          <p className= "text-center text-sm  ">(Available at Step 4)</p>
+          <hr />
           <p className="font-bold text-sm text-center px-10">
             You are on [Step {stageIndex + 1}] with {matchedUser.firstName} from{' '}
             {matchedUser.country}
           </p>
 
-          <div className="text-sm space-y-3 py-5 border-t">
+          <div className="text-sm space-y-3 py-5">
             <p>Talk to each other and exchange pleasantries</p>
             <p>
               Guardians do not have access to your chat. Only you and{' '}

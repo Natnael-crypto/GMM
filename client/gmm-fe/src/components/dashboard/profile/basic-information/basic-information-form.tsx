@@ -48,6 +48,7 @@ import { getEighteenYearsAgo } from '@/lib/format';
 import CountrySelector from '@/components/ui/country-selector';
 import { useLoadScript } from '@react-google-maps/api';
 import { constants, mapLibraries } from '@/config';
+import useLocation from '@/lib/hooks/use-location';
 
 export default function BasicInformationForm() {
   const user = useAppSelector((state) => state.auth.user);
@@ -87,10 +88,12 @@ export default function BasicInformationForm() {
       phoneNumber: user?.phoneNumber ?? '',
     },
   });
-  const [input, setInput] = useState<any>({});
-  const inputRef = useRef(null);
 
   const [updateUser, updateResult] = useUpdateUserMutation();
+
+  const locationInputRef = useRef<HTMLInputElement>(null);
+  const { location, onLocationChange, isLoaded, setLocation } =
+    useLocation(locationInputRef);
 
   useEffect(() => {
     form.reset({
@@ -103,7 +106,7 @@ export default function BasicInformationForm() {
     });
 
     if (user) {
-      setInput({
+      setLocation({
         country: user.currentCountry,
         city: user.city,
       });
@@ -116,7 +119,12 @@ export default function BasicInformationForm() {
       }
       form.setValue('pictures', pics);
     }
-  }, [form, user]);
+  }, [form, user, setLocation]);
+
+  useEffect(() => {
+    form.setValue('currentCountry', location?.country);
+    form.setValue('city', location?.city);
+  }, [location, form]);
 
   const basicInfoFormRef = useRef<HTMLFormElement>(null);
   const { registerForm, setSaving } = useUpdateProfileContext();
@@ -149,108 +157,6 @@ export default function BasicInformationForm() {
   }, [updateResult, setSaving]);
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: constants.google.mapApiKey,
-    libraries: mapLibraries,
-  });
-
-  const handleChange = (event: any) => {
-    const { name, value } = event.target;
-    setInput((values: any) => ({ ...values, [name]: value }));
-  };
-
-  const formData = useCallback(
-    (data: any) => {
-      const addressComponents = data?.address_components;
-
-      const componentMap = {
-        subPremise: '',
-        premise: '',
-        street_number: '',
-        route: '',
-        country: '',
-        postal_code: '',
-        administrative_area_level_2: '',
-        administrative_area_level_1: '',
-      };
-
-      for (const component of addressComponents) {
-        const componentType = component.types[0];
-        if (componentMap.hasOwnProperty(componentType)) {
-          componentMap[componentType as keyof typeof componentMap] =
-            component.long_name;
-        }
-      }
-
-      const formattedAddress =
-        `${componentMap.subPremise} ${componentMap.premise} ${componentMap.street_number} ${componentMap.route}`.trim();
-      // const latitude = data?.geometry?.location?.lat();
-      // const longitude = data?.geometry?.location?.lng();
-
-      const city = componentMap.administrative_area_level_2
-        ? componentMap.administrative_area_level_2 !== ''
-          ? componentMap.administrative_area_level_2
-          : componentMap.administrative_area_level_1
-        : componentMap.administrative_area_level_1;
-
-      const cityCountry = city && `${city}, ${componentMap.country}`.trim();
-
-      form.setValue('currentCountry', componentMap.country);
-      form.setValue('city', cityCountry);
-
-      setInput((values: any) => ({
-        ...values,
-        streetAddress: formattedAddress,
-        country: componentMap.country,
-        zipCode: componentMap.postal_code,
-        city: cityCountry,
-        state: componentMap.administrative_area_level_1,
-        // latitude: latitude,
-        // longitude: longitude,
-      }));
-    },
-    [form]
-  );
-
-  const handlePlaceChanged = useCallback(
-    async (address: any) => {
-      if (!isLoaded) return;
-      const place = address.getPlace();
-
-      if (!place) {
-        setInput({});
-        return;
-      }
-      formData(place);
-    },
-    [formData, isLoaded]
-  );
-
-  useEffect(() => {
-    if (!isLoaded || loadError) return;
-
-    const options = {
-      types: ['(cities)'],
-      fields: ['address_components'],
-    };
-
-    if (!inputRef.current) return;
-
-    const autocomplete = new google.maps.places.Autocomplete(
-      inputRef.current,
-      options
-    );
-    const eventListener = autocomplete.addListener('place_changed', () =>
-      handlePlaceChanged(autocomplete)
-    );
-
-    return () => {
-      if (eventListener) {
-        google.maps.event.removeListener(eventListener);
-      }
-    };
-  }, [handlePlaceChanged, isLoaded, loadError]);
 
   return (
     <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] grid grid-cols-12 lg:grid-cols-4 gap-x-5 gap-y-4 py-8 text-md">
@@ -562,10 +468,10 @@ export default function BasicInformationForm() {
                     <FormItem>
                       <FormControl>
                         <Input
-                          ref={inputRef}
+                          ref={locationInputRef}
                           name={field.name}
-                          value={input.city || ''}
-                          onChange={handleChange}
+                          value={location.city || ''}
+                          onChange={onLocationChange}
                           className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                         />
                       </FormControl>
@@ -758,7 +664,6 @@ export default function BasicInformationForm() {
                           >
                             Very Practicing/Sunnah Nawafil Included
                           </SelectItem>
-                          
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -865,9 +770,7 @@ export default function BasicInformationForm() {
             />
           </div>
           <div className="space-y-1 col-span-4 sm:col-span-2">
-            <Label>
-              Smoking
-            </Label>
+            <Label>Smoking</Label>
             <FormField
               name="smokes"
               control={form.control}

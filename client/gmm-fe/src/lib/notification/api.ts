@@ -43,7 +43,7 @@ export const notificationApi = createApi({
 
     markAsRead: builder.mutation<void, string>({
       query: (id) => ({
-        url: `notifications/mark-as-read?id=${id}`,
+        url: `notifications/${id}`,
         method: 'PUT',
       }),
 

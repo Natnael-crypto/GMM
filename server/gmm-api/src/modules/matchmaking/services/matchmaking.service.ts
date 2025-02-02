@@ -37,12 +37,18 @@ import {
   AllowMatchUserProfileDto,
   AllowMatchChatDto,
 } from '../dtos/allow-match-data.dto';
+import { NoticeService } from '@modules/notice/services/notice.service';
+import { FamilyInfoDto } from '../dtos/family-info.dto';
+import { FamilyInformationNotification } from '@modules/notifications/notifications/family-information-sent.notification';
+import { FamilyInformationExchangeStatus } from '../enums/family-information-exchange-status.enum';
+
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
   constructor(
     private readonly paymentService: PaymentsService,
     private readonly notificationService: NotificationService,
     private readonly userService: UserService,
+    private readonly noticeService: NoticeService,
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
   ) {
@@ -407,10 +413,118 @@ export class MatchMakingService extends BaseRepository {
     const savedInvitation = await invitationRepo.save(invitation);
 
     // Trigger the notification
-    const notification = new InviteToNextStageNotification(user, match);
+    const notification = new InviteToNextStageNotification(
+      match.femaleUserId === user.id ? match.maleUser : match.maleUser,
+      match,
+    );
     await this.notificationService.send(notification);
 
     return savedInvitation;
+  }
+
+  async shareFamilyInfo(user: User) {
+    const match = await this.getActiveMatch(user.id);
+
+    if (!match) {
+      throw new BadRequestException(
+        'You are no longer matched with this user.',
+      );
+    }
+
+    if (user.id !== match.femaleUserId && user.id !== match.maleUserId) {
+      throw new ForbiddenException();
+    }
+
+    if (
+      match.familyInformationExchangeStatus ===
+      FamilyInformationExchangeStatus.EXCHANGED
+    ) {
+      throw new BadRequestException(
+        'Family information has already been shared',
+      );
+    }
+
+    // If Step 5 is reached, send family information to each other
+    if (match.stage === MatchStage.FAMILY_INTRODUCTION) {
+      const maleFamilyInfo = new FamilyInfoDto();
+      const femaleFamilyInfo = new FamilyInfoDto();
+
+      const maleUserFamily = await this.userService.getFamilyInformation(
+        match.maleUserId,
+      );
+
+      const femaleUserFamily = await this.userService.getFamilyInformation(
+        match.femaleUserId,
+      );
+
+      // Assign Information to the respective user
+      maleFamilyInfo.guardianFirstName = maleUserFamily.guardianFirstName;
+      maleFamilyInfo.guardianLastName = maleUserFamily.guardianLastName;
+      maleFamilyInfo.relationshipToGuardian =
+        maleUserFamily.relationshipToGuardian;
+      maleFamilyInfo.guardianPhoneNumber = maleUserFamily.guardianPhoneNumber;
+      maleFamilyInfo.guardianEmail = maleUserFamily.guardianEmail;
+      maleFamilyInfo.guardianIdCard = maleUserFamily.guardianIdCard;
+      maleFamilyInfo.recipientName = femaleUserFamily.guardianFirstName;
+      maleFamilyInfo.matchedUserName = match.femaleUser.firstName;
+
+      femaleFamilyInfo.guardianFirstName = femaleUserFamily.guardianFirstName;
+      femaleFamilyInfo.guardianLastName = femaleUserFamily.guardianLastName;
+      femaleFamilyInfo.relationshipToGuardian =
+        femaleUserFamily.relationshipToGuardian;
+      femaleFamilyInfo.guardianPhoneNumber =
+        femaleUserFamily.guardianPhoneNumber;
+      femaleFamilyInfo.guardianEmail = femaleUserFamily.guardianEmail;
+      femaleFamilyInfo.guardianIdCard = femaleUserFamily.guardianIdCard;
+      femaleFamilyInfo.recipientName = maleUserFamily.guardianFirstName;
+      femaleFamilyInfo.matchedUserName = match.maleUser.firstName;
+
+      // Send email to each other
+      await this.noticeService.sendFamilyInformationEmail(
+        maleFamilyInfo.guardianEmail,
+        femaleFamilyInfo,
+      );
+
+      await this.noticeService.sendFamilyInformationEmail(
+        femaleFamilyInfo.guardianEmail,
+        maleFamilyInfo,
+      );
+
+      // female information sent to male notification
+      const maleNotification = new FamilyInformationNotification({
+        userName: match.femaleUser.firstName,
+        senderGender: Gender.FEMALE,
+        recipientId: match.maleUser.id,
+        action: 'sent',
+      });
+
+      await this.notificationService.send(maleNotification);
+
+      // male information sent to female notification
+      const femaleNotification = new FamilyInformationNotification({
+        userName: match.maleUser.firstName,
+        senderGender: Gender.MALE,
+        recipientId: match.femaleUser.id,
+        action: 'sent',
+      });
+
+      await this.notificationService.send(femaleNotification);
+
+      await this.getRepository(Match).update(match.id, {
+        familyInformationExchangeStatus:
+          FamilyInformationExchangeStatus.EXCHANGED,
+      });
+
+      return {
+        maleUserId: match.maleUserId,
+        femaleUserId: match.femaleUserId,
+        matchId: match.id,
+      };
+    } else {
+      throw new BadRequestException(
+        'You are not at the family introduction stage',
+      );
+    }
   }
 
   async getInvitationById(
@@ -438,7 +552,7 @@ export class MatchMakingService extends BaseRepository {
     const invitation = await this.getRepository(InvitationToMatchStage).findOne(
       {
         where: { id: invitationId },
-        relations: ['match'],
+        relations: ['match', 'match.maleUser', 'match.femaleUser'],
       },
     );
 
@@ -525,7 +639,10 @@ export class MatchMakingService extends BaseRepository {
           action: 'accepted' | 'rejected';
         } = {
           recipientId: inviter.id,
-          userName: user.firstName,
+          userName:
+            invitation.match.femaleUserId === user.id
+              ? invitation.match.femaleUser.firstName
+              : invitation.match.maleUser.firstName,
           action: 'accepted',
         };
 
@@ -550,7 +667,10 @@ export class MatchMakingService extends BaseRepository {
           action: 'accepted' | 'rejected';
         } = {
           recipientId: inviterReject.id,
-          userName: user.firstName,
+          userName:
+            invitation.match.femaleUserId === user.id
+              ? invitation.match.femaleUser.firstName
+              : invitation.match.maleUser.firstName,
           action: 'rejected',
         };
 

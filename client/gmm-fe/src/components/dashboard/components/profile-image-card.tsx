@@ -132,7 +132,8 @@ export default function ProfileImages({
               </Carousel>
             )}
 
-            <motion.div className="relative">
+
+<motion.div className="relative">
               <div className="gmm-pic-container absolute bottom-0 left-0 right-0 p-5 space-y-3">
                 <motion.h2
                   variants={overlayName}

@@ -8,6 +8,10 @@ export enum MatchStage {
   FAMILY_INTRODUCTION = 'Family Introduction',
 }
 
+export enum FamilyInformationExchangeStatus {
+  NONE = 'None',
+  EXCHANGED = 'Exchanged',
+}
 export const allMatchStages = [
   MatchStage.BASIC_INFORMATION,
   MatchStage.WORLDLY_LIFESTYLE,

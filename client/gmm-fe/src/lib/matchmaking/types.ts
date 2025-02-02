@@ -1,4 +1,8 @@
-import { MatchStage, MatchStageInvitation } from '../schemas/match';
+import {
+  FamilyInformationExchangeStatus,
+  MatchStage,
+  MatchStageInvitation,
+} from '../schemas/match';
 import { User } from '../schemas/user';
 
 export enum StageInvitationStatus {
@@ -20,6 +24,7 @@ export interface Match {
   stage: MatchStage;
   femaleImageAccessExpiration: Date;
   imageRequest: ImageAccessRequest;
+  familyInformationExchangeStatus: FamilyInformationExchangeStatus;
 }
 
 export interface MatchPreference {

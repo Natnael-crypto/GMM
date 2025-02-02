@@ -208,7 +208,7 @@ When you and your potential spouse reach this step, your Guardian Family Memberâ
         </div>
         <div className="col-span-10 grid grid-cols-4">
           <p className="col-span-3 flex items-center">
-            {t('optionalVerifiable.stdTesting')}
+            {t('optionalVerifiable.maritalHistory')}
           </p>
         </div>
         <div className="col-span-1">
@@ -253,7 +253,7 @@ When you and your potential spouse reach this step, your Guardian Family Memberâ
           <Unverified />
         </div>
         <div className="col-span-10 grid grid-cols-4">
-          <p className="col-span-3 flex items-center">
+          <p className="col-span-3 flex items-center" >
             {t('optionalVerifiable.divorced')}
           </p>
         </div>

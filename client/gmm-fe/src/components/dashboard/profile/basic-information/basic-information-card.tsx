@@ -46,7 +46,10 @@ export default function BasicInformationCard({ user }: { user: User }) {
           </h1>
 
           <p>
-            Welcome to the <strong>Basic</strong> Section, the <strong>1st step of the Guardian Muslim Marriage Guided Matchmaking Process.
+            Welcome to the <strong>Basic</strong> Section, the{' '}
+            <strong>
+              1st step of the Guardian Muslim Marriage Guided Matchmaking
+              Process.
             </strong>
           </p>
 
@@ -104,7 +107,7 @@ export default function BasicInformationCard({ user }: { user: User }) {
             </div>
 
             {/* Martial Status and Do you have children?  */}
-            <div className="col-span-8 flex gap-8">
+            <div className="col-span-8 flex gap-8 flex-wrap">
               <div className="flex flex-col gap-y-2">
                 <h2 className="text-secondary font-extrabold text-nowrap">
                   Martial Status

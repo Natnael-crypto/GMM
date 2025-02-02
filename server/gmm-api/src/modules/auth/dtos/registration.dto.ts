@@ -5,6 +5,7 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   MinLength,
 } from 'class-validator';
 
@@ -39,6 +40,10 @@ export class EmailRegistrationDto {
   @ApiProperty()
   @IsNotEmpty()
   bornOrRevertToIslam: string;
+
+  @ApiProperty()
+  @IsOptional()
+  phoneNumber: string;
 }
 
 export type RegistrationDto = (EmailRegistrationDto | { email: string }) & {
