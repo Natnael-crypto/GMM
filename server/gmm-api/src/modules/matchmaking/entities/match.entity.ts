@@ -62,6 +62,12 @@ export class Match {
   })
   imageRequest: ImageAccessRequest;
 
+  @Column({ default: false })
+  allowMatchedUserView: boolean;
+
+  @Column({ default: false })
+  allowChatView: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 }

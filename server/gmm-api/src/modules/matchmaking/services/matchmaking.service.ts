@@ -6,6 +6,7 @@ import {
   Injectable,
   NotFoundException,
   Scope,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Preference } from '../entities/preference.entity';
 import { And, DataSource, In, Not } from 'typeorm';
@@ -32,10 +33,15 @@ import { MatchedNotification } from '@modules/notifications/notifications/matche
 import { UserService } from '@modules/user/services/user.service';
 import { AddedToMatchPoolNotification } from '@modules/notifications/notifications/added-to-match-pool.notification';
 import { ResponseInviteNotification } from '@modules/notifications/notifications/response-invite.notification';
+import {
+  AllowMatchUserProfileDto,
+  AllowMatchChatDto,
+} from '../dtos/allow-match-data.dto';
 import { NoticeService } from '@modules/notice/services/notice.service';
 import { FamilyInfoDto } from '../dtos/family-info.dto';
 import { FamilyInformationNotification } from '@modules/notifications/notifications/family-information-sent.notification';
 import { FamilyInformationExchangeStatus } from '../enums/family-information-exchange-status.enum';
+
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
   constructor(
@@ -695,6 +701,54 @@ export class MatchMakingService extends BaseRepository {
     const match = await this.getActiveMatch(userId);
 
     match.isActive = false;
+
+    return await this.getRepository(Match).save(match);
+  }
+
+  async toggleMatchUserProfile(
+    userId: string,
+    matchId: string,
+    dto: AllowMatchUserProfileDto,
+  ) {
+    const match = await this.getMatch(matchId);
+
+    if (!match.isActive) {
+      throw new BadRequestException('Match is inactive');
+    }
+
+    if (match.maleUserId !== userId && match.femaleUserId !== userId) {
+      throw new UnauthorizedException();
+    }
+
+    if (dto.status) {
+      match.allowMatchedUserView = true;
+    } else {
+      match.allowMatchedUserView = false;
+    }
+
+    return await this.getRepository(Match).save(match);
+  }
+
+  async toggleMatchChat(
+    userId: string,
+    matchId: string,
+    dto: AllowMatchChatDto,
+  ) {
+    const match = await this.getMatch(matchId);
+
+    if (!match.isActive) {
+      throw new BadRequestException('Match is inactive');
+    }
+
+    if (match.maleUserId !== userId && match.femaleUserId !== userId) {
+      throw new UnauthorizedException();
+    }
+
+    if (dto.status) {
+      match.allowChatView = true;
+    } else {
+      match.allowChatView = false;
+    }
 
     return await this.getRepository(Match).save(match);
   }
