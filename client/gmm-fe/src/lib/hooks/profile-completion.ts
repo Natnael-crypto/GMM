@@ -111,11 +111,12 @@ export function useProfileCompletion(user?: User) {
           const filled =
             Math.max(
               (worldlyLifestyleData?.length ?? 0) + padding,
-              worldlyLifestyleForm?.fields.length ?? 1
+              worldlyLifestyleForm?.fields.length ?? 0
             ) + (expectedWorldlyLifestyleData?.length ?? 0);
-          const total =
+          
+            const total =
             (worldlyLifestyleForm?.fields.length ?? 1) +
-            (expectedWorldlyLifestyleForm?.fields.length ?? 1);
+            (expectedWorldlyLifestyleForm?.fields.length ?? 0);
 
           return Math.min(Math.trunc((filled / total) * 100), 100);
         },
