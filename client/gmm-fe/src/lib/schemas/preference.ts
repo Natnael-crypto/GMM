@@ -25,14 +25,16 @@ export const preferenceFormSchema = z
     hijab: z.array(z.string()).nullable().optional(),
     notChildren: z.boolean().nullable().optional(),
     children: z.array(z.string()).nullable().optional(),
-    notWantsChildren: z.boolean().nullable().optional(),
-    wantsChildren: z.array(z.string()).nullable().optional(),
+
     notEducation: z.boolean().nullable().optional(),
     education: z.array(z.string()).nullable().optional(),
-    notProfession: z.boolean().nullable().optional(),
-    profession: z.array(z.string()).nullable().optional(),
-    notNumberOfChildren: z.boolean().nullable().optional(),
-    numberOfChildren: z.array(z.string()).nullable().optional(),
+
+    employmentType: z.array(z.string()).nullable().optional(),
+    notEmploymentType: z.boolean().nullable().optional(),
+    beard: z.array(z.string()).nullable().optional(),
+    notBeard: z.boolean().nullable().optional(),
+    salah: z.array(z.string()).nullable().optional(),
+    notSalah: z.boolean().nullable().optional(),
     minMatchRequirement: z.number().nullable().optional(),
     drinking: z
       .union([
@@ -103,14 +105,14 @@ export const preferenceSchema = z
     hijab: z.array(z.string()).nullable().optional(),
     notChildren: z.boolean().nullable().optional(),
     children: z.array(z.string()).nullable().optional(),
-    notWantsChildren: z.boolean().nullable().optional(),
-    wantsChildren: z.array(z.string()).nullable().optional(),
     notEducation: z.boolean().nullable().optional(),
     education: z.array(z.string()).nullable().optional(),
-    notProfession: z.boolean().nullable().optional(),
-    profession: z.array(z.string()).nullable().optional(),
-    notNumberOfChildren: z.boolean().nullable().optional(),
-    numberOfChildren: z.array(z.string()).nullable().optional(),
+    employmentType: z.array(z.string()).nullable().optional(),
+    notEmploymentType: z.boolean().nullable().optional(),
+    beard: z.array(z.string()).nullable().optional(),
+    notBeard: z.boolean().nullable().optional(),
+    salah: z.array(z.string()).nullable().optional(),
+    notSalah: z.boolean().nullable().optional(),
     minMatchRequirement: z.number().nullable().optional(),
     drinking: z
       .union([

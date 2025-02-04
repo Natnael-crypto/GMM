@@ -1,21 +1,23 @@
 import React from 'react';
 import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import LanguageSelector from './language-selector';
 import Profile from './profile';
 import { Link } from '@/lib/navigation';
 import { auth } from '@/lib/auth/utils';
 import NotificationBell from '../notification/bell';
+import { cn } from '@/lib/utils';
 
-export default async function Header() {
+export default async function Header({ wide }: { wide?: boolean }) {
   const session = await auth();
 
   return (
     <div
-      className="py-3 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] 
-    bg-primary text-primary-foreground 
-    flex justify-between items-center"
+      className={cn(
+        'py-3 px-6 sm:px-16',
+        wide ? '' : 'md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem]',
+        'bg-primary text-primary-foreground ',
+        'flex justify-between items-center'
+      )}
     >
       <div className="w-40 md:w-60">
         <Link href={session ? '/dashboard' : '/'} className="w-40 md:w-60">

@@ -35,22 +35,12 @@ export class UpdatePreferenceDto {
   @ApiProperty({ example: false })
   @IsBoolean()
   @IsOptional()
-  notNationality?: boolean;
+  notCity?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
-  nationality?: string[];
-
-  @ApiProperty({ example: false })
-  @IsBoolean()
-  @IsOptional()
-  notLanguage?: boolean;
-
-  @ApiProperty({ example: 'string' })
-  @IsArray()
-  @IsOptional()
-  language?: string[];
+  city?: string[];
 
   @ApiProperty({ example: false })
   @IsBoolean()
@@ -65,32 +55,12 @@ export class UpdatePreferenceDto {
   @ApiProperty({ example: false })
   @IsBoolean()
   @IsOptional()
-  notCity?: boolean;
-
-  @ApiProperty({ example: 'string' })
-  @IsArray()
-  @IsOptional()
-  city?: string[];
-
-  @ApiProperty({ example: false })
-  @IsBoolean()
-  @IsOptional()
   notCountryOfOrigin?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   countryOfOrigin?: string[];
-
-  @ApiProperty({ example: false })
-  @IsBoolean()
-  @IsOptional()
-  notNumberOfChildren?: boolean;
-
-  @ApiProperty({ example: 'string' })
-  @IsArray()
-  @IsOptional()
-  numberOfChildren?: string[];
 
   @ApiProperty({ example: false })
   @IsBoolean()
@@ -105,12 +75,47 @@ export class UpdatePreferenceDto {
   @ApiProperty({ example: false })
   @IsBoolean()
   @IsOptional()
+  notChildren?: boolean;
+
+  @ApiProperty({ example: 'string' })
+  @IsArray()
+  @IsOptional()
+  children?: string[];
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
   notReligiousPractice?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
   religiousPractice?: string[];
+
+  @ApiProperty({ example: 'string' })
+  @IsBoolean()
+  @IsOptional()
+  drinking?: boolean;
+
+  @ApiProperty({ example: 'string' })
+  @IsBoolean()
+  @IsOptional()
+  drugs?: boolean;
+
+  @ApiProperty({ example: 'string' })
+  @IsBoolean()
+  @IsOptional()
+  smoking?: boolean;
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notTattoos?: boolean;
+
+  @ApiProperty({ example: 'string' })
+  @IsArray()
+  @IsOptional()
+  tattoos?: string[];
 
   @ApiProperty({ example: false })
   @IsBoolean()
@@ -125,32 +130,32 @@ export class UpdatePreferenceDto {
   @ApiProperty({ example: false })
   @IsBoolean()
   @IsOptional()
-  notHijab?: boolean;
+  notLanguage?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
-  hijab?: string[];
+  language?: string[];
 
   @ApiProperty({ example: false })
   @IsBoolean()
   @IsOptional()
-  notChildren?: boolean;
+  notNationality?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
-  children?: string[];
+  nationality?: string[];
 
   @ApiProperty({ example: false })
   @IsBoolean()
   @IsOptional()
-  notWantsChildren?: boolean;
+  notEmploymentType?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
-  wantsChildren?: string[];
+  employmentType?: string[];
 
   @ApiProperty({ example: false })
   @IsBoolean()
@@ -165,37 +170,32 @@ export class UpdatePreferenceDto {
   @ApiProperty({ example: false })
   @IsBoolean()
   @IsOptional()
-  notProfession?: boolean;
+  notSalah?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
-  profession?: string[];
-
-  @ApiProperty({ example: 'string' })
-  @IsBoolean()
-  @IsOptional()
-  drinking?: boolean;
-
-  @ApiProperty({ example: 'string' })
-  @IsBoolean()
-  @IsOptional()
-  smoking?: boolean;
-
-  @ApiProperty({ example: 'string' })
-  @IsBoolean()
-  @IsOptional()
-  drugs?: boolean;
+  salah?: string[];
 
   @ApiProperty({ example: false })
   @IsBoolean()
   @IsOptional()
-  notTattoos?: boolean;
+  notHijab?: boolean;
 
   @ApiProperty({ example: 'string' })
   @IsArray()
   @IsOptional()
-  tattoos?: string[];
+  hijab?: string[];
+
+  @ApiProperty({ example: false })
+  @IsBoolean()
+  @IsOptional()
+  notBeard?: boolean;
+
+  @ApiProperty({ example: 'string' })
+  @IsArray()
+  @IsOptional()
+  beard?: string[];
 
   @ApiProperty({ example: 'string' })
   @IsNumber({

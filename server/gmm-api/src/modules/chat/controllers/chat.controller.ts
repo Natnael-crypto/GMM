@@ -10,25 +10,39 @@ import {
   Body,
   UseGuards,
   Req,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { ChatService } from '../services/chat.service';
 import { InitiateChatDto, MessageDto, ChatDto } from '../dtos/chat.dto';
 import { ApiVersion } from '@shared/types/version';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { User } from '@modules/user/entities/user.entity';
+import { MatchMakingService } from '@modules/matchmaking/services/matchmaking.service';
 
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @ApiTags('chats')
 @Controller({ version: ApiVersion.V1, path: 'chats' })
 export class ChatController {
-  constructor(private readonly chatService: ChatService) {}
+  constructor(
+    private readonly chatService: ChatService,
+    private readonly matchService: MatchMakingService,
+  ) {}
 
   @Get()
   async getUserChats(
     @Req() req: any,
   ): Promise<{ message: string; data: ChatDto[] }> {
-    const chats = await this.chatService.getUserChats(req.user);
+    const chats = await this.chatService.getUserChats(req.user.id);
+    return { message: 'Chats retrieved successfully', data: chats };
+  }
+
+  @Get('user/:id')
+  async getUserChatsByUserId(
+    @Param('id') userId: string,
+  ): Promise<{ message: string; data: ChatDto[] }> {
+    const chats = await this.chatService.getUserChats(userId);
     return { message: 'Chats retrieved successfully', data: chats };
   }
 
@@ -48,9 +62,29 @@ export class ChatController {
   @Get('/:id')
   async getChatById(
     @Param('id') id: string,
+    @Req() request: Request & { user: User },
   ): Promise<{ message: string; data: ChatDto }> {
-    const chat = await this.chatService.getChatById(id);
-    return { message: 'Chat retrieved successfully', data: chat };
+    try {
+      const chat = await this.chatService.getChatById(id);
+      const match = await this.matchService.getActiveMatch(request.user.id);
+
+      if (
+        match.allowChatView ||
+        match.maleUserId === request.user.id ||
+        match.femaleUserId === request.user.id
+      ) {
+        return { message: 'Chat retrieved successfully', data: chat };
+      } else {
+        throw new UnauthorizedException(
+          'You are not authorized to view this chat.',
+        );
+      }
+    } catch (error) {
+      return {
+        message: '',
+        data: new ChatDto(),
+      };
+    }
   }
 
   @Get('/:id/messages')

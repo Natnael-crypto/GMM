@@ -11,6 +11,7 @@ import {
   Query,
   Req,
   Res,
+  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -29,6 +30,10 @@ import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 import { Match } from '../entities/match.entity';
 import { ImageAccessRequestService } from '../services/image-request.service';
 import { ImageAccessRequestDto } from '../dtos/image-access-request.dto';
+import {
+  AllowMatchUserProfileDto,
+  AllowMatchChatDto,
+} from '../dtos/allow-match-data.dto';
 
 @ApiTags('matchmaking')
 @ApiBearerAuth()
@@ -359,9 +364,41 @@ export class MatchMakingController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(CacheInterceptor)
   @Get('matches/:id')
-  async getMatch(@Param('id') id: string) {
+  async getMatch(
+    @Param('id') id: string,
+    @Req() request: Request & { user: User },
+  ) {
     try {
       const match = await this.matchmakingService.getMatch(id);
+
+      if (
+        match.allowMatchedUserView ||
+        match.maleUserId === request.user.id ||
+        match.femaleUserId === request.user.id
+      ) {
+        return {
+          message: 'Match fetched successfully',
+          data: match,
+        };
+      } else {
+        throw new UnauthorizedException(
+          'You are not authorized to view this match.',
+        );
+      }
+    } catch (error) {
+      return {
+        message: 'Failed to fetch match',
+        error: error.message,
+      };
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(CacheInterceptor)
+  @Get('matches/user/:id')
+  async getUserMatch(@Param('id') userId: string) {
+    try {
+      const match = await this.matchmakingService.getActiveMatch(userId);
       return {
         message: 'Match fetched successfully',
         data: match,
@@ -424,6 +461,104 @@ export class MatchMakingController {
         message: error.message,
       };
     }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('matches/matched-user-profile/:matchId')
+  async accessMatchedUserProfile(
+    @Param('matchId') matchId: string,
+    @Req() req: Request,
+    @Body() dto: AllowMatchUserProfileDto,
+  ) {
+    try {
+      await this.matchmakingService.toggleMatchUserProfile(
+        (req.user as User).id,
+        matchId,
+        dto,
+      );
+
+      const match = await this.matchmakingService.getMatch(matchId);
+      const maleUserId = match.maleUserId;
+      const femaleUserId = match.femaleUserId;
+
+      const keys = [
+        `/matchmaking/current-match/${maleUserId}`,
+        `/matchmaking/current-match/${femaleUserId}`,
+        `/matchmaking/${maleUserId}`,
+        `/matchmaking/${femaleUserId}`,
+        `/matchmaking/matches/${matchId}`,
+      ];
+
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+
+      return {
+        message: 'Access to matched user profiles updated',
+        success: true,
+      };
+    } catch (error) {
+      return {
+        message: error.message,
+      };
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('matches/matched-chat/:matchId')
+  async accessMatchedChat(
+    @Param('matchId') matchId: string,
+    @Req() req: Request,
+    @Body() dto: AllowMatchChatDto,
+  ) {
+    try {
+      await this.matchmakingService.toggleMatchChat(
+        (req.user as User).id,
+        matchId,
+        dto,
+      );
+
+      const match = await this.matchmakingService.getMatch(matchId);
+      const maleUserId = match.maleUserId;
+      const femaleUserId = match.femaleUserId;
+
+      const keys = [
+        `/matchmaking/current-match/${maleUserId}`,
+        `/matchmaking/current-match/${femaleUserId}`,
+        `/matchmaking/${maleUserId}`,
+        `/matchmaking/${femaleUserId}`,
+        `/matchmaking/matches/${matchId}`,
+      ];
+
+      await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+      return {
+        message: 'Access to matched chat updated',
+        success: true,
+      };
+    } catch (error) {
+      return {
+        message: error.message,
+      };
+    }
+  }
+
+  @Post('share-family-information')
+  async shareFamilyInfo(@Req() request: Request & { user: User }) {
+    const { maleUserId, femaleUserId, matchId } =
+      await this.matchmakingService.shareFamilyInfo(request.user);
+
+    const keys = [
+      `/matchmaking/matches/${matchId}`,
+      `/matchmaking/current-match/${maleUserId}`,
+      `/matchmaking/current-match/${femaleUserId}`,
+      `/matchmaking/${maleUserId}`,
+      `/matchmaking/${femaleUserId}`,
+      `/matchmaking/matches/`,
+      `/users/${maleUserId}`,
+      `/users/${femaleUserId}`,
+      `/users/me/${maleUserId}`,
+      `/users/me/${femaleUserId}`,
+    ];
+
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
   }
 
   /** ADMIN ROUTES */

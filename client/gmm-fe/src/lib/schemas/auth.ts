@@ -76,6 +76,17 @@ export const signUpWithLinkSchema = z.object({
   password: z.string().min(8, {
     message: 'Password must be at least 8 characters',
   }),
+  phoneNumber: z.string().min(1, {
+    message: 'Please enter your phone number',
+  }),
+  dateOfBirth: z
+    .date({
+      required_error: 'A date of birth is required.',
+    })
+    .refine((date) => date <= getEighteenYearsAgo(), {
+      message: 'You must be at least 18 years old.',
+    }),
+  gender: z.enum(['Male', 'Female']),
 });
 
 export type SignUpWithLink = z.infer<typeof signUpWithLinkSchema>;

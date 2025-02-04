@@ -36,10 +36,10 @@ const fields = [
   'bornOrRevert',
   'hijab',
   'children',
-  'wantsChildren',
+  'salah',
   'education',
-  'profession',
-  'numberOfChildren',
+  'employmentType',
+  'beard',
   'tattoos',
 ] as const;
 
@@ -102,17 +102,17 @@ const reset = (preference?: Preference | null): PreferenceForm => {
     notChildren: !!preference?.notChildren,
     children: preference?.children || null,
 
-    notWantsChildren: !!preference?.notWantsChildren,
-    wantsChildren: preference?.wantsChildren || null,
+    notBeard: !!preference?.notBeard,
+    beard: preference?.beard || null,
 
     notEducation: !!preference?.notEducation,
     education: preference?.education || null,
 
-    notProfession: !!preference?.notProfession,
-    profession: preference?.profession || null,
+    notEmploymentType: !!preference?.notEmploymentType,
+    employmentType: preference?.employmentType || null,
 
-    notNumberOfChildren: !!preference?.notNumberOfChildren,
-    numberOfChildren: preference?.numberOfChildren || null,
+    notSalah: !!preference?.notSalah,
+    salah: preference?.salah || null,
 
     notTattoos: !!preference?.notTattoos,
     tattoos: preference?.tattoos || null,
@@ -186,7 +186,7 @@ const transformPreference = (data: PreferenceForm, isFilterInactive: any) => {
   };
 };
 
-export const usePreference = () => {
+export const usePreference = (onReset?: (values: any) => void) => {
   const user = useAppSelector((state) => state.auth.user);
 
   const matchTolerance = useAppSelector((state) => state.preference.tolerance);
@@ -198,7 +198,9 @@ export const usePreference = () => {
 
   useEffect(() => {
     if (user && user.preference) {
-      form.reset(reset(user.preference));
+      const values = reset(user.preference);
+      form.reset(values);
+      if (onReset) onReset(values);
     }
   }, [form, user]);
 
@@ -253,11 +255,12 @@ export const usePreference = () => {
       // 90% Match Requested
       if (matchTolerance === 0.2) {
         p.countryOfOrigin = null;
-        p.profession = null;
+        p.employmentType = null;
         p.language = null;
         p.nationality = null;
         p.children = null;
-        p.numberOfChildren = null;
+        p.salah = null;
+        p.beard = null;
         p.city = null;
         p.country = null;
       }
@@ -310,10 +313,10 @@ export const usePreference = () => {
     bornOrRevert: 'notBornOrRevert',
     hijab: 'notHijab',
     children: 'notChildren',
-    wantsChildren: 'notWantsChildren',
+    employmentType: 'notEmploymentType',
     education: 'notEducation',
-    profession: 'notProfession',
-    numberOfChildren: 'notNumberOfChildren',
+    beard: 'notBeard',
+    salah: 'notSalah',
     tattoos: 'notTattoos',
   };
 

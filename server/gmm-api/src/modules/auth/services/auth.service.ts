@@ -3,14 +3,20 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AuthRepository } from './auth.repository';
 import * as bcrypt from 'bcrypt';
-import { AuthConfig } from '@shared/config';
+import { AuthConfig, ClientConfig } from '@shared/config';
 import { EmailRegistrationDto } from '../dtos/registration.dto';
 import {
   InvalidCredentialsException,
   InvalidRegistrationTokenException,
   UserAlreadyExistsException,
 } from '../exceptions/auth.exceptions';
-import { userRole } from '@shared/database/seeds/permission.seed';
+import { guardianRole, userRole } from '@shared/database/seeds/permission.seed';
+import {
+  GuardianRegistrationEvent,
+  GuardianRequestedEvent,
+} from '@modules/user/events/guardian.events';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
+import { NoticeService } from '@modules/notice/services/notice.service';
 
 export type JwtPayload = {
   sub: string;
@@ -21,13 +27,17 @@ export type JwtPayload = {
 @Injectable()
 export class NewAuthService {
   private authConfig: AuthConfig;
+  private domain: string;
 
   constructor(
     private configService: ConfigService,
     private jwtService: JwtService,
     private authRepo: AuthRepository,
+    private noticeService: NoticeService,
+    private readonly eventEmitter: EventEmitter2,
   ) {
     this.authConfig = this.configService.get<AuthConfig>('auth')!;
+    this.domain = this.configService.get<ClientConfig>('client')!.url;
   }
 
   async generateAccessToken(payload: JwtPayload) {
@@ -191,5 +201,25 @@ export class NewAuthService {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     await this.authRepo.updateUserPassword(user.id, hashedPassword);
+  }
+
+  @OnEvent(GuardianRequestedEvent.name, { async: true })
+  async handleGuardianRequestedEvent(event: GuardianRequestedEvent) {
+    this.eventEmitter.emit(
+      GuardianRegistrationEvent.name,
+      new GuardianRegistrationEvent(
+        event.user,
+        event.guardian,
+        event.relationship,
+        await this.generateRegistrationToken({
+          sub: event.guardian.email,
+          email: event.guardian.email,
+          phone: event.guardian.phoneNumber,
+          firstName: event.guardian.firstName,
+          lastName: event.guardian.lastName,
+          role: guardianRole.name,
+        } as unknown as JwtPayload),
+      ),
+    );
   }
 }

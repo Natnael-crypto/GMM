@@ -17,13 +17,20 @@ export function useProfileView(stage: MatchStage) {
     skip: !loggedInUser || loggedInUser.id === params.userId,
   });
 
+  const isMyDependent = !!(loggedInUser?.dependents || []).find(
+    (dependent) => dependent.id === params.userId
+  );
+
   const isMyInformation = params.userId === loggedInUser?.id;
-  const isMyMatchInformation =
-    params.userId === currentMatch?.femaleUserId ||
-    params.userId === currentMatch?.maleUserId;
+  const isMyMatchInformation = !!(
+    currentMatch &&
+    (params.userId === currentMatch?.femaleUserId ||
+      params.userId === currentMatch?.maleUserId)
+  );
 
   const showInfo =
     isMyInformation ||
+    isMyDependent ||
     (isMyMatchInformation && hasAccessToStage(currentMatch.stage, stage));
 
   const requestedUser = isMyInformation ? loggedInUser : fetchedUser;

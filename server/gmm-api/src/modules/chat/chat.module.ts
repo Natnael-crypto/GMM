@@ -5,9 +5,10 @@ import { DynamooseModule } from '@modules/dynamo/dynamo.module';
 import { UserModule } from '@modules/user/user.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { ChatWebsocketGateway } from './services/chat.websocket.gateway';
+import { MatchMakingModule } from '@modules/matchmaking/matchmaking.module';
 
 @Module({
-  imports: [UserModule, AuthModule, DynamooseModule],
+  imports: [UserModule, AuthModule, DynamooseModule, MatchMakingModule],
   providers: [ChatService, ChatWebsocketGateway],
   controllers: [ChatController],
   exports: [ChatService],
