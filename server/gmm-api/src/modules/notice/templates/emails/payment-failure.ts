@@ -1,12 +1,18 @@
 module.exports = {
-    subject: 'Payment Failed – Action Required',
-    message: (paymentAmount, paymentMethod, numMatches) => `
+  subject: 'Payment Failed – Action Required',
+  message: (paymentAmount, paymentMethod, numMatches) => `
           <!DOCTYPE html>
           <html>
           <head>
               <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>Payment Failed – Action Required</title>
               <style>
+                * {
+                      margin: 0;
+                      padding: 0;
+                      box-sizing: border-box;
+                  }
                   body {
                       font-family: Arial, sans-serif;
                       line-height: 1.6;
@@ -73,12 +79,11 @@ module.exports = {
                       <p>Thank you for choosing Guardian Wali. We value your business!</p>
                   </div>
                   <div class="footer">
-                      &copy; ${(new Date().getFullYear())} Guardian/Wali - Premium Guided Matchmaking
+                      &copy; ${new Date().getFullYear()} Guardian/Wali - Premium Guided Matchmaking
         For Sunni Muslims with Revert Care.
                   </div>
               </div>
           </body>
           </html>
       `,
-  };
-  
+};
