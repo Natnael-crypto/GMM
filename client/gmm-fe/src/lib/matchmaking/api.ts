@@ -245,6 +245,12 @@ export const matchApi = createApi({
         body: {
           status,
         },
+      }),
+        invalidatesTags: (result, error, arg, meta) => {
+          return [{ type: 'Match' }];
+        },
+      }),
+
     exchangeFamilyInformation: builder.mutation<void, void>({
       query: () => ({
         url: 'matchmaking/share-family-information',
