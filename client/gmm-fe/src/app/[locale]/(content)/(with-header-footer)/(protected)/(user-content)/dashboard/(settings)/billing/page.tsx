@@ -21,7 +21,6 @@ export default function Billing() {
     useGetSubscriptionHistoryQuery(user?.id ?? '', {
       skip: !user,
     });
-console.log(subscriptionHistory);
   return (
     <div className="rounded-xl bg-background shadow-lg p-5 space-y-7 text-sm">
       <div className="flex justify-between items-end">
