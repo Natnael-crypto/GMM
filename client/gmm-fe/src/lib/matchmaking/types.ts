@@ -20,6 +20,8 @@ export interface Match {
   stage: MatchStage;
   femaleImageAccessExpiration: Date;
   imageRequest: ImageAccessRequest;
+  allowMatchedUserView: boolean;
+  allowChatView: boolean;
 }
 
 export interface MatchPreference {
@@ -63,4 +65,9 @@ export interface ImageAccessRequest {
 export interface ImageAccessPayload {
   status: ImageAccessRequestStatus;
   imageAccessRequestId: string;
+}
+
+export interface ProfileAccessPayload {
+  status: boolean;
+  matchId: string;
 }

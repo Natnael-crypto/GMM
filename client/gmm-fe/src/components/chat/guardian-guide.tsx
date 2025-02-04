@@ -2,7 +2,7 @@
 
 import { buttonVariants } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { matchApi, useUnmatchMutation } from '@/lib/matchmaking/api';
+import { matchApi, useAllowOrDenyChatAccessMutation, useAllowOrDenyProfileAccessMutation, useUnmatchMutation } from '@/lib/matchmaking/api';
 import { ImageAccessRequestStatus, Match } from '@/lib/matchmaking/types';
 import { useRouter } from '@/lib/navigation';
 import { Gender, User } from '@/lib/schemas/user';
@@ -36,6 +36,8 @@ export default function GuardianGuide({
   const dispatch = useAppDispatch();
 
   const [unmatch, unmatchResult] = useUnmatchMutation();
+  const [profileAccess ,profileAccessResult ] = useAllowOrDenyProfileAccessMutation();
+  const [chatAccess, chatAccessResult] = useAllowOrDenyChatAccessMutation();
   const router = useRouter();
 
   useEffect(() => {
@@ -53,33 +55,19 @@ export default function GuardianGuide({
     user?.gender === Gender.FEMALE &&
     match?.imageRequest?.status === ImageAccessRequestStatus.PENDING;
 
-  const [checkbox1Checked, setCheckbox1Checked] = useState(false);
-  const [checkbox2Checked, setCheckbox2Checked] = useState(false);
+  const [checkbox1Checked, setCheckbox1Checked] = useState(match.allowMatchedUserView);
+  const [checkbox2Checked, setCheckbox2Checked] = useState(match.allowChatView);
 
   const handleCheckbox1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCheckbox1Checked(event.target.checked);
-    // Add functionality for checkbox 1
-    if (event.target.checked) {
-      console.log('Checkbox 1 checked');
-      // Add your functionality here
-    } else {
-      console.log('Checkbox 1 unchecked');
-      // Add your functionality here
-    }
+    profileAccess({ status: event.target.checked , matchId: match.id });
+
   };
 
   const handleCheckbox2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCheckbox2Checked(event.target.checked);
-    // Add functionality for checkbox 2
-    if (event.target.checked) {
-      console.log('Checkbox 2 checked');
-      // Add your functionality here
-    } else {
-      console.log('Checkbox 2 unchecked');
-      // Add your functionality here
-    }
+    chatAccess({ status: event.target.checked , matchId: match.id });
   };
-
   return (
     <div
       className="h-full bg-background rounded-lg overflow-auto"
@@ -134,7 +122,7 @@ export default function GuardianGuide({
                     type="checkbox"
                     checked={checkbox1Checked}
                     onChange={handleCheckbox1Change}
-                    className="mr-2"
+                    className="mr-2 custom-checkbox"
                   />
                 </div>
                 <div className="text-sm flex justify-between items-center">
@@ -143,7 +131,7 @@ export default function GuardianGuide({
                     type="checkbox"
                     checked={checkbox2Checked}
                     onChange={handleCheckbox2Change}
-                    className="mr-2"
+                    className="mr-2 custom-checkbox"
                   />
                 </div>
 
