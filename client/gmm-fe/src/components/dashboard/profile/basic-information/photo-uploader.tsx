@@ -210,7 +210,7 @@ export default function PhotoUploader({
   return (
     <Card className="shadow-none text-sm space-y-3">
       <div className="flex">
-        <h1 className="font-bold">Your Photo and Introduction Video</h1>
+        <h1 className="font-bold">Your Photo</h1>
       </div>
 
       <div className="flex gap-5 justify-between items-start lg:flex-col lg:gap-3">
@@ -283,7 +283,7 @@ export default function PhotoUploader({
               controls
             />
           }
-          <div className="lg:w-full border border-secondary flex items-center bg-background h-8 px-3 justify-between gap-1 ">
+          {/* <div className="lg:w-full border border-secondary flex items-center bg-background h-8 px-3 justify-between gap-1 ">
             <Label className="text-nowrap font-normal text-xs line-clamp-1 cursor-pointer">
               <span>Introduction Video</span>
               <input
@@ -307,7 +307,7 @@ export default function PhotoUploader({
                 <FontAwesomeIcon icon={faTrashCan} />
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </Card>
