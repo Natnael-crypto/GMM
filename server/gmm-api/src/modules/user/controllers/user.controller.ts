@@ -163,7 +163,18 @@ export class UserController {
     this.userRepository.merge(user, userDto);
     await this.userRepository.save(user);
 
-    const keys = [`/users/${id}`, `/users/me/${id}`];
+    const keys = [
+      `/users/${id}`,
+      `/users/me/${id}`,
+      `/users/${id}/worldly-lifestyle`,
+      `/users/${id}/expected-worldly-lifestyle`,
+      `/users/${id}/islamic-lifestyle`,
+      `/users/${id}/expected-islamic-lifestyle`,
+      `/users/${id}/marriage-discussion`,
+      `/users/${id}/optional-verifiable`,
+      `/users/${id}/family-introduction`,
+    ];
+
     await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
     return {
@@ -447,7 +458,11 @@ export class UserController {
   @UseGuards(ApiKeyAuthGuard)
   @Delete(':id/cache')
   async invalidateUserCache(@Param('id') id: string) {
-    const keys = [`/users/${id}`, `/users/me/${id}`];
+    const keys = [
+      `/users/${id}`,
+      `/users/me/${id}`,
+      `/users/${id}/family-introduction`,
+    ];
 
     await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 

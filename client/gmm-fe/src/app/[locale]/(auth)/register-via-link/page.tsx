@@ -45,7 +45,6 @@ export default function GuardianRegistrationPage() {
 
   const { replace } = useRouter();
 
-  const user = useAppSelector((state) => state.auth.user);
   const params = useSearchParams();
 
   const form = useForm<SignUpWithLink>({
