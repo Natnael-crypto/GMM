@@ -25,7 +25,7 @@ import {
   weights,
 } from '@/lib/schemas/user';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
 import { useUpdateUserMutation } from '@/lib/user/api';
@@ -46,9 +46,8 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { getEighteenYearsAgo } from '@/lib/format';
 import CountrySelector from '@/components/ui/country-selector';
-import { useLoadScript } from '@react-google-maps/api';
-import { constants, mapLibraries } from '@/config';
 import useLocation from '@/lib/hooks/use-location';
+import { useProfileCompletion } from '@/lib/hooks/profile-completion';
 
 export default function BasicInformationForm() {
   const user = useAppSelector((state) => state.auth.user);
@@ -90,6 +89,8 @@ export default function BasicInformationForm() {
   });
 
   const [updateUser, updateResult] = useUpdateUserMutation();
+
+  const { basics } = useProfileCompletion(user);
 
   const locationInputRef = useRef<HTMLInputElement>(null);
   const { location, onLocationChange, isLoaded, setLocation } =
@@ -348,6 +349,7 @@ export default function BasicInformationForm() {
                     <Select
                       onValueChange={field.onChange}
                       value={field.value ? field.value.toString() : ''}
+                      disabled={basics >= 100}
                     >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
@@ -378,6 +380,7 @@ export default function BasicInformationForm() {
                     <Select
                       onValueChange={field.onChange}
                       value={field.value ? field.value.toString() : ''}
+                      disabled={basics >= 100}
                     >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
@@ -408,6 +411,7 @@ export default function BasicInformationForm() {
                     <CountrySelector
                       value={field.value}
                       onChange={field.onChange}
+                      disabled={basics >= 100}
                     />
                   </FormControl>
                   <FormMessage className="text-md" />
@@ -427,6 +431,7 @@ export default function BasicInformationForm() {
                     <Multiselect
                       onChange={field.onChange}
                       selectedOptions={field.value}
+                      disabled={basics >= 100}
                       title="Language"
                       max={5}
                       initOptions={languages}
@@ -450,6 +455,7 @@ export default function BasicInformationForm() {
                     <CountrySelector
                       value={field.value}
                       onChange={field.onChange}
+                      disabled={basics >= 100}
                     />
                   </FormControl>
                   <FormMessage className="text-md" />
@@ -473,6 +479,7 @@ export default function BasicInformationForm() {
                           value={location.city || ''}
                           onChange={onLocationChange}
                           className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                          disabled={basics >= 100}
                         />
                       </FormControl>
                       <FormMessage className="text-md" />
@@ -490,7 +497,11 @@ export default function BasicInformationForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      disabled={basics >= 100}
+                    >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
                       </SelectTrigger>
@@ -546,6 +557,7 @@ export default function BasicInformationForm() {
                         }
                       }}
                       value={field.value}
+                      disabled={basics >= 100}
                     >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
@@ -601,6 +613,7 @@ export default function BasicInformationForm() {
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
+                        disabled={basics >= 100}
                       >
                         <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                           <SelectValue />
@@ -641,6 +654,7 @@ export default function BasicInformationForm() {
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
+                        disabled={basics >= 100}
                       >
                         <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                           <SelectValue />
@@ -683,6 +697,7 @@ export default function BasicInformationForm() {
                       <Select
                         onValueChange={field.onChange}
                         value={field.value}
+                        disabled={basics >= 100}
                       >
                         <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                           <SelectValue />
@@ -718,6 +733,7 @@ export default function BasicInformationForm() {
                     <Select
                       onValueChange={field.onChange}
                       value={field.value?.toString()}
+                      disabled={basics >= 100}
                     >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
@@ -750,6 +766,7 @@ export default function BasicInformationForm() {
                     <Select
                       onValueChange={field.onChange}
                       value={field.value?.toString()}
+                      disabled={basics >= 100}
                     >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
@@ -780,6 +797,7 @@ export default function BasicInformationForm() {
                     <Select
                       onValueChange={field.onChange}
                       value={field.value?.toString()}
+                      disabled={basics >= 100}
                     >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
@@ -811,6 +829,7 @@ export default function BasicInformationForm() {
                     <Select
                       onValueChange={field.onChange}
                       value={field.value?.toString()}
+                      disabled={basics >= 100}
                     >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                         <SelectValue />
