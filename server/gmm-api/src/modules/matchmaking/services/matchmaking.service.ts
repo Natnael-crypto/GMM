@@ -120,6 +120,7 @@ export class MatchMakingService extends BaseRepository {
     }
 
     await this.paymentService.consumeMatch(user.id);
+    await this.paymentService.consumeMatch(matchedUserId);
 
     const match = await this.getRepository(Match).save(newMatch);
     await this.getRepository(MatchPool).delete([matchedUserId, user.id]);
