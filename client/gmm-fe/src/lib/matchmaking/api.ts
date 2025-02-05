@@ -8,6 +8,7 @@ import {
   ImageAccessRequest,
   Match,
   MatchStatistics,
+  ProfileAccessPayload,
   StageInvitationStatus,
 } from './types';
 import { UserInMatchPool } from '../schemas/match';
@@ -223,6 +224,33 @@ export const matchApi = createApi({
       },
     }),
 
+    allowOrDenyProfileAccess: builder.mutation<any, ProfileAccessPayload>({
+      query: ({ status, matchId }) => ({
+        url: `matchmaking/matches/matched-user-profile/${matchId}`,
+        method: 'PUT',
+        body: {
+          status,
+        },
+      }),
+      invalidatesTags: (result, error, arg, meta) => {
+        return [{ type: 'Match' }];
+      },
+    }),
+
+
+    allowOrDenyChatAccess: builder.mutation<any, ProfileAccessPayload>({
+      query: ({ status, matchId }) => ({
+        url: `matchmaking/matches/matched-chat/${matchId}`,
+        method: 'PUT',
+        body: {
+          status,
+        },
+      }),
+        invalidatesTags: (result, error, arg, meta) => {
+          return [{ type: 'Match' }];
+        },
+      }),
+
     exchangeFamilyInformation: builder.mutation<void, void>({
       query: () => ({
         url: 'matchmaking/share-family-information',
@@ -249,6 +277,8 @@ export const {
   useGetAvailableMatchesLeftQuery,
   useRequestImageAccessMutation,
   useAcceptOrRejectImageAccessMutation,
+  useAllowOrDenyProfileAccessMutation,
+  useAllowOrDenyChatAccessMutation,
   useGetUserMatchQuery,
   useExchangeFamilyInformationMutation,
 } = matchApi;
