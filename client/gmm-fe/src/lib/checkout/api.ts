@@ -6,6 +6,8 @@ import { Subscription } from '../schemas/checkout';
 export const checkoutApi = createApi({
   reducerPath: 'checkoutApi',
 
+  tagTypes: ['Subscription', 'SubscriptionHistory'],
+
   baseQuery: fetchBaseQuery({
     baseUrl: constants.apiBaseUrl,
     prepareHeaders: (headers, { getState }) => {
@@ -46,11 +48,27 @@ export const checkoutApi = createApi({
     getCurrentSubscription: builder.query<Subscription, string>({
       query: (userId) => `payments/current-subscription/${userId}`,
       transformResponse: (response: any) => response.data,
+      providesTags: ['Subscription'],
     }),
 
     getSubscriptionHistory: builder.query<Subscription[], string>({
       query: (userId) => `payments/subscription-history/${userId}`,
       transformResponse: (response: any) => response.data,
+      providesTags: ['SubscriptionHistory'],
+    }),
+
+    setAutoRenewal: builder.mutation<
+      any,
+      { autoRenew: boolean; userId: string }
+    >({
+      query: ({ autoRenew, userId }) => ({
+        url: autoRenew
+          ? `payments/activate-renewal/${userId}`
+          : `payments/cancel-renewal/${userId}`,
+        method: autoRenew ? 'PATCH' : 'DELETE',
+      }),
+      transformResponse: (response: any) => response.data,
+      invalidatesTags: ['Subscription'],
     }),
   }),
 });
@@ -62,4 +80,5 @@ export const {
   useConfirmFreeSubscriptionMutation,
   useGetCurrentSubscriptionQuery,
   useGetSubscriptionHistoryQuery,
+  useSetAutoRenewalMutation,
 } = checkoutApi;
