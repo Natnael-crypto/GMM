@@ -70,7 +70,7 @@ export default function GuardianGuide({
   };
   return (
     <div
-      className="h-full bg-background rounded-lg overflow-auto"
+      className={`h-full bg-background rounded-lg overflow-${matchedUser.gender == "Male"? "auto": "hidden"}`}
       style={{
         height: 'calc(100vh - 4.50rem)',
       }}
@@ -143,7 +143,7 @@ export default function GuardianGuide({
         </div>
 
         {stageIndex != undefined && stageIndex >= 1 && (
-          <div className="flex gap-2 justify-end">
+          <div className="flex gap-2 justify-end py-5">
             {showReviewRequestsButton && <RequestImageView />}
 
             <AlertDialog>
