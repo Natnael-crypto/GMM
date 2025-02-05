@@ -1,7 +1,8 @@
 'use client';
 
-import data from '@emoji-mart/data';
+import rawData from '@emoji-mart/data';
 import EmojiPicker from '@emoji-mart/react';
+import { EmojiMartData } from '@emoji-mart/data';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useGetMessagesQuery, useLazyGetMessagesQuery } from '@/lib/chat/api';
@@ -28,6 +29,28 @@ import { StepperItem } from './stepper';
 import { Match } from '@/lib/matchmaking/types';
 import { allMatchStages } from '@/lib/schemas/match';
 import { useLocale } from 'next-intl';
+
+const data = rawData as EmojiMartData;
+
+// List of inappropriate emoji IDs to filter out
+const blockedEmojis = new Set([
+  'middle_finger', 'face_with_symbols_on_mouth', 'hocho', 'dagger', 'crossed_swords', 
+  'gun', 'bomb', 'eggplant', 'peach', 'sweat_drops', 'smirk', 'smiling_imp', 
+  'tongue', 'beer', 'beers', 'wine_glass', 'tropical_drink', 'champagne', 
+  'smoking', 'drop_of_blood', 'syringe'
+]);
+
+
+const filteredData: EmojiMartData = {
+  ...data,
+  emojis: Object.fromEntries(
+    Object.entries(data.emojis || {}).filter(([key, emoji]) => !blockedEmojis.has(emoji.id))
+  ),
+  categories: data.categories.map(category => ({
+    ...category,
+    emojis: category.emojis.filter(emojiId => !blockedEmojis.has(emojiId)),
+  })),
+};
 
 type ExtendedMessage = Message & { pending: boolean; mine: boolean };
 
@@ -294,7 +317,7 @@ export default function ChatBox({
                   <EmojiPicker
                     theme="light"
                     locale={locale}
-                    data={data}
+                    data={filteredData}
                     onEmojiSelect={(emoji: any) => {
                       if (messageBoxRef && messageBoxRef.current) {
                         messageBoxRef.current.value += emoji.native;
