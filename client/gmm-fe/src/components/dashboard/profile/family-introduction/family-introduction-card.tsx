@@ -1,7 +1,5 @@
 'use client';
 
-import { faPeopleRoof } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import { User } from '@/lib/schemas/user';
@@ -24,9 +22,12 @@ export default function FamilyIntroductionCard({ user }: { user: User }) {
       </h1>
 
       <p className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5">
-      <strong>Your People Contact My People!!! </strong>The 5th and final step of the Guardian Muslim Marriage Guided Matchmaking Process.
-When you and your potential spouse reach this step, your Guardian Family Member’s/Imam’s contact information will be exchanged with your match’s Guardian Family Member’s/Imam’s contact information to initiate family contact.
-
+        <strong>Your People Contact My People!!! </strong>The 5th and final step
+        of the Guardian Muslim Marriage Guided Matchmaking Process. When you and
+        your potential spouse reach this step, your Guardian Family
+        Member’s/Imam’s contact information will be exchanged with your match’s
+        Guardian Family Member’s/Imam’s contact information to initiate family
+        contact.
       </p>
 
       {familyIntroduction && (
@@ -78,7 +79,7 @@ When you and your potential spouse reach this step, your Guardian Family Member�
       )}
 
       <h1 className="text-secondary font-bold text-xl pb-3 border-t border-muted-foreground py-4">
-      Proposals <span className="font-bold text-sm">- Coming Soon</span>
+        Proposals <span className="font-bold text-sm">- Coming Soon</span>
       </h1>
 
       <h1 className="text-secondary font-bold text-xl pb-3 border-t border-muted-foreground py-4">
@@ -253,7 +254,7 @@ When you and your potential spouse reach this step, your Guardian Family Member�
           <Unverified />
         </div>
         <div className="col-span-10 grid grid-cols-4">
-          <p className="col-span-3 flex items-center" >
+          <p className="col-span-3 flex items-center">
             {t('optionalVerifiable.divorced')}
           </p>
         </div>

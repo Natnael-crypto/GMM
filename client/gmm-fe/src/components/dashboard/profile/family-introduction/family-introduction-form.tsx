@@ -14,9 +14,13 @@ import {
 } from '@/lib/schemas/family-introduction';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useUpdateProfileContext } from '../update-profile-context';
-import { useUpdateFamilyIntroductionMutation } from '@/lib/user/api';
+import {
+  useCreateUploadUrlMutation,
+  useUpdateFamilyIntroductionMutation,
+  useUpdateUserMutation,
+} from '@/lib/user/api';
 import { useAppSelector } from '@/lib/hooks';
 import { toast } from '@/components/ui/use-toast';
 import {
@@ -28,6 +32,14 @@ import {
 } from '@/components/ui/form';
 import { useSendRequestMutation } from '@/lib/guardian/api';
 import { PhoneInput } from '@/components/ui/phone-input';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { useImage } from '@/lib/hooks/use-image';
+import { Link } from '@/lib/navigation';
+import { upload } from '@/lib/file-upload';
+import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useProfileCompletion } from '@/lib/hooks/profile-completion';
 
 export default function FamilyIntroductionForm({
   familyIntroduction,
@@ -49,6 +61,12 @@ export default function FamilyIntroductionForm({
     },
   });
 
+  const { familyIntroduction: familyIntroductionCompletion } =
+    useProfileCompletion();
+
+  const [idCardImageId, setIdCardImageId] = useState<string | null>(null);
+  const idCardImageUrl = useImage(idCardImageId ?? undefined);
+
   useEffect(() => {
     if (user && user.guardian) {
       if (user.guardian.email !== user.email) {
@@ -62,13 +80,20 @@ export default function FamilyIntroductionForm({
     }
   }, [form, familyIntroduction, user]);
 
+  useEffect(() => {
+    if (user) {
+      setIdCardImageId(user.idCardImage);
+    }
+  }, [user]);
+
   const familyIntroductionFormRef = useRef<HTMLFormElement>(null);
 
   const { registerForm, setSaving } = useUpdateProfileContext();
   const [updateFamilyIntroduction, updateResult] =
     useUpdateFamilyIntroductionMutation();
-  const [sendGuardianRequest, sendGuardianRequestResult] =
-    useSendRequestMutation();
+  const [sendGuardianRequest] = useSendRequestMutation();
+
+  const [updateUser] = useUpdateUserMutation();
 
   useEffect(() => {
     if (familyIntroductionFormRef && familyIntroductionFormRef.current) {
@@ -77,19 +102,36 @@ export default function FamilyIntroductionForm({
   }, [familyIntroductionFormRef, registerForm]);
 
   const onSubmit = async (data: FamilyIntroduction) => {
-    return;
-    updateFamilyIntroduction({ userId: user!.id, familyIntroduction: data });
+    console.log(data);
+
+    if (idCardImageId !== user?.idCardImage && idCardImageId) {
+      updateUser({
+        user: {
+          id: user!.id,
+          idCardImage: idCardImageId,
+        },
+      });
+    }
 
     try {
-      const result = await sendGuardianRequest({
-        guardianEmail: data.guardianEmail,
-      }).unwrap();
-
-      if (result) {
-        toast({
-          title: 'Success',
-          description: 'Guardian request sent successfully',
+      if (user?.guardian && user.guardian.email !== data.guardianEmail) {
+        updateFamilyIntroduction({
+          userId: user!.id,
+          familyIntroduction: data,
         });
+
+        console.log(data);
+
+        const result = await sendGuardianRequest({
+          guardianEmail: data.guardianEmail,
+        }).unwrap();
+
+        if (result) {
+          toast({
+            title: 'Success',
+            description: 'Guardian request sent successfully',
+          });
+        }
       }
     } catch (error) {
       console.error(error);
@@ -108,7 +150,35 @@ export default function FamilyIntroductionForm({
   useEffect(() => {
     setSaving(updateResult.isLoading);
   }, [updateResult, setSaving]);
+
   const bornMuslim = user?.bornOrRevertToIslam === 'Born Muslim';
+
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [generateUploadUrl, uploadResult] = useCreateUploadUrlMutation();
+
+  const handleImageChange = async (files: FileList | null) => {
+    const file = files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image')) {
+        toast({
+          title: 'Government Issued ID',
+          description: 'Invalid file type. Please upload an image file',
+        });
+        return;
+      }
+      const blobUrl = URL.createObjectURL(file);
+
+      setPreviewImage(blobUrl);
+
+      try {
+        const fileInfo = await upload(file, generateUploadUrl);
+        setIdCardImageId(fileInfo.fileKey);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <Form {...form}>
       <form
@@ -217,6 +287,7 @@ export default function FamilyIntroductionForm({
                   <FormControl>
                     <PhoneInput
                       {...field}
+                      disabled
                       className="text-muted-foreground bg-background text-md shadow rounded-sm"
                     />
                   </FormControl>
@@ -255,32 +326,59 @@ export default function FamilyIntroductionForm({
             />
           </div>
 
-          {/* <div className="space-y-1 col-span-6">
-                        <Label>
-                            {t('idVerification.id')}
-                        </Label>
-                        <Input
-                            className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-                            type="file"
-                        />
-                    </div> */}
-
           <h1 className="text-xl font-bold text-secondary border-b p-1 col-span-12">
             {t('idVerification.title')}
           </h1>
 
-          <div className="space-y-1 col-span-6">
+          <div className="space-y-1 col-span-4">
             <Label>{t('idVerification.phoneNumber')}</Label>
-            <PhoneInput className="text-muted-foreground bg-background text-md shadow rounded-sm" />
+            <PhoneInput
+              value={user?.phoneNumber ?? ''}
+              disabled
+              className="text-muted-foreground bg-background text-md shadow rounded-sm"
+            />
           </div>
 
-          <div className="space-y-1 col-span-6">
+          <div className="col-span-6"></div>
+
+          <div className="space-y-1 col-span-7 flex flex-col gap-y-1 mt-4">
             <Label>{t('idVerification.id')}</Label>
-            <Input
-              className="text-muted-foreground bg-background text-xs shadow rounded-sm"
-              type="file"
-              disabled
-            />
+            {idCardImageUrl && user?.idCardImage ? (
+              <Link
+                href={idCardImageUrl || ''}
+                className={cn(
+                  buttonVariants({ variant: 'default' }),
+                  'bg-primary text-primary-foreground h-7 text-xs w-fit'
+                )}
+                target="_blank"
+              >
+                View
+              </Link>
+            ) : (
+              <>
+                <Input
+                  className="text-muted-foreground bg-background text-xs shadow rounded-sm"
+                  type="file"
+                  onChange={(e) => handleImageChange(e.target.files)}
+                />
+                <div className="aspect-square flex items-center justify-center w-[225px]">
+                  {previewImage ? (
+                    <Image
+                      src={previewImage}
+                      className="w-full h-full object-cover"
+                      width={300}
+                      height={300}
+                      alt="ID Card"
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      className="text-[6rem] text-muted-foreground"
+                      icon={['far', 'id-card']}
+                    />
+                  )}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </form>
