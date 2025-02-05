@@ -204,7 +204,7 @@ export default function PhotoUploader({
   return (
     <Card className="shadow-none text-sm space-y-3">
       <div className="flex">
-        <h1 className="font-bold">Your Photo and Introduction Video</h1>
+        <h1 className="font-bold">Your Photo</h1>
       </div>
 
       <div className="flex gap-5 justify-between items-start lg:flex-col lg:gap-3">
