@@ -1,77 +1,78 @@
 'use client';
-
-import OtpCard from '@/components/auth/otp/components/otp-card';
-import Image from 'next/image';
-import React from 'react';
-import { Card } from '@/components/ui/card';
+import GuardianDashboard from '@/components/guardian/dashboard';
+import MatchChatHistory from '@/components/guardian/match-chat-history';
+import MatchedProfileView from '@/components/guardian/matched-profile-view';
+import Sidebar from '@/components/guardian/sidebar';
+import { useGetUserChatsQuery } from '@/lib/chat/api';
 import { useAppSelector } from '@/lib/hooks';
-import {
-  useAcceptRequestMutation,
-  useGetReceivedRequestsQuery,
-} from '@/lib/guardian/api';
-import Loading from '@/components/ui/loading';
-import { Button } from '@/components/ui/button';
+import { useGetUserMatchQuery } from '@/lib/matchmaking/api';
+import { Chat } from '@/lib/schemas/chat';
+import React from 'react';
 
-export default function GuardianRequests() {
+export default function GuardianPage() {
   const user = useAppSelector((state) => state.auth.user);
-  const { data: receivedRequests, isLoading } = useGetReceivedRequestsQuery(
-    undefined,
-    { skip: !user }
-  );
-  const [acceptRequest] = useAcceptRequestMutation();
 
-  const handleAcceptRequest = async (id: number) => {
-    try {
-      await acceptRequest(id).unwrap();
-    } catch (error) {
-      console.error(error);
-    }
+  const dependent = user?.dependents?.[0];
+
+  const { data: currentMatch } = useGetUserMatchQuery(dependent?.id || '', {
+    skip: !dependent,
+  });
+  const { data: chats } = useGetUserChatsQuery(dependent?.id || '', {
+    skip: !dependent,
+  });
+
+  const findCurrentChat = (chats?: Chat[]) => {
+    if (!dependent || !chats) return null;
+
+    const matchedUser =
+      dependent.id === currentMatch?.maleUser?.id
+        ? currentMatch?.femaleUser
+        : currentMatch?.maleUser;
+
+    return chats.find(
+      (chat) =>
+        (chat.user1 === dependent.id && chat.user2 == matchedUser?.id) ||
+        (chat.user2 === dependent.id && chat.user1 == matchedUser?.id)
+    );
   };
 
+  const chat = findCurrentChat(chats);
+
   return (
-    <div className="flex flex-col items-center">
-      <div className="logo-wrapper mb-10">
-        <Image
-          className="w-full overflow-hidden logo"
-          src="/assets/guardian-logo-color.png"
-          width={640}
-          height={75}
-          alt="Guardian logo"
-        />
+    <div className="flex flex-col my-4">
+      <div className="flex gap-6">
+        <div className="w-56">
+          <Sidebar />
+        </div>
+
+        <div className="w-full p-5 bg-muted rounded-lg">
+          <GuardianDashboard />
+        </div>
       </div>
 
-      <h1 className="font-bold pb-5">Guardian requests</h1>
-
-      <Card className="w-full sm:min-w-96 sm:w-1/4 bg-background p-8 py-6">
-        {isLoading && <Loading />}
-        {receivedRequests &&
-          receivedRequests.map((request) => (
-            <div
-              key={request.id}
-              className="flex justify-between items-center py-2 pt-3"
-            >
-              <div className="flex flex-col gap-1">
-                <span className="font-semibold">
-                  {request.user.firstName} {request.user.lastName}
-                </span>
-                <span className="text-xs text-muted-foreground">
-                  {request.user.email}
-                </span>
-              </div>
-              <span className="text-xs text-muted-foreground">
-                {request.status}
-              </span>
-              {request.status === 'pending' && (
-                <Button
-                  onClick={() => handleAcceptRequest(request.id)}
-                  className="text-xs"
-                >
-                  Accept
-                </Button>
-              )}
-            </div>
-          ))}
-      </Card>
+      {currentMatch && (
+        <div className="flex mt-8 gap-5">
+          <div className="w-3/5">
+            <MatchedProfileView
+              match={currentMatch}
+              user={
+                dependent?.gender === 'Male'
+                  ? currentMatch?.femaleUser
+                  : currentMatch?.maleUser
+              }
+            />
+          </div>
+          <div className="w-2/5">
+            {currentMatch && dependent && chat && (
+              <MatchChatHistory
+                match={currentMatch}
+                chat={chat}
+                dependent={dependent}
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

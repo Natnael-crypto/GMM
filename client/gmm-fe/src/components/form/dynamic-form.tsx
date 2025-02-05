@@ -10,12 +10,14 @@ import { evaluateRuleTree } from '@/lib/form/rule-evaluator';
 import { useDebouncedCallback } from 'use-debounce';
 import { useUpdateProfileContext } from '../dashboard/profile/update-profile-context';
 import { toast } from '../ui/use-toast';
+import { daDK } from '@mui/x-date-pickers/locales';
 
 interface DynamicFormProps {
   formSchema: any;
   data: any;
   formName?: string;
   successMessage?: string;
+  disabled?: boolean;
 }
 
 const transform = (answers: any) => {
@@ -52,6 +54,7 @@ export default function DynamicForm({
   data,
   formName,
   successMessage,
+  disabled,
 }: DynamicFormProps) {
   const form = useForm();
   const user = useAppSelector((state) => state.auth.user);
@@ -274,6 +277,7 @@ export default function DynamicForm({
                       currencyFieldName={currencyFields[field.id]}
                       className={widthClassName(field.displayWidth)}
                       onChange={save}
+                      disabled={disabled}
                     />
                   );
                 })}

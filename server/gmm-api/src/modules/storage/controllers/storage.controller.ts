@@ -20,7 +20,7 @@ import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 @ApiTags('storage')
 @ApiBearerAuth()
 @Controller({ version: ApiVersion.V1, path: 'storage' })
-@UseGuards(JwtAuthGuard)
+// @UseGuards(JwtAuthGuard)
 export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 

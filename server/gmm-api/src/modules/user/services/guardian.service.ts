@@ -29,7 +29,7 @@ export class GuardianService {
   ) {}
 
   async requestGuardian(user: User, dto: RequestGuardianDto) {
-    if (user.email === dto.guardianEmail) {
+    if (user.email === dto.email) {
       throw new ConflictException('User cannot be their own guardian');
     }
 
@@ -42,13 +42,13 @@ export class GuardianService {
     }
 
     const guardian = await this.userRepository.findOne({
-      where: { email: dto.guardianEmail },
+      where: { email: dto.email },
     });
 
     const pendingRequests = await this.guardianRequestRepository.find({
       where: {
         userId: user.id,
-        guardianEmail: dto.guardianEmail,
+        guardianEmail: dto.email,
         status: GuardianRequestStatus.PENDING,
       },
     });
@@ -59,21 +59,21 @@ export class GuardianService {
 
     await this.guardianRequestRepository.save({
       user,
-      guardianEmail: dto.guardianEmail,
+      guardianEmail: dto.email,
       relationshipToGuardian: dto.relationshipToGuardian,
     });
 
     if (!guardian) {
       this.eventEmitter.emit(
         GuardianRequestedEvent.name,
-        new GuardianRequestedEvent(user, dto.guardianEmail),
+        new GuardianRequestedEvent(user, dto, dto.relationshipToGuardian),
       );
 
       return 'Guardian is not registered at Guardian/Wali. Registration request has been sent to their email successfully.';
     }
 
     await this.noticeService.sendEmail(
-      dto.guardianEmail,
+      dto.email,
       'Guardian Request',
       `Hello. ${user.firstName} ${user.lastName} has requested you to be their guardian. Please login to your Guardian/Wali account to accept the request.`,
     );
@@ -173,5 +173,11 @@ export class GuardianService {
 
     user.guardian = null;
     return await this.userRepository.save(user);
+  }
+
+  async getGuardianUsers(guardianId) {
+    return await this.userRepository.find({
+      where: { guardianId },
+    });
   }
 }

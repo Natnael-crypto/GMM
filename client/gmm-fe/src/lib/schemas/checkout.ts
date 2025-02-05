@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export enum PackageTier {
-  Free = 'free',
+  Free = 'FREE',
   Bronze = 'price_1PhYclJFH7Hbj3xGWHtTMlMs',
   Silver = 'price_1PhYdoJFH7Hbj3xG84wru3Uv',
   Gold = 'price_1PhYeUJFH7Hbj3xGsp5VLYwU',
@@ -18,6 +18,8 @@ export const toTierName = (planId: string) => {
       return 'Silver';
     case PackageTier.Gold:
       return 'Gold';
+    case PackageTier.Platinum:
+      return 'Platinum';
     default:
       return '';
   }

@@ -132,19 +132,23 @@ export default function MatchedCard({
               Chat & Move to Step 2
             </span>
           </button>
-          <Link
-            href={`/dashboard/compatibility/${
+          
+            <Link
+            href= {allMatchStages.indexOf(match.stage) != 0 ? `/dashboard/compatibility/${
               stageUrls[stageIndex === 0 ? 1 : stageIndex]
-            }`}
-            className="flex gap-4 items-center"
+            }` : ""}
+            className={`flex gap-4 items-center ${allMatchStages.indexOf(match.stage) == 0? "cursor-default": ""}`}
           >
-            <div className="rounded-md bg-primary p-2 aspect-square text-primary-foreground flex items-center justify-center">
+            <div className={`rounded-md ${allMatchStages.indexOf(match.stage) != 0? "bg-primary": "bg-[#dedede]"} p-2 aspect-square text-primary-foreground flex items-center justify-center`}>
               <FontAwesomeIcon icon={faRightLeft} />
             </div>
             <span className="text-md text-secondary font-bold">
               Check Compatibility
             </span>
           </Link>
+          
+
+
           <Link href="" className="flex gap-4 items-center cursor-default">
             <div className="rounded-md p-2 aspect-square bg-[#dedede] text-primary-foreground flex items-center justify-center">
               <FontAwesomeIcon icon={faGlobe} />

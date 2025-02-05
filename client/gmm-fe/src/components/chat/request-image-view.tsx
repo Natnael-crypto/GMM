@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import {
   AlertDialog,
@@ -53,8 +55,6 @@ export default function RequestImageView() {
   const handleRequest = () => {
     requestViewAccess();
   };
-
-  console.log(currentMatch);
 
   const handleDecision = async (status: ImageAccessRequestStatus) => {
     try {

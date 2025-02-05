@@ -4,7 +4,10 @@ import { Match } from '@modules/matchmaking/entities/match.entity';
 import { User } from '@modules/user/entities/user.entity';
 
 export class InviteToNextStageNotification implements Notification {
-  constructor(private readonly inviter: User, private readonly match: Match) {}
+  constructor(
+    private readonly inviter: User,
+    private readonly match: Match,
+  ) {}
 
   broadcastOn() {
     return [InAppChannelService];
@@ -19,7 +22,7 @@ export class InviteToNextStageNotification implements Notification {
     return {
       recipientId,
       message: `${this.inviter.firstName} has invited you to the next stage of your match. Click to respond.`,
-      url: `/dashboard`,
+      url: `/dashboard?action=invitation-to-next-stage`,
       title: 'Invited to Next Stage',
     };
   }

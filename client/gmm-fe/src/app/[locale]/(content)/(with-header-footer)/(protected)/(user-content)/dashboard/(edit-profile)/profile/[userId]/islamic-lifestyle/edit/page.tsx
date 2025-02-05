@@ -4,6 +4,7 @@ import { useAppSelector } from '@/lib/hooks';
 import React from 'react';
 import { useUserData } from '@/lib/hooks/use-user-data';
 import DynamicForm from '@/components/form/dynamic-form';
+import { useProfileCompletion } from '@/lib/hooks/profile-completion';
 
 export default function IslamicLifestyle() {
   const user = useAppSelector((state) => state.auth.user);
@@ -21,6 +22,9 @@ export default function IslamicLifestyle() {
       : 'female-expected-islamic-lifestyle'
   );
 
+  const { islamicLifestyle } = useProfileCompletion(user);
+  const disableForm = !!(islamicLifestyle >= 100 && user?.isMatched);
+
   return (
     <div>
       <DynamicForm
@@ -28,6 +32,7 @@ export default function IslamicLifestyle() {
         data={islamicLifestyleData}
         formName="islamic-lifestyle"
         successMessage="Islamic Lifestyle updated successfully"
+        disabled={disableForm}
       />
 
       <div className="bg-muted w-full">
@@ -36,6 +41,7 @@ export default function IslamicLifestyle() {
           data={expectedIslamicLifestyleData}
           formName="expected-islamic-lifestyle"
           successMessage="Expected Islamic Lifestyle updated successfully"
+          disabled={disableForm}
         />
       </div>
     </div>

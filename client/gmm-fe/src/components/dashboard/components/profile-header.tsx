@@ -1,17 +1,8 @@
 'use client';
 import React from 'react';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { ProfileHeaderProps } from '@/types';
-import { useLocale } from 'next-intl';
 import { useAppSelector } from '@/lib/hooks';
 import { Link, useRouter } from '@/lib/navigation';
 import { useInitiateChatMutation, useGetChatsQuery } from '@/lib/chat/api';
@@ -21,6 +12,9 @@ import { useParams } from 'next/navigation';
 import { toast } from '@/components/ui/use-toast';
 import Loading from '@/components/ui/loading';
 import { allMatchStages } from '@/lib/schemas/match';
+import { Role } from '@/lib/schemas/role';
+import { useProfileCompletion } from '@/lib/hooks/profile-completion';
+import { AccountStatus } from '@/lib/schemas/user';
 
 export default function ProfileHeader({
   pageName,
@@ -72,6 +66,28 @@ export default function ProfileHeader({
     }
   };
 
+  const {
+    profileCompletion: completion,
+    basics,
+    worldlyLifestyle,
+    islamicLifestyle,
+    marriageDiscussion,
+    familyIntroduction,
+  } = useProfileCompletion(user);
+
+  const hasNotCompletedProfile =
+    basics < 100 ||
+    worldlyLifestyle < 100 ||
+    islamicLifestyle < 100 ||
+    marriageDiscussion < 100 ||
+    familyIntroduction < 100;
+
+  const showEdit =
+    user &&
+    user.id === params.userId &&
+    user.accountStatus === AccountStatus.APPROVED &&
+    (!user.isMatched || (user.isMatched && hasNotCompletedProfile));
+
   const isViewingMatchedProfile =
     user &&
     matchedUser &&
@@ -85,7 +101,7 @@ export default function ProfileHeader({
   return (
     <div className="flex justify-between items-center">
       <Link
-        href="/dashboard"
+        href={user?.roleId === Role.Guardian ? '/guardian' : '/dashboard'}
         className={cn(
           buttonVariants({
             variant: 'outline',
@@ -97,7 +113,7 @@ export default function ProfileHeader({
         Your Dashboard
       </Link>
       <div>
-        {user && !user.isMatched && (
+        {user && showEdit && user.roleId === Role.User && (
           <Link
             href={editLink}
             className={cn(

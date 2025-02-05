@@ -1,6 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { User } from '../../user/entities/user.entity';
-import { uuid } from 'aws-sdk/clients/customerprofiles';
 
 @Entity('subscription_history')
 export class SubscriptionHistory {

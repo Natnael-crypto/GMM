@@ -8,6 +8,7 @@ import {
   ImageAccessRequest,
   Match,
   MatchStatistics,
+  ProfileAccessPayload,
   StageInvitationStatus,
 } from './types';
 import { UserInMatchPool } from '../schemas/match';
@@ -57,6 +58,16 @@ export const matchApi = createApi({
 
     getMatch: builder.query<Match, string>({
       query: (id) => `matchmaking/matches/${id}`,
+      transformResponse: (response: BaseResponse<Match>) => {
+        return response.data;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'Match', id: arg }];
+      },
+    }),
+
+    getUserMatch: builder.query<Match, string>({
+      query: (id) => `matchmaking/matches/user/${id}`,
       transformResponse: (response: BaseResponse<Match>) => {
         return response.data;
       },
@@ -212,6 +223,43 @@ export const matchApi = createApi({
         return [{ type: 'ImageAccessRequest' }, { type: 'Match' }];
       },
     }),
+
+    allowOrDenyProfileAccess: builder.mutation<any, ProfileAccessPayload>({
+      query: ({ status, matchId }) => ({
+        url: `matchmaking/matches/matched-user-profile/${matchId}`,
+        method: 'PUT',
+        body: {
+          status,
+        },
+      }),
+      invalidatesTags: (result, error, arg, meta) => {
+        return [{ type: 'Match' }];
+      },
+    }),
+
+
+    allowOrDenyChatAccess: builder.mutation<any, ProfileAccessPayload>({
+      query: ({ status, matchId }) => ({
+        url: `matchmaking/matches/matched-chat/${matchId}`,
+        method: 'PUT',
+        body: {
+          status,
+        },
+      }),
+        invalidatesTags: (result, error, arg, meta) => {
+          return [{ type: 'Match' }];
+        },
+      }),
+
+    exchangeFamilyInformation: builder.mutation<void, void>({
+      query: () => ({
+        url: 'matchmaking/share-family-information',
+        method: 'POST',
+      }),
+      invalidatesTags: (result, error, arg, meta) => {
+        return [{ type: 'Match' }];
+      },
+    }),
   }),
 });
 
@@ -229,4 +277,8 @@ export const {
   useGetAvailableMatchesLeftQuery,
   useRequestImageAccessMutation,
   useAcceptOrRejectImageAccessMutation,
+  useAllowOrDenyProfileAccessMutation,
+  useAllowOrDenyChatAccessMutation,
+  useGetUserMatchQuery,
+  useExchangeFamilyInformationMutation,
 } = matchApi;

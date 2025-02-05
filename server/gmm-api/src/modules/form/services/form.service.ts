@@ -59,14 +59,14 @@ export class FormService extends BaseRepository {
       });
     }
 
-    const matchMakingFields = [
-      'salat',
-      'hijab',
-      'children',
-      'wantsChildren',
-      'education',
-      'profession',
-    ];
+    const matchMakingFields = {
+      salah: 'salah',
+      hijab: 'hijab',
+      children: 'children',
+      beard: 'beard',
+      education: 'education',
+      employment_type: 'employmentType',
+    };
 
     const userData = {};
     let shouldUpdateUser = false;
@@ -75,8 +75,8 @@ export class FormService extends BaseRepository {
       .map((field) => {
         const value = data[field.id];
 
-        if (matchMakingFields.includes(field.name) && value) {
-          userData[field.name] = value;
+        if (Object.keys(matchMakingFields).includes(field.name) && value) {
+          userData[matchMakingFields[field.name]] = value;
           shouldUpdateUser = true;
         }
 
