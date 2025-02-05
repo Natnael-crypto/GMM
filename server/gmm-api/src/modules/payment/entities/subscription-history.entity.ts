@@ -12,8 +12,11 @@ export class SubscriptionHistory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
+  userId: string;
+
   @ManyToOne(() => User, (user) => user.subscriptionHistory)
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'userId' })
   user: User;
 
   @Column()

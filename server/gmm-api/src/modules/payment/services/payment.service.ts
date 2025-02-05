@@ -129,7 +129,7 @@ export class PaymentsService extends BaseRepository {
 
   async getCurrentSubscription(userId: string): Promise<Subscription | null> {
     const subscription = await this.getRepository(Subscription).findOne({
-      where: { user: { id: userId.toString() } },
+      where: { userId },
     });
     return subscription;
   }
