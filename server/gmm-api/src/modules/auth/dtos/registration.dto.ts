@@ -44,6 +44,10 @@ export class EmailRegistrationDto {
   @ApiProperty()
   @IsOptional()
   phoneNumber: string;
+
+  @ApiProperty()
+  @IsOptional()
+  idCardImage: string;
 }
 
 export type RegistrationDto = (EmailRegistrationDto | { email: string }) & {
