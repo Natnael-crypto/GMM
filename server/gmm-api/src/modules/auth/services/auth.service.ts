@@ -126,6 +126,10 @@ export class NewAuthService {
       throw new InvalidCredentialsException();
     }
 
+    if (!user.password) {
+      throw new InvalidCredentialsException();
+    }
+
     if (!bcrypt.compareSync(password, user.password)) {
       throw new InvalidCredentialsException();
     }

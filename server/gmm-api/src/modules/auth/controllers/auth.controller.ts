@@ -17,7 +17,6 @@ import { Request, Response } from 'express';
 import { NewAuthService } from '../services/auth.service';
 import { ConfigService } from '@nestjs/config';
 import { ClientConfig } from '@shared/config';
-import { CookieName } from '../enums/auth.enum';
 import { FacebookOAuthGuard } from '../guards/facebook-oauth.guard';
 import { LoginUserDto, RefreshAccessToken } from '../dtos/login.dto';
 import { JwtRefreshGuard } from '../guards/jwt-refresh.guard';
@@ -54,22 +53,22 @@ export class AuthController {
   async handleOAuthCallback(req: Request, res: Response) {
     try {
       const user = req.user as unknown as { email: string };
-      
+
       if (!user) {
         return res.redirect(
           HttpStatus.PERMANENT_REDIRECT,
           this.clientConfig.authFailureUrl,
         );
       }
-  
+
       const payload = await this.authService.authenticateViaOAuth(user.email);
       const { accessToken, refreshToken } =
         await this.authService.generateTokens(payload);
-      
+
       const successUrl = new URL(this.clientConfig.authSuccessUrl);
       successUrl.searchParams.append('accessToken', accessToken);
       successUrl.searchParams.append('refreshToken', refreshToken);
-  
+
       return res.redirect(HttpStatus.PERMANENT_REDIRECT, successUrl.toString());
     } catch (error) {
       return res.redirect(
@@ -78,7 +77,6 @@ export class AuthController {
       );
     }
   }
-  
 
   @Get('google')
   @UseGuards(GoogleOAuthGuard)
@@ -168,24 +166,24 @@ export class AuthController {
     if (!dto.email && !dto.phoneNumber) {
       throw new BadRequestException('Either email or phoneNumber is required');
     }
-  
+
     let user;
     if (dto.email) {
       user = await this.authRepo.findUserByEmail(dto.email);
     } else if (dto.phoneNumber) {
       user = await this.authRepo.findUserByPhoneNumber(dto.phoneNumber); // Ensure you have this method in your repository
     }
-  
+
     if (!user) {
       throw new BadRequestException('User not found');
     }
-  
+
     if (user.verificationStatus === AccountVerificationStatus.VERIFIED) {
       throw new BadRequestException('Your account is already verified');
     }
-  
+
     let otp, verificationKey;
-  
+
     if (dto.email) {
       ({ otp, verificationKey } = await this.otpService.generateOtpForEmail(
         user.id,
@@ -197,7 +195,6 @@ export class AuthController {
         OtpRequestedEvent.name,
         new OtpRequestedEvent(user, otp),
       );
-      
     } else if (dto.phoneNumber) {
       ({ otp, verificationKey } = await this.otpService.generateOtpForPhone(
         user.id,
@@ -205,10 +202,9 @@ export class AuthController {
         user.roleId,
       ));
     }
-  
+
     return { otpVerificationKey: verificationKey };
   }
-  
 
   @Post('password-reset')
   async requestResetPassword(@Body() dto: RequestResetPasswordDto) {
