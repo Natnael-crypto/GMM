@@ -6,15 +6,17 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
-import { boolean } from 'zod';
 
 @Entity('subscriptions')
 export class Subscription {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ name: 'userId' })
+  userId: string;
+
   @OneToOne(() => User, (user) => user.subscription)
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'userId' })
   user: User;
 
   @Column()
