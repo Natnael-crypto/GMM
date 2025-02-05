@@ -23,6 +23,7 @@ export default function IslamicLifestyle() {
   );
 
   const { islamicLifestyle } = useProfileCompletion(user);
+  const disableForm = !!(islamicLifestyle >= 100 && user?.isMatched);
 
   return (
     <div>
@@ -31,7 +32,7 @@ export default function IslamicLifestyle() {
         data={islamicLifestyleData}
         formName="islamic-lifestyle"
         successMessage="Islamic Lifestyle updated successfully"
-        disabled={islamicLifestyle >= 100}
+        disabled={disableForm}
       />
 
       <div className="bg-muted w-full">
@@ -40,7 +41,7 @@ export default function IslamicLifestyle() {
           data={expectedIslamicLifestyleData}
           formName="expected-islamic-lifestyle"
           successMessage="Expected Islamic Lifestyle updated successfully"
-          disabled={islamicLifestyle >= 100}
+          disabled={disableForm}
         />
       </div>
     </div>

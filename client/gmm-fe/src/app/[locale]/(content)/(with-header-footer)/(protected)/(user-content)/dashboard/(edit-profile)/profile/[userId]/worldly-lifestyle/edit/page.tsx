@@ -22,6 +22,8 @@ export default function UpdateWorldlyLifestylePage() {
       : 'female-expected-worldly-lifestyle'
   );
 
+  const disableForm = !!(worldlyLifestyle >= 100 && user?.isMatched);
+
   return (
     <div>
       <DynamicForm
@@ -29,7 +31,7 @@ export default function UpdateWorldlyLifestylePage() {
         data={worldlyLifestyleData}
         formName="worldly-lifestyle"
         successMessage="Worldly Lifestyle updated successfully"
-        disabled={worldlyLifestyle >= 100}
+        disabled={disableForm}
       />
 
       <div className="bg-muted w-full">
@@ -38,7 +40,7 @@ export default function UpdateWorldlyLifestylePage() {
           data={expectedWorldlyLifestyleData}
           formName="expected-worldly-lifestyle"
           successMessage="Expected Worldly Lifestyle updated successfully"
-          disabled={worldlyLifestyle >= 100}
+          disabled={disableForm}
         />
       </div>
     </div>

@@ -12,6 +12,7 @@ export default function MarriageDiscussion() {
     useUserData(user, 'marriage-discussion');
 
   const { marriageDiscussion } = useProfileCompletion(user);
+  const disableForm = !!(marriageDiscussion >= 100 && user?.isMatched);
 
   return (
     <>
@@ -20,7 +21,7 @@ export default function MarriageDiscussion() {
         data={marriageDiscussionData}
         formName="marriage-discussion"
         successMessage="Marriage Discussion updated successfully"
-        disabled={marriageDiscussion >= 100}
+        disabled={disableForm}
       />
     </>
   );
