@@ -12,9 +12,10 @@ import Multiselect from './multiselect';
 interface Props {
   value: string;
   onChange: (value: string) => void;
+  disabled?: boolean;
 }
 
-export default function CountrySelector({ value, onChange }: Props) {
+export default function CountrySelector({ value, onChange, disabled }: Props) {
   const user = useAppSelector((state) => state.auth.user);
 
   const { data: countries } = useGetCountriesQuery(undefined, {
@@ -25,6 +26,7 @@ export default function CountrySelector({ value, onChange }: Props) {
     <AutoComplete
       onChange={onChange}
       selectedOption={value}
+      disabled={disabled}
       options={
         countries
           ? countries.map((c) => {
@@ -46,11 +48,13 @@ export default function CountrySelector({ value, onChange }: Props) {
 interface MultiCountrySelectorProps {
   value: string[];
   onChange: (value: string[]) => void;
+  disabled?: boolean;
 }
 
 export function MultiCountrySelector({
   value,
   onChange,
+  disabled,
 }: MultiCountrySelectorProps) {
   const user = useAppSelector((state) => state.auth.user);
 
@@ -63,6 +67,7 @@ export function MultiCountrySelector({
       label="Country"
       onChange={onChange}
       values={value}
+      disabled={disabled}
       options={
         countries
           ? countries.map((c) => {

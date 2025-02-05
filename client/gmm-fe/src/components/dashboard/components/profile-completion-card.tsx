@@ -20,7 +20,26 @@ export default function ProfileCompletionCard({
   user?: User;
   hideProfile?: boolean;
 }) {
-  const { profileCompletion: completion } = useProfileCompletion(user);
+  const {
+    profileCompletion: completion,
+    basics,
+    worldlyLifestyle,
+    islamicLifestyle,
+    marriageDiscussion,
+    familyIntroduction,
+  } = useProfileCompletion(user);
+
+  const hasNotCompletedProfile =
+    basics < 100 ||
+    worldlyLifestyle < 100 ||
+    islamicLifestyle < 100 ||
+    marriageDiscussion < 100 ||
+    familyIntroduction < 100;
+
+  const showEdit =
+    user &&
+    user.accountStatus === AccountStatus.APPROVED &&
+    (!user.isMatched || (user.isMatched && hasNotCompletedProfile));
 
   return (
     <div className="gmm-profile-completion rounded-se-3xl rounded-es-3xl overflow-hidden bg-green p-5 text-md font-medium space-y-5">
@@ -70,19 +89,17 @@ export default function ProfileCompletionCard({
             </Link>
           )}
           {!user && <Skeleton className="h-10 rounded-full" />}
-          {user &&
-            user.accountStatus === AccountStatus.APPROVED &&
-            !user.isMatched && (
-              <Link
-                href={`/dashboard/profile/${user.id}/basic-information/edit`}
-                className={cn(
-                  buttonVariants({ variant: 'outline' }),
-                  'rounded-full h-8 text-secondary cta m-1 text-xs'
-                )}
-              >
-                Edit Profile
-              </Link>
-            )}
+          {showEdit && user && (
+            <Link
+              href={`/dashboard/profile/${user.id}/basic-information/edit`}
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'rounded-full h-8 text-secondary cta m-1 text-xs'
+              )}
+            >
+              Edit Profile
+            </Link>
+          )}
         </div>
       )}
     </div>

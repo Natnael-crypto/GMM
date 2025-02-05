@@ -9,13 +9,7 @@ import {
   useCreateDownloadUrlMutation,
 } from '@/lib/user/api';
 import { cn } from '@/lib/utils';
-import {
-  faCirclePlay,
-  faPlus,
-  faStar,
-  faTrashCan,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faStar, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
@@ -101,11 +95,11 @@ export default function PhotoUploader({
 
   useEffect(() => {
     if (video && !videoUrl) {
-      generateDownloadUrl(video)
-        .unwrap()
-        .then((url) => {
-          setVideoUrl(url);
-        });
+      // generateDownloadUrl(video)
+      //   .unwrap()
+      //   .then((url) => {
+      //     setVideoUrl(url);
+      //   });
     }
   }, [generateDownloadUrl, video, videoUrl]);
 
@@ -275,15 +269,15 @@ export default function PhotoUploader({
             ))}
           </div>
 
-          {
+          {/* {
             <video
               ref={videoRef}
               className={cn('aspect-video', videoUrl ? '' : 'hidden')}
               src={videoUrl}
               controls
             />
-          }
-          <div className="lg:w-full border border-secondary flex items-center bg-background h-8 px-3 justify-between gap-1 ">
+          } */}
+          {/* <div className="lg:w-full border border-secondary flex items-center bg-background h-8 px-3 justify-between gap-1 ">
             <Label className="text-nowrap font-normal text-xs line-clamp-1 cursor-pointer">
               <span>Introduction Video</span>
               <input
@@ -307,7 +301,7 @@ export default function PhotoUploader({
                 <FontAwesomeIcon icon={faTrashCan} />
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </Card>
