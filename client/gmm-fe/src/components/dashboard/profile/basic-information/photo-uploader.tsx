@@ -275,14 +275,14 @@ export default function PhotoUploader({
             ))}
           </div>
 
-          {
+          {/* {
             <video
               ref={videoRef}
               className={cn('aspect-video', videoUrl ? '' : 'hidden')}
               src={videoUrl}
               controls
             />
-          }
+          } */}
           {/* <div className="lg:w-full border border-secondary flex items-center bg-background h-8 px-3 justify-between gap-1 ">
             <Label className="text-nowrap font-normal text-xs line-clamp-1 cursor-pointer">
               <span>Introduction Video</span>
