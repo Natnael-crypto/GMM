@@ -14,7 +14,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -36,7 +35,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import Loading from '@/components/ui/loading';
-const phoneUtil = PhoneNumberUtil.getInstance();
+import { Label } from '@/components/ui/label';
+import Image from 'next/image';
+import { useCreateUploadUrlMutation } from '@/lib/user/api';
+import { upload } from '@/lib/file-upload';
 
 export default function GuardianRegistrationPage() {
   const t = useTranslations('Auth');
@@ -56,8 +58,36 @@ export default function GuardianRegistrationPage() {
       password: '',
       gender: 'Male',
       dateOfBirth: getEighteenYearsAgo(),
+      idCardImage: '',
     },
   });
+
+  const [image, setImage] = useState<string | null>(null);
+  const [generateUploadUrl, uploadResult] = useCreateUploadUrlMutation();
+
+  const handleImageChange = async (files: FileList | null, field: any) => {
+    const file = files?.[0];
+    if (file) {
+      if (!file.type.startsWith('image')) {
+        form.setError('idCardImage', {
+          type: 'invalidFileType',
+          message: 'Invalid file type. Please upload an image file',
+        });
+        return;
+      }
+      const blobUrl = URL.createObjectURL(file);
+
+      setImage(blobUrl);
+
+      try {
+        const fileInfo = await upload(file, generateUploadUrl);
+
+        field.onChange(fileInfo.fileKey);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   useEffect(() => {
     const token = params.get('token');
@@ -304,36 +334,57 @@ export default function GuardianRegistrationPage() {
             </div>
           </div>
 
-          <div className="flex justify-between items-center py-2 pt-3">
+          <div className="flex justify-between items-start py-2 pt-3">
             <div className="flex flex-col gap-1">
-              <span className="font-bold">Guardian ID</span>
-              <span className="flex gap-3 items-center">
-                <span className="text-destructive text-[0.6rem] gap-1 flex items-center justify-center">
-                  {/* <FontAwesomeIcon className="text-xs" icon={faXmarkCircle} />
-                <span className="font-bold">{t('unverified')}</span> */}
-                </span>
-              </span>
+              <div className="space-y-1 py-2 col-span-2">
+                <Label>Guardian ID</Label>
+
+                {image && !uploadResult.isLoading && (
+                  <div className="relative w-64 overflow-hidden">
+                    <Image
+                      src={image}
+                      className="object-contain w-full h-full"
+                      width={100}
+                      height={100}
+                      alt="upload your ID picture"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex gap-2">
-              <label
-                className={cn(
-                  buttonVariants({ variant: 'outline' }),
-                  'text-secondary h-7 text-xs'
+              <FormField
+                name="idCardImage"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      {uploadResult.isLoading ? (
+                        <Loading />
+                      ) : (
+                        <label
+                          className={cn(
+                            buttonVariants({ variant: 'outline' }),
+                            'text-secondary h-7 text-xs'
+                          )}
+                        >
+                          Upload Document
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) =>
+                              handleImageChange(e.target.files, field)
+                            }
+                            className="hidden"
+                          />
+                        </label>
+                      )}
+                    </FormControl>
+                    <FormMessage className="text-sm" />
+                  </FormItem>
                 )}
-              >
-                Upload Document
-                <input type="file" className="hidden" />
-              </label>
-              <label
-                className={cn(
-                  buttonVariants({ variant: 'outline' }),
-                  'text-secondary h-7 text-xs'
-                )}
-              >
-                View Document
-                <input type="file" className="hidden" />
-              </label>
+              />
             </div>
           </div>
 

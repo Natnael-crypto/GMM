@@ -3,10 +3,30 @@
 import { Button, buttonVariants } from '@/components/ui/button';
 import { useAppSelector } from '@/lib/hooks';
 import { Link } from '@/lib/navigation';
+import { useCreateDownloadUrlMutation } from '@/lib/user/api';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
 
 export default function GuardianProfile() {
   const user = useAppSelector((state) => state.auth.user);
+
+  const [imageUrl, setImageUrl] = useState<string>();
+  const [generateDownloadUrl] = useCreateDownloadUrlMutation();
+
+  useEffect(() => {
+    async function downloadUrl() {
+      let url = '';
+      if (user?.idCardImage) {
+        try {
+          url = await generateDownloadUrl(user?.idCardImage).unwrap();
+          setImageUrl(url);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    downloadUrl();
+  }, [generateDownloadUrl, user]);
 
   return (
     <div className="rounded-xl bg-background shadow-lg p-5 space-y-4 text-sm">
@@ -97,15 +117,30 @@ export default function GuardianProfile() {
               {/* <span className="text-primary gap-1 flex items-center justify-center">
                 <span>(Verified)</span>
               </span> */}
-              <span className="text-destructive gap-1 flex items-center justify-center">
-                <span>Not Verified!</span>
-              </span>
+              {user && !user?.idCardImage && (
+                <span className="text-destructive gap-1 flex items-center justify-center">
+                  <span>Not Verified!</span>
+                </span>
+              )}
             </span>
           </div>
 
-          <Button className="bg-primary text-primary-foreground h-7 text-xs">
-            Please Upload
-          </Button>
+          {user && user?.idCardImage && imageUrl ? (
+            <Link
+              href={imageUrl || ''}
+              className={cn(
+                buttonVariants({ variant: 'default' }),
+                'bg-primary text-primary-foreground h-7 text-xs'
+              )}
+              target="_blank"
+            >
+              View
+            </Link>
+          ) : (
+            <Button className="bg-primary text-primary-foreground h-7 text-xs">
+              Please Upload
+            </Button>
+          )}
         </div>
 
         <div className="h-24"></div>
