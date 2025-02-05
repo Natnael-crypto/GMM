@@ -31,11 +31,22 @@ module.exports = {
                   }
                   .header {
                       text-align: center;
-                      padding-bottom: 20px;
+                      padding: 20px;
+                      background-color: #0b3e27;
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      border-top-left-radius: 10px;
+                      border-top-right-radius: 10px;
+                       height: 100%;
                   }
                   .header img {
+                      color: transparent;
+                      width: auto;
                       max-width: 100%;
-                      height: auto;
+                      height: 50px;
+                      display: block;
+                      margin: auto;
                   }
                   .content {
                       padding: 20px;
@@ -43,10 +54,10 @@ module.exports = {
                   .otp {
                       font-size: 24px;
                       font-weight: bold;
-                      color: #e74c3c;
+                      color: #0b3e27;
                       text-align: center;
                       padding: 10px;
-                      border: 1px dashed #e74c3c;
+                      border: 1px dashed #0b3e27;
                       margin: 20px 0;
                   }
                   .footer {
@@ -61,7 +72,7 @@ module.exports = {
           <body>
               <div class="container">
                   <div class="header">
-                      <img src="/assets/guardian-logo-color.png" alt="Guardian Wali Logo">
+                      <img src="https://gmm-assets.s3.us-east-1.amazonaws.com/guardian-logo.png" width=340 height=50 alt="Guardian Muslim Marriage Logo">
                   </div>
                   <div class="content">
                       <p>To verify your email address, please use the following One Time Password (OTP):</p>
