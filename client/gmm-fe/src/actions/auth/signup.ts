@@ -83,6 +83,7 @@ export const signUpWithLink = async (data: SignUpWithLink) => {
         dateOfBirth: data.dateOfBirth,
         bornOrRevertToIslam: 'Born Muslim',
         gender: data.gender,
+        idCardImage: data.idCardImage,
       }),
     }
   );
