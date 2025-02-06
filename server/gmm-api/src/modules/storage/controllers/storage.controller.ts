@@ -20,7 +20,7 @@ import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 @ApiTags('storage')
 @ApiBearerAuth()
 @Controller({ version: ApiVersion.V1, path: 'storage' })
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
@@ -46,7 +46,6 @@ export class StorageController {
   }
 
   @UseInterceptors(CacheInterceptor)
-  @CacheTTL(300)
   @Get('presigned-url/:id')
   async getPresignedDownloadUrl(
     @Param('id') id: string,
@@ -54,9 +53,11 @@ export class StorageController {
   ) {
     try {
       const url = await this.storageService.generatePresignedDownloadUrl(id);
+      const cleanUrl = { url: url };
+
       return response.status(HttpStatus.OK).json({
         message: 'Presigned download URL generated successfully',
-        data: { url },
+        data: { cleanUrl },
       });
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
