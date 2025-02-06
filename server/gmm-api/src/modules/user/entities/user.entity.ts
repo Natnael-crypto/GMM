@@ -133,15 +133,14 @@ export class User {
   @Column({ nullable: true })
   guardianId: string | null;
 
-  @OneToOne(() => User, (user) => user.dependent, {
+  @ManyToOne(() => User, (user) => user.id, {
     nullable: true,
-    onDelete: 'SET NULL',
   })
   @JoinColumn({ name: 'guardianId' })
   guardian: User | null;
 
-  @OneToOne(() => User, (user) => user.guardian)
-  dependent: User | null;
+  @OneToMany(() => User, (user) => user.guardian)
+  dependents: User[];
 
   @OneToMany(() => Match, (match) => match.maleUser, {
     onDelete: 'CASCADE',
