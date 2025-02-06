@@ -108,7 +108,7 @@ export class UserService extends BaseRepository {
     try {
       const user = await this.getRepository(User).findOne({
         where: { id },
-        relations: ['guardian', 'dependents'],
+        relations: ['guardian', 'dependent'],
       });
       if (!user) {
         throw new NotFoundException(`User with ID ${id} not found`);
