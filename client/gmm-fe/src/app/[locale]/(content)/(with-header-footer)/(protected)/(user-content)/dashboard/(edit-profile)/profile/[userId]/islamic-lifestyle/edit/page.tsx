@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import { useAppSelector } from '@/lib/hooks';
-import React from 'react';
-import { useUserData } from '@/lib/hooks/use-user-data';
-import DynamicForm from '@/components/form/dynamic-form';
-import { useProfileCompletion } from '@/lib/hooks/profile-completion';
+import { useAppSelector } from "@/lib/hooks";
+import React from "react";
+import { useUserData } from "@/lib/hooks/use-user-data";
+import DynamicForm from "@/components/form/dynamic-form";
+import { useProfileCompletion } from "@/lib/hooks/profile-completion";
 
 export default function IslamicLifestyle() {
   const user = useAppSelector((state) => state.auth.user);
 
   const { form: islamicLifestyleForm, formData: islamicLifestyleData } =
-    useUserData(user, 'islamic-lifestyle');
+    useUserData(user, "islamic-lifestyle");
 
   const {
     form: expectedIslamicLifestyleForm,
     formData: expectedIslamicLifestyleData,
   } = useUserData(
     user,
-    user?.gender === 'Male'
-      ? 'male-expected-islamic-lifestyle'
-      : 'female-expected-islamic-lifestyle'
+    user?.gender === "Male"
+      ? "male-expected-islamic-lifestyle"
+      : "female-expected-islamic-lifestyle"
   );
 
   const { islamicLifestyle } = useProfileCompletion(user);
