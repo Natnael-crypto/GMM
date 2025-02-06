@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Form,
@@ -6,85 +6,85 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import Multiselect from '@/components/ui/multi-select';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Multiselect from "@/components/ui/multi-select";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+} from "@/components/ui/select";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
   heights,
   UserBasicInformation,
   userBasicInformationSchema,
   weights,
-} from '@/lib/schemas/user';
-import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState, useEffect, useRef } from 'react';
-import { useForm } from 'react-hook-form';
-import { useUpdateProfileContext } from '@/components/dashboard/profile/update-profile-context';
-import { useUpdateUserMutation } from '@/lib/user/api';
-import { toast } from '@/components/ui/use-toast';
-import { setUser } from '@/lib/auth/slice';
-import PhotoUploader from './photo-uploader';
-import { languages } from '@/config/locales';
-import ChildrenStatus from '@/components/registration/children-status';
-import { Calendar } from '@/components/ui/calendar';
-import { CalendarIcon } from 'lucide-react';
+} from "@/lib/schemas/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useState, useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { useUpdateProfileContext } from "@/components/dashboard/profile/update-profile-context";
+import { useUpdateUserMutation } from "@/lib/user/api";
+import { toast } from "@/components/ui/use-toast";
+import { setUser } from "@/lib/auth/slice";
+import PhotoUploader from "./photo-uploader";
+import { languages } from "@/config/locales";
+import ChildrenStatus from "@/components/registration/children-status";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
-import { getEighteenYearsAgo } from '@/lib/format';
-import CountrySelector from '@/components/ui/country-selector';
-import useLocation from '@/lib/hooks/use-location';
-import { useProfileCompletion } from '@/lib/hooks/profile-completion';
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { getEighteenYearsAgo } from "@/lib/format";
+import CountrySelector from "@/components/ui/country-selector";
+import useLocation from "@/lib/hooks/use-location";
+import { useProfileCompletion } from "@/lib/hooks/profile-completion";
 
 export default function BasicInformationForm() {
   const user = useAppSelector((state) => state.auth.user);
   const form = useForm<UserBasicInformation>({
     resolver: zodResolver(userBasicInformationSchema),
     defaultValues: {
-      id: user?.id ?? '',
-      firstName: user?.firstName ?? '',
-      lastName: user?.lastName ?? '',
+      id: user?.id ?? "",
+      firstName: user?.firstName ?? "",
+      lastName: user?.lastName ?? "",
       dateOfBirth: user?.dateOfBirth
         ? new Date(user?.dateOfBirth)
         : getEighteenYearsAgo(),
-      gender: user?.gender ?? '',
+      gender: user?.gender ?? "",
       height: user?.height ?? 0,
       weight: user?.weight ?? 0,
-      country: user?.country ?? '',
-      skinColor: user?.skinColor ?? '',
+      country: user?.country ?? "",
+      skinColor: user?.skinColor ?? "",
       languages: user?.languages ?? [],
-      nationality: user?.nationality ?? '',
-      currentCountry: user?.currentCountry ?? '',
-      city: user?.city ?? '',
-      hasChildren: user?.hasChildren ?? '',
+      nationality: user?.nationality ?? "",
+      currentCountry: user?.currentCountry ?? "",
+      city: user?.city ?? "",
+      hasChildren: user?.hasChildren ?? "",
       numberOfChildren: user?.numberOfChildren ?? 0,
       ageOfOldestChild: user?.ageOfOldestChild ?? 0,
       ageOfYoungestChild: user?.ageOfYoungestChild ?? 0,
-      sunniMadhaib: user?.sunniMadhaib ?? '',
-      religiousPractice: user?.religiousPractice ?? '',
-      bornOrRevertToIslam: user?.bornOrRevertToIslam ?? '',
+      sunniMadhaib: user?.sunniMadhaib ?? "",
+      religiousPractice: user?.religiousPractice ?? "",
+      bornOrRevertToIslam: user?.bornOrRevertToIslam ?? "",
       drinks: user?.drinks ?? false,
       drugs: user?.drugs ?? false,
       smokes: user?.smokes ?? false,
-      tattoos: user?.tattoos ?? 'None',
-      email: user?.email ?? '',
-      maritalStatus: user?.maritalStatus ?? '',
-      pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
-      video: user?.video ?? '',
-      phoneNumber: user?.phoneNumber ?? '',
+      tattoos: user?.tattoos ?? "None",
+      email: user?.email ?? "",
+      maritalStatus: user?.maritalStatus ?? "",
+      pictures: user?.pictures ?? ["", "", "", "", "", "", "", ""],
+      video: user?.video ?? "",
+      phoneNumber: user?.phoneNumber ?? "",
     },
   });
 
@@ -103,7 +103,7 @@ export default function BasicInformationForm() {
         ? new Date(user?.dateOfBirth)
         : getEighteenYearsAgo(),
       languages: user?.languages ?? [],
-      pictures: user?.pictures ?? ['', '', '', '', '', '', '', ''],
+      pictures: user?.pictures ?? ["", "", "", "", "", "", "", ""],
     });
 
     if (user) {
@@ -116,15 +116,15 @@ export default function BasicInformationForm() {
     if (user?.pictures && user.pictures.length < 8) {
       const pics = [...user.pictures];
       for (let i = pics.length; i < 8; i++) {
-        pics.push('');
+        pics.push("");
       }
-      form.setValue('pictures', pics);
+      form.setValue("pictures", pics);
     }
   }, [form, user, setLocation]);
 
   useEffect(() => {
-    form.setValue('currentCountry', location?.country);
-    form.setValue('city', location?.city);
+    form.setValue("currentCountry", location?.country);
+    form.setValue("city", location?.city);
   }, [location, form]);
 
   const basicInfoFormRef = useRef<HTMLFormElement>(null);
@@ -133,7 +133,7 @@ export default function BasicInformationForm() {
 
   useEffect(() => {
     if (basicInfoFormRef && basicInfoFormRef.current) {
-      registerForm('basicInformationForm', basicInfoFormRef.current);
+      registerForm("basicInformationForm", basicInfoFormRef.current);
     }
   }, [basicInfoFormRef, registerForm]);
 
@@ -144,8 +144,8 @@ export default function BasicInformationForm() {
   useEffect(() => {
     if (updateResult.isSuccess) {
       toast({
-        title: 'Success',
-        description: 'Basic information updated successfully',
+        title: "Success",
+        description: "Basic information updated successfully",
       });
       dispatch(setUser({ ...user, ...updateResult.data }));
     }
@@ -163,6 +163,13 @@ export default function BasicInformationForm() {
 
   return (
     <div className="px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem] grid grid-cols-12 lg:grid-cols-4 gap-x-5 gap-y-4 py-8 text-md">
+      <div className="col-span-12 mb-6">
+        <p className="text-center">
+          Edit the Basic section of the Guardian Muslim Marriage Guided
+          Matchmaking process and each section of your profile by clicking the
+          Worldly/ Dunya, Islamic/ Deen, Marriage Talk, and Family Intro above.
+        </p>
+      </div>
       <div className="col-span-12 lg:col-span-1">
         <FormField
           name="pictures"
@@ -247,14 +254,14 @@ export default function BasicInformationForm() {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
-                          variant={'outline'}
+                          variant={"outline"}
                           className={cn(
-                            'shadow w-full pl-3 text-left font-normal h-8 rounded-sm text-md text-muted-foreground'
+                            "shadow w-full pl-3 text-left font-normal h-8 rounded-sm text-md text-muted-foreground"
                           )}
                           disabled={true}
                         >
                           {field.value ? (
-                            format(field.value, 'PPP')
+                            format(field.value, "PPP")
                           ) : (
                             <span>Date of Birth</span>
                           )}
@@ -285,7 +292,7 @@ export default function BasicInformationForm() {
                         </Select>
 
                         <Calendar
-                          key={field.value?.toString() ?? 'date_of_birth'}
+                          key={field.value?.toString() ?? "date_of_birth"}
                           mode="single"
                           selected={field.value}
                           onSelect={(value) => {
@@ -294,7 +301,7 @@ export default function BasicInformationForm() {
                           }}
                           disabled={(date) =>
                             date > getEighteenYearsAgo() ||
-                            date < new Date('1900-01-01')
+                            date < new Date("1900-01-01")
                           }
                           defaultMonth={field.value}
                         />
@@ -350,7 +357,7 @@ export default function BasicInformationForm() {
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
-                      value={field.value ? field.value.toString() : ''}
+                      value={field.value ? field.value.toString() : ""}
                       disabled={disableForm}
                     >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
@@ -381,7 +388,7 @@ export default function BasicInformationForm() {
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
-                      value={field.value ? field.value.toString() : ''}
+                      value={field.value ? field.value.toString() : ""}
                       disabled={disableForm}
                     >
                       <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
@@ -478,7 +485,7 @@ export default function BasicInformationForm() {
                         <Input
                           ref={locationInputRef}
                           name={field.name}
-                          value={location.city || ''}
+                          value={location.city || ""}
                           onChange={onLocationChange}
                           className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
                           disabled={disableForm}
@@ -552,10 +559,10 @@ export default function BasicInformationForm() {
                     <Select
                       onValueChange={(value) => {
                         field.onChange(value);
-                        if (value === 'No kids') {
-                          form.setValue('numberOfChildren', 0);
-                          form.setValue('ageOfOldestChild', 0);
-                          form.setValue('ageOfYoungestChild', 0);
+                        if (value === "No kids") {
+                          form.setValue("numberOfChildren", 0);
+                          form.setValue("ageOfOldestChild", 0);
+                          form.setValue("ageOfYoungestChild", 0);
                         }
                       }}
                       value={field.value}

@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import UpdateProfileStepper from '@/components/dashboard/components/stepper/update-profile-stepper';
-import Banner from '@/components/dashboard/profile/banner';
-import { UpdateProfileProvider } from '@/components/dashboard/profile/update-profile-context';
-import UpdateProfileFooter from '@/components/dashboard/profile/update-profile-footer';
-import UpdateProfileHeader from '@/components/dashboard/profile/update-profile-header';
-import Footer from '@/components/ui/footer';
-import { usePathname } from '@/lib/navigation';
-import { useParams } from 'next/navigation';
+import UpdateProfileStepper from "@/components/dashboard/components/stepper/update-profile-stepper";
+import Banner from "@/components/dashboard/profile/banner";
+import { UpdateProfileProvider } from "@/components/dashboard/profile/update-profile-context";
+import UpdateProfileFooter from "@/components/dashboard/profile/update-profile-footer";
+import UpdateProfileHeader from "@/components/dashboard/profile/update-profile-header";
+import Footer from "@/components/ui/footer";
+import { usePathname } from "@/lib/navigation";
+import { useParams } from "next/navigation";
 
 export default function UpdateProfileLayout({
   children,
