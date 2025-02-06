@@ -41,10 +41,6 @@ export class GuardianService {
       throw new ConflictException('User already has a guardian');
     }
 
-    const guardian = await this.userRepository.findOne({
-      where: { email: dto.email },
-    });
-
     const pendingRequests = await this.guardianRequestRepository.find({
       where: {
         userId: user.id,
@@ -57,28 +53,42 @@ export class GuardianService {
       throw new ConflictException('Request already sent to this guardian');
     }
 
+    // one guardian for one user
+    const guardianRequests = await this.guardianRequestRepository.find({
+      where: {
+        guardianEmail: dto.email,
+        status: GuardianRequestStatus.ACCEPTED,
+      },
+    });
+
+    if (guardianRequests.length !== 0) {
+      throw new ConflictException(
+        'Guardian is already registered as a guardian to another user',
+      );
+    }
+
     await this.guardianRequestRepository.save({
       user,
       guardianEmail: dto.email,
       relationshipToGuardian: dto.relationshipToGuardian,
     });
 
-    if (!guardian) {
-      this.eventEmitter.emit(
-        GuardianRequestedEvent.name,
-        new GuardianRequestedEvent(user, dto, dto.relationshipToGuardian),
-      );
+    const guardian = await this.userRepository.findOne({
+      where: { email: dto.email },
+    });
 
-      return 'Guardian is not registered at Guardian/Wali. Registration request has been sent to their email successfully.';
+    if (guardian) {
+      throw new ConflictException(
+        'The provided guardian is already registered as a user. Please choose a different guardian.',
+      );
     }
 
-    await this.noticeService.sendEmail(
-      dto.email,
-      'Guardian Request',
-      `Hello. ${user.firstName} ${user.lastName} has requested you to be their guardian. Please login to your Guardian/Wali account to accept the request.`,
+    this.eventEmitter.emit(
+      GuardianRequestedEvent.name,
+      new GuardianRequestedEvent(user, dto, dto.relationshipToGuardian),
     );
 
-    return 'Guardian request sent successfully';
+    return 'Guardian Registration request has been sent to their email successfully.';
   }
 
   async getReceivedGuardianRequests(user: User) {
