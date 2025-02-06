@@ -63,10 +63,10 @@ export default function PhotoUploader({ field }: { field: any }) {
     setIsMobile(UserAgent.isMobile.any());
   }, [setIsMobile]);
 
-  const [seen, setSeen] = React.useState<string[]>([]);
+  const [seen, setSeen] = React.useState<Map<number , String>>(new Map());
 
-  const isDuplicate = (file: File): boolean => {
-    if (seen.includes(`${file.name}-${file.size}-${file.lastModified}`)) {
+  const isDuplicate = (file: File, index: number): boolean => {
+    if (Array.from(seen.values()).includes(`${file.name}-${file.size}-${file.lastModified}`)) {
       toast({
         title: 'Duplicate Pictures',
         description: 'You have already uploaded this picture',
@@ -74,16 +74,19 @@ export default function PhotoUploader({ field }: { field: any }) {
       });
       return true;
     } else {
-      setSeen((prev) => [
-        ...prev,
-        `${file.name}-${file.size}-${file.lastModified}`,
-      ]);
+      setSeen((prev) => {
+        const newSeen = new Map(prev);
+        newSeen.set(index, `${file.name}-${file.size}-${file.lastModified}`);
+        return newSeen;
+      });
       return false;
     }
   };
 
   const handleImageChange = async (files: FileList | null, index: number) => {
     const file = files?.[0];
+    console.log('seen',seen);
+    console.log('images', images);
     if (file) {
       if (!file.type.startsWith('image')) {
         form.setError('pictures', {
@@ -93,7 +96,7 @@ export default function PhotoUploader({ field }: { field: any }) {
         return;
       }
 
-      if (isDuplicate(file)) {
+      if (isDuplicate(file, index)) {
         return;
       }
 
@@ -156,6 +159,13 @@ export default function PhotoUploader({ field }: { field: any }) {
         '',
         ...prevImageKeys.slice(index + 1),
       ]);
+      setSeen((prev) => {
+        const imageUrl:string = prev.get(index)?.toString() || '';
+        if(imageUrl) URL.revokeObjectURL(imageUrl);
+        const newSeen = new Map(prev);
+        newSeen.delete(index); // Remove the element at the specified index
+        return newSeen;
+      });
     }
   };
 
