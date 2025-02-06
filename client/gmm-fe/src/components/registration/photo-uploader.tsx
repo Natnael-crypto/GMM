@@ -85,8 +85,6 @@ export default function PhotoUploader({ field }: { field: any }) {
 
   const handleImageChange = async (files: FileList | null, index: number) => {
     const file = files?.[0];
-    console.log('seen',seen);
-    console.log('images', images);
     if (file) {
       if (!file.type.startsWith('image')) {
         form.setError('pictures', {
@@ -161,7 +159,6 @@ export default function PhotoUploader({ field }: { field: any }) {
       ]);
       setSeen((prev) => {
         const imageUrl:string = prev.get(index)?.toString() || '';
-        if(imageUrl) URL.revokeObjectURL(imageUrl);
         const newSeen = new Map(prev);
         newSeen.delete(index); // Remove the element at the specified index
         return newSeen;
@@ -286,6 +283,7 @@ export default function PhotoUploader({ field }: { field: any }) {
                     className="hidden"
                     onChange={(e) => {
                       handleImageChange(e.target.files, index);
+                      e.target.value = '';
                     }}
                   />
                 </Label>
