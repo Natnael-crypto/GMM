@@ -25,13 +25,14 @@ export class FacebookStrategy extends PassportStrategy(Strategy, 'facebook') {
     profile: Profile,
     done: VerifyCallback,
   ): Promise<any> {
-    console.log('Profile:', profile);
     const { id, name, emails, photos } = profile;
 
     const user = {
       provider: 'facebook',
       providerId: id,
       email: emails?.[0]?.value || null,
+      firstName: name?.givenName || null,
+      lastName: name?.familyName || null,
       name: `${name?.givenName || ''} ${name?.familyName || ''}`.trim(),
       picture: photos?.[0]?.value || null,
     };
