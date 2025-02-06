@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { User } from '@/lib/schemas/user';
-import React from 'react';
-import FieldViewer from '../field-viewer';
-import { useUserData } from '@/lib/hooks/use-user-data';
-import { getFields } from '../field-utils';
+import { User } from "@/lib/schemas/user";
+import React from "react";
+import FieldViewer from "../field-viewer";
+import { useUserData } from "@/lib/hooks/use-user-data";
+import { getFields } from "../field-utils";
 
 export default function IslamicLifestyleCard({ user }: { user: User }) {
   const { form: islamicLifestyleForm, formData: islamicLifestyleData } =
-    useUserData(user, 'islamic-lifestyle');
+    useUserData(user, "islamic-lifestyle");
 
   return (
     <>
       {islamicLifestyleData ? (
         <FieldViewer
           title="Your Current Islamic Lifestyle (that you live)"
-          description="<strong>DEEN LIFE!!!</strong> 3rd step of the <strong>Guardian Muslim Marriage Guided Matchmaking Process.</strong> Show your potential spouse the<strong> Current Islamic Lifestyle</strong> you live, and the<strong> Islamic Lifestyle you Expect to Live After Marriage.</strong>"
+          description="<div style='text-align: center;'><strong>DEEN LIFE!!!</strong> 3rd step of the <strong>Guardian Muslim Marriage Guided Matchmaking Process.</strong> Show your potential spouse the<strong> Current Islamic Lifestyle</strong> you live, and the<strong> Islamic Lifestyle you Expect to Live After Marriage.</strong></div>"
           getFields={(data) =>
             getFields(data, islamicLifestyleForm?.displayTemplate)
           }
