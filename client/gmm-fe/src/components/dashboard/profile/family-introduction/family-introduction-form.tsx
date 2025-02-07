@@ -102,8 +102,6 @@ export default function FamilyIntroductionForm({
   }, [familyIntroductionFormRef, registerForm]);
 
   const onSubmit = async (data: FamilyIntroduction) => {
-    console.log(data);
-
     if (idCardImageId !== user?.idCardImage && idCardImageId) {
       updateUser({
         user: {
@@ -119,8 +117,6 @@ export default function FamilyIntroductionForm({
           userId: user!.id,
           familyIntroduction: data,
         });
-
-        console.log(data);
 
         const result = await sendGuardianRequest({
           guardianEmail: data.guardianEmail,
