@@ -73,7 +73,7 @@ export default function FamilyIntroductionForm() {
 
   return (
     <div>
-      {user?.gender === 'Male' && (
+      {user?.gender !== 'Female' && (
         <div className="col-span-2 flex flex-col sm:flex-row justify-between items-center border-b border-b-secondary pb-1">
           <h1 className="text-primary text-xl font-bold">
             Family/Guardian Introduction
@@ -84,7 +84,7 @@ export default function FamilyIntroductionForm() {
         </div>
       )}
       <div className="grid grid-cols-2 gap-x-3 gap-y-3 py-4">
-        {user?.gender === 'Male' && (
+        {user?.gender !== 'Female' && (
           <>
             <div className="space-y-1 py-2 col-span-2 sm:col-span-1">
               <Label>{t('guardianInformation.firstName')}</Label>

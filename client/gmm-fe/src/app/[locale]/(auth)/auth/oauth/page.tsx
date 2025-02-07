@@ -5,6 +5,7 @@ import { toast } from '@/components/ui/use-toast';
 import { setToken } from '@/lib/auth/slice';
 import { useRouter } from '@/lib/navigation';
 import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 export default function OAuthPage() {
@@ -15,22 +16,24 @@ export default function OAuthPage() {
   const status = params.get('status');
   const token = params.get('token');
 
-  if (!token) {
-    router.replace('/login');
-  } else if (status === 'auth_failed') {
-    toast({
-      title: 'Authentication failed',
-      description: 'Please try again',
-      variant: 'destructive',
-    });
-    router.replace('/login');
-  } else {
-    toast({
-      title: 'Welcome Back!',
-    });
-    dispatch(setToken(token));
-    router.replace('/');
-  }
+  useEffect(() => {
+    if (!token) {
+      router.replace('/login');
+    } else if (status === 'auth_failed') {
+      toast({
+        title: 'Authentication failed',
+        description: 'Please try again',
+        variant: 'destructive',
+      });
+      router.replace('/login');
+    } else {
+      toast({
+        title: 'Welcome Back!',
+      });
+      dispatch(setToken(token));
+      router.replace('/');
+    }
+  }, [dispatch, router, status, token]);
 
   return (
     <div className="w-full h-screen flex flex-col gap-5 items-center justify-center">
