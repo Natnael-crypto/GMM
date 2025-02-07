@@ -57,7 +57,7 @@ export class StorageController {
 
       return response.status(HttpStatus.OK).json({
         message: 'Presigned download URL generated successfully',
-        data: { cleanUrl },
+        data: cleanUrl,
       });
     } catch (error) {
       return response.status(HttpStatus.BAD_REQUEST).json({
