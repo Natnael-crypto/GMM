@@ -52,7 +52,11 @@ export class AuthController {
 
   async handleOAuthCallback(req: Request, res: Response) {
     try {
-      const user = req.user as unknown as { email: string };
+      const user = req.user as unknown as {
+        email: string;
+        firstName: string;
+        lastName: string;
+      };
 
       if (!user) {
         return res.redirect(
@@ -61,7 +65,11 @@ export class AuthController {
         );
       }
 
-      const payload = await this.authService.authenticateViaOAuth(user.email);
+      const payload = await this.authService.authenticateViaOAuth(
+        user.email,
+        user.firstName,
+        user.lastName,
+      );
       const { accessToken, refreshToken } =
         await this.authService.generateTokens(payload);
 
