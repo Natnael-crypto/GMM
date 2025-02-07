@@ -1,47 +1,47 @@
-"use client";
+'use client';
 
-import * as UserAgent from "@/lib/user-agent";
-import { buttonVariants } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { useCreateUploadUrlMutation } from "@/lib/user/api";
-import { cn } from "@/lib/utils";
+import * as UserAgent from '@/lib/user-agent';
+import { buttonVariants } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { useCreateUploadUrlMutation } from '@/lib/user/api';
+import { cn } from '@/lib/utils';
 import {
   faCloudUpload,
   faTrashAlt,
   faUser,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Image from "next/image";
-import React, { useState } from "react";
-import { useFormContext } from "react-hook-form";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import CaptureImage from "./capture-image";
+} from '../ui/dialog';
+import CaptureImage from './capture-image';
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "../ui/hover-card";
-import { upload } from "@/lib/file-upload";
-import { toast } from "../ui/use-toast";
-import Loading from "../ui/loading";
+} from '../ui/hover-card';
+import { upload } from '@/lib/file-upload';
+import { toast } from '../ui/use-toast';
+import Loading from '../ui/loading';
 
 export default function PhotoUploader({ field }: { field: any }) {
   const [images, setImages] = React.useState<string[]>([
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
   ]);
   const [isImageUploading, setImageUploading] = useState([
     false,
@@ -63,14 +63,18 @@ export default function PhotoUploader({ field }: { field: any }) {
     setIsMobile(UserAgent.isMobile.any());
   }, [setIsMobile]);
 
-  const [seen, setSeen] = React.useState<Map<number , String>>(new Map());
+  const [seen, setSeen] = React.useState<Map<number, String>>(new Map());
 
   const isDuplicate = (file: File, index: number): boolean => {
-    if (Array.from(seen.values()).includes(`${file.name}-${file.size}-${file.lastModified}`)) {
+    if (
+      Array.from(seen.values()).includes(
+        `${file.name}-${file.size}-${file.lastModified}`
+      )
+    ) {
       toast({
-        title: "Duplicate Pictures",
-        description: "You have already uploaded this picture",
-        variant: "destructive",
+        title: 'Duplicate Pictures',
+        description: 'You have already uploaded this picture',
+        variant: 'destructive',
       });
       return true;
     } else {
@@ -85,13 +89,12 @@ export default function PhotoUploader({ field }: { field: any }) {
 
   const handleImageChange = async (files: FileList | null, index: number) => {
     const file = files?.[0];
-    console.log('seen',seen);
-    console.log('images', images);
+
     if (file) {
-      if (!file.type.startsWith("image")) {
-        form.setError("pictures", {
-          type: "invalidFileType",
-          message: "Invalid file type. Please upload an image file",
+      if (!file.type.startsWith('image')) {
+        form.setError('pictures', {
+          type: 'invalidFileType',
+          message: 'Invalid file type. Please upload an image file',
         });
         return;
       }
@@ -116,7 +119,7 @@ export default function PhotoUploader({ field }: { field: any }) {
         const prevImageKeys = field.value as string[];
 
         while (prevImageKeys.length < 8) {
-          prevImageKeys.push("");
+          prevImageKeys.push('');
         }
 
         field.onChange([
@@ -145,23 +148,23 @@ export default function PhotoUploader({ field }: { field: any }) {
       }
     } else {
       setImages((images) => {
-        return [...images.slice(0, index), "", ...images.slice(index + 1)];
+        return [...images.slice(0, index), '', ...images.slice(index + 1)];
       });
 
       const prevImageKeys = field.value as string[];
 
       while (prevImageKeys.length < 8) {
-        prevImageKeys.push("");
+        prevImageKeys.push('');
       }
 
       field.onChange([
         ...prevImageKeys.slice(0, index),
-        "",
+        '',
         ...prevImageKeys.slice(index + 1),
       ]);
       setSeen((prev) => {
-        const imageUrl:string = prev.get(index)?.toString() || '';
-        if(imageUrl) URL.revokeObjectURL(imageUrl);
+        const imageUrl: string = prev.get(index)?.toString() || '';
+        if (imageUrl) URL.revokeObjectURL(imageUrl);
         const newSeen = new Map(prev);
         newSeen.delete(index); // Remove the element at the specified index
         return newSeen;
@@ -174,7 +177,7 @@ export default function PhotoUploader({ field }: { field: any }) {
 
     if (files.length > 0) {
       for (let i = 0; i < images.length; i++) {
-        if (images[i] === "") {
+        if (images[i] === '') {
           handleImageChange(files, i);
           break;
         }
@@ -185,7 +188,7 @@ export default function PhotoUploader({ field }: { field: any }) {
   const handleDrag = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
   };
-
+  console.log(images, seen);
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setDragOnTop(false);
@@ -198,7 +201,7 @@ export default function PhotoUploader({ field }: { field: any }) {
   };
 
   const showDragAndDropImage =
-    images.find((image) => image === "") !== undefined;
+    images.find((image) => image === '') !== undefined;
 
   return (
     <Card className="shadow-none text-sm space-y-3">
@@ -208,10 +211,10 @@ export default function PhotoUploader({ field }: { field: any }) {
       </div>
 
       <p className="text-md">
-        Upload at least{" "}
+        Upload at least{' '}
         <span className="underline font-bold">
           5 clear pictures of yourself
-        </span>{" "}
+        </span>{' '}
         (without filters).
       </p>
       <p className="underline font-bold">
@@ -286,6 +289,7 @@ export default function PhotoUploader({ field }: { field: any }) {
                     className="hidden"
                     onChange={(e) => {
                       handleImageChange(e.target.files, index);
+                      e.target.value = '';
                     }}
                   />
                 </Label>
@@ -299,8 +303,8 @@ export default function PhotoUploader({ field }: { field: any }) {
         <>
           <Label
             className={cn(
-              "w-full h-20 border border-secondary border-dashed flex flex-col items-center justify-center bg-background cursor-pointer text-gray-500 gap-y-2",
-              draggedOnTop ? "border-primary" : "border-secondary"
+              'w-full h-20 border border-secondary border-dashed flex flex-col items-center justify-center bg-background cursor-pointer text-gray-500 gap-y-2',
+              draggedOnTop ? 'border-primary' : 'border-secondary'
             )}
             onDragOver={handleDrag}
             onDrop={handleDrop}
@@ -322,7 +326,7 @@ export default function PhotoUploader({ field }: { field: any }) {
               className="hidden"
               onChange={(e) => {
                 insertImage(e.target.files);
-                e.target.value = "";
+                e.target.value = '';
               }}
             />
           </Label>
@@ -330,8 +334,8 @@ export default function PhotoUploader({ field }: { field: any }) {
           <div className="flex flex-col sm:flex-row items-center gap-1 flex-wrap">
             <Label
               className={cn(
-                buttonVariants({ variant: "default" }),
-                "bg-background border border-secondary rounded-full text-sm h-7 text-secondary"
+                buttonVariants({ variant: 'default' }),
+                'bg-background border border-secondary rounded-full text-sm h-7 text-secondary'
               )}
             >
               Browse Files
@@ -341,7 +345,7 @@ export default function PhotoUploader({ field }: { field: any }) {
                 className="hidden"
                 onChange={(e) => {
                   insertImage(e.target.files);
-                  e.target.value = "";
+                  e.target.value = '';
                 }}
               />
             </Label>
@@ -351,8 +355,8 @@ export default function PhotoUploader({ field }: { field: any }) {
             {isMobile ? (
               <Label
                 className={cn(
-                  buttonVariants({ variant: "default" }),
-                  "bg-background border border-secondary rounded-full text-md h-7 text-secondary"
+                  buttonVariants({ variant: 'default' }),
+                  'bg-background border border-secondary rounded-full text-md h-7 text-secondary'
                 )}
               >
                 Capture Image
@@ -363,7 +367,7 @@ export default function PhotoUploader({ field }: { field: any }) {
                   className="hidden"
                   onChange={(e) => {
                     insertImage(e.target.files);
-                    e.target.value = "";
+                    e.target.value = '';
                   }}
                 />
               </Label>
@@ -371,8 +375,8 @@ export default function PhotoUploader({ field }: { field: any }) {
               <Dialog open={isCaptureImageOpen}>
                 <DialogTrigger
                   className={cn(
-                    buttonVariants({ variant: "default" }),
-                    "bg-background border border-secondary rounded-full text-sm h-7 text-secondary"
+                    buttonVariants({ variant: 'default' }),
+                    'bg-background border border-secondary rounded-full text-sm h-7 text-secondary'
                   )}
                   onClick={() => setIsCaptureImageOpen(true)}
                 >
