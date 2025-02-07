@@ -28,6 +28,7 @@ export interface MultiselectProps {
   onChange?: (value: string[]) => void;
   values?: string[];
   hideSearch?: boolean;
+  disabled?: boolean;
 }
 
 export default function Multiselect({
@@ -38,6 +39,7 @@ export default function Multiselect({
   max,
   values,
   onChange,
+  disabled,
   hideSearch = false,
 }: MultiselectProps) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -69,6 +71,29 @@ export default function Multiselect({
       }
     }
   };
+
+  if (disabled) {
+    return (
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center gap-2">
+          <button
+            className={cn(
+              'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 [&>span]:text-start',
+              className
+            )}
+            disabled
+          >
+            <span>
+              {values && values.length > 0
+                ? `${values.map((value) => map.get(value)).join(', ')}`
+                : placeholder}
+            </span>
+            <ChevronDownIcon className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-4">

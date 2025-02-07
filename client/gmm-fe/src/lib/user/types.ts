@@ -196,7 +196,7 @@ export class UserQueryParams {
 }
 
 export interface UpdateUser {
-  user: User;
+  user: Partial<User>;
 }
 
 export interface UpdateWorldlyLifestyle {

@@ -1,21 +1,23 @@
-'use client';
+"use client";
 
-import { useForm } from 'react-hook-form';
-import { Form } from '@/components/ui/form';
-import Field from '@/components/dashboard/profile/field';
-import { useSubmitFormMutation } from '@/lib/form/api';
-import { useAppSelector } from '@/lib/hooks';
-import React, { useEffect, useMemo, useRef } from 'react';
-import { evaluateRuleTree } from '@/lib/form/rule-evaluator';
-import { useDebouncedCallback } from 'use-debounce';
-import { useUpdateProfileContext } from '../dashboard/profile/update-profile-context';
-import { toast } from '../ui/use-toast';
+import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
+import Field from "@/components/dashboard/profile/field";
+import { useSubmitFormMutation } from "@/lib/form/api";
+import { useAppSelector } from "@/lib/hooks";
+import React, { useEffect, useMemo, useRef } from "react";
+import { evaluateRuleTree } from "@/lib/form/rule-evaluator";
+import { useDebouncedCallback } from "use-debounce";
+import { useUpdateProfileContext } from "../dashboard/profile/update-profile-context";
+import { toast } from "../ui/use-toast";
+import { daDK } from "@mui/x-date-pickers/locales";
 
 interface DynamicFormProps {
   formSchema: any;
   data: any;
   formName?: string;
   successMessage?: string;
+  disabled?: boolean;
 }
 
 const transform = (answers: any) => {
@@ -30,18 +32,18 @@ const transform = (answers: any) => {
 
 const widthClassName = (w: string) => {
   const cls = [
-    'md:col-span-1',
-    'md:col-span-2',
-    'md:col-span-3',
-    'md:col-span-4',
-    'md:col-span-5',
-    'md:col-span-6',
-    'md:col-span-7',
-    'md:col-span-8',
-    'md:col-span-9',
-    'md:col-span-10',
-    'md:col-span-11',
-    'md:col-span-12',
+    "md:col-span-1",
+    "md:col-span-2",
+    "md:col-span-3",
+    "md:col-span-4",
+    "md:col-span-5",
+    "md:col-span-6",
+    "md:col-span-7",
+    "md:col-span-8",
+    "md:col-span-9",
+    "md:col-span-10",
+    "md:col-span-11",
+    "md:col-span-12",
   ];
   const width = parseInt(w, 10);
   return cls[width - 1];
@@ -52,6 +54,7 @@ export default function DynamicForm({
   data,
   formName,
   successMessage,
+  disabled,
 }: DynamicFormProps) {
   const form = useForm();
   const user = useAppSelector((state) => state.auth.user);
@@ -68,7 +71,7 @@ export default function DynamicForm({
     });
 
     const groupedFields: any = [];
-    let lastSection = '';
+    let lastSection = "";
 
     // amount field id: currency field id
     const currencyFields: Record<string, string> = {};
@@ -79,9 +82,9 @@ export default function DynamicForm({
         groupedFields.push([]);
       }
 
-      if (field.type === 'with_currency') {
+      if (field.type === "with_currency") {
         const currencyFieldName = fields.find(
-          (f) => f.name === field.name + '_currency'
+          (f) => f.name === field.name + "_currency"
         ).id;
         currencyFields[field.id] = currencyFieldName;
       }
@@ -143,7 +146,7 @@ export default function DynamicForm({
       !submitFormResult.originalArgs?.hideSuccessMessage
     ) {
       toast({
-        title: 'Success',
+        title: "Success",
         description: successMessage,
       });
     }
@@ -192,7 +195,7 @@ export default function DynamicForm({
           cleanedData[field.id] = data[field.id].filter((v: any) =>
             filteredOptions.find((option: any) => option.value === v)
           );
-        } else if (field.type === 'select') {
+        } else if (field.type === "select") {
           if (
             filteredOptions?.find(
               (option: any) => option.value === data[field.id]
@@ -200,7 +203,7 @@ export default function DynamicForm({
           ) {
             cleanedData[field.id] = data[field.id];
           }
-        } else if (field.type === 'with_currency') {
+        } else if (field.type === "with_currency") {
           if (
             filteredOptions?.find(
               (option: any) => option.value === data[field.id]
@@ -220,10 +223,38 @@ export default function DynamicForm({
     debouncedSubmit(cleanedData, true);
   };
 
+  const gender = user?.gender?.toLowerCase();
+
+  const expectedWorldlyLifestyleHeadline = user
+    ? `Worldly Lifestyle ${user.firstName} envisions ${
+        gender === "male" ? "his" : "her"
+      } Future ${gender === "male" ? "Wife" : "Husband"} with, and ${
+        gender === "male" ? "his" : "her"
+      } expectations After Marriage.`
+    : "Worldly Lifestyle";
+
+  const expectedIslamicLifestyleHeadline = user
+    ? `Islamic Lifestyle ${user.firstName} envisions ${
+        gender === "male" ? "his" : "her"
+      } Future ${gender === "male" ? "Wife" : "Husband"} with, and ${
+        gender === "male" ? "his" : "her"
+      } Expectations After Marriage.`
+    : "Islamic Lifestyle";
+
   return (
     <div className="py-8 px-6 sm:px-16 md:px-[3rem] lg:px-[5rem] 2xl:px-[15rem] 3xl:px-[20rem]">
       <h1 className="text-xl font-bold text-secondary border-b p-1">
-        {formSchema?.title}
+        {[
+          "male-expected-worldly-lifestyle",
+          "female-expected-worldly-lifestyle",
+        ].includes(formSchema?.slug)
+          ? expectedWorldlyLifestyleHeadline
+          : [
+              "male-expected-islamic-lifestyle",
+              "female-expected-islamic-lifestyle",
+            ].includes(formSchema?.slug)
+          ? expectedIslamicLifestyleHeadline
+          : formSchema?.title}
       </h1>
 
       {formSchema?.description && (
@@ -274,6 +305,7 @@ export default function DynamicForm({
                       currencyFieldName={currencyFields[field.id]}
                       className={widthClassName(field.displayWidth)}
                       onChange={save}
+                      disabled={disabled}
                     />
                   );
                 })}

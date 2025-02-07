@@ -126,6 +126,10 @@ export class NewAuthService {
       throw new InvalidCredentialsException();
     }
 
+    if (!user.password) {
+      throw new InvalidCredentialsException();
+    }
+
     if (!bcrypt.compareSync(password, user.password)) {
       throw new InvalidCredentialsException();
     }
@@ -166,13 +170,19 @@ export class NewAuthService {
     });
   }
 
-  async authenticateViaOAuth(email: string): Promise<JwtPayload> {
+  async authenticateViaOAuth(
+    email: string,
+    firstName?: string,
+    lastName?: string,
+  ): Promise<JwtPayload> {
     const user = await this.authRepo.findUserByEmail(email);
 
     if (!user) {
       const newUser = await this.authRepo.createUser({
         email,
         roleId: userRole.name,
+        firstName,
+        lastName,
       });
 
       return {

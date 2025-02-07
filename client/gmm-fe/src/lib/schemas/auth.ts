@@ -87,6 +87,9 @@ export const signUpWithLinkSchema = z.object({
       message: 'You must be at least 18 years old.',
     }),
   gender: z.enum(['Male', 'Female']),
+  idCardImage: z.string().min(1, {
+    message: 'Please upload your ID card',
+  }),
 });
 
 export type SignUpWithLink = z.infer<typeof signUpWithLinkSchema>;

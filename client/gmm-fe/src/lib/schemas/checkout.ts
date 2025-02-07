@@ -57,6 +57,7 @@ export const subscriptionSchema = z.object({
   periodStart: z.coerce.date(),
   amount: z.number(),
   remainingMatches: z.number(),
+  autoRenew: z.boolean(),
 });
 
 export type Subscription = z.infer<typeof subscriptionSchema>;

@@ -210,6 +210,7 @@ export interface FieldProps {
   options?: FieldOption[];
   className?: string;
   onChange?: (value: any) => void;
+  disabled?: boolean;
 }
 
 export default function Field(props: FieldProps) {
@@ -252,6 +253,7 @@ export default function Field(props: FieldProps) {
                   }}
                   selectedOption={field.value}
                   options={options}
+                  disabled={props.disabled}
                   placeholder=""
                   showSearch={false}
                   className="shadow text-muted-foreground bg-background rounded-sm h-8 ring-transparent ring-offset-transparent"
@@ -302,6 +304,7 @@ export default function Field(props: FieldProps) {
                   onChange={(value) => {
                     handleChange(value, field);
                   }}
+                  disabled={props.disabled}
                   selectedOption={field.value}
                   options={options}
                   placeholder=""
@@ -326,6 +329,7 @@ export default function Field(props: FieldProps) {
                   onChange={(value) => {
                     handleChange(value, field);
                   }}
+                  disabled={props.disabled}
                   selectedOptions={
                     Array.isArray(field.value) ? field.value : []
                   }
@@ -351,6 +355,7 @@ export default function Field(props: FieldProps) {
               <FormControl>
                 <Textarea
                   {...field}
+                  disabled={props.disabled}
                   onChange={(value) => {
                     handleChange(value, field);
                   }}
@@ -373,6 +378,7 @@ export default function Field(props: FieldProps) {
               <FormControl>
                 <Input
                   {...field}
+                  disabled={props.disabled}
                   className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                 />
               </FormControl>
@@ -392,6 +398,7 @@ export default function Field(props: FieldProps) {
               <FormControl>
                 <Input
                   {...field}
+                  disabled={props.disabled}
                   type="number"
                   className="text-muted-foreground bg-background text-xs shadow rounded-sm"
                 />
@@ -416,6 +423,7 @@ export default function Field(props: FieldProps) {
                       handleChange(value, field);
                     }}
                     selectedOption={field.value}
+                    disabled={props.disabled}
                     options={options}
                     placeholder=""
                     showSearch={false}
@@ -435,6 +443,7 @@ export default function Field(props: FieldProps) {
                     onChange={(value) => {
                       handleChange(value, field);
                     }}
+                    disabled={props.disabled}
                     selectedOption={field.value}
                     options={Object.entries(currencies).map(
                       ([currency, countryCode]) => {

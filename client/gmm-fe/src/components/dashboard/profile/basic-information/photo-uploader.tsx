@@ -1,24 +1,18 @@
-'use client';
+"use client";
 
-import { Card } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { toast } from '@/components/ui/use-toast';
-import { upload } from '@/lib/file-upload';
+import { Card } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/use-toast";
+import { upload } from "@/lib/file-upload";
 import {
   useCreateUploadUrlMutation,
   useCreateDownloadUrlMutation,
-} from '@/lib/user/api';
-import { cn } from '@/lib/utils';
-import {
-  faCirclePlay,
-  faPlus,
-  faStar,
-  faTrashCan,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+} from "@/lib/user/api";
+import { cn } from "@/lib/utils";
+import { faPlus, faStar, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 
 export interface PhotoUploaderProps {
   images: string[];
@@ -62,9 +56,9 @@ export default function PhotoUploader({
   const isDuplicate = (file: File): boolean => {
     if (seen.includes(`${file.name}-${file.size}-${file.lastModified}`)) {
       toast({
-        title: 'Duplicate Pictures',
-        description: 'You have already uploaded this picture',
-        variant: 'destructive',
+        title: "Duplicate Pictures",
+        description: "You have already uploaded this picture",
+        variant: "destructive",
       });
       return true;
     } else {
@@ -80,7 +74,7 @@ export default function PhotoUploader({
     for (let i = 0; i < images.length; i++) {
       const image = images[i];
       const imageIndex = images.findIndex((v) => v === image);
-      if (imageIndex !== -1 && image !== '') {
+      if (imageIndex !== -1 && image !== "") {
         generateDownloadUrl(image)
           .unwrap()
           .then((url) => {
@@ -101,11 +95,11 @@ export default function PhotoUploader({
 
   useEffect(() => {
     if (video && !videoUrl) {
-      generateDownloadUrl(video)
-        .unwrap()
-        .then((url) => {
-          setVideoUrl(url);
-        });
+      // generateDownloadUrl(video)
+      //   .unwrap()
+      //   .then((url) => {
+      //     setVideoUrl(url);
+      //   });
     }
   }, [generateDownloadUrl, video, videoUrl]);
 
@@ -134,12 +128,12 @@ export default function PhotoUploader({
           }
         } else {
           toast({
-            title: 'Invalid Video',
-            description: 'Video should be less than 2 minutes long',
+            title: "Invalid Video",
+            description: "Video should be less than 2 minutes long",
           });
           setVideoUrl(undefined);
           if (onVideoChange) {
-            onVideoChange('');
+            onVideoChange("");
           }
         }
       };
@@ -210,7 +204,7 @@ export default function PhotoUploader({
   return (
     <Card className="shadow-none text-sm space-y-3">
       <div className="flex">
-        <h1 className="font-bold">Your Photo</h1>
+        <h1 className="font-bold">Your Main Profile Photo</h1>
       </div>
 
       <div className="flex gap-5 justify-between items-start lg:flex-col lg:gap-3">
@@ -253,10 +247,10 @@ export default function PhotoUploader({
                     />
                     <div
                       className={cn(
-                        'absolute bottom-2 left-2',
+                        "absolute bottom-2 left-2",
                         defaultImage !== image
-                          ? 'text-background opacity-70'
-                          : 'text-yellow-400'
+                          ? "text-background opacity-70"
+                          : "text-yellow-400"
                       )}
                       onClick={(e) => handleDefaultImageChange(e, image)}
                     >
@@ -309,6 +303,16 @@ export default function PhotoUploader({
             </div>
           </div> */}
         </div>
+      </div>
+      <div>
+        <p className="text-xs">
+          Female member(s) photos will be available to only View Once by matched
+          male member(s) upon reaching the Marriage Talk, the 4th step of the
+          Guardian Muslim Marriage Guided Matchmaking Process. Male member(s)
+          photos are available to female member(s) from the onset of a match.
+          Upload a minimum of 5 profile photos. All photos are subject to admin
+          approval and Guardian Muslim Marriage data usage and privacy policies.
+        </p>
       </div>
     </Card>
   );

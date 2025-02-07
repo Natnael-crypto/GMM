@@ -1,19 +1,18 @@
 'use client';
 
-// import MarriageDiscussionForm from '@/components/dashboard/profile/marriage/marriage-discussion-form';
-// import { useGetMarriageDiscussionQuery } from '@/lib/user/api';
 import { useAppSelector } from '@/lib/hooks';
 import DynamicForm from '@/components/form/dynamic-form';
 import { useUserData } from '@/lib/hooks/use-user-data';
+import { useProfileCompletion } from '@/lib/hooks/profile-completion';
 
 export default function MarriageDiscussion() {
   const user = useAppSelector((state) => state.auth.user);
 
-  // const { data: marriageDiscussion, isLoading: isMarriageDiscussionLoading } =
-  //   useGetMarriageDiscussionQuery(user?.id ?? '', { skip: !user });
-
   const { form: marriageDiscussionForm, formData: marriageDiscussionData } =
     useUserData(user, 'marriage-discussion');
+
+  const { marriageDiscussion } = useProfileCompletion(user);
+  const disableForm = !!(marriageDiscussion >= 100 && user?.isMatched);
 
   return (
     <>
@@ -22,8 +21,8 @@ export default function MarriageDiscussion() {
         data={marriageDiscussionData}
         formName="marriage-discussion"
         successMessage="Marriage Discussion updated successfully"
+        disabled={disableForm}
       />
-      {/* <MarriageDiscussionForm marriageDiscussion={marriageDiscussion} /> */}
     </>
   );
 }

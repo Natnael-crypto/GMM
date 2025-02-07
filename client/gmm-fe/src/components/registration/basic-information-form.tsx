@@ -340,7 +340,9 @@ export default function BasicInformationForm({
                         <Input
                           className="text-muted-foreground bg-background text-md shadow rounded-sm"
                           {...field}
-                          disabled
+                          disabled={
+                            !(user?.firstName === '' || !user?.firstName)
+                          }
                         />
                       </FormControl>
                       <FormMessage className="text-md" />
@@ -360,7 +362,7 @@ export default function BasicInformationForm({
                         <Input
                           className="text-muted-foreground bg-background text-md shadow rounded-sm"
                           {...field}
-                          disabled
+                          disabled={!(user?.lastName === '' || !user?.lastName)}
                         />
                       </FormControl>
                       <FormMessage className="text-md" />
@@ -383,7 +385,7 @@ export default function BasicInformationForm({
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
-                              disabled={true}
+                              disabled={!!user?.dateOfBirth}
                               variant={'outline'}
                               className={cn(
                                 'shadow w-full pl-3 text-left font-normal h-8 rounded-sm text-md text-muted-foreground'
@@ -459,7 +461,7 @@ export default function BasicInformationForm({
                         <Select
                           onValueChange={field.onChange}
                           value={field.value}
-                          disabled
+                          disabled={!!user?.gender}
                         >
                           <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                             <SelectValue />
@@ -849,7 +851,7 @@ export default function BasicInformationForm({
                           <Select
                             onValueChange={field.onChange}
                             value={field.value}
-                            disabled
+                            disabled={!!user?.bornOrRevertToIslam}
                           >
                             <SelectTrigger className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent">
                               <SelectValue />

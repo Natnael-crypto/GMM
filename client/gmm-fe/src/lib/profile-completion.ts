@@ -38,7 +38,6 @@ export const basicInformationCompletion = (user: User): number => {
     'email',
     'maritalStatus',
     'pictures',
-    'video',
     'phoneNumber',
   ];
 

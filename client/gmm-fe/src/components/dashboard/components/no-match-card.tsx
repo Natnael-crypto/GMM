@@ -25,6 +25,9 @@ export default function NoMatchCard() {
   } = useProfileCompletion(user);
 
   const editProfileLink = (() => {
+    if (basics < 100) {
+      return `/dashboard/profile/${user?.id}/basic-information/edit`;
+    }
     if (worldlyLifestyle < 100) {
       return `/dashboard/profile/${user?.id}/worldly-lifestyle/edit`;
     }
@@ -32,15 +35,12 @@ export default function NoMatchCard() {
       return `/dashboard/profile/${user?.id}/islamic-lifestyle/edit`;
     }
     if (marriageDiscussion < 100) {
-      return `/dashboard/profile/${user?.id}/marriage-discussion/edit`;
+      return `/dashboard/profile/${user?.id}/marriage/edit`;
     }
     if (familyIntroduction < 100) {
-      return `/dashboard/profile/${user?.id}/family-introduction/edit`;
+      return `/dashboard/profile/${user?.id}/family/edit`;
     }
-    if (basics < 100) {
-      return `/dashboard/profile/${user?.id}/basic-information/edit`;
-    }
-    return `/dashboard/profile/${user?.id}/worldly-lifestyle/edit`;
+    return `/dashboard/profile/${user?.id}/basic-information/edit`;
   })();
 
   return (

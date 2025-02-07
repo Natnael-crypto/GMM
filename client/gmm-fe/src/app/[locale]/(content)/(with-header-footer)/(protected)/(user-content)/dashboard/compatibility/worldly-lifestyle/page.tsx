@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { useAppSelector } from '@/lib/hooks';
-import { useGetCurrentMatchQuery } from '@/lib/matchmaking/api';
-import HideProfile from '@/components/dashboard/profile/hide-profile';
-import { AnimatePresence, motion } from 'framer-motion';
-import ExpectedWorldlyLifestyleCard from '@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-card';
-import { cn } from '@/lib/utils';
-import { hasAccessToStage, MatchStage } from '@/lib/schemas/match';
+import React from "react";
+import { useAppSelector } from "@/lib/hooks";
+import { useGetCurrentMatchQuery } from "@/lib/matchmaking/api";
+import HideProfile from "@/components/dashboard/profile/hide-profile";
+import { AnimatePresence, motion } from "framer-motion";
+import ExpectedWorldlyLifestyleCard from "@/components/dashboard/profile/worldly-lifestyle/expected-worldly-lifestyle-card";
+import { cn } from "@/lib/utils";
+import { hasAccessToStage, MatchStage } from "@/lib/schemas/match";
 
 export default function WorldlyLifestyle() {
   const user = useAppSelector((state) => state.auth.user);
@@ -18,7 +18,7 @@ export default function WorldlyLifestyle() {
   let matchedUser = null;
 
   if (user && currentMatch) {
-    if (user.gender === 'Male') {
+    if (user.gender === "Male") {
       matchedUser = currentMatch.femaleUser;
     } else {
       matchedUser = currentMatch.maleUser;
@@ -47,13 +47,13 @@ export default function WorldlyLifestyle() {
           {currentMatch && matchedUser && (
             <div
               className={cn(
-                'min-h-[40vh] relative rounded-3xl',
+                "min-h-[40vh] relative rounded-3xl",
                 hasAccessToStage(
                   currentMatch.stage,
                   MatchStage.WORLDLY_LIFESTYLE
                 )
-                  ? ''
-                  : 'h-[40vh] overflow-hidden'
+                  ? ""
+                  : "h-[40vh] overflow-hidden"
               )}
             >
               <HideProfile

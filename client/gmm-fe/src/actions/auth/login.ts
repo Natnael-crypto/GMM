@@ -24,7 +24,8 @@ export const login = async (data: Login) => {
   try {
     res = await response.json();
   } catch (e) {
-    return { status: 400, message: 'Invalid JSON response' };
+    console.log(e);
+    return { status: 400, message: 'Unable to login' };
   }
 
   if (!response.ok) {

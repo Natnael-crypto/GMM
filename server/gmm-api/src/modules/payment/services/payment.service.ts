@@ -129,7 +129,7 @@ export class PaymentsService extends BaseRepository {
 
   async getCurrentSubscription(userId: string): Promise<Subscription | null> {
     const subscription = await this.getRepository(Subscription).findOne({
-      where: { user: { id: userId.toString() } },
+      where: { userId },
     });
     return subscription;
   }
@@ -554,8 +554,8 @@ export class PaymentsService extends BaseRepository {
     subscription.autoRenew = false;
     await this.subscriptionRepository.save(subscription);
 
-    const jobId = `renew-${subscription.id}`;
-    await this.schedulerService.deleteJob(jobId);
+    // const jobId = `renew-${subscription.id}`;
+    // await this.schedulerService.deleteJob(jobId);
   }
 
   private getMatchesForPlan(planId: string): number {
