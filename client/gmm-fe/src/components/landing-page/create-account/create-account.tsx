@@ -1,11 +1,10 @@
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import React from 'react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { cva } from 'class-variance-authority';
 import { CreateAccountProps } from '@/types';
 import { Link } from '@/lib/navigation';
-import { AccountStatus } from '@/lib/schemas/user';
 
 const createAccountVariants = cva('py-8 text-center', {
   variants: {
@@ -41,7 +40,7 @@ export default function CreateAccount({
         href={
           !user
             ? '/signup'
-            : user.accountStatus === AccountStatus.INCOMPLETE_REGISTRATION
+            : user.accountStatus === 'Incomplete Registration'
             ? '/registration'
             : '/dashboard'
         }

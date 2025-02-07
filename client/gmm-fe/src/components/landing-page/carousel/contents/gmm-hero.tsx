@@ -1,7 +1,6 @@
 import { buttonVariants } from '@/components/ui/button';
 import { auth } from '@/lib/auth/utils';
 import { Role } from '@/lib/schemas/role';
-import { AccountStatus } from '@/lib/schemas/user';
 import { cn } from '@/lib/utils';
 import { getLocale, getTranslations } from 'next-intl/server';
 import Image from 'next/image';
@@ -42,8 +41,7 @@ export default async function GMMHero() {
               href={
                 session.user.roleId === Role.Guardian
                   ? `/${locale}/guardian`
-                  : session.user.accountStatus ===
-                    AccountStatus.INCOMPLETE_REGISTRATION
+                  : session.user.accountStatus === 'Incomplete Registration'
                   ? `/${locale}/registration`
                   : `/${locale}/dashboard`
               }
