@@ -5,6 +5,7 @@ import {
   Get,
   Inject,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Req,
@@ -40,13 +41,9 @@ export class GuardianController {
       guardianDto,
     );
 
-    const keys = [
-      `/guardians/sent-requests/${user.id}`,
-    ]
+    const keys = [`/guardians/sent-requests/${user.id}`];
 
-    await Promise.all(
-      keys.map((key) => this.cacheManager.del(key)),
-    );
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
     return {
       message,
@@ -83,7 +80,7 @@ export class GuardianController {
   @UseGuards(JwtAuthGuard)
   @Put(':requestId/accept')
   async acceptRequest(
-    @Param('requestId') requestId: string,
+    @Param('requestId', new ParseUUIDPipe({ version: '4' })) requestId: string,
     @Req() req: Request & { user: any },
   ) {
     const user = req.user;
@@ -98,7 +95,7 @@ export class GuardianController {
   @UseGuards(JwtAuthGuard)
   @Put(':requestId/reject')
   async rejectRequest(
-    @Param('requestId') requestId: string,
+    @Param('requestId', new ParseUUIDPipe({ version: '4' })) requestId: string,
     @Req() req: Request & { user: any },
   ) {
     const user = req.user;

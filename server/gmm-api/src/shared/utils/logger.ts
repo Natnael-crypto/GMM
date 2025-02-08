@@ -5,6 +5,7 @@ import {
 } from 'nest-winston';
 import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
+import { User } from '@modules/user/entities/user.entity';
 
 export const LoggerFactory = (appName: string) => {
   let consoleFormat;
@@ -34,15 +35,21 @@ export class LoggerMiddleware implements NestMiddleware {
     const { method, originalUrl } = req;
     const startTime = Date.now();
 
-    this.logger.log(`Incoming Request: ${method} ${originalUrl}`);
-
     res.on('finish', () => {
       const { statusCode } = res;
       const executionTime = Date.now() - startTime;
+      const ip = req.ip;
+      const userId = (req?.user as User)?.id || 'anonymous';
 
-      this.logger.log(
-        `Request Completed: ${method} ${originalUrl} ${statusCode} - ${executionTime}ms`,
-      );
+      const log = `[IP: ${ip}] [user: ${userId}] ${method} ${originalUrl} | ${statusCode} | ${executionTime}ms`;
+
+      if (res.statusCode >= 500) {
+        this.logger.error(log);
+      } else if (res.statusCode >= 400) {
+        this.logger.warn(log);
+      } else {
+        this.logger.log(log);
+      }
     });
 
     next();

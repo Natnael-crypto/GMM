@@ -103,6 +103,7 @@ export class NewAuthService {
     try {
       return this.jwtService.verify<JwtPayload>(token, {
         secret: this.authConfig.jwt.registrationTokenSecret,
+        ignoreExpiration: false,
       });
     } catch {
       throw new UnauthorizedException();
@@ -113,6 +114,18 @@ export class NewAuthService {
     try {
       return this.jwtService.verify<JwtPayload>(token, {
         secret: this.authConfig.jwt.resetPasswordTokenSecret,
+        ignoreExpiration: false,
+      });
+    } catch {
+      throw new UnauthorizedException();
+    }
+  }
+
+  async validateAccessToken(token: string) {
+    try {
+      return this.jwtService.verify<JwtPayload>(token, {
+        secret: this.authConfig.jwt.secret,
+        ignoreExpiration: false,
       });
     } catch {
       throw new UnauthorizedException();
@@ -228,6 +241,7 @@ export class NewAuthService {
           firstName: event.guardian.firstName,
           lastName: event.guardian.lastName,
           role: guardianRole.name,
+          invite: true,
         } as unknown as JwtPayload),
       ),
     );
