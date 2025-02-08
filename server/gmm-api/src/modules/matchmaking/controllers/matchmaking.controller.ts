@@ -6,6 +6,7 @@ import {
   Get,
   Inject,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -121,7 +122,7 @@ export class MatchMakingController {
   @UseGuards(JwtAuthGuard)
   @Put('matches/image-requests/:id')
   async updateImageAccessRequest(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() dto: ImageAccessRequestDto,
     @Req() req: Request,
   ) {
@@ -244,7 +245,7 @@ export class MatchMakingController {
   @UseGuards(JwtAuthGuard)
   @Post('matches/:id/invitations')
   async inviteToNextStage(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Req() request: Request & { user: User },
   ) {
     try {
@@ -365,7 +366,7 @@ export class MatchMakingController {
   @UseInterceptors(CacheInterceptor)
   @Get('matches/:id')
   async getMatch(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Req() request: Request & { user: User },
   ) {
     try {
@@ -396,7 +397,9 @@ export class MatchMakingController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(CacheInterceptor)
   @Get('matches/user/:id')
-  async getUserMatch(@Param('id') userId: string) {
+  async getUserMatch(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) userId: string,
+  ) {
     try {
       const match = await this.matchmakingService.getActiveMatch(userId);
       return {
@@ -417,7 +420,7 @@ export class MatchMakingController {
   @UseGuards(JwtAuthGuard)
   @Put('matches/invitations/:id')
   async acceptOrRejectInvitation(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() dto: AcceptOrRejectInvitationDto,
     @Req() request: Request & { user: User },
   ) {
@@ -466,7 +469,7 @@ export class MatchMakingController {
   @UseGuards(JwtAuthGuard)
   @Put('matches/matched-user-profile/:matchId')
   async accessMatchedUserProfile(
-    @Param('matchId') matchId: string,
+    @Param('matchId', new ParseUUIDPipe({ version: '4' })) matchId: string,
     @Req() req: Request,
     @Body() dto: AllowMatchUserProfileDto,
   ) {
@@ -505,7 +508,7 @@ export class MatchMakingController {
   @UseGuards(JwtAuthGuard)
   @Put('matches/matched-chat/:matchId')
   async accessMatchedChat(
-    @Param('matchId') matchId: string,
+    @Param('matchId', new ParseUUIDPipe({ version: '4' })) matchId: string,
     @Req() req: Request,
     @Body() dto: AllowMatchChatDto,
   ) {
@@ -620,9 +623,11 @@ export class MatchMakingController {
   @UseGuards(ApiKeyAuthGuard)
   @Delete('cache')
   async invalidateCache(
-    @Query('maleUserId') maleUserIdParam: string,
-    @Query('femaleUserId') femaleUserIdParam: string,
-    @Query('matchId') matchId: string,
+    @Query('maleUserId', new ParseUUIDPipe({ version: '4' }))
+    maleUserIdParam: string,
+    @Query('femaleUserId', new ParseUUIDPipe({ version: '4' }))
+    femaleUserIdParam: string,
+    @Query('matchId', new ParseUUIDPipe({ version: '4' })) matchId: string,
   ) {
     try {
       let match: Match | undefined;

@@ -5,6 +5,7 @@ import {
   Get,
   Inject,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   UseGuards,
@@ -38,7 +39,7 @@ export class RoleController {
   @Post('roles')
   async createRole(@Body() role: CreateRoleDto) {
     const result = await this.roleService.createRole(role);
-    
+
     const key = `/roles`;
     await this.cacheManager.del(key);
 
@@ -59,7 +60,7 @@ export class RoleController {
 
     return {
       message: 'Role updated successfully',
-      role: result
+      role: result,
     };
   }
 
@@ -80,25 +81,20 @@ export class RoleController {
     return {
       message: 'Role deleted successfully',
       role: result,
-    }
+    };
   }
 
   @UseGuards(JwtAuthGuard, new PermissionGuard(['user:write']))
   @Put('users/:userId/roles')
   async assignRole(
-    @Param('userId') userId: string,
+    @Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string,
     @Body() role: AssignUserRoleDto,
   ) {
     const user = await this.roleService.assignRole(userId, role.roleId);
 
-    const keys = [
-      `/users/${userId}`,
-      `/users/me/${userId}`,
-    ];
+    const keys = [`/users/${userId}`, `/users/me/${userId}`];
 
-    await Promise.all(
-      keys.map((key) => this.cacheManager.del(key)),
-    );
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
 
     return {
       message: 'User role updated successfully',
