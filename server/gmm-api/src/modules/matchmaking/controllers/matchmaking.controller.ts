@@ -623,11 +623,11 @@ export class MatchMakingController {
   @UseGuards(ApiKeyAuthGuard)
   @Delete('cache')
   async invalidateCache(
-    @Query('maleUserId', new ParseUUIDPipe({ version: '4' }))
+    @Query('maleUserId')
     maleUserIdParam: string,
-    @Query('femaleUserId', new ParseUUIDPipe({ version: '4' }))
+    @Query('femaleUserId')
     femaleUserIdParam: string,
-    @Query('matchId', new ParseUUIDPipe({ version: '4' })) matchId: string,
+    @Query('matchId') matchId: string,
   ) {
     try {
       let match: Match | undefined;

@@ -482,9 +482,7 @@ export class UserController {
 
   @UseGuards(ApiKeyAuthGuard)
   @Delete(':id/cache')
-  async invalidateUserCache(
-    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
-  ) {
+  async invalidateUserCache(@Param('id') id: string) {
     const keys = [
       `/users/${id}`,
       `/users/me/${id}`,
