@@ -12,6 +12,8 @@ import ProfileCardSkeleton from './skeletons/profile-card-skeleton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AccountStatus, User } from '@/lib/schemas/user';
 import { useProfileCompletion } from '@/lib/hooks/profile-completion';
+import { VerificationStatus } from '@/lib/verification/types';
+import { useGetLivenessVerificationStatusQuery } from '@/lib/verification/api';
 
 export default function ProfileCompletionCard({
   user,
@@ -36,9 +38,17 @@ export default function ProfileCompletionCard({
     marriageDiscussion < 100 ||
     familyIntroduction < 100;
 
+  const { data: verificationStatus } = useGetLivenessVerificationStatusQuery(
+    undefined,
+    {
+      skip: !user,
+    }
+  );
+
   const showEdit =
     user &&
     user.accountStatus === AccountStatus.APPROVED &&
+    verificationStatus === VerificationStatus.APPROVED &&
     (!user.isMatched || (user.isMatched && hasNotCompletedProfile));
 
   return (
@@ -77,17 +87,19 @@ export default function ProfileCompletionCard({
 
       {!hideProfile && (
         <div className="gmm-profile-completion-cta lg:flex text-center m-full sm:justify-end gap-1">
-          {user && user.accountStatus === AccountStatus.APPROVED && (
-            <Link
-              href={`/dashboard/profile/${user?.id}/basic-information`}
-              className={cn(
-                buttonVariants({ variant: 'outline' }),
-                'rounded-full h-8 text-secondary cta m-1 text-xs'
-              )}
-            >
-              View Profile
-            </Link>
-          )}
+          {user &&
+            user.accountStatus === AccountStatus.APPROVED &&
+            verificationStatus === VerificationStatus.APPROVED && (
+              <Link
+                href={`/dashboard/profile/${user?.id}/basic-information`}
+                className={cn(
+                  buttonVariants({ variant: 'outline' }),
+                  'rounded-full h-8 text-secondary cta m-1 text-xs'
+                )}
+              >
+                View Profile
+              </Link>
+            )}
           {!user && <Skeleton className="h-10 rounded-full" />}
           {showEdit && user && (
             <Link

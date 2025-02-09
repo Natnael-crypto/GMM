@@ -17,12 +17,22 @@ import { useAppSelector } from '@/lib/hooks';
 import { useProfileCompletion } from '@/lib/hooks/profile-completion';
 import { AccountStatus } from '@/lib/schemas/user';
 import { cn } from '@/lib/utils';
+import { useGetLivenessVerificationStatusQuery } from '@/lib/verification/api';
+import { VerificationStatus } from '@/lib/verification/types';
 import React from 'react';
 
 export default function Dashboard() {
   const user = useAppSelector((state) => state.auth.user);
-  const isAccountApproved = user?.accountStatus === AccountStatus.APPROVED;
   const { worldlyLifestyle: wlsCompletion } = useProfileCompletion(user);
+  const { data: verificationStatus } = useGetLivenessVerificationStatusQuery(
+    undefined,
+    {
+      skip: !user,
+    }
+  );
+  const isAccountApproved =
+    user?.accountStatus === AccountStatus.APPROVED &&
+    verificationStatus === VerificationStatus.APPROVED;
 
   return (
     <UpdateProfileProvider autoSave={false}>
