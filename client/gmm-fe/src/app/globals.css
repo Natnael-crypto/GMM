@@ -134,6 +134,7 @@
     text-transform: uppercase;
     letter-spacing: 0.1em;
     padding: 1em !important;
+    width: max-content;
   }
 
   .dark {
