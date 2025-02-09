@@ -1,5 +1,5 @@
 import { FaceRecognitionService } from '@modules/face-recognition/services/face-recognition.service';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Verification } from '../entities/verification.entity';
 import { Repository } from 'typeorm';

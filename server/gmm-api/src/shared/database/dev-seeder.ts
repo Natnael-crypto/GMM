@@ -29,6 +29,14 @@ import { Form } from '@modules/form/entities/form.entity';
 import { FormField } from '@modules/form/entities/form-field.entity';
 import { ImageAccessRequest } from '@modules/matchmaking/entities/image-access-request.entity';
 import { Verification } from '@modules/verification/entities/verification.entity';
+import { Country } from '@modules/location/entities/country.entity';
+import { State } from '@modules/location/entities/state.entity';
+import { City } from '@modules/location/entities/city.entity';
+import VerificationSeeder from './seeds/verification.seed';
+import SubscriptionSeeder from './seeds/subscription.seed';
+import MatchSeeder from './seeds/match.seed';
+import { MatchPool } from '@modules/matchmaking/entities/match-pool.entity';
+import LocationSeeder from './seeds/location.seed';
 
 require('dotenv').config();
 
@@ -43,6 +51,7 @@ const options: DataSourceOptions & SeederOptions = {
   entities: [
     User,
     Match,
+    MatchPool,
     InvitationToMatchStage,
     Permission,
     Role,
@@ -59,12 +68,15 @@ const options: DataSourceOptions & SeederOptions = {
     UserMarriageDiscussion,
     UserFamilyInformation,
     UserOptionalVerifiable,
-    FormSubmission,
-    FormField,
-    FormFieldAnswer,
     Form,
-    ImageAccessRequest,
+    FormField,
+    FormSubmission,
+    FormFieldAnswer,
+    Country,
+    State,
+    City,
     Verification,
+    ImageAccessRequest,
   ],
 };
 
@@ -74,7 +86,14 @@ const dataSource = new DataSource(options);
   await dataSource.initialize();
 
   await runSeeders(dataSource, {
-    seeds: [PermissionSeeder, UserSeeder],
+    seeds: [
+      PermissionSeeder,
+      UserSeeder,
+      VerificationSeeder,
+      SubscriptionSeeder,
+      MatchSeeder,
+      LocationSeeder,
+    ],
     factories: [userFactory],
   });
 

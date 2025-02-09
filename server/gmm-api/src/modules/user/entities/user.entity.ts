@@ -29,7 +29,6 @@ import { UserMarriageDiscussion } from './user-marriage-discussion.entity';
 import { UserFamilyInformation } from './user-family-information.entity';
 import { UserOptionalVerifiable } from './user-optional-verifiables.entity';
 import { FormSubmission } from '@modules/form/entities/submission.entity';
-import { TattooPreference } from '@modules/matchmaking/enums/tattoo.enum';
 import { Verification } from '@modules/verification/entities/verification.entity';
 
 @Entity()
