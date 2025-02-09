@@ -40,12 +40,12 @@ export default function GuardianPage() {
 
   return (
     <div className="flex flex-col my-4">
-      <div className="flex gap-6">
-        <div className="w-56">
+      <div className="grid grid-cols-4 gap-5">
+        <div className="col-span-4 md:col-span-1 text-secondary text-sm space-y-4">
           <Sidebar />
         </div>
 
-        <div className="w-full p-5 bg-muted rounded-lg">
+        <div className="col-span-4 md:col-span-3 p-5 bg-muted rounded-lg">
           <GuardianDashboard />
         </div>
       </div>

@@ -22,9 +22,9 @@ export default function GuardianDashboard() {
     <div className="flex flex-col gap-5">
       <h1 className="text-xl">Guardian Family Dashboard</h1>
 
-      <div className="flex justify-between gap-4">
+      <div className="grid grid-cols-3 gap-5">
         {/* User Information */}
-        <div className="shadow-lg bg-white rounded-lg p-4 space-y-4 w-full">
+        <div className="col-span-3 md:col-span-1 shadow-lg bg-white rounded-lg p-4 space-y-4 w-full">
           <h2 className="font-bold text-xl">Guardian User Info</h2>
 
           <div className="space-y-3">
@@ -48,11 +48,11 @@ export default function GuardianDashboard() {
         </div>
 
         {/* Match Balance */}
-        <div className="shadow-lg bg-white rounded-lg p-4 space-y-6 w-full pb-8">
+        <div className="col-span-3 md:col-span-1 shadow-lg bg-white rounded-lg p-4 space-y-6 w-full pb-8">
           <h2 className="font-bold text-xl">Guardian User Match Balance</h2>
 
           <div className="flex flex-col gap-3 items-center justify-center w-full">
-            <h1 className="text-3xl bg-primary text-primary-foreground rounded-full w-12 h-12 flex items-center justify-center text-center font-extrabold">
+            <h1 className="text-3xl bg-primary text-primary-foreground rounded-full w-12 h-12 flex items-center justify-center text-center font-bold p-8">
               {isLoading ? <Loading /> : subscription?.remainingMatches}
             </h1>
 
@@ -71,7 +71,7 @@ export default function GuardianDashboard() {
         </div>
 
         {/* Your Information */}
-        <div className="shadow-lg bg-white rounded-lg p-4 space-y-4 w-full">
+        <div className="col-span-3 md:col-span-1 shadow-lg bg-white rounded-lg p-4 space-y-4 w-full">
           <h2 className="font-bold text-xl">Your Information</h2>
 
           <div className="space-y-3">
@@ -95,7 +95,7 @@ export default function GuardianDashboard() {
             <div className="flex items-center justify-center">
               {dependent && (
                 <Link
-                  href={`/guardian/profile/${dependent?.id}/basic-information`}
+                  href={`/guardian/settings`}
                   className={cn(
                     buttonVariants({
                       variant: 'default',
