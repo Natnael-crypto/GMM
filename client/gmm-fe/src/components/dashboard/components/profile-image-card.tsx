@@ -25,6 +25,7 @@ import { cmToFeetInches, convertDateToAge, kgToPounds } from '@/lib/format';
 import flags from 'react-phone-number-input/flags';
 import DynamicBlur from '@/components/ui/dynamic-blur';
 import RequestImageView from '@/components/chat/request-image-view';
+import AntiRightClick from '@/components/anti-right-click/anti-right-click';
 
 export default function ProfileImages({
   user,
@@ -100,6 +101,7 @@ export default function ProfileImages({
       whileHover="hidden"
       className="min-h-[25rem] flex flex-col items-center"
     >
+      <AntiRightClick>
       <AnimatePresence>
         {imageUrls && (
           <motion.div className="rounded-se-3xl rounded-es-3xl overflow-hidden h-[30rem] w-full aspect-[9/16]">
@@ -214,6 +216,7 @@ export default function ProfileImages({
           );
         })}
       </div>
+      </AntiRightClick>
     </motion.div>
   );
 }

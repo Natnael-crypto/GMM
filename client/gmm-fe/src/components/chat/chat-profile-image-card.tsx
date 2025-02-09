@@ -25,6 +25,7 @@ import { cmToFeetInches, convertDateToAge, kgToPounds } from '@/lib/format';
 import flags from 'react-phone-number-input/flags';
 import DynamicBlur from '@/components/ui/dynamic-blur';
 import RequestImageView from '@/components/chat/request-image-view';
+import AntiRightClick from '../anti-right-click/anti-right-click';
 
 export default function ChatProfileImages({
   user,
@@ -101,6 +102,7 @@ export default function ChatProfileImages({
   };
 
   return (
+
     <motion.div
       initial="visible"
       whileHover="hidden"
@@ -108,35 +110,38 @@ export default function ChatProfileImages({
     >
       <AnimatePresence>
         {imageUrls && (
-          <motion.div className = {`rounded-se-3xl rounded-es-3xl overflow-hidden h-[20rem] w-full aspect-[9/16]`}>
-            {imageUrls && imageUrls.length > 0 && (
-              <Carousel setApi={setApi}>
-                <CarouselContent>
-                  {imageUrls.map((image, index) => (
-                    <CarouselItem key={`profile_pic_${index}`}>
-                      <div className="relative">
-                        {showRequestViewButton && (
-                          <div className="group absolute top-4 right-3 flex flex-col items-center justify-center">
-                            <RequestImageView />
-                          </div>
-                        )}
+          <motion.div className={`rounded-se-3xl rounded-es-3xl overflow-hidden h-[20rem] w-full aspect-[9/16]`}>
+            <AntiRightClick>
 
-                        <DynamicBlur
-                          src={image}
-                          className={`object-cover h-[20rem] object-top`}
-                          width={600}
-                          height={1000}
-                          alt="Hero image"
-                          alwaysBlur={blur}
-                        />
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious className="w-8" />
-                <CarouselNext className="end-0 w-8" />
-              </Carousel>
-            )}
+              {imageUrls && imageUrls.length > 0 && (
+                <Carousel setApi={setApi}>
+                  <CarouselContent>
+                    {imageUrls.map((image, index) => (
+                      <CarouselItem key={`profile_pic_${index}`}>
+                        <div className="relative">
+                          {showRequestViewButton && (
+                            <div className="group absolute top-4 right-3 flex flex-col items-center justify-center">
+                              <RequestImageView />
+                            </div>
+                          )}
+
+                          <DynamicBlur
+                            src={image}
+                            className={`object-cover h-[20rem] object-top`}
+                            width={600}
+                            height={1000}
+                            alt="Hero image"
+                            alwaysBlur={blur}
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious className="w-8" />
+                  <CarouselNext className="end-0 w-8" />
+                </Carousel>
+              )}
+            {/* </AntiRightClick> */}
 
             <motion.div className="relative">
               <div className="gmm-pic-container absolute bottom-0 left-0 right-0 p-5 space-y-3">
@@ -199,10 +204,16 @@ export default function ChatProfileImages({
                     </p>
                   </motion.div>
                 </motion.div>
+                
               </div>
+              
             </motion.div>
+            </AntiRightClick>
+
           </motion.div>
         )}
+
+
       </AnimatePresence>
 
       <div className="w-full py-2 justify-center flex gap-1">
@@ -219,6 +230,7 @@ export default function ChatProfileImages({
           );
         })}
       </div>
+
     </motion.div>
   );
 }
