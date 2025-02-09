@@ -12,6 +12,9 @@ import { NotificationsModule } from '@modules/notifications/notifications.module
 import { ImageAccessRequestService } from './services/image-request.service';
 import { ImageAccessRequest } from './entities/image-access-request.entity';
 import { NoticeModule } from '@modules/notice/notice.module';
+import { BullModule } from '@nestjs/bullmq';
+import { QueueNames } from '@shared/queues';
+import { MatchmakerConsumer } from './services/matchmaking.consumer';
 
 @Module({
   imports: [
@@ -22,13 +25,20 @@ import { NoticeModule } from '@modules/notice/notice.module';
       InvitationToMatchStage,
       ImageAccessRequest,
     ]),
+    BullModule.registerQueue({
+      name: QueueNames.MATCH_QUEUE,
+    }),
     UserModule,
     PaymentsModule,
     NotificationsModule,
     NoticeModule.forRootAsync(),
   ],
   controllers: [MatchMakingController],
-  providers: [MatchMakingService, ImageAccessRequestService],
+  providers: [
+    MatchMakingService,
+    ImageAccessRequestService,
+    MatchmakerConsumer,
+  ],
   exports: [TypeOrmModule, MatchMakingService],
 })
 export class MatchMakingModule {}

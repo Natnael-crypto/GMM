@@ -24,11 +24,19 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { CommunicationModule } from '@modules/communication/communication.module';
 import { FaceRecognitionModule } from '@modules/face-recognition/face-recognition.module';
 import { VerificationModule } from '@modules/verification/verification.module';
+import { BullModule } from '@nestjs/bullmq';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
     CacheModule.registerAsync(RedisOptions),
+    BullModule.forRoot({
+      connection: {
+        host: process.env.REDIS_HOST,
+        port: +process.env.REDIS_PORT!,
+        password: process.env.REDIS_PASSWORD,
+      },
+    }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     EventEmitterModule.forRoot(),
     ScheduleModule.forRoot(),
