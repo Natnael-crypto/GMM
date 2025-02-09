@@ -21,6 +21,41 @@ export default function PendingApprovalMessage() {
     }
   );
 
+  if (
+    user?.accountStatus === AccountStatus.APPROVED &&
+    verificationStatus !== VerificationStatus.APPROVED
+  ) {
+    return (
+      <div
+        className={
+          'flex flex-col justify-center items-center gap-5 text-primary mt-8'
+        }
+      >
+        <FontAwesomeIcon icon={faCircleCheck} className="text-6xl" />
+        <span className="text-xl font-bold text-center">
+          Your application has been approved!
+        </span>
+
+        <div className="text-md font-bold text-center text-secondary flex flex-col gap-4 px-3">
+          <p className="px-8">
+            Please complete liveness check to access your account.
+          </p>
+
+          <div className="my-6 py-8 border-t">
+            <p className="flex flex-col items-center gap-2">
+              <Link
+                href="/face-liveness"
+                className={buttonVariants({ variant: 'outline' })}
+              >
+                Selfie Verification
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
       className={cn(

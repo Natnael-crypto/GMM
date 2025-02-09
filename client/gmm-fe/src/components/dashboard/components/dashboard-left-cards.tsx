@@ -7,6 +7,8 @@ import MatchedCard from './matched-card';
 import NoMatchCard from './no-match-card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useGetLivenessVerificationStatusQuery } from '@/lib/verification/api';
+import { VerificationStatus } from '@/lib/verification/types';
 
 interface DashboardLeftCardsProps {
   user: User;
@@ -17,8 +19,17 @@ export default function DashboardLeftCards({ user }: DashboardLeftCardsProps) {
     useGetCurrentMatchQuery(undefined, {
       skip: !user || !user.isMatched,
     });
+  const { data: verificationStatus } = useGetLivenessVerificationStatusQuery(
+    undefined,
+    {
+      skip: !user,
+    }
+  );
 
-  if (user.accountStatus === AccountStatus.APPROVED) {
+  if (
+    user.accountStatus === AccountStatus.APPROVED &&
+    verificationStatus === VerificationStatus.APPROVED
+  ) {
     return (
       <AnimatePresence mode="popLayout">
         {isMatchLoading && (
