@@ -169,7 +169,7 @@ export class PaymentsService extends BaseRepository {
       const paymentIntent = await this.stripe.paymentIntents.retrieve(
         paymentIntentId,
         {
-          expand: ['charges.data'],
+          expand: ['charges.data', 'latest_charge'],
         },
       );
 
@@ -225,12 +225,14 @@ export class PaymentsService extends BaseRepository {
             enabled: true,
             allow_redirects: 'never',
           },
+          expand: ['latest_charge'],
         });
 
         const confirmedSetupIntent = await this.stripe.setupIntents.confirm(
           setupIntent.id,
           {
             payment_method: paymentMethodId,
+            expand: ['latest_charge'],
           },
         );
 
@@ -274,7 +276,12 @@ export class PaymentsService extends BaseRepository {
         remainingMatches: tier.matches,
       });
 
-      await this.saveSubscriptionHistory(user, newSubscription);
+      await this.saveSubscriptionHistory(user, {
+        ...newSubscription,
+        receiptUrl:
+          (paymentIntent.latest_charge as Stripe.Charge)?.receipt_url ??
+          undefined,
+      });
 
       if (existingSubscription) {
         newSubscription.id = existingSubscription.id;
@@ -383,7 +390,9 @@ export class PaymentsService extends BaseRepository {
 
       await this.getRepository(Subscription).save(subscription);
 
-      await this.saveSubscriptionHistory(user, subscription);
+      await this.saveSubscriptionHistory(user, {
+        ...subscription,
+      });
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -483,6 +492,7 @@ export class PaymentsService extends BaseRepository {
         userId,
         plan: tier.priceId,
       },
+      expand: ['latest_charge'],
     });
 
     if (paymentIntent.status !== 'succeeded') {
@@ -495,7 +505,12 @@ export class PaymentsService extends BaseRepository {
     subscription.currentPeriodStart = new Date();
 
     await this.subscriptionRepository.save(subscription);
-    await this.saveSubscriptionHistory(user, subscription);
+    await this.saveSubscriptionHistory(user, {
+      ...subscription,
+      receiptUrl:
+        (paymentIntent.latest_charge as Stripe.Charge)?.receipt_url ??
+        undefined,
+    });
 
     this.eventEmitter.emitAsync(
       SubscriptionAutoRenewedEvent.name,
@@ -586,7 +601,7 @@ export class PaymentsService extends BaseRepository {
 
   private async saveSubscriptionHistory(
     user: User,
-    subscription: Subscription,
+    subscription: Subscription & { receiptUrl?: string },
   ): Promise<void> {
     const subscriptionHistory = this.subscriptionHistoryRepository.create({
       user,
@@ -595,6 +610,7 @@ export class PaymentsService extends BaseRepository {
       periodStart: subscription.currentPeriodStart,
       amount: subscription.amount,
       remainingMatches: subscription.remainingMatches,
+      receiptUrl: subscription.receiptUrl,
     });
 
     await this.subscriptionHistoryRepository.save(subscriptionHistory);

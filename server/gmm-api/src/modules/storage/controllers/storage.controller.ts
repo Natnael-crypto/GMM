@@ -6,13 +6,11 @@ import {
   Param,
   Post,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { StorageService } from '../services/storage.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 import { PresignedUploadUrlDto } from '../dtos/presigned-upload-url.dto';
-import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 import { JwtOrInviteAuthGuard } from '@modules/auth/guards/jwt-or-invite.guard';
 
 @ApiTags('storage')
@@ -38,8 +36,6 @@ export class StorageController {
     }
   }
 
-  @UseInterceptors(CacheInterceptor)
-  @CacheTTL(300)
   @Get('presigned-url/:id')
   async getPresignedDownloadUrl(@Param('id') id: string) {
     try {
