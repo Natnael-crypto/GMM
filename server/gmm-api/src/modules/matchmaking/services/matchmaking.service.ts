@@ -41,6 +41,9 @@ import { NoticeService } from '@modules/notice/services/notice.service';
 import { FamilyInfoDto } from '../dtos/family-info.dto';
 import { FamilyInformationNotification } from '@modules/notifications/notifications/family-information-sent.notification';
 import { FamilyInformationExchangeStatus } from '../enums/family-information-exchange-status.enum';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
+import { QueueNames } from '@shared/queues';
 
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
@@ -49,6 +52,7 @@ export class MatchMakingService extends BaseRepository {
     private readonly notificationService: NotificationService,
     private readonly userService: UserService,
     private readonly noticeService: NoticeService,
+    @InjectQueue(QueueNames.MATCH_QUEUE) private readonly matchQueue: Queue,
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
   ) {
@@ -74,7 +78,7 @@ export class MatchMakingService extends BaseRepository {
     });
   }
 
-  async loadCandidates(user: User): Promise<string[]> {
+  async loadCandidates(user: User, limit?: number): Promise<string[]> {
     const previousMatches = await this.getUserMatches(user.id);
     for (const previousMatch of previousMatches) {
       if (previousMatch.isActive) {
@@ -101,6 +105,7 @@ export class MatchMakingService extends BaseRepository {
         ),
       },
       select: ['userId'],
+      take: limit,
     });
 
     const candidateIds = matchPool.map((pool) => pool.userId);
@@ -138,6 +143,32 @@ export class MatchMakingService extends BaseRepository {
     await this.notificationService.send(notification);
 
     return match;
+  }
+
+  async match(userId: string): Promise<any> {
+    const user = await this.getRepository(User).findOneOrFail({
+      where: { id: userId },
+      relations: ['subscription'],
+    });
+
+    if (!user.subscription || user.subscription.remainingMatches <= 0) {
+      throw new BadRequestException(
+        'You need an active subscription to be matched.',
+      );
+    }
+
+    const previousMatches = await this.getUserMatches(user.id);
+    for (const previousMatch of previousMatches) {
+      if (previousMatch.isActive) {
+        throw new ConflictException('You already have an active match');
+      }
+    }
+
+    const newlyAddedToPool = await this.addToMatchingPool(user);
+
+    await this.matchQueue.add('match', { userId });
+
+    return { match: null, newlyAddedToPool };
   }
 
   async matchUser(userId: string): Promise<any> {
@@ -202,7 +233,7 @@ export class MatchMakingService extends BaseRepository {
       user.preference = await this.createUserPreference(userId);
     }
 
-    const candidateIds = await this.loadCandidates(user);
+    const candidateIds = await this.loadCandidates(user, 300);
 
     const candidates = (
       await this.getRepository(User).find({

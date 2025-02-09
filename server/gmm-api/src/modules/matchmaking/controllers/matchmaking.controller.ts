@@ -199,7 +199,7 @@ export class MatchMakingController {
     try {
       const userId = req.user.id;
       const { match, newlyAddedToPool } =
-        await this.matchmakingService.matchUser(userId);
+        await this.matchmakingService.match(userId);
 
       if (!match) {
         const key = `/matchmaking/pool`;
@@ -211,7 +211,7 @@ export class MatchMakingController {
           };
         } else {
           return {
-            message: 'No matches found. Please try again later.',
+            message: 'No match found. You will be notified when matched.',
           };
         }
       }

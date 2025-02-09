@@ -31,7 +31,7 @@ export default class LocationSeeder implements Seeder {
       },
     ]);
 
-    await stateRepo.save([
+    const states = await stateRepo.save([
       {
         id: 1,
         countryId: 1,
@@ -51,60 +51,67 @@ export default class LocationSeeder implements Seeder {
       },
       {
         id: 4,
+        countryId: 2,
         name: 'Texas',
       },
       {
         id: 5,
+        countryId: 3,
         name: 'Addis Ababa',
       },
     ]);
 
     await cityRepo.save([
       {
-        stateId: 1,
+        stateId: states[0].id,
         name: 'Calgary',
         longitude: '1.91028',
         latitude: '1.920',
       },
       {
-        stateId: 1,
+        stateId: states[0].id,
         name: 'Edmonton',
         longitude: '1.91028',
         latitude: '11.1341',
       },
       {
-        stateId: 2,
+        stateId: states[1].id,
         name: 'Vancouver',
         longitude: '1.91028',
         latitude: '1.920',
       },
       {
-        stateId: 2,
+        stateId: states[1].id,
         name: 'Victoria',
         longitude: '1.91028',
         latitude: '1.920',
       },
       {
-        stateId: 3,
+        stateId: states[2].id,
         name: 'Los Angeles',
         longitude: '1.91028',
         latitude: '1.920',
       },
       {
-        stateId: 3,
+        stateId: states[2].id,
         name: 'San Francisco',
         longitude: '1.91028',
         latitude: '1.920',
       },
       {
-        stateId: 4,
+        stateId: states[3].id,
         name: 'Houston',
         longitude: '1.91028',
         latitude: '1.920',
       },
-      { stateId: 4, name: 'Austin', longitude: '1.91028', latitude: '1.920' },
       {
-        stateId: 5,
+        stateId: states[3].id,
+        name: 'Austin',
+        longitude: '1.91028',
+        latitude: '1.920',
+      },
+      {
+        stateId: states[4].id,
         name: 'Addis Ababa',
         longitude: '1.91028',
         latitude: '1.920',
