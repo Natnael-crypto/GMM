@@ -9,6 +9,7 @@ export const constants = {
   google: {
     mapApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   },
+  directusUrl: process.env.NEXT_PUBLIC_DIRECTUS_URL!,
 };
 
 export const apiUrls = {
@@ -20,4 +21,4 @@ export const apiUrls = {
   },
 };
 
-export const mapLibraries = ['places' as const];
+export const mapLibraries = ["places" as const];
