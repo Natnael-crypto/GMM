@@ -15,6 +15,7 @@ import { NoticeModule } from '@modules/notice/notice.module';
 import { BullModule } from '@nestjs/bullmq';
 import { QueueNames } from '@shared/queues';
 import { MatchmakerConsumer } from './services/matchmaking.consumer';
+import { FormModule } from '@modules/form/form.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { MatchmakerConsumer } from './services/matchmaking.consumer';
     UserModule,
     PaymentsModule,
     NotificationsModule,
+    FormModule,
     NoticeModule.forRootAsync(),
   ],
   controllers: [MatchMakingController],

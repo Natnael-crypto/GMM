@@ -44,6 +44,7 @@ import { FamilyInformationExchangeStatus } from '../enums/family-information-exc
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { QueueNames } from '@shared/queues';
+import { FormService } from '@modules/form/services/form.service';
 
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
@@ -52,6 +53,7 @@ export class MatchMakingService extends BaseRepository {
     private readonly notificationService: NotificationService,
     private readonly userService: UserService,
     private readonly noticeService: NoticeService,
+    private readonly formService: FormService,
     @InjectQueue(QueueNames.MATCH_QUEUE) private readonly matchQueue: Queue,
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
@@ -289,11 +291,98 @@ export class MatchMakingService extends BaseRepository {
     return await this.getRepository(Preference).save(p);
   }
 
+  /**
+   * Updates the user preference based on the provided data.
+   *
+   * This method retrieves the user's submissions for the 'worldly-lifestyle' and
+   * 'islamic-lifestyle' forms and checks if all questions in these forms are filled.
+   * If not, it filters out fields from the provided data that should not be updated.
+   *
+   * @param id - The ID of the user whose preference is to be updated.
+   * @param data - The data to update the user's preference with.
+   * @returns A promise that resolves to the updated Preference entity.
+   *
+   * @throws Will throw an error if the user preference entity is not found.
+   */
   async updateUserPreference(
     id: string,
     data: UpdatePreferenceDto,
   ): Promise<Preference> {
-    return await this.getRepository(Preference).save({ userId: id, ...data });
+    const worldlyForm = await this.formService.findOneForm('worldly-lifestyle');
+    const islamicForm = await this.formService.findOneForm('islamic-lifestyle');
+
+    const worldlyOnlyFields = [
+      'city',
+      'country',
+      'countryOfOrigin',
+      'martialStatus',
+      'children',
+      'religiousPractice',
+      'drinking',
+      'drugs',
+      'smoking',
+      'tattoos',
+      'bornOrRevert',
+      'language',
+      'nationality',
+      'employmentType',
+      'education',
+    ];
+    const islamicOnlyFields = ['salah', 'hijab', 'beard'];
+
+    const worldlySubmission = await this.formService.getUserSubmission(
+      'worldly-lifestyle',
+      id,
+    );
+    const islamicSubmission = await this.formService.getUserSubmission(
+      'islamic-lifestyle',
+      id,
+    );
+
+    // Check if all questions in the worldly form are filled
+    const worldlyLifestyleCompleted = worldlyForm?.fields.every((field) => {
+      return worldlySubmission.some(
+        (answer) => answer.fieldId === field.id && answer.value,
+      );
+    });
+
+    // Check if all questions in the islamic form are filled
+    const islamicLifestyleCompleted = islamicForm?.fields.every((field) => {
+      return islamicSubmission.some(
+        (answer) => answer.fieldId === field.id && answer.value,
+      );
+    });
+
+    // Filter out fields that should not be updated
+    const filteredData = { ...data };
+
+    if (!worldlyLifestyleCompleted) {
+      worldlyOnlyFields.forEach((field) => {
+        if (field in filteredData) {
+          delete filteredData[field];
+        }
+      });
+    }
+
+    if (!islamicLifestyleCompleted) {
+      islamicOnlyFields.forEach((field) => {
+        if (field in filteredData) {
+          delete filteredData[field];
+        }
+      });
+    }
+
+    const preference = await this.getRepository(Preference).findOneOrFail({
+      where: { userId: id },
+    });
+
+    // Merge the filtered data with the existing preference entity
+    const updatedPreference = await this.getRepository(Preference).merge(
+      preference,
+      filteredData,
+    );
+
+    return await this.getRepository(Preference).save(updatedPreference);
   }
 
   async addToMatchingPool(user: User) {
