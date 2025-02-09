@@ -118,7 +118,7 @@ export default function NotificationBell({
                     <Link
                       href={
                         notification.url
-                          ? `${notification.url}&r=${Math.random()
+                          ? `${notification.url}?r=${Math.random()
                               .toString()
                               .slice(2)}`
                           : '#'
