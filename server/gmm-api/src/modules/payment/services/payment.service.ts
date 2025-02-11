@@ -9,7 +9,10 @@ import {
 import Stripe from 'stripe';
 
 import { ConfigService } from '@nestjs/config';
-import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
+import {
+  CreateCheckoutSessionDto,
+  UpdateCheckoutSessionDto,
+} from '../dtos/create-checkout-session.dto';
 import { Subscription } from '../entities/subscription.entity';
 import { DataSource, In, Repository } from 'typeorm';
 import { NoticeService } from '@modules/notice/services/notice.service';
@@ -100,10 +103,46 @@ export class PaymentsService extends BaseRepository {
         },
       });
 
-      return { clientSecret: paymentIntent.client_secret };
+      return {
+        clientSecret: paymentIntent.client_secret,
+        paymentIntentId: paymentIntent.id,
+      };
     } catch (error) {
       throw new Error(`Failed to create payment intent: ${error.message}`);
     }
+  }
+
+  async updatePaymentIntent(
+    updateCheckoutSessionDto: UpdateCheckoutSessionDto,
+    userId: string,
+  ) {
+    const { plan, paymentIntentId } = updateCheckoutSessionDto;
+
+    const tier = SubscriptionTiers[plan];
+
+    if (!tier) {
+      throw new Error('Invalid plan name');
+    }
+
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new Error('User not found.');
+    }
+
+    const paymentIntent = await this.stripe.paymentIntents.update(
+      paymentIntentId,
+      {
+        amount: tier.amount,
+      },
+    );
+
+    return {
+      clientSecret: paymentIntent.client_secret,
+      paymentIntentId: paymentIntent.id,
+    };
   }
 
   async getProducts(): Promise<Stripe.Product[]> {
