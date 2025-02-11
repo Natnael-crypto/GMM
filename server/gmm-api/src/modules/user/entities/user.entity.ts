@@ -30,6 +30,7 @@ import { UserFamilyInformation } from './user-family-information.entity';
 import { UserOptionalVerifiable } from './user-optional-verifiables.entity';
 import { FormSubmission } from '@modules/form/entities/submission.entity';
 import { Verification } from '@modules/verification/entities/verification.entity';
+import { PromoCode } from '@modules/promo/entities/promo-code.entity';
 
 @Entity()
 export class User {
@@ -297,6 +298,10 @@ export class User {
     { onDelete: 'CASCADE', nullable: true },
   )
   optionalVerifiable: UserOptionalVerifiable;
+
+  // Promo Codes used to invite people
+  @OneToMany(() => PromoCode, (promoCode) => promoCode.influencer)
+  promoCodes: PromoCode[];
 
   get age(): number | null {
     if (!this.dateOfBirth) {

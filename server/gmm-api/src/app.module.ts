@@ -25,6 +25,7 @@ import { CommunicationModule } from '@modules/communication/communication.module
 import { FaceRecognitionModule } from '@modules/face-recognition/face-recognition.module';
 import { VerificationModule } from '@modules/verification/verification.module';
 import { BullModule } from '@nestjs/bullmq';
+import { PromoCodeModule } from '@modules/promo/promo-code.module';
 
 @Module({
   imports: [
@@ -55,6 +56,7 @@ import { BullModule } from '@nestjs/bullmq';
     CommunicationModule,
     FaceRecognitionModule,
     VerificationModule,
+    PromoCodeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
