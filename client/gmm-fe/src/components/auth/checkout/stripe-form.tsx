@@ -10,34 +10,22 @@ import { Layout } from '@stripe/stripe-js';
 import { Button } from '@/components/ui/button';
 import { useLocale, useTranslations } from 'next-intl';
 import Loading from '@/components/ui/loading';
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
-import { Checkout, checkoutSchema } from '@/lib/schemas/checkout';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { countries, User } from '@/lib/schemas/user';
 import { toast } from '@/components/ui/use-toast';
 import { constants } from '@/config';
-import AutoComplete from '@/components/ui/searchable-select';
 
-const cityOptions = Object.keys(countries).flatMap((country) =>
-  countries[country].map((city) => ({
-    label: `${city}, ${country}`,
-    value: `${city}, ${country}`,
-  }))
-);
-
-export default function StripeForm({ user }: { user: User }) {
+export default function StripeForm({
+  user,
+  isLoading: isParentLoading,
+}: {
+  user: User;
+  isLoading?: boolean;
+}) {
   const t = useTranslations('Auth.checkout');
   const stripe = useStripe();
   const elements = useElements();
-  const fullName = `${user.firstName} ${user.lastName}`;
   const form = useForm();
 
   const locale = useLocale();
@@ -90,12 +78,12 @@ export default function StripeForm({ user }: { user: User }) {
 
           <div className="w-full flex flex-col items-center gap-3">
             <Button
-              disabled={isLoading || !stripe || !elements}
+              disabled={isLoading || !stripe || !elements || isParentLoading}
               id="submit"
               type="submit"
               className="w-52 h-9 bg-primary text-primary-foreground font-bold"
             >
-              {isLoading ? <Loading /> : t('processPayment')}
+              {isLoading || isParentLoading ? <Loading /> : t('processPayment')}
             </Button>
           </div>
         </div>
