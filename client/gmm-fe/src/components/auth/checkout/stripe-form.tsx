@@ -12,7 +12,7 @@ import { useLocale, useTranslations } from 'next-intl';
 import Loading from '@/components/ui/loading';
 import { Form } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
-import { countries, User } from '@/lib/schemas/user';
+import { User } from '@/lib/schemas/user';
 import { toast } from '@/components/ui/use-toast';
 import { constants } from '@/config';
 

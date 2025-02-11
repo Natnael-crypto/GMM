@@ -10,9 +10,13 @@ import {
 import { PromoCodeService } from '../services/promo-code.service';
 import { ValidatePromoCodeDto } from '../dto/promo-code.dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
 
-@Controller('promo')
+@ApiTags('promo')
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
+@Controller('promo')
 export class PromoCodeController {
   constructor(private readonly promoService: PromoCodeService) {}
 
@@ -28,6 +32,7 @@ export class PromoCodeController {
 
     return {
       isValid: true,
+      promoCodeId: promoCode.id,
       discountType: promoCode.discountType,
       discountValue: promoCode.discountValue,
     };
@@ -48,13 +53,14 @@ export class PromoCodeController {
 
     return {
       isValid: true,
+      promoCodeId: promoCode.id,
       discountType: promoCode.discountType,
       discountValue: promoCode.discountValue,
     };
   }
 
   @Get()
-  async getUnclaimedPromoCodes(@Req() req) {
+  async getUnclaimedPromoCodes(@Req() req: Request & { user: { id: string } }) {
     const results = await this.promoService.getUnclaimedPromoCodes(req.user.id);
 
     return results.map((r) => ({
@@ -62,5 +68,10 @@ export class PromoCodeController {
       discountType: r.discountType,
       discountValue: r.discountValue,
     }));
+  }
+
+  @Get('metrics')
+  async getPromoCodeTelemetry(@Req() req: Request & { user: { id: string } }) {
+    return this.promoService.getInfluencerMetrics(req.user.id);
   }
 }

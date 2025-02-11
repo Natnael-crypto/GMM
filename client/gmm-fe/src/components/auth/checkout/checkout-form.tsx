@@ -20,6 +20,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import FemaleCheckoutForm from './female-checkout-form';
 import { Checkbox } from '@/components/ui/checkbox';
+import PromoCodeForm from './promo-code-form';
 
 const stripePromise = loadStripe(constants.stripe.publicKey);
 
@@ -40,6 +41,7 @@ export function CheckoutForm() {
   const [paymentIntentId, setPaymentIntentId] = useState<string | undefined>(
     undefined
   );
+  const [promoCodeId, setPromoCodeId] = useState<string | undefined>(undefined);
 
   const onPlanChange = useCallback(
     async (plan: string) => {
@@ -54,10 +56,15 @@ export function CheckoutForm() {
             const updatedIntent = await updatePaymentIntent({
               plan,
               paymentIntentId,
+              promoCodeId,
             }).unwrap();
+
             setClientSecret(updatedIntent.clientSecret);
           } else {
-            const newIntent = await createPaymentIntent(plan).unwrap();
+            const newIntent = await createPaymentIntent({
+              plan,
+              promoCodeId,
+            }).unwrap();
             setClientSecret(newIntent.clientSecret);
             setPaymentIntentId(newIntent.paymentIntentId);
           }
@@ -74,10 +81,46 @@ export function CheckoutForm() {
       paymentIntentId,
       updatePaymentIntent,
       user,
+      promoCodeId,
     ]
   );
 
-  console.log('clientSecret', clientSecret, 'paymentIntentId', paymentIntentId);
+  const onPromoCodeApply = useCallback(
+    async (promoCodeId: string) => {
+      try {
+        if (user) {
+          if (clientSecret && paymentIntentId) {
+            const updatedIntent = await updatePaymentIntent({
+              plan: selectedOption ?? '3_months',
+              paymentIntentId,
+              promoCodeId,
+            }).unwrap();
+
+            setClientSecret(updatedIntent.clientSecret);
+          } else {
+            const newIntent = await createPaymentIntent({
+              plan: selectedOption ?? '3_months',
+              promoCodeId,
+            }).unwrap();
+            setClientSecret(newIntent.clientSecret);
+            setPaymentIntentId(newIntent.paymentIntentId);
+          }
+
+          setPromoCodeId(promoCodeId);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [
+      selectedOption,
+      clientSecret,
+      createPaymentIntent,
+      paymentIntentId,
+      updatePaymentIntent,
+      user,
+    ]
+  );
 
   const handleGuardianCheckbox = () => {
     setShowFemaleOptions((prev) => {
@@ -182,6 +225,8 @@ export function CheckoutForm() {
             </div>
           )}
         </div>
+
+        {!showFemaleOptions && <PromoCodeForm onApply={onPromoCodeApply} />}
       </div>
 
       {user?.gender === 'Female' && !user?.guardian && (
