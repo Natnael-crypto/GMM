@@ -4,6 +4,7 @@ import {
   HttpStatus,
   Inject,
   Injectable,
+  Logger,
   Scope,
 } from '@nestjs/common';
 import Stripe from 'stripe';
@@ -33,11 +34,14 @@ import {
 } from '../events/payment.event';
 import { SchedulerService } from '@shared/services/scheduler.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Payment } from '../entities/payment.entity';
+import { PromoCodeService } from '@modules/promo/services/promo-code.service';
+import { PromoCodeUsage } from '@modules/promo/entities/promo-code-usage.entity';
+import { PromoCodeDiscountType } from '@modules/promo/enums/promo-code.enum';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PaymentsService extends BaseRepository {
   private stripe: Stripe;
+  private readonly logger = new Logger(PaymentsService.name);
 
   constructor(
     private readonly configService: ConfigService,
@@ -45,6 +49,8 @@ export class PaymentsService extends BaseRepository {
     private readonly noticeService: NoticeService,
     private readonly eventEmitter: EventEmitter2,
     private readonly schedulerService: SchedulerService,
+    private readonly promoCodeService: PromoCodeService,
+
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
     @InjectRepository(User)
@@ -75,6 +81,7 @@ export class PaymentsService extends BaseRepository {
     const user = await this.getRepository(User).findOne({
       where: { id: userId },
     });
+
     if (!user) {
       throw new Error('User not found.');
     }
@@ -94,7 +101,11 @@ export class PaymentsService extends BaseRepository {
         amount: tier.amount,
         currency: 'usd',
         customer: user.stripeCustomerId,
-        metadata: { userId: user.id, plan },
+        metadata: {
+          userId: user.id,
+          plan,
+          promoCodeId: createCheckoutSessionDto.promoCodeId ?? null,
+        },
         setup_future_usage: 'off_session',
 
         automatic_payment_methods: {
@@ -136,6 +147,11 @@ export class PaymentsService extends BaseRepository {
       paymentIntentId,
       {
         amount: tier.amount,
+        metadata: {
+          userId: user.id,
+          plan,
+          promoCodeId: updateCheckoutSessionDto.promoCodeId ?? null,
+        },
       },
     );
 
@@ -218,6 +234,7 @@ export class PaymentsService extends BaseRepository {
 
       const plan = paymentIntent.metadata?.plan;
       const userIdFromMetadata = paymentIntent.metadata?.userId;
+      const promoCodeIdFromMetadata = paymentIntent.metadata?.promoCodeId;
 
       if (!plan || !userIdFromMetadata) {
         throw new Error(
@@ -228,7 +245,7 @@ export class PaymentsService extends BaseRepository {
       if (userId !== userIdFromMetadata) {
         throw new Error('User ID mismatch.');
       }
-      console.log('Plan:', plan);
+
       const tier = Object.entries(SubscriptionTiers).find(
         ([key, value]) => key === plan,
       )?.[1];
@@ -239,7 +256,9 @@ export class PaymentsService extends BaseRepository {
 
       const user = await this.getRepository(User).findOne({
         where: { id: userId },
+        relations: ['promoCodes'],
       });
+
       if (!user) {
         throw new Error('User not found.');
       }
@@ -314,6 +333,38 @@ export class PaymentsService extends BaseRepository {
         amount: tier.amount,
         remainingMatches: tier.matches,
       });
+
+      // Apply promo discount if available
+      if (promoCodeIdFromMetadata) {
+        const promoCode = await this.getRepository(PromoCodeUsage).findOne({
+          where: { promoCodeId: promoCodeIdFromMetadata },
+        });
+
+        if (promoCode) {
+          if (!promoCode.isUsed) {
+            if (promoCode.discountType === PromoCodeDiscountType.AMOUNT) {
+              newSubscription.remainingMatches += promoCode.discountValue;
+            } else if (
+              promoCode.discountType === PromoCodeDiscountType.PERCENT
+            ) {
+              newSubscription.remainingMatches += Math.floor(
+                (promoCode.discountValue / 100) * tier.matches,
+              );
+            }
+
+            promoCode.isUsed = true;
+            await this.getRepository(PromoCodeUsage).save(promoCode);
+          } else {
+            this.logger.error(
+              `[ERROR] Promo code already used: ${promoCodeIdFromMetadata} for user ${userId}`,
+            );
+          }
+        } else {
+          this.logger.error(
+            `[ERROR] Promo code not found: ${promoCodeIdFromMetadata} for user ${userId}`,
+          );
+        }
+      }
 
       await this.saveSubscriptionHistory(user, {
         ...newSubscription,

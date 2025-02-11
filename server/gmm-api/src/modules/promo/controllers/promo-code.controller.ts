@@ -1,0 +1,77 @@
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { PromoCodeService } from '../services/promo-code.service';
+import { ValidatePromoCodeDto } from '../dto/promo-code.dto';
+import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
+
+@ApiTags('promo')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
+@Controller('promo')
+export class PromoCodeController {
+  constructor(private readonly promoService: PromoCodeService) {}
+
+  @Post()
+  async validatePromoCode(@Body() dto: ValidatePromoCodeDto) {
+    const promoCode = await this.promoService.validatePromoCode(dto.code);
+
+    if (!promoCode) {
+      return {
+        isValid: false,
+      };
+    }
+
+    return {
+      isValid: true,
+      promoCodeId: promoCode.id,
+      discountType: promoCode.discountType,
+      discountValue: promoCode.discountValue,
+    };
+  }
+
+  @Put()
+  async applyPromoCode(@Body() dto: ValidatePromoCodeDto, @Req() req) {
+    const promoCode = await this.promoService.applyPromoCode(
+      req.user.id,
+      dto.code,
+    );
+
+    if (!promoCode) {
+      return {
+        isValid: false,
+      };
+    }
+
+    return {
+      isValid: true,
+      promoCodeId: promoCode.id,
+      discountType: promoCode.discountType,
+      discountValue: promoCode.discountValue,
+    };
+  }
+
+  @Get()
+  async getUnclaimedPromoCodes(@Req() req: Request & { user: { id: string } }) {
+    const results = await this.promoService.getUnclaimedPromoCodes(req.user.id);
+
+    return results.map((r) => ({
+      promoCodeId: r.promoCodeId,
+      discountType: r.discountType,
+      discountValue: r.discountValue,
+    }));
+  }
+
+  @Get('metrics')
+  async getPromoCodeTelemetry(@Req() req: Request & { user: { id: string } }) {
+    return this.promoService.getInfluencerMetrics(req.user.id);
+  }
+}

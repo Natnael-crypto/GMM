@@ -6,7 +6,7 @@ import { Subscription } from '../schemas/checkout';
 export const checkoutApi = createApi({
   reducerPath: 'checkoutApi',
 
-  tagTypes: ['Subscription', 'SubscriptionHistory'],
+  tagTypes: ['Subscription', 'SubscriptionHistory', 'PromoCode'],
 
   baseQuery: fetchBaseQuery({
     baseUrl: constants.apiBaseUrl,
@@ -29,18 +29,21 @@ export const checkoutApi = createApi({
       transformResponse: (response: any) => response.data,
     }),
 
-    createPaymentIntent: builder.mutation<any, string>({
+    createPaymentIntent: builder.mutation<
+      any,
+      { plan: string; promoCodeId?: string }
+    >({
       query: (data) => ({
         url: 'payments/payment-intent',
         method: 'POST',
-        body: { plan: data },
+        body: data,
       }),
       transformResponse: (response: any) => response.data,
     }),
 
     updatePaymentIntent: builder.mutation<
       any,
-      { plan: string; paymentIntentId: string }
+      { plan: string; paymentIntentId: string; promoCodeId?: string }
     >({
       query: (data) => ({
         url: 'payments/payment-intent',
@@ -82,6 +85,35 @@ export const checkoutApi = createApi({
       transformResponse: (response: any) => response.data,
       invalidatesTags: ['Subscription'],
     }),
+
+    validatePromoCode: builder.mutation<any, string>({
+      query: (code) => ({
+        url: `promo`,
+        method: 'POST',
+        body: { code },
+      }),
+    }),
+
+    applyPromoCode: builder.mutation<any, string>({
+      query: (code) => ({
+        url: `promo`,
+        method: 'PUT',
+        body: { code },
+      }),
+
+      invalidatesTags: ['PromoCode'],
+    }),
+
+    getUnclaimedPromoCodes: builder.query<
+      {
+        promoCodeId: string;
+        discountType: 'AMOUNT' | 'PERCENT';
+        discountValue: number;
+      }[],
+      void
+    >({
+      query: () => `promo`,
+    }),
   }),
 });
 
@@ -94,4 +126,7 @@ export const {
   useGetCurrentSubscriptionQuery,
   useGetSubscriptionHistoryQuery,
   useSetAutoRenewalMutation,
+  useApplyPromoCodeMutation,
+  useValidatePromoCodeMutation,
+  useGetUnclaimedPromoCodesQuery,
 } = checkoutApi;
