@@ -25,7 +25,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
-import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
+import {
+  CreateCheckoutSessionDto,
+  UpdateCheckoutSessionDto,
+} from '../dtos/create-checkout-session.dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { User } from '@modules/user/entities/user.entity';
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
@@ -58,7 +61,7 @@ export class PaymentsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('create-payment-intent')
+  @Post('payment-intent')
   async createPaymentIntent(
     @Res() response: Response,
     @Req() req: Request,
@@ -74,6 +77,33 @@ export class PaymentsController {
 
       return response.status(HttpStatus.CREATED).json({
         message: 'Payment intent created successfully',
+        data: result,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Failed to create payment intent',
+        error: error.message,
+      });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('payment-intent')
+  async updatePaymentIntent(
+    @Res() response: Response,
+    @Req() req: Request,
+    @Body() updateCheckoutSessionDto: UpdateCheckoutSessionDto,
+  ) {
+    try {
+      const userId = (req.user as User).id;
+
+      const result = await this.paymentService.updatePaymentIntent(
+        updateCheckoutSessionDto,
+        userId,
+      );
+
+      return response.status(HttpStatus.CREATED).json({
+        message: 'Payment intent updated successfully',
         data: result,
       });
     } catch (error) {
