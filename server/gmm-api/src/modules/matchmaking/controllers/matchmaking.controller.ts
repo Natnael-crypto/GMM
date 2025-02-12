@@ -568,7 +568,7 @@ export class MatchMakingController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['match:read']))
   @UseInterceptors(CacheInterceptor)
   @Get('matches')
-  async getAllMatches(@Res() response: Response) {
+  async getAllMatches() {
     try {
       const matches = await this.matchmakingService.getAllMatches();
       return {
@@ -586,7 +586,7 @@ export class MatchMakingController {
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(CacheInterceptor)
   @Get()
-  async getActiveMatches(@Res() response: Response) {
+  async getActiveMatches() {
     try {
       const matches = await this.matchmakingService.getActiveMatches();
       return {
@@ -601,10 +601,10 @@ export class MatchMakingController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, new PermissionGuard(['match:read']))
   @UseInterceptors(CacheInterceptor)
   @Get('pool')
-  async getUsersInMatchPool(@Res() response: Response) {
+  async getUsersInMatchPool() {
     try {
       const matches = await this.matchmakingService.getUsersInMatchPool();
       return {

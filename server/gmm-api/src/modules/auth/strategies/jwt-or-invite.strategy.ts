@@ -6,6 +6,8 @@ import { CookieName } from '../enums/auth.enum';
 import { AuthRepository } from '../services/auth.repository';
 import { Request } from 'express';
 import { NewAuthService } from '../services/auth.service';
+import { AuthConfig } from '@shared/config';
+import { ConfigService } from '@nestjs/config';
 
 export type JwtPayload = {
   sub: string;
@@ -33,15 +35,17 @@ export class JwtOrInviteStrategy extends PassportStrategy(
   constructor(
     private readonly authRepo: AuthRepository,
     private readonly authService: NewAuthService,
+    configService: ConfigService,
   ) {
     super({
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET,
+      secretOrKey: configService.get<AuthConfig>('auth')!.jwt.secret,
       jwtFromRequest: extractJwtFromRequest,
+      passReqToCallback: true,
     });
   }
 
-  async authenticate(req: Request, options?: any) {
+  async validate(req: Request, options?: any) {
     const token = extractJwtFromRequest(req);
 
     if (!token) {
@@ -70,6 +74,6 @@ export class JwtOrInviteStrategy extends PassportStrategy(
     // allow access if user is not found and the request is an invite
     if (!user && !verified.invite) throw new UnauthorizedException();
 
-    this.success(user ?? verified);
+    return user ?? verified;
   }
 }
