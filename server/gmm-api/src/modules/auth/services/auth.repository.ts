@@ -26,7 +26,7 @@ export class AuthRepository extends BaseRepository {
   async findUserByPhoneNumber(phoneNumber: string) {
     return await this.getRepository(User).findOne({
       where: { phoneNumber },
-      select: ['id', 'email', 'roleId', 'password', 'verificationStatus'],
+      select: ['id', 'email', 'roleId', 'password', 'phoneVerificationStatus'],
     });
   }
 

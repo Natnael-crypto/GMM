@@ -16,8 +16,11 @@ import { OtpVerificationDto } from '../dtos/otp.dto';
 import { ConfigService } from '@nestjs/config';
 import { AuthConfig, AwsConfig } from '@shared/config';
 import { User } from '@modules/user/entities/user.entity';
-import { AccountVerificationStatus } from '@modules/user/enums/user.enum';
-import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
+import {
+  AccountVerificationStatus,
+  PhoneVerificationStatus,
+} from '@modules/user/enums/user.enum';
+import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 
 export type OtpPayload = {
@@ -48,10 +51,9 @@ export class OtpService extends BaseRepository {
     super(dataSource, req);
     this.encryptionKey =
       configService.get<AuthConfig>('auth')!.otp.encryptionKey;
-      
-      const region = configService.get<AwsConfig>('aws')?.region;
-      this.snsClient = new SNSClient({ region });
 
+    const region = configService.get<AwsConfig>('aws')?.region;
+    this.snsClient = new SNSClient({ region });
   }
 
   async generateOtpForEmail(
@@ -143,7 +145,6 @@ export class OtpService extends BaseRepository {
     }
   }
 
-
   async verifyOtp(verificationDto: OtpVerificationDto): Promise<OtpPayload> {
     const { otp, verificationKey, email, phoneNumber } = verificationDto;
 
@@ -176,9 +177,18 @@ export class OtpService extends BaseRepository {
     otpInstance.verified = true;
 
     await this.getRepository(Otp).save(otpInstance);
-    await this.getRepository(User).update(decoded.id, {
-      verificationStatus: AccountVerificationStatus.VERIFIED,
-    });
+
+    if (email) {
+      await this.getRepository(User).update(decoded.id, {
+        verificationStatus: AccountVerificationStatus.VERIFIED,
+      });
+    }
+
+    if (phoneNumber) {
+      await this.getRepository(User).update(decoded.id, {
+        phoneVerificationStatus: PhoneVerificationStatus.VERIFIED,
+      });
+    }
 
     return decoded;
   }
