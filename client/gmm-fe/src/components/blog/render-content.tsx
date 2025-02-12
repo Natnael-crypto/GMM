@@ -3,14 +3,13 @@ import './style.css';
 
 interface Props {
   content: string;
-  thumbnail: string;
 }
 
-export default function RenderContent({ thumbnail, content }: Props) {
+export default function RenderContent({ content }: Props) {
   return (
     <div
       className="blog bg-white"
-      dangerouslySetInnerHTML={{ __html: thumbnail + content }}
+      dangerouslySetInnerHTML={{ __html: content }}
     />
   );
 }
