@@ -73,7 +73,7 @@ export class BlogController {
 
   @ApiParam({ name: 'slug', type: 'string' })
   @Get(':slug')
-  async getBlog(slug: string) {
+  async getBlog(@Param('slug') slug: string) {
     const blog = await this.blogService.getBlog(slug);
     if (!blog) {
       throw new NotFoundException(`Blog with slug ${slug} not found`);
