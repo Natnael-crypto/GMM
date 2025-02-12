@@ -13,6 +13,7 @@ import { DataSource } from 'typeorm';
 import { LoggerFactory } from '@shared/utils/logger';
 import * as passport from 'passport';
 import * as bodyParser from 'body-parser';
+import { setupGracefulShutdown } from 'nestjs-graceful-shutdown';
 
 async function bootstrap() {
   const winstonLogger = LoggerFactory('Guardian/Wali');
@@ -58,6 +59,8 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('docs', app, document);
   }
+
+  setupGracefulShutdown({ app });
 
   await app.listen(port);
 }
