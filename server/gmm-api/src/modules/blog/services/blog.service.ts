@@ -42,9 +42,15 @@ export class BlogService extends BaseRepository {
   }
 
   async getBlog(slug: string) {
-    return await this.getRepository(Blog).findOne({
+    const blog = await this.getRepository(Blog).findOne({
       where: { slug },
       relations: ['categories'],
     });
+
+    if (!blog) {
+      console.log('No blog found with slug:', slug);
+    }
+
+    return blog;
   }
 }
