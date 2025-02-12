@@ -338,8 +338,8 @@ export class MatchMakingService extends BaseRepository {
       await Promise.all([
         this.formService.findOneForm('worldly-lifestyle'),
         this.formService.findOneForm('islamic-lifestyle'),
-        this.formService.getUserSubmission('worldly-lifestyle', id),
-        this.formService.getUserSubmission('islamic-lifestyle', id),
+        this.getSubmissionSafely('worldly-lifestyle', id),
+        this.getSubmissionSafely('islamic-lifestyle', id),
       ]);
 
     const {
@@ -389,6 +389,14 @@ export class MatchMakingService extends BaseRepository {
     return await this.getRepository(Preference).save(updatedPreference);
   }
 
+  private async getSubmissionSafely(slug: string, userId: string) {
+    try {
+      return await this.formService.getUserSubmission(slug, userId);
+    } catch (e) {
+      return [];
+    }
+  }
+
   /**
    * Retrieves the expected forms and submissions for a user based on their gender.
    *
@@ -411,14 +419,8 @@ export class MatchMakingService extends BaseRepository {
       ] = await Promise.all([
         this.formService.findOneForm('male-expected-worldly-lifestyle'),
         this.formService.findOneForm('male-expected-islamic-lifestyle'),
-        this.formService.getUserSubmission(
-          'male-expected-worldly-lifestyle',
-          userId,
-        ),
-        this.formService.getUserSubmission(
-          'male-expected-islamic-lifestyle',
-          userId,
-        ),
+        this.getSubmissionSafely('male-expected-worldly-lifestyle', userId),
+        this.getSubmissionSafely('male-expected-islamic-lifestyle', userId),
       ]);
       return {
         expectedWorldlyForm,
@@ -435,14 +437,8 @@ export class MatchMakingService extends BaseRepository {
       ] = await Promise.all([
         this.formService.findOneForm('female-expected-worldly-lifestyle'),
         this.formService.findOneForm('female-expected-islamic-lifestyle'),
-        this.formService.getUserSubmission(
-          'female-expected-worldly-lifestyle',
-          userId,
-        ),
-        this.formService.getUserSubmission(
-          'female-expected-islamic-lifestyle',
-          userId,
-        ),
+        this.getSubmissionSafely('female-expected-worldly-lifestyle', userId),
+        this.getSubmissionSafely('female-expected-islamic-lifestyle', userId),
       ]);
       return {
         expectedWorldlyForm,
@@ -464,13 +460,19 @@ export class MatchMakingService extends BaseRepository {
     form: Form | null,
     submission: FormFieldAnswer[],
   ): boolean {
-    return (
-      form?.fields.every((field) => {
-        return submission.some(
-          (answer) => answer.fieldId === field.id && answer.value,
-        );
-      }) ?? false
-    );
+    if (submission.length === 0) {
+      return false;
+    }
+
+    if (!form) {
+      return false;
+    }
+
+    return form.fields.every((field) => {
+      return submission.some(
+        (answer) => answer.fieldId === field.id && answer.value,
+      );
+    });
   }
 
   /**
