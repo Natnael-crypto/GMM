@@ -15,7 +15,7 @@ export default function BlogCard({ blog }: Props) {
     : "/assets/hero-mosque-2.jpg";
 
   return (
-    <div>
+    <div className={'gmm-blog ' + blog.tags.join('')}>
       <div className="blog-card max-w-sm rounded overflow-hidden shadow-lg rounded-se-3xl rounded-es-3xl">
         <Link href={`/blog/${blog.slug}`}>
           <div
