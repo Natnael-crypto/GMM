@@ -373,9 +373,13 @@ export class MatchMakingService extends BaseRepository {
       islamicOnlyFields,
     );
 
-    const preference = await this.getRepository(Preference).findOneOrFail({
+    let preference = await this.getRepository(Preference).findOne({
       where: { userId: id },
     });
+
+    if (!preference) {
+      preference = this.getRepository(Preference).create({ userId: id });
+    }
 
     const updatedPreference = this.getRepository(Preference).merge(
       preference,

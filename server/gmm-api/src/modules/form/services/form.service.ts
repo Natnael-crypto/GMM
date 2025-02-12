@@ -111,7 +111,7 @@ export class FormService extends BaseRepository {
     });
 
     if (!submission) {
-      throw new NotFoundException('Submission not found');
+      throw new NotFoundException(`Submission for the form ${slug} not found`);
     }
 
     return submission.answers;
