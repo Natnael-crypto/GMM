@@ -37,6 +37,10 @@ import SubscriptionSeeder from './seeds/subscription.seed';
 import MatchSeeder from './seeds/match.seed';
 import { MatchPool } from '@modules/matchmaking/entities/match-pool.entity';
 import LocationSeeder from './seeds/location.seed';
+import FormSeeder from './seeds/form.seed';
+import FormFieldSeeder from './seeds/form-field.seed';
+import FormSubmissionSeeder from './seeds/form-submission.seed';
+import FormFieldAnswerSeeder from './seeds/form-field-answer.seed';
 
 require('dotenv').config();
 
@@ -93,6 +97,10 @@ const dataSource = new DataSource(options);
       SubscriptionSeeder,
       MatchSeeder,
       LocationSeeder,
+      FormSeeder,
+      FormFieldSeeder,
+      FormSubmissionSeeder,
+      FormFieldAnswerSeeder,
     ],
     factories: [userFactory],
   });
