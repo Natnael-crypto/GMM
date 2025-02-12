@@ -1,5 +1,6 @@
 import { Gender } from '@modules/user/enums/user.enum';
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import {
   IsDateString,
   IsEmail,
@@ -21,6 +22,7 @@ export class EmailRegistrationDto {
   @IsEmail()
   @IsNotEmpty()
   @ApiProperty()
+  @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
 
   @IsNotEmpty()
