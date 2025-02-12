@@ -1,13 +1,21 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString, ValidateIf } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateIf,
+} from 'class-validator';
 
 export class OtpVerificationDto {
   @IsNotEmpty()
   @ApiProperty()
   otp: string;
 
-  // @IsNotEmpty()
+  @IsEmail()
   @ApiProperty()
+  @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
 
   @ApiProperty()
@@ -30,4 +38,3 @@ export class OtpRequestDto {
   @ValidateIf((o) => !o.email)
   phoneNumber?: string;
 }
-
