@@ -17,6 +17,7 @@ import {
   AccountStatus,
   AccountVerificationStatus,
   Gender,
+  PhoneVerificationStatus,
 } from '../enums/user.enum';
 import { MaleExpectedWorldlyLifestyle } from './male-expected-worldly-lifestyle.entity';
 import { FemaleExpectedWorldlyLifestyle } from './female-expected-worldly-lifestyle.entity';
@@ -200,6 +201,13 @@ export class User {
     default: AccountVerificationStatus.UNVERIFIED,
   })
   verificationStatus: AccountVerificationStatus;
+
+  @Column({
+    type: 'enum',
+    enum: PhoneVerificationStatus,
+    default: PhoneVerificationStatus.UNVERIFIED,
+  })
+  phoneVerificationStatus: PhoneVerificationStatus;
 
   @OneToMany(() => FormSubmission, (submission) => submission.user)
   formSubmissions: FormSubmission[];

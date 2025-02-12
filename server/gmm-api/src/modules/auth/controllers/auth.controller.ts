@@ -32,7 +32,10 @@ import { OtpRequestDto, OtpVerificationDto } from '../dtos/otp.dto';
 import { AuthRepository } from '../services/auth.repository';
 import { RequestResetPasswordDto } from '../dtos/request-reset-password.dto';
 import { ResetPasswordDto } from '../dtos/reset-password.dto';
-import { AccountVerificationStatus } from '@modules/user/enums/user.enum';
+import {
+  AccountVerificationStatus,
+  PhoneVerificationStatus,
+} from '@modules/user/enums/user.enum';
 import { userRole } from '@shared/database/seeds/permission.seed';
 
 @ApiTags('auth')
@@ -178,16 +181,20 @@ export class AuthController {
     let user;
     if (dto.email) {
       user = await this.authRepo.findUserByEmail(dto.email);
+
+      if (user.verificationStatus === AccountVerificationStatus.VERIFIED) {
+        throw new BadRequestException('Your email is already verified');
+      }
     } else if (dto.phoneNumber) {
-      user = await this.authRepo.findUserByPhoneNumber(dto.phoneNumber); // Ensure you have this method in your repository
+      user = await this.authRepo.findUserByPhoneNumber(dto.phoneNumber);
+
+      if (user.phoneVerificationStatus === PhoneVerificationStatus.VERIFIED) {
+        throw new BadRequestException('Your phone is already verified');
+      }
     }
 
     if (!user) {
       throw new BadRequestException('User not found');
-    }
-
-    if (user.verificationStatus === AccountVerificationStatus.VERIFIED) {
-      throw new BadRequestException('Your account is already verified');
     }
 
     let otp, verificationKey;
