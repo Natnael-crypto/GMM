@@ -258,28 +258,26 @@ type Subscription {
   refresh_token_mutated(event: EventEnum): refresh_token_mutated
   permission_mutated(event: EventEnum): permission_mutated
   otp_mutated(event: EventEnum): otp_mutated
-  match_mutated(event: EventEnum): match_mutated
   invitation_to_match_stage_mutated(event: EventEnum): invitation_to_match_stage_mutated
-  subscriptions_mutated(event: EventEnum): subscriptions_mutated
-  subscription_history_mutated(event: EventEnum): subscription_history_mutated
+  match_mutated(event: EventEnum): match_mutated
   role_mutated(event: EventEnum): role_mutated
   guardian_request_mutated(event: EventEnum): guardian_request_mutated
   match_pool_mutated(event: EventEnum): match_pool_mutated
+  subscription_history_mutated(event: EventEnum): subscription_history_mutated
+  subscriptions_mutated(event: EventEnum): subscriptions_mutated
   form_submission_mutated(event: EventEnum): form_submission_mutated
   form_field_answer_mutated(event: EventEnum): form_field_answer_mutated
+  category_mutated(event: EventEnum): category_mutated
+  form_mutated(event: EventEnum): form_mutated
+  notifications_mutated(event: EventEnum): notifications_mutated
   form_field_mutated(event: EventEnum): form_field_mutated
   blog_mutated(event: EventEnum): blog_mutated
-  category_mutated(event: EventEnum): category_mutated
-  notifications_mutated(event: EventEnum): notifications_mutated
-  form_mutated(event: EventEnum): form_mutated
   state_mutated(event: EventEnum): state_mutated
   city_mutated(event: EventEnum): city_mutated
   country_mutated(event: EventEnum): country_mutated
-  user_mutated(event: EventEnum): user_mutated
   directus_activity_mutated(event: EventEnum): directus_activity_mutated
   directus_files_mutated(event: EventEnum): directus_files_mutated
   directus_folders_mutated(event: EventEnum): directus_folders_mutated
-  preference_mutated(event: EventEnum): preference_mutated
   directus_permissions_mutated(event: EventEnum): directus_permissions_mutated
   directus_roles_mutated(event: EventEnum): directus_roles_mutated
   directus_presets_mutated(event: EventEnum): directus_presets_mutated
@@ -299,6 +297,13 @@ type Subscription {
   directus_versions_mutated(event: EventEnum): directus_versions_mutated
   directus_comments_mutated(event: EventEnum): directus_comments_mutated
   directus_sync_id_map_mutated(event: EventEnum): directus_sync_id_map_mutated
+  user_mutated(event: EventEnum): user_mutated
+  api_key_mutated(event: EventEnum): api_key_mutated
+  verification_mutated(event: EventEnum): verification_mutated
+  image_access_request_mutated(event: EventEnum): image_access_request_mutated
+  preference_mutated(event: EventEnum): preference_mutated
+  promo_code_usage_mutated(event: EventEnum): promo_code_usage_mutated
+  promo_code_mutated(event: EventEnum): promo_code_mutated
 }
 
 """The `Boolean` scalar type represents `true` or `false`."""
@@ -375,6 +380,21 @@ enum server_info_websocket_rest_authentication {
   strict
 }
 
+type api_key {
+  id: ID!
+  prefix: String!
+  api_key_hash: String!
+  created_at: Date
+  created_at_func: datetime_functions
+  is_active: Boolean
+}
+
+type api_key_mutated {
+  key: ID!
+  event: EventEnum
+  data: api_key
+}
+
 type auth_tokens {
   access_token: String
   expires: GraphQLBigInt
@@ -393,7 +413,7 @@ type blog {
   tags: String
   authors: String
   content: String
-  thumbnail: String
+  thumbnail(filter: directus_files_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): directus_files
 }
 
 type blog_mutated {
@@ -1806,8 +1826,6 @@ type form_field {
   name: String!
   type: String!
   placeholder: String
-  options: JSON
-  options_func: count_functions
   displayWidth: String
   defaultValue: String
   minValue: String
@@ -1822,6 +1840,8 @@ type form_field {
   label: String!
   show: JSON
   show_func: count_functions
+  options: JSON
+  options_func: count_functions
 }
 
 type form_field_answer {
@@ -1880,6 +1900,23 @@ type guardian_request_mutated {
   key: ID!
   event: EventEnum
   data: guardian_request
+}
+
+type image_access_request {
+  createdAt: Date
+  createdAt_func: datetime_functions
+  updatedAt: Date
+  updatedAt_func: datetime_functions
+  id: ID!
+  userId: String!
+  matchId(filter: match_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): match
+  status: String
+}
+
+type image_access_request_mutated {
+  key: ID!
+  event: EventEnum
+  data: image_access_request
 }
 
 type invitation_to_match_stage {
@@ -1986,6 +2023,9 @@ type match {
   stage: String
   createdAt: Date
   createdAt_func: datetime_functions
+  familyInformationExchangeStatus: String
+  allowMatchedUserView: Boolean!
+  allowChatView: Boolean!
 }
 
 type match_mutated {
@@ -2005,7 +2045,6 @@ type match_pool_mutated {
 }
 
 type notifications {
-  id: ID!
   recipientId: String!
   initiatorUserId: String
   title: String!
@@ -2014,6 +2053,7 @@ type notifications {
   isRead: Boolean!
   createdAt: Date
   createdAt_func: datetime_functions
+  id: ID!
 }
 
 type notifications_mutated {
@@ -2074,15 +2114,12 @@ type preference {
   bornOrRevert: String
   hijab: String
   children: String
-  wantsChildren: String
   education: String
-  profession: String
   minMatchRequirement: Float
   city: String
   countryOfOrigin: String
   religiousPractice: String
   drugs: Boolean
-  numberOfChildren: String
   tattoos: String
   notNationality: Boolean!
   notLanguage: Boolean!
@@ -2092,19 +2129,65 @@ type preference {
   notMartialStatus: Boolean!
   notReligiousPractice: Boolean!
   notBornOrRevert: Boolean!
-  notNumberOfChildren: Boolean!
   notHijab: Boolean!
   notChildren: Boolean!
-  notWantsChildren: Boolean!
   notEducation: Boolean!
-  notProfession: Boolean!
   notTattoos: Boolean!
+  notEmploymentType: Boolean!
+  employmentType: String
+  notSalah: Boolean!
+  salah: String
+  notBeard: Boolean!
+  beard: String
 }
 
 type preference_mutated {
   key: ID!
   event: EventEnum
   data: preference
+}
+
+type promo_code {
+  createdAt: Date
+  createdAt_func: datetime_functions
+  updatedAt: Date
+  updatedAt_func: datetime_functions
+  id: ID!
+  code: String!
+  discountType: String
+  discountValue: Int!
+  influencerId(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): user
+  expiryDate: Date
+  expiryDate_func: date_functions
+  maxUses: Int
+  remainingUses: Int!
+  deletedAt: Date
+  deletedAt_func: datetime_functions
+}
+
+type promo_code_mutated {
+  key: ID!
+  event: EventEnum
+  data: promo_code
+}
+
+type promo_code_usage {
+  createdAt: Date
+  createdAt_func: datetime_functions
+  updatedAt: Date
+  updatedAt_func: datetime_functions
+  id: ID!
+  promoCodeId: String!
+  userId: String!
+  discountType: String
+  discountValue: Int!
+  isUsed: Boolean!
+}
+
+type promo_code_usage_mutated {
+  key: ID!
+  event: EventEnum
+  data: promo_code_usage
 }
 
 type refresh_token {
@@ -2194,7 +2277,8 @@ type subscription_history {
   remainingMatches: Int!
   createdAt: Date
   createdAt_func: datetime_functions
-  user_id(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): user
+  userId(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): user
+  receiptUrl: String
 }
 
 type subscription_history_mutated {
@@ -2211,7 +2295,8 @@ type subscriptions {
   currentPeriodStart_func: datetime_functions
   amount: Int
   remainingMatches: Int!
-  user_id(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): user
+  userId(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): user
+  autoRenew: Boolean
 }
 
 type subscriptions_mutated {
@@ -2269,17 +2354,18 @@ type user {
   stripeCustomerId: String
   roleId(filter: role_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): role
 
-  """Incomplete Registration | Pending | Approved | Suspended"""
+  """Incomplete Registration | Pending | Approved | Denied | Suspended"""
   accountStatus: String
   verificationStatus: String
-  salat: String
   hijab: String
   children: String
-  wantsChildren: String
   education: String
-  profession: String
-  tattoos: String
   currentCountry: String
+  salah: String
+  beard: String
+  employmentType: String
+  tattoos: String
+  phoneVerificationStatus: String
 }
 
 type user_family_information {
@@ -2379,6 +2465,25 @@ type user_worldly_lifestyle_mutated {
 type users_me_tfa_generate_data {
   secret: String
   otpauth_url: String
+}
+
+type verification {
+  createdAt: Date
+  createdAt_func: datetime_functions
+  updatedAt: Date
+  updatedAt_func: datetime_functions
+  id: ID!
+  userId(filter: user_filter, sort: [String], limit: Int, offset: Int, page: Int, search: String): user
+  type: String!
+  status: String
+  extra: JSON
+  extra_func: count_functions
+}
+
+type verification_mutated {
+  key: ID!
+  event: EventEnum
+  data: verification
 }
 
 input big_int_filter_operators {
@@ -3216,8 +3321,6 @@ input form_field_filter {
   name: string_filter_operators
   type: string_filter_operators
   placeholder: string_filter_operators
-  options: string_filter_operators
-  options_func: count_function_filter_operators
   displayWidth: string_filter_operators
   defaultValue: string_filter_operators
   minValue: string_filter_operators
@@ -3232,6 +3335,8 @@ input form_field_filter {
   label: string_filter_operators
   show: string_filter_operators
   show_func: count_function_filter_operators
+  options: string_filter_operators
+  options_func: count_function_filter_operators
   _and: [form_field_filter]
   _or: [form_field_filter]
 }
@@ -3275,6 +3380,9 @@ input match_filter {
   stage: string_filter_operators
   createdAt: date_filter_operators
   createdAt_func: datetime_function_filter_operators
+  familyInformationExchangeStatus: string_filter_operators
+  allowMatchedUserView: boolean_filter_operators
+  allowChatView: boolean_filter_operators
   _and: [match_filter]
   _or: [match_filter]
 }
@@ -3709,14 +3817,15 @@ input user_filter {
   roleId: role_filter
   accountStatus: string_filter_operators
   verificationStatus: string_filter_operators
-  salat: string_filter_operators
   hijab: string_filter_operators
   children: string_filter_operators
-  wantsChildren: string_filter_operators
   education: string_filter_operators
-  profession: string_filter_operators
-  tattoos: string_filter_operators
   currentCountry: string_filter_operators
+  salah: string_filter_operators
+  beard: string_filter_operators
+  employmentType: string_filter_operators
+  tattoos: string_filter_operators
+  phoneVerificationStatus: string_filter_operators
   _and: [user_filter]
   _or: [user_filter]
 }

@@ -11,7 +11,7 @@
     "group": null,
     "hidden": false,
     "interface": null,
-    "note": "Incomplete Registration | Pending | Approved | Suspended",
+    "note": "Incomplete Registration | Pending | Approved | Denied | Suspended",
     "options": null,
     "readonly": false,
     "required": false,

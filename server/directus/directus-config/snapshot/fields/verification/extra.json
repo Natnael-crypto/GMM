@@ -1,12 +1,12 @@
 {
-  "collection": "subscription_history",
-  "field": "user_id",
-  "type": "uuid",
+  "collection": "verification",
+  "field": "extra",
+  "type": "json",
   "meta": null,
   "schema": {
-    "name": "user_id",
-    "table": "subscription_history",
-    "data_type": "uuid",
+    "name": "extra",
+    "table": "verification",
+    "data_type": "jsonb",
     "default_value": null,
     "max_length": null,
     "numeric_precision": null,
@@ -18,7 +18,7 @@
     "is_generated": false,
     "generation_expression": null,
     "has_auto_increment": false,
-    "foreign_key_table": "user",
-    "foreign_key_column": "id"
+    "foreign_key_table": null,
+    "foreign_key_column": null
   }
 }

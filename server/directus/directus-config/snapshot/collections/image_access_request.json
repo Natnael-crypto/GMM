@@ -1,0 +1,7 @@
+{
+  "collection": "image_access_request",
+  "meta": null,
+  "schema": {
+    "name": "image_access_request"
+  }
+}

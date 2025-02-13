@@ -1,14 +1,14 @@
 {
-  "collection": "subscriptions",
-  "field": "user_id",
+  "collection": "subscription_history",
+  "field": "userId",
   "related_collection": "user",
   "meta": null,
   "schema": {
-    "table": "subscriptions",
-    "column": "user_id",
+    "table": "subscription_history",
+    "column": "userId",
     "foreign_key_table": "user",
     "foreign_key_column": "id",
-    "constraint_name": "FK_d0a95ef8a28188364c546eb65c1",
+    "constraint_name": "FK_bfbe390118678d2ce21103acfd7",
     "on_update": "NO ACTION",
     "on_delete": "NO ACTION"
   }
