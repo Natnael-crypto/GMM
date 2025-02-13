@@ -38,6 +38,7 @@ export const userApi = createApi({
     'ExpectedIslamicLifestyle',
     'MarriageDiscussion',
     'FamilyIntroduction',
+    'Image',
   ],
 
   baseQuery: fetchBaseQuery({
@@ -305,6 +306,9 @@ export const userApi = createApi({
       query: (key) => `storage/presigned-url/${key}`,
       transformResponse: (response: BaseResponse<UrlResponse>) => {
         return response.data.url;
+      },
+      providesTags: (result, error, arg, meta) => {
+        return [{ type: 'Image', id: arg }];
       },
     }),
   }),
