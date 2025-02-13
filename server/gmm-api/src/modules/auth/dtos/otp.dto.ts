@@ -15,10 +15,12 @@ export class OtpVerificationDto {
 
   @IsEmail()
   @ApiPropertyOptional()
+  @IsOptional()
   @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
 
   @ApiPropertyOptional()
+  @IsOptional()
   phoneNumber: string;
 
   @IsNotEmpty()
