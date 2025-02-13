@@ -5,6 +5,7 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { toast } from '@/components/ui/use-toast';
 import { useAppSelector } from '@/lib/hooks';
 import { Link , useRouter} from '@/lib/navigation';
+import { PhoneVerificationStatus } from '@/lib/schemas/user';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 
@@ -81,12 +82,14 @@ export default function PersonalInfo() {
             <span className="font-bold">Phone Number</span>
             <span className="flex gap-3 items-center">
               {user?.phoneNumber}{' '}
-              {/* <span className="text-primary gap-1 flex items-center justify-center">
+              {user?.phoneVerificationStatus === PhoneVerificationStatus.VERIFIED && <span className="text-primary gap-1 flex items-center justify-center">
                 <span>(Verified)</span>
-              </span> */}
-              <span className="text-destructive gap-1 flex items-center justify-center">
+              </span>}
+              
+            {user?.phoneVerificationStatus === PhoneVerificationStatus.VERIFIED &&  <span className="text-destructive gap-1 flex items-center justify-center">
                 <span>(Not Verified!)</span>
               </span>
+            }
             </span>
           </div>
 

@@ -6,22 +6,21 @@ import { Otp } from '@/lib/schemas/auth';
 import { cookieNames } from '@/types/cookie-names';
 import { revalidatePath } from 'next/cache';
 
-export const verifyOtp = async (data: Otp , verificationType: string , phoneNumber? : string) => {
+export const verifyOtp = async (data: Otp , verificationType: string ) => {
   const userIdentifier = cookies().get(cookieNames.userIdentifier)?.value;
   const otpVerificationKey = cookies().get(
     cookieNames.otpVerificationKey
   )?.value;
-
   const requestBody: any = {
     otp: data.otp,
     verificationKey: otpVerificationKey,
   };
   if (verificationType === 'phone') {
-    requestBody.phoneNumber = phoneNumber;
+    requestBody.phoneNumber = userIdentifier;
   }
   else{
     requestBody.email = userIdentifier;
-  }
+  }  
   const response = await fetch(
     `${constants.apiBaseUrl}/auth/otp/verification`,
     {

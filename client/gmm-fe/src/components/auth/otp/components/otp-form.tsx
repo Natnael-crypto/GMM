@@ -60,10 +60,10 @@ export function OtpForm({ userIdentifier, verificationType }: OtpFormProps) {
     
     let res;
     if (verificationType === 'phone' && user?.phoneNumber) {
-      res = await verifyOtp(data, verificationType, user?.phoneNumber);
+      res = await verifyOtp(data, verificationType);
     }
     else {
-      res = await verifyOtp(data, verificationType);
+      res = await verifyOtp(data , verificationType);
     }
     if (res.status === 200) {
       dispatch(setToken(res.token));
@@ -72,7 +72,7 @@ export function OtpForm({ userIdentifier, verificationType }: OtpFormProps) {
           replace('/guardian/settings');
           return;
         }
-        replace('.dashboard/personal-info');
+        replace('dashboard/personal-info');
         return;
 
       } else {
