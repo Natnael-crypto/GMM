@@ -14,11 +14,11 @@ export class OtpVerificationDto {
   otp: string;
 
   @IsEmail()
-  @ApiProperty()
+  @ApiPropertyOptional()
   @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   phoneNumber: string;
 
   @IsNotEmpty()
