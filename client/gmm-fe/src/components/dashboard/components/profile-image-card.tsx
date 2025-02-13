@@ -120,7 +120,7 @@ export default function ProfileImages({
                           className="object-cover h-[30rem] object-top"
                           width={600}
                           height={1000}
-                          alt="Hero image"
+                          alt="Profile Image"
                           alwaysBlur={blur}
                         />
                       </div>
