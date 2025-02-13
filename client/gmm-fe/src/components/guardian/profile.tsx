@@ -1,12 +1,42 @@
 'use client';
 
+import { resendOtp, sendOtp } from '@/actions/auth/otp';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { useAppSelector } from '@/lib/hooks';
 import { Link } from '@/lib/navigation';
 import { cn } from '@/lib/utils';
+import { useRouter } from '@/lib/navigation';
+import { toast } from '../ui/use-toast';
+
 
 export default function GuardianProfile() {
   const user = useAppSelector((state) => state.auth.user);
+  const router = useRouter();
+  
+  async function handleSendOtp() {
+    try {
+      const res = await sendOtp('phone' , user?.phoneNumber);
+
+      if (res.status === 200) {
+        toast({
+          title: 'OTP Sent',
+          description: `We have Sent the OTP to your phone.`,
+        });
+        router.replace('/otp');
+      } else {
+        toast({
+          title: 'OTP Sent',
+          description: 'An error occurred. Please try again later.',
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      toast({
+        title: 'OTP Sent',
+        description: 'An error occurred. Please try again later.',
+      });
+    }
+  }
 
   return (
     <div className="rounded-xl bg-background shadow-lg p-5 space-y-4 text-sm">
@@ -55,7 +85,9 @@ export default function GuardianProfile() {
             </span>
           </div>
 
-          <Button className="bg-primary text-primary-foreground h-7 text-xs">
+          <Button className="bg-primary text-primary-foreground h-7 text-xs"
+          onClick={handleSendOtp}
+          >
             Click Here to Verify Your Phone Number
           </Button>
         </div>

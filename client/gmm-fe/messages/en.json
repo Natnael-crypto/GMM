@@ -155,10 +155,10 @@
       "cta": "Sign Up"
     },
     "otp": {
-      "title": "Enter 6 Digit Code sent to your email",
+      "title": "Enter 6 Digit Code sent to your {title}",
       "submit": "Submit",
       "resend": "Resend Code",
-      "resendDescription": "Resend code to Email {email}"
+      "resendDescription": "Resend code to {type} {email}"
     },
     "checkout": {
       "title": "Account Registration",
