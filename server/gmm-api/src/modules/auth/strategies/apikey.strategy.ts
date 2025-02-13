@@ -9,7 +9,7 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'apikey') {
     super(); // No specific options required for API key strategy
   }
 
-  async validate(req) {
+  async authenticate(req) {
     const apiKey = req.headers['api-key'] || req.query.apiKey;
 
     if (!apiKey) {
@@ -22,5 +22,9 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'apikey') {
     }
 
     return this.success(true);
+  }
+
+  validate(...args: any[]) {
+    throw new Error('Method not implemented.');
   }
 }
