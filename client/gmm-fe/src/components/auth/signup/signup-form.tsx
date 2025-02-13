@@ -32,6 +32,7 @@ import {
 
 import { getEighteenYearsAgo } from '@/lib/format';
 import { DatePicker } from '@mui/x-date-pickers';
+import PasswordStrengthIndicator from '@/components/ui/password-strength-indicator';
 
 export function SignUpForm() {
   const { replace } = useRouter();
@@ -267,13 +268,17 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    autoComplete="new-password"
-                    className=""
-                    placeholder={t('signup.password')}
-                    type="password"
-                    {...field}
-                  />
+                  <div className="flex flex-col gap-2">
+                    <Input
+                      autoComplete="new-password"
+                      className=""
+                      placeholder={t('signup.password')}
+                      type="password"
+                      {...field}
+                    />
+
+                    <PasswordStrengthIndicator password={field.value} />
+                  </div>
                 </FormControl>
                 <FormMessage className="text-md" />
               </FormItem>

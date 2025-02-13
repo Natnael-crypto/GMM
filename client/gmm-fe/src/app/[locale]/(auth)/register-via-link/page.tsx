@@ -39,6 +39,7 @@ import { Label } from '@/components/ui/label';
 import Image from 'next/image';
 import { useCreateUploadUrlMutation } from '@/lib/user/api';
 import { upload } from '@/lib/file-upload';
+import PasswordStrengthIndicator from '@/components/ui/password-strength-indicator';
 
 export default function GuardianRegistrationPage() {
   const t = useTranslations('Auth');
@@ -202,13 +203,16 @@ export default function GuardianRegistrationPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
-                          autoComplete="new-password"
-                          className="text-sm placeholder:text-xs"
-                          placeholder={t('signup.password')}
-                          type="password"
-                          {...field}
-                        />
+                        <div className="flex flex-col gap-2">
+                          <Input
+                            autoComplete="new-password"
+                            className="text-sm placeholder:text-xs"
+                            placeholder={t('signup.password')}
+                            type="password"
+                            {...field}
+                          />
+                          <PasswordStrengthIndicator password={field.value} />
+                        </div>
                       </FormControl>
                       <FormMessage className="text-xs" />
                     </FormItem>
