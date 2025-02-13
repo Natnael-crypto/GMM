@@ -48,9 +48,9 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col justify-between bg-[#dedede]">
       <div
-        className="flex w-full px-1 p-3"
+        className="flex w-full px-1 p-3 "
         style={{
-          height: 'calc(100vh - 3rem)',
+          height: 'calc(100vh - 3.5rem)',
         }}
       >
         <div className="lg:grid grid-cols-18 gap-x-[0.5rem] gap-y-5 h-full w-full">
