@@ -1,8 +1,10 @@
 'use client';
 
+import { resendOtp, sendOtp } from '@/actions/auth/otp';
 import { Button, buttonVariants } from '@/components/ui/button';
+import { toast } from '@/components/ui/use-toast';
 import { useAppSelector } from '@/lib/hooks';
-import { Link } from '@/lib/navigation';
+import { Link , useRouter} from '@/lib/navigation';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 
@@ -12,6 +14,34 @@ export default function PersonalInfo() {
   );
 
   const user = useAppSelector((state) => state.auth.user);
+  const router = useRouter();
+  
+  async function handleSendOtp() {
+    try {
+      
+      const res = await sendOtp('phone' , user?.phoneNumber);
+      if (res.status === 200) {
+        toast({
+          title: 'OTP Sent',
+          description: `We have Sent the OTP to your phone.`,
+        });
+        router.replace('/otp');
+      } else {
+        toast({
+          title: 'OTP Sent',
+          description: 'An error occurred. Please try again later.',
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      toast({
+        title: 'OTP Sent',
+        description: 'An error occurred. Please try again later.',
+      });
+    }
+  }
+
+
 
   return (
     <div className="rounded-xl bg-background shadow-lg p-5 space-y-4 text-sm">
@@ -44,6 +74,27 @@ export default function PersonalInfo() {
           {/* <Button variant="outline" className="text-secondary h-7 text-xs">
             Re-Send Verification
           </Button> */}
+        </div>
+        
+        <div className="flex justify-between items-center py-2 pt-3">
+          <div className="flex flex-col gap-1">
+            <span className="font-bold">Phone Number</span>
+            <span className="flex gap-3 items-center">
+              {user?.phoneNumber}{' '}
+              {/* <span className="text-primary gap-1 flex items-center justify-center">
+                <span>(Verified)</span>
+              </span> */}
+              <span className="text-destructive gap-1 flex items-center justify-center">
+                <span>(Not Verified!)</span>
+              </span>
+            </span>
+          </div>
+
+          <Button className="bg-primary text-primary-foreground h-7 text-xs"
+          onClick={handleSendOtp}
+          >
+            Click Here to Verify Your Phone Number
+          </Button>
         </div>
 
         <div className="flex flex-col sm:flex-row justify-between md:items-center py-2 pt-3">

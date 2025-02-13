@@ -15,7 +15,9 @@ export default function Otp() {
   if (!userIdentifier || !otpVerificationKey) {
     return redirect('/signup');
   }
-
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userIdentifier);
+  const verificationType = isEmail ? 'email' : 'phone';
+ 
   return (
     <div className="flex flex-col items-center">
       <div className="mb-10 logo-wrapper">
@@ -28,7 +30,7 @@ export default function Otp() {
         />
       </div>
 
-      <OtpCard userIdentifier={userIdentifier} />
+      <OtpCard userIdentifier={userIdentifier} verificationType = {verificationType === 'phone'? verificationType : 'email'} />
     </div>
   );
 }
