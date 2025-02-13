@@ -19,6 +19,7 @@ import { toast } from '@/components/ui/use-toast';
 import { useRouter } from '@/lib/navigation';
 import { Button } from '@/components/ui/button';
 import Loading from '@/components/ui/loading';
+import PasswordStrengthIndicator from '@/components/ui/password-strength-indicator';
 
 export default function ResetPasswordForm({ token }: { token: string }) {
   const form = useForm<PasswordResetSchema>({
@@ -68,13 +69,16 @@ export default function ResetPasswordForm({ token }: { token: string }) {
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <Input
-                        autoComplete="new-password"
-                        className="text-sm placeholder:text-xs"
-                        placeholder="New Password"
-                        type="password"
-                        {...field}
-                      />
+                      <div className="flex flex-col gap-2">
+                        <Input
+                          autoComplete="new-password"
+                          className="text-sm placeholder:text-xs"
+                          placeholder="New Password"
+                          type="password"
+                          {...field}
+                        />
+                        <PasswordStrengthIndicator password={field.value} />
+                      </div>
                     </FormControl>
                     <FormMessage className="text-xs" />
                   </FormItem>
@@ -115,10 +119,9 @@ export default function ResetPasswordForm({ token }: { token: string }) {
       </Card>
 
       <div className="w-full sm:min-w-96 sm:w-1/4 bg-background text-wrap flex flex-col items-center gap-3 mt-6">
-        
         <p className="text-xs font-semibold text-center text-muted-foreground">
-          Copyright &copy; {(new Date().getFullYear())} Guardian/Wali - Premium Guided Matchmaking
-          For Sunni Muslims with Revert Care.{' '}
+          Copyright &copy; {new Date().getFullYear()} Guardian/Wali - Premium
+          Guided Matchmaking For Sunni Muslims with Revert Care.{' '}
         </p>
       </div>
     </div>

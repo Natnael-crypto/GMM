@@ -1,5 +1,6 @@
 import { Gender } from '@modules/user/enums/user.enum';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsStrongPassword } from '@shared/decorators/password.decorator';
 import { Transform } from 'class-transformer';
 import {
   IsDateString,
@@ -7,7 +8,6 @@ import {
   IsEnum,
   IsNotEmpty,
   IsOptional,
-  MinLength,
 } from 'class-validator';
 
 export class EmailRegistrationDto {
@@ -27,7 +27,7 @@ export class EmailRegistrationDto {
 
   @IsNotEmpty()
   @ApiProperty()
-  @MinLength(6)
+  @IsStrongPassword()
   password: string;
 
   @ApiProperty()
