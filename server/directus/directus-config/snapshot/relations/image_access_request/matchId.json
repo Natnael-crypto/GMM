@@ -1,0 +1,15 @@
+{
+  "collection": "image_access_request",
+  "field": "matchId",
+  "related_collection": "match",
+  "meta": null,
+  "schema": {
+    "table": "image_access_request",
+    "column": "matchId",
+    "foreign_key_table": "match",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_9ef26f88a2e2d3141fb9af89000",
+    "on_update": "NO ACTION",
+    "on_delete": "CASCADE"
+  }
+}

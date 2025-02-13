@@ -1,0 +1,15 @@
+{
+  "collection": "verification",
+  "field": "userId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "verification",
+    "column": "userId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_8300048608d8721aea27747b07a",
+    "on_update": "NO ACTION",
+    "on_delete": "CASCADE"
+  }
+}

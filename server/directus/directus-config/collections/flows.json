@@ -5,16 +5,20 @@
     "color": null,
     "description": "Create a match",
     "status": "active",
-    "trigger": "manual",
+    "trigger": "event",
     "accountability": "all",
     "options": {
-      "collections": [
-        "user"
+      "type": "action",
+      "scope": [
+        "items.create",
+        "items.update",
+        "items.delete"
       ],
-      "requireConfirmation": true,
-      "confirmationDescription": null
+      "collections": [
+        "match"
+      ]
     },
-    "operation": "5b0aad88-93bc-440a-9ee9-47c596a80abc",
+    "operation": "71c72d70-8956-47ac-b84e-e799a85a6bf2",
     "_syncId": "2a615d0c-a73a-4f25-b581-a5f1f868e768"
   },
   {
