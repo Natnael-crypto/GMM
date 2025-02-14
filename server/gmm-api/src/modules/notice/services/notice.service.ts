@@ -100,6 +100,24 @@ export class NoticeService {
     await this.sendEmail(email, subject, message(familyData));
   }
 
+  async sendContactMessageResolvedEmail(issueId: string, email: string) {
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/contact-message-resolved');
+
+    await this.sendEmail(email, subject, message(issueId));
+  }
+
+  async sendContactMessageClosedEmail(issueId: string, email: string) {
+    const {
+      message,
+      subject,
+    } = require('../templates/emails/contact-message-closed');
+
+    await this.sendEmail(email, subject, message(issueId));
+  }
+
   @OnEvent(SubscriptionAutoRenewedEvent.name, { async: true })
   async handleSubscriptionAutoRenewalEvent(
     event: SubscriptionAutoRenewedEvent,
