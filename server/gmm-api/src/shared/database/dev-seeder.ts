@@ -41,6 +41,7 @@ import FormSeeder from './seeds/form.seed';
 import FormFieldSeeder from './seeds/form-field.seed';
 import FormSubmissionSeeder from './seeds/form-submission.seed';
 import FormFieldAnswerSeeder from './seeds/form-field-answer.seed';
+import { ContactMessage } from '@modules/notice/entities/contact-message.entity';
 
 require('dotenv').config();
 
@@ -81,6 +82,7 @@ const options: DataSourceOptions & SeederOptions = {
     City,
     Verification,
     ImageAccessRequest,
+    ContactMessage,
   ],
 };
 

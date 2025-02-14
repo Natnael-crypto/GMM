@@ -2,8 +2,6 @@ import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import {
   Body,
   Controller,
-  Delete,
-  Get,
   Param,
   Patch,
   Post,

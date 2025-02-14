@@ -4,6 +4,9 @@ import { NoticeService } from './services/notice.service';
 import { NoticeModuleOptions } from '@shared/types/notify.options';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { EmailConfig } from '@shared/config';
+import { UserModule } from '@modules/user/user.module';
+import { ContactMessageController } from './controllers/contact-message.controller';
+import { ContactMessageService } from './services/contact-message.service';
 
 @Module({})
 export class NoticeModule {
@@ -25,9 +28,11 @@ export class NoticeModule {
           },
           inject: [ConfigService],
         }),
+        UserModule,
       ],
-      providers: [NoticeService],
-      exports: [NoticeService],
+      providers: [NoticeService, ContactMessageService],
+      exports: [NoticeService, ContactMessageService],
+      controllers: [ContactMessageController],
     };
   }
 }
