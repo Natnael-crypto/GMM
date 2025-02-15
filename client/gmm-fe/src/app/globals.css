@@ -456,6 +456,16 @@
   font-size: 1.2rem;
 }
 
+.gmm-pic-info .primary-info {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.gmm-pic-info .secondary-info {
+  font-size: .875rem;
+  font-weight: 500;
+}
+
 @media (min-width: 640px) {
   .gmm-mpf-results-container {
     display: flex;

@@ -154,7 +154,7 @@ export default function ProfileImages({
                         <NationalityFlag title={user.nationality} />
                       )}
                     </div>
-                    <span className="w-full">
+                    <span className="nationality w-full">
                       {user.nationality} Nationality / Passport
                     </span>
                   </motion.div>
@@ -163,7 +163,7 @@ export default function ProfileImages({
                     <span>
                       <FontAwesomeIcon icon={faLocationDot} />
                     </span>
-                    <span className="w-full flex items-center gap-2 text-wrap">
+                    <span className="primary-info w-full flex items-center gap-2 text-wrap">
                       <span>{user.city}</span>
                       <div className="w-4 h-4 flex items-center justify-center">
                         {CountryFlag && <CountryFlag title={user.country} />}
@@ -179,7 +179,7 @@ export default function ProfileImages({
                       <span>
                         <FontAwesomeIcon icon={faUpDown} />
                       </span>
-                      <span className="w-full text-wrap">
+                      <span className="secondary-info w-full text-wrap">
                         {cmToFeetInches(user.height)} ({user.height} cm)
                       </span>
                     </p>
@@ -187,7 +187,7 @@ export default function ProfileImages({
                       <span>
                         <FontAwesomeIcon icon={faWeightScale} />
                       </span>
-                      <span className="w-full text-wrap">
+                      <span className="secondary-info w-full text-wrap">
                         {kgToPounds(user.weight)} ({user.weight} kg){' '}
                       </span>
                     </p>
