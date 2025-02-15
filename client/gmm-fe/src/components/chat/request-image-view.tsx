@@ -96,13 +96,14 @@ export default function RequestImageView() {
   }
 
   return (
-    <div className="flex justify-center" onClick={showHelperPopup}>
+    <div className="justify-center" onClick={showHelperPopup}>
+      <p className="request-access text-center">Available at Step 4</p>
       <AlertDialog>
         <AlertDialogTrigger
           disabled={disableRequestButton}
           className={cn(
             buttonVariants({ variant: 'default' }),
-            'bg-primary text-primary-foreground h-7 w-fit text-sm'
+            'bg-primary text-primary-foreground h-7 w-fit text-sm request-access-cta'
           )}
         >
           {user?.gender === Gender.FEMALE ? 'Review Request' : 'Request Access'}

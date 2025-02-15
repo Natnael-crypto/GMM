@@ -116,7 +116,7 @@ export default function ChatProfileImages({
                     <CarouselItem key={`profile_pic_${index}`}>
                       <div className="relative">
                         {showRequestViewButton && (
-                          <div className="group absolute top-4 right-3 flex flex-col items-center justify-center">
+                          <div className="request-access-wrapper group absolute m-auto w-full top-3 flex flex-col items-center justify-center">
                             <RequestImageView />
                           </div>
                         )}
