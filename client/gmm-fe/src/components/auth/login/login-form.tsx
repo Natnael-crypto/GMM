@@ -137,7 +137,9 @@ export function LoginForm() {
           </div>
           <div className="h-[1px] w-full bg-muted-foreground opacity-20"></div>
           <div className="text-sm text-center">
-            <a className="text-sm text-primary font-semibold" href="/en/">Family Member Login</a>
+            <a className="text-sm text-primary font-semibold" href="/en/">
+              Family Member Login
+            </a>
           </div>
         </div>
       </form>
