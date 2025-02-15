@@ -49,10 +49,6 @@ export class GuardianService {
       },
     });
 
-    if (pendingRequests.length !== 0) {
-      throw new ConflictException('Request already sent to this guardian');
-    }
-
     // one guardian for one user
     const guardianRequests = await this.guardianRequestRepository.find({
       where: {
