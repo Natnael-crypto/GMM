@@ -60,14 +60,16 @@ export default function PendingApprovalMessage() {
     <div
       className={cn(
         'flex flex-col justify-center items-center gap-5',
-        user?.accountStatus === AccountStatus.DENIED
+        user?.accountStatus === AccountStatus.DENIED ||
+          user?.accountStatus === AccountStatus.SUSPENDED
           ? 'text-destructive'
           : 'text-primary '
       )}
     >
       <FontAwesomeIcon
         icon={
-          user?.accountStatus === AccountStatus.DENIED
+          user?.accountStatus === AccountStatus.DENIED ||
+          user?.accountStatus === AccountStatus.SUSPENDED
             ? faCircleXmark
             : faCircleCheck
         }
@@ -76,6 +78,8 @@ export default function PendingApprovalMessage() {
       <span className="text-xl font-bold text-center">
         {user?.accountStatus === AccountStatus.DENIED
           ? 'Your application has been denied'
+          : user?.accountStatus === AccountStatus.SUSPENDED
+          ? 'Your account has been suspended'
           : 'Your application has been submitted for review'}
       </span>
 
@@ -92,6 +96,13 @@ export default function PendingApprovalMessage() {
               >
                 Registration
               </Link>
+            </p>
+          </>
+        ) : user?.accountStatus === AccountStatus.SUSPENDED ? (
+          <>
+            <p>
+              We have suspended your account. Please contact support for more
+              information.
             </p>
           </>
         ) : (
