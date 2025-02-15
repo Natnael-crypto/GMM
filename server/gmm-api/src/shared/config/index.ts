@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { CacheModuleAsyncOptions } from '@nestjs/cache-manager';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { redisStore } from 'cache-manager-redis-store';
+import { createKeyv } from '@keyv/redis';
 
 export interface DatabaseConfig {
   host: string;
@@ -294,8 +295,9 @@ export const RedisOptions: CacheModuleAsyncOptions = {
       },
       password: configService.get<RedisConfig>('redis')!.password,
     });
+
     return {
-      store: () => store,
+      stores: [createKeyv(store)],
     };
   },
   inject: [ConfigService],
