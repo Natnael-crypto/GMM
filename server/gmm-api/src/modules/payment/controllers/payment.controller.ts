@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -63,7 +64,6 @@ export class PaymentsController {
   @UseGuards(JwtAuthGuard)
   @Post('payment-intent')
   async createPaymentIntent(
-    @Res() response: Response,
     @Req() req: Request,
     @Body() createCheckoutSessionDto: CreateCheckoutSessionDto,
   ) {
@@ -75,12 +75,12 @@ export class PaymentsController {
         userId,
       );
 
-      return response.status(HttpStatus.CREATED).json({
+      return {
         message: 'Payment intent created successfully',
         data: result,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
+      throw new BadRequestException({
         message: 'Failed to create payment intent',
         error: error.message,
       });

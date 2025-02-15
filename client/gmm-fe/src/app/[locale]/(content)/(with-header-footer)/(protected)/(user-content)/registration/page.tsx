@@ -28,7 +28,13 @@ export default function Registration() {
     skip: !user,
   });
 
-  const router = useRouter();
+  // const router = useRouter();
+
+  // useEffect(() => {
+  //   if (isError && !currentSubscription) {
+  //     router.replace('/checkout');
+  //   }
+  // }, [currentSubscription, isError, router]);
 
   return (
     <AnimatePresence mode="sync">
