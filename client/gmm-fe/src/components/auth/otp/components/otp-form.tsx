@@ -72,8 +72,11 @@ export function OtpForm({ userIdentifier, verificationType }: OtpFormProps) {
           replace('/guardian/settings');
           return;
         }
-        replace('dashboard/personal-info');
-        return;
+        else{
+          replace('/dashboard/personal-info');
+          return;
+        }
+        
 
       } else {
 
