@@ -166,7 +166,7 @@ export class UserService extends BaseRepository {
     // Check user's guardian phone number
     if (user.phoneNumber === dto.guardianPhoneNumber) {
       throw new BadRequestException(
-        'Guardian phone number cannot be the same as user phone number',
+        'Your guardian’s phone number cannot be the same as your own.',
       );
     }
 
