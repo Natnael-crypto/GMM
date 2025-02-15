@@ -200,7 +200,7 @@ export default function BasicInformationCard({ user }: { user: User }) {
             <div className="col-span-12 flex gap-x-8 gap-y-8 flex-wrap">
               <div className="flex flex-col gap-y-2 mt-6 pt-2">
                 <h2 className="question-label text-secondary font-extrabold text-nowrap">
-                  Drinks/Alcohol
+                  Drinking
                 </h2>
 
                 <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
@@ -210,7 +210,8 @@ export default function BasicInformationCard({ user }: { user: User }) {
 
               <div className="flex flex-col gap-y-2 mt-6 pt-2">
                 <h2 className="question-label text-secondary font-extrabold text-nowrap">
-                  Drugs (Cannabis/Cocaine)
+                  Drugs (including cannabis)
+
                 </h2>
 
                 <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
@@ -220,7 +221,7 @@ export default function BasicInformationCard({ user }: { user: User }) {
 
               <div className="flex flex-col gap-y-2 mt-6 pt-2">
                 <h2 className="question-label text-secondary font-extrabold text-nowrap">
-                  Smokes (Vapes/Shisha)
+                  Smoking
                 </h2>
 
                 <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">

@@ -430,7 +430,7 @@ export default function BasicInformationForm() {
           </div>
 
           <div className="space-y-1 col-span-4 sm:col-span-2">
-            <Label>Language(s)</Label>
+            <Label>Languages</Label>
             <FormField
               name="languages"
               control={form.control}

@@ -97,7 +97,7 @@ export default function ChildrenStatus() {
                         );
                       })}
                       <SelectItem className="text-md max-w-80" value="6">
-                        5+
+                        5 (go all the way up to 70)
                       </SelectItem>
                     </SelectContent>
                   </Select>
@@ -157,7 +157,7 @@ export default function ChildrenStatus() {
                       {numberOfChildren > 1 &&
                       parseInt(form.watch('ageOfOldestChild')) > 5 &&
                       <SelectItem className="text-md max-w-80" value="6">
-                      5+ 
+                      5 (go all the way up to 70)
                       </SelectItem>
                       
                       }
