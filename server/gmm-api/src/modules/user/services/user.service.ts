@@ -137,6 +137,17 @@ export class UserService extends BaseRepository {
     return !!match;
   }
 
+  /**
+   * Registers a user with express registration details.
+   *
+   * @param userId - The ID of the user to register.
+   * @param dto - The express registration data transfer object containing registration details.
+   * @throws {NotFoundException} If the user is not found.
+   * @throws {BadRequestException} If the guardian email is required but not provided,
+   * or if the guardian phone number is the same as the user's phone number,
+   * or if the guardian phone number is already associated with another user.
+   * @returns A promise that resolves to an array containing the updated user and any additional operations.
+   */
   async expressRegistration(userId: string, dto: ExpressRegistrationDto) {
     const user = await this.getRepository(User).findOne({
       where: { id: userId },
@@ -150,6 +161,22 @@ export class UserService extends BaseRepository {
 
     if (user.gender === Gender.MALE && !dto.guardianEmail) {
       throw new BadRequestException('Guardian email is required');
+    }
+
+    // Check user's guardian phone number
+    if (user.phoneNumber === dto.guardianPhoneNumber) {
+      throw new BadRequestException(
+        'Guardian phone number cannot be the same as user phone number',
+      );
+    }
+
+    // Check if the Guardians phone number is any users phone number
+    const guardian = await this.getRepository(User).findOne({
+      where: { phoneNumber: dto.guardianPhoneNumber },
+    });
+
+    if (guardian) {
+      throw new BadRequestException('Invalid guardian phone number');
     }
 
     return await Promise.all([
