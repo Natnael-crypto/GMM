@@ -44,6 +44,10 @@ export async function auth(): Promise<Session | null> {
 export function nextStep(user: User, isSubscribed: any) {
   // User
   if (user.roleId === Role.User) {
+    if (!isSubscribed) {
+      return '/checkout';
+    }
+
     if (user.accountStatus === AccountStatus.INCOMPLETE_REGISTRATION) {
       return '/registration';
     }

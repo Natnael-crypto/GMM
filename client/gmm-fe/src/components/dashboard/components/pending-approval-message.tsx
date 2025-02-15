@@ -14,16 +14,16 @@ import React from 'react';
 
 export default function PendingApprovalMessage() {
   const user = useAppSelector((state) => state.auth.user);
-  const { data: verificationStatus } = useGetLivenessVerificationStatusQuery(
-    undefined,
-    {
-      skip: !user,
-    }
-  );
+  // const { data: verificationStatus } = useGetLivenessVerificationStatusQuery(
+  //   undefined,
+  //   {
+  //     skip: !user,
+  //   }
+  // );
 
   if (
-    user?.accountStatus === AccountStatus.APPROVED &&
-    verificationStatus !== VerificationStatus.APPROVED
+    user?.accountStatus === AccountStatus.APPROVED
+    // &&verificationStatus !== VerificationStatus.APPROVED
   ) {
     return (
       <div
@@ -41,7 +41,7 @@ export default function PendingApprovalMessage() {
             Please complete liveness check to access your account.
           </p>
 
-          <div className="my-6 py-8 border-t">
+          <div className="hidden my-6 py-8 border-t">
             <p className="flex flex-col items-center gap-2">
               <Link
                 href="/face-liveness"
@@ -115,8 +115,8 @@ export default function PendingApprovalMessage() {
           </>
         )}
 
-        {verificationStatus !== VerificationStatus.APPROVED && (
-          <div className="my-8 py-8 border-t">
+        {/* {verificationStatus !== VerificationStatus.APPROVED && (
+          <div className="hidden my-8 py-8 border-t">
             <p className="flex flex-col items-center gap-2">
               <Link
                 href="/face-liveness"
@@ -126,7 +126,7 @@ export default function PendingApprovalMessage() {
               </Link>
             </p>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           )}
         >
           <input type={type} ref={ref} className="hidden" {...props} />
-          <span className="text-md text-muted-foreground">
+          <span className="absolute top-1/2 -translate-y-1/2 text-md text-muted-foreground">
             {t('fileUploadPlaceholder')}
           </span>
           <div
@@ -33,7 +33,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 variant: 'outline',
                 size: 'sm',
               }),
-              'h-full absolute right-0 text-secondary-foreground bg-secondary font-bold text-[0.6rem] px-8 cta'
+              'h-full absolute top-0 right-0 text-secondary-foreground bg-secondary font-bold text-[0.6rem] px-8 cta'
             )}
           >
             {t('upload')}

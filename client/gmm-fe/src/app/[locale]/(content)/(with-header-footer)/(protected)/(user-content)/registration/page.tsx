@@ -6,16 +6,35 @@ import RegistrationSkeleton from '@/components/registration/registration-skeleto
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import Loading from '@/components/ui/loading';
+import { useGetCurrentSubscriptionQuery } from '@/lib/checkout/api';
 import { useAppSelector } from '@/lib/hooks';
+import { useRouter } from '@/lib/navigation';
 import { useGetFamilyIntroductionQuery } from '@/lib/user/api';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect } from 'react';
 
 export default function Registration() {
   const { onSave, isSaving } = useUpdateProfileContext();
   const user = useAppSelector((state) => state.auth.user);
   const { data: familyIntroduction, isLoading: isFamilyIntroductionLoading } =
     useGetFamilyIntroductionQuery(user?.id ?? '', { skip: !user });
+
+  const {
+    data: currentSubscription,
+    isLoading,
+    isError,
+  } = useGetCurrentSubscriptionQuery(user?.id ?? '', {
+    skip: !user,
+  });
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isError && !currentSubscription) {
+      router.replace('/checkout');
+    }
+  }, [currentSubscription, isError, router]);
 
   return (
     <AnimatePresence mode="sync">

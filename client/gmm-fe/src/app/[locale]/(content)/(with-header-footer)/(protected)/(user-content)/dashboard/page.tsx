@@ -26,12 +26,12 @@ import React, { useEffect } from 'react';
 export default function Dashboard() {
   const user = useAppSelector((state) => state.auth.user);
   const { worldlyLifestyle: wlsCompletion } = useProfileCompletion(user);
-  const { data: verificationStatus } = useGetLivenessVerificationStatusQuery(
-    undefined,
-    {
-      skip: !user,
-    }
-  );
+  // const { data: verificationStatus } = useGetLivenessVerificationStatusQuery(
+  //   undefined,
+  //   {
+  //     skip: !user,
+  //   }
+  // );
 
   const {
     data: currentSubscription,
@@ -53,9 +53,8 @@ export default function Dashboard() {
     }
   }, [currentSubscription, isError, router, user]);
 
-  const isAccountApproved =
-    user?.accountStatus === AccountStatus.APPROVED &&
-    verificationStatus === VerificationStatus.APPROVED;
+  const isAccountApproved = user?.accountStatus === AccountStatus.APPROVED;
+  // && verificationStatus === VerificationStatus.APPROVED;
 
   return (
     <UpdateProfileProvider autoSave={false}>

@@ -621,6 +621,7 @@ export default function BasicInformationForm({
                       <FormItem>
                         <FormControl>
                           <Input
+                            disabled={true}
                             ref={locationInputRef}
                             name={field.name}
                             value={location.city || ''}
