@@ -58,13 +58,9 @@ export function OtpForm({ userIdentifier, verificationType }: OtpFormProps) {
   async function onSubmit(data: Otp) {
     setOtpVerificationInProgress(true);
     
-    let res;
-    if (verificationType === 'phone' && user?.phoneNumber) {
-      res = await verifyOtp(data, verificationType);
-    }
-    else {
-      res = await verifyOtp(data , verificationType);
-    }
+    
+    const res = await verifyOtp(data, verificationType);
+    
     if (res.status === 200) {
       dispatch(setToken(res.token));
       if (verificationType === 'phone') {
