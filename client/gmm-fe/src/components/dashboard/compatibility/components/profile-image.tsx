@@ -12,7 +12,7 @@ export default function ProfileImage({
     <div className="w-full rounded-se-3xl rounded-es-3xl overflow-hidden">
       <DynamicBlur
         src={imageUrl}
-        className="object-cover w-full h-[12rem] object-top"
+        className="object-cover w-full object-top"
         width={297}
         height={384}
         alt="Hero image"

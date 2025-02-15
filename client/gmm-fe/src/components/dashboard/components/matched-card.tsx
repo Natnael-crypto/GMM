@@ -84,35 +84,35 @@ export default function MatchedCard({
       match?.imageRequest?.status === ImageAccessRequestStatus.ACCEPTED);
 
   return (
-    <div className="grid grid-cols-9 gap-4 h-full">
-      <div className="rounded-se-3xl col-span-9 md:col-span-3 rounded-es-3xl overflow-hidden">
+    <div className="grid grid-cols-8 gap-4 h-full">
+      <div className="rounded-se-3xl col-span-8 md:col-span-3 rounded-es-3xl overflow-hidden">
         {matchedUser && <ProfileImages user={matchedUser} blur={!showImage} />}
       </div>
 
-      <div className="rounded-se-3xl col-span-9 md:col-span-6 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
+      <div className="rounded-se-3xl col-span-8 md:col-span-5 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
         <div className="text-center">
-          <h1 className="font-bold text-secondary text-xl mb-2 mt-4">
-            You&apos;re Matched!
+          <h1 className="font-bold text-secondary text-2xl mb-2 mt-4">
+            You're Matched!
           </h1>
-          <p className="text-center text-md text-muted-foreground">
+          <p className="text-center text-md font-bold text-muted-foreground">
             Explore options below to get to know your potential spouse
           </p>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-3 border-t pt-5">
           <Link
             href={`/dashboard/profile/${matchedUser.id}/basic-information`}
-            className="flex gap-4 items-center"
+            className="flex gap-4 items-center py-1"
           >
             <div className="rounded-md bg-primary p-2 aspect-square text-primary-foreground flex items-center justify-center">
               <FontAwesomeIcon icon={faUser} />
             </div>
-            <span className="text-md text-secondary font-bold">
+            <span className="text-lg text-secondary font-bold">
               View Profile
             </span>
           </Link>
           <button
-            className="flex gap-4 items-center"
+            className="flex gap-4 items-center py-1"
             onClick={handleMoveToChat}
             disabled={!chats}
           >
@@ -128,7 +128,7 @@ export default function MatchedCard({
                 <FontAwesomeIcon icon={faComment} />
               )}
             </div>
-            <span className="text-md text-secondary font-bold">
+            <span className="text-lg text-secondary font-bold">
               Chat & Move to Step 2
             </span>
           </button>
@@ -137,23 +137,23 @@ export default function MatchedCard({
             href= {allMatchStages.indexOf(match.stage) != 0 ? `/dashboard/compatibility/${
               stageUrls[stageIndex === 0 ? 1 : stageIndex]
             }` : ""}
-            className={`flex gap-4 items-center ${allMatchStages.indexOf(match.stage) == 0? "cursor-default": ""}`}
+            className={`flex gap-4 items-center py-1 ${allMatchStages.indexOf(match.stage) == 0? "cursor-default": ""}`}
           >
             <div className={`rounded-md ${allMatchStages.indexOf(match.stage) != 0? "bg-primary": "bg-[#dedede]"} p-2 aspect-square text-primary-foreground flex items-center justify-center`}>
               <FontAwesomeIcon icon={faRightLeft} />
             </div>
-            <span className="text-md text-secondary font-bold">
+            <span className="text-lg text-secondary font-bold">
               Check Compatibility
             </span>
           </Link>
           
 
 
-          <Link href="" className="flex gap-4 items-center cursor-default">
+          <Link href="" className="flex gap-4 items-center py-1 cursor-default">
             <div className="rounded-md p-2 aspect-square bg-[#dedede] text-primary-foreground flex items-center justify-center">
               <FontAwesomeIcon icon={faGlobe} />
             </div>
-            <span className="text-md text-secondary font-bold">
+            <span className="text-lg text-muted-foreground font-bold">
               Step 4 Guardian Service (Coming Soon)
             </span>
           </Link>

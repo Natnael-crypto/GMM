@@ -24,31 +24,31 @@ export default function ProfileDescription({ user }: { user: User }) {
         )}
       </h1>
 
-      <div className="space-y-2 font-bold">
-        <p className="flex item-center gap-2 bg-[#CDEBFF] rounded-full truncate text-xs px-2 py-1 shadow-lg w-fit text-[#103356]">
+      <div className="gmm-pic-info space-y-2 font-bold">
+        <p className="flex item-center gap-2 bg-[#CDEBFF] rounded-full truncate px-2 py-2 font-bold shadow-lg w-fit">
           {NationalityFlag && <NationalityFlag title={user.nationality} />}
-          <span>{user.nationality} Nationality / Passport</span>
+          <span className="primary-info">{user.nationality} Nationality / Passport</span>
         </p>
-        <p className="flex item-center gap-2 bg-[#CDEBFF] rounded-full truncate text-xs px-2 py-1 shadow-lg w-fit text-[#103356]">
+        <p className="flex item-center gap-2 bg-[#CDEBFF] rounded-full truncate px-2 py-2 font-bold shadow-lg w-fit">
           <span>
             <FontAwesomeIcon icon={faLocationDot} />
           </span>
-          <span>{user.city}</span>
+          <span className="primary-info">{user.city}</span>
         </p>
 
-        <div className="flex gap-2">
-          <p className="flex item-center gap-2 border border-accent rounded-full truncate text-xs px-2 py-1 shadow-lg w-fit">
+        <div className="gmm-pic-info flex gap-2">
+          <p className="flex item-center gap-2 border border-accent rounded-full truncate px-2 py-2 font-bold shadow-lg w-fit">
             <span>
               <FontAwesomeIcon icon={faUpDown} />
             </span>
-            <span>{user.height} cm</span>
+            <span className="secondary-info">Height: {user.height} cm</span>
           </p>
 
-          <p className="flex item-center gap-2 border border-accent rounded-full truncate text-xs px-2 py-1 shadow-lg w-fit">
+          <p className="flex item-center gap-2 border border-accent rounded-full truncate px-2 py-2 font-bold shadow-lg w-fit">
             <span>
               <FontAwesomeIcon icon={faWeightScale} />
             </span>
-            <span>{user.weight} kg </span>
+            <span className="secondary-info">Weight: {user.weight} kg </span>
           </p>
         </div>
       </div>
