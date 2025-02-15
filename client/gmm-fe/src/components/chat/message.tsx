@@ -93,7 +93,7 @@ export const MessageBox = forwardRef(
             )}
             <div
               className={cn(
-                'p-1 rounded-md border',
+                'text-md p-1 rounded-md border',
                 message.mine
                   ? 'bg-[#f3f3f4] text-muted-foreground'
                   : 'bg-background text-muted-foreground'

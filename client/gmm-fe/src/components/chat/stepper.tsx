@@ -21,7 +21,7 @@ export const StepperItem = ({
     <div className={cn('flex flex-col items-center justify-center gap-2 z-10')}>
       <div
         className={cn(
-          'flex items-center justify-center rounded-full aspect-square p-2',
+          'stepper-chat-icon flex items-center justify-center rounded-full aspect-square p-2',
           active || completed
             ? 'bg-primary text-primary-foreground'
             : 'bg-[#c7c6c7] text-background'
@@ -31,7 +31,7 @@ export const StepperItem = ({
         size={size} />
         
       </div>
-      <span className={` text-[${text_size}] font-bold text-nowrap text-primary`}>
+      <span className={` text-md font-bold text-nowrap text-primary`}>
         {text}
       </span>
     </div>

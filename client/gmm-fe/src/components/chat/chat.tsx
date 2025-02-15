@@ -376,7 +376,7 @@ export default function ChatBox({
               />
             </span>
             <Button
-              className="h-5 text-xs bg-primary text-primary-foreground"
+              className="h-5 text-md bg-primary text-primary-foreground"
               onClick={handleSend}
             >
               Send
