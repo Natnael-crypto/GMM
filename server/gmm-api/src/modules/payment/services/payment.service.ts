@@ -247,7 +247,7 @@ export class PaymentsService extends BaseRepository {
       }
 
       const tier = Object.entries(SubscriptionTiers).find(
-        ([key, value]) => key === plan,
+        ([key]) => key === plan,
       )?.[1];
 
       if (!tier) {
@@ -283,14 +283,12 @@ export class PaymentsService extends BaseRepository {
             enabled: true,
             allow_redirects: 'never',
           },
-          expand: ['latest_charge'],
         });
 
         const confirmedSetupIntent = await this.stripe.setupIntents.confirm(
           setupIntent.id,
           {
             payment_method: paymentMethodId,
-            expand: ['latest_charge'],
           },
         );
 
