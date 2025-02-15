@@ -443,6 +443,19 @@
   margin-top: 20px;
 }
 
+.stepper-icon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.stepper-icon .svg-inline--fa {
+  height: 1.75rem !important;
+}
+
+.step-sub-heading, .question-label {
+  font-size: 1.2rem;
+}
+
 @media (min-width: 640px) {
   .gmm-mpf-results-container {
     display: flex;

@@ -17,60 +17,60 @@ export default function FamilyIntroductionCard({ user }: { user: User }) {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-secondary font-bold text-xl pb-3">
+      <h1 className="step-heading text-secondary font-bold pb-3 text-3xl">
         Guardian&apos;s Information
       </h1>
 
-      <p className="rounded-se-3xl rounded-es-3xl overflow-hidden bg-card p-5">
+      <p className="step-sub-heading mt-3 bg-muted rounded-2xl p-4">
         <strong>Your People Contact My People!!! </strong>The 5th and final step
         of the Guardian Muslim Marriage Guided Matchmaking Process. When you and
         your potential spouse reach this step, your Guardian Family
-        Member’s/Imam’s contact information will be exchanged with your match’s
-        Guardian Family Member’s/Imam’s contact information to initiate family
+        Member's/Imam's contact information will be exchanged with your match's
+        Guardian Family Member's/Imam's contact information to initiate family
         contact.
       </p>
 
       {familyIntroduction && (
         <div className="flex flex-wrap gap-16 w-full">
-          <div className="flex flex-col gap-3">
-            <h1 className="text-secondary font-extrabold text-nowrap">
+          <div className="flex flex-col gap-3 mt-6 pt-2">
+            <h1 className="question-label text-secondary font-extrabold text-nowrap">
               Full Name
             </h1>
 
             {familyIntroduction && (
-              <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
+              <p className="text-nowrap flex gap-2 font-bold text-md text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
                 {familyIntroduction?.guardianFirstName}{' '}
                 {familyIntroduction?.guardianLastName}
               </p>
             )}
           </div>
-          <div className="flex flex-col gap-3">
-            <h1 className="text-secondary font-extrabold text-nowrap">
+          <div className="flex flex-col gap-3 mt-6 pt-2">
+            <h1 className="question-label text-secondary font-extrabold text-nowrap">
               Relationship
             </h1>
 
             {familyIntroduction && (
-              <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
+              <p className="text-nowrap flex gap-2 font-bold text-md text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
                 {familyIntroduction?.relationshipToGuardian}
               </p>
             )}
           </div>
-          <div className="flex flex-col gap-3">
-            <h1 className="text-secondary font-extrabold text-nowrap">
+          <div className="flex flex-col gap-3 mt-6 pt-2">
+            <h1 className="question-label text-secondary font-extrabold text-nowrap">
               Phone Number
             </h1>
 
             {familyIntroduction && (
-              <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
+              <p className="text-nowrap flex gap-2 font-bold text-md text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
                 {familyIntroduction?.guardianPhoneNumber}
               </p>
             )}
           </div>
-          <div className="flex flex-col gap-3">
-            <h1 className="text-secondary font-extrabold text-nowrap">Email</h1>
+          <div className="flex flex-col gap-3 mt-6 pt-2">
+            <h1 className="question-label text-secondary font-extrabold text-nowrap">Email</h1>
 
             {familyIntroduction && (
-              <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
+              <p className="text-nowrap flex gap-2 font-bold text-md text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
                 {familyIntroduction?.guardianEmail}
               </p>
             )}
@@ -78,11 +78,11 @@ export default function FamilyIntroductionCard({ user }: { user: User }) {
         </div>
       )}
 
-      <h1 className="text-secondary font-bold text-xl pb-3 border-t border-muted-foreground py-4">
+      <h1 className="text-secondary font-bold text-2xl pb-3 border-t border-muted-foreground py-4">
         Proposals <span className="font-bold text-sm">- Coming Soon</span>
       </h1>
 
-      <h1 className="text-secondary font-bold text-xl pb-3 border-t border-muted-foreground py-4">
+      <h1 className="text-secondary font-bold text-2xl pb-3 border-t border-muted-foreground py-4">
         Optional Verifiables{' '}
         <span className="font-bold text-sm">- Coming Soon</span>
       </h1>
