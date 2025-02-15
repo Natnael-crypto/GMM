@@ -479,7 +479,7 @@ export default function Field(props: FieldProps) {
   return (
     <div
       className={cn(
-        'flex flex-col justify-end gap-1 col-span-12 md:col-span-4',
+        'mt-6 pt-2 flex flex-col justify-end gap-1 col-span-12 md:col-span-4',
         props.className
       )}
     >
