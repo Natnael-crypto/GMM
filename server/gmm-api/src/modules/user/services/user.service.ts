@@ -176,7 +176,9 @@ export class UserService extends BaseRepository {
     });
 
     if (guardian) {
-      throw new BadRequestException('Invalid guardian phone number');
+      throw new BadRequestException(
+        'The provided guardian phone number is already associated with a user.',
+      );
     }
 
     return await Promise.all([
