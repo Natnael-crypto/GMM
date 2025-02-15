@@ -280,7 +280,7 @@ export default function BasicInformationForm({
   }, [form, form.formState.errors]);
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
-
+  console.log(form.formState.errors);
   return (
     <Form {...form}>
       <div className="grid grid-cols-3 gap-x-5">
@@ -621,6 +621,7 @@ export default function BasicInformationForm({
                       <FormItem>
                         <FormControl>
                           <Input
+                            disabled={true}
                             ref={locationInputRef}
                             name={field.name}
                             value={location.city || ''}

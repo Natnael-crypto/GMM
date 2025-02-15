@@ -20,7 +20,7 @@ import Loading from '@/components/ui/loading';
 import { signUp } from '@/actions/auth/signup';
 import { Link, useRouter } from '@/lib/navigation';
 import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import {
   Select,
@@ -33,6 +33,8 @@ import {
 import { getEighteenYearsAgo } from '@/lib/format';
 import { DatePicker } from '@mui/x-date-pickers';
 import PasswordStrengthIndicator from '@/components/ui/password-strength-indicator';
+import useLocation from '@/lib/hooks/use-location';
+import { Label } from '@/components/ui/label';
 
 export function SignUpForm() {
   const { replace } = useRouter();
@@ -50,8 +52,19 @@ export function SignUpForm() {
       password: '',
       confirmPassword: '',
       agreeToTerms: false,
+      city: '',
+      currentCountry: '',
     },
   });
+
+  const locationInputRef = useRef<HTMLInputElement>(null);
+  const { location, onLocationChange, isLoaded, setLocation } =
+    useLocation(locationInputRef);
+
+  useEffect(() => {
+    form.setValue('currentCountry', location?.country);
+    form.setValue('city', location?.city);
+  }, [location, form]);
 
   const t = useTranslations('Auth');
 
@@ -76,8 +89,6 @@ export function SignUpForm() {
 
     setSignUpInProgress(false);
   }
-
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   return (
     <Form {...form}>
@@ -257,6 +268,29 @@ export function SignUpForm() {
             )}
           />
 
+          {isLoaded && (
+            <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
+              <FormField
+                name="city"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        ref={locationInputRef}
+                        name={field.name}
+                        value={location.city || ''}
+                        onChange={onLocationChange}
+                        className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-md" />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
+
           <div className="text-sm pt-2 pb-3 text-center">
             Fields Must Be Accurate and Cannot Be Updated After Sign up. Please
             Verify All Details Are Accurate.
@@ -307,23 +341,25 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <div className="flex items-center gap-3 pt-2">
-                  <FormControl className="relative">
+                  <div className="flex items-center">
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
-                  </FormControl>
+                  </div>
 
-                  <FormLabel className="text-sm text-muted-foreground">
-                    I agree to{' '}
-                    <Link
-                      href="/terms"
-                      className="text-sm text-primary font-semibold"
-                      target="_blank"
-                    >
-                      terms and conditions
-                    </Link>
-                  </FormLabel>
+                  <div>
+                    <FormLabel className="text-sm text-muted-foreground">
+                      I agree to{' '}
+                      <Link
+                        href="/terms"
+                        className="text-sm text-primary font-semibold"
+                        target="_blank"
+                      >
+                        terms and conditions
+                      </Link>
+                    </FormLabel>
+                  </div>
                 </div>
 
                 <FormMessage className="text-md" />

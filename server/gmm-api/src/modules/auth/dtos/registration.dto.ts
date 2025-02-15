@@ -44,6 +44,14 @@ export class EmailRegistrationDto {
   bornOrRevertToIslam: string;
 
   @ApiProperty()
+  @IsNotEmpty()
+  city: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  currentCountry: string;
+
+  @ApiProperty()
   @IsOptional()
   phoneNumber: string;
 

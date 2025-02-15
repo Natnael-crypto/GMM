@@ -90,6 +90,16 @@ export const SignUpSchema = z
     password: z.string().min(8, {
       message: 'Password must be at least 8 characters',
     }),
+    currentCountry: z
+      .string({
+        required_error: 'Please enter the current country you live in',
+      })
+      .min(1, { message: 'Please enter the current country you live in' }),
+    city: z
+      .string({
+        required_error: 'Please enter your city',
+      })
+      .min(1, { message: 'Please enter your city' }),
     confirmPassword: z.string().min(8, {
       message: 'Password must be at least 8 characters',
     }),
