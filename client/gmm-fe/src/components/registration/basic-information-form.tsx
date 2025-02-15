@@ -689,7 +689,7 @@ export default function BasicInformationForm({
               </div>
 
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
-                <Label>Do you have children</Label>
+                <Label>Do you have children?</Label>
                 <FormField
                   name="hasChildren"
                   control={form.control}
