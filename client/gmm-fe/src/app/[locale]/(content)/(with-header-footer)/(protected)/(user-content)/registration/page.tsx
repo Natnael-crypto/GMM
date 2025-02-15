@@ -30,12 +30,6 @@ export default function Registration() {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (isError && !currentSubscription) {
-      router.replace('/checkout');
-    }
-  }, [currentSubscription, isError, router]);
-
   return (
     <AnimatePresence mode="sync">
       {!user ? (
