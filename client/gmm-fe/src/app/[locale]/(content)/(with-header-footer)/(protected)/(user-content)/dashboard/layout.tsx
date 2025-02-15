@@ -1,6 +1,5 @@
 import { auth } from '@/lib/auth/utils';
 import { redirect } from '@/lib/navigation';
-import { AccountStatus } from '@/lib/schemas/user';
 
 export default async function DashboardGuard({
   children,
@@ -12,7 +11,7 @@ export default async function DashboardGuard({
   if (
     session &&
     session.user &&
-    session.user.accountStatus === AccountStatus.INCOMPLETE_REGISTRATION
+    session.user.accountStatus === 'Incomplete Registration'
   ) {
     return redirect('/registration');
   }

@@ -52,7 +52,7 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
         replace('/guardian');
         return;
       }
-      return push('/checkout');
+      return push('/registration');
     } else {
       toast({
         title: 'OTP Verification',
