@@ -19,29 +19,29 @@ export default function DashboardLeftCards({ user }: DashboardLeftCardsProps) {
     useGetCurrentMatchQuery(undefined, {
       skip: !user || !user.isMatched,
     });
-  const { data: verificationStatus, isLoading: isVerificationLoading } =
-    useGetLivenessVerificationStatusQuery(undefined, {
-      skip: !user,
-    });
+  // const { data: verificationStatus, isLoading: isVerificationLoading } =
+  //   useGetLivenessVerificationStatusQuery(undefined, {
+  //     skip: !user,
+  //   });
 
-  if (isVerificationLoading)
-    return (
-      <motion.div
-        key="dashboard-skeleton"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-        className="grid grid-cols-7 gap-4 h-full"
-      >
-        <Skeleton className="rounded-se-3xl col-span-3 rounded-es-3xl overflow-hidden h-full" />
-        <Skeleton className="rounded-se-3xl col-span-4 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5" />
-      </motion.div>
-    );
+  // if (isVerificationLoading)
+  //   return (
+  //     <motion.div
+  //       key="dashboard-skeleton"
+  //       initial={{ opacity: 0 }}
+  //       animate={{ opacity: 1 }}
+  //       exit={{ opacity: 0 }}
+  //       transition={{ duration: 0.5 }}
+  //       className="grid grid-cols-7 gap-4 h-full"
+  //     >
+  //       <Skeleton className="rounded-se-3xl col-span-3 rounded-es-3xl overflow-hidden h-full" />
+  //       <Skeleton className="rounded-se-3xl col-span-4 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5" />
+  //     </motion.div>
+  //   );
 
   if (
-    user.accountStatus === AccountStatus.APPROVED &&
-    verificationStatus === VerificationStatus.APPROVED
+    user.accountStatus === AccountStatus.APPROVED
+    // && verificationStatus === VerificationStatus.APPROVED
   ) {
     return (
       <AnimatePresence mode="popLayout">

@@ -198,7 +198,7 @@ export default function BasicInformationForm() {
         <form
           ref={basicInfoFormRef}
           onSubmit={form.handleSubmit(onSubmit)}
-          className="col-span-12 lg:col-span-3 grid grid-cols-4 gap-x-5 gap-y-4 h-fit"
+          className="col-span-12 lg:col-span-10 grid grid-cols-4 gap-x-5 gap-y-4 h-fit"
         >
           <div className="col-span-4 sm:col-span-2 flex gap-5 items-center h-fit">
             <Label>First Name</Label>
@@ -478,6 +478,7 @@ export default function BasicInformationForm() {
                 <Label>Current City</Label>
                 <FormField
                   name="city"
+                  disabled={true}
                   control={form.control}
                   render={({ field }) => (
                     <FormItem>

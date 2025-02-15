@@ -188,7 +188,7 @@ export default function PhotoUploader({ field }: { field: any }) {
   const handleDrag = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
   };
-  console.log(images, seen);
+
   const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
     e.preventDefault();
     setDragOnTop(false);

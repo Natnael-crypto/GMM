@@ -19,6 +19,8 @@ export const signUp = async (data: SignUp) => {
       gender: data.gender,
       dateOfBirth: data.dateOfBirth,
       bornOrRevertToIslam: data.bornOrRevertToIslam,
+      city: data.city,
+      currentCountry: data.currentCountry,
       password: data.password,
       confirmPassword: data.confirmPassword,
     }),
@@ -84,6 +86,10 @@ export const signUpWithLink = async (data: SignUpWithLink) => {
         bornOrRevertToIslam: 'Born Muslim',
         gender: data.gender,
         idCardImage: data.idCardImage,
+
+        // TODO: Handle these fields from the backend for guardians
+        city: 'N/A',
+        currentCountry: 'N/A',
       }),
     }
   );

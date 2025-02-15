@@ -136,7 +136,11 @@ export function CheckoutForm() {
   // Initial plan selection
   useEffect(() => {
     if (user && !clientSecret) {
-      if (user.gender === 'Female') {
+      if (
+        user.gender === 'Female' &&
+        user.currentCountry !== 'Morocco' &&
+        user.currentCountry !== 'Algeria'
+      ) {
         setShowFemaleOptions(true);
         onPlanChange('free');
       } else {
@@ -229,15 +233,18 @@ export function CheckoutForm() {
         {!showFemaleOptions && <PromoCodeForm onApply={onPromoCodeApply} />}
       </div>
 
-      {user?.gender === 'Female' && !user?.guardian && (
-        <div className="flex items-center gap-2 mt-6 font-medium text-xs">
-          <Checkbox
-            checked={showFemaleOptions}
-            onClick={handleGuardianCheckbox}
-          />{' '}
-          <span>Add Guardian</span>
-        </div>
-      )}
+      {user?.gender === 'Female' &&
+        user?.currentCountry !== 'Algeria' &&
+        user?.currentCountry !== 'Morocco' &&
+        !user?.guardian && (
+          <div className="flex items-center gap-2 mt-6 font-medium text-xs">
+            <Checkbox
+              checked={showFemaleOptions}
+              onClick={handleGuardianCheckbox}
+            />{' '}
+            <span>Add Guardian</span>
+          </div>
+        )}
 
       {user && clientSecret && !showFemaleOptions ? (
         <Elements options={options} stripe={stripePromise}>

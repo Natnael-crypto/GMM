@@ -19,6 +19,7 @@ export default function Registration() {
   const user = useAppSelector((state) => state.auth.user);
   const { data: familyIntroduction, isLoading: isFamilyIntroductionLoading } =
     useGetFamilyIntroductionQuery(user?.id ?? '', { skip: !user });
+
   const {
     data: currentSubscription,
     isLoading,
@@ -37,7 +38,7 @@ export default function Registration() {
 
   return (
     <AnimatePresence mode="sync">
-      {!currentSubscription || !user || isLoading ? (
+      {!user ? (
         <RegistrationSkeleton />
       ) : (
         <motion.div

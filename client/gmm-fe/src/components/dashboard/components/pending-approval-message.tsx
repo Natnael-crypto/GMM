@@ -14,16 +14,16 @@ import React from 'react';
 
 export default function PendingApprovalMessage() {
   const user = useAppSelector((state) => state.auth.user);
-  const { data: verificationStatus } = useGetLivenessVerificationStatusQuery(
-    undefined,
-    {
-      skip: !user,
-    }
-  );
+  // const { data: verificationStatus } = useGetLivenessVerificationStatusQuery(
+  //   undefined,
+  //   {
+  //     skip: !user,
+  //   }
+  // );
 
   if (
-    user?.accountStatus === AccountStatus.APPROVED &&
-    verificationStatus !== VerificationStatus.APPROVED
+    user?.accountStatus === AccountStatus.APPROVED
+    // &&verificationStatus !== VerificationStatus.APPROVED
   ) {
     return (
       <div
@@ -41,7 +41,7 @@ export default function PendingApprovalMessage() {
             Please complete liveness check to access your account.
           </p>
 
-          <div className="my-6 py-8 border-t">
+          <div className="hidden my-6 py-8 border-t">
             <p className="flex flex-col items-center gap-2">
               <Link
                 href="/face-liveness"
@@ -60,14 +60,16 @@ export default function PendingApprovalMessage() {
     <div
       className={cn(
         'flex flex-col justify-center items-center gap-5',
-        user?.accountStatus === AccountStatus.DENIED
+        user?.accountStatus === AccountStatus.DENIED ||
+          user?.accountStatus === AccountStatus.SUSPENDED
           ? 'text-destructive'
           : 'text-primary '
       )}
     >
       <FontAwesomeIcon
         icon={
-          user?.accountStatus === AccountStatus.DENIED
+          user?.accountStatus === AccountStatus.DENIED ||
+          user?.accountStatus === AccountStatus.SUSPENDED
             ? faCircleXmark
             : faCircleCheck
         }
@@ -76,6 +78,8 @@ export default function PendingApprovalMessage() {
       <span className="text-xl font-bold text-center">
         {user?.accountStatus === AccountStatus.DENIED
           ? 'Your application has been denied'
+          : user?.accountStatus === AccountStatus.SUSPENDED
+          ? 'Your account has been suspended'
           : 'Your application has been submitted for review'}
       </span>
 
@@ -94,6 +98,13 @@ export default function PendingApprovalMessage() {
               </Link>
             </p>
           </>
+        ) : user?.accountStatus === AccountStatus.SUSPENDED ? (
+          <>
+            <p>
+              We have suspended your account. Please contact support for more
+              information.
+            </p>
+          </>
         ) : (
           <>
             <p>
@@ -104,8 +115,8 @@ export default function PendingApprovalMessage() {
           </>
         )}
 
-        {verificationStatus !== VerificationStatus.APPROVED && (
-          <div className="my-8 py-8 border-t">
+        {/* {verificationStatus !== VerificationStatus.APPROVED && (
+          <div className="hidden my-8 py-8 border-t">
             <p className="flex flex-col items-center gap-2">
               <Link
                 href="/face-liveness"
@@ -115,7 +126,7 @@ export default function PendingApprovalMessage() {
               </Link>
             </p>
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );

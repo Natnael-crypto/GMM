@@ -22,10 +22,12 @@ export default setSeederFactory(User, (faker) => {
 
   user.phoneNumber = faker.phone.number();
 
-  user.email = faker.internet.email({
-    firstName: user.firstName,
-    lastName: user.lastName,
-  });
+  user.email = faker.internet
+    .email({
+      firstName: user.firstName,
+      lastName: user.lastName,
+    })
+    .toLowerCase();
 
   user.password = userPassword;
 
