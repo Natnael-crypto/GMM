@@ -15,6 +15,7 @@ import { UpdateContactMessageDto } from '../dtos/update-contact-message.dto';
 import { ApiKeyAuthGuard } from '@modules/auth/guards/apikey-auth.guard';
 import { ContactMessageService } from '../services/contact-message.service';
 import { User } from '@modules/user/entities/user.entity';
+import { ContactResponseDto } from '../dtos/contact-response.dto';
 
 @ApiTags('Contact Message')
 @ApiBearerAuth()
@@ -31,9 +32,13 @@ export class ContactMessageController {
       contactMessage,
     );
 
+    const response = new ContactResponseDto();
+    response.success = true;
+    response.IssueId = message.issueId;
+
     return {
       message: 'Contact message created successfully',
-      data: message,
+      data: response,
     };
   }
 
