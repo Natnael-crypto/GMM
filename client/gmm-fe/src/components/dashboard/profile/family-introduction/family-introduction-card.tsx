@@ -25,9 +25,9 @@ export default function FamilyIntroductionCard({ user }: { user: User }) {
         <strong>Your People Contact My People!!! </strong>The 5th and final step
         of the Guardian Muslim Marriage Guided Matchmaking Process. When you and
         your potential spouse reach this step, your Guardian Family
-        Member's/Imam's contact information will be exchanged with your match's
-        Guardian Family Member's/Imam's contact information to initiate family
-        contact.
+        Member&apos;s/Imam&apos;s contact information will be exchanged with
+        your match&apos;s Guardian Family Member&apos;s/Imam&apos;s contact
+        information to initiate family contact.
       </p>
 
       {familyIntroduction && (
@@ -67,7 +67,9 @@ export default function FamilyIntroductionCard({ user }: { user: User }) {
             )}
           </div>
           <div className="flex flex-col gap-3 mt-6 pt-2">
-            <h1 className="question-label text-secondary font-extrabold text-nowrap">Email</h1>
+            <h1 className="question-label text-secondary font-extrabold text-nowrap">
+              Email
+            </h1>
 
             {familyIntroduction && (
               <p className="text-nowrap flex gap-2 font-bold text-md text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">

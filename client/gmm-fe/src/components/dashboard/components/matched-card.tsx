@@ -92,7 +92,7 @@ export default function MatchedCard({
       <div className="rounded-se-3xl col-span-8 md:col-span-5 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5">
         <div className="text-center">
           <h1 className="font-bold text-secondary text-2xl mb-2 mt-4">
-            You're Matched!
+            You&apos;re Matched!
           </h1>
           <p className="text-center text-md font-bold text-muted-foreground">
             Explore options below to get to know your potential spouse
@@ -132,22 +132,32 @@ export default function MatchedCard({
               Chat & Move to Step 2
             </span>
           </button>
-          
-            <Link
-            href= {allMatchStages.indexOf(match.stage) != 0 ? `/dashboard/compatibility/${
-              stageUrls[stageIndex === 0 ? 1 : stageIndex]
-            }` : ""}
-            className={`flex gap-4 items-center py-1 ${allMatchStages.indexOf(match.stage) == 0? "cursor-default": ""}`}
+
+          <Link
+            href={
+              allMatchStages.indexOf(match.stage) != 0
+                ? `/dashboard/compatibility/${
+                    stageUrls[stageIndex === 0 ? 1 : stageIndex]
+                  }`
+                : ''
+            }
+            className={`flex gap-4 items-center py-1 ${
+              allMatchStages.indexOf(match.stage) == 0 ? 'cursor-default' : ''
+            }`}
           >
-            <div className={`rounded-md ${allMatchStages.indexOf(match.stage) != 0? "bg-primary": "bg-[#dedede]"} p-2 aspect-square text-primary-foreground flex items-center justify-center`}>
+            <div
+              className={`rounded-md ${
+                allMatchStages.indexOf(match.stage) != 0
+                  ? 'bg-primary'
+                  : 'bg-[#dedede]'
+              } p-2 aspect-square text-primary-foreground flex items-center justify-center`}
+            >
               <FontAwesomeIcon icon={faRightLeft} />
             </div>
             <span className="text-lg text-secondary font-bold">
               Check Compatibility
             </span>
           </Link>
-          
-
 
           <Link href="" className="flex gap-4 items-center py-1 cursor-default">
             <div className="rounded-md p-2 aspect-square bg-[#dedede] text-primary-foreground flex items-center justify-center">
