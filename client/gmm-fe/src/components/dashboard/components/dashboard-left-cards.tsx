@@ -38,7 +38,7 @@ export default function DashboardLeftCards({ user }: DashboardLeftCardsProps) {
   //       <Skeleton className="rounded-se-3xl col-span-4 rounded-es-3xl overflow-hidden flex flex-col bg-muted p-5 gap-5" />
   //     </motion.div>
   //   );
-  console.log(user.accountStatus);
+
   if (
     user.accountStatus === AccountStatus.APPROVED
     // && verificationStatus === VerificationStatus.APPROVED
