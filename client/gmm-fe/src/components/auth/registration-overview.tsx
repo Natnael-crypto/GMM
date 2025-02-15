@@ -143,6 +143,7 @@ export default function RegistrationOverview() {
                 {approachT.rich('slide.oneOnOneChats.description.p1', {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
+                &nbsp;
               </>
               <>
                 {approachT.rich('slide.oneOnOneChats.description.p2', {
