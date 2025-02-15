@@ -13,18 +13,14 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'apikey') {
     const apiKey = req.headers['api-key'] || req.query.apiKey;
 
     if (!apiKey) {
-      throw new UnauthorizedException('API Key missing');
+      this.fail(new UnauthorizedException('API Key missing'), 401);
     }
 
     const isValid = await this.apiKeyService.validateApiKey(apiKey);
     if (!isValid) {
-      throw new UnauthorizedException('Invalid API Key');
+      this.fail(new UnauthorizedException('Invalid API Key'), 401);
     }
 
     return this.success(true);
-  }
-
-  validate(...args: any[]) {
-    throw new Error('Method not implemented.');
   }
 }

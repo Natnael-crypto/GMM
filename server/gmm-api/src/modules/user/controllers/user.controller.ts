@@ -17,7 +17,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Request } from 'express';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiHeader, ApiTags } from '@nestjs/swagger';
 import { Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
@@ -482,6 +482,9 @@ export class UserController {
 
   @UseGuards(ApiKeyAuthGuard)
   @Delete(':id/cache')
+  @ApiHeader({
+    name: 'api-key',
+  })
   async invalidateUserCache(@Param('id') id: string) {
     const keys = [
       `/users/${id}`,
