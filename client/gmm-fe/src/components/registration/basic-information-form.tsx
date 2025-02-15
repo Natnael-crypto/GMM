@@ -50,6 +50,7 @@ import CountrySelector from '../ui/country-selector';
 import { useLoadScript } from '@react-google-maps/api';
 import { constants, mapLibraries } from '@/config';
 import useLocation from '@/lib/hooks/use-location';
+import { register } from 'module';
 
 export default function BasicInformationForm({
   familyIntroduction,
@@ -253,7 +254,9 @@ export default function BasicInformationForm({
     } else if (registrationResult.isError) {
       toast({
         title: 'Error',
-        description: 'An error occurred while registering',
+        description:
+          (registrationResult?.error as any)?.data?.message ??
+          'Unable to register. Please try again.',
       });
     }
 
