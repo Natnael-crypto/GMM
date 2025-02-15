@@ -73,6 +73,7 @@ export default function RegistrationOverview() {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
               </>
+              &nbsp;
               <>
                 {approachT.rich('slide.matchGuarantee.description.p2', {
                   bold: (text) => <span className="font-bold">{text}</span>,
@@ -143,6 +144,7 @@ export default function RegistrationOverview() {
                 {approachT.rich('slide.oneOnOneChats.description.p1', {
                   bold: (text) => <span className="font-bold">{text}</span>,
                 })}
+                &nbsp;
               </>
               <>
                 {approachT.rich('slide.oneOnOneChats.description.p2', {
