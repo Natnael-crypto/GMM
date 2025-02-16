@@ -22,6 +22,8 @@ import {
 } from '@modules/user/enums/user.enum';
 import { SNSClient, PublishCommand } from '@aws-sdk/client-sns';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 export type OtpPayload = {
   id: string;
@@ -47,6 +49,7 @@ export class OtpService extends BaseRepository {
     @Inject(REQUEST) req: Request,
     configService: ConfigService,
     private readonly eventEmitter: EventEmitter2,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {
     super(dataSource, req);
     this.encryptionKey =
@@ -190,6 +193,21 @@ export class OtpService extends BaseRepository {
       });
     }
 
-    return decoded;
+    const user = await this.getRepository(User).findOneOrFail({
+      where: { id: decoded.id },
+      select: { id: true, email: true },
+    });
+
+    const id = user.id;
+
+    const keys = [
+      `/users/${id}`,
+      `/users/me/${id}`,
+      `/users/${id}/family-introduction`,
+    ];
+
+    await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+
+    return { ...decoded, email: user.email };
   }
 }

@@ -15,23 +15,36 @@ import {
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
 import { Otp, OtpSchema } from '@/lib/schemas/auth';
-import { resendOtp, verifyOtp } from '@/actions/auth/otp';
+import { resendOtp, sendOtp, verifyOtp } from '@/actions/auth/otp';
 import { useRouter } from '@/lib/navigation';
 import Loading from '@/components/ui/loading';
 import { useToast } from '@/components/ui/use-toast';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { setToken } from '@/lib/auth/slice';
 
-export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
+interface OtpFormProps {
+  userIdentifier: string;
+  verificationType: 'email' | 'phone';
+}
+
+export function OtpForm({ userIdentifier, verificationType }: OtpFormProps) {
   const t = useTranslations('Auth.otp');
   const { push, replace } = useRouter();
   const { toast } = useToast();
   const dispatch = useAppDispatch();
-
+  const user = useAppSelector((state) => state.auth.user);
   const params = useSearchParams();
 
+  let des;
+    if(verificationType === 'phone') {
+      des = 'Phone number';
+    }
+    else {
+      des = 'Email';
+    }
+  
   const [isOtpVerificationInProgress, setOtpVerificationInProgress] =
     useState(false);
 
@@ -44,15 +57,32 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
 
   async function onSubmit(data: Otp) {
     setOtpVerificationInProgress(true);
-    const res = await verifyOtp(data);
-
+    
+    
+    const res = await verifyOtp(data, verificationType);
+    
     if (res.status === 200) {
       dispatch(setToken(res.token));
-      if (params.get('account') === 'guardian') {
-        replace('/guardian');
-        return;
+      if (verificationType === 'phone') {
+        if (params.get('account') === 'guardian') {
+          replace('/guardian/settings');
+          return;
+        }
+        else{
+          replace('/dashboard/personal-info');
+          return;
+        }
+        
+
+      } else {
+
+        if (params.get('account') === 'guardian') {
+          replace('/guardian/settings');
+          return;
+        }
+        return push('/checkout');
+
       }
-      return push('/checkout');
     } else {
       toast({
         title: 'OTP Verification',
@@ -64,12 +94,19 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
 
   async function handleResendOtp() {
     try {
-      const res = await resendOtp();
+
+      let res;
+      if (verificationType === 'phone' && user?.phoneNumber) {
+        res = await resendOtp(verificationType, user?.phoneNumber);
+      }
+      else {
+        res = await resendOtp(verificationType);
+      }
 
       if (res.status === 200) {
         toast({
           title: 'OTP Resent',
-          description: 'We have resent the OTP to your email.',
+          description: `We have resent the OTP to your ${verificationType}.`,
         });
       } else {
         toast({
@@ -90,7 +127,7 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
         <div className="space-y-2">
-          <FormLabel>{t('title')}</FormLabel>
+          <FormLabel>{t('title' , {title: verificationType})}</FormLabel>
           <FormField
             control={form.control}
             name="otp"
@@ -127,7 +164,9 @@ export function OtpForm({ userIdentifier }: { userIdentifier: string }) {
         </div>
 
         <div className="text-xs text-muted-foreground">
-          {t('resendDescription', { email: userIdentifier })}
+          {t('resendDescription', {email : userIdentifier,
+            type : des
+          } )}
         </div>
       </form>
     </Form>

@@ -10,6 +10,26 @@
   body {
     @apply bg-background text-foreground;
   }
+/* ⛔ Prevents text selection */
+/* * {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -ms-user-select: none !important;
+  -moz-user-select: none !important;
+} */
+
+/* ⛔ Disables copying */
+/* body, input, textarea {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+} */
+
+/* Allows input fields to still be used */
+input, textarea {
+  user-select: text !important;
+}
 
   :root {
     --background: #fdfdfd;

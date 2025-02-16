@@ -7,14 +7,15 @@ import Providers from '@/components/providers/provider';
 config.autoAddCss = false;
 
 export const metadata: Metadata = {
-  title: 'Guardian Muslim Marriage',
-  description: 'Premium guided matchmaking for Sunni Muslims with revert care.',
+  title: "Guardian Muslim Marriage",
+  description: "Premium guided matchmaking for Sunni Muslims with revert care.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return <Providers>{children}</Providers>;
+}: Readonly<{ children: React.ReactNode }>) {
+
+  return <Providers>
+    {children}
+    </Providers>;
 }
