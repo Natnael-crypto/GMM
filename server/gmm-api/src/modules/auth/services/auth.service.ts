@@ -16,11 +16,11 @@ import {
 } from '../exceptions/auth.exceptions';
 import { guardianRole, userRole } from '@shared/database/seeds/permission.seed';
 import {
+  GuardianAcceptedEvent,
   GuardianRegistrationEvent,
   GuardianRequestedEvent,
 } from '@modules/user/events/guardian.events';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { GuardianService } from '@modules/user/services/guardian.service';
 
 export type JwtPayload = {
   sub: string;
@@ -37,7 +37,6 @@ export class NewAuthService {
     private configService: ConfigService,
     private jwtService: JwtService,
     private authRepo: AuthRepository,
-    private guardianService: GuardianService,
     private readonly eventEmitter: EventEmitter2,
   ) {
     this.authConfig = this.configService.get<AuthConfig>('auth')!;
@@ -186,15 +185,10 @@ export class NewAuthService {
       roleId,
     });
 
-    const guardianRequest =
-      await this.guardianService.getReceivedGuardianRequests(user);
-
-    if (guardianRequest) {
-      await this.guardianService.acceptGuardianRequest(
-        guardianRequest[0].id,
-        user,
-      );
-    }
+    this.eventEmitter.emit(
+      GuardianAcceptedEvent.name,
+      new GuardianAcceptedEvent(user),
+    );
 
     return user;
   }

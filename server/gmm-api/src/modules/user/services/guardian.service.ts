@@ -13,8 +13,11 @@ import {
   GuardianRequestStatus,
 } from '../entities/guardian-request.entity';
 import { NoticeService } from '@modules/notice/services/notice.service';
-import { EventEmitter2 } from '@nestjs/event-emitter';
-import { GuardianRequestedEvent } from '../events/guardian.events';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
+import {
+  GuardianAcceptedEvent,
+  GuardianRequestedEvent,
+} from '../events/guardian.events';
 import { RequestGuardianDto } from '../dtos/guardian.dto';
 
 @Injectable()
@@ -185,5 +188,19 @@ export class GuardianService {
     return await this.userRepository.find({
       where: { guardianId },
     });
+  }
+
+  @OnEvent(GuardianAcceptedEvent.name, { async: true })
+  async handleGuardianAcceptedEvent(event: GuardianAcceptedEvent) {
+    const guardianRequests = await this.getReceivedGuardianRequests(
+      event.guardianUser,
+    );
+
+    if (guardianRequests.length > 0) {
+      await this.acceptGuardianRequest(
+        guardianRequests[0].id,
+        event.guardianUser,
+      );
+    }
   }
 }
