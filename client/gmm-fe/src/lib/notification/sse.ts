@@ -1,5 +1,5 @@
 import { constants } from '@/config';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { useGetNotificationsQuery } from './api';
 import { Notification } from '../schemas/notification';
@@ -19,33 +19,38 @@ export function useNotifications() {
     []
   );
 
+  const eventSourceRef = useRef<EventSourcePolyfill | null>(null);
+
   useEffect(() => {
-    if (token) {
-      const eventSource = new EventSourcePolyfill(
-        `${constants.apiBaseUrl}/notifications/real-time`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+    if (!token || eventSourceRef.current) return;
 
-      eventSource.onmessage = (event) => {
-        const notification = JSON.parse(event.data);
+    const eventSource = new EventSourcePolyfill(
+      `${constants.apiBaseUrl}/notifications/real-time`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-        if (notification?.url?.includes('action')) {
-          dispatch(
-            matchApi.util.invalidateTags(['Match', 'ImageAccessRequest'])
-          );
-        }
+    eventSourceRef.current = eventSource;
 
-        setLiveNotifications((prev) => [notification, ...prev]);
-      };
+    eventSource.onmessage = (event) => {
+      const notification = JSON.parse(event.data);
 
-      return () => {
-        eventSource.close();
-      };
-    }
+      if (notification?.url?.includes('action')) {
+        dispatch(matchApi.util.invalidateTags([{ type: 'Match' }]));
+        dispatch(
+          matchApi.util.invalidateTags([{ type: 'ImageAccessRequest' }])
+        );
+      }
+
+      setLiveNotifications((prev) => [notification, ...prev]);
+    };
+
+    return () => {
+      eventSource.close();
+    };
   }, [token, dispatch]);
 
   const reloadNotifications = () => {
