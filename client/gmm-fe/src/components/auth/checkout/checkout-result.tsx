@@ -10,6 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from '@/lib/navigation';
 import { useAppSelector } from '@/lib/hooks';
+import { useConfirmSubscriptionMutation } from '@/lib/checkout/api';
 
 const SuccessIcon = (
   <FontAwesomeIcon icon={faCheckCircle} className="text-2xl text-green-500" />
@@ -47,6 +48,7 @@ export function CheckoutCompletePage() {
 
   const [status, setStatus] = React.useState<any>('processing');
   const [intentId, setIntentId] = React.useState<any>(null);
+  const [confirmPayment, result] = useConfirmSubscriptionMutation();
 
   React.useEffect(() => {
     if (!stripe || !user) {
@@ -72,14 +74,16 @@ export function CheckoutCompletePage() {
       setIntentId(paymentIntent.id);
 
       if (paymentIntent.status === 'succeeded') {
-        if (user.accountStatus === 'Incomplete Registration') {
-          router.replace('/registration');
-        } else {
-          router.replace('/dashboard');
-        }
+        confirmPayment(paymentIntent.id).then(() => {
+          if (user.accountStatus === 'Incomplete Registration') {
+            router.replace('/registration');
+          } else {
+            router.replace('/dashboard');
+          }
+        });
       }
     });
-  }, [stripe, router, user]);
+  }, [stripe, router, user, confirmPayment]);
 
   return (
     <div className="flex gap-3 items-center justify-center">

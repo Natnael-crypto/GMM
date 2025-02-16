@@ -60,6 +60,13 @@ export const checkoutApi = createApi({
       }),
     }),
 
+    confirmSubscription: builder.mutation<any, string>({
+      query: (paymentIntentId) => ({
+        url: `payments/checkout/success?payment_intent_id=${paymentIntentId}`,
+        method: 'GET',
+      }),
+    }),
+
     getCurrentSubscription: builder.query<Subscription, string>({
       query: (userId) => `payments/current-subscription/${userId}`,
       transformResponse: (response: any) => response.data,
@@ -129,4 +136,5 @@ export const {
   useApplyPromoCodeMutation,
   useValidatePromoCodeMutation,
   useGetUnclaimedPromoCodesQuery,
+  useConfirmSubscriptionMutation,
 } = checkoutApi;
