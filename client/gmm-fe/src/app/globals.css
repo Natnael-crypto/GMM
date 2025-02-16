@@ -97,6 +97,10 @@
     height: 15rem;
   }
 
+  .h-\[18rem\] {
+    height: 18rem;
+  }
+
   .h-\[65vh\] {
     height: 65vh;
   }
@@ -493,6 +497,37 @@
   font-size: 1.1rem;
 }
 
+.potential-spouse-profile-completion .gmm-profile-completion {
+  margin: 0 auto; 
+  padding: 0 0 2px 0;
+  border-radius: 0;
+}
+
+.potential-spouse-profile-completion .gmm-profile-completion .h-2 {
+  height: .1rem;
+  padding-top: 0rem;
+  margin-top: 0rem;
+}
+
+.potential-spouse-profile-completion .gmm-profile-completion span {
+  font-weight: 700;
+  font-size: .85rem;
+}
+
+.potential-spouse-profile-completion .gmm-profile-completion .space-y-3 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.potential-spouse-profile-completion .gmm-profile-completion .space-y-3 div {
+  margin-top: 1.5px;
+}
+
+.chat-buttons a {
+  padding-left: .75rem;
+  padding-right: .75rem;
+  font-size: .8rem;
+}
 @media (min-width: 640px) {
   .gmm-mpf-results-container {
     display: flex;

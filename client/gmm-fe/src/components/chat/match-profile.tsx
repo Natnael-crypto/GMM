@@ -242,10 +242,12 @@ export default function MatchProfile({
             showRequestViewButton={!showImage}
             requestViewButtonDisabled={stageIndex < 3}
           />
+          
+          <div className="potential-spouse-profile-completion" style={{ marginTop: '0' }}>
+            <ProfileCompletionCard user={matchedUser} hideProfile={true} />
+          </div>
 
-          <ProfileCompletionCard user={matchedUser} hideProfile={true} />
-
-          <div className="flex gap-2 flex-wrap items-center justify-center">
+          <div className="chat-buttons flex gap-2 flex-wrap items-center justify-center">
             <Link
               href={`/dashboard/profile/${matchedUser.id}/${stageUrls[stageIndex]}`}
               className={cn(
@@ -282,7 +284,7 @@ export default function MatchProfile({
         </div>
 
         <div
-          className="flex flex-col border-t pt-3 mt-3"
+          className="flex flex-col border-t pt-2 mt-2"
           ref={inviteToNextStepButtonRef}
         >
           {match?.stage !== MatchStage.FAMILY_INTRODUCTION ? (

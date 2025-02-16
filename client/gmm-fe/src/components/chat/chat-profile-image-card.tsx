@@ -108,7 +108,7 @@ export default function ChatProfileImages({
     >
       <AnimatePresence>
         {imageUrls && (
-          <motion.div className = {`rounded-se-3xl rounded-es-3xl overflow-hidden h-[20rem] w-full aspect-[9/16]`}>
+          <motion.div className = {`rounded-se-3xl rounded-es-3xl overflow-hidden h-[18rem] w-full aspect-[9/16]`}>
             {imageUrls && imageUrls.length > 0 && (
               <Carousel setApi={setApi}>
                 <CarouselContent>
@@ -123,7 +123,7 @@ export default function ChatProfileImages({
 
                         <DynamicBlur
                           src={image}
-                          className={`object-cover h-[20rem] object-top`}
+                          className={`object-cover h-[18rem] object-top`}
                           width={600}
                           height={1000}
                           alt="Hero image"
@@ -133,8 +133,8 @@ export default function ChatProfileImages({
                     </CarouselItem>
                   ))}
                 </CarouselContent>
-                <CarouselPrevious className="w-8" />
-                <CarouselNext className="end-0 w-8" />
+                <CarouselPrevious className="w-8 top-1/4" />
+                <CarouselNext className="end-0 w-8 top-1/4" />
               </Carousel>
             )}
 
