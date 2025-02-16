@@ -527,10 +527,7 @@
   font-size: .8rem;
 }
 @media (min-width: 640px) {
-  .message-mobile {
-    height: calc(-3.5rem + 100vh);
-  }
-  
+
   .gmm-mpf-results-container {
     display: flex;
     flex-direction: row;
