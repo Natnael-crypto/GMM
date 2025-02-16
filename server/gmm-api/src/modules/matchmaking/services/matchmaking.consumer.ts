@@ -32,6 +32,8 @@ export class MatchmakerConsumer extends WorkerHost {
             const femaleUserId = match.femaleUserId;
 
             const keys = [
+              `/matchmaking/current-match/${maleUserId}`,
+              `/matchmaking/current-match/${femaleUserId}`,
               `/matchmaking/${maleUserId}`,
               `/matchmaking/${femaleUserId}`,
               `/matchmaking/matches`,
@@ -44,6 +46,7 @@ export class MatchmakerConsumer extends WorkerHost {
             ];
 
             await Promise.all(keys.map((key) => this.cacheManager.del(key)));
+            console.log('Cache invalidated');
           }
 
           this.logger.log(`JOB [${job.name} - ${job.id}] Processed`);

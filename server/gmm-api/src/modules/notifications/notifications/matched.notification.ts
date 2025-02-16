@@ -18,13 +18,13 @@ export class MatchedNotification implements Notification {
       {
         recipientId: this.match.maleUserId,
         message: `You've been matched with ${this.femaleFirstName}! Say hello and start a conversation.`,
-        action: '/dashboard',
+        url: '/dashboard?action=matched',
         title: 'You have been matched!',
       },
       {
         recipientId: this.match.femaleUserId,
         message: `You've been matched with ${this.maleFirstName}! Say hello and start a conversation.`,
-        action: '/dashboard',
+        url: '/dashboard?action=matched',
         title: 'You have been matched!',
       },
     ];
