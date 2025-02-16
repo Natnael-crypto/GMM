@@ -207,7 +207,7 @@ export class OtpService extends BaseRepository {
     ];
 
     await Promise.all(keys.map((key) => this.cacheManager.del(key)));
-    console.log(decoded, { ...decoded, email: user.email }, '<<<');
+
     return { ...decoded, email: user.email };
   }
 }
