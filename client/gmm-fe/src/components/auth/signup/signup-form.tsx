@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,28 +10,31 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import ExternalAuthenticator from '@/components/auth/external-authenticator';
-import OrSeparator from '@/components/auth/or-separator';
-import { Checkbox } from '@/components/ui/checkbox';
-import { toast } from '@/components/ui/use-toast';
-import Loading from '@/components/ui/loading';
-import { signUp } from '@/actions/auth/signup';
-import { Link, useRouter } from '@/lib/navigation';
-import { SignUp, SignUpSchema } from '@/lib/schemas/auth';
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import ExternalAuthenticator from "@/components/auth/external-authenticator";
+import OrSeparator from "@/components/auth/or-separator";
+import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "@/components/ui/use-toast";
+import Loading from "@/components/ui/loading";
+import { signUp } from "@/actions/auth/signup";
+import { Link, useRouter } from "@/lib/navigation";
+import { SignUp, SignUpSchema } from "@/lib/schemas/auth";
+import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
-import { getEighteenYearsAgo } from '@/lib/format';
-import { DatePicker } from '@mui/x-date-pickers';
+import { getEighteenYearsAgo } from "@/lib/format";
+import { DatePicker } from "@mui/x-date-pickers";
+import PasswordStrengthIndicator from "@/components/ui/password-strength-indicator";
+import useLocation from "@/lib/hooks/use-location";
+import { Label } from "@/components/ui/label";
 
 export function SignUpForm() {
   const { replace } = useRouter();
@@ -40,19 +43,30 @@ export function SignUpForm() {
   const form = useForm<SignUp>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      gender: 'Male',
+      firstName: "",
+      lastName: "",
+      email: "",
+      gender: "Male",
       dateOfBirth: getEighteenYearsAgo(),
-      bornOrRevertToIslam: '',
-      password: '',
-      confirmPassword: '',
+      bornOrRevertToIslam: "",
+      password: "",
+      confirmPassword: "",
       agreeToTerms: false,
+      city: "",
+      currentCountry: "",
     },
   });
 
-  const t = useTranslations('Auth');
+  const locationInputRef = useRef<HTMLInputElement>(null);
+  const { location, onLocationChange, isLoaded, setLocation } =
+    useLocation(locationInputRef);
+
+  useEffect(() => {
+    form.setValue("currentCountry", location?.country);
+    form.setValue("city", location?.city);
+  }, [location, form]);
+
+  const t = useTranslations("Auth");
 
   async function onSubmit(data: SignUp) {
     setSignUpInProgress(true);
@@ -61,22 +75,20 @@ export function SignUpForm() {
 
     if (response.status === 200) {
       toast({
-        title: 'Sign Up',
+        title: "Sign Up",
         description: response.message,
       });
-      replace('otp');
+      replace("otp");
     } else {
       toast({
-        title: 'Error',
+        title: "Error",
         description: response.message,
-        variant: 'destructive',
+        variant: "destructive",
       });
     }
 
     setSignUpInProgress(false);
   }
-
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   return (
     <Form {...form}>
@@ -90,7 +102,7 @@ export function SignUpForm() {
                 <FormControl>
                   <Input
                     className=""
-                    placeholder={t('signup.firstName')}
+                    placeholder={t("signup.firstName")}
                     autoComplete="given-name"
                     {...field}
                     onChange={(e) => {
@@ -118,7 +130,7 @@ export function SignUpForm() {
                   <Input
                     autoComplete="family-name"
                     className=""
-                    placeholder={t('signup.lastName')}
+                    placeholder={t("signup.lastName")}
                     {...field}
                     onChange={(e) => {
                       if (
@@ -145,7 +157,7 @@ export function SignUpForm() {
                   <Input
                     autoComplete="email"
                     className=""
-                    placeholder={t('signup.email')}
+                    placeholder={t("signup.email")}
                     {...field}
                   />
                 </FormControl>
@@ -184,41 +196,41 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem className="flex flex-col pt-2">
                 <DatePicker
-                  label={'Date of Birth'}
-                  views={['year', 'month', 'day']}
+                  label={"Date of Birth"}
+                  views={["year", "month", "day"]}
                   value={field.value}
                   onChange={field.onChange}
                   maxDate={getEighteenYearsAgo()}
                   slotProps={{
                     day: {
                       sx: {
-                        '&.MuiPickersDay-root.Mui-selected': {
-                          backgroundColor: '#197149',
+                        "&.MuiPickersDay-root.Mui-selected": {
+                          backgroundColor: "#197149",
                         },
-                        '&.MuiPickersDay-root:hover': {
-                          backgroundColor: '#145634',
-                          color: '#fff',
+                        "&.MuiPickersDay-root:hover": {
+                          backgroundColor: "#145634",
+                          color: "#fff",
                         },
-                        padding: '2px',
+                        padding: "2px",
                       },
                     },
                     desktopPaper: {
                       sx: {
-                        '.MuiPickersYear-yearButton.Mui-selected': {
-                          backgroundColor: '#197149',
+                        ".MuiPickersYear-yearButton.Mui-selected": {
+                          backgroundColor: "#197149",
                         },
-                        '.MuiPickersYear-yearButton:hover': {
-                          backgroundColor: '#197149',
-                          color: '#fff',
+                        ".MuiPickersYear-yearButton:hover": {
+                          backgroundColor: "#197149",
+                          color: "#fff",
                         },
-                        padding: '2px',
+                        padding: "2px",
                       },
                     },
                     textField: {
                       sx: {
-                        '& .MuiOutlinedInput-root': {
-                          '& .MuiOutlinedInput-input': {
-                            padding: '6px 8px',
+                        "& .MuiOutlinedInput-root": {
+                          "& .MuiOutlinedInput-input": {
+                            padding: "6px 8px",
                           },
                         },
                       },
@@ -256,6 +268,29 @@ export function SignUpForm() {
             )}
           />
 
+          {isLoaded && (
+            <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
+              <FormField
+                name="city"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        ref={locationInputRef}
+                        name={field.name}
+                        value={location.city || ""}
+                        onChange={onLocationChange}
+                        className="shadow text-muted-foreground bg-background text-md rounded-sm h-8 ring-transparent ring-offset-transparent"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-md" />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
+
           <div className="text-sm pt-2 pb-3 text-center">
             Fields Must Be Accurate and Cannot Be Updated After Sign up. Please
             Verify All Details Are Accurate.
@@ -267,13 +302,17 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input
-                    autoComplete="new-password"
-                    className=""
-                    placeholder={t('signup.password')}
-                    type="password"
-                    {...field}
-                  />
+                  <div className="flex flex-col gap-2">
+                    <Input
+                      autoComplete="new-password"
+                      className=""
+                      placeholder={t("signup.password")}
+                      type="password"
+                      {...field}
+                    />
+
+                    <PasswordStrengthIndicator password={field.value} />
+                  </div>
                 </FormControl>
                 <FormMessage className="text-md" />
               </FormItem>
@@ -287,7 +326,7 @@ export function SignUpForm() {
                 <FormControl>
                   <Input
                     className=""
-                    placeholder={t('signup.confirmPassword')}
+                    placeholder={t("signup.confirmPassword")}
                     type="password"
                     {...field}
                   />
@@ -302,23 +341,25 @@ export function SignUpForm() {
             render={({ field }) => (
               <FormItem>
                 <div className="flex items-center gap-3 pt-2">
-                  <FormControl className="relative">
+                  <div className="flex items-center">
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
                     />
-                  </FormControl>
+                  </div>
 
-                  <FormLabel className="text-sm text-muted-foreground">
-                    I agree to{' '}
-                    <Link
-                      href="/terms"
-                      className="text-sm text-primary font-semibold"
-                      target="_blank"
-                    >
-                      terms and conditions
-                    </Link>
-                  </FormLabel>
+                  <div>
+                    <FormLabel className="text-sm text-muted-foreground">
+                      I agree to{" "}
+                      <Link
+                        href="/terms"
+                        className="text-sm text-primary font-semibold"
+                        target="_blank"
+                      >
+                        terms and conditions
+                      </Link>
+                    </FormLabel>
+                  </div>
                 </div>
 
                 <FormMessage className="text-md" />
@@ -332,17 +373,17 @@ export function SignUpForm() {
             className="w-52 h-9 bg-primary text-primary-foreground font-bold cta"
             disabled={isSignUpInProgress}
           >
-            {isSignUpInProgress ? <Loading /> : t('signup.cta')}
+            {isSignUpInProgress ? <Loading /> : t("signup.cta")}
           </Button>
 
           <OrSeparator />
 
-          <ExternalAuthenticator />
+          {/* <ExternalAuthenticator /> */}
 
           <div className="text-sm">
-            {t('signup.alreadyHaveAccount')}{' '}
+            {t("signup.alreadyHaveAccount")}{" "}
             <Link href="/login" className="text-sm text-primary font-semibold">
-              {t('login.cta')}
+              {t("login.cta")}
             </Link>
           </div>
         </div>

@@ -2,7 +2,12 @@
 
 import { buttonVariants } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { matchApi, useAllowOrDenyChatAccessMutation, useAllowOrDenyProfileAccessMutation, useUnmatchMutation } from '@/lib/matchmaking/api';
+import {
+  matchApi,
+  useAllowOrDenyChatAccessMutation,
+  useAllowOrDenyProfileAccessMutation,
+  useUnmatchMutation,
+} from '@/lib/matchmaking/api';
 import { ImageAccessRequestStatus, Match } from '@/lib/matchmaking/types';
 import { useRouter } from '@/lib/navigation';
 import { Gender, User } from '@/lib/schemas/user';
@@ -36,7 +41,8 @@ export default function GuardianGuide({
   const dispatch = useAppDispatch();
 
   const [unmatch, unmatchResult] = useUnmatchMutation();
-  const [profileAccess ,profileAccessResult ] = useAllowOrDenyProfileAccessMutation();
+  const [profileAccess, profileAccessResult] =
+    useAllowOrDenyProfileAccessMutation();
   const [chatAccess, chatAccessResult] = useAllowOrDenyChatAccessMutation();
   const router = useRouter();
 
@@ -55,22 +61,29 @@ export default function GuardianGuide({
     user?.gender === Gender.FEMALE &&
     match?.imageRequest?.status === ImageAccessRequestStatus.PENDING;
 
-  const [checkbox1Checked, setCheckbox1Checked] = useState(match.allowMatchedUserView);
+  const [checkbox1Checked, setCheckbox1Checked] = useState(
+    match.allowMatchedUserView
+  );
   const [checkbox2Checked, setCheckbox2Checked] = useState(match.allowChatView);
 
-  const handleCheckbox1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckbox1Change = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setCheckbox1Checked(event.target.checked);
-    profileAccess({ status: event.target.checked , matchId: match.id });
-
+    profileAccess({ status: event.target.checked, matchId: match.id });
   };
 
-  const handleCheckbox2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCheckbox2Change = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setCheckbox2Checked(event.target.checked);
-    chatAccess({ status: event.target.checked , matchId: match.id });
+    chatAccess({ status: event.target.checked, matchId: match.id });
   };
   return (
     <div
-      className={`h-full bg-background rounded-lg overflow-${matchedUser.gender == "Male"? "auto": "hidden"}`}
+      className={`h-full bg-background rounded-lg overflow-${
+        matchedUser.gender == 'Male' ? 'auto' : 'hidden'
+      }`}
       style={{
         height: 'calc(100vh - 4.50rem)',
       }}
@@ -83,9 +96,7 @@ export default function GuardianGuide({
         <div className="space-y-5">
           <div className="rounded-full bg-[#bababa] text-background p-2 items-center justify-center flex gap-2 font-bold">
             <FontAwesomeIcon icon={faGlobe} />
-            <span className="text-[0.87rem]">
-              Guardian Service
-            </span>
+            <span className="text-[0.87rem]">Guardian Service</span>
           </div>
           <p className="text-center text-sm  ">(Available at Step 4)</p>
           <hr />
@@ -109,37 +120,30 @@ export default function GuardianGuide({
               have the following options:
             </p>
           </div>
-          {
-            matchedUser.gender == 'Male' && (
-              <>
-                <p className="font-bold text-sm text-center">
-                  Family Access
-                </p>
-                <hr />
-                <div className="text-sm flex justify-between items-center">
-                  <span>Show Matched User Profile</span>
-                  <input
-                    type="checkbox"
-                    checked={checkbox1Checked}
-                    onChange={handleCheckbox1Change}
-                    className="mr-2 custom-checkbox"
-                  />
-                </div>
-                <div className="text-sm flex justify-between items-center">
-                  <span>Show Chat History</span>
-                  <input
-                    type="checkbox"
-                    checked={checkbox2Checked}
-                    onChange={handleCheckbox2Change}
-                    className="mr-2 custom-checkbox"
-                  />
-                </div>
-
-              </>
-
-            )
-          }
-
+          {matchedUser.gender == 'Male' && (
+            <>
+              <p className="font-bold text-sm text-center">Family Access</p>
+              <hr />
+              <div className="text-sm flex justify-between items-center">
+                <span>Allow Matched User Profile Access</span>
+                <input
+                  type="checkbox"
+                  checked={checkbox1Checked}
+                  onChange={handleCheckbox1Change}
+                  className="mr-2 custom-checkbox"
+                />
+              </div>
+              <div className="text-sm flex justify-between items-center">
+                <span>Allow Chat History Access</span>
+                <input
+                  type="checkbox"
+                  checked={checkbox2Checked}
+                  onChange={handleCheckbox2Change}
+                  className="mr-2 custom-checkbox"
+                />
+              </div>
+            </>
+          )}
         </div>
 
         {stageIndex != undefined && stageIndex >= 1 && (

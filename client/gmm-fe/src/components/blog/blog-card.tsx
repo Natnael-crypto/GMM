@@ -1,14 +1,19 @@
-import { Link } from '@/lib/navigation';
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Blog } from '@/lib/schemas/blog';
-import { formatLocalizedDate } from '@/lib/format';
+import { Link } from "@/lib/navigation";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Blog } from "@/lib/schemas/blog";
+import { formatLocalizedDate } from "@/lib/format";
+import { constants } from "@/config";
 
 interface Props {
   blog: Blog;
 }
 
 export default function BlogCard({ blog }: Props) {
+  const thumbnailUrl = blog.thumbnail
+    ? `${constants.directusUrl}/assets/${blog.thumbnail}`
+    : "/assets/hero-mosque-2.jpg";
+
   return (
     <div>
       <div className="blog-card max-w-sm rounded overflow-hidden shadow-lg rounded-se-3xl rounded-es-3xl">
@@ -16,9 +21,7 @@ export default function BlogCard({ blog }: Props) {
           <div
             className="hero-slide-image w-full min-h-60 -z-10"
             style={{
-              backgroundImage: `url(${
-                blog.thumbnail ?? '/assets/hero-mosque-2.jpg'
-              })`,
+              backgroundImage: `url(${thumbnailUrl})`,
             }}
           ></div>
         </Link>

@@ -117,6 +117,10 @@ input, textarea {
     height: 15rem;
   }
 
+  .h-\[18rem\] {
+    height: 18rem;
+  }
+
   .h-\[65vh\] {
     height: 65vh;
   }
@@ -154,6 +158,7 @@ input, textarea {
     text-transform: uppercase;
     letter-spacing: 0.1em;
     padding: 1em !important;
+    width: max-content;
   }
 
   .dark {
@@ -441,8 +446,8 @@ input, textarea {
 }
 
 .gmm-available-matches h1 {
-  max-width: 50px;
-  max-height: 50px;
+  max-width: 60px;
+  max-height: 60px;
   width: 100%;
   height: auto;
   margin-left: auto;
@@ -462,7 +467,87 @@ input, textarea {
   margin-top: 20px;
 }
 
+.stepper-icon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.stepper-icon .svg-inline--fa {
+  height: 1.75rem !important;
+}
+
+.stepper-chat-icon {
+  width: 2rem;
+  height: 2rem;
+}
+
+.stepper-chat-icon .svg-inline--fa {
+  height: 1rem;
+}
+
+/* .question-label,  */
+.step-sub-heading {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.gmm-pic-info .primary-info {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.gmm-pic-info .secondary-info {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.request-access-wrapper {
+  top: 15%;
+}
+
+.request-access {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  padding-bottom: 0.5rem;
+  text-shadow: #000 1px 1px 2px;
+}
+
+.request-access-cta {
+  font-size: 1.1rem;
+}
+
+.potential-spouse-profile-completion .gmm-profile-completion {
+  margin: 0 auto; 
+  padding: 0 0 2px 0;
+  border-radius: 0;
+}
+
+.potential-spouse-profile-completion .gmm-profile-completion .h-2 {
+  height: .25rem;
+}
+
+.potential-spouse-profile-completion .gmm-profile-completion span {
+  font-weight: 700;
+  font-size: .85rem;
+}
+
+.potential-spouse-profile-completion .gmm-profile-completion .space-y-3 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.potential-spouse-profile-completion .gmm-profile-completion .space-y-3 div {
+  margin-top: 1.5px;
+}
+
+.chat-buttons a {
+  padding-left: .75rem;
+  padding-right: .75rem;
+  font-size: .8rem;
+}
 @media (min-width: 640px) {
+
   .gmm-mpf-results-container {
     display: flex;
     flex-direction: row;
@@ -886,7 +971,6 @@ input, textarea {
     width: 2075px;
   }
 }
-
 
 /* globals.css */
 .custom-checkbox {

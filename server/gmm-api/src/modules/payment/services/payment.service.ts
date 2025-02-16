@@ -4,12 +4,16 @@ import {
   HttpStatus,
   Inject,
   Injectable,
+  Logger,
   Scope,
 } from '@nestjs/common';
 import Stripe from 'stripe';
 
 import { ConfigService } from '@nestjs/config';
-import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
+import {
+  CreateCheckoutSessionDto,
+  UpdateCheckoutSessionDto,
+} from '../dtos/create-checkout-session.dto';
 import { Subscription } from '../entities/subscription.entity';
 import { DataSource, In, Repository } from 'typeorm';
 import { NoticeService } from '@modules/notice/services/notice.service';
@@ -30,11 +34,14 @@ import {
 } from '../events/payment.event';
 import { SchedulerService } from '@shared/services/scheduler.service';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Payment } from '../entities/payment.entity';
+import { PromoCodeService } from '@modules/promo/services/promo-code.service';
+import { PromoCodeUsage } from '@modules/promo/entities/promo-code-usage.entity';
+import { PromoCodeDiscountType } from '@modules/promo/enums/promo-code.enum';
 
 @Injectable({ scope: Scope.REQUEST })
 export class PaymentsService extends BaseRepository {
   private stripe: Stripe;
+  private readonly logger = new Logger(PaymentsService.name);
 
   constructor(
     private readonly configService: ConfigService,
@@ -42,6 +49,8 @@ export class PaymentsService extends BaseRepository {
     private readonly noticeService: NoticeService,
     private readonly eventEmitter: EventEmitter2,
     private readonly schedulerService: SchedulerService,
+    private readonly promoCodeService: PromoCodeService,
+
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
     @InjectRepository(User)
@@ -72,6 +81,7 @@ export class PaymentsService extends BaseRepository {
     const user = await this.getRepository(User).findOne({
       where: { id: userId },
     });
+
     if (!user) {
       throw new Error('User not found.');
     }
@@ -91,7 +101,11 @@ export class PaymentsService extends BaseRepository {
         amount: tier.amount,
         currency: 'usd',
         customer: user.stripeCustomerId,
-        metadata: { userId: user.id, plan },
+        metadata: {
+          userId: user.id,
+          plan,
+          promoCodeId: createCheckoutSessionDto.promoCodeId ?? null,
+        },
         setup_future_usage: 'off_session',
 
         automatic_payment_methods: {
@@ -100,10 +114,51 @@ export class PaymentsService extends BaseRepository {
         },
       });
 
-      return { clientSecret: paymentIntent.client_secret };
+      return {
+        clientSecret: paymentIntent.client_secret,
+        paymentIntentId: paymentIntent.id,
+      };
     } catch (error) {
       throw new Error(`Failed to create payment intent: ${error.message}`);
     }
+  }
+
+  async updatePaymentIntent(
+    updateCheckoutSessionDto: UpdateCheckoutSessionDto,
+    userId: string,
+  ) {
+    const { plan, paymentIntentId } = updateCheckoutSessionDto;
+
+    const tier = SubscriptionTiers[plan];
+
+    if (!tier) {
+      throw new Error('Invalid plan name');
+    }
+
+    const user = await this.getRepository(User).findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new Error('User not found.');
+    }
+
+    const paymentIntent = await this.stripe.paymentIntents.update(
+      paymentIntentId,
+      {
+        amount: tier.amount,
+        metadata: {
+          userId: user.id,
+          plan,
+          promoCodeId: updateCheckoutSessionDto.promoCodeId ?? null,
+        },
+      },
+    );
+
+    return {
+      clientSecret: paymentIntent.client_secret,
+      paymentIntentId: paymentIntent.id,
+    };
   }
 
   async getProducts(): Promise<Stripe.Product[]> {
@@ -169,7 +224,7 @@ export class PaymentsService extends BaseRepository {
       const paymentIntent = await this.stripe.paymentIntents.retrieve(
         paymentIntentId,
         {
-          expand: ['charges.data'],
+          expand: ['charges.data', 'latest_charge'],
         },
       );
 
@@ -179,6 +234,7 @@ export class PaymentsService extends BaseRepository {
 
       const plan = paymentIntent.metadata?.plan;
       const userIdFromMetadata = paymentIntent.metadata?.userId;
+      const promoCodeIdFromMetadata = paymentIntent.metadata?.promoCodeId;
 
       if (!plan || !userIdFromMetadata) {
         throw new Error(
@@ -189,9 +245,9 @@ export class PaymentsService extends BaseRepository {
       if (userId !== userIdFromMetadata) {
         throw new Error('User ID mismatch.');
       }
-      console.log('Plan:', plan);
+
       const tier = Object.entries(SubscriptionTiers).find(
-        ([key, value]) => key === plan,
+        ([key]) => key === plan,
       )?.[1];
 
       if (!tier) {
@@ -200,7 +256,9 @@ export class PaymentsService extends BaseRepository {
 
       const user = await this.getRepository(User).findOne({
         where: { id: userId },
+        relations: ['promoCodes'],
       });
+
       if (!user) {
         throw new Error('User not found.');
       }
@@ -274,7 +332,44 @@ export class PaymentsService extends BaseRepository {
         remainingMatches: tier.matches,
       });
 
-      await this.saveSubscriptionHistory(user, newSubscription);
+      // Apply promo discount if available
+      if (promoCodeIdFromMetadata) {
+        const promoCode = await this.getRepository(PromoCodeUsage).findOne({
+          where: { promoCodeId: promoCodeIdFromMetadata },
+        });
+
+        if (promoCode) {
+          if (!promoCode.isUsed) {
+            if (promoCode.discountType === PromoCodeDiscountType.AMOUNT) {
+              newSubscription.remainingMatches += promoCode.discountValue;
+            } else if (
+              promoCode.discountType === PromoCodeDiscountType.PERCENT
+            ) {
+              newSubscription.remainingMatches += Math.floor(
+                (promoCode.discountValue / 100) * tier.matches,
+              );
+            }
+
+            promoCode.isUsed = true;
+            await this.getRepository(PromoCodeUsage).save(promoCode);
+          } else {
+            this.logger.error(
+              `[ERROR] Promo code already used: ${promoCodeIdFromMetadata} for user ${userId}`,
+            );
+          }
+        } else {
+          this.logger.error(
+            `[ERROR] Promo code not found: ${promoCodeIdFromMetadata} for user ${userId}`,
+          );
+        }
+      }
+
+      await this.saveSubscriptionHistory(user, {
+        ...newSubscription,
+        receiptUrl:
+          (paymentIntent.latest_charge as Stripe.Charge)?.receipt_url ??
+          undefined,
+      });
 
       if (existingSubscription) {
         newSubscription.id = existingSubscription.id;
@@ -383,7 +478,9 @@ export class PaymentsService extends BaseRepository {
 
       await this.getRepository(Subscription).save(subscription);
 
-      await this.saveSubscriptionHistory(user, subscription);
+      await this.saveSubscriptionHistory(user, {
+        ...subscription,
+      });
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -483,6 +580,7 @@ export class PaymentsService extends BaseRepository {
         userId,
         plan: tier.priceId,
       },
+      expand: ['latest_charge'],
     });
 
     if (paymentIntent.status !== 'succeeded') {
@@ -495,7 +593,12 @@ export class PaymentsService extends BaseRepository {
     subscription.currentPeriodStart = new Date();
 
     await this.subscriptionRepository.save(subscription);
-    await this.saveSubscriptionHistory(user, subscription);
+    await this.saveSubscriptionHistory(user, {
+      ...subscription,
+      receiptUrl:
+        (paymentIntent.latest_charge as Stripe.Charge)?.receipt_url ??
+        undefined,
+    });
 
     this.eventEmitter.emitAsync(
       SubscriptionAutoRenewedEvent.name,
@@ -586,7 +689,7 @@ export class PaymentsService extends BaseRepository {
 
   private async saveSubscriptionHistory(
     user: User,
-    subscription: Subscription,
+    subscription: Subscription & { receiptUrl?: string },
   ): Promise<void> {
     const subscriptionHistory = this.subscriptionHistoryRepository.create({
       user,
@@ -595,6 +698,7 @@ export class PaymentsService extends BaseRepository {
       periodStart: subscription.currentPeriodStart,
       amount: subscription.amount,
       remainingMatches: subscription.remainingMatches,
+      receiptUrl: subscription.receiptUrl,
     });
 
     await this.subscriptionHistoryRepository.save(subscriptionHistory);

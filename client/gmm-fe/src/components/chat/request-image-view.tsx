@@ -24,6 +24,7 @@ import { useAppSelector } from '@/lib/hooks';
 import { Gender } from '@/lib/schemas/user';
 import { ImageAccessRequestStatus } from '@/lib/matchmaking/types';
 import { toast } from '../ui/use-toast';
+import { MatchStage } from '@/lib/schemas/match';
 
 enum DialogType {
   SEND_INVITATION = 'send_invitation',
@@ -38,7 +39,12 @@ export default function RequestImageView() {
   const [acceptOrRejectViewAccess] = useAcceptOrRejectImageAccessMutation();
 
   const disableRequestButton =
+    // Doesn't have match
     !currentMatch ||
+    // Stage not reached yet
+    (currentMatch.stage !== MatchStage.MARRIAGE_DISCUSSION &&
+      currentMatch.stage !== MatchStage.FAMILY_INTRODUCTION) ||
+    // Already requested
     (currentMatch?.imageRequest?.status === ImageAccessRequestStatus.PENDING &&
       user?.gender === Gender.MALE);
 
@@ -76,18 +82,28 @@ export default function RequestImageView() {
     }
   };
 
+  const showHelperPopup = () => {
+    if (disableRequestButton) {
+      toast({
+        title:
+          'You can view her profile when you reach Marriage Discussion stage',
+      });
+    }
+  };
+
   if (user?.gender === Gender.FEMALE && !currentMatch?.imageRequest) {
     return null;
   }
 
   return (
-    <div className="flex justify-center">
+    <div className="justify-center" onClick={showHelperPopup}>
+      <p className="request-access text-center">Available at Step 4</p>
       <AlertDialog>
         <AlertDialogTrigger
           disabled={disableRequestButton}
           className={cn(
             buttonVariants({ variant: 'default' }),
-            'bg-primary text-primary-foreground h-7 w-fit text-sm'
+            'bg-primary text-primary-foreground h-7 w-fit text-sm request-access-cta'
           )}
         >
           {user?.gender === Gender.FEMALE ? 'Review Request' : 'Request Access'}

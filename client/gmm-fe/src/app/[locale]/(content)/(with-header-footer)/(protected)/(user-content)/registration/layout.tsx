@@ -11,8 +11,14 @@ export default async function ProfileLayout({
 }) {
   const session = await auth();
 
-  if (session && session.user && session.user.registered) {
-    // return redirect('/dashboard');
+  if (
+    session &&
+    session.user &&
+    (session.user.accountStatus === 'Approved' ||
+      session.user.accountStatus === 'Pending' ||
+      session.user.accountStatus === 'Suspended')
+  ) {
+    return redirect('/dashboard');
   }
 
   return (

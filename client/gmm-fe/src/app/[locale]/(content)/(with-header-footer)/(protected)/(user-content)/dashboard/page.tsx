@@ -13,16 +13,48 @@ import StageInvitationPopup from '@/components/notification/stage-invitation-pop
 import Footer from '@/components/ui/footer';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { useGetCurrentSubscriptionQuery } from '@/lib/checkout/api';
 import { useAppSelector } from '@/lib/hooks';
 import { useProfileCompletion } from '@/lib/hooks/profile-completion';
+import { useRouter } from '@/lib/navigation';
 import { AccountStatus } from '@/lib/schemas/user';
 import { cn } from '@/lib/utils';
-import React from 'react';
+import { useGetLivenessVerificationStatusQuery } from '@/lib/verification/api';
+import { VerificationStatus } from '@/lib/verification/types';
+import React, { useEffect } from 'react';
 
 export default function Dashboard() {
   const user = useAppSelector((state) => state.auth.user);
-  const isAccountApproved = user?.accountStatus === AccountStatus.APPROVED;
   const { worldlyLifestyle: wlsCompletion } = useProfileCompletion(user);
+  // const { data: verificationStatus } = useGetLivenessVerificationStatusQuery(
+  //   undefined,
+  //   {
+  //     skip: !user,
+  //   }
+  // );
+
+  const {
+    data: currentSubscription,
+    isLoading,
+    isError,
+  } = useGetCurrentSubscriptionQuery(user?.id ?? '', {
+    skip: !user,
+  });
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (
+      isError &&
+      !currentSubscription &&
+      user?.accountStatus !== 'Suspended'
+    ) {
+      router.replace('/checkout');
+    }
+  }, [currentSubscription, isError, router, user]);
+
+  const isAccountApproved = user?.accountStatus === AccountStatus.APPROVED;
+  // && verificationStatus === VerificationStatus.APPROVED;
 
   return (
     <UpdateProfileProvider autoSave={false}>

@@ -294,6 +294,7 @@ export const RedisOptions: CacheModuleAsyncOptions = {
       },
       password: configService.get<RedisConfig>('redis')!.password,
     });
+
     return {
       store: () => store,
     };

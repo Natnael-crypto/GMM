@@ -1,0 +1,15 @@
+{
+  "collection": "subscriptions",
+  "field": "userId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "subscriptions",
+    "column": "userId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_fbdba4e2ac694cf8c9cecf4dc84",
+    "on_update": "NO ACTION",
+    "on_delete": "NO ACTION"
+  }
+}

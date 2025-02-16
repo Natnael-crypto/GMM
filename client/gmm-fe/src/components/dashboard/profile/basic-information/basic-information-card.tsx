@@ -41,11 +41,11 @@ export default function BasicInformationCard({ user }: { user: User }) {
     <>
       <div className="rounded-se-3xl rounded-es-3xl overflow-hidden py-5">
         <div className="">
-          <h1 className=" text-secondary font-bold pb-3 text-2xl">
+          <h1 className="step-heading text-secondary font-bold pb-3 text-3xl">
             Basic Information
           </h1>
 
-          <p>
+          <p className="step-sub-heading mt-3 bg-muted rounded-2xl p-4">
             Welcome to the <strong>Basic</strong> Section, the{' '}
             <strong>
               1st step of the Guardian Muslim Marriage Guided Matchmaking
@@ -64,12 +64,12 @@ export default function BasicInformationCard({ user }: { user: User }) {
             </div>
 
             <div className="col-span-12 md:col-span-8 space-y-8">
-              <div className="flex flex-col gap-y-2 w-full">
-                <h2 className="text-secondary font-extrabold text-nowrap">
+              <div className="flex flex-col gap-y-2 mt-6 pt-2">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
                   Country of Origin
                 </h2>
 
-                <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
+                <p className="text-nowrap flex gap-2 font-bold text-md text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg">
                   <span>
                     <FontAwesomeIcon icon={faFlag} />
                   </span>
@@ -78,8 +78,8 @@ export default function BasicInformationCard({ user }: { user: User }) {
               </div>
 
               {user.languages?.length && (
-                <div className="flex flex-col gap-y-2 w-full">
-                  <h2 className="text-secondary font-extrabold text-nowrap">
+                <div className="flex flex-col gap-y-2 w-full mt-6 pt-2">
+                  <h2 className="question-label text-secondary font-extrabold text-nowrap">
                     Languages
                   </h2>
 
@@ -87,7 +87,7 @@ export default function BasicInformationCard({ user }: { user: User }) {
                     {user.languages.map((language) => (
                       <p
                         key={language}
-                        className="flex gap-2 font-bold text-sm text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg"
+                        className="flex gap-2 font-bold text-md text-white bg-[#1d7f9a] w-fit px-4 py-1 rounded-full shadow-lg"
                       >
                         <span>{languageMap[language]}</span>
                       </p>
@@ -108,22 +108,22 @@ export default function BasicInformationCard({ user }: { user: User }) {
 
             {/* Martial Status and Do you have children?  */}
             <div className="col-span-8 flex gap-8 flex-wrap">
-              <div className="flex flex-col gap-y-2">
-                <h2 className="text-secondary font-extrabold text-nowrap">
+              <div className="flex flex-col gap-y-2 mt-6 pt-2">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
                   Martial Status
                 </h2>
 
-                <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-gray-600 w-fit px-4 py-1 rounded-full shadow-lg">
+                <p className="text-nowrap flex gap-2 font-bold text-md text-white bg-gray-600 w-fit px-4 py-1 rounded-full shadow-lg">
                   {user.maritalStatus}
                 </p>
               </div>
 
-              <div className="flex flex-col gap-y-2">
-                <h2 className="text-secondary font-extrabold text-nowrap">
+              <div className="flex flex-col gap-y-2 mt-6 pt-2">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
                   Do you have children
                 </h2>
 
-                <p className="text-nowrap flex gap-2 font-bold text-sm text-white bg-gray-600 w-fit px-4 py-1 rounded-full shadow-lg">
+                <p className="text-nowrap flex gap-2 font-bold text-md text-white bg-gray-600 w-fit px-4 py-1 rounded-full shadow-lg">
                   {user.hasChildren}
                 </p>
               </div>
@@ -131,30 +131,30 @@ export default function BasicInformationCard({ user }: { user: User }) {
 
             {/* Number of children */}
             <div className="col-span-12 grid gap-y-8">
-              <div className="flex flex-col gap-y-2 w-full">
-                <h2 className="text-secondary font-extrabold text-nowrap">
+              <div className="flex flex-col gap-y-2 mt-6 pt-2 w-full">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
                   Number of Children
                 </h2>
 
                 <div className="flex gap-2">
-                  <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                  <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                     {user.numberOfChildren === 0
                       ? 'None'
                       : user.numberOfChildren}
                   </p>
                   {user.numberOfChildren > 1 && (
                     <>
-                      <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                      <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                         Oldest child: {ageOfOldestChild}
                       </p>
-                      <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                      <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                         Youngest child: {ageOfYoungestChild}
                       </p>
                     </>
                   )}
                   {user.numberOfChildren === 1 && (
                     <>
-                      <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                      <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                         Age of child: {ageOfYoungestChild}
                       </p>
                     </>
@@ -165,32 +165,32 @@ export default function BasicInformationCard({ user }: { user: User }) {
 
             {/*  */}
             <div className="col-span-12 flex flex-wrap gap-x-8 gap-y-8">
-              <div className="flex flex-col gap-y-2">
-                <h2 className="text-secondary font-extrabold text-nowrap">
+              <div className="flex flex-col gap-y-2 mt-6 pt-2">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
                   Sunni-Madhib
                 </h2>
 
-                <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                   {user.sunniMadhaib}
                 </p>
               </div>
 
-              <div className="flex flex-col gap-y-2">
-                <h2 className="text-secondary font-extrabold text-nowrap">
+              <div className="flex flex-col gap-y-2 mt-6 pt-2">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
                   Religious Practice
                 </h2>
 
-                <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                   {user.religiousPractice}
                 </p>
               </div>
 
-              <div className="flex flex-col gap-y-2">
-                <h2 className="text-secondary font-extrabold text-nowrap">
+              <div className="flex flex-col gap-y-2 mt-6 pt-2">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
                   Born of Revert to Islam
                 </h2>
 
-                <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                   {user.bornOrRevertToIslam}
                 </p>
               </div>
@@ -198,42 +198,43 @@ export default function BasicInformationCard({ user }: { user: User }) {
 
             {/* Drugs, Drinks, Smokes, Tattoo(s) */}
             <div className="col-span-12 flex gap-x-8 gap-y-8 flex-wrap">
-              <div className="flex flex-col gap-y-2">
-                <h2 className="text-secondary font-extrabold text-nowrap">
-                  Drinks/Alcohol
+              <div className="flex flex-col gap-y-2 mt-6 pt-2">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
+                  Drinking
                 </h2>
 
-                <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                   {user.drinks ? 'Yes' : 'No'}
                 </p>
               </div>
 
-              <div className="flex flex-col gap-y-2">
-                <h2 className="text-secondary font-extrabold text-nowrap">
-                  Drugs (Cannabis/Cocaine)
+              <div className="flex flex-col gap-y-2 mt-6 pt-2">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
+                  Drugs (including cannabis)
+
                 </h2>
 
-                <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                   {user.drugs ? 'Yes' : 'No'}
                 </p>
               </div>
 
-              <div className="flex flex-col gap-y-2">
-                <h2 className="text-secondary font-extrabold text-nowrap">
-                  Smokes (Vapes/Shisha)
+              <div className="flex flex-col gap-y-2 mt-6 pt-2">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
+                  Smoking
                 </h2>
 
-                <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                   {user.smokes ? 'Yes' : 'No'}
                 </p>
               </div>
 
-              <div className="flex flex-col gap-y-2">
-                <h2 className="text-secondary font-extrabold text-nowrap">
+              <div className="flex flex-col gap-y-2 mt-6 pt-2">
+                <h2 className="question-label text-secondary font-extrabold text-nowrap">
                   Tattoo(s)
                 </h2>
 
-                <p className="text-nowrap flex gap-2 font-bold text-sm border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
+                <p className="text-nowrap flex gap-2 font-bold text-md border text-gray-500 border-gray-500 w-fit px-4 py-1 rounded-full shadow-lg">
                   {user.tattoos}
                 </p>
               </div>

@@ -1,16 +1,26 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsOptional, IsString, ValidateIf } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateIf,
+} from 'class-validator';
 
 export class OtpVerificationDto {
   @IsNotEmpty()
   @ApiProperty()
   otp: string;
 
-  // @IsNotEmpty()
-  @ApiProperty()
+  @IsEmail()
+  @ApiPropertyOptional()
+  @IsOptional()
+  @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
+  @IsOptional()
   phoneNumber: string;
 
   @IsNotEmpty()
@@ -30,4 +40,3 @@ export class OtpRequestDto {
   @ValidateIf((o) => !o.email)
   phoneNumber?: string;
 }
-

@@ -1,0 +1,24 @@
+{
+  "collection": "image_access_request",
+  "field": "status",
+  "type": "unknown",
+  "meta": null,
+  "schema": {
+    "name": "status",
+    "table": "image_access_request",
+    "data_type": "image_access_request_status_enum",
+    "default_value": "Pending",
+    "max_length": null,
+    "numeric_precision": null,
+    "numeric_scale": null,
+    "is_nullable": false,
+    "is_unique": false,
+    "is_indexed": false,
+    "is_primary_key": false,
+    "is_generated": false,
+    "generation_expression": null,
+    "has_auto_increment": false,
+    "foreign_key_table": null,
+    "foreign_key_column": null
+  }
+}

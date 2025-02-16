@@ -1,12 +1,8 @@
 import { Gender } from '@modules/user/enums/user.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsDateString,
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  MinLength,
-} from 'class-validator';
+import { IsStrongPassword } from '@shared/decorators/password.decorator';
+import { Transform } from 'class-transformer';
+import { IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
 
 export class SignUpUserDto {
   @IsNotEmpty()
@@ -20,11 +16,12 @@ export class SignUpUserDto {
   @IsEmail()
   @IsNotEmpty()
   @ApiProperty()
+  @Transform(({ value }) => value.trim().toLowerCase())
   email: string;
 
   @IsNotEmpty()
   @ApiProperty()
-  @MinLength(6)
+  @IsStrongPassword()
   password: string;
 
   @ApiProperty()
@@ -45,8 +42,8 @@ export class RegisterAsGuardian {
   @ApiProperty()
   token: string;
 
-  @IsNotEmpty()
   @ApiProperty()
-  @MinLength(6)
+  @IsStrongPassword()
+  @IsNotEmpty()
   password: string;
 }

@@ -50,6 +50,7 @@ import CountrySelector from '../ui/country-selector';
 import { useLoadScript } from '@react-google-maps/api';
 import { constants, mapLibraries } from '@/config';
 import useLocation from '@/lib/hooks/use-location';
+import { register } from 'module';
 
 export default function BasicInformationForm({
   familyIntroduction,
@@ -253,7 +254,9 @@ export default function BasicInformationForm({
     } else if (registrationResult.isError) {
       toast({
         title: 'Error',
-        description: 'An error occurred while registering',
+        description:
+          (registrationResult?.error as any)?.data?.message ??
+          'Unable to register. Please try again.',
       });
     }
 
@@ -570,7 +573,7 @@ export default function BasicInformationForm({
               </div>
 
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
-                <Label>Language(s)</Label>
+                <Label>Languages</Label>
                 <FormField
                   name="languages"
                   control={form.control}
@@ -621,6 +624,7 @@ export default function BasicInformationForm({
                       <FormItem>
                         <FormControl>
                           <Input
+                            disabled={true}
                             ref={locationInputRef}
                             name={field.name}
                             value={location.city || ''}
@@ -708,25 +712,25 @@ export default function BasicInformationForm({
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem className="text-md " value="No kids">
-                              No kids
+                              No Kids
                             </SelectItem>
                             <SelectItem
                               className="text-md "
                               value="Yes but not with me"
                             >
-                              Yes but not with me
+                              Yes but Not With Me
                             </SelectItem>
                             <SelectItem
                               className="text-md "
                               value="Yes 20%+ Shared parenting"
                             >
-                              Yes 20%+ Shared Parenting
+                              Yes 20% + Shared Parenting
                             </SelectItem>
                             <SelectItem
                               className="text-md "
                               value="Yes: 50%+ Joint-Shared Parenting"
                             >
-                              Yes: 50%+ Joint-Shared Parenting
+                              Yes 50% + Joint-Shared Parenting
                             </SelectItem>
                             <SelectItem
                               className="text-md "
@@ -806,20 +810,20 @@ export default function BasicInformationForm({
                                 className="text-md "
                                 value="Not Practicing Never Prays/Non-Muslim"
                               >
-                                Not Practicing Never Prays/Non-Muslim
+                                Not Practicing (never prays/non-muslim)
                               </SelectItem>
-                              <SelectItem
+                              {/* <SelectItem
                                 className="text-md "
                                 value="Occasionally Practicing"
                               >
                                 Occasionally Practicing
-                              </SelectItem>
-                              <SelectItem
+                              </SelectItem> */}
+                              {/* <SelectItem
                                 className="text-md "
                                 value="Practicing and Trying to Get Better"
                               >
                                 Practicing and Trying to get Better
-                              </SelectItem>
+                              </SelectItem> */}
                               <SelectItem
                                 className="text-md "
                                 value="Practicing/Fardh"
@@ -880,7 +884,7 @@ export default function BasicInformationForm({
               </div>
 
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
-                <Label>Drinks/Alcohol</Label>
+                <Label>Drinking</Label>
                 <FormField
                   name="drinks"
                   control={form.control}
@@ -911,7 +915,7 @@ export default function BasicInformationForm({
               </div>
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>
-                  Drugs <span className="text-nowrap">(Cannabis/Cocaine)</span>
+                Drugs <span className="italic font-normal">(including cannabis)</span>
                 </Label>
                 <FormField
                   name="drugs"
@@ -943,7 +947,7 @@ export default function BasicInformationForm({
               </div>
               <div className="space-y-1 py-2 col-span-4 sm:col-span-2">
                 <Label>
-                  Smokes <span>(Vapes/Shisha)</span>
+                  Smoking
                 </Label>
                 <FormField
                   name="smokes"
@@ -994,13 +998,16 @@ export default function BasicInformationForm({
                               None
                             </SelectItem>
                             <SelectItem className="text-md " value="minimal">
-                              Minimal, not visible
+                              Minimal, not Visible
                             </SelectItem>
                             <SelectItem className="text-md " value="small">
-                              Small, visible or concealed
+                              Small, Visible or Concealed
                             </SelectItem>
                             <SelectItem className="text-md " value="large">
-                              Large or multiple tattoos
+                              Large or Multiple
+                            </SelectItem>
+                            <SelectItem className="text-md " value="doesn't matter">
+                              Doesn’t Matter
                             </SelectItem>
                           </SelectContent>
                         </Select>

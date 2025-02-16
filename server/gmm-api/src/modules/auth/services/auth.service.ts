@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AuthRepository } from './auth.repository';
@@ -16,7 +20,7 @@ import {
   GuardianRequestedEvent,
 } from '@modules/user/events/guardian.events';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { NoticeService } from '@modules/notice/services/notice.service';
+import { GuardianService } from '@modules/user/services/guardian.service';
 
 export type JwtPayload = {
   sub: string;
@@ -33,7 +37,7 @@ export class NewAuthService {
     private configService: ConfigService,
     private jwtService: JwtService,
     private authRepo: AuthRepository,
-    private noticeService: NoticeService,
+    private guardianService: GuardianService,
     private readonly eventEmitter: EventEmitter2,
   ) {
     this.authConfig = this.configService.get<AuthConfig>('auth')!;
@@ -103,6 +107,7 @@ export class NewAuthService {
     try {
       return this.jwtService.verify<JwtPayload>(token, {
         secret: this.authConfig.jwt.registrationTokenSecret,
+        ignoreExpiration: false,
       });
     } catch {
       throw new UnauthorizedException();
@@ -113,6 +118,18 @@ export class NewAuthService {
     try {
       return this.jwtService.verify<JwtPayload>(token, {
         secret: this.authConfig.jwt.resetPasswordTokenSecret,
+        ignoreExpiration: false,
+      });
+    } catch {
+      throw new UnauthorizedException();
+    }
+  }
+
+  async validateAccessToken(token: string) {
+    try {
+      return this.jwtService.verify<JwtPayload>(token, {
+        secret: this.authConfig.jwt.secret,
+        ignoreExpiration: false,
       });
     } catch {
       throw new UnauthorizedException();
@@ -163,11 +180,23 @@ export class NewAuthService {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    return await this.authRepo.createUser({
+    const user = await this.authRepo.createUser({
       ...emailRegistrationDto,
       password: hashedPassword,
       roleId,
     });
+
+    const guardianRequest =
+      await this.guardianService.getReceivedGuardianRequests(user);
+
+    if (guardianRequest) {
+      await this.guardianService.acceptGuardianRequest(
+        guardianRequest[0].id,
+        user,
+      );
+    }
+
+    return user;
   }
 
   async authenticateViaOAuth(
@@ -228,6 +257,7 @@ export class NewAuthService {
           firstName: event.guardian.firstName,
           lastName: event.guardian.lastName,
           role: guardianRole.name,
+          invite: true,
         } as unknown as JwtPayload),
       ),
     );

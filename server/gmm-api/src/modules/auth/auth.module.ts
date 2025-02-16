@@ -24,6 +24,7 @@ import { ApiKeysController } from './controllers/apikey.controller';
 import { ApiKeyService } from './services/apikey.service';
 import { ApiKey } from './entities/apikey.entity';
 import { NoticeModule } from '@modules/notice/notice.module';
+import { JwtOrInviteStrategy } from './strategies/jwt-or-invite.strategy';
 
 @Module({
   imports: [
@@ -57,6 +58,7 @@ import { NoticeModule } from '@modules/notice/notice.module';
     JwtStrategy,
     JwtRefreshTokenStrategy,
     ApiKeyStrategy,
+    JwtOrInviteStrategy,
   ],
   exports: [NewAuthService, JwtService, ApiKeyService],
 })

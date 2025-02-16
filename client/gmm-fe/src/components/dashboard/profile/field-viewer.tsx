@@ -40,7 +40,7 @@ const PillView = ({
     {field && field.value && (
       <li
         className={cn(
-          'text-nowrap flex gap-2 font-bold text-sm w-fit h-fit px-4 py-1 rounded-full shadow-lg',
+          'text-nowrap flex gap-2 font-bold text-md w-fit h-fit px-4 py-1 rounded-full shadow-lg',
           field.className ?? 'outlined-pill'
         )}
       >
@@ -49,15 +49,15 @@ const PillView = ({
           <i className={`fa-solid ${field.iconName}`}></i>
         )}
         {field.label && isSubField ? (
-          <span className="text-sm">
+          <span className="text-md">
             {field.label}: {field.value}
           </span>
         ) : (
-          <span className="text-sm">{field.value}</span>
+          <span className="text-md">{field.value}</span>
         )}
       </li>
     )}
-    {field.context && <span className="text-sm mt-1">({field.context})</span>}
+    {field.context && <p className="text-md mt-2">({field.context})</p>}
   </>
 );
 
@@ -79,12 +79,12 @@ export default function FieldViewer<T>({
     <div className="rounded-se-3xl rounded-es-3xl overflow-hidden py-5">
       <div className="">
         {title && (
-          <h1 className="text-secondary font-extrabold text-2xl">{title}</h1>
+          <h1 className="step-heading text-secondary font-bold pb-3 text-3xl">{title}</h1>
         )}
 
         {description && (
           <p
-            className="mt-3 bg-muted rounded-2xl p-4 text-sm"
+            className="step-sub-heading mt-3 bg-muted rounded-2xl p-4 text-md"
             dangerouslySetInnerHTML={{ __html: description }}
           />
         )}
@@ -96,11 +96,11 @@ export default function FieldViewer<T>({
             field.value &&
             ((Array.isArray(field.value) && field.value.length > 0) ||
               !Array.isArray(field.value)) && (
-              <div key={index} className="grid grid-cols-12 gap-6 mt-6">
+              <div key={index} className="grid grid-cols-12 gap-6 mt-6 pt-2">
                 <div className="flex-auto col-span-12 gap-4 flex-wrap">
                   {field.label && (
                     <>
-                      <h2 className="text-secondary font-bold mb-2">
+                      <h2 className="question-label text-secondary font-bold mb-2">
                         {field.label}
                       </h2>
 
@@ -132,7 +132,7 @@ export default function FieldViewer<T>({
                             {innerField.value &&
                               innerField.value.toString().length > 0 && (
                                 <div>
-                                  <h2 className="text-secondary font-bold mb-2 text-sm">
+                                  <h2 className="question-label text-secondary font-bold mb-2 text-md">
                                     {innerField.label}
                                   </h2>
 

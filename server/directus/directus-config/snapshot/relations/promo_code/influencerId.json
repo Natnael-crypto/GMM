@@ -1,0 +1,15 @@
+{
+  "collection": "promo_code",
+  "field": "influencerId",
+  "related_collection": "user",
+  "meta": null,
+  "schema": {
+    "table": "promo_code",
+    "column": "influencerId",
+    "foreign_key_table": "user",
+    "foreign_key_column": "id",
+    "constraint_name": "FK_69f39c245e256a1abe3ceebb50f",
+    "on_update": "NO ACTION",
+    "on_delete": "CASCADE"
+  }
+}

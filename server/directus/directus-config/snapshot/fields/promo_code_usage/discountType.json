@@ -1,0 +1,24 @@
+{
+  "collection": "promo_code_usage",
+  "field": "discountType",
+  "type": "unknown",
+  "meta": null,
+  "schema": {
+    "name": "discountType",
+    "table": "promo_code_usage",
+    "data_type": "promo_code_usage_discounttype_enum",
+    "default_value": "AMOUNT",
+    "max_length": null,
+    "numeric_precision": null,
+    "numeric_scale": null,
+    "is_nullable": false,
+    "is_unique": false,
+    "is_indexed": false,
+    "is_primary_key": false,
+    "is_generated": false,
+    "generation_expression": null,
+    "has_auto_increment": false,
+    "foreign_key_table": null,
+    "foreign_key_column": null
+  }
+}

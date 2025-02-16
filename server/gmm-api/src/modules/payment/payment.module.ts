@@ -8,6 +8,7 @@ import { UserModule } from '@modules/user/user.module';
 import { NoticeModule } from '@modules/notice/notice.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SchedulerService } from '@shared/services/scheduler.service';
+import { PromoCodeModule } from '@modules/promo/promo-code.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SchedulerService } from '@shared/services/scheduler.service';
     NoticeModule,
     NoticeModule.forRootAsync(),
     ScheduleModule.forRoot(),
+    PromoCodeModule,
   ],
   controllers: [PaymentsController],
   providers: [

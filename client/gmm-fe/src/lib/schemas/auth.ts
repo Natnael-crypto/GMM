@@ -1,6 +1,58 @@
 import { z } from 'zod';
 import { getEighteenYearsAgo } from '../format';
 
+type PasswordStrength = 0 | 1 | 2 | 3 | 4 | 5;
+
+export const isStrongPassword = (
+  password: string
+): { missing?: string[]; strength: PasswordStrength; valid: boolean } => {
+  const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
+  const containsLowercase = (ch: string) => /[a-z]/.test(ch);
+  const containsSpecialChar = (ch: string) =>
+    /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(ch);
+
+  let countOfUpperCase = 0,
+    countOfLowerCase = 0,
+    countOfNumbers = 0,
+    countOfSpecialChar = 0;
+
+  for (let i = 0; i < password.length; i++) {
+    let ch = password.charAt(i);
+    if (!isNaN(+ch)) countOfNumbers++;
+    else if (containsUppercase(ch)) countOfUpperCase++;
+    else if (containsLowercase(ch)) countOfLowerCase++;
+    else if (containsSpecialChar(ch)) countOfSpecialChar++;
+  }
+
+  if (
+    countOfLowerCase < 1 ||
+    countOfUpperCase < 1 ||
+    countOfSpecialChar < 1 ||
+    countOfNumbers < 1 ||
+    password.length < 8
+  ) {
+    const missing = [
+      countOfLowerCase < 1 ? '1 lowercase' : null,
+      countOfUpperCase < 1 ? '1 uppercase' : null,
+      countOfSpecialChar < 1 ? '1 special character' : null,
+      countOfNumbers < 1 ? '1 number' : null,
+      password.length < 8 ? '8 characters' : null,
+    ].filter((x) => x) as string[];
+
+    return {
+      valid: false,
+      strength:
+        password.length < 8 ? 0 : ((5 - missing.length) as PasswordStrength),
+      missing,
+    };
+  }
+
+  return {
+    valid: true,
+    strength: 5,
+  };
+};
+
 export const LoginSchema = z.object({
   email: z.string().email({
     message: 'Please enter a valid email address',
@@ -38,6 +90,16 @@ export const SignUpSchema = z
     password: z.string().min(8, {
       message: 'Password must be at least 8 characters',
     }),
+    currentCountry: z
+      .string({
+        required_error: 'Please enter the current country you live in',
+      })
+      .min(1, { message: 'Please enter the current country you live in' }),
+    city: z
+      .string({
+        required_error: 'Please enter your city',
+      })
+      .min(1, { message: 'Please enter your city' }),
     confirmPassword: z.string().min(8, {
       message: 'Password must be at least 8 characters',
     }),
@@ -46,6 +108,18 @@ export const SignUpSchema = z
     }),
   })
   .superRefine(({ confirmPassword, password }, ctx) => {
+    const { valid, missing } = isStrongPassword(password);
+
+    if (!valid) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['password'],
+        message: missing
+          ? `Password must contain at least ${missing.join(', ')}`
+          : '',
+      });
+    }
+
     if (confirmPassword !== password) {
       ctx.addIssue({
         code: 'custom',
@@ -63,34 +137,48 @@ export const OtpSchema = z.object({
 });
 export type Otp = z.infer<typeof OtpSchema>;
 
-export const signUpWithLinkSchema = z.object({
-  firstName: z.string().min(1, {
-    message: 'Please enter your first name',
-  }),
-  lastName: z.string().min(1, {
-    message: 'Please enter your last name',
-  }),
-  token: z.string().min(1, {
-    message: 'Invalid registration link',
-  }),
-  password: z.string().min(8, {
-    message: 'Password must be at least 8 characters',
-  }),
-  phoneNumber: z.string().min(1, {
-    message: 'Please enter your phone number',
-  }),
-  dateOfBirth: z
-    .date({
-      required_error: 'A date of birth is required.',
-    })
-    .refine((date) => date <= getEighteenYearsAgo(), {
-      message: 'You must be at least 18 years old.',
+export const signUpWithLinkSchema = z
+  .object({
+    firstName: z.string().min(1, {
+      message: 'Please enter your first name',
     }),
-  gender: z.enum(['Male', 'Female']),
-  idCardImage: z.string().min(1, {
-    message: 'Please upload your ID card',
-  }),
-});
+    lastName: z.string().min(1, {
+      message: 'Please enter your last name',
+    }),
+    token: z.string().min(1, {
+      message: 'Invalid registration link',
+    }),
+    password: z.string().min(8, {
+      message: 'Password must be at least 8 characters',
+    }),
+    phoneNumber: z.string().min(1, {
+      message: 'Please enter your phone number',
+    }),
+    dateOfBirth: z
+      .date({
+        required_error: 'A date of birth is required.',
+      })
+      .refine((date) => date <= getEighteenYearsAgo(), {
+        message: 'You must be at least 18 years old.',
+      }),
+    gender: z.enum(['Male', 'Female']),
+    idCardImage: z.string().min(1, {
+      message: 'Please upload your ID card',
+    }),
+  })
+  .superRefine(({ password }, ctx) => {
+    const { valid, missing } = isStrongPassword(password);
+
+    if (!valid) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['password'],
+        message: missing
+          ? `Password must contain at least ${missing.join(', ')}`
+          : '',
+      });
+    }
+  });
 
 export type SignUpWithLink = z.infer<typeof signUpWithLinkSchema>;
 
@@ -112,6 +200,18 @@ export const passwordResetSchema = z
     }),
   })
   .superRefine(({ password, confirmPassword }, ctx) => {
+    const { valid, missing } = isStrongPassword(password);
+
+    if (!valid) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['password'],
+        message: missing
+          ? `Password must contain at least ${missing.join(', ')}`
+          : '',
+      });
+    }
+
     if (password !== confirmPassword) {
       ctx.addIssue({
         code: 'custom',

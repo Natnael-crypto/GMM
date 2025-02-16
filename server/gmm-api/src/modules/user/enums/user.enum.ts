@@ -11,6 +11,11 @@ export enum AccountVerificationStatus {
   UNVERIFIED = 'Unverified',
 }
 
+export enum PhoneVerificationStatus {
+  VERIFIED = 'Verified',
+  UNVERIFIED = 'Unverified',
+}
+
 export enum Gender {
   MALE = 'Male',
   FEMALE = 'Female',

@@ -1,69 +1,54 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
-  HttpStatus,
   Param,
   Post,
-  Res,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { StorageService } from '../services/storage.service';
-import { Response } from 'express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
 import { PresignedUploadUrlDto } from '../dtos/presigned-upload-url.dto';
-import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
-import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
+import { JwtOrInviteAuthGuard } from '@modules/auth/guards/jwt-or-invite.guard';
 
 @ApiTags('storage')
 @ApiBearerAuth()
+// @UseGuards(JwtOrInviteAuthGuard)
 @Controller({ version: ApiVersion.V1, path: 'storage' })
-@UseGuards(JwtAuthGuard)
 export class StorageController {
   constructor(private readonly storageService: StorageService) {}
 
   @Post('presigned-url')
-  async presignedUpload(
-    @Body() presignedUploadUrlDto: PresignedUploadUrlDto,
-    @Res() response: Response,
-  ) {
+  async presignedUpload(@Body() presignedUploadUrlDto: PresignedUploadUrlDto) {
     try {
       const fileInfo = await this.storageService.generatePresignedUploadUrl(
         presignedUploadUrlDto,
       );
-      return response.status(HttpStatus.CREATED).json({
+      return {
         message: 'Presigned upload URL generated successfully',
         data: fileInfo,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Failed to generate presigned upload URL',
-        error: error.message,
-      });
+      console.error(error);
+      throw new BadRequestException();
     }
   }
 
-  @UseInterceptors(CacheInterceptor)
   @Get('presigned-url/:id')
-  async getPresignedDownloadUrl(
-    @Param('id') id: string,
-    @Res() response: Response,
-  ) {
+  async getPresignedDownloadUrl(@Param('id') id: string) {
     try {
       const url = await this.storageService.generatePresignedDownloadUrl(id);
       const cleanUrl = { url: url };
 
-      return response.status(HttpStatus.OK).json({
+      return {
         message: 'Presigned download URL generated successfully',
         data: cleanUrl,
-      });
+      };
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Failed to generate presigned download URL',
-        error: error.message,
-      });
+      console.error(error);
+      throw new BadRequestException();
     }
   }
 }

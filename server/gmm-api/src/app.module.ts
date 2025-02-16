@@ -1,4 +1,9 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import {
+  Logger,
+  MiddlewareConsumer,
+  Module,
+  RequestMethod,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -24,11 +29,35 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { CommunicationModule } from '@modules/communication/communication.module';
 import { FaceRecognitionModule } from '@modules/face-recognition/face-recognition.module';
 import { VerificationModule } from '@modules/verification/verification.module';
+import { BullModule } from '@nestjs/bullmq';
+import { PromoCodeModule } from '@modules/promo/promo-code.module';
+import { GracefulShutdownModule } from 'nestjs-graceful-shutdown';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
+    GracefulShutdownModule.forRoot({
+      gracefulShutdownTimeout: 10000,
+      cleanup: async (app) => {
+        const logger = new Logger('GracefulShutdownModule');
+        logger.log('Gracefully shutting down...');
+
+        logger.log('Closing database connection');
+        const dataSource = app.get(DataSource);
+        await dataSource.destroy();
+
+        logger.log('Database connection closed');
+      },
+    }),
     CacheModule.registerAsync(RedisOptions),
+    BullModule.forRoot({
+      connection: {
+        host: process.env.REDIS_HOST,
+        port: +process.env.REDIS_PORT!,
+        password: process.env.REDIS_PASSWORD,
+      },
+    }),
     TypeOrmModule.forRootAsync({ useClass: TypeOrmConfigService }),
     EventEmitterModule.forRoot(),
     ScheduleModule.forRoot(),
@@ -47,6 +76,7 @@ import { VerificationModule } from '@modules/verification/verification.module';
     CommunicationModule,
     FaceRecognitionModule,
     VerificationModule,
+    PromoCodeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

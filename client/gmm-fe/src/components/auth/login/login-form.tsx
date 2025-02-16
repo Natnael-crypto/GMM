@@ -1,34 +1,34 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 
-import Link from 'next/link';
-import OrSeparator from '@/components/auth/or-separator';
-import ExternalAuthenticator from '@/components/auth/external-authenticator';
-import { useLocale, useTranslations } from 'next-intl';
-import { Login, LoginSchema } from '@/lib/schemas/auth';
-import { useState } from 'react';
-import { login } from '@/actions/auth/login';
-import { toast } from '@/components/ui/use-toast';
-import { useRouter } from '@/lib/navigation';
-import Loading from '@/components/ui/loading';
-import { useSearchParams } from 'next/navigation';
-import { useAppDispatch } from '@/lib/hooks';
-import { setToken } from '@/lib/auth/slice';
+import Link from "next/link";
+import OrSeparator from "@/components/auth/or-separator";
+import ExternalAuthenticator from "@/components/auth/external-authenticator";
+import { useLocale, useTranslations } from "next-intl";
+import { Login, LoginSchema } from "@/lib/schemas/auth";
+import { useState } from "react";
+import { login } from "@/actions/auth/login";
+import { toast } from "@/components/ui/use-toast";
+import { useRouter } from "@/lib/navigation";
+import Loading from "@/components/ui/loading";
+import { useSearchParams } from "next/navigation";
+import { useAppDispatch } from "@/lib/hooks";
+import { setToken } from "@/lib/auth/slice";
 
 export function LoginForm() {
-  const t = useTranslations('Auth.login');
+  const t = useTranslations("Auth.login");
   const locale = useLocale();
   const [isLoginInProgress, setLoginInProgress] = useState(false);
   const { replace } = useRouter();
@@ -38,8 +38,8 @@ export function LoginForm() {
   const form = useForm<Login>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
@@ -50,17 +50,17 @@ export function LoginForm() {
 
     if (response.status === 200) {
       toast({
-        title: 'Welcome Back!',
+        title: "Welcome Back!",
       });
 
       dispatch(setToken(response.token));
 
-      replace(searchParams.get('redirect') ?? response.redirectUrl ?? '/');
+      replace(searchParams.get("redirect") ?? response.redirectUrl ?? "/");
     } else {
       toast({
-        title: 'Error',
+        title: "Error",
         description: response.message,
-        variant: 'destructive',
+        variant: "destructive",
       });
     }
 
@@ -80,7 +80,7 @@ export function LoginForm() {
                   <Input
                     autoComplete="email"
                     className="text-sm placeholder:text-md"
-                    placeholder={t('email')}
+                    placeholder={t("email")}
                     {...field}
                   />
                 </FormControl>
@@ -97,7 +97,7 @@ export function LoginForm() {
                   <Input
                     autoComplete="current-password"
                     className="text-sm placeholder:text-md"
-                    placeholder={t('password')}
+                    placeholder={t("password")}
                     type="password"
                     {...field}
                   />
@@ -113,31 +113,33 @@ export function LoginForm() {
             className="w-52 h-9 bg-primary text-primary-foreground font-bold cta"
             disabled={isLoginInProgress}
           >
-            {isLoginInProgress ? <Loading /> : t('cta')}
+            {isLoginInProgress ? <Loading /> : t("cta")}
           </Button>
           <Link
             href={`/${locale}/auth/forgot-password`}
             className="text-sm text-primary font-semibold"
           >
-            {t('forgotPassword')}
+            {t("forgotPassword")}
           </Link>
 
           <OrSeparator />
 
-          <ExternalAuthenticator />
+          {/* <ExternalAuthenticator /> */}
 
           <div className="text-sm">
-            {t('dontHaveAccount')}{' '}
+            {t("dontHaveAccount")}{" "}
             <Link
               href={`/${locale}/signup`}
               className="text-sm text-primary font-semibold"
             >
-              {t('signup')}
+              {t("signup")}
             </Link>
           </div>
           <div className="h-[1px] w-full bg-muted-foreground opacity-20"></div>
           <div className="text-sm text-center">
-            <a className="text-sm text-primary font-semibold" href="/en/">Family Member Login</a>
+            <a className="text-sm text-primary font-semibold" href="/en/">
+              Family Member Login
+            </a>
           </div>
         </div>
       </form>

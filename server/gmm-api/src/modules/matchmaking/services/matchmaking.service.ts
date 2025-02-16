@@ -41,6 +41,12 @@ import { NoticeService } from '@modules/notice/services/notice.service';
 import { FamilyInfoDto } from '../dtos/family-info.dto';
 import { FamilyInformationNotification } from '@modules/notifications/notifications/family-information-sent.notification';
 import { FamilyInformationExchangeStatus } from '../enums/family-information-exchange-status.enum';
+import { InjectQueue } from '@nestjs/bullmq';
+import { Queue } from 'bullmq';
+import { QueueNames } from '@shared/queues';
+import { FormService } from '@modules/form/services/form.service';
+import { Form } from '@modules/form/entities/form.entity';
+import { FormFieldAnswer } from '@modules/form/entities/form-field-answer.entity';
 
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
@@ -49,6 +55,8 @@ export class MatchMakingService extends BaseRepository {
     private readonly notificationService: NotificationService,
     private readonly userService: UserService,
     private readonly noticeService: NoticeService,
+    private readonly formService: FormService,
+    @InjectQueue(QueueNames.MATCH_QUEUE) private readonly matchQueue: Queue,
     @Inject(REQUEST) req: Request,
     dataSource: DataSource,
   ) {
@@ -74,7 +82,7 @@ export class MatchMakingService extends BaseRepository {
     });
   }
 
-  async loadCandidates(user: User): Promise<string[]> {
+  async loadCandidates(user: User, limit?: number): Promise<string[]> {
     const previousMatches = await this.getUserMatches(user.id);
     for (const previousMatch of previousMatches) {
       if (previousMatch.isActive) {
@@ -101,6 +109,7 @@ export class MatchMakingService extends BaseRepository {
         ),
       },
       select: ['userId'],
+      take: limit,
     });
 
     const candidateIds = matchPool.map((pool) => pool.userId);
@@ -138,6 +147,32 @@ export class MatchMakingService extends BaseRepository {
     await this.notificationService.send(notification);
 
     return match;
+  }
+
+  async match(userId: string): Promise<any> {
+    const user = await this.getRepository(User).findOneOrFail({
+      where: { id: userId },
+      relations: ['subscription'],
+    });
+
+    if (!user.subscription || user.subscription.remainingMatches <= 0) {
+      throw new BadRequestException(
+        'You need an active subscription to be matched.',
+      );
+    }
+
+    const previousMatches = await this.getUserMatches(user.id);
+    for (const previousMatch of previousMatches) {
+      if (previousMatch.isActive) {
+        throw new ConflictException('You already have an active match');
+      }
+    }
+
+    const newlyAddedToPool = await this.addToMatchingPool(user);
+
+    await this.matchQueue.add('match', { userId });
+
+    return { match: null, newlyAddedToPool };
   }
 
   async matchUser(userId: string): Promise<any> {
@@ -202,7 +237,7 @@ export class MatchMakingService extends BaseRepository {
       user.preference = await this.createUserPreference(userId);
     }
 
-    const candidateIds = await this.loadCandidates(user);
+    const candidateIds = await this.loadCandidates(user, 300);
 
     const candidates = (
       await this.getRepository(User).find({
@@ -258,11 +293,224 @@ export class MatchMakingService extends BaseRepository {
     return await this.getRepository(Preference).save(p);
   }
 
+  /**
+   * Updates the user preference with the provided data.
+   *
+   * @param id - The ID of the user whose preference is to be updated.
+   * @param data - The data to update the user's preference with.
+   * @returns A promise that resolves to the updated Preference object.
+   *
+   * This method performs the following steps:
+   * 1. Retrieves the user by ID.
+   * 2. Fetches the forms and submissions for both worldly and Islamic lifestyles.
+   * 3. Checks if all fields in the forms and submissions are answered.
+   * 4. Filters the data based on the completion status of the forms.
+   * 5. Retrieves the existing preference for the user.
+   * 6. Merges the filtered data with the existing preference.
+   * 7. Saves and returns the updated preference.
+   */
   async updateUserPreference(
     id: string,
     data: UpdatePreferenceDto,
   ): Promise<Preference> {
-    return await this.getRepository(Preference).save({ userId: id, ...data });
+    const worldlyOnlyFields = [
+      'city',
+      'country',
+      'countryOfOrigin',
+      'martialStatus',
+      'children',
+      'religiousPractice',
+      'drinking',
+      'drugs',
+      'smoking',
+      'tattoos',
+      'bornOrRevert',
+      'language',
+      'nationality',
+      'employmentType',
+      'education',
+    ];
+    const islamicOnlyFields = ['salah', 'hijab', 'beard'];
+
+    const user = await this.userService.getUserById(id);
+
+    const [worldlyForm, islamicForm, worldlySubmission, islamicSubmission] =
+      await Promise.all([
+        this.formService.findOneForm('worldly-lifestyle'),
+        this.formService.findOneForm('islamic-lifestyle'),
+        this.getSubmissionSafely('worldly-lifestyle', id),
+        this.getSubmissionSafely('islamic-lifestyle', id),
+      ]);
+
+    const {
+      expectedWorldlyForm,
+      expectedIslamicForm,
+      expectedWorldlySubmission,
+      expectedIslamicSubmission,
+    } = await this.getExpectedFormsAndSubmissions(user.gender, id);
+
+    const worldlyLifestyleCompleted = this.areAllFieldsAnswered(
+      worldlyForm,
+      worldlySubmission,
+    );
+    const expectedWorldlyLifestyleCompleted =
+      worldlyLifestyleCompleted &&
+      this.areAllFieldsAnswered(expectedWorldlyForm, expectedWorldlySubmission);
+
+    const islamicLifestyleCompleted = this.areAllFieldsAnswered(
+      islamicForm,
+      islamicSubmission,
+    );
+    const expectedIslamicLifestyleCompleted =
+      islamicLifestyleCompleted &&
+      this.areAllFieldsAnswered(expectedIslamicForm, expectedIslamicSubmission);
+
+    const filteredData = this.filterDataBasedOnCompletion(
+      data,
+      expectedWorldlyLifestyleCompleted,
+      expectedIslamicLifestyleCompleted,
+      worldlyOnlyFields,
+      islamicOnlyFields,
+    );
+
+    let preference = await this.getRepository(Preference).findOne({
+      where: { userId: id },
+    });
+
+    if (!preference) {
+      preference = this.getRepository(Preference).create({ userId: id });
+    }
+
+    const updatedPreference = this.getRepository(Preference).merge(
+      preference,
+      filteredData,
+    );
+
+    return await this.getRepository(Preference).save(updatedPreference);
+  }
+
+  private async getSubmissionSafely(slug: string, userId: string) {
+    try {
+      return await this.formService.getUserSubmission(slug, userId);
+    } catch (e) {
+      return [];
+    }
+  }
+
+  /**
+   * Retrieves the expected forms and submissions for a user based on their gender.
+   *
+   * @param {Gender} gender - The gender of the user (either Gender.MALE or Gender.FEMALE).
+   * @param {string} userId - The unique identifier of the user.
+   * @returns {Promise<{
+   *   expectedWorldlyForm: Form,
+   *   expectedIslamicForm: Form,
+   *   expectedWorldlySubmission: Submission,
+   *   expectedIslamicSubmission: Submission
+   * }>} An object containing the expected worldly and Islamic forms and submissions for the user.
+   */
+  private async getExpectedFormsAndSubmissions(gender: Gender, userId: string) {
+    if (gender === Gender.MALE) {
+      const [
+        expectedWorldlyForm,
+        expectedIslamicForm,
+        expectedWorldlySubmission,
+        expectedIslamicSubmission,
+      ] = await Promise.all([
+        this.formService.findOneForm('male-expected-worldly-lifestyle'),
+        this.formService.findOneForm('male-expected-islamic-lifestyle'),
+        this.getSubmissionSafely('male-expected-worldly-lifestyle', userId),
+        this.getSubmissionSafely('male-expected-islamic-lifestyle', userId),
+      ]);
+      return {
+        expectedWorldlyForm,
+        expectedIslamicForm,
+        expectedWorldlySubmission,
+        expectedIslamicSubmission,
+      };
+    } else {
+      const [
+        expectedWorldlyForm,
+        expectedIslamicForm,
+        expectedWorldlySubmission,
+        expectedIslamicSubmission,
+      ] = await Promise.all([
+        this.formService.findOneForm('female-expected-worldly-lifestyle'),
+        this.formService.findOneForm('female-expected-islamic-lifestyle'),
+        this.getSubmissionSafely('female-expected-worldly-lifestyle', userId),
+        this.getSubmissionSafely('female-expected-islamic-lifestyle', userId),
+      ]);
+      return {
+        expectedWorldlyForm,
+        expectedIslamicForm,
+        expectedWorldlySubmission,
+        expectedIslamicSubmission,
+      };
+    }
+  }
+
+  /**
+   * Checks if all fields in the form have been answered in the submission.
+   *
+   * @param form - The form containing the fields to be checked.
+   * @param submission - The array of form field answers submitted.
+   * @returns `true` if all fields in the form have corresponding answers in the submission, `false` otherwise.
+   */
+  private areAllFieldsAnswered(
+    form: Form | null,
+    submission: FormFieldAnswer[],
+  ): boolean {
+    if (submission.length === 0) {
+      return false;
+    }
+
+    if (!form) {
+      return false;
+    }
+
+    return form.fields.every((field) => {
+      return submission.some(
+        (answer) => answer.fieldId === field.id && answer.value,
+      );
+    });
+  }
+
+  /**
+   * Filters the provided data based on the completion status of worldly and Islamic fields.
+   *
+   * @param data - The data to be filtered.
+   * @param worldlyCompleted - A boolean indicating if the worldly fields are completed.
+   * @param islamicCompleted - A boolean indicating if the Islamic fields are completed.
+   * @param worldlyFields - An array of strings representing the worldly fields to be checked.
+   * @param islamicFields - An array of strings representing the Islamic fields to be checked.
+   * @returns The filtered data with incomplete fields removed.
+   */
+  private filterDataBasedOnCompletion(
+    data: UpdatePreferenceDto,
+    worldlyCompleted: boolean,
+    islamicCompleted: boolean,
+    worldlyFields: string[],
+    islamicFields: string[],
+  ): UpdatePreferenceDto {
+    const filteredData = { ...data };
+
+    if (!worldlyCompleted) {
+      worldlyFields.forEach((field) => {
+        if (field in filteredData) {
+          delete filteredData[field];
+        }
+      });
+    }
+
+    if (!islamicCompleted) {
+      islamicFields.forEach((field) => {
+        if (field in filteredData) {
+          delete filteredData[field];
+        }
+      });
+    }
+
+    return filteredData;
   }
 
   async addToMatchingPool(user: User) {

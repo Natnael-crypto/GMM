@@ -32,9 +32,9 @@ export default function ChatProfileImages({
   blur,
   requestViewButtonDisabled = true,
   showRequestViewButton = false,
-  h1 = "25rem",
-  h2 = "30rem",
-  h3 = "30rem"
+  h1 = '25rem',
+  h2 = '30rem',
+  h3 = '30rem',
 }: {
   user: User;
   blur?: boolean;
@@ -102,7 +102,6 @@ export default function ChatProfileImages({
   };
 
   return (
-
     <motion.div
       initial="visible"
       whileHover="hidden"
@@ -110,9 +109,10 @@ export default function ChatProfileImages({
     >
       <AnimatePresence>
         {imageUrls && (
-          <motion.div className={`rounded-se-3xl rounded-es-3xl overflow-hidden h-[20rem] w-full aspect-[9/16]`}>
+          <motion.div
+            className={`rounded-se-3xl rounded-es-3xl overflow-hidden h-[20rem] w-full aspect-[9/16]`}
+          >
             <AntiRightClick>
-
               {imageUrls && imageUrls.length > 0 && (
                 <Carousel setApi={setApi}>
                   <CarouselContent>
@@ -141,79 +141,74 @@ export default function ChatProfileImages({
                   <CarouselNext className="end-0 w-8" />
                 </Carousel>
               )}
-            {/* </AntiRightClick> */}
+              {/* </AntiRightClick> */}
 
-            <motion.div className="relative">
-              <div className="gmm-pic-container absolute bottom-0 left-0 right-0 p-5 space-y-3">
-                <motion.h2
-                  variants={overlayName}
-                  className="gmm-pic-name text-background font-semibold user-information-overlay text-lg"
-                >
-                  {user.firstName}{' '}
-                  <span className="gmm-pic-age">
-                    ({convertDateToAge(user.dateOfBirth)})
-                  </span>
-                </motion.h2>
-
-                <motion.div className="space-y-2 font-thin">
-                  <motion.div
-                    variants={overlayInfo}
-                    className="gmm-pic-info h-fit flex gap-2 bg-[#ffffffbb] rounded-full font-semibold px-2 shadow-lg items-center "
+              <motion.div className="relative">
+                <div className="gmm-pic-container absolute bottom-0 left-0 right-0 p-5 space-y-3">
+                  <motion.h2
+                    variants={overlayName}
+                    className="gmm-pic-name text-background font-semibold user-information-overlay text-lg"
                   >
-                    <div className="w-4 h-2 flex items-center justify-center">
-                      {NationalityFlag && (
-                        <NationalityFlag title={user.nationality} />
-                      )}
-                    </div>
-                    <span className="w-full font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">
-                      {user.nationality} Citizenship / Nationality
+                    {user.firstName}{' '}
+                    <span className="gmm-pic-age">
+                      ({convertDateToAge(user.dateOfBirth)})
                     </span>
-                  </motion.div>
+                  </motion.h2>
 
-                  <motion.div className="gmm-pic-info flex item-center gap-2 bg-[#00000066] rounded-lg text-wrap px-2 shadow-lg w-full text-white">
-                    <span>
-                      <FontAwesomeIcon icon={faLocationDot} />
-                    </span>
-                    <span className="w-full flex items-center gap-2 text-wrap">
-                      <span>{user.city}</span>
-                      <div className="w-4 h-4 flex items-center justify-center">
-                        {CountryFlag && <CountryFlag title={user.country} />}
+                  <motion.div className="space-y-2 font-thin">
+                    <motion.div
+                      variants={overlayInfo}
+                      className="gmm-pic-info h-fit flex gap-2 bg-[#ffffffbb] rounded-full font-semibold px-2 shadow-lg items-center "
+                    >
+                      <div className="w-4 h-2 flex items-center justify-center">
+                        {NationalityFlag && (
+                          <NationalityFlag title={user.nationality} />
+                        )}
                       </div>
-                    </span>
-                  </motion.div>
+                      <span className="w-full font-bold text-sm overflow-hidden whitespace-nowrap text-ellipsis">
+                        {user.nationality} Citizenship / Nationality
+                      </span>
+                    </motion.div>
 
-                  <motion.div
-                    variants={overlayInfo}
-                    className="gmm-pic-info flex gap-2 h-fit"
-                  >
-                    <p className="flex item-center h-fit gap-2 bg-[#00000066] rounded-lg text-wrap px-2 shadow-lg w-fit text-white">
+                    <motion.div className="gmm-pic-info flex item-center gap-2 bg-[#00000066] rounded-lg text-wrap px-2 shadow-lg w-full text-white">
                       <span>
-                        <FontAwesomeIcon icon={faUpDown} />
+                        <FontAwesomeIcon icon={faLocationDot} />
                       </span>
-                      <span className="w-full text-wrap text-xs">
-                        {cmToFeetInches(user.height)} ({user.height} cm)
+                      <span className="w-full flex items-center gap-2 text-wrap">
+                        <span>{user.city}</span>
+                        <div className="w-4 h-4 flex items-center justify-center">
+                          {CountryFlag && <CountryFlag title={user.country} />}
+                        </div>
                       </span>
-                    </p>
-                    <p className="flex item-center h-fit gap-2 bg-[#00000066] rounded-lg text-wrap px-2 shadow-lg w-fit text-white">
-                      <span>
-                        <FontAwesomeIcon icon={faWeightScale} />
-                      </span>
-                      <span className="w-full text-wrap text-xs">
-                        {kgToPounds(user.weight)} ({user.weight} kg){' '}
-                      </span>
-                    </p>
+                    </motion.div>
+
+                    <motion.div
+                      variants={overlayInfo}
+                      className="gmm-pic-info flex gap-2 h-fit"
+                    >
+                      <p className="flex item-center h-fit gap-2 bg-[#00000066] rounded-lg text-wrap px-2 shadow-lg w-fit text-white">
+                        <span>
+                          <FontAwesomeIcon icon={faUpDown} />
+                        </span>
+                        <span className="w-full text-wrap text-xs">
+                          {cmToFeetInches(user.height)} ({user.height} cm)
+                        </span>
+                      </p>
+                      <p className="flex item-center h-fit gap-2 bg-[#00000066] rounded-lg text-wrap px-2 shadow-lg w-fit text-white">
+                        <span>
+                          <FontAwesomeIcon icon={faWeightScale} />
+                        </span>
+                        <span className="w-full text-wrap text-xs">
+                          {kgToPounds(user.weight)} ({user.weight} kg){' '}
+                        </span>
+                      </p>
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-                
-              </div>
-              
-            </motion.div>
+                </div>
+              </motion.div>
             </AntiRightClick>
-
           </motion.div>
         )}
-
-
       </AnimatePresence>
 
       <div className="w-full py-2 justify-center flex gap-1">
@@ -230,7 +225,6 @@ export default function ChatProfileImages({
           );
         })}
       </div>
-
     </motion.div>
   );
 }

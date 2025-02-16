@@ -22,33 +22,53 @@ import { useSocketContext } from '../auth/socket-provider';
 import { MessageBox } from './message';
 import { useGetUserByIdQuery } from '@/lib/auth/api';
 import Loading from '../ui/loading';
-import { User } from '@/lib/schemas/user';
+import { Gender, User } from '@/lib/schemas/user';
 import { formatLocalizedDate } from '@/lib/format';
 import DateSeparator from './date-separator';
 import { StepperItem } from './stepper';
 import { Match } from '@/lib/matchmaking/types';
 import { allMatchStages } from '@/lib/schemas/match';
 import { useLocale } from 'next-intl';
+import { useGetDownloadUrlQuery } from '@/lib/user/api';
+import { useBlur } from '@/lib/hooks/use-blur';
 
 const data = rawData as EmojiMartData;
 
 // List of inappropriate emoji IDs to filter out
 const blockedEmojis = new Set([
-  'middle_finger', 'face_with_symbols_on_mouth', 'hocho', 'dagger', 'crossed_swords', 
-  'gun', 'bomb', 'eggplant', 'peach', 'sweat_drops', 'smirk', 'smiling_imp', 
-  'tongue', 'beer', 'beers', 'wine_glass', 'tropical_drink', 'champagne', 
-  'smoking', 'drop_of_blood', 'syringe'
+  'middle_finger',
+  'face_with_symbols_on_mouth',
+  'hocho',
+  'dagger',
+  'crossed_swords',
+  'gun',
+  'bomb',
+  'eggplant',
+  'peach',
+  'sweat_drops',
+  'smirk',
+  'smiling_imp',
+  'tongue',
+  'beer',
+  'beers',
+  'wine_glass',
+  'tropical_drink',
+  'champagne',
+  'smoking',
+  'drop_of_blood',
+  'syringe',
 ]);
-
 
 const filteredData: EmojiMartData = {
   ...data,
   emojis: Object.fromEntries(
-    Object.entries(data.emojis || {}).filter(([key, emoji]) => !blockedEmojis.has(emoji.id))
+    Object.entries(data.emojis || {}).filter(
+      ([key, emoji]) => !blockedEmojis.has(emoji.id)
+    )
   ),
-  categories: data.categories.map(category => ({
+  categories: data.categories.map((category) => ({
     ...category,
-    emojis: category.emojis.filter(emojiId => !blockedEmojis.has(emojiId)),
+    emojis: category.emojis.filter((emojiId) => !blockedEmojis.has(emojiId)),
   })),
 };
 
@@ -213,61 +233,74 @@ export default function ChatBox({
 
   const stageIndex = allMatchStages.indexOf(match.stage);
 
+  const { data: femaleUserImage } = useGetDownloadUrlQuery(
+    match?.femaleUser?.pictures?.[0] ?? '',
+    { skip: !match?.femaleUser?.pictures?.[0] }
+  );
+  const { data: maleUserImage } = useGetDownloadUrlQuery(
+    match?.maleUser?.pictures?.[0] ?? '',
+    { skip: !match?.maleUser?.pictures?.[0] }
+  );
+
+  const { base64 } = useBlur(
+    user?.gender === Gender.MALE ? femaleUserImage : undefined
+  );
+
+  const femaleImageSrc =
+    user?.gender === Gender.MALE ? base64 : femaleUserImage;
+  const maleImageSrc = maleUserImage;
+
   return (
     <div
-      className="w-full bg-[#f7f7f7] p-5 rounded-lg flex flex-col justify-between"
+      className="message-mobile w-full bg-[#f7f7f7] p-3 lg:p-5 rounded-lg flex flex-col justify-between"
       style={{
         height: 'calc(100vh - 4.50rem)',
       }}
     >
-
       <div className="w-full overflow-hidden pb-10">
         <div className="sticky relative grid grid-cols-5 gap-5 py-4 w-[full] h-[full] mx-auto">
-          
-          <StepperItem 
-          icon={faUser} 
-          text="Basics" 
-          active={stageIndex >= 0} 
-          size='1x'
-          text_size='0.65rem'
+          <StepperItem
+            icon={faUser}
+            text="Basics"
+            active={stageIndex >= 0}
+            size="1x"
+            text_size="0.65rem"
           />
           <StepperItem
             icon={faHouse}
             text="Worldly / Duniya"
             active={stageIndex >= 1}
-            size='1x'
-            text_size='0.65rem'
+            size="1x"
+            text_size="0.65rem"
           />
           <StepperItem
             icon={faMosque}
             text="Islamic / Deen"
             active={stageIndex >= 2}
-            size='1x'
-            text_size='0.65rem'
+            size="1x"
+            text_size="0.65rem"
           />
           <StepperItem
             icon={faComments}
             text="Marriage Talk"
             active={stageIndex >= 3}
-            size='1x'
-            text_size='0.65rem'
+            size="1x"
+            text_size="0.65rem"
           />
           <StepperItem
             icon={faPeopleRoof}
             text="Family Intro"
             active={stageIndex >= 4}
-            size='1x'
-            text_size='0.65rem'
+            size="1x"
+            text_size="0.65rem"
           />
-          
         </div>
-      <hr  />
-
+        <hr />
       </div>
 
       {user && otherUser && (
         <div
-          className="overflow-auto space-y-3 no-scrollbar"
+          className="overflow-auto space-y-3 no-scrollbar py-3"
           onScroll={handleLoadOldMessages}
         >
           {(oldMessagesResult?.isLoading || initialLoading) && (
@@ -285,6 +318,12 @@ export default function ChatBox({
 
             result.push(
               ...messageGroup.map((message, index) => {
+                const sender = message.mine ? user : otherUser;
+                const senderImage =
+                  sender?.gender === Gender.FEMALE
+                    ? femaleImageSrc
+                    : maleImageSrc;
+
                 return (
                   <MessageBox
                     ref={
@@ -292,7 +331,8 @@ export default function ChatBox({
                     }
                     key={`message_${index}_${message.id}`}
                     message={message}
-                    sender={message.mine ? user : otherUser}
+                    sender={sender}
+                    senderImage={senderImage ?? undefined}
                   />
                 );
               })
@@ -336,7 +376,7 @@ export default function ChatBox({
               />
             </span>
             <Button
-              className="h-5 text-xs bg-primary text-primary-foreground"
+              className="h-5 text-md bg-primary text-primary-foreground"
               onClick={handleSend}
             >
               Send

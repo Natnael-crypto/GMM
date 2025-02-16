@@ -49,10 +49,6 @@ export class GuardianService {
       },
     });
 
-    if (pendingRequests.length !== 0) {
-      throw new ConflictException('Request already sent to this guardian');
-    }
-
     // one guardian for one user
     const guardianRequests = await this.guardianRequestRepository.find({
       where: {
@@ -121,7 +117,7 @@ export class GuardianService {
 
     if (request.guardianEmail !== user.email) {
       throw new ForbiddenException(
-        'You are not authorized to reject this request',
+        'You are not authorized to accept this request',
       );
     }
 

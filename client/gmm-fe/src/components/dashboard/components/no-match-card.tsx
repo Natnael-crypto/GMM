@@ -68,7 +68,7 @@ export default function NoMatchCard() {
           by clicking
           <Link
             href={editProfileLink}
-            className="font-bold underline text-primary ml-1"
+            className="cta bg-primary text-primary-foreground hover:by-secondary px-4 py-2 text-xs rounded-full block mt-3 m-auto"
           >
             EDIT PROFILE
           </Link>
@@ -87,7 +87,7 @@ export default function NoMatchCard() {
           <p>You can purchase more matches by clicking link below:</p>
           <Link
             href="/checkout"
-            className="cta bg-primary text-primary-foreground hover:by-secondary px-4 py-2 text-xs rounded-full"
+            className="cta bg-primary text-primary-foreground hover:by-secondary px-4 py-2 text-xs rounded-full m-auto"
           >
             Purchase Now
           </Link>

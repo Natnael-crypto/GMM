@@ -18,6 +18,6 @@ import { FormsController } from './controllers/forms.controller';
   ],
   controllers: [FormsController],
   providers: [FormService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, FormService],
 })
 export class FormModule {}

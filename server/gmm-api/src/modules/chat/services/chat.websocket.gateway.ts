@@ -37,6 +37,7 @@ export class ChatWebsocketGateway
     try {
       const decoded = this.jwtService.verify(token, {
         secret: this.configService.get<AuthConfig>('auth')?.jwt.secret,
+        ignoreExpiration: false,
       });
 
       const user = await this.chatService.getUserById(decoded.sub);
@@ -116,8 +117,9 @@ export class ChatWebsocketGateway
     });
 
     // decrypt the message content
-    const encryptionKey = this.configService.get<ChatEncryptionConfig>('chat')!.key;
-    
+    const encryptionKey =
+      this.configService.get<ChatEncryptionConfig>('chat')!.key;
+
     newMessage.content = decryptText(newMessage.content, encryptionKey);
 
     socket.to(messageDto.roomId).emit('message:received', newMessage);

@@ -17,6 +17,7 @@ import {
   AccountStatus,
   AccountVerificationStatus,
   Gender,
+  PhoneVerificationStatus,
 } from '../enums/user.enum';
 import { MaleExpectedWorldlyLifestyle } from './male-expected-worldly-lifestyle.entity';
 import { FemaleExpectedWorldlyLifestyle } from './female-expected-worldly-lifestyle.entity';
@@ -29,8 +30,8 @@ import { UserMarriageDiscussion } from './user-marriage-discussion.entity';
 import { UserFamilyInformation } from './user-family-information.entity';
 import { UserOptionalVerifiable } from './user-optional-verifiables.entity';
 import { FormSubmission } from '@modules/form/entities/submission.entity';
-import { TattooPreference } from '@modules/matchmaking/enums/tattoo.enum';
 import { Verification } from '@modules/verification/entities/verification.entity';
+import { PromoCode } from '@modules/promo/entities/promo-code.entity';
 
 @Entity()
 export class User {
@@ -201,6 +202,13 @@ export class User {
   })
   verificationStatus: AccountVerificationStatus;
 
+  @Column({
+    type: 'enum',
+    enum: PhoneVerificationStatus,
+    default: PhoneVerificationStatus.UNVERIFIED,
+  })
+  phoneVerificationStatus: PhoneVerificationStatus;
+
   @OneToMany(() => FormSubmission, (submission) => submission.user)
   formSubmissions: FormSubmission[];
 
@@ -298,6 +306,10 @@ export class User {
     { onDelete: 'CASCADE', nullable: true },
   )
   optionalVerifiable: UserOptionalVerifiable;
+
+  // Promo Codes used to invite people
+  @OneToMany(() => PromoCode, (promoCode) => promoCode.influencer)
+  promoCodes: PromoCode[];
 
   get age(): number | null {
     if (!this.dateOfBirth) {

@@ -28,7 +28,7 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
     super({
       jwtFromRequest: extractJwtFromRequest,
       secretOrKey:
-        configService.get<AuthConfig>('auth')?.jwt.refreshTokenSecret,
+        configService.get<AuthConfig>('auth')!.jwt.refreshTokenSecret,
       passReqToCallback: true,
     });
   }

@@ -1,12 +1,13 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
-  HttpException,
   HttpStatus,
   Inject,
   Param,
+  ParseUUIDPipe,
   Patch,
   Post,
   Put,
@@ -15,28 +16,25 @@ import {
   Res,
   UnauthorizedException,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { PaymentsService } from '../services/payment.service';
 import {
   ApiBearerAuth,
-  ApiExcludeController,
   ApiExcludeEndpoint,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { ApiVersion } from '@shared/types/version';
-import { CreateCheckoutSessionDto } from '../dtos/create-checkout-session.dto';
+import {
+  CreateCheckoutSessionDto,
+  UpdateCheckoutSessionDto,
+} from '../dtos/create-checkout-session.dto';
 import { JwtAuthGuard } from '@modules/auth/guards/jwt-auth.guard';
 import { User } from '@modules/user/entities/user.entity';
 import { PermissionGuard } from '@modules/auth/guards/permission.guard';
 import { UpdateProductDto } from '../dtos/update-product.dto';
-import {
-  CACHE_MANAGER,
-  CacheInterceptor,
-  CacheTTL,
-} from '@nestjs/cache-manager';
+import { CACHE_MANAGER, CacheTTL } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 import Stripe from 'stripe';
 import { ConfigService } from '@nestjs/config';
@@ -64,9 +62,8 @@ export class PaymentsController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('create-payment-intent')
+  @Post('payment-intent')
   async createPaymentIntent(
-    @Res() response: Response,
     @Req() req: Request,
     @Body() createCheckoutSessionDto: CreateCheckoutSessionDto,
   ) {
@@ -78,8 +75,35 @@ export class PaymentsController {
         userId,
       );
 
-      return response.status(HttpStatus.CREATED).json({
+      return {
         message: 'Payment intent created successfully',
+        data: result,
+      };
+    } catch (error) {
+      throw new BadRequestException({
+        message: 'Failed to create payment intent',
+        error: error.message,
+      });
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Put('payment-intent')
+  async updatePaymentIntent(
+    @Res() response: Response,
+    @Req() req: Request,
+    @Body() updateCheckoutSessionDto: UpdateCheckoutSessionDto,
+  ) {
+    try {
+      const userId = (req.user as User).id;
+
+      const result = await this.paymentService.updatePaymentIntent(
+        updateCheckoutSessionDto,
+        userId,
+      );
+
+      return response.status(HttpStatus.CREATED).json({
+        message: 'Payment intent updated successfully',
         data: result,
       });
     } catch (error) {
@@ -159,7 +183,7 @@ export class PaymentsController {
   async getCurrentSubscription(
     @Req() req: Request & { user: User },
     @Res() response: Response,
-    @Param('userId') userId: string,
+    @Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string,
   ) {
     try {
       const user = await this.userService.getUserById(userId);
@@ -224,7 +248,7 @@ export class PaymentsController {
   @UseGuards(JwtAuthGuard, new PermissionGuard(['match:consume']))
   async consumeMatch(
     @Res() response: Response,
-    @Param('userId') userId: string,
+    @Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string,
   ) {
     try {
       await this.paymentService.consumeMatch(userId);
@@ -257,7 +281,7 @@ export class PaymentsController {
   )
   async renewSubscription(
     @Res() response: Response,
-    @Param('userId') userId: string,
+    @Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string,
   ) {
     try {
       console.log('Renewing subscription for user:', userId);
@@ -292,7 +316,7 @@ export class PaymentsController {
   @Patch('activate-renewal/:userId')
   async activateRenewal(
     @Res() response: Response,
-    @Param('userId') userId: string,
+    @Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string,
   ) {
     try {
       await this.paymentService.activateRenewal(userId);
@@ -315,7 +339,7 @@ export class PaymentsController {
   @Delete('cancel-renewal/:userId')
   async cancelRenewal(
     @Res() response: Response,
-    @Param('userId') userId: string,
+    @Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string,
   ) {
     try {
       await this.paymentService.cancelRenewal(userId);
@@ -345,7 +369,7 @@ export class PaymentsController {
   )
   async getUserSubscriptionHistory(
     @Res() response: Response,
-    @Param('userId') userId: string,
+    @Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string,
   ) {
     try {
       const subscriptions =
@@ -390,7 +414,7 @@ export class PaymentsController {
   )
   async getRemainingMatches(
     @Res() response: Response,
-    @Param('userId') userId: string,
+    @Param('userId', new ParseUUIDPipe({ version: '4' })) userId: string,
   ) {
     try {
       const remainingMatches =

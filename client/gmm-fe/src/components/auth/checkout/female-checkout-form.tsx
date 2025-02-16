@@ -72,10 +72,10 @@ export default function FemaleCheckoutForm() {
       confirmFreeSubscription()
         .unwrap()
         .then(() => {
-          if (user?.registered) {
-            router.replace('/dashboard');
-          } else {
+          if (user?.accountStatus === 'Incomplete Registration') {
             router.replace('/registration');
+          } else {
+            router.replace('/dashboard');
           }
         })
         .catch((error) => {
@@ -186,7 +186,7 @@ export default function FemaleCheckoutForm() {
                               <SelectItem value="Revert Care appoint guardian/wali (option only for reverts subject to interview and approval)">
                                 Revert Care appoint guardian/wali (option only
                                 for reverts subject to interview and approval)
-                              </SelectItem>{" "}
+                              </SelectItem>{' '}
                             </>
                           )}
                         </SelectContent>

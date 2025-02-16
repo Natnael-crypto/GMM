@@ -91,7 +91,7 @@
   "schema": {
     "name": "options",
     "table": "form_field",
-    "data_type": "json",
+    "data_type": "jsonb",
     "default_value": null,
     "max_length": null,
     "numeric_precision": null,

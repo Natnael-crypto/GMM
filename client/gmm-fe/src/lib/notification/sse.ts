@@ -46,7 +46,7 @@ export function useNotifications() {
         eventSource.close();
       };
     }
-  }, [token]);
+  }, [token, dispatch]);
 
   const reloadNotifications = () => {
     refetch();
