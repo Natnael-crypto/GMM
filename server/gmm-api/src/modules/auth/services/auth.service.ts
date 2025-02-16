@@ -21,7 +21,6 @@ import {
   GuardianRequestedEvent,
 } from '@modules/user/events/guardian.events';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { GuardianService } from '@modules/user/services/guardian.service';
 
 export type JwtPayload = {
   sub: string;
@@ -38,7 +37,6 @@ export class NewAuthService {
     private configService: ConfigService,
     private jwtService: JwtService,
     private authRepo: AuthRepository,
-    private guardianService: GuardianService,
     private readonly eventEmitter: EventEmitter2,
   ) {
     this.authConfig = this.configService.get<AuthConfig>('auth')!;
