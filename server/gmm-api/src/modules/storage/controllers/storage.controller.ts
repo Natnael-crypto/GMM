@@ -15,7 +15,7 @@ import { JwtOrInviteAuthGuard } from '@modules/auth/guards/jwt-or-invite.guard';
 
 @ApiTags('storage')
 @ApiBearerAuth()
-@UseGuards(JwtOrInviteAuthGuard)
+// @UseGuards(JwtOrInviteAuthGuard)
 @Controller({ version: ApiVersion.V1, path: 'storage' })
 export class StorageController {
   constructor(private readonly storageService: StorageService) {}
