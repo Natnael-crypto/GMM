@@ -16,6 +16,7 @@ import {
 } from '../exceptions/auth.exceptions';
 import { guardianRole, userRole } from '@shared/database/seeds/permission.seed';
 import {
+  GuardianAcceptedEvent,
   GuardianRegistrationEvent,
   GuardianRequestedEvent,
 } from '@modules/user/events/guardian.events';
@@ -186,15 +187,10 @@ export class NewAuthService {
       roleId,
     });
 
-    const guardianRequest =
-      await this.guardianService.getReceivedGuardianRequests(user);
-
-    if (guardianRequest) {
-      await this.guardianService.acceptGuardianRequest(
-        guardianRequest[0].id,
-        user,
-      );
-    }
+    this.eventEmitter.emit(
+      GuardianAcceptedEvent.name,
+      new GuardianAcceptedEvent(user),
+    );
 
     return user;
   }

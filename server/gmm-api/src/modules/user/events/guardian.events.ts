@@ -26,3 +26,7 @@ export class GuardianRegistrationEvent {
     public readonly token: string,
   ) {}
 }
+
+export class GuardianAcceptedEvent {
+  constructor(public readonly guardianUser: User) {}
+}
