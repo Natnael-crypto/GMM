@@ -152,8 +152,8 @@ export default function GuardianProfile() {
                   <span>(Verified)</span>
                 </span>
               )}
-              {user?.phoneVerificationStatus ===
-                PhoneVerificationStatus.UNVERIFIED && (
+              {user?.phoneVerificationStatus !==
+                PhoneVerificationStatus.VERIFIED && (
                 <span className="text-destructive gap-1 flex items-center justify-center">
                   <span>(Not Verified!)</span>
                 </span>
@@ -161,8 +161,8 @@ export default function GuardianProfile() {
             </span>
           </div>
 
-          {user?.phoneVerificationStatus ===
-            PhoneVerificationStatus.UNVERIFIED && (
+          {user?.phoneVerificationStatus !==
+            PhoneVerificationStatus.VERIFIED && (
             <Button
               className="bg-primary text-primary-foreground h-7 text-xs"
               onClick={handleVerifyPhoneNumber}
