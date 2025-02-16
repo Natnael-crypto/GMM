@@ -1,18 +1,18 @@
-'use client';
-import { useAppSelector } from '@/lib/hooks';
-import React from 'react';
-import { Button, buttonVariants } from '../ui/button';
-import { useGetCurrentSubscriptionQuery } from '@/lib/checkout/api';
-import Loading from '../ui/loading';
-import { Link } from '@/lib/navigation';
-import { cn } from '@/lib/utils';
+"use client";
+import { useAppSelector } from "@/lib/hooks";
+import React from "react";
+import { Button, buttonVariants } from "../ui/button";
+import { useGetCurrentSubscriptionQuery } from "@/lib/checkout/api";
+import Loading from "../ui/loading";
+import { Link } from "@/lib/navigation";
+import { cn } from "@/lib/utils";
 
 export default function GuardianDashboard() {
   const user = useAppSelector((state) => state.auth.user);
 
   const dependent = user?.dependents?.[0];
   const { data: subscription, isLoading } = useGetCurrentSubscriptionQuery(
-    dependent?.id || '',
+    dependent?.id || "",
     {
       skip: !dependent,
     }
@@ -42,7 +42,9 @@ export default function GuardianDashboard() {
 
             <div className="space-y-1">
               <p className="font-bold">Matched Status</p>
-              <p className="text-sm">Matched</p>
+              <p className="text-sm">
+                {dependent?.isMatched ? "Matched" : "Not Matched"}
+              </p>
             </div>
           </div>
         </div>
@@ -98,9 +100,9 @@ export default function GuardianDashboard() {
                   href={`/guardian/settings`}
                   className={cn(
                     buttonVariants({
-                      variant: 'default',
+                      variant: "default",
                     }),
-                    'bg-primary text-primary-foreground h-7 w-fit text-sm'
+                    "bg-primary text-primary-foreground h-7 w-fit text-sm"
                   )}
                 >
                   View Full Information
