@@ -1,48 +1,48 @@
-'use client';
+"use client";
 
-import { signUpWithLink } from '@/actions/auth/signup';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { toast } from '@/components/ui/use-toast';
-import { useAppSelector } from '@/lib/hooks';
-import { useRouter } from '@/lib/navigation';
-import { SignUpWithLink, signUpWithLinkSchema } from '@/lib/schemas/auth';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslations } from 'next-intl';
-import { useForm } from 'react-hook-form';
+import { signUpWithLink } from "@/actions/auth/signup";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { useAppSelector } from "@/lib/hooks";
+import { useRouter } from "@/lib/navigation";
+import { SignUpWithLink, signUpWithLinkSchema } from "@/lib/schemas/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { jwtDecode } from 'jwt-decode';
-import { PhoneNumberUtil } from 'google-libphonenumber';
-import { PhoneInput } from 'react-international-phone';
-import 'react-international-phone/style.css';
-import { getEighteenYearsAgo } from '@/lib/format';
-import { DatePicker } from '@mui/x-date-pickers';
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import { PhoneNumberUtil } from "google-libphonenumber";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
+import { getEighteenYearsAgo } from "@/lib/format";
+import { DatePicker } from "@mui/x-date-pickers";
 import {
   SelectItem,
   Select,
   SelectContent,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import Loading from '@/components/ui/loading';
-import { Label } from '@/components/ui/label';
-import Image from 'next/image';
-import { useCreateUploadUrlMutation } from '@/lib/user/api';
-import { upload } from '@/lib/file-upload';
-import PasswordStrengthIndicator from '@/components/ui/password-strength-indicator';
+} from "@/components/ui/select";
+import Loading from "@/components/ui/loading";
+import { Label } from "@/components/ui/label";
+import Image from "next/image";
+import { useCreateUploadUrlMutation } from "@/lib/user/api";
+import { upload } from "@/lib/file-upload";
+import PasswordStrengthIndicator from "@/components/ui/password-strength-indicator";
 
 export default function GuardianRegistrationPage() {
-  const t = useTranslations('Auth');
+  const t = useTranslations("Auth");
 
   const { replace } = useRouter();
 
@@ -51,14 +51,14 @@ export default function GuardianRegistrationPage() {
   const form = useForm<SignUpWithLink>({
     resolver: zodResolver(signUpWithLinkSchema),
     defaultValues: {
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
-      token: params.get('token') || '',
-      password: '',
-      gender: 'Male',
+      firstName: "",
+      lastName: "",
+      phoneNumber: "",
+      token: params.get("token") || "",
+      password: "",
+      gender: "Male",
       dateOfBirth: getEighteenYearsAgo(),
-      idCardImage: '',
+      idCardImage: "",
     },
   });
 
@@ -68,10 +68,10 @@ export default function GuardianRegistrationPage() {
   const handleImageChange = async (files: FileList | null, field: any) => {
     const file = files?.[0];
     if (file) {
-      if (!file.type.startsWith('image')) {
-        form.setError('idCardImage', {
-          type: 'invalidFileType',
-          message: 'Invalid file type. Please upload an image file',
+      if (!file.type.startsWith("image")) {
+        form.setError("idCardImage", {
+          type: "invalidFileType",
+          message: "Invalid file type. Please upload an image file",
         });
         return;
       }
@@ -90,7 +90,7 @@ export default function GuardianRegistrationPage() {
   };
 
   useEffect(() => {
-    const token = params.get('token');
+    const token = params.get("token");
     if (token) {
       const userInfo = jwtDecode(token) as unknown as {
         firstName: string;
@@ -100,9 +100,9 @@ export default function GuardianRegistrationPage() {
       };
 
       form.reset({
-        firstName: userInfo.firstName ?? '',
-        lastName: userInfo.lastName ?? '',
-        phoneNumber: userInfo.phone ?? '',
+        firstName: userInfo.firstName ?? "",
+        lastName: userInfo.lastName ?? "",
+        phoneNumber: userInfo.phone ?? "",
         token: token,
       });
     }
@@ -117,22 +117,22 @@ export default function GuardianRegistrationPage() {
 
       if (response.status === 200) {
         toast({
-          title: 'Success',
-          description: 'Login to continue',
+          title: "Success",
+          description: "Login to continue",
         });
-        replace('login');
+        replace("login");
       } else {
         toast({
-          title: 'Error',
+          title: "Error",
           description: response.message,
-          variant: 'destructive',
+          variant: "destructive",
         });
       }
     } catch {
       toast({
-        title: 'Error',
-        description: 'Unable to Register. Please try again later.',
-        variant: 'destructive',
+        title: "Error",
+        description: "Unable to Register. Please try again later.",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -163,7 +163,7 @@ export default function GuardianRegistrationPage() {
                       <FormControl>
                         <Input
                           className="text-sm placeholder:text-xs"
-                          placeholder={t('signup.firstName')}
+                          placeholder={t("signup.firstName")}
                           autoComplete="given-name"
                           {...field}
                         />
@@ -181,7 +181,7 @@ export default function GuardianRegistrationPage() {
                         <Input
                           autoComplete="family-name"
                           className="text-sm placeholder:text-xs"
-                          placeholder={t('signup.lastName')}
+                          placeholder={t("signup.lastName")}
                           {...field}
                         />
                       </FormControl>
@@ -207,7 +207,7 @@ export default function GuardianRegistrationPage() {
                           <Input
                             autoComplete="new-password"
                             className="text-sm placeholder:text-xs"
-                            placeholder={t('signup.password')}
+                            placeholder={t("signup.password")}
                             type="password"
                             {...field}
                           />
@@ -253,41 +253,41 @@ export default function GuardianRegistrationPage() {
                 render={({ field }) => (
                   <FormItem className="flex flex-col pt-2">
                     <DatePicker
-                      label={'Date of Birth'}
-                      views={['year', 'month', 'day']}
+                      label={"Date of Birth"}
+                      views={["year", "month", "day"]}
                       value={field.value}
                       onChange={field.onChange}
                       maxDate={getEighteenYearsAgo()}
                       slotProps={{
                         day: {
                           sx: {
-                            '&.MuiPickersDay-root.Mui-selected': {
-                              backgroundColor: '#197149',
+                            "&.MuiPickersDay-root.Mui-selected": {
+                              backgroundColor: "#197149",
                             },
-                            '&.MuiPickersDay-root:hover': {
-                              backgroundColor: '#145634',
-                              color: '#fff',
+                            "&.MuiPickersDay-root:hover": {
+                              backgroundColor: "#145634",
+                              color: "#fff",
                             },
-                            padding: '2px',
+                            padding: "2px",
                           },
                         },
                         desktopPaper: {
                           sx: {
-                            '.MuiPickersYear-yearButton.Mui-selected': {
-                              backgroundColor: '#197149',
+                            ".MuiPickersYear-yearButton.Mui-selected": {
+                              backgroundColor: "#197149",
                             },
-                            '.MuiPickersYear-yearButton:hover': {
-                              backgroundColor: '#197149',
-                              color: '#fff',
+                            ".MuiPickersYear-yearButton:hover": {
+                              backgroundColor: "#197149",
+                              color: "#fff",
                             },
-                            padding: '2px',
+                            padding: "2px",
                           },
                         },
                         textField: {
                           sx: {
-                            '& .MuiOutlinedInput-root': {
-                              '& .MuiOutlinedInput-input': {
-                                padding: '6px 8px',
+                            "& .MuiOutlinedInput-root": {
+                              "& .MuiOutlinedInput-input": {
+                                padding: "6px 8px",
                               },
                             },
                           },
@@ -368,8 +368,8 @@ export default function GuardianRegistrationPage() {
                       ) : (
                         <label
                           className={cn(
-                            buttonVariants({ variant: 'outline' }),
-                            'text-secondary h-7 text-xs'
+                            buttonVariants({ variant: "outline" }),
+                            "text-secondary h-7 text-xs"
                           )}
                         >
                           Upload Document
@@ -396,9 +396,10 @@ export default function GuardianRegistrationPage() {
               <Loading />
             ) : (
               <Button
+                type="submit"
                 className={cn(
-                  buttonVariants({ variant: 'outline' }),
-                  'text-secondary h-7 text-xs'
+                  buttonVariants({ variant: "outline" }),
+                  "text-secondary h-7 text-xs"
                 )}
               >
                 Register
