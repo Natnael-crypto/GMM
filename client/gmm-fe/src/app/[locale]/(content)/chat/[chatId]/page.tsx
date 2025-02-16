@@ -48,7 +48,7 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col justify-between bg-[#dedede]">
       <div
-        className="flex w-full px-1 p-3 "
+        className="flex w-full p-0 lg:px-1 lg:p-3 "
         style={{
           height: 'calc(100vh - 3.5rem)',
         }}
@@ -59,14 +59,14 @@ export default function ChatPage() {
               <MatchProfile matchedUser={matchedUser} match={currentMatch} />
             )}
           </div>
-          <div className="col-span-10 flex relative">
-            <div className="flex lg:hidden absolute right-3 top-6 gap-2">
+          <div className="col-span-10 relative">
+            <div className="block lg:hidden flex px-6 py-2 justify-between bg-primary text-primary-foreground">
               {matchedUser && currentMatch && (
                 <Dialog>
                   <DialogTrigger>
                     <FontAwesomeIcon
                       icon={faUser}
-                      className="rounded-full text-muted-foreground aspect-square w-6 cursor-pointer"
+                      className="text-xl rounded-full text-primary-foreground aspect-square w-8 cursor-pointer"
                     />
                   </DialogTrigger>
                   <DialogContent className="h-5/6 p-0 m-0 overflow-auto no-scrollbar bg-transparent border-none outline-none rounded-lg">
@@ -82,12 +82,23 @@ export default function ChatPage() {
                 </Dialog>
               )}
 
+              
+                <div className="w-40 md:w-60">
+                  <Image
+                    className="w-full overflow-hidden logo"
+                    src="/assets/guardian-logo.png"
+                    width={537}
+                    height={70}
+                    alt="Guardian logo"
+                  />
+                </div>
+
               {matchedUser && currentMatch && (
                 <Dialog>
                   <DialogTrigger className="outline-none focus:ring-0">
                     <FontAwesomeIcon
                       icon={faPeopleRoof}
-                      className="rounded-full text-muted-foreground aspect-square w-6 cursor-pointer"
+                      className="text-xl rounded-full text-primary-foreground aspect-square w-8 cursor-pointer"
                     />
                   </DialogTrigger>
                   <DialogContent className="h-5/6 p-0 m-0 overflow-auto no-scrollbar bg-transparent border-none outline-none rounded-lg">
@@ -112,7 +123,7 @@ export default function ChatPage() {
           </div>
         </div>
       </div>
-      <div className="col-span-12 bg-secondary text-secondary-foreground p-2 px-5">
+      <div className="hidden lg:block col-span-12 bg-secondary text-secondary-foreground p-2 px-5">
         <Link href="/">
           <div className="w-40 md:w-60">
             <Image

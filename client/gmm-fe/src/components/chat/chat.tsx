@@ -252,7 +252,7 @@ export default function ChatBox({
 
   return (
     <div
-      className="w-full bg-[#f7f7f7] p-5 rounded-lg flex flex-col justify-between"
+      className="message-mobile w-full bg-[#f7f7f7] p-3 lg:p-5 rounded-lg flex flex-col justify-between"
       style={{
         height: 'calc(100vh - 4.50rem)',
       }}

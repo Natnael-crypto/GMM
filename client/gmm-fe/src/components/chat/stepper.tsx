@@ -31,7 +31,7 @@ export const StepperItem = ({
         size={size} />
         
       </div>
-      <span className={` text-md text-nowrap font-semibold text-secondary`}>
+      <span className={`hidden lg:block text-md text-nowrap font-semibold text-secondary`}>
         {text}
       </span>
     </div>
