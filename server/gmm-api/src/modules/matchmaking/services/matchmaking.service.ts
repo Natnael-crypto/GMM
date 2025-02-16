@@ -9,7 +9,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Preference } from '../entities/preference.entity';
-import { And, DataSource, In, Not } from 'typeorm';
+import { And, DataSource, EntityManager, In, Not } from 'typeorm';
 import { UpdatePreferenceDto } from '../dtos/preference.dto';
 import { Match } from '../entities/match.entity';
 import { User } from '@modules/user/entities/user.entity';
@@ -47,11 +47,14 @@ import { QueueNames } from '@shared/queues';
 import { FormService } from '@modules/form/services/form.service';
 import { Form } from '@modules/form/entities/form.entity';
 import { FormFieldAnswer } from '@modules/form/entities/form-field-answer.entity';
+import { SubscriptionAutoRenewalUpcomingEvent } from '@modules/payment/events/payment.event';
+import { Subscription } from '@modules/payment/entities/subscription.entity';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable({ scope: Scope.REQUEST })
 export class MatchMakingService extends BaseRepository {
   constructor(
-    private readonly paymentService: PaymentsService,
+    private readonly eventEmitter: EventEmitter2,
     private readonly notificationService: NotificationService,
     private readonly userService: UserService,
     private readonly noticeService: NoticeService,
@@ -117,6 +120,40 @@ export class MatchMakingService extends BaseRepository {
     return candidateIds;
   }
 
+  async consumeMatch(userId: string, manager: EntityManager): Promise<void> {
+    const user = await manager.getRepository(User).findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new Error('User not found.');
+    }
+
+    const subscription = await manager.getRepository(Subscription).findOne({
+      where: { user: { id: userId }, status: 'succeeded' },
+      relations: ['user'],
+    });
+
+    if (!subscription) {
+      throw new Error('No active subscription found.');
+    }
+
+    if (subscription.remainingMatches <= 0) {
+      throw new Error('No matches left in your subscription.');
+    }
+
+    subscription.remainingMatches--;
+
+    if (subscription.remainingMatches === 2) {
+      this.eventEmitter.emitAsync(
+        SubscriptionAutoRenewalUpcomingEvent.name,
+        new SubscriptionAutoRenewalUpcomingEvent(user),
+      );
+    }
+
+    await manager.getRepository(Subscription).save(subscription);
+  }
+
   async assignMatch(user: User, matchedUserId: string): Promise<Match> {
     const newMatch = new Match();
 
@@ -128,23 +165,38 @@ export class MatchMakingService extends BaseRepository {
       newMatch.maleUserId = matchedUserId;
     }
 
-    await this.paymentService.consumeMatch(user.id);
-    await this.paymentService.consumeMatch(matchedUserId);
+    let match;
 
-    const match = await this.getRepository(Match).save(newMatch);
-    await this.getRepository(MatchPool).delete([matchedUserId, user.id]);
+    await this.dataSource.manager.transaction(async (manager) => {
+      try {
+        // Ensure both users are processed within the same transaction
 
-    const maleUser = await this.userService.getUserById(newMatch.maleUserId);
-    const femaleUser = await this.userService.getUserById(
-      newMatch.femaleUserId,
-    );
+        await this.consumeMatch(user.id, manager);
+        await this.consumeMatch(matchedUserId, manager);
 
-    const notification = new MatchedNotification(
-      match,
-      maleUser.firstName,
-      femaleUser.firstName,
-    );
-    await this.notificationService.send(notification);
+        match = await manager.getRepository(Match).save(newMatch);
+
+        // Remove users from the match pool
+        await manager.getRepository(MatchPool).delete([matchedUserId, user.id]);
+
+        // Fetch both users
+        const [maleUser, femaleUser] = await Promise.all([
+          this.userService.getUserById(newMatch.maleUserId),
+          this.userService.getUserById(newMatch.femaleUserId),
+        ]);
+
+        // Send notification
+        const notification = new MatchedNotification(
+          match,
+          maleUser.firstName,
+          femaleUser.firstName,
+        );
+
+        await this.notificationService.send(notification);
+      } catch (error) {
+        throw new Error(`Transaction failed: ${error.message}`);
+      }
+    });
 
     return match;
   }

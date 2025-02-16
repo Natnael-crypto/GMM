@@ -49,7 +49,7 @@ export default function Dashboard() {
       !currentSubscription &&
       user?.accountStatus !== 'Suspended'
     ) {
-      router.replace('/checkout');
+      // router.replace('/checkout');
     }
   }, [currentSubscription, isError, router, user]);
 

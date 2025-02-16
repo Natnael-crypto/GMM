@@ -4,7 +4,7 @@ import { ENTITY_MANAGER_KEY } from './interceptors/transaction.interceptor';
 
 export class BaseRepository {
   constructor(
-    private dataSource: DataSource,
+    protected dataSource: DataSource,
     private request: Request,
   ) {}
 

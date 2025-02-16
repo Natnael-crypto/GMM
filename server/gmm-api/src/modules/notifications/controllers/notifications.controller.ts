@@ -81,4 +81,16 @@ export class NotificationController {
       }),
     );
   }
+
+  @Get('test')
+  async testNotifications(@Req() req: Request) {
+    const userId = (req.user as User).id;
+
+    this.eventEmitter.emit(`notification:${userId}`, {
+      message: 'Test notification',
+      url: 'dashboard?action=matched',
+    });
+
+    return { message: 'Test notification sent' };
+  }
 }
