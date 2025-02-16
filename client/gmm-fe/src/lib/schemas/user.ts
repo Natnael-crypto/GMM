@@ -18,6 +18,11 @@ export enum AccountVerificationStatus {
   UNVERIFIED = 'Unverified',
 }
 
+export enum PhoneVerificationStatus{
+  VERIFIED = 'Verified',
+  UNVERIFIED = 'Unverified',
+}
+
 export enum Gender {
   MALE = 'Male',
   FEMALE = 'Female',
@@ -492,12 +497,20 @@ export const baseUserSchema = z
 
     roleId: z.string(),
     isMatched: z.boolean().default(false).optional().nullable(),
+  
+    phoneVerificationStatus: z
+    .enum([
+      PhoneVerificationStatus.VERIFIED,
+      PhoneVerificationStatus.UNVERIFIED,
+    ])
+    .optional(),
   })
   .required();
 
 export const userSchema = baseUserSchema.extend({
   guardian: baseUserSchema.optional().nullable(),
   dependents: z.array(baseUserSchema).default([]).optional(),
+
 });
 
 export const userRegistrationSchema = _userBasicInformationSchema
