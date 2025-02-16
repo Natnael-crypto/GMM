@@ -165,8 +165,12 @@ export const signUpWithLinkSchema = z
     idCardImage: z.string().min(1, {
       message: 'Please upload your ID card',
     }),
+    relationship: z.string().optional(),
+    confirmPassword: z.string().min(8, {
+      message: 'Password must be at least 8 characters',
+    }),
   })
-  .superRefine(({ password }, ctx) => {
+  .superRefine(({ confirmPassword, password }, ctx) => {
     const { valid, missing } = isStrongPassword(password);
 
     if (!valid) {
@@ -176,6 +180,14 @@ export const signUpWithLinkSchema = z
         message: missing
           ? `Password must contain at least ${missing.join(', ')}`
           : '',
+      });
+    }
+
+    if (confirmPassword !== password) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'The passwords did not match',
+        path: ['confirmPassword'],
       });
     }
   });
