@@ -6,7 +6,7 @@ import { Otp } from '@/lib/schemas/auth';
 import { cookieNames } from '@/types/cookie-names';
 import { revalidatePath } from 'next/cache';
 
-export const verifyOtp = async (data: Otp , verificationType: string ) => {
+export const verifyOtp = async (data: Otp, verificationType: string) => {
   const userIdentifier = cookies().get(cookieNames.userIdentifier)?.value;
   const otpVerificationKey = cookies().get(
     cookieNames.otpVerificationKey
@@ -17,10 +17,9 @@ export const verifyOtp = async (data: Otp , verificationType: string ) => {
   };
   if (verificationType === 'phone') {
     requestBody.phoneNumber = userIdentifier;
-  }
-  else{
+  } else {
     requestBody.email = userIdentifier;
-  }  
+  }
   const response = await fetch(
     `${constants.apiBaseUrl}/auth/otp/verification`,
     {
@@ -47,7 +46,6 @@ export const verifyOtp = async (data: Otp , verificationType: string ) => {
     expires: new Date(Date.now() + constants.accessTokenMaxAge),
   });
 
-
   cookies().set({
     name: cookieNames.refreshToken,
     value: refreshToken,
@@ -62,16 +60,16 @@ export const verifyOtp = async (data: Otp , verificationType: string ) => {
   return { status: 200, token: accessToken };
 };
 
-export const resendOtp = async (verificationType : string , phoneNumber?: string) => {
-
+export const resendOtp = async (
+  verificationType: string,
+  phoneNumber?: string
+) => {
   const userIdentifier = cookies().get(cookieNames.userIdentifier)?.value;
 
-  const requestBody: any = {
-  };
+  const requestBody: any = {};
   if (verificationType === 'phone') {
     requestBody.phoneNumber = phoneNumber;
-  }
-  else{
+  } else {
     requestBody.email = userIdentifier;
   }
   const response = await fetch(`${constants.apiBaseUrl}/auth/otp`, {
@@ -98,10 +96,10 @@ export const resendOtp = async (verificationType : string , phoneNumber?: string
   return { status: 200 };
 };
 
-
-export const sendOtp = async (verificationType : string , phoneNumber? : string) => {
-  const userIdentifier = cookies().get(cookieNames.userIdentifier)?.value;
-
+export const sendOtp = async (
+  verificationType: string,
+  phoneNumber?: string
+) => {
   const requestBody: any = {};
   if (verificationType === 'phone') {
     requestBody.phoneNumber = phoneNumber;
@@ -122,11 +120,10 @@ export const sendOtp = async (verificationType : string , phoneNumber? : string)
 
   cookies().set({
     name: cookieNames.userIdentifier,
-    value: phoneNumber? phoneNumber : '',
+    value: phoneNumber ? phoneNumber : '',
     httpOnly: true,
     path: '/',
   });
-
 
   cookies().set({
     name: cookieNames.otpVerificationKey,
