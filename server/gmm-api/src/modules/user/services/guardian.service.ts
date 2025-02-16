@@ -117,7 +117,7 @@ export class GuardianService {
 
     if (request.guardianEmail !== user.email) {
       throw new ForbiddenException(
-        'You are not authorized to reject this request',
+        'You are not authorized to accept this request',
       );
     }
 

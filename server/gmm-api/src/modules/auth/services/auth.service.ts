@@ -20,7 +20,7 @@ import {
   GuardianRequestedEvent,
 } from '@modules/user/events/guardian.events';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { NoticeService } from '@modules/notice/services/notice.service';
+import { GuardianService } from '@modules/user/services/guardian.service';
 
 export type JwtPayload = {
   sub: string;
@@ -37,7 +37,7 @@ export class NewAuthService {
     private configService: ConfigService,
     private jwtService: JwtService,
     private authRepo: AuthRepository,
-    private noticeService: NoticeService,
+    private guardianService: GuardianService,
     private readonly eventEmitter: EventEmitter2,
   ) {
     this.authConfig = this.configService.get<AuthConfig>('auth')!;
@@ -180,11 +180,23 @@ export class NewAuthService {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    return await this.authRepo.createUser({
+    const user = await this.authRepo.createUser({
       ...emailRegistrationDto,
       password: hashedPassword,
       roleId,
     });
+
+    const guardianRequest =
+      await this.guardianService.getReceivedGuardianRequests(user);
+
+    if (guardianRequest) {
+      await this.guardianService.acceptGuardianRequest(
+        guardianRequest[0].id,
+        user,
+      );
+    }
+
+    return user;
   }
 
   async authenticateViaOAuth(
