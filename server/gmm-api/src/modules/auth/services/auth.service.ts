@@ -251,6 +251,7 @@ export class NewAuthService {
           firstName: event.guardian.firstName,
           lastName: event.guardian.lastName,
           role: guardianRole.name,
+          relationship: event.relationship,
           invite: true,
         } as unknown as JwtPayload),
       ),
